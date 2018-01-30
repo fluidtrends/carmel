@@ -1,2 +1,3 @@
-# carmel
-The Official Carmel SDK
+# Carmel
+
+The Decentralized Tech Learning Platform
