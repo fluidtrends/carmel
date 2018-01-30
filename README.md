@@ -1,6 +1,6 @@
 # Carmel
 
-The Decentralized Tech Learning Platform
+The Decentralized Tech Education Platform
 
 ## Roadmap
 
