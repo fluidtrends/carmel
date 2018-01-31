@@ -2,8 +2,8 @@
 
 ## Contents
 
-[Summary](summary)
-[Why Decentralized?](why-decentralized)
+* [Summary](#summary)
+* [Why Decentralized?](#why-decentralized)
 
 ## Summary
 
