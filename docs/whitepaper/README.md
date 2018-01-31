@@ -1,5 +1,10 @@
 # The Carmel Whitepaper
 
+## Contents
+
+[Summary](summary)
+[Why Decentralized?](why-decentralized)
+
 ## Summary
 
 Chris is a 40 year old father who has the type of job that can be easily replaced by robots. What keeps Chris up at night is the thought that soon, he might lose his job and not be able to provide for his family.
