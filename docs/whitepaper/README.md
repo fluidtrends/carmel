@@ -75,11 +75,11 @@ Carmel Students design their own learning path by choosing which Carmel Challeng
 
 #### Peer Driven
 
-The Carmel Community is comprised of Software Developers who are at different levels in their Developer Journey. Some are brand new and others more experienced. Nonetheless, everyone always has something to learn from everyone else. Not one person will ever know enough on their own. Carmel enables each community member to contribute knowledge back into the community in the form of Carmel Challenges based on personal experience. Someone who has solves a problem in a certain way in the past has the relevant knowledge and skills to challenge someone else to acquire that same knowledge and developer those same skills. In a sense, the more a student learns, the more they can give back and also become a teacher to others.
+The Carmel Community is comprised of Software Developers who are at different levels in their Developer Journey. Some are brand new and others more experienced. Nonetheless, everyone always has something to learn from everyone else. Not one person will ever know enough on their own. Carmel enables each community member to contribute knowledge back into the community in the form of Carmel Challenges based on personal experience. Someone who has solved a problem in a certain way in the past has the relevant knowledge and skills to challenge someone else to acquire that same knowledge and develop those same skills. In a sense, the more a student learns, the more they can give back and also become a teacher to others.
 
 #### Story-Based
 
-Every Carmel Developer is encouraged to keep a Developer Journal that actively documents their  Learning Journey. Each developer has their own story and others can participate in that story by connecting, conversing and engaging as their own story developers. Carmel generates story elements based on challenges that the developer has either authored or completed and there is also a measure of progress that shows how much the developer knows and what it is that they can do as a software developer.  
+Every Carmel Developer is encouraged to keep a Developer Journal that actively documents their  Learning Journey. Each developer has their own story and others can participate in that story by connecting, conversing and engaging as their own story develops. Carmel generates story elements based on challenges that the developer has either authored or completed and there is also a measure of progress that shows how much the developer knows and what it is that they can do as a software developer.  
 
 ## Challenges
 
