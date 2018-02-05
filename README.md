@@ -7,7 +7,7 @@
 
 <h3 align="center"> The Open Source Decentralized Tech Education Platform </h3>
 <p>
-Carmel is a blockchain-based Open Source Education Platform that helps aspiring and seasoned Software Developers grow their skill set through peer challenges.
+Carmel is a blockchain-based Open Source Education Platform that helps aspiring and seasoned Software Developers grow their skill set through peer challenges in a token-based economy where students reward teachers with Carmel Tokens.
 </p>
 <hr/>
 
