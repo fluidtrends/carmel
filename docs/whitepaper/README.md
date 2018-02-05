@@ -44,7 +44,7 @@ People like Chris know retraining is the solution. In a [survey by the Pew Resea
 
 What better way to survive in the tech world, than to become a Professional Software Developer?
 
-While non-technical jobs will disappear, demand for Software Developers will continue to grow [according to a report by the World Economic Forum](#3-the-future-of-jobs-world-conomic-forum-2016) where 350 employers were interviewed.
+While non-technical jobs will disappear, demand for Software Developers will continue to grow [according to a report by the World Economic Forum](#3-the-future-of-jobs-world-economic-forum-2016) where 350 employers were interviewed.
 
 In the new tech-dominated era, the best career choice is to become a tech creator. One of those few people who not only survives but thrives in a tech world.
 
