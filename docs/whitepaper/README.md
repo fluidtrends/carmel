@@ -40,9 +40,11 @@ It means that they have to learn new skills, that will give them new job opportu
 
 It means that they have to get the kind of education that will help them hit the ground running fast and start a new career as soon as humanly possible. A future-proof career. A career that will not easily be replaced by robots and one that will create ample opportunities for a better future.
 
-People like Chris know retraining is the solution. In a [survey by the Pew Research Center ](#2--the-state-of-american-jobs-pew-research-center-2016), 54% of US workers say *"it will be essential for them to get training and develop new skills throughout their work life in order to keep up with changes in the workplace."* An additional 33% say this will be important. And 64% believe that knowing computer programming is crucial to success in today's economy.
+People like Chris know retraining is the solution. In a [survey by the Pew Research Center ](#2-the-state-of-american-jobs-pew-research-center-2016), 54% of US workers say *"it will be essential for them to get training and develop new skills throughout their work life in order to keep up with changes in the workplace."* An additional 33% say this will be important. And 64% believe that knowing computer programming is crucial to success in today's economy.
 
 What better way to survive in the tech world, than to become a Professional Software Developer?
+
+While non-technical jobs will disappear, demand for Software Developers will continue to grow [according to a report by the World Economic Forum](#3-the-future-of-jobs-world-conomic-forum-2016) where 350 employers were interviewed.
 
 In the new tech-dominated era, the best career choice is to become a tech creator. One of those few people who not only survives but thrives in a tech world.
 
@@ -135,4 +137,5 @@ If there's one important aspect of that's missing from the Carmel Cloud and the 
 #### References
 
 ###### 1. [Workforce of the future, PWC 2017](https://www.pwc.com/us/futureworkforce?WT.mc_id=CT11-PL1000-DM2-TR1-LS2-ND30-BPA30-CN_WoFFFG-)
-###### 2.  [The state of American jobs, Pew Research Center 2016](http://www.pewsocialtrends.org/2016/10/06/the-state-of-american-jobs/)
+###### 2. [The state of American jobs, Pew Research Center 2016](http://www.pewsocialtrends.org/2016/10/06/the-state-of-american-jobs/)
+###### 3. [The future of jobs, World Economic Forum 2016](http://reports.weforum.org/future-of-jobs-2016/)
