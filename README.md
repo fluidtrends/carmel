@@ -6,12 +6,20 @@
 </h1>
 
 <h3 align="center"> The Open Source Decentralized Tech Education Platform </h3>
+<p>
+Carmel is a blockchain-based Open Source Education Platform that helps aspiring and seasoned Software Developers grow their skill set through peer challenges.
+</p>
 <hr/>
 
-# Summary
+## Whitepaper
 
-Carmel is a blockchain-based Open Source Education Platform that helps aspiring and seasoned Software Developers grow their skill set through peer challenges.
+Chris is a 40 year old father who has the type of job that can be easily replaced by robots.
 
-[Read The Whitepaper](https://github.com/fluidtrends/carmel/docs/whitepaper)
+What keeps Chris up at night is the thought that soon, he might lose his job and not be able to provide for his family.
+
+[Continue Reading The Whitepaper](https://github.com/fluidtrends/carmel/docs/whitepaper)
+
+## Roadmap
+
 
 [See The Roadmap](https://github.com/fluidtrends/carmel/projects/1)
