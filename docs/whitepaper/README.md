@@ -40,7 +40,7 @@ It means that they have to learn new skills, that will give them new job opportu
 
 It means that they have to get the kind of education that will help them hit the ground running fast and start a new career as soon as humanly possible. A future-proof career. A career that will not easily be replaced by robots and one that will create ample opportunities for a better future.
 
-People like Chris know retraining is the solution. In a [survey by the Pew Research Center ](#2-the-state-of-american-jobs-pew-research-center-2016), 54% of US workers say *"it will be essential for them to get training and develop new skills throughout their work life in order to keep up with changes in the workplace."* An additional 33% say this will be important. And 64% believe that knowing computer programming is crucial to success in today's economy.
+People like Chris know retraining is the solution. In a [survey by the Pew Research Center](#2-the-state-of-american-jobs-pew-research-center-2016), 54% of US workers say *"it will be essential for them to get training and develop new skills throughout their work life in order to keep up with changes in the workplace."* An additional 33% say this will be important. And 64% believe that knowing computer programming is crucial to success in today's economy.
 
 What better way to survive in the tech world, than to become a Professional Software Developer?
 
