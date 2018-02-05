@@ -17,7 +17,7 @@ Chris is a 40 year old father who has the type of job that can be easily replace
 
 What keeps Chris up at night is the thought that soon, he might lose his job and not be able to provide for his family.
 
-[Continue Reading The Whitepaper](https://github.com/fluidtrends/carmel/docs/whitepaper)
+[Continue Reading The Whitepaper](docs/whitepaper)
 
 ## Roadmap
 
