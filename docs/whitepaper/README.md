@@ -10,9 +10,7 @@
 
 # Whitepaper
 
-## Contents
-
-* [Summary](#summary)
+* [Introduction](#introduction)
 * [Decentralized Community](#decentralized-community)
 * [Educational Model](#educational-model)
   * [Hands On](#hands-on)
@@ -32,7 +30,7 @@
   * [Desktop App](#desktop-app)
 * [References](#references)
 
-## Summary
+## Introduction
 
 Chris is a 40 year old father who has the type of job that can be easily replaced by robots.
 

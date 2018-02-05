@@ -10,7 +10,7 @@
 
 # Summary
 
-Carmel is an Open Source Decentralized Platform that helps aspiring and seasoned Software Developers learn new technical skills and future-proof their career.
+Carmel is a blockchain-based Open Source Education Platform that helps aspiring and seasoned Software Developers grow their skill set through peer challenges.
 
 [Read The Whitepaper](https://github.com/fluidtrends/carmel/docs/whitepaper)
 
