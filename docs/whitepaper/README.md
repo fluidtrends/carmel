@@ -25,6 +25,9 @@ Carmel is a blockchain-based Open Source Education Platform that helps aspiring 
   * [Proof Of Learning](#proof-of-learning)
   * [Publishing](#publishing)
   * [Tokens](#tokens)
+* [Token Economy](#token-economy)
+  * [Token Value](#token-value)
+  * [Token Allocation](#token-allocation)
 * [Architecture](#architecture)
   * [Blockchain App](#blockchain-app)
   * [Serverless Cloud](#serverless-cloud)
@@ -121,6 +124,24 @@ A Carmel Author creates a challenge from their Carmel account at carmel.io and a
 #### Tokens
 
 The author sets a price for the challenge in Carmel Tokens and is able to update and change the price after the challenge has been published. It is important for our community to allow authors to set their own pricing. The market reaction to the challenge allows the author to adjust the pricing so that it stabilises at a fair price based on demand. In future pricing updates, Carmel will use Machine Learning to recommend optimal pricing, but the final decision of the actual price, will always remain in the hands of the author. To purchase a course, a student will have to own the required amount of tokens in their Carmel Wallet.
+
+## Token Economy
+
+A significant problem yet to be solved in the learning and development fields, particularly as it applies to software development, is the fact that it is extremely difficult to measure learning progress. Development Managers have a lot of tools available to them to accompany developers on their learning journey but none are accurate predictors of the actual progress being made. The primary challenge is the fact that as knowledge workers, the act of acquiring new technical skills is a fluid and creative process, making it practically impossible to measure as one would measure a purely manual or physical process.
+
+The Carmel Educational Model introduces key principles that make it a viable solution to the growth tracking problem. The micro-learning approach means that the material is smaller and easier to produce and to consume. The peer approach ensures that the content can be produced in a scalable way, as the network increases. And the tokenized challenges allow for fine-grained tracking of progress.
+
+#### Token Value
+
+On of the main concerns - if not the primary concern of all - in a blockchain economy is related to the value of the token at the heart of the entire economic model. In Carmel, a token - a Carmel Token - represents a tangible value directly correlated to the learning encapsulated in the challenge at hand. A challenge is authored with the sole purpose of teaching a practical skill. The value of that skill is expressed in units of Carmel Tokens, priced by the original author. The value of the token will change as demand changes but in terms of value correlation, the value of a Carmel Token represents Learning Value.
+
+In essence, each developer in the Carmel community, can measure their skill set in Carmel Tokens. For example, if a Carmel Challenge is priced at 10 Carmel Tokens by the original author, that means that the challenge represents 10 Carmel Tokens worth of learning value. If a developer purchases the challenge and completes it, the value of the developer's skill set is increased by 10 Carmel Tokens.
+
+The value of the token will fluctuate as demand for Carmel Challenges increases. In other words, as developers grow in their skill set by completing more challenges, the more transactions will occur in the Carmel Economy and the higher the value of the Carmel Token will rise. The value of a single Carmel Token is thus directly proportional to the overall value of the network. The more people will learn and draw real value from the platform, the more the token will grow in value as well.
+
+#### Token Allocation
+
+A fixed amount of tokens are generated upfront with a distribution where most of the tokens are shared among community members. The token distribution model [is discussed in detail in a separate document](#/docs/distribution) and is beyond the scope of this Whitepaper. Please consult that document for details, including details about initial pricing. What is worth noting is that fact that the majority of the initial offering is distributed to the community. New tokens will be generated at a fixed rate throughout the lifespan of the economy and without any computational overhead. Meaning that tokens will not be mined.
 
 ## Architecture
 
