@@ -165,6 +165,10 @@ The Carmel Web App lives at carmel.io and acts as the primary interface to the C
 
 If there's one important aspect of that's missing from the Carmel Cloud and the Carmel Web App, that's the ability to create new transactions. Such as purchasing a new Carmel Challenge. The reason for that is because creating a new transaction requires a private key that cannot be stored on the Carmel Cloud or the Carmel Web App for security reasons. And so, Carmel members will be able to download the Carmel Desktop App on their mac, windows or linux computers and will be provided with a secure, encrypted environment, perfect for performing secure blockchain transactions. The Carmel Desktop App will be password protected and it will lock after a few minutes of inactivity so that even if the computer is compromised, without the password, the private blockchain key will be compromised. The Carmel Desktop App includes the Carmel Wallet and so that is going to be the primary and the recommended way of purchasing new Carmel Tokens.
 
+#### Mobile App
+
+Carmel Developers can access their Carmel Account via a native mobile app, available for iOS and Android devices. The app is complete sync with the Carmel Cloud and it can perform most of the operations of the Web App but instead of catering to publishing, the mobile focuses on smaller parts of the overall experiences, such as notifications and community communication, such as messaging. The mobile app is synchronized in real-time with the web app and with the cloud such that any operation on either web or mobile is visible on both platforms immediately. In practice, developers use the mobile app to stay in the loop with community activity and communicate with peers, and use the web for publishing new challenges.
+
 ---
 
 #### References
