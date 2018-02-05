@@ -131,7 +131,7 @@ If there's one important aspect of that's missing from the Carmel Cloud and the 
 
 ---
 
-**References**
+#### References
 
-1. [Workforce of the future, PWC 2017](https://www.pwc.com/us/futureworkforce?WT.mc_id=CT11-PL1000-DM2-TR1-LS2-ND30-BPA30-CN_WoFFFG-)
-2.  [The state of American jobs, Pew Research Center 2016](http://www.pewsocialtrends.org/2016/10/06/the-state-of-american-jobs/)
+###### 1. [Workforce of the future, PWC 2017](https://www.pwc.com/us/futureworkforce?WT.mc_id=CT11-PL1000-DM2-TR1-LS2-ND30-BPA30-CN_WoFFFG-)
+###### 2.  [The state of American jobs, Pew Research Center 2016](http://www.pewsocialtrends.org/2016/10/06/the-state-of-american-jobs/)
