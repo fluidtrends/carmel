@@ -12,4 +12,4 @@ Carmel is a blockchain-based Open Source Education Platform that helps aspiring 
 
 # Documentation
 
-[Read The Whitepaper](https://github.com/fluidtrends/carmel/docs/whitepaper)
+[Read The Whitepaper](whitepaper)
