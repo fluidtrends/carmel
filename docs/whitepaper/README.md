@@ -23,9 +23,15 @@
 
 ## Summary
 
-Chris is a 40 year old father who has the type of job that can be easily replaced by robots. What keeps Chris up at night is the thought that soon, he might lose his job and not be able to provide for his family.
+Chris is a 40 year old father who has the type of job that can be easily replaced by robots.
 
-There are many people like Chris out there, holding down jobs that are at risk with the rise of AI machines. Robots are changing the future of work as we know it. Any job that can be done by a robot, will be done by a robot, whether we like it or not.
+What keeps Chris up at night is the thought that soon, he might lose his job and not be able to provide for his family.
+
+There are many people like Chris out there, holding down jobs that are at risk with the rise of AI machines.
+
+Robots are well on their way to replace 30% of UK jobs by the early 2030s and 38% of US jobs, as [research by PWC shows](#1-workforce-of-the-future-pwc-2017) in a recent report.
+
+Robots are changing the future of work as we know it. Any job that can be done by a robot, will be done by a robot, whether we like it or not.
 
 So what does that mean for millions of people who are at risk today?
 
@@ -33,9 +39,11 @@ It means that they have to learn new skills, that will give them new job opportu
 
 It means that they have to get the kind of education that will help them hit the ground running fast and start a new career as soon as humanly possible. A future-proof career. A career that will not easily be replaced by robots and one that will create ample opportunities for a better future.
 
-In a tech-dominated era, the best career choice is to become a tech creator. One of those few people who not only survives but thrives in a tech world.
+People like Chris know retraining is the solution. In a [survey by the Pew Research Center ](#the-state-of-american-jobs-pewr-esearch-center-2016), 54% of US workers say *"it will be essential for them to get training and develop new skills throughout their work life in order to keep up with changes in the workplace."* An additional 33% say this will be important. And 64% believe that knowing computer programming is crucial to success in today's economy.
 
-And what better way to survive in the tech world, than to become a Professional Software Developer?
+What better way to survive in the tech world, than to become a Professional Software Developer?
+
+In the new tech-dominated era, the best career choice is to become a tech creator. One of those few people who not only survives but thrives in a tech world.
 
 **Carmel is a Decentralized Tech Education Platform that helps people like Chris acquire the technical skills they need to become Professional Software Developers without a formal computer science degree.**
 
@@ -120,3 +128,10 @@ The Carmel Web App lives at carmel.io and acts as the primary interface to the C
 #### Desktop App
 
 If there's one important aspect of that's missing from the Carmel Cloud and the Carmel Web App, that's the ability to create new transactions. Such as purchasing a new Carmel Challenge. The reason for that is because creating a new transaction requires a private key that cannot be stored on the Carmel Cloud or the Carmel Web App for security reasons. And so, Carmel members will be able to download the Carmel Desktop App on their mac, windows or linux computers and will be provided with a secure, encrypted environment, perfect for performing secure blockchain transactions. The Carmel Desktop App will be password protected and it will lock after a few minutes of inactivity so that even if the computer is compromised, without the password, the private blockchain key will be compromised. The Carmel Desktop App includes the Carmel Wallet and so that is going to be the primary and the recommended way of purchasing new Carmel Tokens.
+
+---
+
+**References**
+
+1. [Workforce of the future, PWC 2017](https://www.pwc.com/us/futureworkforce?WT.mc_id=CT11-PL1000-DM2-TR1-LS2-ND30-BPA30-CN_WoFFFG-)
+2.  [The state of American jobs, Pew Research Center 2016](http://www.pewsocialtrends.org/2016/10/06/the-state-of-american-jobs/)
