@@ -170,6 +170,8 @@ The Carmel Educational Model introduces key principles that make it a viable sol
 
 #### Token Value
 
+<img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/tokenvalue-icon.png">
+
 On of the main concerns - if not the primary concern of all - in a blockchain economy is related to the value of the token at the heart of the entire economic model. In Carmel, a token - a Carmel Token - represents a tangible value directly correlated to the learning encapsulated in the challenge at hand. A challenge is authored with the sole purpose of teaching a practical skill. The value of that skill is expressed in units of Carmel Tokens, priced by the original author. The value of the token will change as demand changes but in terms of value correlation, the value of a Carmel Token represents Learning Value.
 
 In essence, each developer in the Carmel community, can measure their skill set in Carmel Tokens. For example, if a Carmel Challenge is priced at 10 Carmel Tokens by the original author, that means that the challenge represents 10 Carmel Tokens worth of learning value. If a developer purchases the challenge and completes it, the value of the developer's skill set is increased by 10 Carmel Tokens.
@@ -177,6 +179,8 @@ In essence, each developer in the Carmel community, can measure their skill set 
 The value of the token will fluctuate as demand for Carmel Challenges increases. In other words, as developers grow in their skill set by completing more challenges, the more transactions will occur in the Carmel Economy and the higher the value of the Carmel Token will rise. The value of a single Carmel Token is thus directly proportional to the overall value of the network. The more people will learn and draw real value from the platform, the more the token will grow in value as well.
 
 #### Token Allocation
+
+<img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/tokenallocation-icon.png">
 
 A fixed amount of tokens are generated upfront with a distribution where most of the tokens are shared among community members. The token distribution model [is discussed in detail in a separate document](/docs/distribution) and is beyond the scope of this Whitepaper. Please consult that document for details, including details about initial pricing. What is worth noting is that fact that the majority of the initial offering is distributed to the community. New tokens will be generated at a fixed rate throughout the lifespan of the economy and without any computational overhead. Meaning that tokens will not be mined.
 
