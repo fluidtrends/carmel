@@ -154,7 +154,7 @@ Carmel is designed from scratch to be decentralized, flexible, highly scalable, 
 
 #### Blockchain App
 
-<p align="center">
+<p align="left">
 <img src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/blockchain-icon.png">
 </p>
 
