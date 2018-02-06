@@ -38,7 +38,7 @@ Carmel is a blockchain-based Open Source Education Platform that helps aspiring 
 
 ## Introduction
 
-<img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/intro.png">
+<img align="center" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/intro.png">
 
 Chris is a 40 year old father who has the type of job that can be easily replaced by robots.
 
@@ -68,7 +68,7 @@ In the new tech-dominated era, the best career choice is to become a tech creato
 
 ## Decentralized Community
 
-<img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/group.png">
+<img align="center" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/developers.png">
 
 There are several online platforms catering to people like Chris today. The problem is that they are all operating under a centralized architecture and business model, where the platform acts as a third party between teachers and students, dominating the entire teaching and learning experience.
 
