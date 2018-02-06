@@ -38,7 +38,7 @@ Carmel is a blockchain-based Open Source Education Platform that helps aspiring 
 
 ## Introduction
 
-<img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/hero.png">
+<img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/intro.png">
 
 Chris is a 40 year old father who has the type of job that can be easily replaced by robots.
 
