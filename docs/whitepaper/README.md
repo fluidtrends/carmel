@@ -180,7 +180,7 @@ The value of the token will fluctuate as demand for Carmel Challenges increases.
 
 #### Token Allocation
 
-<img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/tokenallocation-icon.png">
+<img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/tokenalloc-icon.png">
 
 A fixed amount of tokens are generated upfront with a distribution where most of the tokens are shared among community members. The token distribution model [is discussed in detail in a separate document](/docs/distribution) and is beyond the scope of this Whitepaper. Please consult that document for details, including details about initial pricing. What is worth noting is that fact that the majority of the initial offering is distributed to the community. New tokens will be generated at a fixed rate throughout the lifespan of the economy and without any computational overhead. Meaning that tokens will not be mined.
 
