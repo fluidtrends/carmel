@@ -128,7 +128,9 @@ Every Carmel Developer is encouraged to keep a Developer Journal that actively d
 
 ## Challenges
 
-The central theme of the Carmel Community is the concept of a challenge. A Carmel Challenge is a technical problem to be solved that includes a tutorial and associated validation code that tests whether the student has successfully solved the problem or not. A Carmel Challenge is authored by someone who is familiar with the problem at hand and is in a position to challenge someone else while providing guidance and is also able to write the validation code required.
+The central theme of the Carmel Community is the concept of a challenge. A Carmel Challenge is a technical problem to be solved that includes a tutorial and associated validation code that tests whether the student has successfully solved the problem or not. A Carmel Challenge is authored by someone who is familiar with the problem at hand and is in a position to challenge someone else while providing guidance and is also able to write the validation code required. In essence, developers challenge each other to *climb the digital mountain* so to speak, a daunting task to say the least. The ultimate goal is not how far a developer grows in their career, but that they keep growing. That they keep climbing.
+
+<img align="center" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/challenges.png">
 
 #### Tutorial
 
