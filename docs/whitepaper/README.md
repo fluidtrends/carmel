@@ -148,6 +148,10 @@ A fixed amount of tokens are generated upfront with a distribution where most of
 
 Carmel is designed from scratch to be decentralized, flexible, highly scalable, low maintenance and easy to use. The backend of the platform is a hybrid blockchain-cloud for performance reasons. As much as a blockchain-only architecture would be ideal, for the amount of transactional power Carmel requires, there is no available blockchain that can support those needs yet. The architecture is designed to be flexible so that as such a blockchain becomes production ready, Carmel can be transitioned to that infrastructure exclusively. Until that phase, the backend will incorporate a serverless cloud that will allow fast on-demand computation and will scale as needed.
 
+<p align="center">
+<img src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/platform.png">
+</p>
+
 #### Blockchain App
 
 Carmel makes use of the EOS blockchain as its primary infrastructure. EOS is a new concept and ambitious enough to warrant a deep dive into its capabilities but as good as EOS sounds, until it hits a production grade milestone, Carmel will base only some parts of its own architecture on it. The transactional aspect of Carmel, the purchasing of Carmel Challenges, will live exclusively on EOS from the start. The Carmel EOS Blockchain App will provide a public record of all Carmel Transactions which will also act as a public continuous learning journey. Every purchase of a Carmel Challenge will be tracked in the Carmel EOS App but also every result of the learning experience, whether successful or not, as evidenced and validated by the validation code associated with each Carmel Challenge. Other aspects of EOS, such as storing, will be explored in time, as alternatives to the initial cloud-based Carmel architecture.
