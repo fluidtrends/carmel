@@ -96,7 +96,7 @@ With Carmel, developers engage in a **hands on**, **microlearning** model that i
 
 <img align="center" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/model.png">
 
-### Hands On
+#### Hands On
 
 <img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/handson-icon.png">
 
