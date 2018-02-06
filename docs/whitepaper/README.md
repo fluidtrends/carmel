@@ -92,6 +92,8 @@ In the real world, at the office, software developers learn in a much more direc
 
 Carmel is designed from scratch to implement an Educational Model that is based on solid principles collected from real-world experiences working in the Software Industry. It is a radical departure from the typical video-based lecture model and it is aimed to create a learning experience much closer to how professional software developers learn on an on-going basis, rather than mirroring how computer science is taught in a traditional college setting.
 
+With Carmel, developers engage in a **hands on*, **microlearning** model that is **self-directed**, **peer driven** and **story-based**.
+
 <img align="center" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/model.png">
 
 ### Hands On
