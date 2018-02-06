@@ -100,7 +100,7 @@ With Carmel, developers engage in a **hands on**, **microlearning** model that i
 
 <img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/handson-icon.png">
 
-Learning with Carmel, the student is be exposed to a way of doing things that feels very real, as real as if they were in an office, working on a real-world problem for a real-world product. The Carmel Learning Experience ensures that every Carmel Student gets their hands dirty doing real work and at the end of the work assignment, the student does not only learn something new but also creates something new and so they gain not only raw knowledge *about* a concept but they also gain new *skills* and put them in practice right away.
+Learning with Carmel, the student is exposed to a way of doing things that feels very real. As real as if they were in an office, working on a real-world problem for a real-world product. The Carmel Learning Experience ensures that every Carmel Student gets their hands dirty doing real work. At the end of the work assignment, the student learned something but also created something new and so they gain not only raw knowledge *about* a concept but also new *skills* and put them in practice right away.
 
 #### Microlearning
 
@@ -124,7 +124,7 @@ The Carmel Community is comprised of Software Developers who are at different le
 
 <img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/storybased-icon.png">
 
-Every Carmel Developer is encouraged to keep a Developer Journal that actively documents their  Learning Journey. Each developer has their own story and others can participate in that story by connecting, conversing and engaging as their own story develops. Carmel generates story elements based on challenges that the developer has either authored or completed and there is also a measure of progress that shows how much the developer knows and what it is that they can do as a software developer.  
+Every Carmel Developer is encouraged to keep a Developer Journal that actively documents their Learning Journey. Each developer has their own story and others can participate in that story by connecting, conversing and engaging as their own story develops. Carmel generates story elements based on challenges which the developer either authored or completed and there is also a measure of progress that shows how much the developer knows and what it is that they can do as a software developer.  
 
 ## Challenges
 
