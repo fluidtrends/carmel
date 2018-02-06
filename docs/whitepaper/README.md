@@ -30,7 +30,7 @@ Carmel is a blockchain-based Open Source Education Platform that helps aspiring 
   * [Token Allocation](#token-allocation)
 * [Architecture](#architecture)
   * [Blockchain App](#blockchain-app)
-  * [Serverless Cloud](#serverless-cloud)
+  * [Private Cloud](#private-cloud)
   * [Web App](#web-app)
   * [Desktop App](#desktop-app)
   * [Mobile App](#mobile-app)
@@ -158,11 +158,11 @@ Carmel is designed from scratch to be decentralized, flexible, highly scalable, 
 
 Carmel makes use of the EOS blockchain as its primary infrastructure. EOS is a new concept and ambitious enough to warrant a deep dive into its capabilities but as good as EOS sounds, until it hits a production grade milestone, Carmel will base only some parts of its own architecture on it. The transactional aspect of Carmel, the purchasing of Carmel Challenges, will live exclusively on EOS from the start. The Carmel EOS Blockchain App will provide a public record of all Carmel Transactions which will also act as a public continuous learning journey. Every purchase of a Carmel Challenge will be tracked in the Carmel EOS App but also every result of the learning experience, whether successful or not, as evidenced and validated by the validation code associated with each Carmel Challenge. Other aspects of EOS, such as storing, will be explored in time, as alternatives to the initial cloud-based Carmel architecture.
 
-#### Serverless Cloud
+#### Private Cloud
 
 <img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/cloud-icon.png">
 
-In order to ensure a high transactional throughput, Carmel will include a Serverless Cloud component based on AWS Lambda and Firebase as a means to ensure a real-time, on-demand, always-on backend, available without any interruptions. The Carmel Cloud will communicate with the Carmel EOS App as needed to poll transaction history but it will not create new transactions as those will only happen from a secure client app. The Carmel Cloud is responsible for Carmel Account Management such as authentication, via Firebase. As the EOS blockchain improves, Carmel will transition to EOS accounts as that phase nears maturity. The Carmel Cloud will also handle all storing, retrieving and publishing of Carmel Challenges as well as all community needs such as conversations between members. These too can be transitioned to EOS, especially storage, once EOS matures.
+In order to ensure a high transactional throughput, Carmel will include a private Cloud component based on AWS Lambda and Firebase as a means to ensure a real-time, on-demand, always-on backend, available without any interruptions. The Carmel Cloud will communicate with the Carmel EOS App as needed to poll transaction history but it will not create new transactions as those will only happen from a secure client app. The Carmel Cloud is responsible for Carmel Account Management such as authentication, via Firebase. As the EOS blockchain improves, Carmel will transition to EOS accounts as that phase nears maturity. The Carmel Cloud will also handle all storing, retrieving and publishing of Carmel Challenges as well as all community needs such as conversations between members. These too can be transitioned to EOS, especially storage, once EOS matures.
 
 #### Web App
 
