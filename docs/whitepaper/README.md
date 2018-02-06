@@ -152,7 +152,11 @@ Carmel is designed from scratch to be decentralized, flexible, highly scalable, 
 <img src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/platform-diagram.png">
 </p>
 
-#### Blockchain App [!(https://raw.githubusercontent.com/fluidtrends/carmel/master/images/blockchain-icon.png)]()
+#### Blockchain App
+
+<p align="center">
+<img src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/blockchain-icon.png">
+</p>
 
 Carmel makes use of the EOS blockchain as its primary infrastructure. EOS is a new concept and ambitious enough to warrant a deep dive into its capabilities but as good as EOS sounds, until it hits a production grade milestone, Carmel will base only some parts of its own architecture on it. The transactional aspect of Carmel, the purchasing of Carmel Challenges, will live exclusively on EOS from the start. The Carmel EOS Blockchain App will provide a public record of all Carmel Transactions which will also act as a public continuous learning journey. Every purchase of a Carmel Challenge will be tracked in the Carmel EOS App but also every result of the learning experience, whether successful or not, as evidenced and validated by the validation code associated with each Carmel Challenge. Other aspects of EOS, such as storing, will be explored in time, as alternatives to the initial cloud-based Carmel architecture.
 
