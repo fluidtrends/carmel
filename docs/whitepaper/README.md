@@ -220,7 +220,7 @@ If there's one important aspect of that's missing from the Carmel Cloud and the 
 
 <img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/mobile-icon.png">
 
-Carmel Developers can access their Carmel Account via a native mobile app, available for iOS and Android devices. The app is complete sync with the Carmel Cloud and it can perform most of the operations of the Web App but instead of catering to publishing, the mobile focuses on smaller parts of the overall experiences, such as notifications and community communication, such as messaging. The mobile app is synchronized in real-time with the web app and with the cloud such that any operation on either web or mobile is visible on both platforms immediately. In practice, developers use the mobile app to stay in the loop with community activity and communicate with peers, and use the web for publishing new challenges.
+Carmel Developers can access their Carmel Account via a native mobile app, available for iOS and Android devices. The app is in complete sync with the Carmel Cloud and it can perform most of the operations of the Web App but instead of catering to publishing, the mobile focuses on smaller parts of the overall experiences, such as notifications and community communication, such as messaging. The mobile app is synchronized in real-time with the web app and with the cloud such that any operation on either web or mobile is visible on both platforms immediately. In practice, developers use the mobile app to stay in the loop with community activity and communicate with peers, and use the web for publishing new challenges.
 
 ---
 
