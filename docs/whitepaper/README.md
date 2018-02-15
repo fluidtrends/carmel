@@ -27,19 +27,22 @@ Carmel is a blockchain-based Open Source Education Platform that helps aspiring 
   * [Tokens](#tokens)
 * [Token Economy](#token-economy)
   * [Token Value](#token-value)
-  * [Token Allocation](#token-allocation)
+  * [Transactions](#transitions) *In Progress*
 * [Architecture](#architecture)
   * [Blockchain App](#blockchain-app)
   * [Private Cloud](#private-cloud)
   * [Web App](#web-app)
   * [Desktop App](#desktop-app)
   * [Mobile App](#mobile-app)
-* [Security Model](#security-model)
+* [Security](#security)
   * [Threat Exposure](#thread-exposure)
   * [Vault Security](#vault-security)
   * [Practically Unbreakable](#practically-unbreakable)
   * [Vault Key Security](#vault-key-security)
   * [Machine Secret Security](#machine-secret-security)
+* [Token Distribution](#token-distribution) *In Progress*
+* [Team](#team) *In Progress*
+* [Glossary](#glossary) *In Progress*
 * [References](#references)
 
 ## Introduction
@@ -184,11 +187,9 @@ In essence, each developer in the Carmel community, can measure their skill set 
 
 The value of the token will fluctuate as demand for Carmel Challenges increases. In other words, as developers grow in their skill set by completing more challenges, the more transactions will occur in the Carmel Economy and the higher the value of the Carmel Token will rise. The value of a single Carmel Token is thus directly proportional to the overall value of the network. The more people will learn and draw real value from the platform, the more the token will grow in value as well.
 
-#### Token Allocation
+#### Transactions
 
-<img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/tokenalloc-icon.png">
-
-A fixed amount of tokens are generated upfront with a distribution where most of the tokens are shared among community members. The token distribution model [is discussed in detail in a separate document](/docs/distribution) and is beyond the scope of this Whitepaper. Please consult that document for details, including details about initial pricing. What is worth noting is that fact that the majority of the initial offering is distributed to the community. New tokens will be generated at a fixed rate throughout the lifespan of the economy and without any computational overhead. Meaning that tokens will not be mined.
+[In Progress](https://github.com/fluidtrends/carmel/issues/18)
 
 ## Architecture
 
@@ -228,7 +229,7 @@ If there's one important aspect of that's missing from the Carmel Cloud and the 
 
 Carmel Developers can access their Carmel Account via a native mobile app, available for iOS and Android devices. The app is in complete sync with the Carmel Cloud and it can perform most of the operations of the Web App but instead of catering to publishing, the mobile focuses on smaller parts of the overall experiences, such as notifications and community communication, such as messaging. The mobile app is synchronized in real-time with the web app and with the cloud such that any operation on either web or mobile is visible on both platforms immediately. In practice, developers use the mobile app to stay in the loop with community activity and communicate with peers, and use the web for publishing new challenges.
 
-## Security Model
+## Security
 
 The bulk of the cryptographic security in Carmel, resides within the Carmel Desktop App. That's where the Carmel Wallet lives and that's where blockchain transactions are signed. The way Carmel secures the Desktop App is through a secure vault, tied to the developer's machine and heavily protected by both symmetric and assymetric encryption, as well as password hashing and secure local password storage. The Carmel Vault is secured using advanced cryptographic algorithms and it is practically impossible to compromise.
 
@@ -320,6 +321,18 @@ In addition to encrypting the Machine Secret, Carmel stores it in the machine's 
 Even if the machine itself is physically compromised, the machine's system keychain is usually password protected using a form of administrator password and the attacker would have to obtain that password too.
 
 This all means, that even if the machine is compromised and the machine's administrator password is cracked and the native keychain is exposed, the Machine Secret is still protected by the Master Password.
+
+## Token Distribution
+
+[In Progress](https://github.com/fluidtrends/carmel/issues/19)
+
+## Team
+
+[In Progress](https://github.com/fluidtrends/carmel/issues/17)
+
+## Glossary
+
+[In Progress](https://github.com/fluidtrends/carmel/issues/38)
 
 ---
 
