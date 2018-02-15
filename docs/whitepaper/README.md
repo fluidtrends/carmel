@@ -14,6 +14,7 @@ Carmel is a blockchain-based Open Source Education Platform that helps aspiring 
 
 * [Introduction](#introduction)
 * [Decentralized Community](#decentralized-community)
+  * [Community Stakeholders](#community-stakeholders) *In Progress*
 * [Educational Model](#educational-model)
   * [Hands On](#hands-on)
   * [Microlearning](#microlearning)
@@ -95,6 +96,10 @@ If we want to create a model that works best for those who really want to learn 
 The only way to reduce our dependency on a centralized authority in a learning ecosystem, is to architect the entire model from scratch as a decentralized community consisting solely of teachers and students.
 
 **That's precisely how Carmel is architected. As a Decentralized Community of Teachers and Students, with absolutely no dependency on a central third party authority.**
+
+#### Community Stakeholders
+
+[In Progress](https://github.com/fluidtrends/carmel/issues/46)
 
 ## Educational Model
 
