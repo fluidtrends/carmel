@@ -27,7 +27,7 @@ Carmel is a blockchain-based Open Source Education Platform that helps aspiring 
   * [Tokens](#tokens)
 * [Token Economy](#token-economy)
   * [Token Value](#token-value)
-  * [Transactions](#transitions) *In Progress*
+  * [Transactions](#transactions) *In Progress*
 * [Architecture](#architecture)
   * [Blockchain App](#blockchain-app)
   * [Private Cloud](#private-cloud)
