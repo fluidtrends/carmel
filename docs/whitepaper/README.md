@@ -41,7 +41,12 @@ Carmel is a blockchain-based Open Source Education Platform that helps aspiring 
   * [Vault Key Security](#vault-key-security)
   * [Machine Secret Security](#machine-secret-security)
 * [Token Distribution](#token-distribution) *In Progress*
-* [Team](#team) *In Progress*
+* [Technology Stack](#technology-stack) *In Progress*
+* [Company](#company) *In Progress*
+  * [Founders](#founders) *In Progress*
+* [Community](#community) *In Progress*
+  * [Contributors](#contributors) *In Progress*
+  * [Partners](#partners) *In Progress*
 * [Glossary](#glossary) *In Progress*
 * [References](#references)
 
@@ -326,9 +331,29 @@ This all means, that even if the machine is compromised and the machine's admini
 
 [In Progress](https://github.com/fluidtrends/carmel/issues/19)
 
-## Team
+## Technology Stack
+
+[In Progress](https://github.com/fluidtrends/carmel/issues/41)
+
+## Company
+
+[In Progress](https://github.com/fluidtrends/carmel/issues/42)
+
+#### Founders
 
 [In Progress](https://github.com/fluidtrends/carmel/issues/17)
+
+## Community
+
+[In Progress](https://github.com/fluidtrends/carmel/issues/43)
+
+#### Contributors
+
+[In Progress](https://github.com/fluidtrends/carmel/issues/45)
+
+#### Partners
+
+[In Progress](https://github.com/fluidtrends/carmel/issues/44)
 
 ## Glossary
 
