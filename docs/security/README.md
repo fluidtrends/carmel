@@ -1,6 +1,10 @@
 # Carmel Security Model
 
-The bulk of the cryptographic security in Carmel, resides within the Carmel Desktop App. That's where the Carmel Wallet lives and that's where blockchain transactions are signed. The way Carmel secures the Desktop App is through a secure vault, tied to the developer's machine and heavily protected by both symmetric and assymetric encryption, as well as password hashing and secure local password storage. The Carmel Vault is secured using advanced cryptographic algorithms and it is practically impossible to compromise. The Security Model has 5 layers of security:
+The bulk of the cryptographic security in Carmel, resides within the Carmel Desktop App. That's where the Carmel Wallet lives and that's where blockchain transactions are signed. The way Carmel secures the Desktop App is through a secure vault, tied to the developer's machine and heavily protected by both symmetric and assymetric encryption, as well as password hashing and secure local password storage. The Carmel Vault is secured using advanced cryptographic algorithms and it is practically impossible to compromise.
+
+The Carmel Vault uses [Cassi](https://github.com/fluidtrends/cassi) as the underlaying technology. A Carmel Vault is essentially a specialized Cassi Vault, and so the strong [Cassi Security Model](https://github.com/fluidtrends/cassi/tree/master/docs/security) applies 100% to Carmel.
+
+Here is the Carmel Security Model, heavily influenced by the Cassi Security Model:
 
 1. A Carmel **Vault** is secured with strong **symmetric encryption** using a 256-bit Vault Key. The cipher used is an **AES-256-GCM** cipher. See [Vault Security](#vault-security) for more details on how your data stored in a Carmel Vault is secured and [how secure it really is](#practically-unbreakable) (hint: it's practically unbreakable).
 
