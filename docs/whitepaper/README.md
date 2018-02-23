@@ -105,7 +105,7 @@ The only way to reduce our dependency on a centralized authority in a learning e
 
 <img align="center" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/education.png">
 
-One of the major drawbacks of most available online education is that must too often it's merely an extension of the traditional classroom, using technology. In a typical online video learning model, which dominates the current tech educational model, the teacher lectures the student via video, much like a traditional teacher would lecture students in a college classroom.
+One of the major drawbacks of most available online education is that much too often it's merely an extension of the traditional classroom, using technology. In a typical online video learning model, which dominates the current tech educational model, the teacher lectures the student via video, much like a traditional teacher would lecture students in a college classroom.
 
 In the real world, at the office, software developers learn in a much more direct and hands-on way. They are rarely lectured and are much more self-directed. The knowledge is shared from peer to peer and the learning experience is highly personal and self-determined. The content is also broken down into much smaller pieces than a typical lecture and it's usually very specific to a problem to be solved.
 
@@ -151,7 +151,7 @@ Every Carmel Developer is encouraged to keep a Developer Journal that actively d
 
 A Carmel Challenge is authored by someone who is familiar with the problem at hand and is in a position to challenge someone else while providing guidance and is also able to write the validation code required. In essence, developers challenge each other to *climb the digital mountain* so to speak, a daunting task to say the least. The ultimate goal is not how far a developer grows in their career, but that they keep growing. That they keep climbing.
 
-The central theme of the Carmel Community is the concept of a challenge. A Carmel Challenge is a technical problem to be solved that includes a **tutorial** and a **proof of learning** using validation code that tests whether the student has successfully solved the problem or not. To author, distributed and edit challenges, a Carmel Author has access to a **publishing** dashboard. Each challenge is priced and measured in Carmel Tokens which represent the learning value of the challenge itself.
+The central theme of the Carmel Community is the concept of a challenge. A Carmel Challenge is a technical problem to be solved that includes a **tutorial** and a **proof of learning** using validation code that tests whether the student has successfully solved the problem or not. To author, distribute and edit challenges, a Carmel Author has access to a **publishing** dashboard. Each challenge is priced and measured in Carmel Tokens which represent the learning value of the challenge itself.
 
 <img align="center" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/climbing.png">
 
@@ -225,13 +225,13 @@ In order to ensure a high transactional throughput, Carmel will include a privat
 
 <img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/web-icon.png">
 
-The Carmel Web App lives at carmel.io and acts as the primary interface to the Carmel Cloud for members and visitors. This is where a visitor can join the community by creating a new Carmel Account and this is where a Carmel Author comes to create a new Carmel Challenge and eventually publish it as well. The Carmel Web App is also the central hub for displaying information about the progress of each member's learning journey. Each member gets a personalized story page that can be accessed by anyone on the internet, without logging in to Carmel. Each member's learning story will be accessible at carmel.io/<username> and will be updated automatically as the member creates and completes more challenges.
+The Carmel Web App lives at carmel.io and acts as the primary interface to the Carmel Cloud for members and visitors. This is where a visitor can join the community by creating a new Carmel Account and this is where a Carmel Author comes to create a new Carmel Challenge and eventually publish it as well. The Carmel Web App is also the central hub for displaying information about the progress of each member's learning journey. Each member gets a personalized story page that can be accessed by anyone on the internet, without logging in to Carmel. Each member's learning story will be accessible at ```carmel.io/<username>``` and will be updated automatically as the member creates and completes more challenges.
 
 #### Desktop App
 
 <img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/desktop-icon.png">
 
-If there's one important aspect of that's missing from the Carmel Cloud and the Carmel Web App, that's the ability to create new transactions. Such as purchasing a new Carmel Challenge. The reason for that is because creating a new transaction requires a private key that cannot be stored on the Carmel Cloud or the Carmel Web App for security reasons. And so, Carmel members will be able to download the Carmel Desktop App on their mac, windows or linux computers and will be provided with a secure, encrypted environment, perfect for performing secure blockchain transactions. The Carmel Desktop App will be password protected and it will lock after a few minutes of inactivity so that even if the computer is compromised, without the password, the private blockchain key will be compromised. The Carmel Desktop App includes the Carmel Wallet and so that is going to be the primary and the recommended way of purchasing new Carmel Tokens.
+If there's one important aspect of what's missing from the Carmel Cloud and the Carmel Web App, that's the ability to create new transactions. Such as purchasing a new Carmel Challenge. The reason for that is because creating a new transaction requires a private key that cannot be stored on the Carmel Cloud or the Carmel Web App for security reasons. And so, Carmel members will be able to download the Carmel Desktop App on their mac, windows or linux computers and will be provided with a secure, encrypted environment, perfect for performing secure blockchain transactions. The Carmel Desktop App will be password protected and it will lock after a few minutes of inactivity so that even if the computer is compromised, without the password, the private blockchain key will not be compromised. The Carmel Desktop App includes the Carmel Wallet and so that is going to be the primary and the recommended way of purchasing new Carmel Tokens.
 
 #### Mobile App
 
