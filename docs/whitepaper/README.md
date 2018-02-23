@@ -225,7 +225,7 @@ In order to ensure a high transactional throughput, Carmel will include a privat
 
 <img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/web-icon.png">
 
-The Carmel Web App lives at carmel.io and acts as the primary interface to the Carmel Cloud for members and visitors. This is where a visitor can join the community by creating a new Carmel Account and this is where a Carmel Author comes to create a new Carmel Challenge and eventually publish it as well. The Carmel Web App is also the central hub for displaying information about the progress of each member's learning journey. Each member gets a personalized story page that can be accessed by anyone on the internet, without logging in to Carmel. Each member's learning story will be accessible at carmel.io/<username> and will be updated automatically as the member creates and completes more challenges.
+The Carmel Web App lives at carmel.io and acts as the primary interface to the Carmel Cloud for members and visitors. This is where a visitor can join the community by creating a new Carmel Account and this is where a Carmel Author comes to create a new Carmel Challenge and eventually publish it as well. The Carmel Web App is also the central hub for displaying information about the progress of each member's learning journey. Each member gets a personalized story page that can be accessed by anyone on the internet, without logging in to Carmel. Each member's learning story will be accessible at ```carmel.io/<username>``` and will be updated automatically as the member creates and completes more challenges.
 
 #### Desktop App
 
