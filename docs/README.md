@@ -13,4 +13,3 @@ Carmel is a blockchain-based Open Source Education Platform that helps aspiring 
 # Documentation
 
 * [Whitepaper](whitepaper)
-* [Token Distribution](distribution)
