@@ -10,10 +10,6 @@ export default class MainIntroScreen extends Screen {
 
   componentDidMount () {
     super.componentDidMount()
-
-    if (this.isLoggedIn) {
-      this.triggerRedirect('/dashboard')
-    }
   }
 
   get features () {

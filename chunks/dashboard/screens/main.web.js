@@ -16,12 +16,18 @@ export default class MainDashboardScreen extends Screen {
   componentDidMount () {
     super.componentDidMount()
 
+    this._sideMenu = [].concat(this.menu)
+
     if (this.isLoggedIn) {
       this.loadSections(this.account)
       return
     }
 
     this.setState({ loading: false })
+  }
+
+  get sideMenu () {
+    return this._sideMenu
   }
 
   register () {
@@ -70,6 +76,12 @@ export default class MainDashboardScreen extends Screen {
     if (!this.sections || this.sections.length === 0) {
       return
     }
+
+    this.sections.forEach(s => {
+      this._sideMenu.unshift({
+        id: `extended-${s.path}`, icon: 'home', title: s.title, path: s.path
+      })
+    })
 
     var section = this.sections[0]
 
