@@ -1,5 +1,3 @@
-# Latest Carmel Updates
-
 ## Monday, Feb 26, 2018
 
 We're glad to announce Carmel is starting to take shape and form. The first iteration of Carmel is the carmel.io web app. Have a look around and [let us know what you think](https://t.me/carmelplatform) - sure it ain't much yet - just stay tuned and give it a nudge and it will grow :)
