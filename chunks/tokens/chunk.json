@@ -1,0 +1,29 @@
+{
+  "name": "tokens",
+  "routes": {
+    "main": {
+      "title": "Tokens",
+      "icon": "home",
+      "path": "/tokens",
+      "events": {
+        "cover": "local://tokens"
+      },
+      "cover": {
+        "backgroundColor": "#00bcd4",
+        "align": "bottom",
+        "opacity": 0.5,
+        "navigation": true,
+        "title": "Carmel Token Distribution",
+        "type": "simple"
+      },
+      "components": {
+        "intro": {
+          "source": "summary",
+          "text": "github://fluidtrends/carmel/master/docs/tokens/README",
+          "image": "carmel-logo.png",
+          "textColor": "#37474F"
+        }
+      }
+    }
+  }
+}

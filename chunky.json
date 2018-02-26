@@ -6,7 +6,7 @@
   "androidSdkDir": "~/Library/Android/sdk",
   "sections": {
     "start": {
-      "stack": ["intro", "dashboard"]
+      "stack": ["intro", "tokens", "dashboard"]
     }
   },
   "transitions": ["replace://start"],
@@ -20,7 +20,7 @@
     "linkHoverColor": "#64B5F6",
     "linkHoverBackgroundColor": "#F5F5F5",
     "progressColor": "rgba(50,50,50,0.9)",
-    "primaryColor": "#0097A7",
+    "primaryColor": "#00bcd4",
     "statusBarLight": false,
     "navigationColor": "#FFFFFF",
     "navigationTintColor": "#37474F",
