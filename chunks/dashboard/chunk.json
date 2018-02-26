@@ -7,7 +7,7 @@
       "path": "/dashboard",
       "variants": "sections",
       "cover": {
-        "backgroundColor": "#0197a7",
+        "backgroundColor": "#00bcd4",
         "navigation": true,
         "type": "menu"
       },
