@@ -1,8 +1,8 @@
 [
   {
     "path": "",
-    "menuTitle": "Newsfeed",
-    "title": "Newsfeed",
+    "menuTitle": "Latest Updates",
+    "title": "Latest Updates",
     "component": "Home"
   }
 ]

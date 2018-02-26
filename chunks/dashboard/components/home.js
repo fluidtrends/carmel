@@ -1,5 +1,5 @@
 import React from 'react'
-import { Component, Components } from 'react-dom-chunky'
+import { Component, Components, Utils } from 'react-dom-chunky'
 import moment from 'moment'
 import validator from 'validator'
 import { LinearProgress } from 'rmwc/LinearProgress'
@@ -43,17 +43,27 @@ export default class HomeComponent extends Component {
     </div>
   }
 
+  renderText () {
+    return <Components.Text source={this.props.updates} style={{
+      paddingBottom: '20px'
+    }} />
+  }
+
   render () {
+    return this.renderText()
+  }
+
+  render2 () {
     const width = this.props.compact ? '95vw' : '600px'
-    return (<div style={{ display: 'flex', flex: 1, margin: '40px', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }} >
+    return (<div style={{ display: 'flex', flex: 1, height: '100vh', margin: '40px', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }} >
       <Card style={{width, margin: '10px', padding: '30px'}} >
         <div style={{padding: '4px'}}>
           <Typography use='headline' tag='h1'>
             Welcome back, { this.props.account.name }
           </Typography>
         </div>
-
         { this.renderLoading() }
+        { this.renderText() }
       </Card>
     </div>)
   }

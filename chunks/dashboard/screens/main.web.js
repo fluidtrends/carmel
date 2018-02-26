@@ -128,8 +128,8 @@ export default class MainDashboardScreen extends Screen {
   renderSectionContent () {
     if (this.state.section.component && ChunkComponents[this.state.section.component]) {
       const SectionComponent = ChunkComponents[this.state.section.component]
-      var sectionProps = Object.assign({}, { account: this.account, compact: this.isSmallScreen })
-      return <div style={{ height: '100vh' }}><SectionComponent {...sectionProps} />
+      var sectionProps = Object.assign({}, { account: this.account, compact: this.isSmallScreen, updates: this.props.updates })
+      return <div style={{ }}><SectionComponent {...sectionProps} />
       </div>
     }
     return <div />

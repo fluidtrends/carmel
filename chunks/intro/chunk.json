@@ -2,12 +2,22 @@
   "name": "intro",
   "routes": {
     "main": {
-      "title": "Welcome",
+      "title": "Platform",
       "icon": "home",
       "path": "/",
       "events": {
         "cover": "local://dashboard"
       },
+      "extendedMenu": [
+        { "id": "whitepaper",
+          "title": "Whitepaper",
+          "link": "https://github.com/fluidtrends/carmel/blob/master/docs/whitepaper/README.md",
+          "universal": true },
+        { "id": "telegram",
+          "title": "Telegram",
+          "link": "https://t.me/carmelplatform",
+          "universal": true }
+      ],
       "cover": {
         "image": "hero.jpg",
         "backgroundColor": "#ffffff",
