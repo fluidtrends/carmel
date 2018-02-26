@@ -77,6 +77,8 @@ export default class MainDashboardScreen extends Screen {
       return
     }
 
+    this._sideMenu = [].concat(this.menu)
+
     this.sections.forEach(s => {
       this._sideMenu.unshift({
         id: `extended-${s.path}`, icon: 'home', title: s.title, path: s.path
