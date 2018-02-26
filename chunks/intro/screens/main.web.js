@@ -10,10 +10,10 @@ export default class MainIntroScreen extends Screen {
 
   componentDidMount () {
     super.componentDidMount()
-  }
 
-  onCloudPrimary () {
-    console.log('on cloud primary action....')
+    if (this.isLoggedIn) {
+      this.triggerRedirect('/dashboard')
+    }
   }
 
   get features () {

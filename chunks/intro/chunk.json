@@ -6,12 +6,7 @@
       "icon": "home",
       "path": "/",
       "events": {
-        "cover": "https://t.me/carmelplatform",
-        "feature-web": "local://platform/web",
-        "feature-mobile": "local://platform/mobile",
-        "feature-cloud": "local://platform/cloud",
-        "feature-devops": "local://platform/devops",
-        "feature-integrations": "local://platform/integrations"
+        "cover": "local://dashboard"
       },
       "cover": {
         "image": "hero.jpg",
@@ -19,11 +14,10 @@
         "align": "bottom",
         "opacity": 0.5,
         "navigation": true,
-        "title": "Climb The Digital Mountain And Learn To Build The Future",
-        "subtitle": "Grow Your Tech Skill Set By Taking Hands-On Development Challenges",
+        "title": "Climb The Digital Mountain",
+        "subtitle": "Grow Your Tech Skill Set And Learn To Build The Future",
         "type": "default",
-        "primaryActionTitle": "Start Climbing",
-        "primaryActionLink": "/whitepaper"
+        "primaryActionTitle": "Start Climbing"
       },
       "components": {
         "intro": {
