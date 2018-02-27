@@ -15,7 +15,7 @@ Alright, let's get started. Have a look around and enjoy your Carmel Developer J
 ## Featured Challenges
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/fluidtrends/carmel/master/assets/chunky-logo.gif" width="180">
+  <img src="https://raw.githubusercontent.com/fluidtrends/carmel/master/challenges/hello-chunky/icon.gif" width="180">
   <h2 align="center"> Challenge #1: "Hello Chunky" </h2>
 </p>
 
