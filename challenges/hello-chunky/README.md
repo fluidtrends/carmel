@@ -59,7 +59,7 @@ If you don't have **Node.js** installed on your machine, simply download the lat
 
 If your running Windows, the Chunky CLI also needs to have access to the Windows Build Tools. To install them, just run the following command in your terminal:
 
-```
+```bash
 npm i -g windows-build-tools
 ```
 
@@ -71,7 +71,7 @@ Meaning, your primary gateway to Chunky is the **Chunky Command-Line Interface (
 
 Installing the **Chunky CLI** on your development machine is a one-liner. Just open up your terminal and run the following command:
 
-```
+```bash
 npm i -g chunky-cli
 ```
 
@@ -79,7 +79,7 @@ That's it. Welcome to Chunky. You now have the mighty ```chunky``` command avail
 
 Say Hello and try it out by typing it in your terminal:
 
-```
+```bash
 chunky
 ```
 
@@ -91,7 +91,7 @@ Let's create a brand new Chunky Product.
 
 All you have to do is run the ```init``` command like so:
 
-```
+```bash
 chunky init --name Hello
 ```
 
@@ -105,7 +105,7 @@ Next, we want to install a Chunky Product Template, using the ```install``` comm
 
 Let's just install the default template, as follows:
 
-```
+```bash
 chunky install
 ```
 
@@ -117,7 +117,7 @@ One more step. Let's install our product's dependencies.
 
 Nothing fancy here, just run:
 
-```
+```bash
 npm i
 ```
 
@@ -129,7 +129,7 @@ You are the owner of a brand new Chunky Product.
 
 To see what your product looks like, let's just start the Web App in development mode, like so:
 
-```
+```bash
 chunky start web
 ```
 
