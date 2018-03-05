@@ -21,6 +21,7 @@
     "linkHoverBackgroundColor": "#F5F5F5",
     "progressColor": "rgba(50,50,50,0.9)",
     "primaryColor": "#00bcd4",
+    "secondaryColor": "#66BB6A",
     "statusBarLight": false,
     "navigationColor": "#FFFFFF",
     "navigationTintColor": "#37474F",

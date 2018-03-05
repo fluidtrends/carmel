@@ -1,8 +1,15 @@
 [
   {
-    "path": "",
-    "menuTitle": "Latest Updates",
-    "title": "Latest Updates",
-    "component": "Home"
+    "path": "levelup",
+    "menuTitle": "Level Up",
+    "title": "Level Up",
+    "component": "Level"
+  },
+
+  {
+    "path": "logout",
+    "menuTitle": "Sign Out",
+    "title": "Sign Out",
+    "action": "logout"
   }
 ]

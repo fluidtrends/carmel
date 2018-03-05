@@ -2,14 +2,15 @@
   "name": "tokens",
   "routes": {
     "main": {
-      "title": "Tokens",
-      "icon": "home",
-      "path": "/tokens",
+      "title": "Level Up",
+      "icon": "favorite",
+      "path": "/levelup",
+      "action": true,
       "events": {
         "cover": "local://tokens"
       },
       "cover": {
-        "backgroundColor": "#00bcd4",
+        "backgroundColor": "#00838F",
         "align": "bottom",
         "opacity": 0.5,
         "navigation": true,

@@ -2,11 +2,11 @@
   "name": "intro",
   "routes": {
     "main": {
-      "title": "Platform",
+      "title": "Welcome",
       "icon": "home",
       "path": "/",
       "events": {
-        "cover": "local://dashboard"
+        "cover": "local://me"
       },
       "extendedMenu": [
         { "id": "whitepaper",
@@ -19,15 +19,15 @@
           "universal": true }
       ],
       "cover": {
-        "image": "hero.jpg",
+        "image": "dad.jpg",
         "backgroundColor": "#ffffff",
         "align": "bottom",
         "opacity": 0.5,
         "navigation": true,
-        "title": "Climb The Digital Mountain",
-        "subtitle": "Grow Your Tech Skill Set And Learn To Build The Future",
+        "title": "Learn How To Build A Better Future For All Of Us",
+        "subtitle": "Grow Your Tech Skills With Programming Challenges And Earn Experience Points",
         "type": "default",
-        "primaryActionTitle": "Start Climbing"
+        "primaryActionTitle": "Start Your Learning Journey"
       },
       "components": {
         "intro": {
@@ -46,6 +46,24 @@
           "textColor": "#37474F",
           "backgroundColor": "#fcfefe"
         }
+      }
+    },
+    "person": {
+      "title": "Stories",
+      "icon": "supervisor_account",
+      "path": "/:person",
+      "skipPaths": ["story", "dashboard", "levelup", "wallet", "community", "challenges", "me"],
+      "skipRootVariant": true,
+      "events": {
+        "cover": "local://stories"
+      },
+      "cover": {
+        "backgroundColor": "#00838F",
+        "align": "bottom",
+        "opacity": 0.5,
+        "navigation": true,
+        "title": "What's your #CarmelStory?",
+        "type": "simple"
       }
     }
   }
