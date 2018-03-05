@@ -46,7 +46,31 @@ export default class LevelComponent extends Component {
 
   componentDidMount () {
     super.componentDidMount()
+    this.startTimer()
     this.loadLevelData()
+  }
+
+  componentWillUnmount () {
+    this.stopTimer()
+  }
+
+  startTimer () {
+    const timer = setInterval(() => this.timerFired(), 1000)
+    this.setState({ timer })
+  }
+
+  timerFired () {
+    this.fetchProviderAccount(this.state.provider)
+           .then((ethereumAddress) => {
+             this.setState({ ethereumAddress })
+           })
+  }
+
+  stopTimer () {
+    if (!this.state.timer) {
+      return
+    }
+    clearInterval(this.state.timer)
   }
 
   loadLevelData () {
@@ -315,7 +339,30 @@ export default class LevelComponent extends Component {
     </div>
   }
 
+  renderLocked () {
+    return <div>
+
+      <Typography use='headline' tag='h1'>
+        <Icon style={{fontSize: '50px'}} strategy='ligature'>lock</Icon>
+      </Typography>
+
+      <Typography use='headline' tag='h1'>
+        MetaMask Is Locked
+      </Typography>
+
+      <ListDivider />
+
+      <Typography use='caption' tag='h1'>
+        Please unlock it in order to be able to Level Up
+      </Typography>
+    </div>
+  }
+
   renderWithoutProvider () {
+    if (this.state.provider) {
+      return this.renderLocked()
+    }
+
     return <div>
       <Typography use='headline' tag='h1'>
         MetaMask Is Required

@@ -12,7 +12,6 @@ export default class MainPersonScreen extends Screen {
     super.componentDidMount()
 
     this._username = this.props.location.pathname.split('/')[1]
-    console.log(this.username)
   }
 
   get cover () {
