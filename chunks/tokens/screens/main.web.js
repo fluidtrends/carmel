@@ -35,7 +35,7 @@ export default class MainTokensScreen extends Screen {
     super.componentDidMount()
 
     if (this.isLoggedIn) {
-      this.triggerRedirect(`/me/levelup`)
+      this.triggerRedirect(`/me/tokens`)
     }
   }
 

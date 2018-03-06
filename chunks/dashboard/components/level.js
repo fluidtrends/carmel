@@ -233,14 +233,13 @@ export default class LevelComponent extends Component {
         <Typography use='subheading1' tag='h1'>
           <ChipSet>
             <Chip style={{ backgroundColor: '#F5F5F5'}}>
-              <ChipIcon style={{color: '#ef5350'}} leading use={`favorite`} />
-              <ChipText> Level {this.state.level.toLocaleString('en')} </ChipText>
+              <ChipIcon style={{color: '#66BB6A'}} leading use={`stars`} />
+              <ChipText> {this.state.tokens.toLocaleString('en')} CARMEL </ChipText>
             </Chip>
           </ChipSet>
-          {this.state.tokens.toLocaleString('en')} CARMEL
-      </Typography>
+          Level { this.state.level.toLocaleString('en') }
+        </Typography>
       </div>
-
     </div>
   }
 
@@ -261,28 +260,29 @@ export default class LevelComponent extends Component {
   renderWithProvider () {
     return <div>
       <Typography
-        use='title'
+        use='headline'
         tag='div'
         style={{padding: '0.5rem 1rem', textAlign: 'center', padding: '20px'}}
         theme='text-secondary-on-background'>
-        Level Up Your Carmel Account
+        Get CARMEL Tokens
       </Typography>
-
+      <Typography
+        style={{textAlign: 'center'}}
+        use='subheading2'
+        tag='div'>
+        Period 1: February 26 - April 2 (90% Discount)
+      </Typography>
       <ListDivider style={{marginBottom: '40px'}} />
 
       <Typography use='headline' tag='h1' style={{margin: '0px'}}>
         <ChipSet style={{justifyContent: 'center'}}>
           <Fab mini onClick={this._decrementLevel} style={{backgroundColor: '#CFD8DC', marginTop: '5px'}}>remove</Fab>
           <Chip style={{ backgroundColor: '#F5F5F5', marginLeft: '20px', marginRight: '20px', padding: '15px' }}>
-            <ChipIcon style={{color: '#ef5350', marginRight: '10px'}} leading use={`favorite`} />
-            <ChipText> Level {this.state.nextLevel} </ChipText>
-            <ChipIcon style={{color: '#66BB6A', marginLeft: '5px'}} leading use={`arrow_upward`} />
+            <ChipIcon style={{color: '#66BB6A', marginRight: '10px'}} leading use={`stars`} />
+            <ChipText> {(this.state.nextTokens - this.state.tokens).toLocaleString('en')} CARMEL </ChipText>
           </Chip>
           <Fab mini onClick={this._incrementLevel} style={{marginTop: '5px'}}>add</Fab>
         </ChipSet>
-      </Typography>
-      <Typography use='subheading2' tag='h2' style={{margin: '0px'}}>
-        {this.state.nextTokens.toLocaleString('en')} CARMEL
       </Typography>
       <Slider
         style={{marginTop: '20px', marginBottom: '0px'}}
@@ -293,12 +293,12 @@ export default class LevelComponent extends Component {
         max={100}
         displayMarkers
         step={1} />
+
       <Typography use='caption' tag='h2' style={{margin: '5px'}}>
-            +<strong>{(this.state.nextTokens - this.state.tokens).toLocaleString('en')}</strong> CARMEL
-            (Up <strong> {this.state.up} </strong> {this.state.up > 1 ? `Levels` : `Level`})
+        This purchase increases your level of stake in Carmel to <strong> Level {this.state.nextLevel}</strong>.
       </Typography>
 
-      <ListDivider style={{marginTop: '40px'}} />
+      <ListDivider style={{marginTop: '30px'}} />
 
       { this.renderPrice() }
 
@@ -353,7 +353,7 @@ export default class LevelComponent extends Component {
             <ChipText> CARMEL: <strong> $0.10 USD = {this.state.carmelPrice} ETH </strong> </ChipText>
           </Chip>
           <Chip style={{ border: '1px #66BB6A solid', backgroundColor: '#ffffff', color: '#66BB6A' }}>
-            <ChipText> <strong> 90% Bonus </strong> </ChipText>
+            <ChipText> <strong> 90% Discount </strong> </ChipText>
             <ChipIcon style={{color: '#66BB6A', marginLeft: '2px'}} leading use={`done`} />
           </Chip>
         </ChipSet>

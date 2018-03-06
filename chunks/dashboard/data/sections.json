@@ -1,8 +1,8 @@
 [
   {
-    "path": "levelup",
-    "menuTitle": "Level Up",
-    "title": "Level Up",
+    "path": "tokens",
+    "menuTitle": "Tokens",
+    "title": "Tokens",
     "component": "Level"
   },
 

@@ -2,7 +2,7 @@
   "name": "tokens",
   "routes": {
     "main": {
-      "title": "Level Up",
+      "title": "Get Tokens",
       "icon": "favorite",
       "path": "/levelup",
       "action": true,
