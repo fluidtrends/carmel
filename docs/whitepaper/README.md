@@ -464,6 +464,12 @@ Tokens can be purchased at [carmel.io](https://www.carmel.io/tokens) on a first 
 
 ## Company
 
+The Carmel Platform is executed as a Decentralized Autonomous Corporation (DAC). Although, we much rather think of it a Community, rather than a Corporation. Carmel has its own economy, its own currency, its own members (citizens) and its own technology as well as its own rules and regulations (constitution). It's fascinating what a good blockchain technology can enable. Carmel is beyond a regular company, it's more of a living community of people who believe in a common vision.
+
+At the same time, in order to execute all of this, especially during the early stages when the EOS blockchain is just getting started, we need a traditional legal structure that allows us to operate well and effectively. That structure is a legally incorporated company, owned by the founders.
+
+Carmel's parent company is Fluid Trends, incorporated under the laws of Romania. The full legal name of the corporation is **SC Fluid Trends Business Group SRL** based out of **Str. Regele Ferdinand Nr. 22-26, Cluj**. The 3 founders of Carmel, are the owners of Fluid Trends and will always hold a combined majority stake in the company.
+
 [In Progress](https://github.com/fluidtrends/carmel/issues/42)
 
 #### Founders
