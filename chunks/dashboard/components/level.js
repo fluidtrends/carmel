@@ -28,6 +28,7 @@ import {
 } from 'rmwc/List'
 import { Fab } from 'rmwc/Fab'
 import { Icon } from 'rmwc/Icon'
+import { Slider } from 'rmwc/Slider'
 
 const CoinMarketCapAPI = `https://api.coinmarketcap.com/v1/ticker/ethereum/?convert=USD`
 const CarmelPrivateSaleAddress = `0x4E52e804905CC320BF631523a9cb1416B8d613Fb`
@@ -41,6 +42,7 @@ export default class LevelComponent extends Component {
     this._transactionDetails = this.transactionDetails.bind(this)
     this._incrementLevel = this.incrementLevel.bind(this)
     this._decrementLevel = this.decrementLevel.bind(this)
+    this._updateLevel = this.updateLevel.bind(this)
     this._send = this.send.bind(this)
   }
 
@@ -266,26 +268,40 @@ export default class LevelComponent extends Component {
         Level Up Your Carmel Account
       </Typography>
 
-      <ListDivider style={{marginBottom: '20px'}} />
+      <ListDivider style={{marginBottom: '40px'}} />
 
-      <Typography use='headline' tag='h1'>
-        <ChipSet>
-          <Fab mini onClick={this._decrementLevel} style={{backgroundColor: '#CFD8DC'}}>remove</Fab>
+      <Typography use='headline' tag='h1' style={{margin: '0px'}}>
+        <ChipSet style={{justifyContent: 'center'}}>
+          <Fab mini onClick={this._decrementLevel} style={{backgroundColor: '#CFD8DC', marginTop: '5px'}}>remove</Fab>
           <Chip style={{ backgroundColor: '#F5F5F5', marginLeft: '20px', marginRight: '20px', padding: '15px' }}>
             <ChipIcon style={{color: '#ef5350', marginRight: '10px'}} leading use={`favorite`} />
             <ChipText> Level {this.state.nextLevel} </ChipText>
             <ChipIcon style={{color: '#66BB6A', marginLeft: '5px'}} leading use={`arrow_upward`} />
           </Chip>
-          <Fab mini onClick={this._incrementLevel}>add</Fab>
+          <Fab mini onClick={this._incrementLevel} style={{marginTop: '5px'}}>add</Fab>
         </ChipSet>
       </Typography>
-      <Typography use='subheading2' tag='h2' style={{margin: '5px'}}>
+      <Typography use='subheading2' tag='h2' style={{margin: '0px'}}>
         {this.state.nextTokens.toLocaleString('en')} CARMEL
       </Typography>
+      <Slider
+        style={{marginTop: '20px', marginBottom: '0px'}}
+        value={this.state.up}
+        onChange={this._updateLevel}
+        discrete
+        min={1}
+        max={100}
+        displayMarkers
+        step={1} />
+      <Typography use='caption' tag='h2' style={{margin: '5px'}}>
+            +<strong>{(this.state.nextTokens - this.state.tokens).toLocaleString('en')}</strong> CARMEL
+            (Up <strong> {this.state.up} </strong> {this.state.up > 1 ? `Levels` : `Level`})
+      </Typography>
 
-      <ListDivider style={{marginTop: '20px'}} />
+      <ListDivider style={{marginTop: '40px'}} />
 
       { this.renderPrice() }
+
     </div>
   }
 
@@ -308,6 +324,15 @@ export default class LevelComponent extends Component {
     }
 
     const up = this.state.up - 1
+    const nextLevel = (this.state.level + up)
+    const nextTokens = (nextLevel * 1000)
+    const nextLevelPrice = (this.state.carmelPrice * (nextTokens - this.state.tokens)).toFixed(2)
+
+    this.setState({ up, nextLevel, nextLevelPrice, nextTokens })
+  }
+
+  updateLevel (event) {
+    const up = event.target.value
     const nextLevel = (this.state.level + up)
     const nextTokens = (nextLevel * 1000)
     const nextLevelPrice = (this.state.carmelPrice * (nextTokens - this.state.tokens)).toFixed(2)
