@@ -41,7 +41,11 @@ Carmel is a blockchain-based Open Source Education Platform that helps aspiring 
   * [Practically Unbreakable](#practically-unbreakable)
   * [Vault Key Security](#vault-key-security)
   * [Machine Secret Security](#machine-secret-security)
-* [Token Distribution](#token-distribution) *In Progress*
+* [Token Distribution](#token-distribution)
+  * [Period 1 (5 weeks)](#period-1)
+  * [Period 2 (5 weeks)](#period-2)
+  * [Period 3 (5 weeks)](#period-3)
+  * [Period 4 (10 weeks)](#period-4)
 * [Technology Stack](#technology-stack) *In Progress*
 * [Company](#company) *In Progress*
   * [Founders](#founders) *In Progress*
@@ -344,30 +348,43 @@ Undistributed tokens are placed in the Fluid Fund. No tokens are burned and no n
 
 **Private Sale: February 26 - April 2 (5 weeks)**
 
-A total of **3,500,000 Carmel Tokens** (5% of total supply) are sold privately at a discount of 50% or more.
+A total of **3,500,000 Carmel Tokens** (5% of total supply) are sold privately at a discount of **90%**.
 
-Tokens can be purchased online at [carmel.io/tokens](https://www/carmel.io/tokens)
+During the Private Sale, Tokens can be purchased online at [carmel.io](https://www/carmel.io/tokens) via Ethereum and MetaMask.
 
+#### Period 2
 
-Tokens are sold privately on a one-on-one basis. Email inquiries about the private sale can be sent to team@fluidtrends.com during the entire duration of the sale.
+**EOS AirDrop: April 2 - May 7 (5 weeks)**
 
-Period 2: April 2 - May 7 (5 weeks) - EOS AirDrop
+A total of **3,500,000 Carmel Tokens** (5% of total supply) are distributed free of charge to the first EOS token holders to claim them.
 
-A total of 3,500,000 Carmel Tokens (5% of total supply) are distributed free of charge to the first EOS token holders to claim them. Each EOS token holder can claim 100 free Carmel Tokens. Another 50 Carmel Tokens can be earned as bounty for inviting a friend, for up to 5 friends. The total amount of free Carmel Tokens that can be claimed per EOS token holder is 350, thus making the distribution available to at least 10,000 EOS token holders. A maximum of 100,000 tokens are available per day to ensure a wide distribution.
+Each EOS token holder can claim **100 FREE Carmel Tokens**. Another 50 Carmel Tokens can be earned as bounty for inviting a friend, for up to 5 friends.
 
-Tokens can be claimed at carmel.io on a first come first serve basis. Holders are required to complete a form and provide their Ethereum address in order to prove their EOS token ownership. If they have MetaMask installed, the claim is instant, otherwise, it will have to be manual. Holders are also encouraged to enter their name and email address as optional fields, in order to join the Carmel Priority List and receive early purchasing access during the Public Pre-Sale period.
+The total amount of free Carmel Tokens that can be claimed per EOS token holder is **350**, thus making the distribution available to at least 10,000 EOS token holders. A **maximum of 100,000 tokens are available per day** to ensure a wide distribution.
 
-Period 3: May 7 - June 11 (5 weeks) - Public Pre-Sale
+Tokens can be claimed online at [carmel.io](https://www.carmel.io/tokens) on a first come first serve basis.
 
-A total (hard cap) of 7,000,000 Carmel Tokens (10% of total supply) are sold at a progressive discount from the Public Sale price of $1.00 USD. The discount starts at 50% and decreases 10% progressively every week. The accepted currency is ETH at a fixed price calculated as the ETH equivalent of $1.00 USD on Day 1 of the period. A maximum of 200,000 tokens are available per day to ensure a wide distribution. There is a maximum number of 20,000 tokens per day per contributor.
+#### Period 3
 
-Tokens can be purchased at carmel.io on a first come first serve basis. Buyers can select a predefined amount of tokens (100, 250, 500, 1000, 5000, 10000, 20000) or enter any amount between 50 and 20,0000. The price in ETH is determined based on the active discount. If they have MetaMask installed, the purchase is instant, otherwise, it will have to be manual. The ETH is sent from the Carmel Ethereum Wallet address (not a smart contract). Buyers are also encouraged to enter their name and email address as optional fields, in order to join the Carmel Priority List and receive early purchasing access during the Public Sale period.
+**Public Pre-Sale: May 7 - June 11 (5 weeks)**
 
-Period 4: June 11 - August 20 (10 weeks) - Public Sale
+A total (**hard cap**) of **7,000,000 Carmel Tokens** (10% of total supply) are sold at a progressive discount from the Public Sale price of $1.00 USD.
 
-A total (hard cap) of 28,000,000 Carmel Tokens (40% of total supply) are sold as ERC-20 tokens. The accepted currency is ETH at a fixed price. The price is the ETH equivalent of $1.00 USD on Day 1 of the sale. A maximum of 400,000 tokens are available per day to ensure a wide distribution. There is a maximum number of 40,000 tokens per day per contributor.
+The **discount starts at 50%** and **decreases 10%** progressively every week. The accepted currency is ETH at a fixed price calculated as the ETH equivalent of $1.00 USD on Day 1 of the period. A maximum of 200,000 tokens are available per day to ensure a wide distribution. There is a maximum number of 20,000 tokens per day per contributor.
 
-Tokens can be purchased at carmel.io on a first come first serve basis. Buyers can select a predefined amount of tokens (100, 250, 500, 1000, 5000, 10000, 20000, 40000) or enter an amount between 50 and 40,000. If they have MetaMask installed, the purchase is instant, otherwise, it will have to be manual. The ETH is sent the the Carmel Ethereum Smart Contract address. Buyers are also encouraged to enter their name and email address as optional fields, in order to join the Carmel Priority List and receive early and privileged access to the Carmel Platform before general availability.
+Tokens can be purchased online at [carmel.io](https://www.carmel.io/tokens) on a first come first serve basis.
+
+#### Period 4
+
+**Public Sale: June 11 - August 20 (10 weeks)**
+
+A total (**hard cap**) of **28,000,000 Carmel Tokens** (40% of total supply) are sold as ERC-20 tokens. The accepted currency is ETH at a fixed price.
+
+The price is the **ETH equivalent of $1.00 USD** calculated at the Daily ETH rate.
+
+A maximum of 400,000 tokens are available per day to ensure a wide distribution. There is a maximum number of 40,000 tokens per day per contributor.
+
+Tokens can be purchased at [carmel.io](https://www.carmel.io/tokens) on a first come first serve basis.
 
 ## Technology Stack
 
