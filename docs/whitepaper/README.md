@@ -478,20 +478,14 @@ Carmel's parent company is Fluid Trends, incorporated under the laws of Romania.
 
 The co-founders and owners of Fluid Trends, are **Dan Calinescu**, **Andrei Lazurca** and **Andi Coman**, all based of out Cluj, Romania. Dan oversees the company strategically and technically including Business & Product Strategy, while Andrei handles Product & Community Management and Andi works on Product Development.
 
+**Dan Calinescu, CEO & Co-founder**
 <img align="left" style="margin: 20px" width="60" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/assets/dan.png">
 
-**Dan Calinescu**
-**CEO and Co-founder, Fluid Trends**
+Dan is a seasoned technical entrepreneur, having developed software products for the last two decades. He co-founded three tech startups and was an early employee for a fourth. Fluid Trends is his latest venture which he founded in 2010 as a Digital Agency before shifting focus to original Product Creation. Dan has worked with of dozens of global brands and hundreds of developers, drove sales efforts, led marketing campaigns and devised business strategies - and even mopped the floor when necessary. Dan graduated in 2003 from the University of Toronto with an Honours Bachelor of Science Degree in Computer Science and currently lives in Cluj, Romania with his wife and their four children.
 
-<img align="left" style="margin: 20px" width="60" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/assets/andrei.jpg">
+**Andrei Lazurca, Product Manager & Co-founder**
 
-##### Andrei Lazurca
-
-**Product Manager and Co-founder, Fluid Trends**
-
-##### Andi Coman
-
-**Product Developer and Co-founder, Fluid Trends**
+**Andi Coman, Product Developer & Co-founder**
 
 ## Community
 
