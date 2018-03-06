@@ -28,6 +28,7 @@ export default class MainDashboardScreen extends Screen {
     this.state = { ...this.state, loading: false }
     this._onSectionSelect = this.onSectionSelect.bind(this)
     this._register = this.register.bind(this)
+    this._reset = this.reset.bind(this)
     this._login = this.login.bind(this)
     this._renderSectionContent = this.renderSectionContent.bind(this)
     this._dashboardAction = this.dashboardAction.bind(this)
@@ -48,11 +49,15 @@ export default class MainDashboardScreen extends Screen {
   }
 
   register () {
-    this.setState({ register: true })
+    this.setState({ register: true, resetPassword: false })
+  }
+
+  reset () {
+    this.setState({ resetPassword: true })
   }
 
   login () {
-    this.setState({ register: false })
+    this.setState({ register: false, resetPassword: false })
   }
 
   loadDashboard (account) {
@@ -65,7 +70,8 @@ export default class MainDashboardScreen extends Screen {
     return <ChunkComponents.Login
       error={this.state.loginError}
       signIn={this.props.signIn}
-      onRegister={this._register} />
+      onRegister={this._register}
+      onResetPassword={this._reset} />
   }
 
   renderRegister () {
@@ -73,6 +79,10 @@ export default class MainDashboardScreen extends Screen {
       error={this.state.registerError}
       signUp={this.props.signUp}
       onLogin={this._login} />
+  }
+
+  renderResetPassword () {
+    return <ChunkComponents.ResetPassword error={this.state.registerError} onLogin={this._login} />
   }
 
   didRegister () {
@@ -200,6 +210,9 @@ export default class MainDashboardScreen extends Screen {
     }
 
     if (!this.isLoggedIn) {
+      if (this.state.resetPassword) {
+        return this.renderResetPassword()
+      }
       return this.state.register ? this.renderRegister() : this.renderLogin()
     }
 
