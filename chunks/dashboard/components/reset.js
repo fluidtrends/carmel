@@ -39,6 +39,11 @@ export default class RegisterComponent extends Component {
  
   done () {
 
+    if (!this.state.email) {
+      this.setState({ message: errors.email, messageType: 'error', loading: false })
+      return
+    }
+
     this.setState({ message: succes.email, messageType: 'succes', loading: false })
 
     this.props.resetPassword({
