@@ -342,9 +342,14 @@ Undistributed tokens are placed in the Fluid Fund. No tokens are burned and no n
 
 #### Period 1
 
-February 26 - April 2 (5 weeks) - Private Sale
+**Private Sale: February 26 - April 2 (5 weeks)**
 
-A total of 3,500,000 Carmel Tokens (5% of total supply) are sold privately at a discount of 50% or more. Tokens are sold privately on a one-on-one basis. Email inquiries about the private sale can be sent to team@fluidtrends.com during the entire duration of the sale.
+A total of **3,500,000 Carmel Tokens** (5% of total supply) are sold privately at a discount of 50% or more.
+
+Tokens can be purchased online at [carmel.io/tokens](https://www/carmel.io/tokens)
+
+
+Tokens are sold privately on a one-on-one basis. Email inquiries about the private sale can be sent to team@fluidtrends.com during the entire duration of the sale.
 
 Period 2: April 2 - May 7 (5 weeks) - EOS AirDrop
 

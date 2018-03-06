@@ -52,7 +52,7 @@
       "title": "Stories",
       "icon": "supervisor_account",
       "path": "/:person",
-      "skipPaths": ["story", "dashboard", "levelup", "wallet", "community", "challenges", "me"],
+      "skipPaths": ["story", "dashboard", "levelup", "tokens", "wallet", "community", "challenges", "me"],
       "skipRootVariant": true,
       "events": {
         "cover": "local://stories"
