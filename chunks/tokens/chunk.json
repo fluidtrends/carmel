@@ -4,7 +4,7 @@
     "main": {
       "title": "Get Tokens",
       "icon": "favorite",
-      "path": "/levelup",
+      "path": "/tokens",
       "action": true,
       "events": {
         "cover": "local://tokens"
