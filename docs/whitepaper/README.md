@@ -28,7 +28,8 @@ Carmel is a blockchain-based Open Source Education Platform that helps aspiring 
   * [Tokens](#tokens)
 * [Token Economy](#token-economy)
   * [Token Value](#token-value)
-  * [Transactions](#transactions) *In Progress*
+  * [Experience Points](#experience-points)
+  * [Challenge Audits](#challenge-audits)
 * [Architecture](#architecture)
   * [Blockchain App](#blockchain-app)
   * [Private Cloud](#private-cloud)
@@ -247,9 +248,34 @@ So for example, let's take a look at the following scenario, with Chris our hero
 5. Chris confirms the purchase, and 5 Carmel Tokens are transferred from Chris' Carmel Wallet to Bob's Carmel Wallet.
 6. Chris can complete the challenge now and upon successful completion, he will be awarded 15 XP.
 
-#### Transactions
+Another important note about Challenge Authoring is that we although more difficult Challenges are worth more, want Challenge Authors to create a lot more challenges for beginners, like Chris.
 
-[In Progress](https://github.com/fluidtrends/carmel/issues/18)
+In order to incentivise Authors to create Beginner & Junior challenges, authors will have to **unlock the right to create challenges for higher levels**, only after creating a set number of challenges for lower levels.
+
+
+#### Challenge audits
+
+To ensure **accountability** and **quality**, Challenges are audited and "accepted" (verified) first by other "Verified" Authors. These are valued Carmel Members that are trusted by the Community.
+
+Audits are incentivised by **rewarding 5% of the challenge value to the Auditor**.
+
+In order to publish a challenge, it has to have at least 1 successful audit. If it has more audits, it bubbles up in the **search results** and in the **recommendations** and the system will overall favor better audited challenges.
+
+Developers will also be incentivized to take on more audited challenges because they will award them **more XP based on the number of audits**.
+
+Authors will also be incentivised because **higher audited challenges are more likely to sell**.
+
+Here's a breakdown of XP bonuses:
+
+- 1 audit: no XP bonus
+- 2 audits: 5% XP bonus
+- 3 audits: 10% XP bonus
+- 4 audits: 15% XP bonus
+- 5 audits: 20% XP bonus
+
+Challenge Authors can create **Audit Requests** which are broadcast in the Carmel Platform to all those members who have been awarded Auditor Status in the platform. An Audit Request can be answered by an Auditor with an Audit Response.
+
+The Carmel Platform will automatically choose from all Audit Responses the ones that are the likeliest to ensure fairness, based on an algorithm that takes into account several factors, such as how many audits each Auditor has previously completed successfully, if any are currently in progress and based on an overall rating of trust in the platform.
 
 ## Architecture
 
