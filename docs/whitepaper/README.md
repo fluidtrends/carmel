@@ -201,6 +201,52 @@ In essence, each developer in the Carmel community, can measure their skill set 
 
 The value of the token will fluctuate as demand for Carmel Challenges increases. In other words, as developers grow in their skill set by completing more challenges, the more transactions will occur in the Carmel Economy and the higher the value of the Carmel Token will rise. The value of a single Carmel Token is thus directly proportional to the overall value of the network. The more people will learn and draw real value from the platform, the more the token will grow in value as well.
 
+#### Experience Points
+
+Although we're interested in the growth of the Carmel Token, we're faced with a serious pricing problem.
+
+Here's the problem. We want Challenge Authors to set a price for their Challenges because they know best what the learning value of the Challenge is. The community can rate (vote) the Challenge and confirm/unconfirm the value but that's another issue. The question at hand is how does the Author set the price for the Challenge and how does that price change? Does it change?
+
+Here's the scenario:
+
+1. Bob (the Author) creates a Challenge ("Deploy a static site to an AWS S3 bucket")
+2. Bob writes the instructions (Tutorial) (a list of steps to follow)
+3. Bob writes the validation script (to test that the challenge was completed)
+4. Bob adds a difficulty level (Intermediate)
+5. Bob adds a category (DevOps)
+6. Bob presses publish.
+
+Ideally, we would not want Bob (the Author) do anything more than this. In order to achieve this, what we want, is for the Carmel Platform to automatically figure out the right pricing of the Challenge, in Carmel Tokens. But, without losing sight of the fact that we want to give Bob a way to control the value of the Challenge he authored.
+
+We can do that through **Carmel Experience Points** (Carmel XP).
+
+We can think of Carmel XP as just a **flavor** of Carmel Tokens, but a stable one.
+
+**1 Carmel XP = 1 USD** for the lifetime of the economy.
+
+We also fix a number of Carmel XP to a Challenge Difficulty. Like so:
+
+- Beginner: 5 XP
+- Entry: 10 XP
+- Intermediate: 15 XP
+- Advanced: 20 XP
+- Expert: 25 XP
+
+Having all this in place, gives our economy the properties that most interest us. We essentially give authors a pricing range worth between $5 USD and $25 USD for a particular Challenge, so they're in charge of setting the price, by choosing the difficulty. At the same time, we keep the price for a Challenge stable so that it remains fairly priced even if the Carmel Token fluctuates. We want the prices chosen for a Challenge to be as immutable as possible so that different people taking the challenge at different times are charged the same fair price, based on difficulty.
+
+To visualise all this, let's continue the example above and take it one step further. Let's see what happens when someone purchases Bob's Challenge.
+
+Bob's new Challenge, along with the other challenges available are now listed on a Carmel Challenge Board and the price for each Challenge is updated in Real Time based on the value of the Carmel Token.
+
+So for example, let's take a look at the following scenario, with Chris our hero in the lead role this time:
+
+1. Chris finds Bob's Challenge and wants to take it
+2. Chris purchases the Challenge at an instance we can call the Time of Purchase instance (TOP).
+3. At the TOP instance Chris purchases Bob's Challenge, 1 Carmel Token is worth $3 USD.
+4. The price of Bob's challenge at the TOP instance when Chris buys it is 5 Carmel Tokens.
+5. Chris confirms the purchase, and 5 Carmel Tokens are transferred from Chris' Carmel Wallet to Bob's Carmel Wallet.
+6. Chris can complete the challenge now and upon successful completion, he will be awarded 15 XP.
+
 #### Transactions
 
 [In Progress](https://github.com/fluidtrends/carmel/issues/18)
