@@ -49,7 +49,7 @@ export default class MainTokensScreen extends Screen {
           tag='div'
           style={{padding: '0.5rem 1rem', textAlign: 'center', padding: '20px'}}
           theme='text-secondary-on-background'>
-            Sign In To Level Up Your Carmel Account
+            Sign In To Your Carmel Account
           </Typography>
 
         <ListDivider style={{marginBottom: '20px'}} />
@@ -61,11 +61,11 @@ export default class MainTokensScreen extends Screen {
               marginTop: '0px'}}>
               <CardActionButtons>
                 <Button
-                  onClick={() => this.triggerRedirect(`/me/levelup`)}
+                  onClick={() => this.triggerRedirect(`/me/tokens`)}
                   raised
                   theme='secondary-bg text-primary-on-secondary'
                   style={{margin: '20px'}}>
-                Sign In To Level Up
+                Sign In To Get Tokens
                 </Button>
               </CardActionButtons>
             </CardActions>
