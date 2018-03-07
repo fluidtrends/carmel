@@ -10,7 +10,7 @@ Each of these tracks converge in a weekly deliverable - rain or shine - we deliv
 
 ## Week 2
 
-[!(https://img.shields.io/badge/status-In%20Progress-orange.svg)](https://github.com/fluidtrends/carmel/milestone/1)
+[![](https://img.shields.io/badge/status-In%20Progress-orange.svg)](https://github.com/fluidtrends/carmel/milestone/1)
 
 Release objective: TELL THE STORY. It's time to start talking about Carmel and about what it is that we believe and what we're all about. We want to start unpacking some of the big ideas that make up the #CarmelStory, such as the Big Carmel Dream (#H>m), the main problem we're trying to solve (#HelpingChrisSleepAtNight) and the Unique Carmel Value Proposition (#TheCarmelWay).
 
@@ -23,7 +23,7 @@ Release objective: TELL THE STORY. It's time to start talking about Carmel and a
 
 ## Week 1
 
-[!(https://img.shields.io/badge/Status:-Complete-green.svg)](https://github.com/fluidtrends/carmel/milestone/2)
+[![](https://img.shields.io/badge/Status:-Complete-green.svg)](https://github.com/fluidtrends/carmel/milestone/2)
 
 Release objective: SELL FIRST TOKENS. We want to enable the very early adopters of the platform who signed up to the website in the previous week, to participate in the private sale. We want to do this by integrating the website with MetaMask and allowing our community to send Ether transactions to the Carmel Private Sale Ethereum address.
 
@@ -34,7 +34,7 @@ Release objective: SELL FIRST TOKENS. We want to enable the very early adopters 
 
 ## Week 0
 
-[!(https://img.shields.io/badge/Status:-Complete-green.svg)](https://github.com/fluidtrends/carmel/milestone/1)
+[![](https://img.shields.io/badge/Status:-Complete-green.svg)](https://github.com/fluidtrends/carmel/milestone/1)
 
 Release objective: LAUNCH THE WEBSITE. The main purpose of this milestone is to officially launch the initial version of the product. We want to see a website published at carmel.io and ready to be used, even if it is extremely low in terms of features. We want users to sign up and register to the website so we can start building a community from day one.
 
