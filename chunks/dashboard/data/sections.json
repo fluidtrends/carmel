@@ -5,7 +5,6 @@
     "title": "Tokens",
     "component": "Level"
   },
-
   {
     "path": "logout",
     "menuTitle": "Sign Out",

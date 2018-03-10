@@ -1,5 +1,6 @@
 import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
+import { Newsletter } from '../components'
 
 export default class MainIntroScreen extends Screen {
 
