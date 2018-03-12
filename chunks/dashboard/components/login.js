@@ -30,6 +30,7 @@ export default class LoginComponent extends Component {
     super(props)
     this._done = this.done.bind(this)
     this._register = this.register.bind(this)
+    this.onKeyPress = this.onKeyPress.bind(this)
     this.state = { ...super.state }
   }
 
@@ -83,6 +84,12 @@ export default class LoginComponent extends Component {
     </div>
   }
 
+  onKeyPress(event) {
+    if(event.key == 'Enter') {
+      this._done()
+    }
+  }
+
   render () {
     const width = this.props.isSmallScreen ? '95vw' : '600px'
     const padding = this.props.isSmallScreen ? '2px' : '30px'
@@ -96,10 +103,12 @@ export default class LoginComponent extends Component {
         { this.renderLoading() }
 
         <TextField disabled={this.state.loading && !this.error} outlined withLeadingIcon='email' label={this.state.email ? '' : 'Enter your email address'}
-          onChange={(val) => this.setState({ email: val.target.value, error: '' })} />
+          onChange={(val) => this.setState({ email: val.target.value, error: '' })}
+          onKeyPress={this.onKeyPress} />
 
         <TextField type='password' disabled={this.state.loading && !this.error} outlined withLeadingIcon='lock' label={this.state.password ? '' : 'Enter your password'}
-          onChange={(val) => this.setState({ password: val.target.value, error: '' })} />
+          onChange={(val) => this.setState({ password: val.target.value, error: '' })}
+          onKeyPress={this.onKeyPress} />
 
         <CardActions style={{justifyContent: 'center', margin: '20px'}}>
           <CardActionButtons>
