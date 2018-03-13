@@ -2,9 +2,9 @@
   "name": "platform",
   "routes": {
     "main": {
-      "title": "Platform",
+      "title": "Whitepaper",
       "icon": "favorite",
-      "path": "/platform",
+      "path": "/whitepaper",
       "events": {
         "cover": "local://platform"
       },
@@ -13,7 +13,7 @@
         "align": "bottom",
         "opacity": 0.5,
         "navigation": true,
-        "title": "Carmel Platform",
+        "title": "The Carmel Whitepaper",
         "type": "simple"
       },
       "variants": "sections"
