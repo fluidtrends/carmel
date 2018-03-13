@@ -16,9 +16,9 @@ Carmel is a Decentralized Tech Education Platform that helps people like Chris a
 
 The Carmel Token Distribution started on February 26, 2018 and ends on August 20, 2018, for a total of 25 weeks. A 60% stake of the total 70,000,000 Carmel Tokens is available for purchase at a starting token price of $1.00 USD. The 25-week distribution is comprised of 4 distinct periods:
 
-1. Private Sale: February 26 - April 2 (5 weeks)- 3,500,000	Carmel Tokens at a 90% Discount
-2. EOS AirDrop: April 2 - May 7 (5 weeks)	- 3,500,000	Carmel Tokens FREE for EOS Token Holders
-3. Public Pre-Sale: May 7 - June 11 (5 weeks)	- 7,000,000	Carmel Tokens at 50% to 10% Discounts
-4. Public Sale	June 11 - August 20 (10 weeks) - 28,000,000	Carmel Tokens at no discount
+ 1. Private Sale: February 26 - April 2 (5 weeks)- 3,500,000	Carmel Tokens at a 90% Discount
+ 2. EOS AirDrop: April 2 - May 7 (5 weeks)	- 3,500,000	Carmel Tokens FREE for EOS Token Holders
+ 3. Public Pre-Sale: May 7 - June 11 (5 weeks)	- 7,000,000	Carmel Tokens at 50% to 10% Discounts
+ 4. Public Sale	June 11 - August 20 (10 weeks) - 28,000,000	Carmel Tokens at no discount
 
 Come visit us online at [www.carmel.io](https://www.carmel.io) to purchase your Carmel Tokens and for more information.
