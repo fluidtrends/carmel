@@ -1,0 +1,17 @@
+[{
+  "name": "meet-chris",
+  "image": "https://github.com/fluidtrends/carmel/raw/content/story/meet-chris/cover.png",
+  "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/story/meet-chris/cover-small.png",
+  "backgroundColor": "#ffffff",
+  "path": "meet-chris",
+  "title": "Meet Chris",
+  "details": "Chris is a 40 year old father who has the type of job that can be easily replaced by robots. What keeps Chris up at night ...",
+  "actionTitle": "Continue Reading",
+  "action": {
+    "handler": "local://story/meet-chris"
+  },
+  "content": {
+    "text": "github://fluidtrends/carmel/content/story/meet-chris/README",
+    "textColor": "#37474F"
+  }
+}]
