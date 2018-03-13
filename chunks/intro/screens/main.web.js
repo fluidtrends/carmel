@@ -1,6 +1,6 @@
 import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
-import { Newsletter } from '../components'
+import { Telegram } from '../components'
 
 export default class MainIntroScreen extends Screen {
 
@@ -13,8 +13,10 @@ export default class MainIntroScreen extends Screen {
     super.componentDidMount()
   }
 
+
+
   get features () {
-    return ([])
+    return (<Telegram onAction={ () => { this.triggerRawRedirect('https://t.me/carmelplatform') } }/>)
   }
 
   components () {
