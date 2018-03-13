@@ -1,7 +1,7 @@
 # Whitepaper
 
 * [Introduction](https://github.com/fluidtrends/carmel/docs/whitepaper/introduction)
-* [Decentralized Community](https://github.com/fluidtrends/carmel/docs/whitepaper/decentralized-community)
+* [Decentralized Community](https://github.com/fluidtrends/carmel/docs/whitepaper/decentralized-community/README.md)
   * [Community Stakeholders](https://github.com/fluidtrends/carmel/docs/whitepaper/decentralized-community/community-stakeholders) *In Progress*
 * [Educational Model](https://github.com/fluidtrends/carmel/docs/whitepaper/educational-model)
   * [Hands On](https://github.com/fluidtrends/carmel/docs/whitepaper/educational-model/hands-on)
