@@ -1,7 +1,5 @@
 ## Decentralized Community
 
-<img align="center" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/developers.png">
-
 There are several online platforms catering to people like Chris today. The problem is that they are all operating under a centralized architecture and business model, where the platform acts as a third party between teachers and students, dominating the entire teaching and learning experience.
 
 The challenge with centralized education is that it is highly modelled around the needs of the central party running the show, while the teachers and students are treated as second class citizens in the system.

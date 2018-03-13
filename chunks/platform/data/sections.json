@@ -1,0 +1,93 @@
+[
+    {
+      "path": "intro",
+      "menuTitle": "Introduction",
+      "title": "Introduction",
+      "text": "github://fluidtrends/carmel/master/docs/whitepaper/introduction/README"
+    },
+    {
+      "path": "decentralized",
+      "menuTitle": "Decentralized community",
+      "title": "Decentralized community",
+      "text": "github://fluidtrends/carmel/master/docs/whitepaper/decentralized-community/README"
+    },
+    {
+      "path": "education",
+      "menuTitle": "Educational model",
+      "title": "Educational model",
+      "text": "github://fluidtrends/carmel/master/docs/whitepaper/educational-model/README"
+    },
+    {
+      "path": "challenges",
+      "menuTitle": "Challenges",
+      "title": "Challenges",
+      "text": "github://fluidtrends/carmel/master/docs/whitepaper/challenges/README"
+    },
+    {
+      "path": "tokens",
+      "menuTitle": "Tokens economy",
+      "title": "Tokens economy",
+      "text": "github://fluidtrends/carmel/master/docs/whitepaper/token-economy/README"
+    },
+    {
+      "path": "arhitecture",
+      "menuTitle": "Arhitecture",
+      "title": "Arhitecture",
+      "text": "github://fluidtrends/carmel/master/docs/whitepaper/arhitecture/README"
+    },
+    {
+      "path": "security",
+      "menuTitle": "Security",
+      "title": "Security",
+      "text": "github://fluidtrends/carmel/master/docs/whitepaper/security/README"
+    },
+    {
+      "path": "token-distribution",
+      "menuTitle": "Token distribution",
+      "title": "Token distribution",
+      "text": "github://fluidtrends/carmel/master/docs/whitepaper/token-distribution/README"
+    },
+    {
+      "path": "technology-stack",
+      "menuTitle": "Technology stack",
+      "title": "Technology stack",
+      "text": "github://fluidtrends/carmel/master/docs/whitepaper/technology-stack/README"
+    },
+    {
+      "path": "company",
+      "menuTitle": "Company",
+      "title": "Company",
+      "text": "github://fluidtrends/carmel/master/docs/whitepaper/company/README"
+    },
+    {
+      "path": "community",
+      "menuTitle": "Community",
+      "title": "Community",
+      "text": "github://fluidtrends/carmel/master/docs/whitepaper/community/README"
+    },
+    {
+      "path": "contributors",
+      "menuTitle": "Contributors",
+      "title": "Contributors",
+      "text": "github://fluidtrends/carmel/master/docs/whitepaper/contributors/README"
+    },
+    {
+      "path": "partners",
+      "menuTitle": "Partners",
+      "title": "Partners",
+      "text": "github://fluidtrends/carmel/master/docs/whitepaper/partners/README"
+    },
+    {
+      "path": "glossary",
+      "menuTitle": "Glossary",
+      "title": "Glossary",
+      "text": "github://fluidtrends/carmel/master/docs/whitepaper/glossary/README"
+    },
+    {
+      "path": "references",
+      "menuTitle": "References",
+      "title": "References",
+      "text": "github://fluidtrends/carmel/master/docs/whitepaper/references/README"
+    }
+  ]
+  

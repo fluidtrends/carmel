@@ -1,0 +1,22 @@
+{
+  "name": "platform",
+  "routes": {
+    "main": {
+      "title": "Platform",
+      "icon": "favorite",
+      "path": "/platform",
+      "events": {
+        "cover": "local://platform"
+      },
+      "cover": {
+        "backgroundColor": "#00838F",
+        "align": "bottom",
+        "opacity": 0.5,
+        "navigation": true,
+        "title": "Carmel Platform",
+        "type": "simple"
+      },
+      "variants": "sections"
+    }
+  }
+}
