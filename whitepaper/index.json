@@ -5,7 +5,8 @@
       "title": "Introduction",
       "text": "github://fluidtrends/carmel/content/whitepaper/introduction/README",
       "cover": {
-        "title": "Meet Chris"
+        "title": "Meet Chris",
+        "image": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/introduction/cover.png"
       }
     },
     {
@@ -14,7 +15,8 @@
       "title": "Decentralized community",
       "text": "github://fluidtrends/carmel/content/whitepaper/decentralized-community/README",
       "cover": {
-        "title": "The Carmel Community"
+        "title": "The Carmel Community",
+        "image": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/community/cover.png"
       }
     },
     {
