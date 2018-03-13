@@ -57,6 +57,7 @@
       "menuTitle": "Token Distribution",
       "title": "Token Distribution",
       "text": "github://fluidtrends/carmel/content/whitepaper/token-distribution/README",
+      "action": true,
       "cover": {
         "title": "Token Distribution"
       }
