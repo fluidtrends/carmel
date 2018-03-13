@@ -125,7 +125,7 @@
       "path": "contribution",
       "menuTitle": "Contribution Bounties",
       "title": "Contribution Bounties",
-      "text": "github://fluidtrends/carmel/content/whitepaper/contributors/README",
+      "text": "github://fluidtrends/carmel/content/whitepaper/contribution/README",
       "cover": {
         "title": "Contribution Bounties",
         "image": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/contribution/large.png",
@@ -138,7 +138,9 @@
       "title": "Glossary",
       "text": "github://fluidtrends/carmel/content/whitepaper/glossary/README",
       "cover": {
-        "title": "Glossary"
+        "title": "Glossary",
+        "image": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/glossary/large.png",
+        "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/glossary/small.png"
       }
     },
     {
@@ -147,7 +149,9 @@
       "title": "References",
       "text": "github://fluidtrends/carmel/content/whitepaper/references/README",
       "cover": {
-        "title": "References"
+        "title": "References",
+        "image": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/references/large.png",
+        "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/references/small.png"
       }
     }
   ]
