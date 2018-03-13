@@ -8,7 +8,7 @@
       "index": "https://raw.githubusercontent.com/fluidtrends/carmel/content/story/index.json",
       "cover": {
         "backgroundColor": "#00838F",
-        "opacity": 0.3,
+        "opacity": 0.6,
         "navigation": true,
         "image": "writer.jpg",
         "title": "Follow The #CarmelStory",
