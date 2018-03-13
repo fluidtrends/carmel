@@ -9,10 +9,6 @@
         "cover": "local://me"
       },
       "extendedMenu": [
-        { "id": "whitepaper",
-          "title": "Whitepaper",
-          "link": "https://github.com/fluidtrends/carmel/blob/master/docs/whitepaper/README.md",
-          "universal": true },
         { "id": "telegram",
           "title": "Telegram",
           "link": "https://t.me/carmelplatform",
@@ -52,7 +48,7 @@
       "title": "Stories",
       "icon": "supervisor_account",
       "path": "/:person",
-      "skipPaths": ["story", "admin", "dashboard", "levelup", "tokens", "wallet", "community", "challenges", "me"],
+      "skipPaths": ["story", "platform", "admin", "dashboard", "levelup", "tokens", "wallet", "community", "challenges", "me"],
       "skipRootVariant": true,
       "events": {
         "cover": "local://stories"
