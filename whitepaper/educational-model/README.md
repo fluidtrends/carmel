@@ -1,5 +1,3 @@
-## Educational Model
-
 One of the major drawbacks of most available online education is that much too often it's merely an extension of the traditional classroom, using technology. In a typical online video learning model, which dominates the current tech educational model, the teacher lectures the student via video, much like a traditional teacher would lecture students in a college classroom.
 
 In the real world, at the office, software developers learn in a much more direct and hands-on way. They are rarely lectured and are much more self-directed. The knowledge is shared from peer to peer and the learning experience is highly personal and self-determined. The content is also broken down into much smaller pieces than a typical lecture and it's usually very specific to a problem to be solved.
