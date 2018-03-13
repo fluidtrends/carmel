@@ -1,5 +1,3 @@
-# Meet Chris
-
 Chris is a 40 year old father who has the type of job that can be easily replaced by robots. What keeps Chris up at night is the thought that soon, he might lose his job and not be able to provide for his family. There are many people like Chris out there, holding down jobs that are at risk with the rise of AI machines.
 
 Robots are well on their way to replace 30% of UK jobs by the early 2030s and 38% of US jobs, as research by PWC shows in a recent report. Robots are changing the future of work as we know it. Any job that can be done by a robot, will be done by a robot, whether we like it or not.
