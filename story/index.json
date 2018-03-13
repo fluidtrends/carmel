@@ -31,4 +31,21 @@
     "text": "github://fluidtrends/carmel/content/story/eosgo/README",
     "textColor": "#37474F"
   }
+},
+{
+  "name": "workshop1",
+  "image": "https://github.com/fluidtrends/carmel/raw/content/story/workshop1/large.png",
+  "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/story/workshop1/small.png",
+  "backgroundColor": "#ffffff",
+  "path": "eosgo",
+  "title": "The First Carmel Workshop",
+  "details": "We started the first Carmel Workshop where we bring the local Carmel Community together, face to face ...",
+  "actionTitle": "Continue Reading",
+  "action": {
+    "handler": "local://story/workshop1"
+  },
+  "content": {
+    "text": "github://fluidtrends/carmel/content/story/workshop1/README",
+    "textColor": "#37474F"
+  }
 }]
