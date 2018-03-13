@@ -11,12 +11,14 @@
       "cover": {
         "backgroundColor": "#00838F",
         "align": "bottom",
-        "opacity": 0.5,
+        "opacity": 0.2,
         "navigation": true,
-        "title": "The Carmel Whitepaper",
-        "type": "simple"
+        "title": "Meet Chris",
+        "type": "presentation",
+        "image": "https://raw.githubusercontent.com/fluidtrends/carmel/content/whitepaper/introduction/cover.png",
+        "imageSmall": "https://raw.githubusercontent.com/fluidtrends/carmel/content/whitepaper/introduction/cover-small.png"
       },
-      "variants": "sections"
+      "variants": "https://raw.githubusercontent.com/fluidtrends/carmel/content/whitepaper/index.json"
     }
   }
 }
