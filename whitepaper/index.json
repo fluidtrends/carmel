@@ -70,7 +70,7 @@
       "path": "architecture",
       "menuTitle": "Platform Architecture",
       "title": "Platform Architecture",
-      "text": "github://fluidtrends/carmel/content/whitepaper/arhitecture/README",
+      "text": "github://fluidtrends/carmel/content/whitepaper/architecture/README",
       "cover": {
         "title": "Platform Architecture",
         "image": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/architecture/large.png",
@@ -83,7 +83,7 @@
       "title": "Security Model",
       "text": "github://fluidtrends/carmel/content/whitepaper/security/README",
       "cover": {
-        "title": "System Model",
+        "title": "Security Model",
         "image": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/security/large.png",
         "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/security/small.png"
       }
@@ -100,30 +100,36 @@
       }
     },
     {
+      "path": "company",
+      "menuTitle": "Company Overview",
+      "title": "Company Overview",
+      "text": "github://fluidtrends/carmel/content/whitepaper/company/README",
+      "cover": {
+        "title": "Company Overview",
+        "image": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/company/large.png",
+        "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/company/small.png"
+      }
+    },
+    {
       "path": "partners",
       "menuTitle": "Partner Network",
       "title": "Partner Network",
       "text": "github://fluidtrends/carmel/content/whitepaper/partners/README",
       "cover": {
-        "title": "Partner Network"
+        "title": "Partner Network",
+        "image": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/partners/large.png",
+        "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/partners/small.png"
       }
     },
     {
-      "path": "contributors",
-      "menuTitle": "Contributors",
-      "title": "Contributors",
+      "path": "contribution",
+      "menuTitle": "Contribution Bounties",
+      "title": "Contribution Bounties",
       "text": "github://fluidtrends/carmel/content/whitepaper/contributors/README",
       "cover": {
-        "title": "Contributors"
-      }
-    },
-    {
-      "path": "community",
-      "menuTitle": "Community",
-      "title": "Community",
-      "text": "github://fluidtrends/carmel/content/whitepaper/community/README",
-      "cover": {
-        "title": "Community"
+        "title": "Contribution Bounties",
+        "image": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/contribution/large.png",
+        "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/contribution/small.png"
       }
     },
     {
