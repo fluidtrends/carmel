@@ -48,7 +48,7 @@
       "title": "Stories",
       "icon": "supervisor_account",
       "path": "/:person",
-      "skipPaths": ["story", "platform", "admin", "dashboard", "levelup", "tokens", "wallet", "community", "challenges", "me"],
+      "skipPaths": ["story", "whitepaper", "platform", "admin", "dashboard", "levelup", "tokens", "wallet", "community", "challenges", "me"],
       "skipRootVariant": true,
       "events": {
         "cover": "local://stories"
