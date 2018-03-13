@@ -1,0 +1,29 @@
+{
+  "name": "story",
+  "routes": {
+    "main": {
+      "title": "Story",
+      "icon": "home",
+      "path": "/story",
+      "cover": {
+        "backgroundColor": "#00838F",
+        "opacity": 0.3,
+        "navigation": true,
+        "image": "writer.jpg",
+        "title": "Follow The #CarmelStory",
+        "type": "simple"
+      }
+    },
+    "post": {
+      "icon": "home",
+      "path": "/story",
+      "skipRootVariant": true,
+      "variants": "posts",
+      "cover": {
+        "backgroundColor": "#00838F",
+        "navigation": true,
+        "type": "default"
+      }
+    }
+  }
+}
