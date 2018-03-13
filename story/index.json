@@ -1,7 +1,7 @@
 [{
   "name": "meet-chris",
-  "image": "https://github.com/fluidtrends/carmel/raw/content/story/meet-chris/cover.png",
-  "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/story/meet-chris/cover-small.png",
+  "image": "https://github.com/fluidtrends/carmel/raw/content/story/meet-chris/large.png",
+  "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/story/meet-chris/small.png",
   "backgroundColor": "#ffffff",
   "path": "meet-chris",
   "title": "Meet Chris",
@@ -12,6 +12,23 @@
   },
   "content": {
     "text": "github://fluidtrends/carmel/content/story/meet-chris/README",
+    "textColor": "#37474F"
+  }
+},
+{
+  "name": "eosgo",
+  "image": "https://github.com/fluidtrends/carmel/raw/content/story/eosgo/large.png",
+  "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/story/eosgo/small.png",
+  "backgroundColor": "#ffffff",
+  "path": "eosgo",
+  "title": "EOS Go Live Interview",
+  "details": "Watch the full Launch Interview with Dan Calinescu on episode 1 of the LIVE weekly EOS talk show EOSRad.io",
+  "actionTitle": "Continue Reading",
+  "action": {
+    "handler": "local://story/eosgo"
+  },
+  "content": {
+    "text": "github://fluidtrends/carmel/content/story/eosgo/README",
     "textColor": "#37474F"
   }
 }]
