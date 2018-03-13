@@ -17,8 +17,8 @@
       "text": "github://fluidtrends/carmel/content/whitepaper/decentralized-community/README",
       "cover": {
         "title": "Decentralized Community",
-        "image": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/community/cover.png",
-        "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/community/cover-small.png"
+        "image": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/community/large.png",
+        "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/community/small.png"
       }
     },
     {
@@ -28,8 +28,8 @@
       "text": "github://fluidtrends/carmel/content/whitepaper/educational-model/README",
       "cover": {
         "title": "Educational Model",
-        "image": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/educational-model/cover.png",
-        "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/educational-model/cover-small.png"
+        "image": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/educational-model/large.png",
+        "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/educational-model/small.png"
       }
     },
     {
@@ -39,8 +39,8 @@
       "text": "github://fluidtrends/carmel/content/whitepaper/challenges/README",
       "cover": {
         "title": "Tokenized Challenges",
-        "image": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/challenges/cover.png",
-        "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/challenges/cover-small.png"
+        "image": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/challenges/large.png",
+        "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/challenges/small.png"
       }
     },
     {
@@ -50,8 +50,8 @@
       "text": "github://fluidtrends/carmel/content/whitepaper/token-economy/README",
       "cover": {
         "title": "Token Economy",
-        "image": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/token-economy/cover.png",
-        "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/token-economy/cover-small.png"
+        "image": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/token-economy/large.png",
+        "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/token-economy/small.png"
       }
     },
     {
