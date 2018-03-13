@@ -34,74 +34,112 @@
     },
     {
       "path": "challenges",
-      "menuTitle": "Challenges",
-      "title": "Challenges",
-      "text": "github://fluidtrends/carmel/content/whitepaper/challenges/README"
+      "menuTitle": "Tokenized Challenges",
+      "title": "Tokenized Challenges",
+      "text": "github://fluidtrends/carmel/content/whitepaper/challenges/README",
+      "cover": {
+        "title": "Tokenized Challenges",
+        "image": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/challenges/cover.png",
+        "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/challenges/cover-small.png"
+      }
     },
     {
-      "path": "tokens",
+      "path": "economy",
       "menuTitle": "Token Economy",
       "title": "Token Economy",
-      "text": "github://fluidtrends/carmel/content/whitepaper/token-economy/README"
+      "text": "github://fluidtrends/carmel/content/whitepaper/token-economy/README",
+      "cover": {
+        "title": "Token Economy"
+      }
     },
     {
       "path": "arhitecture",
-      "menuTitle": "Arhitecture",
-      "title": "Arhitecture",
-      "text": "github://fluidtrends/carmel/content/whitepaper/arhitecture/README"
+      "menuTitle": "Platform Arhitecture",
+      "title": "Platform Arhitecture",
+      "text": "github://fluidtrends/carmel/content/whitepaper/arhitecture/README",
+      "cover": {
+        "title": "Platform Architecture"
+      }
     },
     {
       "path": "security",
-      "menuTitle": "Security",
-      "title": "Security",
-      "text": "github://fluidtrends/carmel/content/whitepaper/security/README"
-    },
-    {
-      "path": "token-distribution",
-      "menuTitle": "Token distribution",
-      "title": "Token distribution",
-      "text": "github://fluidtrends/carmel/content/whitepaper/token-distribution/README"
+      "menuTitle": "Security Model",
+      "title": "Security Model",
+      "text": "github://fluidtrends/carmel/content/whitepaper/security/README",
+      "cover": {
+        "title": "System Model"
+      }
     },
     {
       "path": "technology-stack",
       "menuTitle": "Technology stack",
-      "title": "Technology stack",
-      "text": "github://fluidtrends/carmel/content/whitepaper/technology-stack/README"
+      "title": "Technology Stack",
+      "text": "github://fluidtrends/carmel/content/whitepaper/technology-stack/README",
+      "cover": {
+        "title": "Technology Stack"
+      }
     },
     {
       "path": "company",
-      "menuTitle": "Company",
-      "title": "Company",
-      "text": "github://fluidtrends/carmel/content/whitepaper/company/README"
+      "menuTitle": "Company Overview",
+      "title": "Company View",
+      "text": "github://fluidtrends/carmel/content/whitepaper/company/README",
+      "cover": {
+        "title": "Company Overview"
+      }
     },
     {
-      "path": "community",
-      "menuTitle": "Community",
-      "title": "Community",
-      "text": "github://fluidtrends/carmel/content/whitepaper/community/README"
+      "path": "partners",
+      "menuTitle": "Partner Network",
+      "title": "Partner Network",
+      "text": "github://fluidtrends/carmel/content/whitepaper/partners/README",
+      "cover": {
+        "title": "Partner Network"
+      }
     },
     {
       "path": "contributors",
       "menuTitle": "Contributors",
       "title": "Contributors",
-      "text": "github://fluidtrends/carmel/content/whitepaper/contributors/README"
+      "text": "github://fluidtrends/carmel/content/whitepaper/contributors/README",
+      "cover": {
+        "title": "Contributors"
+      }
     },
     {
-      "path": "partners",
-      "menuTitle": "Partners",
-      "title": "Partners",
-      "text": "github://fluidtrends/carmel/content/whitepaper/partners/README"
+      "path": "community",
+      "menuTitle": "Community",
+      "title": "Community",
+      "text": "github://fluidtrends/carmel/content/whitepaper/community/README",
+      "cover": {
+        "title": "Community"
+      }
+    },
+    {
+      "path": "tokens",
+      "menuTitle": "Token Distribution",
+      "title": "Token Distribution",
+      "text": "github://fluidtrends/carmel/content/whitepaper/token-distribution/README",
+      "cover": {
+        "title": "Token Distribution"
+      }
     },
     {
       "path": "glossary",
       "menuTitle": "Glossary",
       "title": "Glossary",
-      "text": "github://fluidtrends/carmel/content/whitepaper/glossary/README"
+      "text": "github://fluidtrends/carmel/content/whitepaper/glossary/README",
+      "cover": {
+        "title": "Glossary"
+      }
     },
     {
       "path": "references",
       "menuTitle": "References",
       "title": "References",
-      "text": "github://fluidtrends/carmel/content/whitepaper/references/README"
+      "text": "github://fluidtrends/carmel/content/whitepaper/references/README",
+      "cover": {
+        "title": "References"
+      }
     }
   ]
