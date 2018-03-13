@@ -49,7 +49,9 @@
       "title": "Token Economy",
       "text": "github://fluidtrends/carmel/content/whitepaper/token-economy/README",
       "cover": {
-        "title": "Token Economy"
+        "title": "Token Economy",
+        "image": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/token-economy/cover.png",
+        "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/token-economy/cover-small.png"
       }
     },
     {
