@@ -6,26 +6,30 @@
       "text": "github://fluidtrends/carmel/content/whitepaper/introduction/README",
       "cover": {
         "title": "Meet Chris",
-        "image": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/introduction/cover.png"
+        "image": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/introduction/cover.png",
+        "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/introduction/cover-small.png"
       }
     },
     {
       "path": "decentralized",
-      "menuTitle": "Decentralized community",
-      "title": "Decentralized community",
+      "menuTitle": "Decentralized Community",
+      "title": "Decentralized Community",
       "text": "github://fluidtrends/carmel/content/whitepaper/decentralized-community/README",
       "cover": {
-        "title": "The Carmel Community",
-        "image": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/community/cover.png"
+        "title": "TDecentralized Community",
+        "image": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/community/cover.png",
+        "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/community/cover-small.png"
       }
     },
     {
       "path": "education",
-      "menuTitle": "Educational model",
-      "title": "Educational model",
+      "menuTitle": "Educational Model",
+      "title": "Educational Model",
       "text": "github://fluidtrends/carmel/content/whitepaper/educational-model/README",
       "cover": {
-        "title": "The Carmel Way"
+        "title": "Educational Model",
+        "image": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/education/cover.png",
+        "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/education/cover-small.png"
       }
     },
     {
@@ -36,8 +40,8 @@
     },
     {
       "path": "tokens",
-      "menuTitle": "Tokens economy",
-      "title": "Tokens economy",
+      "menuTitle": "Token Economy",
+      "title": "Token Economy",
       "text": "github://fluidtrends/carmel/content/whitepaper/token-economy/README"
     },
     {
