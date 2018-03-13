@@ -1,7 +1,5 @@
 ## Token Economy
 
-<img align="center" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/economy.png">
-
 A significant problem yet to be solved in the learning and development fields, particularly as it applies to software development, is the fact that it is extremely difficult to measure learning progress. Development Managers have a lot of tools available to them to accompany developers on their learning journey but none are accurate predictors of the actual progress being made. The primary challenge is the fact that as knowledge workers, the act of acquiring new technical skills is a fluid and creative process, making it practically impossible to measure as one would measure a purely manual or physical process.
 
 The Carmel Educational Model introduces key principles that make it a viable solution to the growth tracking problem. The micro-learning approach means that the material is smaller and easier to produce and to consume. The peer approach ensures that the content can be produced in a scalable way, as the network increases. And the tokenized challenges allow for fine-grained tracking of progress.

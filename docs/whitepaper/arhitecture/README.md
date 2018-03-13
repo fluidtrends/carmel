@@ -1,9 +1,5 @@
 ## Architecture
 
-<p align="center">
-<img src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/platform-diagram.png">
-</p>
-
 Carmel is designed from scratch to be decentralized, flexible, highly scalable, low maintenance and easy to use. The backend of the platform is a hybrid blockchain-cloud for performance reasons. As much as a blockchain-only architecture would be ideal, for the amount of transactional power Carmel requires, there is no available blockchain that can support those needs yet. The architecture is designed to be flexible so that as such a blockchain becomes production ready, Carmel can be transitioned to that infrastructure exclusively. Until that phase, the backend will incorporate a serverless cloud that will allow fast on-demand computation and will scale as needed.
 
 #### Blockchain App
