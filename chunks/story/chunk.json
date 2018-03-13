@@ -19,7 +19,7 @@
       "icon": "home",
       "path": "/story",
       "skipRootVariant": true,
-      "variants": "posts",
+      "variants": "https://raw.githubusercontent.com/fluidtrends/carmel/content/story/index.json",
       "cover": {
         "backgroundColor": "#00838F",
         "navigation": true,
