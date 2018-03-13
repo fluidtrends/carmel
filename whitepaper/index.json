@@ -12,13 +12,19 @@
       "path": "decentralized",
       "menuTitle": "Decentralized community",
       "title": "Decentralized community",
-      "text": "github://fluidtrends/carmel/content/whitepaper/decentralized-community/README"
+      "text": "github://fluidtrends/carmel/content/whitepaper/decentralized-community/README",
+      "cover": {
+        "title": "The Carmel Community"
+      }
     },
     {
       "path": "education",
       "menuTitle": "Educational model",
       "title": "Educational model",
-      "text": "github://fluidtrends/carmel/content/whitepaper/educational-model/README"
+      "text": "github://fluidtrends/carmel/content/whitepaper/educational-model/README",
+      "cover": {
+        "title": "The Carmel Way"
+      }
     },
     {
       "path": "challenges",
