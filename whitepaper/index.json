@@ -14,7 +14,7 @@
       "path": "decentralized",
       "menuTitle": "Decentralized Community",
       "title": "Decentralized Community",
-      "text": "github://fluidtrends/carmel/content/whitepaper/decentralized-community/README",
+      "text": "github://fluidtrends/carmel/content/whitepaper/community/README",
       "cover": {
         "title": "Decentralized Community",
         "image": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/community/large.png",
@@ -61,7 +61,9 @@
       "text": "github://fluidtrends/carmel/content/whitepaper/token-distribution/README",
       "action": true,
       "cover": {
-        "title": "Token Distribution"
+        "title": "Token Distribution",
+        "image": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/token-distribution/large.png",
+        "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/token-distribution/small.png"
       }
     },
     {
@@ -70,7 +72,9 @@
       "title": "Platform Architecture",
       "text": "github://fluidtrends/carmel/content/whitepaper/arhitecture/README",
       "cover": {
-        "title": "Platform Architecture"
+        "title": "Platform Architecture",
+        "image": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/architecture/large.png",
+        "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/architecture/small.png"
       }
     },
     {
@@ -79,7 +83,9 @@
       "title": "Security Model",
       "text": "github://fluidtrends/carmel/content/whitepaper/security/README",
       "cover": {
-        "title": "System Model"
+        "title": "System Model",
+        "image": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/security/large.png",
+        "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/security/small.png"
       }
     },
     {
@@ -88,7 +94,9 @@
       "title": "Technology Stack",
       "text": "github://fluidtrends/carmel/content/whitepaper/technology-stack/README",
       "cover": {
-        "title": "Technology Stack"
+        "title": "Technology Stack",
+        "image": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/technology-stack/large.png",
+        "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/whitepaper/technology-stack/small.png"
       }
     },
     {
