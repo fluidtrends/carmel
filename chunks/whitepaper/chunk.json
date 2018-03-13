@@ -9,14 +9,14 @@
         "cover": "local://platform"
       },
       "cover": {
-        "backgroundColor": "#00838F",
+        "backgroundColor": "#61AFE1",
         "align": "bottom",
-        "opacity": 0.2,
+        "opacity": 0.9,
         "navigation": true,
         "title": "Meet Chris",
         "type": "presentation",
-        "image": "https://raw.githubusercontent.com/fluidtrends/carmel/content/whitepaper/introduction/cover.png",
-        "imageSmall": "https://raw.githubusercontent.com/fluidtrends/carmel/content/whitepaper/introduction/cover-small.png"
+        "image": "https://raw.githubusercontent.com/fluidtrends/carmel/content/whitepaper/introduction/large.png",
+        "imageSmall": "https://raw.githubusercontent.com/fluidtrends/carmel/content/whitepaper/introduction/small.png"
       },
       "variants": "https://raw.githubusercontent.com/fluidtrends/carmel/content/whitepaper/index.json"
     }
