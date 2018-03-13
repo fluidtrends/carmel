@@ -19,10 +19,10 @@
           "universal": true }
       ],
       "cover": {
-        "image": "dad.jpg",
+        "image": "chris.png",
         "backgroundColor": "#ffffff",
         "align": "bottom",
-        "opacity": 0.5,
+        "opacity": 0.2,
         "navigation": true,
         "title": "Learn How To Build A Better Future For All Of Us",
         "subtitle": "Grow Your Tech Skills With Programming Challenges And Earn Experience Points",
@@ -52,7 +52,7 @@
       "title": "Stories",
       "icon": "supervisor_account",
       "path": "/:person",
-      "skipPaths": ["story", "dashboard", "levelup", "tokens", "wallet", "community", "challenges", "me"],
+      "skipPaths": ["story", "admin", "dashboard", "levelup", "tokens", "wallet", "community", "challenges", "me"],
       "skipRootVariant": true,
       "events": {
         "cover": "local://stories"
