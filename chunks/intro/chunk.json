@@ -7,7 +7,10 @@
       "path": "/",
       "events": {
         "cover": "local://me",
-        "buy": "local://me/tokens"
+        "buy": "local://me/tokens",
+        "architecture": "local://whitepaper/architecture",
+        "security": "local://whitepaper/security",
+        "challenges": "local://whitepaper/challenges"
       },
       "cover": {
         "image": "chris.png",
@@ -79,7 +82,7 @@
         },
         "features": [
           {
-            "id": "feature-challenges",
+            "id": "challenges",
             "source": "feature",
             "text":"github://fluidtrends/carmel/content/whitepaper/challenges/summary",
             "image":"challenges.png",
@@ -88,7 +91,7 @@
             "textColor":"#0686d8"
           },
           {
-            "id": "feature-architecture",
+            "id": "architecture",
             "source": "feature",
             "text":"github://fluidtrends/carmel/content/whitepaper/architecture/summary",
             "image":"architecture.png",
@@ -98,7 +101,7 @@
             "textColor":"#0686d8"
           },
           {
-            "id": "feature-security",
+            "id": "security",
             "source": "feature",
             "text":"github://fluidtrends/carmel/content/whitepaper/security/summary",
             "image":"security.png",
