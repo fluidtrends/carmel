@@ -6,7 +6,8 @@
       "icon": "home",
       "path": "/",
       "events": {
-        "cover": "local://me"
+        "cover": "local://me",
+        "buy": "local://me/tokens"
       },
       "cover": {
         "image": "chris.png",
@@ -25,6 +26,46 @@
           "text": "local://intro",
           "image": "carmel-logo.png",
           "textColor": "#37474F"
+        },
+        "timer": {
+          "id": "buy",
+          "source": "timer",
+          "periods": [
+            {
+              "until": "02 Apr 2018 00:00:00 PDT",
+              "text": "github://fluidtrends/carmel/content/product/intro/countdown1"
+            },
+            {
+              "until": "07 May 2018 00:00:00 PDT",
+              "text": "github://fluidtrends/carmel/content/product/intro/countdown2"
+            },
+            {
+              "until": "14 May 2018 00:00:00 PDT",
+              "text": "github://fluidtrends/carmel/content/product/intro/countdown31"
+            },
+            {
+              "until": "21 May 2018 00:00:00 PDT",
+              "text": "github://fluidtrends/carmel/content/product/intro/countdown32"
+            },
+            {
+              "until": "28 May 2018 00:00:00 PDT",
+              "text": "github://fluidtrends/carmel/content/product/intro/countdown33"
+            },
+            {
+              "until": "04 Jun 2018 00:00:00 PDT",
+              "text": "github://fluidtrends/carmel/content/product/intro/countdown34"
+            },
+            {
+              "until": "11 Jun 2018 00:00:00 PDT",
+              "text": "github://fluidtrends/carmel/content/product/intro/countdown35"
+            },
+            {
+              "until": "20 Aug 2018 00:00:00 PDT",
+              "text": "github://fluidtrends/carmel/content/product/intro/countdown4"
+            }
+          ],
+          "backgroundColor":"#00ACC1",
+          "textColor": "#ffffff"
         },
         "pillars": {
           "source": "benefits",
@@ -64,7 +105,7 @@
             "actionTitle":"Learn More",
             "backgroundColor":"#E1F5FE",
             "textColor":"#0686d8"
-          }          
+          }
         ]
       }
     },
