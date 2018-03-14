@@ -1,0 +1,12 @@
+[{
+  "name": "chunky",
+  "backgroundColor": "#ffffff",
+  "path": "chunky",
+  "title": "Chunky challenge",
+  "details": "Create Your First Chunky Product In Minutes.",
+  "actionTitle": "Coming soon",
+  "content": {
+    "text": "github://fluidtrends/carmel/content/challenge/chunky/README",
+    "textColor": "#37474F"
+  }
+}]
