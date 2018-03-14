@@ -91,6 +91,25 @@
             "textColor":"#0686d8"
           },
           {
+            "id": "economy",
+            "source": "feature",
+            "text":"github://fluidtrends/carmel/content/whitepaper/token-economy/summary",
+            "image":"economy.png",
+            "reversed": true,
+            "actionTitle":"Learn More",
+            "backgroundColor":"#FFFFFF",
+            "textColor":"#0686d8"
+          },
+          {
+            "id": "distribution",
+            "source": "feature",
+            "text":"github://fluidtrends/carmel/content/whitepaper/token-distribution/summary",
+            "image":"distribution.png",
+            "actionTitle":"Learn More",
+            "backgroundColor":"#E1F5FE",
+            "textColor":"#0686d8"
+          },
+          {
             "id": "architecture",
             "source": "feature",
             "text":"github://fluidtrends/carmel/content/whitepaper/architecture/summary",
