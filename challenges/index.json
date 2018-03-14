@@ -1,16 +1,92 @@
-[{
-  "name": "chunky",
-  "backgroundColor": "#ffffff",
-  "path": "chunky",
-  "title": "Chunky challenge",
-  "details": "Create Your First Chunky Product In Minutes.",
-  "actionTitle": "Coming soon",
-  "xp": "5",
-  "category": "Beginner",
-  "label": ["Web"],
-  "icon": "desktop_windows",
-  "content": {
-    "text": "github://fluidtrends/carmel/content/challenge/chunky/README",
-    "textColor": "#37474F"
+[
+  {
+    "name": "chunky",
+    "backgroundColor": "#ffffff",
+    "path": "chunky",
+    "title": "Meet Chunky",
+    "details": "Create Your First Chunky Product In Minutes",
+    "actionTitle": "Coming soon",
+    "xp": "5",
+    "category": "Beginner",
+    "label": "Web",
+    "content": {
+      "text": "github://fluidtrends/carmel/content/challenge/chunky/README",
+      "textColor": "#37474F"
+    }
+  },
+  {
+    "name": "awsome",
+    "backgroundColor": "#ffffff",
+    "path": "awsome",
+    "title": "You're awsome",
+    "details": "Learn how to create and manage your AWS infrastructure with AWSome",
+    "actionTitle": "Coming soon",
+    "xp": "20",
+    "category": "Advanced",
+    "label": "DevOps",
+    "content": {
+      "text": "github://fluidtrends/carmel/content/challenge/awsome/README",
+      "textColor": "#37474F"
+    }
+  },
+  {
+    "name": "react-components",
+    "backgroundColor": "#ffffff",
+    "path": "react-components",
+    "title": "Your first React component",
+    "details": "Create your first React custom component and integrate it in your Chunky App",
+    "actionTitle": "Coming soon",
+    "xp": "5",
+    "category": "Beginner",
+    "label": "Web",
+    "content": {
+      "text": "github://fluidtrends/carmel/content/challenge/awsome/README",
+      "textColor": "#37474F"
+    }
+  },
+  {
+    "name": "firebase-setup",
+    "backgroundColor": "#ffffff",
+    "path": "firebase-setup",
+    "title": "Setup Firebase",
+    "details": "Set up your Firebase account and get ready to build an awesome app",
+    "actionTitle": "Coming soon",
+    "xp": "10",
+    "category": "Entry",
+    "label": "DevOps",
+    "content": {
+      "text": "github://fluidtrends/carmel/content/challenge/awsome/README",
+      "textColor": "#37474F"
+    }
+  },
+  {
+    "name": "firebase-login",
+    "backgroundColor": "#ffffff",
+    "path": "firebase-login",
+    "title": "Login with Firebase",
+    "details": "Add login to your Chunky app and get ready to have a real app",
+    "actionTitle": "Coming soon",
+    "xp": "10",
+    "category": "Entry",
+    "label": "Web",
+    "content": {
+      "text": "github://fluidtrends/carmel/content/challenge/awsome/README",
+      "textColor": "#37474F"
+    }
+  },
+  {
+    "name": "dashboard",
+    "backgroundColor": "#ffffff",
+    "path": "dashboard",
+    "title": "Create a Dashboard",
+    "details": "Create a Dashboard page, where you can manage user profiles, add blog posts, login, logout and reset password screens",
+    "actionTitle": "Coming soon",
+    "xp": "15",
+    "category": "Intermediate",
+    "label": "Web",
+    "content": {
+      "text": "github://fluidtrends/carmel/content/challenge/awsome/README",
+      "textColor": "#37474F"
+    }
   }
-}]
+]
