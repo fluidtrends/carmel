@@ -35,7 +35,37 @@
           ],
           "textColor": "#37474F",
           "backgroundColor": "#fcfefe"
-        }
+        },
+        "features": [
+          {
+            "id": "feature-challenges",
+            "source": "feature",
+            "text":"github://fluidtrends/carmel/content/whitepaper/challenges/summary",
+            "image":"challenges.png",
+            "actionTitle":"Learn More",
+            "backgroundColor":"#E1F5FE",
+            "textColor":"#0686d8"
+          },
+          {
+            "id": "feature-architecture",
+            "source": "feature",
+            "text":"github://fluidtrends/carmel/content/whitepaper/architecture/summary",
+            "image":"architecture.png",
+            "reversed": true,
+            "actionTitle":"Learn More",
+            "backgroundColor":"#FFFFFF",
+            "textColor":"#0686d8"
+          },
+          {
+            "id": "feature-security",
+            "source": "feature",
+            "text":"github://fluidtrends/carmel/content/whitepaper/security/summary",
+            "image":"security.png",
+            "actionTitle":"Learn More",
+            "backgroundColor":"#E1F5FE",
+            "textColor":"#0686d8"
+          }          
+        ]
       }
     },
     "person": {
