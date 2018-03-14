@@ -22,6 +22,7 @@
       "variants": "https://raw.githubusercontent.com/fluidtrends/carmel/content/story/index.json",
       "cover": {
         "backgroundColor": "#00838F",
+        "opacity": 0.4,
         "navigation": true,
         "type": "default"
       }
