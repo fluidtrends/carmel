@@ -24,63 +24,59 @@ import { Button, ButtonIcon } from 'rmwc/Button'
 import { Typography } from 'rmwc/Typography'
 import { FormField } from 'rmwc/FormField'
 
-export default class LoginComponent extends Component {
+export default class RegisterComponent extends Component {
 
   constructor (props) {
     super(props)
     this._done = this.done.bind(this)
-    this._register = this.register.bind(this)
-    this._resetPassword = this.resetPassword.bind(this)
+    this._login = this.login.bind(this)
     this.state = { ...super.state }
   }
 
   componentDidMount () {
     super.componentDidMount()
   }
-
+ 
   done () {
+
     if (!this.state.email) {
-      this.setState({ error: errors.email, errorType: 'email', loading: false })
+      this.setState({ message: errors.email, messageType: 'error', loading: false })
       return
     }
 
-    if (!this.state.password) {
-      this.setState({ error: errors.password, errorType: 'password', loading: false })
-      return
-    }
+    this.setState({ message: succes.email, messageType: 'succes', loading: false })
 
-    this.setState({ loading: true })
-    this.props.signIn({
-      email: this.state.email,
-      password: this.state.password })
+    this.props.resetPassword({
+      email: this.state.email
+    })
   }
 
-  register () {
-    this.props.onRegister && this.props.onRegister()
+  login () {
+    this.props.onLogin && this.props.onLogin()
   }
 
-  resetPassword () {
-    this.props.onResetPassword && this.props.onResetPassword()
+  get message () {
+    return (this.state.message ? this.state.message : this.props.message)
   }
 
-  get error () {
-    return (this.state.error ? this.state.error : this.props.error)
+  get messageType () {
+    return (this.state.messageType ? this.state.messageType : this.props.messageType)
   }
 
-  renderError () {
-    if (!this.error) {
+  renderMessage () {
+    if (!this.message) {
       return
     }
 
     return (
-      <div style={{margin: '20px', color: '#ef5350', textAlign: 'center'}}>
-        { this.error }
+      <div style={{margin: '20px', color: this.messageType == 'succes'? '#4CAF50':'#ef5350', textAlign: 'center'}}>
+        { this.message }
       </div>
     )
   }
 
   renderLoading () {
-    if (!this.state.loading || this.error) {
+    if (!this.state.loading || this.message) {
       return
     }
     return <div>
@@ -91,33 +87,27 @@ export default class LoginComponent extends Component {
   render () {
     const width = this.props.isSmallScreen ? '95vw' : '600px'
     const padding = this.props.isSmallScreen ? '2px' : '30px'
+
     return (<div style={{ display: 'flex', flex: 1, margin: '40px', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }} >
-      <Card style={{width, margin: '10px', padding }} >
+      <Card style={{width, margin: '10px', padding}} >
         <div style={{padding: '4px'}}>
-          <Typography use='title' tag='h2'> Welcome back </Typography>
+          <Typography use='title' tag='h2'> Forgot password? </Typography>
         </div>
 
-        { this.renderError() }
+        { this.renderMessage() }
         { this.renderLoading() }
-        <TextField disabled={this.state.loading && !this.error} outlined withLeadingIcon='email' label={this.state.email ? '' : 'Enter your email address'}
-          onChange={(val) => this.setState({ email: val.target.value, error: '' })} />
 
-        <TextField type='password' disabled={this.state.loading && !this.error} outlined withLeadingIcon='lock' label={this.state.password ? '' : 'Enter your password'}
-          onChange={(val) => this.setState({ password: val.target.value, error: '' })} />
+        <TextField disabled={this.state.loading && !this.message} outlined withLeadingIcon='email' label={this.state.email ? '' : 'Enter your email address'}
+          onChange={(val) => this.setState({ email: val.target.value, message: '' })} />
 
         <CardActions style={{justifyContent: 'center', margin: '20px'}}>
           <CardActionButtons>
-            <Button disabled={this.state.loading && !this.error} raised onClick={this._done} theme='secondary-bg text-primary-on-secondary'> Sign In</Button>
+            <Button raised disabled={this.state.loading && !this.message} onClick={this._done} theme='secondary-bg text-primary-on-secondary'> Reset password</Button>
           </CardActionButtons>
         </CardActions>
         <CardActions style={{justifyContent: 'center', margin: '0px'}}>
           <CardActionButtons>
-            <Button disabled={this.state.loading && !this.error} onClick={this._register}> Need an account? </Button>
-          </CardActionButtons>
-        </CardActions>
-        <CardActions style={{justifyContent: 'center', margin: '0px'}}>
-          <CardActionButtons>
-            <Button disabled={this.state.loading && !this.error} onClick={this._resetPassword}> Forgot your password? </Button>
+            <Button disabled={this.state.loading && !this.message} onClick={this._login}> Sign back in </Button>
           </CardActionButtons>
         </CardActions>
       </Card>
@@ -151,5 +141,8 @@ const styles = {
 
 const errors = {
   email: "Don't forget your email address",
-  password: 'Please enter your password'
+}
+
+const succes = {
+  email: "We sent you an email with a password reset link ",
 }
