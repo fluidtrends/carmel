@@ -18,7 +18,7 @@ Each of these tracks converge in a weekly deliverable - rain or shine - we deliv
 
 Release objective: TELL THE STORY. It's time to start talking about Carmel and about what it is that we believe and what we're all about. We want to start unpacking some of the big ideas that make up the #CarmelStory, such as the Big Carmel Dream (#H>m), the main problem we're trying to solve (#HelpingChrisSleepAtNight) and the Unique Carmel Value Proposition (#TheCarmelWay).
 
-- [See Release Notes](https://github.com/fluidtrends/carmel/releases/tag/v0.1.1)
+- [See Release Notes](https://github.com/fluidtrends/carmel/releases/tag/v0.1.2)
 - [See Closed Issues](https://github.com/fluidtrends/carmel/milestone/2)
 
 **Currently In Progress**
