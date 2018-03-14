@@ -2,10 +2,11 @@
   "name": "meet-chris",
   "image": "https://github.com/fluidtrends/carmel/raw/content/story/meet-chris/large.png",
   "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/story/meet-chris/small.png",
+  "thumbnail": "https://github.com/fluidtrends/carmel/raw/content/story/meet-chris/thumb.png",
   "backgroundColor": "#ffffff",
   "path": "meet-chris",
   "title": "Meet Chris",
-  "details": "Chris is a 40 year old father who has the type of job that can be easily replaced by robots. What keeps Chris up at night ...",
+  "details": "Chris is a 40 year old father who has the type of job that can be easily replaced by robots. What keeps Chris up at night is the thought that soon, he might lose his job and not be able to provide for his family.",
   "actionTitle": "Continue Reading",
   "action": {
     "handler": "local://story/meet-chris"
@@ -19,13 +20,13 @@
   "name": "eosgo",
   "image": "https://github.com/fluidtrends/carmel/raw/content/story/eosgo/large.png",
   "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/story/eosgo/small.png",
-  "thumbnail": "https://github.com/fluidtrends/carmel/raw/content/story/eosgo/thumbnail.png",
+  "thumbnail": "https://github.com/fluidtrends/carmel/raw/content/story/eosgo/thumb.png",
   "video": "https://www.youtube.com/watch?v=wED0vlNPJMk&t=3s",
   "backgroundColor": "#ffffff",
   "path": "eosgo",
   "title": "EOS Go Live Interview2",
-  "details": "Watch the full Launch Interview with Dan Calinescu on episode 1 of the LIVE weekly EOS talk show EOSRad.io",
-  "actionTitle": "Continue Reading",
+  "details": "Had the awesome opportunity of talking to the EOS Go team last week on their live show, where we officially kicked off the very beginning of the Carmel Story.",
+  "actionTitle": "Watch The Video",
   "action": {
     "handler": "local://story/eosgo"
   },
@@ -38,10 +39,11 @@
   "name": "workshop1",
   "image": "https://github.com/fluidtrends/carmel/raw/content/story/workshop1/large.png",
   "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/story/workshop1/small.png",
+  "thumbnail": "https://github.com/fluidtrends/carmel/raw/content/story/workshop1/thumb.png",
   "backgroundColor": "#ffffff",
   "path": "workshop1",
   "title": "The First Carmel Workshop",
-  "details": "We started the first Carmel Workshop where we bring the local Carmel Community together, face to face ...",
+  "details": "We started the first Carmel Workshop, where we bring the local Carmel Community together, face to face, in a hands-on Learning Environment practicing what we preach - ie. The Carmel Way  - peer driven and skills-based learning.",
   "actionTitle": "Continue Reading",
   "action": {
     "handler": "local://story/workshop1"
