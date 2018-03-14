@@ -8,6 +8,10 @@ This is where we need to keep track of all the progress we make - on a weekly ba
 
 Each of these tracks converge in a weekly deliverable - rain or shine - we deliver and we move forward, even if the increments are small, what matters most is that we keep moving.
 
+## Week 3
+
+[![](https://img.shields.io/badge/status-In%20Progress-orange.svg)](https://github.com/fluidtrends/carmel/milestone/3)
+
 ## Week 2
 
 [![](https://img.shields.io/badge/status-In%20Progress-orange.svg)](https://github.com/fluidtrends/carmel/milestone/1)
