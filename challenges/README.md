@@ -1,17 +1,29 @@
-# The Carmel Story
+A Carmel Challenge is authored by someone who is familiar with the problem at hand and is in a position to challenge someone else while providing guidance and is also able to write the validation code required. In essence, developers challenge each other to *climb the digital mountain* so to speak, a daunting task to say the least. The ultimate goal is not how far a developer grows in their career, but that they keep growing. That they keep climbing.
 
-This is the story of Carmel - as it happens. As with every story, this one has its main heroes and other actors, a primary plot and sub-plots, a big problem to solve - and other smaller ones - and most importantly, the Carmel Story has a Big Dream.
+The central theme of the Carmel Community is the concept of a challenge. A Carmel Challenge is a technical problem to be solved that includes a **tutorial** and a **proof of learning** using validation code that tests whether the student has successfully solved the problem or not. To author, distribute and edit challenges, a Carmel Author has access to a **publishing** dashboard. Each challenge is priced and measured in Carmel Tokens which represent the learning value of the challenge itself.
 
-We want to keep track of all events, important updates but what we really want is to follow our heroes and all those committed to bringing this story to life. And we want to get to know them and even relate to them - and why not, even contribute and help them achieve their dreams.
+<img align="center" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/climbing.png">
 
-**Dreams.**
+#### Tutorial
 
-We all have them. Consciously or unconsciously - we all have them. Big dreams. Small dreams. Dreams. It is fundamentally human to dream.
+<img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/tutorial-icon.png">
 
-Carmel is founded on a big dream. All those involved in the Carmel Story have their own big and small dreams. But what brings us all together is that fact that we all share that one Big Carmel Dream - and perhaps even more than sharing it, it is the catalyst that brings us all a desperately needed hope that gives us the audacity to believe that a lot of our personal dreams can actually become real soon ... very soon.
+The tutorial associated with a Carmel Challenge is a clear walkthrough of the problem to be solved and how it needs to be solved. The best challenge tutorials are those that can be clearly followed by someone who has never completed a similar challenge before. Each step is documented in familiar language with examples and associated relevant supporting links to external sources of information. The tutorial is written in Markdown and should read as technical blog post.
 
-If we were to express the **Carmel Dream** in a simple hashtag it would have to be **#HelpingChrisSleepAtNight** and if we were to express it in a simple math equation - because who doesn't love math equations - it would have to be **H > m**. Indeed, in a world where humans are becoming replaceable by machines, **the Carmel Dream is to help as many humans as possible achieve mastery over the machines**.
+#### Proof Of Learning
 
-That's what this is story is all about.
+<img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/proofoflearning-icon.png">
 
-Welcome to Carmel. Let's make it happen together.
+Although the tutorial can be read and followed through like a blog post, and put in practice as such, Carmel requires the author goes a step further to create proof that the student undertaking the challenge has successfully completed it. This proof of learning is validated through validation code written by the challenge author at the same time as the tutorial. A challenge cannot be published unless it includes the validation code along with the tutorial. The validation code is written much like a unit test, in a framework provided by Carmel.
+
+#### Publishing
+
+<img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/publishing-icon.png">
+
+A Carmel Author creates a challenge from their Carmel account at carmel.io and as soon as the tutorial and the validation code is ready, they are able to publish the challenge from their account. The challenge tutorial will be available at carmel.io in the form of an article, much like a blog post, and the validation code will be packaged as a bundle and held in the Carmel database, ready to be downloaded every time someone takes the challenge.
+
+#### Tokens
+
+<img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/tokens-icon.png">
+
+The author sets a price for the challenge in Carmel Tokens and is able to update and change the price after the challenge has been published. It is important for our community to allow authors to set their own pricing. The market reaction to the challenge allows the author to adjust the pricing so that it stabilises at a fair price based on demand. In future pricing updates, Carmel will use Machine Learning to recommend optimal pricing, but the final decision of the actual price, will always remain in the hands of the author. To purchase a course, a student will have to own the required amount of tokens in their Carmel Wallet.
