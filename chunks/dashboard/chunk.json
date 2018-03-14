@@ -23,5 +23,6 @@
         "updateAccount": ["firebase://update/users/:uid#updated", { "onSuccess": "updatedAccount", "onError": "updateAccountError" }]
       }
     }
-  }
+  },
+  "reports": ["firebase://users"]
 }
