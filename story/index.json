@@ -19,9 +19,11 @@
   "name": "eosgo",
   "image": "https://github.com/fluidtrends/carmel/raw/content/story/eosgo/large.png",
   "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/story/eosgo/small.png",
+  "thumbnail": "https://github.com/fluidtrends/carmel/raw/content/story/eosgo/thumbnail.png",
+  "video": "https://www.youtube.com/watch?v=wED0vlNPJMk&t=3s",
   "backgroundColor": "#ffffff",
   "path": "eosgo",
-  "title": "EOS Go Live Interview",
+  "title": "EOS Go Live Interview2",
   "details": "Watch the full Launch Interview with Dan Calinescu on episode 1 of the LIVE weekly EOS talk show EOSRad.io",
   "actionTitle": "Continue Reading",
   "action": {
