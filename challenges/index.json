@@ -7,7 +7,7 @@
   "actionTitle": "Coming soon",
   "xp": "5",
   "category": "Beginner",
-  "labels": ["Web", "Fullstack"],
+  "label": ["Web"],
   "icon": "desktop_windows",
   "content": {
     "text": "github://fluidtrends/carmel/content/challenge/chunky/README",
