@@ -39,44 +39,8 @@ export default class MainTokensScreen extends Screen {
     }
   }
 
-  renderAction () {
-    const width = this.props.compact ? '95vw' : '600px'
-
-    return <div style={{ display: 'flex', flex: 1, margin: '10px', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }} >
-      <Card style={{width, margin: '10px', padding: '0px'}} >
-        <Typography
-          use='title'
-          tag='div'
-          style={{padding: '0.5rem 1rem', textAlign: 'center', padding: '20px'}}
-          theme='text-secondary-on-background'>
-            Sign In To Your Carmel Account
-          </Typography>
-
-        <ListDivider style={{marginBottom: '20px'}} />
-
-        <Typography use='headline' tag='h1'>
-          <div>
-            <CardActions style={{
-              justifyContent: 'center',
-              marginTop: '0px'}}>
-              <CardActionButtons>
-                <Button
-                  onClick={() => this.triggerRedirect(`/me/tokens`)}
-                  raised
-                  theme='secondary-bg text-primary-on-secondary'
-                  style={{margin: '20px'}}>
-                Sign In To Get Tokens
-                </Button>
-              </CardActionButtons>
-            </CardActions>
-          </div>
-        </Typography>
-      </Card>
-    </div>
-  }
-
   get features () {
-    return ([this.renderAction()])
+    return []
   }
 
   components () {

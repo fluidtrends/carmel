@@ -7,23 +7,64 @@
       "path": "/tokens",
       "action": true,
       "events": {
-        "cover": "local://tokens"
+        "buy": "local://me/tokens"
       },
       "cover": {
-        "backgroundColor": "#00838F",
+        "backgroundColor": "#61AFE1",
         "align": "bottom",
-        "opacity": 0.5,
+        "opacity": 0.9,
         "navigation": true,
-        "title": "Carmel Token Distribution",
-        "type": "simple"
+        "image": "distribution.png",
+        "title": "Own A Piece Of Carmel",
+        "type": "presentation"
       },
       "components": {
-        "intro": {
-          "source": "summary",
-          "text": "github://fluidtrends/carmel/master/docs/tokens/README",
-          "image": "carmel-logo.png",
-          "textColor": "#37474F"
+        "timer": {
+          "id": "buy",
+          "source": "timer",
+          "periods": [
+            {
+              "until": "02 Apr 2018 00:00:00 PDT",
+              "text": "github://fluidtrends/carmel/content/product/intro/countdown1"
+            },
+            {
+              "until": "07 May 2018 00:00:00 PDT",
+              "text": "github://fluidtrends/carmel/content/product/intro/countdown2"
+            },
+            {
+              "until": "14 May 2018 00:00:00 PDT",
+              "text": "github://fluidtrends/carmel/content/product/intro/countdown31"
+            },
+            {
+              "until": "21 May 2018 00:00:00 PDT",
+              "text": "github://fluidtrends/carmel/content/product/intro/countdown32"
+            },
+            {
+              "until": "28 May 2018 00:00:00 PDT",
+              "text": "github://fluidtrends/carmel/content/product/intro/countdown33"
+            },
+            {
+              "until": "04 Jun 2018 00:00:00 PDT",
+              "text": "github://fluidtrends/carmel/content/product/intro/countdown34"
+            },
+            {
+              "until": "11 Jun 2018 00:00:00 PDT",
+              "text": "github://fluidtrends/carmel/content/product/intro/countdown35"
+            },
+            {
+              "until": "20 Aug 2018 00:00:00 PDT",
+              "text": "github://fluidtrends/carmel/content/product/intro/countdown4"
+            }
+          ],
+          "backgroundColor":"#ffffff",
+          "textColor": "#00ACC1"
         }
+      },
+      "intro": {
+        "source": "summary",
+        "text": "github://fluidtrends/carmel/master/docs/tokens/README",
+        "image": "carmel-logo.png",
+        "textColor": "#37474F"
       }
     }
   }
