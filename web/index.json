@@ -11,7 +11,7 @@
           {
             "id": "whitepaper",
             "title": "Whitepaper",
-            "link": "https://github.com/fluidtrends/carmel/tree/master/docs/whitepaper/README.md"
+            "link": "local://whitepaper"
           },
           {
             "id": "code",

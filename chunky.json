@@ -6,7 +6,7 @@
   "androidSdkDir": "~/Library/Android/sdk",
   "sections": {
     "start": {
-      "stack": ["intro", "tokens", "dashboard"]
+      "stack": ["intro", "whitepaper", "story", "challenges", "tokens", "dashboard"]
     }
   },
   "transitions": ["replace://start"],
@@ -34,6 +34,10 @@
   "info": {
     "copyright": "© 2018",
     "title": "Carmel",
-    "watermark": "Created with Chunky."
+    "watermark": "Created with Chunky.",
+    "analytics": {
+      "type": "google",
+      "key": "UA-99031266-1"
+    }
   }
 }

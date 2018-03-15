@@ -6,20 +6,14 @@
       "icon": "home",
       "path": "/",
       "events": {
-        "cover": "local://me"
+        "cover": "local://me",
+        "buy": "local://me/tokens",
+        "architecture": "local://whitepaper/architecture",
+        "security": "local://whitepaper/security",
+        "challenges": "local://whitepaper/challenges"
       },
-      "extendedMenu": [
-        { "id": "whitepaper",
-          "title": "Whitepaper",
-          "link": "https://github.com/fluidtrends/carmel/blob/master/docs/whitepaper/README.md",
-          "universal": true },
-        { "id": "telegram",
-          "title": "Telegram",
-          "link": "https://t.me/carmelplatform",
-          "universal": true }
-      ],
       "cover": {
-        "image": "dad.jpg",
+        "image": "chris.png",
         "backgroundColor": "#ffffff",
         "align": "bottom",
         "opacity": 0.5,
@@ -36,6 +30,46 @@
           "image": "carmel-logo.png",
           "textColor": "#37474F"
         },
+        "timer": {
+          "id": "buy",
+          "source": "timer",
+          "periods": [
+            {
+              "until": "02 Apr 2018 00:00:00 PDT",
+              "text": "github://fluidtrends/carmel/content/product/intro/countdown1"
+            },
+            {
+              "until": "07 May 2018 00:00:00 PDT",
+              "text": "github://fluidtrends/carmel/content/product/intro/countdown2"
+            },
+            {
+              "until": "14 May 2018 00:00:00 PDT",
+              "text": "github://fluidtrends/carmel/content/product/intro/countdown31"
+            },
+            {
+              "until": "21 May 2018 00:00:00 PDT",
+              "text": "github://fluidtrends/carmel/content/product/intro/countdown32"
+            },
+            {
+              "until": "28 May 2018 00:00:00 PDT",
+              "text": "github://fluidtrends/carmel/content/product/intro/countdown33"
+            },
+            {
+              "until": "04 Jun 2018 00:00:00 PDT",
+              "text": "github://fluidtrends/carmel/content/product/intro/countdown34"
+            },
+            {
+              "until": "11 Jun 2018 00:00:00 PDT",
+              "text": "github://fluidtrends/carmel/content/product/intro/countdown35"
+            },
+            {
+              "until": "20 Aug 2018 00:00:00 PDT",
+              "text": "github://fluidtrends/carmel/content/product/intro/countdown4"
+            }
+          ],
+          "backgroundColor":"#00ACC1",
+          "textColor": "#ffffff"
+        },
         "pillars": {
           "source": "benefits",
           "benefits": [
@@ -45,14 +79,63 @@
           ],
           "textColor": "#37474F",
           "backgroundColor": "#fcfefe"
-        }
+        },
+        "features": [
+          {
+            "id": "challenges",
+            "source": "feature",
+            "text":"github://fluidtrends/carmel/content/whitepaper/challenges/summary",
+            "image":"challenges.png",
+            "actionTitle":"Learn More",
+            "backgroundColor":"#E1F5FE",
+            "textColor":"#0686d8"
+          },
+          {
+            "id": "economy",
+            "source": "feature",
+            "text":"github://fluidtrends/carmel/content/whitepaper/token-economy/summary",
+            "image":"economy.png",
+            "reversed": true,
+            "actionTitle":"Learn More",
+            "backgroundColor":"#FFFFFF",
+            "textColor":"#0686d8"
+          },
+          {
+            "id": "distribution",
+            "source": "feature",
+            "text":"github://fluidtrends/carmel/content/whitepaper/token-distribution/summary",
+            "image":"distribution.png",
+            "actionTitle":"Learn More",
+            "backgroundColor":"#E1F5FE",
+            "textColor":"#0686d8"
+          },
+          {
+            "id": "architecture",
+            "source": "feature",
+            "text":"github://fluidtrends/carmel/content/whitepaper/architecture/summary",
+            "image":"architecture.png",
+            "reversed": true,
+            "actionTitle":"Learn More",
+            "backgroundColor":"#FFFFFF",
+            "textColor":"#0686d8"
+          },
+          {
+            "id": "security",
+            "source": "feature",
+            "text":"github://fluidtrends/carmel/content/whitepaper/security/summary",
+            "image":"security.png",
+            "actionTitle":"Learn More",
+            "backgroundColor":"#E1F5FE",
+            "textColor":"#0686d8"
+          }
+        ]
       }
     },
     "person": {
       "title": "Stories",
       "icon": "supervisor_account",
       "path": "/:person",
-      "skipPaths": ["story", "dashboard", "levelup", "tokens", "wallet", "community", "challenges", "me"],
+      "skipPaths": ["story", "whitepaper", "platform", "admin", "dashboard", "levelup", "tokens", "wallet", "community", "challenges", "me"],
       "skipRootVariant": true,
       "events": {
         "cover": "local://stories"
