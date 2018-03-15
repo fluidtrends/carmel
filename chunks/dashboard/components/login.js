@@ -31,6 +31,7 @@ export default class LoginComponent extends Component {
     this._done = this.done.bind(this)
     this._register = this.register.bind(this)
     this.onKeyPress = this.onKeyPress.bind(this)
+    this._resetPassword = this.resetPassword.bind(this)
     this.state = { ...super.state }
   }
 
@@ -57,6 +58,10 @@ export default class LoginComponent extends Component {
 
   register () {
     this.props.onRegister && this.props.onRegister()
+  }
+
+  resetPassword () {
+    this.props.onResetPassword && this.props.onResetPassword()
   }
 
   get error () {
@@ -101,7 +106,6 @@ export default class LoginComponent extends Component {
 
         { this.renderError() }
         { this.renderLoading() }
-
         <TextField disabled={this.state.loading && !this.error} outlined withLeadingIcon='email' label={this.state.email ? '' : 'Enter your email address'}
           onChange={(val) => this.setState({ email: val.target.value, error: '' })}
           onKeyPress={this.onKeyPress} />
@@ -118,6 +122,11 @@ export default class LoginComponent extends Component {
         <CardActions style={{justifyContent: 'center', margin: '0px'}}>
           <CardActionButtons>
             <Button disabled={this.state.loading && !this.error} onClick={this._register}> Need an account? </Button>
+          </CardActionButtons>
+        </CardActions>
+        <CardActions style={{justifyContent: 'center', margin: '0px'}}>
+          <CardActionButtons>
+            <Button disabled={this.state.loading && !this.error} onClick={this._resetPassword}> Forgot your password? </Button>
           </CardActionButtons>
         </CardActions>
       </Card>
