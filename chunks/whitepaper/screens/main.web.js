@@ -83,6 +83,7 @@ export default class MainPlatformScreen extends Screen {
         sectionsBackgroundColor='#FAFAFA'
         sectionColor='#B0BEC5'
         sectionSelectedColor='#039BE5'
+        nav={true}
         sections={this.sections}
         section={this.state.section}
         onSectionSelect={this._onSectionSelect}
