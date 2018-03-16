@@ -72,15 +72,34 @@
           "backgroundColor":"#00ACC1",
           "textColor": "#ffffff"
         },
-        "pillars": {
-          "source": "benefits",
-          "benefits": [
-            { "text": "local://education", "image": "education.png" },
-            { "text": "local://model", "image": "model.png" },
-            { "text": "local://growth", "image": "growth.png" }
+        "team": {
+          "id": "team",
+          "source": "team",
+          "text": "github://fluidtrends/carmel/content/team/README",
+          "members": [
+            {
+              "name": "Dan Călinescu",
+              "title": "CEO & Co-Founder",
+              "image": "https://github.com/fluidtrends/carmel/raw/content/team/dan/profile.png",
+              "linkedIn": "https://www.linkedin.com/in/idancali/",
+              "text": "github://fluidtrends/carmel/content/team/dan/README"
+            },
+            {
+              "name": "Andrei Lazurcă",
+              "title": "Product Manager & Co-Founder",
+              "image": "https://github.com/fluidtrends/carmel/raw/content/team/andrei/profile.png",
+              "linkedIn": "https://www.linkedin.com/in/andrei-lazurca/",
+              "text": "github://fluidtrends/carmel/content/team/andrei/README"
+            },
+            {
+              "name": "Andi Coman",
+              "title": "Product Developer & Co-Founder",
+              "image": "https://github.com/fluidtrends/carmel/raw/content/team/andi/profile.png",
+              "linkedIn": "https://www.linkedin.com/in/andi-coman/",
+              "text": "github://fluidtrends/carmel/content/team/andi/README"
+            }
           ],
-          "textColor": "#37474F",
-          "backgroundColor": "#fcfefe"
+          "backgroundColor":"#ffffff"
         },
         "features": [
           {
@@ -130,7 +149,17 @@
             "backgroundColor":"#E1F5FE",
             "textColor":"#0686d8"
           }
-        ]
+        ],
+        "pillars": {
+          "source": "benefits",
+          "benefits": [
+            { "text": "local://education", "image": "education.png" },
+            { "text": "local://model", "image": "model.png" },
+            { "text": "local://growth", "image": "growth.png" }
+          ],
+          "textColor": "#37474F",
+          "backgroundColor": "#fcfefe"
+        }
 
       }
     },
