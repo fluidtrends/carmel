@@ -10,10 +10,13 @@ The co-founders and owners of Fluid Trends, are **Dan Calinescu**, **Andrei Lazu
 
 **Dan Calinescu, CEO & Co-founder**
 <img align="left" style="margin: 20px" width="60" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/assets/dan.png">
+
 Dan is a seasoned technical entrepreneur, having developed software products for the last two decades. He co-founded three tech startups and was an early employee in a fourth. Fluid Trends is his latest venture which he founded in 2010 as a Digital Agency before shifting focus to original Product Creation. Dan has worked with dozens of global brands and hundreds of developers, drove sales efforts, led marketing campaigns and devised business strategies - and even mopped the floor when necessary. Dan graduated in 2003 from the University of Toronto with an Honours Bachelor of Science Degree in Computer Science and currently lives in Cluj, Romania with his wife and their four children.
 
 **Andrei Lazurca, Product Manager & Co-founder**
 <img align="left" style="margin: 20px" width="60" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/assets/andrei.png">
+
+Andrei is a technology professional, being involved in creating software products for the past five years. He held different roles, from testing, leading and managing teams, to product development. Previously co-founded a hardware startup and was involved in the development of the MVP, including Customer Discovery, Hardware Research and even Microprocessor Programming. He believes in building products that serve real human needs. Andrei graduated in 2014 from Technical University of Cluj-Napoca with a Bachelor of Applied Science Degree in Applied Electronics and lives in Cluj, Romania with his wife and their two young children.
 
 **Andi Coman, Product Developer & Co-founder**
 <img align="left" style="margin: 20px" width="60" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/assets/andi.png">
