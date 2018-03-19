@@ -2,7 +2,7 @@ The Carmel Platform is executed as a Decentralized Autonomous Corporation (DAC).
 
 At the same time, in order to execute all of this, especially during the early stages when the EOS blockchain is just getting started, we need a traditional legal structure that allows us to operate well and effectively. That structure is a legally incorporated company, owned by the founders.
 
-Carmel's parent company is Fluid Trends, incorporated under the laws of Romania. The full legal name of the corporation is **SC Fluid Trends Business Group SRL** based out of **Str. Regele Ferdinand Nr. 22-26, Cluj**. The 3 founders of Carmel, are the owners of Fluid Trends and will always hold a combined majority stake in the company.
+Carmel's parent company is Fluid Trends, incorporated under the laws of Romania. The full legal name of the corporation is **SC Fluid Trends Business Group SRL** based out of **Str. Regele Ferdinand Nr. 22-26, Cluj**. The 3 founders of Carmel, are the sole owners of Fluid Trends and will always hold a combined majority stake in the company.
 
 #### Founders
 
@@ -16,7 +16,9 @@ Dan is a seasoned technical entrepreneur, having developed software products for
 **Andrei Lazurca, Product Manager & Co-founder**
 <img align="left" style="margin: 20px" width="60" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/assets/andrei.png">
 
-Andrei is a technology professional, being involved in creating software products for the past five years. He held different roles, from testing, leading and managing teams, to product development. Previously co-founded a hardware startup and was involved in the development of the MVP, including Customer Discovery, Hardware Research and even Microprocessor Programming. He believes in building products that serve real human needs. Andrei graduated in 2014 from Technical University of Cluj-Napoca with a Bachelor of Applied Science Degree in Applied Electronics and lives in Cluj, Romania with his wife and their two young children.
+Andrei is a technology professional, being involved in creating software products for the past five years. He held different roles, from testing, leading and managing teams, to product development. Previously co-founded a hardware startup and was involved in the development of the MVP, including Customer Discovery, Hardware Research and even Microprocessor Programming. He believes in building products that serve real human needs. Andrei graduated in 2014 from Technical University of Cluj with a Bachelor of Applied Science Degree in Applied Electronics and lives in Cluj, Romania with his wife and their two young children.
 
 **Andi Coman, Product Developer & Co-founder**
 <img align="left" style="margin: 20px" width="60" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/assets/andi.png">
+
+Andi is a young, enthusiastic full-stack developer with a passion for front-end development. He began his career three years ago in a startup and loves the startup life. Some of the previous projects he worked on are include a product for McDonalds, a video-based survey app and an open source React component toolkit. React is his main strength but he loves learning new technologies. Andi is a people person, loves helping others and wants to become a professional clown. Or a teacher. Or both. He graduated in 2016 from Babes Bolyai University in Cluj with a Bachelor in Computer Science. He also lives in Cluj, Romania. No wife or kids (yet).
