@@ -14,7 +14,7 @@ Each of these tracks converge in a weekly deliverable - rain or shine - we deliv
 
 ## Week 2
 
-[![](https://img.shields.io/badge/status-In%20Progress-orange.svg)](https://github.com/fluidtrends/carmel/milestone/3)
+[![](https://img.shields.io/badge/Status:-Complete-green.svg)](https://github.com/fluidtrends/carmel/milestone/3)
 
 Release objective: TELL THE STORY. It's time to start talking about Carmel and about what it is that we believe and what we're all about. We want to start unpacking some of the big ideas that make up the #CarmelStory, such as the Big Carmel Dream (#H>m), the main problem we're trying to solve (#HelpingChrisSleepAtNight) and the Unique Carmel Value Proposition (#TheCarmelWay).
 
