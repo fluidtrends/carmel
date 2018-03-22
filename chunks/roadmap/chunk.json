@@ -1,0 +1,60 @@
+{
+  "name": "roadmap",
+  "routes": {
+    "main": {
+      "title": "Roadmap",
+      "icon": "home",
+      "path": "/roadmap",
+      "cover": {
+        "backgroundColor": "#00838F",
+        "opacity": 0.6,
+        "navigation": true,
+        "title": "The #CarmelRoadmap",
+        "type": "simple"
+      },
+      "components": {
+        "timeline": {
+          "id": "roadmap",
+          "source": "timeline",
+          "backgroundColor": "#E0E0E0",
+          "pastColor": "#00acc1",
+          "inProgressColor": "#ffffff",
+          "milestones": [
+            {
+              "until": "26 Feb 2018 00:00:00 PDT",
+              "date": "Week 0",
+              "link":
+                "https://github.com/fluidtrends/carmel/tree/content/roadmap#v010---week-0",
+              "title": "v0.1.0",
+              "text": "LAUNCH THE WEBSITE."
+            },
+            {
+              "until": "5 Mar 2018 00:00:00 PDT",
+              "date": "Week 1",
+              "link":
+                "https://github.com/fluidtrends/carmel/tree/content/roadmap#v011---week-1",
+              "title": "v0.1.1",
+              "text": "SELL FIRST TOKENS."
+            },
+            {
+              "until": "12 Mar 2018 00:00:00 PDT",
+              "date": "Week 2",
+              "link":
+                "https://github.com/fluidtrends/carmel/tree/content/roadmap#v012---week-2",
+              "title": "v0.1.2",
+              "text": "TELL THE STORY."
+            },
+            {
+              "until": "23 Mar 2018 00:00:00 PDT",
+              "date": "Week 3",
+              "link":
+                "https://github.com/fluidtrends/carmel/tree/content/roadmap#v013---week-3",
+              "title": "v0.1.3",
+              "text": "Currently In Progress."
+            }
+          ]
+        }
+      }
+    }
+  }
+}
