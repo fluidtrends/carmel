@@ -14,7 +14,7 @@ Carmel is a blockchain-based Open Source Education Platform that helps aspiring 
 
 * [Introduction](#introduction)
 * [Decentralized Community](#decentralized-community)
-  * [Community Stakeholders](#community-stakeholders) *In Progress*
+  * [Community Stakeholders](#community-stakeholders) _In Progress_
 * [Educational Model](#educational-model)
   * [Hands On](#hands-on)
   * [Microlearning](#microlearning)
@@ -47,16 +47,16 @@ Carmel is a blockchain-based Open Source Education Platform that helps aspiring 
   * [Period 2 (5 weeks)](#period-2)
   * [Period 3 (5 weeks)](#period-3)
   * [Period 4 (10 weeks)](#period-4)
-* [Technology Stack](#technology-stack) *In Progress*
+* [Technology Stack](#technology-stack) _In Progress_
 * [Company](#company)
-  * [Founders](#founders) *In Progress*
-* [Community](#community) *In Progress*
-  * [Contributors](#contributors) *In Progress*
-  * [Partners](#partners) *In Progress*
-* [Glossary](#glossary) *In Progress*
+  * [Founders](#founders) _In Progress_
+* [Community](#community) _In Progress_
+  * [Contributors](#contributors) _In Progress_
+  * [Partners](#partners) _In Progress_
+* [Glossary](#glossary) _In Progress_
 * [References](#references)
 
-## Introduction
+## Introductionhttps://github.com/fluidtrends/carmel/tree/content/roadmap
 
 <img align="center" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/intro.png">
 
@@ -76,7 +76,7 @@ It means that they have to learn new skills, that will give them new job opportu
 
 It means that they have to get the kind of education that will help them hit the ground running fast and start a new career as soon as humanly possible. A future-proof career. A career that will not easily be replaced by robots and one that will create ample opportunities for a better future.
 
-People like Chris know retraining is the solution. In a [survey by the Pew Research Center](#2-the-state-of-american-jobs-pew-research-center-2016), 54% of US workers say *"it will be essential for them to get training and develop new skills throughout their work life in order to keep up with changes in the workplace."* An additional 33% say this will be important. And 64% believe that knowing computer programming is crucial to success in today's economy.
+People like Chris know retraining is the solution. In a [survey by the Pew Research Center](#2-the-state-of-american-jobs-pew-research-center-2016), 54% of US workers say _"it will be essential for them to get training and develop new skills throughout their work life in order to keep up with changes in the workplace."_ An additional 33% say this will be important. And 64% believe that knowing computer programming is crucial to success in today's economy.
 
 What better way to survive in the tech world, than to become a Professional Software Developer?
 
@@ -124,7 +124,7 @@ With Carmel, developers engage in a **hands on**, **microlearning** model that i
 
 <img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/handson-icon.png">
 
-Learning with Carmel, the student is exposed to a way of doing things that feels very real. As real as if they were in an office, working on a real-world problem for a real-world product. The Carmel Learning Experience ensures that every Carmel Student gets their hands dirty doing real work. At the end of the work assignment, the student learned something but also created something new and so they gain not only raw knowledge *about* a concept but also new *skills* and put them in practice right away.
+Learning with Carmel, the student is exposed to a way of doing things that feels very real. As real as if they were in an office, working on a real-world problem for a real-world product. The Carmel Learning Experience ensures that every Carmel Student gets their hands dirty doing real work. At the end of the work assignment, the student learned something but also created something new and so they gain not only raw knowledge _about_ a concept but also new _skills_ and put them in practice right away.
 
 #### Microlearning
 
@@ -148,13 +148,13 @@ The Carmel Community is comprised of Software Developers who are at different le
 
 <img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/storybased-icon.png">
 
-Every Carmel Developer is encouraged to keep a Developer Journal that actively documents their Learning Journey. Each developer has their own story and others can participate in that story by connecting, conversing and engaging as their own story develops. Carmel generates story elements based on challenges which the developer either authored or completed and there is also a measure of progress that shows how much the developer knows and what it is that they can do as a software developer.  
+Every Carmel Developer is encouraged to keep a Developer Journal that actively documents their Learning Journey. Each developer has their own story and others can participate in that story by connecting, conversing and engaging as their own story develops. Carmel generates story elements based on challenges which the developer either authored or completed and there is also a measure of progress that shows how much the developer knows and what it is that they can do as a software developer.
 
 ## Challenges
 
 <img align="center" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/challenges.png">
 
-A Carmel Challenge is authored by someone who is familiar with the problem at hand and is in a position to challenge someone else while providing guidance and is also able to write the validation code required. In essence, developers challenge each other to *climb the digital mountain* so to speak, a daunting task to say the least. The ultimate goal is not how far a developer grows in their career, but that they keep growing. That they keep climbing.
+A Carmel Challenge is authored by someone who is familiar with the problem at hand and is in a position to challenge someone else while providing guidance and is also able to write the validation code required. In essence, developers challenge each other to _climb the digital mountain_ so to speak, a daunting task to say the least. The ultimate goal is not how far a developer grows in their career, but that they keep growing. That they keep climbing.
 
 The central theme of the Carmel Community is the concept of a challenge. A Carmel Challenge is a technical problem to be solved that includes a **tutorial** and a **proof of learning** using validation code that tests whether the student has successfully solved the problem or not. To author, distribute and edit challenges, a Carmel Author has access to a **publishing** dashboard. Each challenge is priced and measured in Carmel Tokens which represent the learning value of the challenge itself.
 
@@ -210,12 +210,12 @@ Here's the problem. We want Challenge Authors to set a price for their Challenge
 
 Here's the scenario:
 
-1. Bob (the Author) creates a Challenge ("Deploy a static site to an AWS S3 bucket")
-2. Bob writes the instructions (Tutorial) (a list of steps to follow)
-3. Bob writes the validation script (to test that the challenge was completed)
-4. Bob adds a difficulty level (Intermediate)
-5. Bob adds a category (DevOps)
-6. Bob presses publish.
+1.  Bob (the Author) creates a Challenge ("Deploy a static site to an AWS S3 bucket")
+2.  Bob writes the instructions (Tutorial) (a list of steps to follow)
+3.  Bob writes the validation script (to test that the challenge was completed)
+4.  Bob adds a difficulty level (Intermediate)
+5.  Bob adds a category (DevOps)
+6.  Bob presses publish.
 
 Ideally, we would not want Bob (the Author) do anything more than this. In order to achieve this, what we want, is for the Carmel Platform to automatically figure out the right pricing of the Challenge, in Carmel Tokens. But, without losing sight of the fact that we want to give Bob a way to control the value of the Challenge he authored.
 
@@ -227,11 +227,11 @@ We can think of Carmel XP as just a **flavor** of Carmel Tokens, but a stable on
 
 We also fix a number of Carmel XP to a Challenge Difficulty. Like so:
 
-- Beginner: 5 XP
-- Entry: 10 XP
-- Intermediate: 15 XP
-- Advanced: 20 XP
-- Expert: 25 XP
+* Beginner: 5 XP
+* Entry: 10 XP
+* Intermediate: 15 XP
+* Advanced: 20 XP
+* Expert: 25 XP
 
 Having all this in place, gives our economy the properties that most interest us. We essentially give authors a pricing range worth between $5 USD and $25 USD for a particular Challenge, so they're in charge of setting the price, by choosing the difficulty. At the same time, we keep the price for a Challenge stable so that it remains fairly priced even if the Carmel Token fluctuates. We want the prices chosen for a Challenge to be as immutable as possible so that different people taking the challenge at different times are charged the same fair price, based on difficulty.
 
@@ -241,17 +241,16 @@ Bob's new Challenge, along with the other challenges available are now listed on
 
 So for example, let's take a look at the following scenario, with Chris our hero in the lead role this time:
 
-1. Chris finds Bob's Challenge and wants to take it
-2. Chris purchases the Challenge at an instance we can call the Time of Purchase instance (TOP).
-3. At the TOP instance Chris purchases Bob's Challenge, 1 Carmel Token is worth $3 USD.
-4. The price of Bob's challenge at the TOP instance when Chris buys it is 5 Carmel Tokens.
-5. Chris confirms the purchase, and 5 Carmel Tokens are transferred from Chris' Carmel Wallet to Bob's Carmel Wallet.
-6. Chris can complete the challenge now and upon successful completion, he will be awarded 15 XP.
+1.  Chris finds Bob's Challenge and wants to take it
+2.  Chris purchases the Challenge at an instance we can call the Time of Purchase instance (TOP).
+3.  At the TOP instance Chris purchases Bob's Challenge, 1 Carmel Token is worth $3 USD.
+4.  The price of Bob's challenge at the TOP instance when Chris buys it is 5 Carmel Tokens.
+5.  Chris confirms the purchase, and 5 Carmel Tokens are transferred from Chris' Carmel Wallet to Bob's Carmel Wallet.
+6.  Chris can complete the challenge now and upon successful completion, he will be awarded 15 XP.
 
 Another important note about Challenge Authoring is that we although more difficult Challenges are worth more, want Challenge Authors to create a lot more challenges for beginners, like Chris.
 
 In order to incentivise Authors to create Beginner & Junior challenges, authors will have to **unlock the right to create challenges for higher levels**, only after creating a set number of challenges for lower levels.
-
 
 #### Challenge audits
 
@@ -267,11 +266,11 @@ Authors will also be incentivised because **higher audited challenges are more l
 
 Here's a breakdown of XP bonuses:
 
-- 1 audit: no XP bonus
-- 2 audits: 5% XP bonus
-- 3 audits: 10% XP bonus
-- 4 audits: 15% XP bonus
-- 5 audits: 20% XP bonus
+* 1 audit: no XP bonus
+* 2 audits: 5% XP bonus
+* 3 audits: 10% XP bonus
+* 4 audits: 15% XP bonus
+* 5 audits: 20% XP bonus
 
 Challenge Authors can create **Audit Requests** which are broadcast in the Carmel Platform to all those members who have been awarded Auditor Status in the platform. An Audit Request can be answered by an Auditor with an Audit Response.
 
@@ -301,7 +300,7 @@ In order to ensure a high transactional throughput, Carmel will include a privat
 
 <img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/web-icon.png">
 
-The Carmel Web App lives at carmel.io and acts as the primary interface to the Carmel Cloud for members and visitors. This is where a visitor can join the community by creating a new Carmel Account and this is where a Carmel Author comes to create a new Carmel Challenge and eventually publish it as well. The Carmel Web App is also the central hub for displaying information about the progress of each member's learning journey. Each member gets a personalized story page that can be accessed by anyone on the internet, without logging in to Carmel. Each member's learning story will be accessible at ```carmel.io/<username>``` and will be updated automatically as the member creates and completes more challenges.
+The Carmel Web App lives at carmel.io and acts as the primary interface to the Carmel Cloud for members and visitors. This is where a visitor can join the community by creating a new Carmel Account and this is where a Carmel Author comes to create a new Carmel Challenge and eventually publish it as well. The Carmel Web App is also the central hub for displaying information about the progress of each member's learning journey. Each member gets a personalized story page that can be accessed by anyone on the internet, without logging in to Carmel. Each member's learning story will be accessible at `carmel.io/<username>` and will be updated automatically as the member creates and completes more challenges.
 
 #### Desktop App
 
@@ -323,22 +322,22 @@ The Carmel Vault uses [Cassi](https://github.com/fluidtrends/cassi) as the under
 
 Here is the Carmel Security Model, heavily influenced by the Cassi Security Model:
 
-1. A Carmel **Vault** is secured with strong **symmetric encryption** using a 256-bit Vault Key. The cipher used is an **AES-256-GCM** cipher. See [Vault Security](#vault-security) for more details on how your data stored in a Carmel Vault is secured and [how secure it really is](#practically-unbreakable) (hint: it's practically unbreakable).
+1.  A Carmel **Vault** is secured with strong **symmetric encryption** using a 256-bit Vault Key. The cipher used is an **AES-256-GCM** cipher. See [Vault Security](#vault-security) for more details on how your data stored in a Carmel Vault is secured and [how secure it really is](#practically-unbreakable) (hint: it's practically unbreakable).
 
-2. The **Vault Key** is computed from a Machine Secret with Elliptic Curve Cryptography (ECC), using the Elliptic Curve Digital Signature Algorithm (ECDSA) and the **Secp256k1** standard and hashed using **HMAC-SHA256**. Have a look at [Vault Key Security](#vault-key-security) for details about the way Carmel secures the Vault Key.
+2.  The **Vault Key** is computed from a Machine Secret with Elliptic Curve Cryptography (ECC), using the Elliptic Curve Digital Signature Algorithm (ECDSA) and the **Secp256k1** standard and hashed using **HMAC-SHA256**. Have a look at [Vault Key Security](#vault-key-security) for details about the way Carmel secures the Vault Key.
 
-3. The **Machine Secret** is secured with strong password encryption from a **Master Password** using the **BIP38** standard. See [Machine Secret Security](#machine-secret-security) for more details.
+3.  The **Machine Secret** is secured with strong password encryption from a **Master Password** using the **BIP38** standard. See [Machine Secret Security](#machine-secret-security) for more details.
 
-4. The **Machine Hash** is stored in the System Keychain. Depending on the host system, that's either the **Mac Keychain**, the **Linux Secret Service API** or the **Windows Credential Vault**.
+4.  The **Machine Hash** is stored in the System Keychain. Depending on the host system, that's either the **Mac Keychain**, the **Linux Secret Service API** or the **Windows Credential Vault**.
 
-5. The **System Keychain** is protected natively by the host system using the **Keychain Password**.
+5.  The **System Keychain** is protected natively by the host system using the **Keychain Password**.
 
 #### Threat Exposure
 
 To crack a Carmel Vault, an attacker will need to either:
 
-1. decrypt the vault data directly by guessing the AES-256 key, or
-2. get access to the host system and crack both the System Keychain Password and the Master Password.
+1.  decrypt the vault data directly by guessing the AES-256 key, or
+2.  get access to the host system and crack both the System Keychain Password and the Master Password.
 
 The first attack would take billions of times more than the age of the universe, as [described in detail below](#practically-unbreakable).
 
@@ -374,7 +373,7 @@ To understand how secure AES-256 encryption is against brute force attacks, cons
 
 That's many, many **billions of times longer than the age of our universe.**
 
-The best known attack against AES is called the [Biclique attack [11]](#biclique-attack) and all that it did is reduce computational complexity from  2<sup>256</sup> to 2<sup>254.4</sup> which is practically irrelevant.
+The best known attack against AES is called the [Biclique attack [11]](#biclique-attack) and all that it did is reduce computational complexity from 2<sup>256</sup> to 2<sup>254.4</sup> which is practically irrelevant.
 
 Even if you apply the best known attack and use many of the world's top supercomputers, it would still take billions of years to crack a Carmel Vault.d
 
@@ -388,7 +387,7 @@ The specific Elliptic Curve algorithm used is Elliptic Curve Digital Signature A
 
 The Machine Signature represents the public Elliptic Curve Cryptography (ECC) key and the private ECC key is the Machine Secret. The Vault Key is generated by hashing the computed ECC secret resulting from the ECC computation, using HMAC-SHA256.
 
-When a Carmel Vault is locked (encrypted), it is signed using the Machine Signature of the machine on which it was encrypted. That effectively means that the Vault can only be unlocked (decrypted) on that same machine. A vault can be  shared from one machine to another by signing it using both Machine Ids. The shared vault can be unlocked on either one of those machines.
+When a Carmel Vault is locked (encrypted), it is signed using the Machine Signature of the machine on which it was encrypted. That effectively means that the Vault can only be unlocked (decrypted) on that same machine. A vault can be shared from one machine to another by signing it using both Machine Ids. The shared vault can be unlocked on either one of those machines.
 
 #### Machine Secret Security
 
@@ -479,14 +478,18 @@ Carmel's parent company is Fluid Trends, incorporated under the laws of Romania.
 The co-founders and owners of Fluid Trends, are **Dan Calinescu**, **Andrei Lazurca** and **Andi Coman**, all based of out Cluj, Romania. Dan oversees the company strategically and technically including Business & Product Strategy, while Andrei handles Product & Community Management and Andi works on Product Development.
 
 **Dan Calinescu, CEO & Co-founder**
-<img align="left" style="margin: 20px" width="60" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/assets/dan.png">
+<img align="left" style="margin: 20px" width="60" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/team/dan/profile.png">
 Dan is a seasoned technical entrepreneur, having developed software products for the last two decades. He co-founded three tech startups and was an early employee in a fourth. Fluid Trends is his latest venture which he founded in 2010 as a Digital Agency before shifting focus to original Product Creation. Dan has worked with dozens of global brands and hundreds of developers, drove sales efforts, led marketing campaigns and devised business strategies - and even mopped the floor when necessary. Dan graduated in 2003 from the University of Toronto with an Honours Bachelor of Science Degree in Computer Science and currently lives in Cluj, Romania with his wife and their four children.
 
 **Andrei Lazurca, Product Manager & Co-founder**
-<img align="left" style="margin: 20px" width="60" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/assets/andrei.png">
+<img align="left" style="margin: 20px" width="60" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/team/andrei/profile.png">
+
+Andrei is a technology professional, being involved in creating software products for the past five years. He held different roles, from testing, leading and managing teams, to product development. Previously co-founded a hardware startup and was involved in the development of the MVP, including Customer Discovery, Hardware Research and even Microprocessor Programming. He believes in building products that serve real human needs. Andrei graduated in 2014 from Technical University of Cluj with a Bachelor of Applied Science Degree in Applied Electronics and lives in Cluj, Romania with his wife and their two young children.
 
 **Andi Coman, Product Developer & Co-founder**
-<img align="left" style="margin: 20px" width="60" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/assets/andi.png">
+<img align="left" style="margin: 20px" width="60" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/team/andi/profile.png">
+
+Andi is a young, enthusiastic full-stack developer with a passion for front-end development. He began his career three years ago in a startup and loves the startup life. Some of the previous projects he worked on are include a product for McDonalds, a video-based survey app and an open source React component toolkit. React is his main strength but he loves learning new technologies. Andi is a people person, loves helping others and wants to become a professional clown. Or a teacher. Or both. He graduated in 2016 from Babes Bolyai University in Cluj with a Bachelor in Computer Science. He also lives in Cluj, Romania. No wife or kids (yet).
 
 ## Community
 
@@ -509,19 +512,35 @@ Dan is a seasoned technical entrepreneur, having developed software products for
 #### References
 
 ###### 1. [Workforce of the future, PWC 2017](https://www.pwc.com/us/futureworkforce?WT.mc_id=CT11-PL1000-DM2-TR1-LS2-ND30-BPA30-CN_WoFFFG-)
+
 ###### 2. [The state of American jobs, Pew Research Center 2016](http://www.pewsocialtrends.org/2016/10/06/the-state-of-american-jobs/)
+
 ###### 3. [The future of jobs, World Economic Forum 2016](http://reports.weforum.org/future-of-jobs-2016/)
+
 ###### 4. [AES Standard](http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.197.pdf)
+
 ###### 5. [AES Security](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard#Security)
+
 ###### 6. [1password Security Model](https://support.1password.com/1password-security/)
+
 ###### 7. [DashLane Security Whitepaper](https://www.dashlane.com/download/Dashlane_SecurityWhitePaper_Dec2017.pdf)
+
 ###### 8. [LastPass Security Model](https://www.lastpass.com/how-lastpass-works)
+
 ###### 9. [Galois/Counter Mode](https://en.wikipedia.org/wiki/Galois/Counter_Mode)
+
 ###### 10. [Top supercomputer](https://en.wikipedia.org/wiki/Sunway_TaihuLight)
+
 ###### 11. [Biclique attack](https://en.wikipedia.org/wiki/Biclique_attack)
+
 ###### 12. [Elliptic Curve Cryptography](https://en.wikipedia.org/wiki/Elliptic-curve_cryptography)
+
 ###### 13. [Secp256k1](https://en.bitcoin.it/wiki/Secp256k1)
+
 ###### 14. [EOS Security](https://github.com/EOSIO/eos/blob/af648f70a7d4cc90760c1e5e140e07b4b452354e/libraries/fc/src/crypto/elliptic_mixed.cpp)
+
 ###### 15. [Mnemonic phrase](https://en.bitcoin.it/wiki/Mnemonic_phrase)
+
 ###### 16. [BIP38 Standard](http://cryptocoinjs.com/modules/currency/bip38/)
+
 ###### 17. [Encrypted Paper Wallets](https://bitcoinpaperwallet.com/bip38-password-encrypted-wallets/)
