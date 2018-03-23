@@ -18,12 +18,38 @@ The Carmel Community is designed to be a learning community and so the primary s
 
 So who are the supporting stakeholders in the Carmel Community?
 
+#### Learners
+
+**You already met Chris**.
+
+<img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/chris.png">
+
 #### Developers
+
+**Meet Bob**.
+
+<img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/bob.png">
 
 #### Teachers
 
+**Meet Alice**.
+
+<img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/alice.png">
+
 #### Recruiters
+
+**Meet Diane**.
+
+<img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/diane.png">
 
 #### Managers
 
+**Meet Emma**.
+
+<img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/bob.png">
+
 #### Entrepreneurs
+
+**Meet Fred**.
+
+<img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/fred.png">
