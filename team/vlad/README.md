@@ -1,0 +1,3 @@
+**Vlad Negrean, Financial Advisor**
+
+Vlad is Financial Advisor at Carmel. With a 10 years experience in financial accounting and with a great interest in behavioral economics, Vlad tries and succeeds in helping the Carmel team by matching the complex tech world of blockchain with the fascinating and complicated fields of finance and accounting. Vlad totally supports Carmel, because Carmel totally matches Vlad’s vision of learning and developing useful skills. Carmel makes this happen through step by step learning, and practicing while learning, as the most healthier way to learn and grow in every given field.
