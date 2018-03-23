@@ -19,19 +19,17 @@ import { Button, ButtonIcon } from 'rmwc/Button'
 import { Typography } from 'rmwc/Typography'
 import { FormField } from 'rmwc/FormField'
 import { Chip, ChipText, ChipIcon, ChipSet } from 'rmwc/Chip'
-import {
-  ListDivider
-} from 'rmwc/List'
+import { ListDivider } from 'rmwc/List'
 import { Fab } from 'rmwc/Fab'
 import { Icon } from 'rmwc/Icon'
-export default class MainTokensScreen extends Screen {
 
-  constructor (props) {
+export default class MainTokensScreen extends Screen {
+  constructor(props) {
     super(props)
     this.state = { ...this.state }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     super.componentDidMount()
 
     if (this.isLoggedIn) {
@@ -39,12 +37,11 @@ export default class MainTokensScreen extends Screen {
     }
   }
 
-  get features () {
+  get features() {
     return []
   }
 
-  components () {
-    return super.components()
-          .concat(this.features)
+  components() {
+    return super.components().concat(this.features)
   }
 }
