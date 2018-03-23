@@ -4,6 +4,13 @@
     "main": {
       "title": "Welcome",
       "icon": "home",
+      "extendedMenu": [
+        {
+          "id": "team",
+          "title": "Team",
+          "path": "/team"
+        }
+      ],
       "path": "/",
       "events": {
         "cover": "local://me",
@@ -203,7 +210,7 @@
           "githubIcon":
             "https://github.com/fluidtrends/carmel/raw/content/images/github.png",
           "webIcon":
-            "https://github.com/fluidtrends/carmel/raw/extend-team/images/web.png",
+            "https://github.com/fluidtrends/carmel/raw/content/images/web.png",
           "sections": [
             {
               "title": "Founders",
@@ -252,42 +259,52 @@
               ]
             },
             {
-              "title": "Core Team",
+              "title": "Core Contributors",
               "members": [
                 {
                   "name": "Vincent Doare",
                   "username": "vincent",
                   "title": "Business Development",
                   "image":
-                    "https://github.com/fluidtrends/carmel/raw/extend-team/team/vincent/profile.jpg",
+                    "https://github.com/fluidtrends/carmel/raw/content/team/vincent/profile.jpg",
                   "linkedIn":
-                    "https://www.linkedin.com/in/vincent-doare-058170a7/"
+                    "https://www.linkedin.com/in/vincent-doare-058170a7/",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/vincent/README"
                 },
                 {
                   "name": "Robert Pop",
                   "username": "robert",
                   "title": "Product Developer",
                   "image":
-                    "https://github.com/fluidtrends/carmel/raw/extend-team/team/robert/profile.png",
+                    "https://github.com/fluidtrends/carmel/raw/content/team/robert/profile.png",
                   "github": "https://github.com/poprobertdaniel",
-                  "linkedIn": "https://www.linkedin.com/in/robert-pop-90a512b6/"
+                  "linkedIn":
+                    "https://www.linkedin.com/in/robert-pop-90a512b6/",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/robert/README"
                 },
                 {
                   "name": "Mihai Tise",
                   "username": "mihai",
                   "title": "Product Developer",
                   "image":
-                    "https://github.com/fluidtrends/carmel/raw/extend-team/team/mihai/profile.jpg",
-                  "linkedIn": "https://www.linkedin.com/in/mihai-tise-9995b2a3/"
+                    "https://github.com/fluidtrends/carmel/raw/content/team/mihai/profile.png",
+                  "linkedIn":
+                    "https://www.linkedin.com/in/mihai-tise-9995b2a3/",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/mihai/README"
                 },
                 {
                   "name": "Emanuel Tise",
                   "username": "emanuel",
                   "title": "Product Developer",
                   "image":
-                    "https://github.com/fluidtrends/carmel/raw/extend-team/team/emanuel/profile.png",
+                    "https://github.com/fluidtrends/carmel/raw/content/team/emanuel/profile.png",
                   "linkedIn":
-                    "https://www.linkedin.com/in/emanuel-tise-70559396/"
+                    "https://www.linkedin.com/in/emanuel-tise-70559396/",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/emanuel/README"
                 }
               ]
             },
@@ -295,69 +312,94 @@
               "title": "Advisors",
               "members": [
                 {
+                  "name": "Paul Brie",
+                  "username": "paul-brie",
+                  "title": "Carmel Advisor",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/content/team/paul-brie/profile.jpeg",
+                  "linkedIn": "https://www.linkedin.com/in/paul-brie/",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/paul-brie/README"
+                },
+                {
                   "name": "Justin 'officialfuzzy' Fondriest",
                   "username": "fuzzy",
                   "title": "Carmel Advisor",
                   "image":
-                    "https://github.com/fluidtrends/carmel/raw/extend-team/team/fuzzy/profile.jpg",
+                    "https://github.com/fluidtrends/carmel/raw/content/team/fuzzy/profile.jpg",
                   "linkedIn":
-                    "https://www.linkedin.com/in/justin-fondriest-7941651a/"
+                    "https://www.linkedin.com/in/justin-fondriest-7941651a/",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/fuzzy/README"
                 },
                 {
                   "name": "Nathan 'nsjames' James",
                   "username": "nsjames",
                   "title": "Carmel Advisor",
                   "image":
-                    "https://github.com/fluidtrends/carmel/raw/extend-team/team/nsjames/profile.jpg"
-                },
-                {
-                  "name": "Emil Tamas",
-                  "username": "emil",
-                  "title": "Carmel Advisor",
-                  "image":
-                    "https://github.com/fluidtrends/carmel/raw/extend-team/team/emil/profile.jpg",
-                  "linkedIn": "https://www.linkedin.com/in/emiltamas/"
+                    "https://github.com/fluidtrends/carmel/raw/content/team/nsjames/profile.jpg",
+                  "github": "https://github.com/nsjames",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/nsjames/README"
                 },
                 {
                   "name": "Gheorghe Lisca",
                   "username": "gheorghe",
                   "title": "Carmel Advisor",
                   "image":
-                    "https://github.com/fluidtrends/carmel/raw/extend-team/team/gheorghe/profile.jpg",
+                    "https://github.com/fluidtrends/carmel/raw/content/team/gheorghe/profile.jpg",
                   "linkedIn":
-                    "https://www.linkedin.com/in/gheorghe-lisca-51801b140/"
+                    "https://www.linkedin.com/in/gheorghe-lisca-51801b140/",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/gheorghe/README"
                 },
                 {
-                  "name": "Vivek Parashar",
-                  "username": "vivek",
-                  "title": "Carmel Advisor",
+                  "name": "Vlad Negrean",
+                  "username": "vlad",
+                  "title": "Financial Advisor",
                   "image":
-                    "https://github.com/fluidtrends/carmel/raw/extend-team/team/vivek/profile.png",
-                  "linkedIn": "https://www.linkedin.com/in/vivekparashar/"
-                },
-                {
-                  "name": "Paul Brie",
-                  "username": "paul-brie",
-                  "title": "Carmel Advisor",
-                  "image":
-                    "https://github.com/fluidtrends/carmel/raw/extend-team/team/paul-brie/profile.jpeg",
-                  "linkedIn": "https://www.linkedin.com/in/paul-brie/"
+                    "https://github.com/fluidtrends/carmel/raw/content/team/vlad/profile.jpg",
+                  "linkedIn": "https://www.linkedin.com/in/vladnegrean/",
+                  "text": "github://fluidtrends/carmel/content/team/vlad/README"
                 },
                 {
                   "name": "Paul Oprea",
                   "username": "paul-oprea",
                   "title": "Carmel Advisor",
                   "image":
-                    "https://github.com/fluidtrends/carmel/raw/extend-team/team/paul-oprea/profile.jpg",
-                  "linkedIn": "https://www.linkedin.com/in/pmoprea/"
+                    "https://github.com/fluidtrends/carmel/raw/content/team/paul-oprea/profile.jpg",
+                  "linkedIn": "https://www.linkedin.com/in/pmoprea/",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/paul-oprea/README"
+                },
+                {
+                  "name": "Vivek Parashar",
+                  "username": "vivek",
+                  "title": "Carmel Advisor",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/content/team/vivek/profile.png",
+                  "linkedIn": "https://www.linkedin.com/in/vivekparashar/",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/vivek/README"
                 },
                 {
                   "name": "Rennie Pelkie",
                   "username": "rennie",
                   "title": "Carmel Advisor",
                   "image":
-                    "https://github.com/fluidtrends/carmel/raw/extend-team/team/rennie/profile.jpg",
-                  "linkedIn": "https://www.linkedin.com/in/renniepelkie/"
+                    "https://github.com/fluidtrends/carmel/raw/content/team/rennie/profile.jpg",
+                  "linkedIn": "https://www.linkedin.com/in/renniepelkie/",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/rennie/README"
+                },
+                {
+                  "name": "Emil Tamas",
+                  "username": "emil",
+                  "title": "Carmel Advisor",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/content/team/emil/profile.jpeg",
+                  "linkedIn": "https://www.linkedin.com/in/emiltamas/",
+                  "text": "github://fluidtrends/carmel/content/team/emil/README"
                 }
               ]
             },
@@ -365,53 +407,65 @@
               "title": "Partners",
               "members": [
                 {
+                  "name": "EOS Angels",
+                  "username": "eosangels",
+                  "title": "Carmel Advisor",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/content/team/eosangels/profile.jpeg",
+                  "website":
+                    "https://eostalk.io/eos-projects/@officialfuzzy/eos-angels-decentralized-venture-capital",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/eosangels/README"
+                },
+                {
                   "name": "EOS GO",
                   "username": "eosgo",
                   "title": "Carmel Advisor",
                   "image":
-                    "https://github.com/fluidtrends/carmel/raw/extend-team/team/eosgo/profile.jpg",
-                  "website": "http://eosgo.io/"
+                    "https://github.com/fluidtrends/carmel/raw/content/team/eosgo/profile.jpg",
+                  "website": "http://eosgo.io/",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/eosgo/README"
                 },
                 {
                   "name": "EOS Talks",
                   "username": "eostalks",
                   "title": "Carmel Advisor",
                   "image":
-                    "https://github.com/fluidtrends/carmel/raw/extend-team/team/eostalks/profile.png",
-                  "website": "https://eostalk.io"
-                },
-                {
-                  "name": "EOS Angels",
-                  "username": "eosangels",
-                  "title": "Carmel Advisor",
-                  "image":
-                    "https://github.com/fluidtrends/carmel/raw/extend-team/team/eosangels/profile.jpeg",
-                  "website":
-                    "https://eostalk.io/eos-projects/@officialfuzzy/eos-angels-decentralized-venture-capital"
-                },
-                {
-                  "name": "Scatter",
-                  "username": "scatter",
-                  "title": "Carmel Advisor",
-                  "image":
-                    "https://github.com/fluidtrends/carmel/raw/extend-team/team/scatter/profile.jpg",
-                  "website": "http://scatter-eos.com/"
-                },
-                {
-                  "name": "Scoala Informala de IT",
-                  "username": "informal-school",
-                  "title": "Carmel Advisor",
-                  "image":
-                    "https://github.com/fluidtrends/carmel/raw/extend-team/team/scoalainformala/profile.png",
-                  "website": "https://informalschool.com/"
+                    "https://github.com/fluidtrends/carmel/raw/content/team/eostalks/profile.png",
+                  "website": "https://eostalk.io",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/eostalks/README"
                 },
                 {
                   "name": "KOREOS",
                   "username": "koreos",
                   "title": "Carmel Advisor",
                   "image":
-                    "https://github.com/fluidtrends/carmel/raw/extend-team/team/koreos/profile.png",
-                  "website": "http://www.koreos.io/"
+                    "https://github.com/fluidtrends/carmel/raw/content/team/koreos/profile.png",
+                  "website": "http://www.koreos.io/",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/koreos/README"
+                },
+                {
+                  "name": "Scatter",
+                  "username": "scatter",
+                  "title": "Carmel Advisor",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/content/team/scatter/profile.jpg",
+                  "website": "http://scatter-eos.com/",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/scatter/README"
+                },
+                {
+                  "name": "Scoala Informala de IT",
+                  "username": "informal-school",
+                  "title": "Carmel Advisor",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/content/team/scoalainformala/profile.png",
+                  "website": "https://informalschool.com/",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/scoalainformala/README"
                 }
               ]
             }
