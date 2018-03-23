@@ -17,7 +17,7 @@
   left: 18px;
   height: 100%;
   width: 4px;
-  background: #fff;
+  background: #e0e0e0;
 }
 @media only screen and (min-width: 1170px) {
   .vertical-timeline {
@@ -63,7 +63,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  box-shadow: 0 0 0 4px #fff, inset 0 2px 0 rgba(0, 0, 0, 0.08),
+  box-shadow: 0 0 0 4px #e0e0e0, inset 0 2px 0 rgba(0, 0, 0, 0.08),
     0 3px 0 4px rgba(0, 0, 0, 0.05);
 }
 .vertical-timeline-element-icon svg {
@@ -149,7 +149,7 @@
 .vertical-timeline-element-content {
   position: relative;
   margin-left: 60px;
-  background: #fff;
+  background: #e0e0e0;
   border-radius: 0.25em;
   padding: 1em;
   box-shadow: 0 3px 0 #ddd;
@@ -195,7 +195,7 @@
   height: 0;
   width: 0;
   border: 7px solid transparent;
-  border-right: 7px solid #fff;
+  border-right: 7px solid #e0e0e0;
 }
 @media only screen and (min-width: 768px) {
   .vertical-timeline-element-content h2 {
@@ -221,7 +221,7 @@
     top: 24px;
     left: 100%;
     border-color: transparent;
-    border-left-color: #fff;
+    border-left-color: #e0e0e0;
   }
   .vertical-timeline-element-content .vertical-timeline-element-date {
     position: absolute;
@@ -245,7 +245,7 @@
     left: auto;
     right: 100%;
     border-color: transparent;
-    border-right-color: #fff;
+    border-right-color: #E0E0E0;
   }
   .vertical-timeline-element.vertical-timeline-element--right
     .vertical-timeline-element-content
