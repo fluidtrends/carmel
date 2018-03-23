@@ -12,7 +12,7 @@ The only way to reduce our dependency on a centralized authority in a learning e
 
 ## Community Stakeholders
 
-<img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/marketplace.jpg">
+<img align="center" style="margin: 20px" width="80%" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/marketplace.jpg">
 
 The Carmel Community is designed to be a learning community and so the primary stakeholder is and always will be the Learner - ie. Chris. But in order for Chris to be successful, our community needs to include supporting stakeholders - much like any story is simply not the same without its own supporting characters. What would Batman be without Robin... But that's for another time.
 
