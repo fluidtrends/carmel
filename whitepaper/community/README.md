@@ -28,9 +28,13 @@ This is the hero of the Carmel Story and the main protagonist. We want to come t
 
 Chris **earns Carmel Experience Points (CARMEL XP)** for every Carmel Challenge he successfully completes. He may either **purchase Carmel Challenges** with Carmel Tokens (CARMEL) or he may receive them freely from any of the other stakeholders in the community.
 
+**Here's how the Carmel Learning Process works, step by step:**
+
+<img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/learning.png">
+
 ## Developers
 
-**What About Bob?**.
+**What About Bob?**
 
 <img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/bob.png">
 
@@ -71,5 +75,11 @@ Emma **purchases Carmel Tokens (CARMEL)** and uses them to sponsor Chris - on th
 ## Entrepreneurs
 
 **Fred is on fire**.
+
+<img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/fred.png">
+
+So this is great, we have this amazing Developer Community on Carmel. And in this continuously evolving digital world, there's so much need for Development Work. Emma for one - especially if she runs a Digital Agency - would be delighted to get more work. Or maybe even Bob - if he fancies some freelancing. Perhaps Chris himself - if he gathers enough skills to produce quality work, maybe he'll do a few contracts to sharpen his newfound skills and earn some revenue. That said - Carmel loves Entrepreneurs - like Fred.
+
+Fred **purchases Carmel Tokens (CARMEL)** and uses them **to request quotes** that Emma, Bob or even Chris can work on. There will be a few types of quotes available for Fred to choose from, at different price levels - and once he goes through a few simple questions about the type of work he needs, Carmel sends off that request to one or more developers waiting in line to respond.
 
 <img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/fred.png">
