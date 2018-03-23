@@ -17,48 +17,59 @@ import {
   CardHorizontalBlock
 } from 'rmwc/Card'
 import { Typography } from 'rmwc/Typography'
-import {
-  ListDivider
-} from 'rmwc/List'
+import { ListDivider } from 'rmwc/List'
 
-export default class CategoriesScreen extends Screen {
-
-  constructor (props) {
+export default class MainChallengesScreen extends Screen {
+  constructor(props) {
     super(props)
     this.state = { ...this.state, loading: true }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     super.componentDidMount()
     this.importRemoteData(this.props.index).then(challenges => {
-      this.setState({ challenges, loading: false })
+      this.setState({
+        challenges,
+        loading: false
+      })
     })
   }
 
-  renderContent () {
+  renderContent() {
     if (this.state.loading) {
       const width = '100%'
-      return <div style={{ display: 'flex', flex: 1, margin: '10px', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }} >
-        <Card style={{width, margin: '20px', padding: '0px'}} >
-          <Typography use='title' tag='h1'>
-            Loading ... Just a sec.
-          </Typography>
-          <ListDivider />
-          <LinearProgress determinate={false} />
-        </Card>
-      </div>
+      return (
+        <div
+          style={{
+            display: 'flex',
+            flex: 1,
+            margin: '10px',
+            justifyContent: 'center',
+            flexDirection: 'column',
+            alignItems: 'center'
+          }}
+        >
+          <Card style={{ width, margin: '20px', padding: '0px' }}>
+            <Typography use="title" tag="h1">
+              Loading ... Just a sec.
+            </Typography>
+            <ListDivider />
+            <LinearProgress determinate={false} />
+          </Card>
+        </div>
+      )
     }
 
-    return <Components.Collection
-      id='challenges'
-      type="challenges"
-      categories={this.state.challenges}
-    />
+    return (
+      <Components.Collection
+        id="challenges"
+        type="challenges"
+        categories={this.state.challenges}
+      />
+    )
   }
 
-  components () {
-    return [
-      this.renderContent()
-    ]
+  components() {
+    return [this.renderContent()]
   }
 }
