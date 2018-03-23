@@ -19,7 +19,8 @@
   },
   "homepage": "http://www.carmel.io",
   "dependencies": {
-    "react-dom-chunky": "0.9.x"
+    "react-dom-chunky": "0.9.x",
+    "react-vertical-timeline-component": "^2.0.5"
   },
   "devDependencies": {
     "react-savor": "0.x"
