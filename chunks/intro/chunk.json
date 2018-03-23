@@ -7,6 +7,7 @@
       "path": "/",
       "events": {
         "cover": "local://me",
+        "chris": "local://whitepaper",
         "buy": "local://me/tokens",
         "distribution": "local://whitepaper/tokens",
         "economy": "local://whitepaper/economy",
@@ -83,6 +84,25 @@
           "backgroundColor": "#fcfefe"
         },
         "features": [
+          {
+            "id": "chris",
+            "source": "feature",
+            "text":"github://fluidtrends/carmel/content/product/stakeholders/chris",
+            "image":"learning.png",
+            "actionTitle":"Learn more about Chris",
+            "backgroundColor":"#E1F5FE",
+            "textColor":"#0686d8"
+          },
+          {
+            "id": "stakeholders",
+            "source": "feature",
+            "text":"github://fluidtrends/carmel/content/product/stakeholders/all",
+            "image":"stakeholders.png",
+            "reversed": true,
+            "actionTitle":"Meet All The Carmel Stakeholders",
+            "backgroundColor":"#FFFFFF",
+            "textColor":"#0686d8"
+          },
           {
             "id": "challenges",
             "source": "feature",
