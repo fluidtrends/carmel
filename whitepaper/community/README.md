@@ -30,7 +30,7 @@ Chris **earns Carmel Experience Points (CARMEL XP)** for every Carmel Challenge 
 
 ## Developers
 
-**What About Bob?**
+**What About Bob?** 🤔😎
 
 <img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/bob.png">
 
@@ -40,7 +40,7 @@ Bob **creates Carmel Challenges** and **earns Carmel Tokens (CARMEL)** for every
 
 ## Carmel Teachers
 
-**This is Alice**.
+**This is Alice** ✋✍️
 
 <img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/alice.png">
 
@@ -50,7 +50,7 @@ Alice **adds Carmel Challenges to her traditional curriculum** and the school an
 
 ## Recruiters
 
-**Meet Diane**.
+**Meet Diane** 👀😀
 
 <img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/diane.png">
 
@@ -60,7 +60,7 @@ Diane **purchases Carmel Tokens (CARMEL)** and uses them to sponsor Chris in his
 
 ## Managers
 
-**Emma rules**.
+**Emma rules**  👍💪
 
 <img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/bob.png">
 
@@ -70,12 +70,10 @@ Emma **purchases Carmel Tokens (CARMEL)** and uses them to sponsor Chris - on th
 
 ## Entrepreneurs
 
-**Fred is on fire**.
+**Fred is on fire** 🔥⚡️
 
 <img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/fred.png">
 
 So this is great, we have this amazing Developer Community on Carmel. And in this continuously evolving digital world, there's so much need for Development Work. Emma for one - especially if she runs a Digital Agency - would be delighted to get more work. Or maybe even Bob - if he fancies some freelancing. Perhaps Chris himself - if he gathers enough skills to produce quality work, maybe he'll do a few contracts to sharpen his newfound skills and earn some revenue. That said - Carmel loves Entrepreneurs - like Fred.
 
 Fred **purchases Carmel Tokens (CARMEL)** and uses them **to request quotes** that Emma, Bob or even Chris can work on. There will be a few types of quotes available for Fred to choose from, at different price levels - and once he goes through a few simple questions about the type of work he needs, Carmel sends off that request to one or more developers waiting in line to respond.
-
-<img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/fred.png">
