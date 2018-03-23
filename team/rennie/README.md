@@ -1,0 +1,5 @@
+**Rennie Pelkie**
+
+Rennie is a 25+ year veteran in the Payments Business with a unique and diverse background in multiple payment platforms, payment technology and payment companies.
+Having made contributions to Bank of America Merchant services, VISA, CyberSource, PaySafe, and now at Wells Fargo Merchant Services – Rennie finds himself incredibly grateful for every experience and business relationship created.
+Rennie joins the CARMEL Board of Advisors extremely excited about the potential and strategy of this new brand of Token based Education/Payments and equally as important the people behind it.
