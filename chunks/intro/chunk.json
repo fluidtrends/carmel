@@ -202,7 +202,7 @@
             "https://github.com/fluidtrends/carmel/raw/content/images/linkedin.png",
           "githubIcon":
             "https://github.com/fluidtrends/carmel/raw/content/images/github.png",
-          "websiteIcon":
+          "webIcon":
             "https://github.com/fluidtrends/carmel/raw/extend-team/images/web.png",
           "sections": [
             {
@@ -271,11 +271,28 @@
                     "https://github.com/fluidtrends/carmel/raw/extend-team/team/robert/profile.png",
                   "github": "https://github.com/poprobertdaniel",
                   "linkedIn": "https://www.linkedin.com/in/robert-pop-90a512b6/"
+                },
+                {
+                  "name": "Mihai Tise",
+                  "username": "mihai",
+                  "title": "Product Developer",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/extend-team/team/mihai/profile.jpg",
+                  "linkedIn": "https://www.linkedin.com/in/mihai-tise-9995b2a3/"
+                },
+                {
+                  "name": "Emanuel Tise",
+                  "username": "emanuel",
+                  "title": "Product Developer",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/extend-team/team/emanuel/profile.png",
+                  "linkedIn":
+                    "https://www.linkedin.com/in/emanuel-tise-70559396/"
                 }
               ]
             },
             {
-              "title": "Advisers",
+              "title": "Advisors",
               "members": [
                 {
                   "name": "Justin 'officialfuzzy' Fondriest",
@@ -317,6 +334,30 @@
                   "image":
                     "https://github.com/fluidtrends/carmel/raw/extend-team/team/vivek/profile.png",
                   "linkedIn": "https://www.linkedin.com/in/vivekparashar/"
+                },
+                {
+                  "name": "Paul Brie",
+                  "username": "paul-brie",
+                  "title": "Carmel Advisor",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/extend-team/team/paul-brie/profile.jpeg",
+                  "linkedIn": "https://www.linkedin.com/in/paul-brie/"
+                },
+                {
+                  "name": "Paul Oprea",
+                  "username": "paul-oprea",
+                  "title": "Carmel Advisor",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/extend-team/team/paul-oprea/profile.jpg",
+                  "linkedIn": "https://www.linkedin.com/in/pmoprea/"
+                },
+                {
+                  "name": "Rennie Pelkie",
+                  "username": "rennie",
+                  "title": "Carmel Advisor",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/extend-team/team/rennie/profile.jpg",
+                  "linkedIn": "https://www.linkedin.com/in/renniepelkie/"
                 }
               ]
             },
