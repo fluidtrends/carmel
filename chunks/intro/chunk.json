@@ -181,6 +181,7 @@
       "skipPaths": [
         "story",
         "whitepaper",
+        "roadmap",
         "platform",
         "admin",
         "dashboard",
@@ -337,7 +338,7 @@
                   "title": "Carmel Advisor",
                   "image":
                     "https://github.com/fluidtrends/carmel/raw/content/team/paul-brie/profile.jpeg",
-                  "linkedIn": "https://www.linkedin.com/in/paul-brie/",
+                  "linkedIn": "https:/>>>>>>> master/www.linkedin.com/in/paul-brie/",
                   "text":
                     "github://fluidtrends/carmel/content/team/paul-brie/README"
                 },
