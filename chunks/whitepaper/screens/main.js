@@ -1,14 +1,8 @@
 import React from 'react'
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView
-} from 'react-native'
+import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import { Screen } from 'react-native-chunky'
 
-export default class MainIntroScreen extends Screen {
-
+export default class MainWhitepaperScreen extends Screen {
   constructor(props) {
     super(props)
     this.state = { ...this.state }
@@ -31,27 +25,26 @@ export default class MainIntroScreen extends Screen {
   }
 
   renderContent() {
-    return (<ScrollView style={styles.content}>
-        <Text style={styles.title}>
-            Welcome
-        </Text>
-    </ScrollView>)
+    return (
+      <ScrollView style={styles.content}>
+        <Text style={styles.title}>Welcome</Text>
+      </ScrollView>
+    )
   }
 
   renderData() {
     return (
-        <ScrollView style={styles.container}>
-        { this.renderContent() }
-       </ScrollView>)
+      <ScrollView style={styles.container}>{this.renderContent()}</ScrollView>
+    )
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#ffffff"
+    backgroundColor: '#ffffff'
   },
-  content:  {
-    backgroundColor: "#ffffff",
+  content: {
+    backgroundColor: '#ffffff',
     padding: 5
   },
   title: {
