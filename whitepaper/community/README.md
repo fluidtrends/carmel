@@ -18,7 +18,9 @@ The Carmel Community is designed to be a learning community and so the primary s
 
 So who are the supporting stakeholders in the Carmel Community?
 
-#### Learners
+### Learners
+
+<img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/chris.png">
 
 **You already met Chris**.
 
@@ -26,19 +28,25 @@ This is the hero of the Carmel Story and the main protagonist. We want to come t
 
 Chris **earns Carmel Experience Points (CARMEL XP)** for every Carmel Challenge he successfully completes. He may either **purchase Carmel Challenges** with Carmel Tokens (CARMEL) or he may receive them freely from any of the other stakeholders in the community.
 
-<img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/chris.png">
-
 #### Developers
 
 **Meet Bob**.
 
 <img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/bob.png">
 
+The heart of the Carmel Content, are the Carmel Challenges. No challenges - no learning - and that will make Chris very sad. We don't want that. We want to make Chris happy and always growing, always learning. That's where Bob comes in.
+
+Bob **creates Carmel Challenges** and **earns Carmel Tokens (CARMEL)** for every challenge purchased. He keeps the bulk of the revenues, after splitting it with Auditors (other developers), who ensure his challenges are good enough to be published. He may also share tokens from every purchase with other stakeholders, based on different incentive models offered in the community.
+
 #### Teachers
 
-**Meet Alice**.
+**This is Alice**.
 
 <img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/alice.png">
+
+Speaking of incentive models. Carmel offers traditional tech educators - such as professors, teachers, or even schools themselves - a means to extend their in-classroom curriculum to our decentralized model.
+
+Alice **adds Carmel Challenges to her traditional curriculum** and the school and/or the students themselves purchase those challenges (from Bob) - while Alice **earns Carmel Tokens (CARMEL)** as a share of Bob's revenue.
 
 #### Recruiters
 
