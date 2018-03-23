@@ -32,6 +32,7 @@ Chris **earns Carmel Experience Points (CARMEL XP)** for every Carmel Challenge 
 
 <img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/learning.png">
 
+
 ## Developers
 
 **What About Bob?**
@@ -41,6 +42,11 @@ Chris **earns Carmel Experience Points (CARMEL XP)** for every Carmel Challenge 
 The heart of the Carmel Content, are the Carmel Challenges. No challenges - no learning - and that will make Chris very sad. We don't want that. We want to make Chris happy and always growing, always learning. That's where Bob comes in.
 
 Bob **creates Carmel Challenges** and **earns Carmel Tokens (CARMEL)** for every challenge purchased. He keeps the bulk of the revenues, after splitting it with Auditors (other developers), who ensure his challenges are good enough to be published. He may also share tokens from every purchase with other stakeholders, based on different incentive models offered in the community.
+
+**Here's how the Carmel Challenge Authoring Process works, step by step:**
+
+<img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/learning.png">
+
 
 ## Carmel Teachers
 
