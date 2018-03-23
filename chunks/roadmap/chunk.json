@@ -21,7 +21,7 @@
           "inProgressColor": "#ffffff",
           "milestones": [
             {
-              "until": "23 Mar 2018 00:00:00 PDT",
+              "until": "23 Mar 2018 18:00:00 PDT",
               "date": "Week 3",
               "link":
                 "https://github.com/fluidtrends/carmel/tree/content/roadmap#v013---week-3",
