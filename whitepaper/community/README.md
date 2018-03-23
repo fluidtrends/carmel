@@ -18,7 +18,7 @@ The Carmel Community is designed to be a learning community and so the primary s
 
 So who are the supporting stakeholders in the Carmel Community?
 
-### Learners
+## Learners
 
 <img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/chris.png">
 
@@ -28,9 +28,9 @@ This is the hero of the Carmel Story and the main protagonist. We want to come t
 
 Chris **earns Carmel Experience Points (CARMEL XP)** for every Carmel Challenge he successfully completes. He may either **purchase Carmel Challenges** with Carmel Tokens (CARMEL) or he may receive them freely from any of the other stakeholders in the community.
 
-#### Developers
+## Developers
 
-**Meet Bob**.
+**What About Bob?**.
 
 <img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/bob.png">
 
@@ -38,7 +38,7 @@ The heart of the Carmel Content, are the Carmel Challenges. No challenges - no l
 
 Bob **creates Carmel Challenges** and **earns Carmel Tokens (CARMEL)** for every challenge purchased. He keeps the bulk of the revenues, after splitting it with Auditors (other developers), who ensure his challenges are good enough to be published. He may also share tokens from every purchase with other stakeholders, based on different incentive models offered in the community.
 
-#### Teachers
+## Carmel Teachers
 
 **This is Alice**.
 
@@ -48,20 +48,28 @@ Speaking of incentive models. Carmel offers traditional tech educators - such as
 
 Alice **adds Carmel Challenges to her traditional curriculum** and the school and/or the students themselves purchase those challenges (from Bob) - while Alice **earns Carmel Tokens (CARMEL)** as a share of Bob's revenue.
 
-#### Recruiters
+## Recruiters
 
 **Meet Diane**.
 
 <img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/diane.png">
 
-#### Managers
+If Chris does not get hired, the entire model fails. As a community - we need to encourage, help and support learners in their quest to transition to a tech career. That's crucial. And ... that's why Diane is here.
 
-**Meet Emma**.
+Diane **purchases Carmel Tokens (CARMEL)** and uses them to sponsor Chris in his learning journey and when he reaches a level of skill that is of interest to Diane - he automatically scores an interview. He is incentivized to grow in a direction favorable to Diane, and she is happy to use her a portion of her **Recruiting Referral** budget to sponsor Chris' growth in the direction of her choice.
+
+## Managers
+
+**Emma rules**.
 
 <img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/bob.png">
 
-#### Entrepreneurs
+And what happens once Chris gets hired? Is the Carmel Story over for him? Not at all. Carmel is not only about getting that first job - it's more than that. It's about **Infinite Learning** - which means we want to support Chris for the entire lifetime of his career. But once Chris gets hired, that's not possible without the support for Chris' Development Manager. That would be Emma.
 
-**Meet Fred**.
+Emma **purchases Carmel Tokens (CARMEL)** and uses them to sponsor Chris - on the job. Much like Diane did before Chris got hired. This **solves a tough problem** for Chris - namely, **measuring Developer Growth**. With Carmel, Emma invests a portion of her **Training Budget** in Carmel Challenges and can easily track Chris' growth, token by token.
+
+## Entrepreneurs
+
+**Fred is on fire**.
 
 <img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/fred.png">
