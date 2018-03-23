@@ -1,20 +1,19 @@
 import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
 
-export default class MainPlatformScreen extends Screen {
-
-  constructor (props) {
+export default class MainWhitepaperScreen extends Screen {
+  constructor(props) {
     super(props)
     this.state = { ...this.state }
     this._onSectionSelect = this.onSectionSelect.bind(this)
     this._onSectionNavigate = this.onSectionNavigate.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     super.componentDidMount()
-    this.importRemoteData(this.props.variants).then((sections) => {
+    this.importRemoteData(this.props.variants).then(sections => {
       const indexedSections = sections.map((s, i) => {
-        return Object.assign({}, s, {id: i})
+        return Object.assign({}, s, { id: i })
       })
       this._sections = [].concat(indexedSections)
 
@@ -38,7 +37,7 @@ export default class MainPlatformScreen extends Screen {
     })
   }
 
-  prev () {
+  prev() {
     const section = this.state.section
 
     if (section.id === 0) {
@@ -47,7 +46,7 @@ export default class MainPlatformScreen extends Screen {
     return this.sections[this.state.section.id - 1]
   }
 
-  next () {
+  next() {
     const section = this.state.section
 
     if (section.id === this.sections.length) {
@@ -56,16 +55,16 @@ export default class MainPlatformScreen extends Screen {
     return this.sections[this.state.section.id + 1]
   }
 
-  get sections () {
+  get sections() {
     return this._sections || []
   }
 
-  onSectionSelect (section) {
+  onSectionSelect(section) {
     this.setState({ section })
     this.triggerRedirect(`${this.props.path}/${section.path}`)
   }
 
-  onSectionNavigate (direction) {
+  onSectionNavigate(direction) {
     let section
     if (direction === 1) {
       section = this.next()
@@ -77,12 +76,12 @@ export default class MainPlatformScreen extends Screen {
     this.triggerRedirect(`${this.props.path}/${section.path}`)
   }
 
-  components () {
+  components() {
     return [
       <Components.Dashboard
-        sectionsBackgroundColor='#FAFAFA'
-        sectionColor='#B0BEC5'
-        sectionSelectedColor='#039BE5'
+        sectionsBackgroundColor="#FAFAFA"
+        sectionColor="#B0BEC5"
+        sectionSelectedColor="#039BE5"
         nav={true}
         sections={this.sections}
         section={this.state.section}
@@ -91,5 +90,4 @@ export default class MainPlatformScreen extends Screen {
       />
     ]
   }
-
 }
