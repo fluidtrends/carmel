@@ -8,9 +8,9 @@
     "start": {
       "stack": [
         "intro",
+        "roadmap",
         "whitepaper",
         "story",
-        "roadmap",
         "challenges",
         "tokens",
         "dashboard"
