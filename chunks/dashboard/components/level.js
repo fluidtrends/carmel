@@ -41,6 +41,7 @@ export default class LevelComponent extends Component {
     this._decrementLevel = this.decrementLevel.bind(this)
     this._updateLevel = this.updateLevel.bind(this)
     this._send = this.send.bind(this)
+    this._claim = this.claim.bind(this)
   }
 
   componentDidMount() {
@@ -87,21 +88,24 @@ export default class LevelComponent extends Component {
       const carmelPrice = (tokenPrice / ethereumPrice).toFixed(6)
       const nextLevelPrice = (carmelPrice * (nextTokens - tokens)).toFixed(2)
 
+      this.setState({
+        tokenPrice,
+        nextLevelPrice,
+        ethereumPrice,
+        carmelPrice,
+        ethereumRate,
+        nextTokens,
+        nextLevel,
+        tokens,
+        up,
+        loading,
+        provider,
+        level
+      })
+
       return this.fetchProviderAccount(provider).then(ethereumAddress => {
         this.setState({
-          ethereumAddress,
-          tokenPrice,
-          nextLevelPrice,
-          ethereumPrice,
-          carmelPrice,
-          ethereumRate,
-          nextTokens,
-          nextLevel,
-          tokens,
-          up,
-          loading,
-          provider,
-          level
+          ethereumAddress
         })
       })
     })
@@ -189,6 +193,11 @@ export default class LevelComponent extends Component {
   send() {
     this.setState({ error: false, sending: true })
     this.sendEther(this.state.nextLevelPrice)
+  }
+
+  claim() {
+    // this.setState({ error: false, sending: true })
+    // this.sendEther(this.state.nextLevelPrice)
   }
 
   get providerInstallLink() {
@@ -358,6 +367,54 @@ export default class LevelComponent extends Component {
       </div>
     )
   }
+  renderAirdropContent() {
+    return (
+      <div>
+        <Typography
+          use="headline"
+          tag="div"
+          style={{
+            padding: '0.5rem 1rem',
+            textAlign: 'center',
+            padding: '20px'
+          }}
+          theme="text-secondary-on-background"
+        >
+          Claim Your Free CARMEL Tokens
+        </Typography>
+        <Typography style={{ textAlign: 'center' }} use="subheading2" tag="div">
+          Period 2: April 2 - May 7 (Airdrop)
+        </Typography>
+        <div style={{ textAlign: 'center' }}>
+          <TextField
+            outlined
+            label="Add your PUBLIC ETH address"
+            onChange={val =>
+              this.setState({ userEthAdress: val.target.value, error: '' })
+            }
+          />
+        </div>
+        <ListDivider />
+        <CardActions
+          style={{
+            justifyContent: 'center',
+            marginTop: '0px'
+          }}
+        >
+          <CardActionButtons>
+            <Button
+              onClick={this._claim}
+              raised
+              theme="secondary-bg text-primary-on-secondary"
+              style={{ margin: '20px' }}
+            >
+              Claim your CARMEL tokens
+            </Button>
+          </CardActionButtons>
+        </CardActions>
+      </div>
+    )
+  }
 
   incrementLevel() {
     if (this.state.up === 100) {
@@ -392,7 +449,6 @@ export default class LevelComponent extends Component {
   }
 
   updateLevel(event) {
-    console.log(event.detail.value, '?????')
     const up = event.detail.value
     const nextLevel = this.state.level + up
     const nextTokens = nextLevel * 1000
@@ -571,7 +627,6 @@ export default class LevelComponent extends Component {
 
   render() {
     const width = this.props.compact ? '95vw' : '600px'
-
     if (this.state.loading || this.state.sending) {
       return (
         <div
@@ -611,9 +666,12 @@ export default class LevelComponent extends Component {
         <Card style={{ width, margin: '10px', padding: '0px' }}>
           {this.renderContentHeader()}
         </Card>
+        <Card style={{ width, margin: '10px', padding: '0px' }}>
+          {this.renderAirdropContent()}
+        </Card>
         {this.renderReceipt()}
         {this.renderError()}
-        <Card style={{ width, margin: '0px', padding: '0px' }}>
+        <Card style={{ width, margin: '10px', padding: '0px' }}>
           {this.renderMainContent()}
         </Card>
         {this.renderContentFooter()}
