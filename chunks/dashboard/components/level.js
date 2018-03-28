@@ -368,6 +368,10 @@ export default class LevelComponent extends Component {
     )
   }
   renderAirdropContent() {
+    const airdropAddress = this.state.ethereumAddress
+      ? this.state.ethereumAddress
+      : 'Unlock your Metamask'
+
     return (
       <div>
         <Typography
@@ -385,16 +389,19 @@ export default class LevelComponent extends Component {
         <Typography style={{ textAlign: 'center' }} use="subheading2" tag="div">
           Period 2: April 2 - May 7 (Airdrop)
         </Typography>
+        <ListDivider style={{ margin: 20 }} />
         <div style={{ textAlign: 'center' }}>
-          <TextField
-            outlined
-            label="Add your PUBLIC ETH address"
-            onChange={val =>
-              this.setState({ userEthAdress: val.target.value, error: '' })
-            }
-          />
+          <Chip
+            style={{
+              backgroundColor: '#F5F5F5',
+              marginLeft: '20px',
+              marginRight: '20px',
+              padding: '15px'
+            }}
+          >
+            <ChipText> {airdropAddress} </ChipText>
+          </Chip>
         </div>
-        <ListDivider />
         <CardActions
           style={{
             justifyContent: 'center',
@@ -573,6 +580,12 @@ export default class LevelComponent extends Component {
   }
 
   renderPrice() {
+    const { ethereumAddress } = this.state
+    const action = ethereumAddress ? this._send : () => {}
+    const actionText = ethereumAddress
+      ? `Send ${this.state.nextLevelPrice} ETH`
+      : 'Unlock your Metamask'
+
     return (
       <div>
         <CardActions
@@ -583,12 +596,12 @@ export default class LevelComponent extends Component {
         >
           <CardActionButtons>
             <Button
-              onClick={this._send}
+              onClick={action}
               raised
               theme="secondary-bg text-primary-on-secondary"
               style={{ margin: '20px' }}
             >
-              Send {this.state.nextLevelPrice} ETH
+              {actionText}
             </Button>
           </CardActionButtons>
         </CardActions>
@@ -597,9 +610,7 @@ export default class LevelComponent extends Component {
   }
 
   renderMainContent() {
-    return this.state.ethereumAddress
-      ? this.renderWithProvider()
-      : this.renderWithoutProvider()
+    return this.renderWithProvider()
   }
 
   renderError() {
