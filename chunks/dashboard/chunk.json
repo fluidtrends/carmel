@@ -15,13 +15,55 @@
       "updates": "github://fluidtrends/carmel/master/docs/updates/README",
       "startOperationsOnMount": false,
       "operations": {
-        "signIn": ["firebase://login", { "onSuccess": "getAccount", "onError": "signInError" }],
-        "signUp": ["firebase://register", { "onSuccess": "getAccount", "onError": "registerError" }],
+        "signIn": [
+          "firebase://login",
+          { "onSuccess": "getAccount", "onError": "signInError" }
+        ],
+        "signUp": [
+          "firebase://register",
+          { "onSuccess": "signedUp", "onError": "registerError" }
+        ],
         "resetPassword": ["firebase://reset"],
-        "getAccount": ["firebase://retrieve/users/:uid#account", { "onSuccess": "loadDashboard" }],
-        "newLevelUp": ["firebase://create/levelups#newLevelUp", {"onSuccess": "levelUpDone", "onError": "levelUpError"}],
-        "newLevelUpHistory": ["firebase://join#newLevelUpHistory", {"onSuccess": "levelUpHistoryDone"}],
-        "updateAccount": ["firebase://update/users/:uid#updated", { "onSuccess": "updatedAccount", "onError": "updateAccountError" }]
+        "getAccount": [
+          "firebase://retrieve/users/:uid#account",
+          { "onSuccess": "loadDashboard" }
+        ],
+        "newLevelUp": [
+          "firebase://create/levelups#newLevelUp",
+          { "onSuccess": "levelUpDone", "onError": "levelUpError" }
+        ],
+        "newLevelUpHistory": [
+          "firebase://join#newLevelUpHistory",
+          { "onSuccess": "levelUpHistoryDone" }
+        ],
+        "newReferral": [
+          "firebase://create/referrals?userId#newReferral",
+          { "onSuccess": "createdNewReferral" }
+        ],
+        "getReferral": [
+          "firebase://retrieve/referrals/:referralId?referralId",
+          { "onSuccess": "creditUser" }
+        ],
+        "updateAccount": [
+          "firebase://update/users/:uid#updated",
+          { "onSuccess": "updatedAccount", "onError": "updateAccountError" }
+        ]
+      }
+    },
+    "referrals": {
+      "title": "Referrals",
+      "icon": "supervisor_account",
+      "path": "/me/:referral",
+      "skipPaths": ["tokens", "logout"],
+      "events": {
+        "cover": "local://referrals"
+      },
+      "cover": {
+        "backgroundColor": "#00838F",
+        "align": "bottom",
+        "opacity": 0.5,
+        "navigation": true,
+        "type": "simple"
       }
     }
   },

@@ -417,6 +417,15 @@ export default class LevelComponent extends Component {
             >
               Claim your CARMEL tokens
             </Button>
+            <Button
+              onClick={this._claim}
+              raised
+              theme="secondary-bg text-primary-on-secondary"
+              style={{ margin: '20px' }}
+            >
+              <ButtonIcon use="link" />
+              Invite friends
+            </Button>
           </CardActionButtons>
         </CardActions>
       </div>

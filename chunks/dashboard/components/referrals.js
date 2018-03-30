@@ -24,11 +24,13 @@ import { Button, ButtonIcon } from 'rmwc/Button'
 import { Typography } from 'rmwc/Typography'
 import { FormField } from 'rmwc/FormField'
 
-export default class RegisterComponent extends Component {
+export default class LoginComponent extends Component {
   constructor(props) {
     super(props)
     this._done = this.done.bind(this)
-    this._login = this.login.bind(this)
+    this._register = this.register.bind(this)
+    this.onKeyPress = this.onKeyPress.bind(this)
+    this._resetPassword = this.resetPassword.bind(this)
     this.state = { ...super.state }
   }
 
@@ -37,11 +39,6 @@ export default class RegisterComponent extends Component {
   }
 
   done() {
-    if (!this.state.name) {
-      this.setState({ error: errors.name, errorType: 'name', loading: false })
-      return
-    }
-
     if (!this.state.email) {
       this.setState({ error: errors.email, errorType: 'email', loading: false })
       return
@@ -56,26 +53,19 @@ export default class RegisterComponent extends Component {
       return
     }
 
-    if (this.state.password !== this.state.password2) {
-      this.setState({
-        error: errors.password2,
-        errorType: 'password2',
-        loading: false
-      })
-      return
-    }
-
     this.setState({ loading: true })
-
-    this.props.signUp({
+    this.props.signIn({
       email: this.state.email,
-      name: this.state.name,
       password: this.state.password
     })
   }
 
-  login() {
-    this.props.onLogin && this.props.onLogin()
+  register() {
+    this.props.onRegister && this.props.onRegister()
+  }
+
+  resetPassword() {
+    this.props.onResetPassword && this.props.onResetPassword()
   }
 
   get error() {
@@ -105,10 +95,15 @@ export default class RegisterComponent extends Component {
     )
   }
 
+  onKeyPress(event) {
+    if (event.key == 'Enter') {
+      this._done()
+    }
+  }
+
   render() {
     const width = this.props.isSmallScreen ? '95vw' : '600px'
     const padding = this.props.isSmallScreen ? '2px' : '30px'
-
     return (
       <div
         style={{
@@ -124,23 +119,12 @@ export default class RegisterComponent extends Component {
           <div style={{ padding: '4px' }}>
             <Typography use="title" tag="h2">
               {' '}
-              Create Your Carmel Account
+              Welcome back{' '}
             </Typography>
           </div>
 
           {this.renderError()}
           {this.renderLoading()}
-
-          <TextField
-            disabled={this.state.loading && !this.error}
-            outlined
-            withLeadingIcon="perm_identity"
-            label={this.state.name ? '' : 'Enter your name'}
-            onChange={val =>
-              this.setState({ name: val.target.value, error: '' })
-            }
-          />
-
           <TextField
             disabled={this.state.loading && !this.error}
             outlined
@@ -149,17 +133,7 @@ export default class RegisterComponent extends Component {
             onChange={val =>
               this.setState({ email: val.target.value, error: '' })
             }
-          />
-
-          <TextField
-            type="password"
-            disabled={this.state.loading && !this.error}
-            outlined
-            withLeadingIcon="lock_outline"
-            label={this.state.password ? '' : 'Choose a password'}
-            onChange={val =>
-              this.setState({ password: val.target.value, error: '' })
-            }
+            onKeyPress={this.onKeyPress}
           />
 
           <TextField
@@ -167,38 +141,48 @@ export default class RegisterComponent extends Component {
             disabled={this.state.loading && !this.error}
             outlined
             withLeadingIcon="lock"
-            label={this.state.password ? '' : 'Confirm your password'}
+            label={this.state.password ? '' : 'Enter your password'}
             onChange={val =>
-              this.setState({ password2: val.target.value, error: '' })
+              this.setState({ password: val.target.value, error: '' })
             }
+            onKeyPress={this.onKeyPress}
           />
 
           <CardActions style={{ justifyContent: 'center', margin: '20px' }}>
             <CardActionButtons>
               <Button
-                raised
                 disabled={this.state.loading && !this.error}
+                raised
                 onClick={this._done}
                 theme="secondary-bg text-primary-on-secondary"
               >
                 {' '}
-                Create Account
+                Sign In
               </Button>
             </CardActionButtons>
           </CardActions>
-          {this.props.onLogin ? (
-            <CardActions style={{ justifyContent: 'center', margin: '0px' }}>
-              <CardActionButtons>
-                <Button
-                  disabled={this.state.loading && !this.error}
-                  onClick={this._login}
-                >
-                  {' '}
-                  Sign back in{' '}
-                </Button>
-              </CardActionButtons>
-            </CardActions>
-          ) : null}
+          <CardActions style={{ justifyContent: 'center', margin: '0px' }}>
+            <CardActionButtons>
+              <Button
+                disabled={this.state.loading && !this.error}
+                onClick={this._register}
+              >
+                {' '}
+                Need an account?{' '}
+              </Button>
+            </CardActionButtons>
+          </CardActions>
+          <CardActions style={{ justifyContent: 'center', margin: '0px' }}>
+            <CardActionButtons>
+              <Button
+                disabled={this.state.loading && !this.error}
+                onClick={this._resetPassword}
+              >
+                {' '}
+                Forgot your password?{' '}
+              </Button>
+            </CardActionButtons>
+          </CardActions>
         </Card>
       </div>
     )
@@ -230,9 +214,6 @@ const styles = {
 }
 
 const errors = {
-  name: "Don't forget your name",
   email: "Don't forget your email address",
-  ethereum: "Don't forget your Ethereum address",
-  password: 'Please choose a password',
-  password2: 'Please make sure your passwords match'
+  password: 'Please enter your password'
 }
