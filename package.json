@@ -1,7 +1,9 @@
 {
   "name": "carmel",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "The Carmel Platform",
+  "productName": "Carmel",
+  "main": "desktop/lib",
   "scripts": {
     "test": "react-savor test",
     "lint": "react-savor lint",
@@ -18,11 +20,58 @@
     "url": "git+https://github.com/fluidtrends/carmel.git"
   },
   "homepage": "http://www.carmel.io",
+  "babel": {
+    "plugins": [
+      "transform-react-jsx",
+      "transform-es2015-destructuring",
+      "transform-object-rest-spread",
+      "styled-jsx/babel"
+    ],
+    "presets": [
+      "react",
+      "env",
+      "stage-2"
+    ]
+  },
+  "config": {
+    "forge": {
+      "make_targets": {
+        "win32": [
+          "squirrel"
+        ],
+        "darwin": [
+          "zip"
+        ],
+        "linux": [
+          "deb",
+          "rpm"
+        ]
+      },
+      "electronPackagerConfig": {
+        "packageManager": "yarn"
+      },
+      "electronWinstallerConfig": {
+        "name": "Carmel"
+      },
+      "electronInstallerDebian": {},
+      "electronInstallerRedhat": {},
+      "github_repository": {
+        "owner": "",
+        "name": ""
+      },
+      "windowsStoreConfig": {
+        "packageName": "",
+        "name": "Carmel"
+      }
+    }
+  },
   "dependencies": {
     "react-dom-chunky": "0.9.x",
+    "react-electron-chunky": "0.9.x",
     "react-vertical-timeline-component": "^2.0.5"
   },
   "devDependencies": {
+    "electron-prebuilt-compile": "1.8.4",
     "react-savor": "0.x"
   }
 }
