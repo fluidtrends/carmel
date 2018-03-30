@@ -1,7 +1,9 @@
 import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
+import * as ChunkComponents from '../components'
+import { Data } from 'react-chunky'
 
-export default class MainPersonScreen extends Screen {
+export default class MainReferralScreen extends Screen {
   constructor(props) {
     super(props)
     this.state = { ...this.state }
@@ -10,19 +12,15 @@ export default class MainPersonScreen extends Screen {
   componentDidMount() {
     super.componentDidMount()
 
-    this._username = this.props.location.pathname.split('/')[1]
+    const referralLink = this.props.location.pathname.split('/')[2]
+    Data.Cache.cacheItem('referralId', referralLink)
+
     this.triggerRedirect(`/me`)
   }
 
-  get cover() {
-    return Object.assign({}, this.props.cover, {
-      title: `${this.username}'s #CarmelStory`
-    })
-  }
+  get cover() {}
 
-  get username() {
-    return this._username
-  }
+  get username() {}
 
   get features() {
     return []

@@ -93,21 +93,23 @@
           {
             "id": "chris",
             "source": "feature",
-            "text":"github://fluidtrends/carmel/content/product/stakeholders/chris",
-            "image":"learning.png",
-            "actionTitle":"Learn more about Chris",
-            "backgroundColor":"#E1F5FE",
-            "textColor":"#0686d8"
+            "text":
+              "github://fluidtrends/carmel/content/product/stakeholders/chris",
+            "image": "learning.png",
+            "actionTitle": "Learn more about Chris",
+            "backgroundColor": "#E1F5FE",
+            "textColor": "#0686d8"
           },
           {
             "id": "stakeholders",
             "source": "feature",
-            "text":"github://fluidtrends/carmel/content/product/stakeholders/all",
-            "image":"stakeholders.png",
+            "text":
+              "github://fluidtrends/carmel/content/product/stakeholders/all",
+            "image": "stakeholders.png",
             "reversed": true,
-            "actionTitle":"Meet All The Carmel Stakeholders",
-            "backgroundColor":"#FFFFFF",
-            "textColor":"#0686d8"
+            "actionTitle": "Meet All The Carmel Stakeholders",
+            "backgroundColor": "#FFFFFF",
+            "textColor": "#0686d8"
           },
           {
             "id": "challenges",
@@ -188,6 +190,7 @@
         "levelup",
         "tokens",
         "wallet",
+        "referrals",
         "community",
         "team",
         "logout",
@@ -340,7 +343,8 @@
                   "title": "Startup Advisor",
                   "image":
                     "https://github.com/fluidtrends/carmel/raw/content/team/paul-brie/profile.jpeg",
-                  "linkedIn": "https:/>>>>>>> master/www.linkedin.com/in/paul-brie/",
+                  "linkedIn":
+                    "https:/>>>>>>> master/www.linkedin.com/in/paul-brie/",
                   "text":
                     "github://fluidtrends/carmel/content/team/paul-brie/README"
                 },

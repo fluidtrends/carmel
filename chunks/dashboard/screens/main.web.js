@@ -1,5 +1,6 @@
 import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
+import { Data } from 'react-chunky'
 import * as ChunkComponents from '../components'
 import { LinearProgress } from 'rmwc/LinearProgress'
 import {
@@ -17,6 +18,7 @@ import {
   CardSupportingText,
   CardHorizontalBlock
 } from 'rmwc/Card'
+import { Button } from 'rmwc/Button'
 import { Typography } from 'rmwc/Typography'
 import { ListDivider } from 'rmwc/List'
 
@@ -60,6 +62,13 @@ export default class MainDashboardScreen extends Screen {
 
   loadDashboard(account) {
     this.saveAuth(account).then(() => {
+      //add referral ids to the users
+      if (!account.referralId) {
+        this.createNewReferral(account)
+      }
+
+      this.checkReferral()
+
       this.loadSections(account)
     })
   }
@@ -160,9 +169,39 @@ export default class MainDashboardScreen extends Screen {
     }, 300)
   }
 
+  signedUp(account) {
+    this.props.getAccount(account)
+  }
+
+  createdNewReferral(data) {
+    setTimeout(() => {
+      this.props.updateAccount({
+        referralId: data._id
+      })
+    }, 300)
+  }
+
+  createNewReferral(account) {
+    this.props.newReferral({ userId: this.props.account._id })
+  }
+
+  createNewReferral() {
+    Data.Cache.cacheItem('referralId', '-L8r8hJK9DGbhjg_T8A3')
+  }
+
+  checkReferral() {
+    Data.Cache.retrieveCachedItem('referralId')
+      .then(referralId => {
+        this.props.getReferral({ referralId })
+      })
+      .then(() => Data.Cache.clearCachedItem('referralId'))
+      .catch(error => () => {})
+  }
+
+  creditUser(data) {}
+
   loadSections(account) {
     this._sections = this.importData('sections')
-
     if (!this.sections || this.sections.length === 0) {
       return
     }
@@ -234,6 +273,14 @@ export default class MainDashboardScreen extends Screen {
       )
     }
 
+    // return (
+    //   <div>
+    //     <Button onClick={() => this.createNewReferral()}>
+    //       Create referral
+    //     </Button>
+    //     <Button onClick={() => this.checkReferral()}>Add referral</Button>
+    //   </div>
+    // )
     if (!this.isLoggedIn) {
       if (this.state.resetPassword) {
         return this.renderResetPassword()
