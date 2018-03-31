@@ -12,7 +12,7 @@
           {
             "id": "whitepaper",
             "title": "Whitepaper",
-            "link": "local://whitepaper"
+            "link": "https://carmel.io/whitepaper"
           },
           {
             "id": "code",

@@ -1,0 +1,14 @@
+[
+  {
+    "path": "profile",
+    "menuTitle": "Profile",
+    "title": "Profile",
+    "component": "Profile"
+  },
+  {
+    "path": "logout",
+    "menuTitle": "Sign Out",
+    "title": "Sign Out",
+    "action": "logout"
+  }
+]
