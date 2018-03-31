@@ -3,7 +3,7 @@
   "version": "0.1.4",
   "description": "The Carmel Platform",
   "productName": "Carmel",
-  "main": "desktop/lib",
+  "main": "node_modules/react-electron-chunky/lib/core",
   "scripts": {
     "test": "react-savor test",
     "lint": "react-savor lint",
@@ -48,19 +48,25 @@
         ]
       },
       "electronPackagerConfig": {
-        "packageManager": "yarn"
+        "packageManager": "yarn",
+        "asar": true,
+        "quiet": false,
+        "protocol": "carmel://",
+        "icon": "./assets/carmel-logo.png"
       },
       "electronWinstallerConfig": {
         "name": "Carmel"
       },
-      "electronInstallerDebian": {},
+      "electronInstallerDebian": {
+        "homepage": "https://carmel.io"
+      },
       "electronInstallerRedhat": {},
       "github_repository": {
-        "owner": "",
-        "name": ""
+        "owner": "fluidtrends",
+        "name": "carmel"
       },
       "windowsStoreConfig": {
-        "packageName": "",
+        "packageName": "carmel.io",
         "name": "Carmel"
       }
     }
