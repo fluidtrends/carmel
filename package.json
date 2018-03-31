@@ -48,8 +48,8 @@
         ]
       },
       "electronPackagerConfig": {
-        "packageManager": "yarn",
-        "asar": true,
+        "packageManager": "npm",
+        "asar": false,
         "quiet": false,
         "protocol": "carmel://",
         "icon": "./assets/carmel-logo.png"
