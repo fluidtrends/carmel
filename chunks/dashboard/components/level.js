@@ -32,7 +32,7 @@ const CoinMarketCapAPI = `https://api.coinmarketcap.com/v1/ticker/ethereum/?conv
 const CarmelPrivateSaleAddress = `0x4E52e804905CC320BF631523a9cb1416B8d613Fb`
 
 export default class LevelComponent extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { ...super.state, loading: true }
     this._installProvider = this.installProvider.bind(this)
@@ -43,35 +43,35 @@ export default class LevelComponent extends Component {
     this._send = this.send.bind(this)
   }
 
-  componentDidMount() {
+  componentDidMount () {
     super.componentDidMount()
     this.startTimer()
     this.loadLevelData()
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.stopTimer()
   }
 
-  startTimer() {
+  startTimer () {
     const timer = setInterval(() => this.timerFired(), 1000)
     this.setState({ timer })
   }
 
-  timerFired() {
+  timerFired () {
     this.fetchProviderAccount(this.state.provider).then(ethereumAddress => {
       this.setState({ ethereumAddress })
     })
   }
 
-  stopTimer() {
+  stopTimer () {
     if (!this.state.timer) {
       return
     }
     clearInterval(this.state.timer)
   }
 
-  loadLevelData() {
+  loadLevelData () {
     const provider =
       typeof web3 !== 'undefined' ? web3.currentProvider : undefined
     const level = this.user.level || 0
@@ -107,7 +107,7 @@ export default class LevelComponent extends Component {
     })
   }
 
-  fetchProviderAccount(provider) {
+  fetchProviderAccount (provider) {
     if (!provider) {
       return Promise.resolve()
     }
@@ -123,13 +123,13 @@ export default class LevelComponent extends Component {
     })
   }
 
-  fetchEthereumRate() {
+  fetchEthereumRate () {
     return fetch(CoinMarketCapAPI)
       .then(response => response.json())
       .then(rates => rates[0])
   }
 
-  calculateGas(to, data) {
+  calculateGas (to, data) {
     return new Promise((resolve, reject) => {
       web3.eth.estimateGas({ to, data }, (error, gas) => {
         if (error) {
@@ -141,7 +141,7 @@ export default class LevelComponent extends Component {
     })
   }
 
-  sendEthereumTransaction(transaction) {
+  sendEthereumTransaction (transaction) {
     return new Promise((resolve, reject) => {
       web3.eth.sendTransaction(transaction, (error, result) => {
         if (error) {
@@ -153,7 +153,7 @@ export default class LevelComponent extends Component {
     })
   }
 
-  sendEther(amount) {
+  sendEther (amount) {
     const message = `${(
       this.state.nextTokens - this.state.tokens
     ).toLocaleString('en')} CARMEL (Period 1)`
@@ -168,7 +168,7 @@ export default class LevelComponent extends Component {
       .catch(error => this.couldNotSendEther(error))
   }
 
-  sendingEther(ethereumTransactionId) {
+  sendingEther (ethereumTransactionId) {
     this.props.onAction('upgrade', {
       ethereumTransactionId,
       ethereumAddress: this.state.ethereumAddress,
@@ -182,16 +182,16 @@ export default class LevelComponent extends Component {
     })
   }
 
-  couldNotSendEther(err) {
+  couldNotSendEther (err) {
     this.setState({ sending: false, error: 'Could not send ether' })
   }
 
-  send() {
+  send () {
     this.setState({ error: false, sending: true })
     this.sendEther(this.state.nextLevelPrice)
   }
 
-  get providerInstallLink() {
+  get providerInstallLink () {
     const name = this.props.browser.name.toLowerCase()
     switch (name) {
       case 'chrome':
@@ -201,11 +201,11 @@ export default class LevelComponent extends Component {
     }
   }
 
-  get user() {
+  get user () {
     return this.props.account || {}
   }
 
-  renderContentHeader() {
+  renderContentHeader () {
     return (
       <div>
         <div
@@ -219,21 +219,21 @@ export default class LevelComponent extends Component {
           }}
         >
           <Typography
-            use="headline"
-            tag="h1"
+            use='headline'
+            tag='h1'
             style={{
               display: 'flex',
               flex: 1,
               justifyContent: 'flex-start'
             }}
           >
-            <Icon style={{ fontSize: '50px' }} strategy="ligature">
+            <Icon style={{ fontSize: '50px' }} strategy='ligature'>
               account_circle
             </Icon>
           </Typography>
           <Typography
-            use="title"
-            tag="h1"
+            use='title'
+            tag='h1'
             style={{
               display: 'flex',
               flex: 6,
@@ -242,7 +242,7 @@ export default class LevelComponent extends Component {
           >
             {this.user.name}
           </Typography>
-          <Typography use="subheading1" tag="h1">
+          <Typography use='subheading1' tag='h1'>
             <ChipSet>
               <Chip style={{ backgroundColor: '#F5F5F5' }}>
                 <ChipIcon style={{ color: '#66BB6A' }} leading use={`stars`} />
@@ -259,7 +259,7 @@ export default class LevelComponent extends Component {
     )
   }
 
-  renderReceipt() {
+  renderReceipt () {
     if (!this.user.lastEthereumTransaction) {
       return <div />
     }
@@ -276,27 +276,27 @@ export default class LevelComponent extends Component {
     )
   }
 
-  renderWithProvider() {
+  renderWithProvider () {
     return (
       <div>
         <Typography
-          use="headline"
-          tag="div"
+          use='headline'
+          tag='div'
           style={{
             padding: '0.5rem 1rem',
             textAlign: 'center',
             padding: '20px'
           }}
-          theme="text-secondary-on-background"
+          theme='text-secondary-on-background'
         >
           Get CARMEL Tokens
         </Typography>
-        <Typography style={{ textAlign: 'center' }} use="subheading2" tag="div">
+        <Typography style={{ textAlign: 'center' }} use='subheading2' tag='div'>
           Period 1: February 26 - April 2 (90% Discount)
         </Typography>
         <ListDivider style={{ marginBottom: '40px' }} />
 
-        <Typography use="headline" tag="h1" style={{ margin: '0px' }}>
+        <Typography use='headline' tag='h1' style={{ margin: '0px' }}>
           <ChipSet style={{ justifyContent: 'center' }}>
             <Fab
               mini
@@ -347,7 +347,7 @@ export default class LevelComponent extends Component {
           step={1}
         />
 
-        <Typography use="caption" tag="h2" style={{ margin: '5px' }}>
+        <Typography use='caption' tag='h2' style={{ margin: '5px' }}>
           This purchase increases your level of stake in Carmel to{' '}
           <strong> Level {this.state.nextLevel}</strong>.
         </Typography>
@@ -359,7 +359,7 @@ export default class LevelComponent extends Component {
     )
   }
 
-  incrementLevel() {
+  incrementLevel () {
     if (this.state.up === 100) {
       return
     }
@@ -375,7 +375,7 @@ export default class LevelComponent extends Component {
     this.setState({ up, nextLevel, nextLevelPrice, nextTokens })
   }
 
-  decrementLevel() {
+  decrementLevel () {
     if (this.state.up === 1) {
       return
     }
@@ -391,8 +391,7 @@ export default class LevelComponent extends Component {
     this.setState({ up, nextLevel, nextLevelPrice, nextTokens })
   }
 
-  updateLevel(event) {
-    console.log(event.detail.value, '?????')
+  updateLevel (event) {
     const up = event.detail.value
     const nextLevel = this.state.level + up
     const nextTokens = nextLevel * 1000
@@ -404,7 +403,7 @@ export default class LevelComponent extends Component {
     this.setState({ up, nextLevel, nextLevelPrice, nextTokens })
   }
 
-  renderContentFooter() {
+  renderContentFooter () {
     return (
       <div
         style={{
@@ -415,7 +414,7 @@ export default class LevelComponent extends Component {
           alignItems: 'center'
         }}
       >
-        <Typography use="caption" tag="h1">
+        <Typography use='caption' tag='h1'>
           <ChipSet>
             <Chip style={{ backgroundColor: '#F5F5F5' }}>
               <ChipText>
@@ -443,9 +442,9 @@ export default class LevelComponent extends Component {
             </Chip>
           </ChipSet>
         </Typography>
-        <Typography use="caption" tag="h1">
+        <Typography use='caption' tag='h1'>
           At{' '}
-          <a href="https://coinmarketcap.com/currencies/ethereum/">
+          <a href='https://coinmarketcap.com/currencies/ethereum/'>
             CoinMarketCap ETH
           </a>{' '}
           rate:{' '}
@@ -455,36 +454,36 @@ export default class LevelComponent extends Component {
     )
   }
 
-  renderLocked() {
+  renderLocked () {
     return (
       <div>
-        <Typography use="headline" tag="h1">
-          <Icon style={{ fontSize: '50px' }} strategy="ligature">
+        <Typography use='headline' tag='h1'>
+          <Icon style={{ fontSize: '50px' }} strategy='ligature'>
             lock
           </Icon>
         </Typography>
 
-        <Typography use="headline" tag="h1">
+        <Typography use='headline' tag='h1'>
           MetaMask Is Locked
         </Typography>
 
         <ListDivider />
 
-        <Typography use="caption" tag="h1">
+        <Typography use='caption' tag='h1'>
           Please unlock it in order to be able to Level Up
         </Typography>
       </div>
     )
   }
 
-  renderWithoutProvider() {
+  renderWithoutProvider () {
     if (this.state.provider) {
       return this.renderLocked()
     }
 
     return (
       <div>
-        <Typography use="headline" tag="h1">
+        <Typography use='headline' tag='h1'>
           MetaMask Is Required
         </Typography>
         <CardActions style={{ justifyContent: 'center', margin: '20px' }}>
@@ -492,31 +491,31 @@ export default class LevelComponent extends Component {
             <Button
               onClick={this._installProvider}
               raised
-              theme="secondary-bg text-primary-on-secondary"
+              theme='secondary-bg text-primary-on-secondary'
               style={{ margin: '20px' }}
             >
               Install Metamask{' '}
             </Button>
           </CardActionButtons>
         </CardActions>
-        <Typography use="subheading2" tag="h1">
+        <Typography use='subheading2' tag='h1'>
           or unlock it if it is already installed
         </Typography>
       </div>
     )
   }
 
-  installProvider() {
+  installProvider () {
     this.props.onAction('installProvider', { link: this.providerInstallLink })
   }
 
-  transactionDetails() {
+  transactionDetails () {
     this.props.onAction('transactionDetails', {
       link: `https://etherscan.io/tx/${this.user.lastEthereumTransaction}`
     })
   }
 
-  renderPrice() {
+  renderPrice () {
     return (
       <div>
         <CardActions
@@ -529,7 +528,7 @@ export default class LevelComponent extends Component {
             <Button
               onClick={this._send}
               raised
-              theme="secondary-bg text-primary-on-secondary"
+              theme='secondary-bg text-primary-on-secondary'
               style={{ margin: '20px' }}
             >
               Send {this.state.nextLevelPrice} ETH
@@ -540,13 +539,13 @@ export default class LevelComponent extends Component {
     )
   }
 
-  renderMainContent() {
+  renderMainContent () {
     return this.state.ethereumAddress
       ? this.renderWithProvider()
       : this.renderWithoutProvider()
   }
 
-  renderError() {
+  renderError () {
     if (!this.state.error) {
       return <div />
     }
@@ -562,16 +561,15 @@ export default class LevelComponent extends Component {
           alignItems: 'center'
         }}
       >
-        <Typography use="title" style={{ color: '#ef5350' }} tag="h1">
+        <Typography use='title' style={{ color: '#ef5350' }} tag='h1'>
           {this.state.error}
         </Typography>
       </div>
     )
   }
 
-  render() {
+  render () {
     const width = this.props.compact ? '95vw' : '600px'
-
     if (this.state.loading || this.state.sending) {
       return (
         <div
@@ -585,7 +583,7 @@ export default class LevelComponent extends Component {
           }}
         >
           <Card style={{ width, margin: '20px', padding: '0px' }}>
-            <Typography use="title" tag="h1">
+            <Typography use='title' tag='h1'>
               {this.state.sending
                 ? `Sending ... Just a sec.`
                 : `Loading ... Just a sec.`}

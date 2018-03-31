@@ -3,6 +3,7 @@
   "routes": {
     "main": {
       "title": "Welcome",
+      "desktopTitle": "Start",
       "icon": "home",
       "skipExtendedMenuOnDesktop": true,
       "extendedMenu": [
@@ -180,17 +181,18 @@
       "icon": "home",
       "path": "/welcome",
       "events": {
+        "cover": "local://me"
       },
       "cover": {
-        "image": "chris.png",
+        "image": "start.jpg",
         "backgroundColor": "#ffffff",
         "align": "bottom",
         "opacity": 0.5,
         "navigation": true,
         "title": "It has begun.",
-        "subtitle": "Read to take some challenges?",
+        "subtitle": "Ready to get in the zone?",
         "type": "default",
-        "primaryActionTitle": "Get Started"
+        "primaryActionTitle": "Let's Do This"
       }
     },
     "person": {
