@@ -25,18 +25,18 @@ import { Typography } from 'rmwc/Typography'
 import { FormField } from 'rmwc/FormField'
 
 export default class RegisterComponent extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this._done = this.done.bind(this)
     this._login = this.login.bind(this)
     this.state = { ...super.state }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     super.componentDidMount()
   }
 
-  done() {
+  done () {
     if (!this.state.name) {
       this.setState({ error: errors.name, errorType: 'name', loading: false })
       return
@@ -74,15 +74,15 @@ export default class RegisterComponent extends Component {
     })
   }
 
-  login() {
+  login () {
     this.props.onLogin && this.props.onLogin()
   }
 
-  get error() {
+  get error () {
     return this.state.error ? this.state.error : this.props.error
   }
 
-  renderError() {
+  renderError () {
     if (!this.error) {
       return
     }
@@ -94,7 +94,7 @@ export default class RegisterComponent extends Component {
     )
   }
 
-  renderLoading() {
+  renderLoading () {
     if (!this.state.loading || this.error) {
       return
     }
@@ -105,7 +105,7 @@ export default class RegisterComponent extends Component {
     )
   }
 
-  render() {
+  render () {
     const width = this.props.isSmallScreen ? '95vw' : '600px'
     const padding = this.props.isSmallScreen ? '2px' : '30px'
 
@@ -122,7 +122,7 @@ export default class RegisterComponent extends Component {
       >
         <Card style={{ width, margin: '10px', padding }}>
           <div style={{ padding: '4px' }}>
-            <Typography use="title" tag="h2">
+            <Typography use='title' tag='h2'>
               {' '}
               Create Your Carmel Account
             </Typography>
@@ -134,7 +134,7 @@ export default class RegisterComponent extends Component {
           <TextField
             disabled={this.state.loading && !this.error}
             outlined
-            withLeadingIcon="perm_identity"
+            withLeadingIcon='perm_identity'
             label={this.state.name ? '' : 'Enter your name'}
             onChange={val =>
               this.setState({ name: val.target.value, error: '' })
@@ -144,7 +144,7 @@ export default class RegisterComponent extends Component {
           <TextField
             disabled={this.state.loading && !this.error}
             outlined
-            withLeadingIcon="email"
+            withLeadingIcon='email'
             label={this.state.email ? '' : 'Enter your email address'}
             onChange={val =>
               this.setState({ email: val.target.value, error: '' })
@@ -152,10 +152,10 @@ export default class RegisterComponent extends Component {
           />
 
           <TextField
-            type="password"
+            type='password'
             disabled={this.state.loading && !this.error}
             outlined
-            withLeadingIcon="lock_outline"
+            withLeadingIcon='lock_outline'
             label={this.state.password ? '' : 'Choose a password'}
             onChange={val =>
               this.setState({ password: val.target.value, error: '' })
@@ -163,10 +163,10 @@ export default class RegisterComponent extends Component {
           />
 
           <TextField
-            type="password"
+            type='password'
             disabled={this.state.loading && !this.error}
             outlined
-            withLeadingIcon="lock"
+            withLeadingIcon='lock'
             label={this.state.password ? '' : 'Confirm your password'}
             onChange={val =>
               this.setState({ password2: val.target.value, error: '' })
@@ -179,7 +179,7 @@ export default class RegisterComponent extends Component {
                 raised
                 disabled={this.state.loading && !this.error}
                 onClick={this._done}
-                theme="secondary-bg text-primary-on-secondary"
+                theme='secondary-bg text-primary-on-secondary'
               >
                 {' '}
                 Create Account
@@ -194,7 +194,7 @@ export default class RegisterComponent extends Component {
                   onClick={this._login}
                 >
                   {' '}
-                  Sign back in{' '}
+                  Already have an account?{' '}
                 </Button>
               </CardActionButtons>
             </CardActions>

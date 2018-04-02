@@ -28,6 +28,10 @@
           "firebase://retrieve/users/:uid#account",
           { "onSuccess": "loadDashboard" }
         ],
+        "creditAccount": [
+          "firebase://update/users/:userId?newTokens#creditAccount",
+          { }
+        ],
         "newLevelUp": [
           "firebase://create/levelups#newLevelUp",
           { "onSuccess": "levelUpDone", "onError": "levelUpError" }
@@ -36,25 +40,41 @@
           "firebase://join#newLevelUpHistory",
           { "onSuccess": "levelUpHistoryDone" }
         ],
-        "newReferral": [
+        "newReferralId": [
           "firebase://create/referrals?userId#newReferral",
-          { "onSuccess": "createdNewReferral" }
-        ],
-        "getReferral": [
-          "firebase://retrieve/referrals/:referralId?referralId",
-          { "onSuccess": "creditUser" }
+          { "onSuccess": "createdNewReferralId" }
         ],
         "updateAccount": [
           "firebase://update/users/:uid#updated",
-          { "onSuccess": "updatedAccount", "onError": "updateAccountError" }
+          { "onSuccess": "getAccount", "onError": "updateAccountError" }
+        ],
+        "updateFriendAccount": [
+          "firebase://update/users/:friendId?friendId#updatedFriend",
+          { "onSuccess": "updatedFriendAccount", "onError": "updateFriendAccountError" }
         ]
       }
     },
     "referrals": {
       "title": "Referrals",
       "icon": "supervisor_account",
-      "path": "/me/:referral",
-      "skipPaths": ["tokens", "logout"],
+      "path": "/:referral",
+      "skipPaths": [
+        "story",
+        "whitepaper",
+        "roadmap",
+        "platform",
+        "admin",
+        "dashboard",
+        "levelup",
+        "tokens",
+        "wallet",
+        "referrals",
+        "community",
+        "team",
+        "logout",
+        "challenges",
+        "me"
+      ],
       "events": {
         "cover": "local://referrals"
       },
