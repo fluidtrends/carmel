@@ -21,11 +21,12 @@ import {
 import { Button } from 'rmwc/Button'
 import { Typography } from 'rmwc/Typography'
 import { ListDivider } from 'rmwc/List'
+import { Utils } from 'react-dom-chunky'
 
 export default class MainDashboardScreen extends Screen {
-  constructor(props) {
+  constructor (props) {
     super(props)
-    this.state = { ...this.state, loading: false }
+    this.state = { ...this.state, loading: false, register: true }
     this._onSectionSelect = this.onSectionSelect.bind(this)
     this._register = this.register.bind(this)
     this._reset = this.reset.bind(this)
@@ -33,9 +34,10 @@ export default class MainDashboardScreen extends Screen {
     this._renderSectionContent = this.renderSectionContent.bind(this)
     this._dashboardAction = this.dashboardAction.bind(this)
     this._levelUp = this.levelUp.bind(this)
+    this._claim = this.claim.bind(this)
   }
 
-  componentDidMount() {
+  componentDidMount () {
     super.componentDidMount()
     this._sideMenu = [].concat(this.menu)
 
@@ -44,36 +46,41 @@ export default class MainDashboardScreen extends Screen {
     }
   }
 
-  get sideMenu() {
+  get referralId () {
+    return this.account.referralId
+  }
+
+  get sideMenu () {
     return this._sideMenu
   }
 
-  register() {
+  register () {
     this.setState({ register: true, resetPassword: false })
   }
 
-  reset() {
+  reset () {
     this.setState({ resetPassword: true })
   }
 
-  login() {
+  login () {
     this.setState({ register: false, resetPassword: false })
   }
 
-  loadDashboard(account) {
+  createdNewReferralId (data) {
+    setTimeout(() => {
+      this.props.updateAccount({
+        referralId: data.id
+      })
+    }, 300)
+  }
+
+  loadDashboard (account) {
     this.saveAuth(account).then(() => {
-      //add referral ids to the users
-      if (!account.referralId) {
-        this.createNewReferral(account)
-      }
-
-      // this.checkReferral()
-
       this.loadSections(account)
     })
   }
 
-  renderLogin() {
+  renderLogin () {
     return (
       <ChunkComponents.Login
         error={this.state.loginError}
@@ -84,7 +91,7 @@ export default class MainDashboardScreen extends Screen {
     )
   }
 
-  renderRegister() {
+  renderRegister () {
     return (
       <ChunkComponents.Register
         error={this.state.registerError}
@@ -94,7 +101,7 @@ export default class MainDashboardScreen extends Screen {
     )
   }
 
-  renderResetPassword() {
+  renderResetPassword () {
     return (
       <ChunkComponents.ResetPassword
         error={this.state.registerError}
@@ -103,19 +110,19 @@ export default class MainDashboardScreen extends Screen {
     )
   }
 
-  didRegister() {
+  didRegister () {
     this.setState({ register: false })
   }
 
-  registerError(error) {
+  registerError (error) {
     this.setState({ registerError: error.message })
   }
 
-  signInError(error) {
+  signInError (error) {
     this.setState({ loginError: error.message })
   }
 
-  dashboardAction(action, props) {
+  dashboardAction (action, props) {
     switch (action) {
       case 'installProvider':
       case 'transactionDetails':
@@ -124,11 +131,31 @@ export default class MainDashboardScreen extends Screen {
       case 'upgrade':
         this._levelUp(props)
         break
+      case 'claim':
+        this._claim(props)
+        break
       default:
     }
   }
 
-  levelUp(data) {
+  claim (props) {
+    this.levelUp(props)
+    // Data.Cache.retrieveCachedItem('referralId')
+    //           .then(referralId => {
+    //             console.log(referralId)
+    //             // this.props.getReferral({ referralId })
+    //           })
+    //     .then((userData) => {
+    //       Data.Cache.clearCachedItem('referralId')
+    //       return this.creditUser(userData.userId)
+    //     })
+    //     .catch(error => console.error(error))
+    // }
+    // this.setState({ error: false, sending: true })
+    // this.sendEther(this.state.nextLevelPrice)
+  }
+
+  levelUp (data) {
     this.setState({ loading: true })
 
     setTimeout(() => {
@@ -141,7 +168,7 @@ export default class MainDashboardScreen extends Screen {
     }, 300)
   }
 
-  levelUpDone(data) {
+  levelUpDone (data) {
     const request = {
       nodeName: 'levelups',
       node: data,
@@ -152,62 +179,97 @@ export default class MainDashboardScreen extends Screen {
 
     setTimeout(() => {
       this.props.newLevelUpHistory(request)
-      this.props.updateAccount({
-        lastEthereumTransaction: data.ethereumTransactionId,
+      this.props.updateAccount(Object.assign({}, {
+        airdropped: data.airdrop,
         tokens: data.newTokens,
         ethereumAddress: data.ethereumAddress,
         level: data.newLevel
-      })
+      }, data.ethereumTransactionId && { lastEthereumTransaction: data.ethereumTransactionId }))
     }, 300)
   }
 
-  levelUpHistoryDone(data) {}
-
-  updatedAccount() {
+  levelUpHistoryDone (data) {
     setTimeout(() => {
       this.props.getAccount()
     }, 300)
   }
 
-  signedUp(account) {
+  // updatedAccount () {
+  //   setTimeout(() => {
+  //     this.props.getAccount()
+  //   }, 300)
+  // }
+
+  signedUp (account) {
     this.props.getAccount(account)
   }
 
-  createdNewReferral(data) {
-    setTimeout(() => {
-      this.props.updateAccount({
-        referralId: data._id
-      })
-    }, 300)
-  }
-
-  // createNewReferral(account) {
-  //   this.props.newReferral({ userId: this.props.account._id })
+  // createdNewReferral (data) {
+  //   setTimeout(() => {
+  //     this.props.updateAccount({
+  //       referralId: data._id
+  //     })
+  //   }, 300)
   // }
 
-  createNewReferral() {
-    Data.Cache.cacheItem('referralId', '-L8r8hJK9DGbhjg_T8A3')
-  }
+  // createNewReferral (account) {
+  //   // this.props.creditAccount({
+  //   //   userId:
+  //   // })
+  //   this.props.newReferral({
+  //     id: `${Utils.newShortId()}`,
+  //     userEmail: this.props.account.email,
+  //     userName: this.props.account.name,
+  //     userId: this.props.account._id
+  //   })
+  // }
 
-  checkReferral() {
-    Data.Cache.retrieveCachedItem('referralId')
-      .then(referralId => {
-        this.props.getReferral({ referralId })
-      })
-      .then(() => Data.Cache.clearCachedItem('referralId'))
-      .catch(error => console.error(error))
-  }
+  // createdNewReferral (data) {
+  //   console.log(data)
+  // }
 
-  creditUser(data) {
+  // createNewReferral () {
+  //   Data.Cache.cacheItem('referralId', '-L8r8hJK9DGbhjg_T8A3-001')
+  // }
+  //
+  // checkReferral () {
+  //   Data.Cache.retrieveCachedItem('referralId')
+  //     .then(referralId => this.props.getReferral({ referralId }))
+  //     .then((userData) => {
+  //       Data.Cache.clearCachedItem('referralId')
+  //       return this.creditUser(userData.userId)
+  //     })
+  //     .catch(error => console.error(error))
+  // }
+
+  creditUser (userId) {
     setTimeout(() => {
-      this.props.updateAccount({
-        id: data._id,
-        referredCount: 4
+      this.props.getUserAccount({
+        id: userId
+      })
+      .then((userData) => {
+        console.log(userData)
+        // this.props.creditAccount()
       })
     }, 300)
   }
 
-  loadSections(account) {
+  loadReferralId () {
+        // Create a new referral id for this user
+    this.props.newReferralId({
+      id: `${Utils.newShortId()}`,
+      userEmail: this.props.account.email,
+      userName: this.props.account.name,
+      userId: this.props.account._id
+    })
+  }
+
+  loadSections (account) {
+    if (!this.referralId) {
+      this.loadReferralId()
+      return
+    }
+
     this._sections = this.importData('sections')
     if (!this.sections || this.sections.length === 0) {
       return
@@ -242,11 +304,11 @@ export default class MainDashboardScreen extends Screen {
     this.setState({ section, loading: false, account })
   }
 
-  get sections() {
+  get sections () {
     return this._sections || []
   }
 
-  onSectionSelect(section) {
+  onSectionSelect (section) {
     if (section.action && this[section.action]) {
       this[section.action]()
       return
@@ -255,7 +317,7 @@ export default class MainDashboardScreen extends Screen {
     this.triggerRedirect(`${this.props.path}/${section.path}`)
   }
 
-  renderScreenContent() {
+  renderScreenContent () {
     if (this.state.loading) {
       const width = this.props.compact ? '95vw' : '600px'
       return (
@@ -270,7 +332,7 @@ export default class MainDashboardScreen extends Screen {
           }}
         >
           <Card style={{ width, margin: '20px', padding: '0px' }}>
-            <Typography use="title" tag="h1">
+            <Typography use='title' tag='h1'>
               Processing ... Just a sec.
             </Typography>
             <ListDivider />
@@ -280,14 +342,6 @@ export default class MainDashboardScreen extends Screen {
       )
     }
 
-    return (
-      <div>
-        <Button onClick={() => this.createNewReferral()}>
-          Create referral
-        </Button>
-        <Button onClick={() => this.checkReferral()}>Add referral</Button>
-      </div>
-    )
     if (!this.isLoggedIn) {
       if (this.state.resetPassword) {
         return this.renderResetPassword()
@@ -298,7 +352,7 @@ export default class MainDashboardScreen extends Screen {
     return this.renderSections()
   }
 
-  renderSectionContent() {
+  renderSectionContent () {
     if (
       this.state.section.component &&
       ChunkComponents[this.state.section.component]
@@ -323,14 +377,14 @@ export default class MainDashboardScreen extends Screen {
     return <div />
   }
 
-  renderSections() {
+  renderSections () {
     return (
       <Components.Dashboard
         compact={this.isSmallScreen}
         renderContent={this._renderSectionContent}
-        sectionsBackgroundColor="#FAFAFA"
-        sectionColor="#B0BEC5"
-        sectionSelectedColor="#039BE5"
+        sectionsBackgroundColor='#FAFAFA'
+        sectionColor='#B0BEC5'
+        sectionSelectedColor='#039BE5'
         sections={this.sections}
         section={this.state.section}
         onSectionSelect={this._onSectionSelect}
@@ -338,7 +392,7 @@ export default class MainDashboardScreen extends Screen {
     )
   }
 
-  components() {
+  components () {
     return [this.renderScreenContent()]
   }
 }
