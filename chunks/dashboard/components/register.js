@@ -25,19 +25,18 @@ import { Typography } from 'rmwc/Typography'
 import { FormField } from 'rmwc/FormField'
 
 export default class RegisterComponent extends Component {
-
-  constructor (props) {
+  constructor(props) {
     super(props)
     this._done = this.done.bind(this)
     this._login = this.login.bind(this)
     this.state = { ...super.state }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     super.componentDidMount()
   }
 
-  done () {
+  done() {
     if (!this.state.name) {
       this.setState({ error: errors.name, errorType: 'name', loading: false })
       return
@@ -49,12 +48,20 @@ export default class RegisterComponent extends Component {
     }
 
     if (!this.state.password) {
-      this.setState({ error: errors.password, errorType: 'password', loading: false })
+      this.setState({
+        error: errors.password,
+        errorType: 'password',
+        loading: false
+      })
       return
     }
 
     if (this.state.password !== this.state.password2) {
-      this.setState({ error: errors.password2, errorType: 'password2', loading: false })
+      this.setState({
+        error: errors.password2,
+        errorType: 'password2',
+        loading: false
+      })
       return
     }
 
@@ -63,75 +70,138 @@ export default class RegisterComponent extends Component {
     this.props.signUp({
       email: this.state.email,
       name: this.state.name,
-      password: this.state.password })
+      password: this.state.password
+    })
   }
 
-  login () {
+  login() {
     this.props.onLogin && this.props.onLogin()
   }
 
-  get error () {
-    return (this.state.error ? this.state.error : this.props.error)
+  get error() {
+    return this.state.error ? this.state.error : this.props.error
   }
 
-  renderError () {
+  renderError() {
     if (!this.error) {
       return
     }
 
     return (
-      <div style={{margin: '20px', color: '#ef5350', textAlign: 'center'}}>
-        { this.error }
+      <div style={{ margin: '20px', color: '#ef5350', textAlign: 'center' }}>
+        {this.error}
       </div>
     )
   }
 
-  renderLoading () {
+  renderLoading() {
     if (!this.state.loading || this.error) {
       return
     }
-    return <div>
-      <LinearProgress determinate={false} />
-    </div>
+    return (
+      <div>
+        <LinearProgress determinate={false} />
+      </div>
+    )
   }
 
-  render () {
+  render() {
     const width = this.props.isSmallScreen ? '95vw' : '600px'
     const padding = this.props.isSmallScreen ? '2px' : '30px'
 
-    return (<div style={{ display: 'flex', flex: 1, margin: '40px', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }} >
-      <Card style={{width, margin: '10px', padding}} >
-        <div style={{padding: '4px'}}>
-          <Typography use='title' tag='h2'> Create Your Carmel Account</Typography>
-        </div>
+    return (
+      <div
+        style={{
+          display: 'flex',
+          flex: 1,
+          margin: '40px',
+          justifyContent: 'center',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }}
+      >
+        <Card style={{ width, margin: '10px', padding }}>
+          <div style={{ padding: '4px' }}>
+            <Typography use="title" tag="h2">
+              {' '}
+              Create Your Carmel Account
+            </Typography>
+          </div>
 
-        { this.renderError() }
-        { this.renderLoading() }
+          {this.renderError()}
+          {this.renderLoading()}
 
-        <TextField disabled={this.state.loading && !this.error} outlined withLeadingIcon='perm_identity' label={this.state.name ? '' : 'Enter your name'}
-          onChange={(val) => this.setState({ name: val.target.value, error: '' })} />
+          <TextField
+            disabled={this.state.loading && !this.error}
+            outlined
+            withLeadingIcon="perm_identity"
+            label={this.state.name ? '' : 'Enter your name'}
+            onChange={val =>
+              this.setState({ name: val.target.value, error: '' })
+            }
+          />
 
-        <TextField disabled={this.state.loading && !this.error} outlined withLeadingIcon='email' label={this.state.email ? '' : 'Enter your email address'}
-          onChange={(val) => this.setState({ email: val.target.value, error: '' })} />
+          <TextField
+            disabled={this.state.loading && !this.error}
+            outlined
+            withLeadingIcon="email"
+            label={this.state.email ? '' : 'Enter your email address'}
+            onChange={val =>
+              this.setState({ email: val.target.value, error: '' })
+            }
+          />
 
-        <TextField type='password' disabled={this.state.loading && !this.error} outlined withLeadingIcon='lock_outline' label={this.state.password ? '' : 'Choose a password'}
-          onChange={(val) => this.setState({ password: val.target.value, error: '' })} />
+          <TextField
+            type="password"
+            disabled={this.state.loading && !this.error}
+            outlined
+            withLeadingIcon="lock_outline"
+            label={this.state.password ? '' : 'Choose a password'}
+            onChange={val =>
+              this.setState({ password: val.target.value, error: '' })
+            }
+          />
 
-        <TextField type='password' disabled={this.state.loading && !this.error} outlined withLeadingIcon='lock' label={this.state.password ? '' : 'Confirm your password'}
-          onChange={(val) => this.setState({ password2: val.target.value, error: '' })} />
+          <TextField
+            type="password"
+            disabled={this.state.loading && !this.error}
+            outlined
+            withLeadingIcon="lock"
+            label={this.state.password ? '' : 'Confirm your password'}
+            onChange={val =>
+              this.setState({ password2: val.target.value, error: '' })
+            }
+          />
 
-        <CardActions style={{justifyContent: 'center', margin: '20px'}}>
-          <CardActionButtons>
-            <Button raised disabled={this.state.loading && !this.error} onClick={this._done} theme='secondary-bg text-primary-on-secondary'> Create Account</Button>
-          </CardActionButtons>
-        </CardActions>
-        <CardActions style={{justifyContent: 'center', margin: '0px'}}>
-          <CardActionButtons>
-            <Button disabled={this.state.loading && !this.error} onClick={this._login}> Sign back in </Button>
-          </CardActionButtons>
-        </CardActions>
-      </Card>
-    </div>)
+          <CardActions style={{ justifyContent: 'center', margin: '20px' }}>
+            <CardActionButtons>
+              <Button
+                raised
+                disabled={this.state.loading && !this.error}
+                onClick={this._done}
+                theme="secondary-bg text-primary-on-secondary"
+              >
+                {' '}
+                Create Account
+              </Button>
+            </CardActionButtons>
+          </CardActions>
+          {this.props.onLogin ? (
+            <CardActions style={{ justifyContent: 'center', margin: '0px' }}>
+              <CardActionButtons>
+                <Button
+                  disabled={this.state.loading && !this.error}
+                  onClick={this._login}
+                >
+                  {' '}
+                  Sign back in{' '}
+                </Button>
+              </CardActionButtons>
+            </CardActions>
+          ) : null}
+        </Card>
+      </div>
+    )
   }
 }
 
