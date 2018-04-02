@@ -167,13 +167,12 @@ export default class MainDashboardScreen extends Screen {
     }, 300)
   }
 
-  claim (props) {
-    this.setState({ loading: true })
+  contextReady () {
     setTimeout(() => {
       this.props.updateAccount({
-        ethereumAddress: props.ethereumAddress,
-        tokens: props.newTokens,
-        level: props.newLevel,
+        ethereumAddress: this.state.claim.ethereumAddress,
+        tokens: this.state.claim.newTokens,
+        level: this.state.claim.newLevel,
         airdropped: true
       })
     }, 300)
@@ -183,6 +182,34 @@ export default class MainDashboardScreen extends Screen {
                 this.props.getReferral({ referralId })
               })
               .catch(() => {})
+  }
+
+  gotContext (context) {
+    if (context.period2Total <= 0) {
+      this.setState({ loading: false, sectionError: 'Period Claim Limit Reached' })
+      return
+    }
+
+    if (context.period2DailyTotal <= 0) {
+      this.setState({ loading: false, sectionError: 'Daily Claim Limit Reached' })
+      return
+    }
+
+    setTimeout(() => {
+      this.props.updateContext({
+        contextId: context._id,
+        period2Total: context.period2Total - 100,
+        period2DailyTotal: context.period2DailyTotal - 100
+      })
+    }, 300)
+  }
+
+  claim (props) {
+    this.setState({ loading: true, claim: props })
+
+    setTimeout(() => {
+      this.props.getContext()
+    }, 300)
   }
 
   levelUp (data) {
@@ -342,6 +369,7 @@ export default class MainDashboardScreen extends Screen {
         {
           account: this.account,
           browser: this.browser,
+          error: this.state.sectionError,
           onAction: this._dashboardAction,
           compact: this.isSmallScreen,
           updates: this.props.updates

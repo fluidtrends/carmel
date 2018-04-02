@@ -28,6 +28,14 @@
           "firebase://retrieve/users/:uid#account",
           { "onSuccess": "loadDashboard" }
         ],
+        "updateContext": [
+          "firebase://update/context/:contextId?#updatedContext",
+          { "onSuccess": "contextReady"}
+        ],
+        "getContext": [
+          "firebase://retrieve/context?latest=1#freshContext",
+          { "onSuccess": "gotContext" }
+        ],
         "creditAccount": [
           "firebase://update/users/:userId?newTokens#creditAccount",
           { }
@@ -95,5 +103,6 @@
       }
     }
   },
+  "transforms": ["firebase://context"],
   "reports": ["firebase://users"]
 }

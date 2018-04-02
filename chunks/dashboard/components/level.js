@@ -290,7 +290,7 @@ export default class LevelComponent extends Component {
       <div>
         <Button
           onClick={this._transactionDetails}
-          style={{ marginBottom: '30px' }}
+          style={{ marginTop: '20px', marginBottom: '20px' }}
         >
           Last Transaction Details{' '}
         </Button>
@@ -389,26 +389,26 @@ export default class LevelComponent extends Component {
     const theme = (disabled ? undefined : 'secondary-bg text-primary-on-secondary')
     const buttonTitle = (this.state.ethereumAddress ? 'Claim Your Free CARMEL Tokens' : 'Unlock MetaMask to Claim')
 
-    if (this.props.account.airdropped) {
-      return (<div>
-        <Typography
-          use='headline'
-          tag='div'
-          style={{
-            padding: '0.5rem 1rem',
-            textAlign: 'center',
-            padding: '20px'
-          }}
-          theme='text-secondary-on-background'
-      >
-        Congratulations!
-      </Typography>
-        <Typography style={{ textAlign: 'center', marginBottom: '30px' }} use='subheading2' tag='div'>
-        You successfully claimed your FREE Carmel Tokens.
-      </Typography>
-      </div>
-      )
-    }
+    // if (this.props.account.airdropped) {
+    //   return (<div>
+    //     <Typography
+    //       use='headline'
+    //       tag='div'
+    //       style={{
+    //         padding: '0.5rem 1rem',
+    //         textAlign: 'center',
+    //         padding: '20px'
+    //       }}
+    //       theme='text-secondary-on-background'
+    //   >
+    //     Congratulations!
+    //   </Typography>
+    //     <Typography style={{ textAlign: 'center', marginBottom: '30px' }} use='subheading2' tag='div'>
+    //     You successfully claimed your FREE Carmel Tokens.
+    //   </Typography>
+    //   </div>
+    //   )
+    // }
 
     return (
       <div>
@@ -677,8 +677,12 @@ export default class LevelComponent extends Component {
     return this.renderWithProvider()
   }
 
+  get error () {
+    return this.state.error || this.props.error
+  }
+
   renderError () {
-    if (!this.state.error) {
+    if (!this.error) {
       return <div />
     }
 
@@ -694,7 +698,7 @@ export default class LevelComponent extends Component {
         }}
       >
         <Typography use='title' style={{ color: '#ef5350' }} tag='h1'>
-          {this.state.error}
+          {this.error}
         </Typography>
       </div>
     )
@@ -741,16 +745,16 @@ export default class LevelComponent extends Component {
         <Card style={{ width, margin: '10px', padding: '0px' }}>
           {this.renderContentHeader()}
         </Card>
+        {this.renderError()}
         <Card style={{ width, margin: '10px', padding: '0px' }}>
           {this.renderAirdropContent()}
         </Card>
         {this.renderTopFooter()}
-        {this.renderReceipt()}
-        {this.renderError()}
         <Card style={{ width, margin: '10px', padding: '0px' }}>
           {this.renderMainContent()}
         </Card>
         {this.renderContentFooter()}
+        {this.renderReceipt()}
       </div>
     )
   }
