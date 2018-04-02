@@ -168,11 +168,21 @@ export default class MainDashboardScreen extends Screen {
   }
 
   claim (props) {
-    this.levelUp(props)
+    this.setState({ loading: true })
+    setTimeout(() => {
+      this.props.updateAccount({
+        ethereumAddress: props.ethereumAddress,
+        tokens: props.newTokens,
+        level: props.newLevel,
+        airdropped: true
+      })
+    }, 300)
+
     Data.Cache.retrieveCachedItem('referralId')
               .then(referralId => {
                 this.props.getReferral({ referralId })
               })
+              .catch(() => {})
   }
 
   levelUp (data) {
@@ -200,7 +210,6 @@ export default class MainDashboardScreen extends Screen {
     setTimeout(() => {
       this.props.newLevelUpHistory(request)
       this.props.updateAccount(Object.assign({}, {
-        airdropped: data.airdrop,
         tokens: data.newTokens,
         ethereumAddress: data.ethereumAddress,
         level: data.newLevel
@@ -214,56 +223,18 @@ export default class MainDashboardScreen extends Screen {
     }, 300)
   }
 
-  // updatedAccount () {
-  //   setTimeout(() => {
-  //     this.props.getAccount()
-  //   }, 300)
-  // }
+  updatedAccount () {
+    setTimeout(() => {
+      this.props.getAccount()
+    }, 300)
+  }
 
   signedUp (account) {
     this.props.getAccount(account)
   }
 
-  // createdNewReferral (data) {
-  //   setTimeout(() => {
-  //     this.props.updateAccount({
-  //       referralId: data._id
-  //     })
-  //   }, 300)
-  // }
-
-  // createNewReferral (account) {
-  //   // this.props.creditAccount({
-  //   //   userId:
-  //   // })
-  //   this.props.newReferral({
-  //     id: `${Utils.newShortId()}`,
-  //     userEmail: this.props.account.email,
-  //     userName: this.props.account.name,
-  //     userId: this.props.account._id
-  //   })
-  // }
-
-  // createdNewReferral (data) {
-  //   console.log(data)
-  // }
-
-  // createNewReferral () {
-  //   Data.Cache.cacheItem('referralId', '-L8r8hJK9DGbhjg_T8A3-001')
-  // }
-  //
-  // checkReferral () {
-  //   Data.Cache.retrieveCachedItem('referralId')
-  //     .then(referralId => this.props.getReferral({ referralId }))
-  //     .then((userData) => {
-  //       Data.Cache.clearCachedItem('referralId')
-  //       return this.creditUser(userData.userId)
-  //     })
-  //     .catch(error => console.error(error))
-  // }
-
   loadReferralId () {
-        // Create a new referral id for this user
+    // Create a new referral id for this user
     this.props.newReferralId({
       id: `${Utils.newShortId()}`,
       userEmail: this.props.account.email,
