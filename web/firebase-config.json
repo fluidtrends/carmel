@@ -1,8 +1,8 @@
 {
-  "apiKey": "AIzaSyCQn2-SxAbu7fKqSCNJ8hmPQPVGOAsxZX4",
-  "authDomain": "carmel-dev.firebaseapp.com",
-  "databaseURL": "https://carmel-dev.firebaseio.com",
-  "projectId": "carmel-dev",
-  "storageBucket": "carmel-dev.appspot.com",
-  "messagingSenderId": "544354695743"
+  "apiKey": "AIzaSyBxhRHoajdWhKmM58mcs6k85Jzdyj2Y_k0",
+  "authDomain": "carmel-platform.firebaseapp.com",
+  "databaseURL": "https://carmel-platform.firebaseio.com",
+  "projectId": "carmel-platform",
+  "storageBucket": "carmel-platform.appspot.com",
+  "messagingSenderId": "524166931663"
 }
