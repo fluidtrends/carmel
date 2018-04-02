@@ -164,7 +164,8 @@ export default class LevelComponent extends Component {
   sendEther (amount) {
     const message = `${(
       this.state.nextTokens - this.state.tokens
-    ).toLocaleString('en')} CARMEL (Period 1)`
+    ).toLocaleString('en')} CARMEL (Period 2)`
+
     const data = web3.toHex(message)
     const from = this.state.ethereumAddress
     const to = CarmelPrivateSaleAddress
@@ -208,8 +209,7 @@ export default class LevelComponent extends Component {
       currentLevel: this.state.level,
       currentTokens: this.state.tokens,
       newTokens,
-      newLevel,
-      airdrop: true
+      newLevel
     })
   }
 
@@ -391,7 +391,6 @@ export default class LevelComponent extends Component {
 
     if (this.props.account.airdropped) {
       return (<div>
-
         <Typography
           use='headline'
           tag='div'
