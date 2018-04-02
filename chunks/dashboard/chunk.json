@@ -36,6 +36,10 @@
           "firebase://create/levelups#newLevelUp",
           { "onSuccess": "levelUpDone", "onError": "levelUpError" }
         ],
+        "getReferral": [
+          "firebase://retrieve/referrals/:referralId#currentReferral",
+          { "onSuccess": "receivedReferral" }
+        ],
         "newLevelUpHistory": [
           "firebase://join#newLevelUpHistory",
           { "onSuccess": "levelUpHistoryDone" }
@@ -44,13 +48,17 @@
           "firebase://create/referrals?userId#newReferral",
           { "onSuccess": "createdNewReferralId" }
         ],
+        "getReferralAccount": [
+          "firebase://retrieve/users/:userId?userId#referralAccount",
+          { "onSuccess": "gotReferralAccount" }
+        ],
         "updateAccount": [
           "firebase://update/users/:uid#updated",
           { "onSuccess": "getAccount", "onError": "updateAccountError" }
         ],
-        "updateFriendAccount": [
-          "firebase://update/users/:friendId?friendId#updatedFriend",
-          { "onSuccess": "updatedFriendAccount", "onError": "updateFriendAccountError" }
+        "updateReferralAccount": [
+          "firebase://update/users/:userId?userId#updatedFriend",
+          { "onSuccess": "getAccount" }
         ]
       }
     },

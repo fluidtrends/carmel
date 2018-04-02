@@ -138,21 +138,41 @@ export default class MainDashboardScreen extends Screen {
     }
   }
 
+  gotReferralAccount (account) {
+    const referrals = (account.referrals || 0)
+    Data.Cache.clearCachedItem('referralId')
+
+    if (referrals >= 5) {
+      return
+    }
+
+    const tokens = ((account.tokens || 0) + 50)
+    const level = Math.floor(tokens / 1000)
+
+    setTimeout(() => {
+      this.props.updateReferralAccount({
+        tokens,
+        level,
+        userId: account._id,
+        referrals: (referrals + 1)
+      })
+    }, 300)
+  }
+
+  receivedReferral (referral) {
+    setTimeout(() => {
+      this.props.getReferralAccount({
+        userId: referral.userId
+      })
+    }, 300)
+  }
+
   claim (props) {
     this.levelUp(props)
-    // Data.Cache.retrieveCachedItem('referralId')
-    //           .then(referralId => {
-    //             console.log(referralId)
-    //             // this.props.getReferral({ referralId })
-    //           })
-    //     .then((userData) => {
-    //       Data.Cache.clearCachedItem('referralId')
-    //       return this.creditUser(userData.userId)
-    //     })
-    //     .catch(error => console.error(error))
-    // }
-    // this.setState({ error: false, sending: true })
-    // this.sendEther(this.state.nextLevelPrice)
+    Data.Cache.retrieveCachedItem('referralId')
+              .then(referralId => {
+                this.props.getReferral({ referralId })
+              })
   }
 
   levelUp (data) {
@@ -241,18 +261,6 @@ export default class MainDashboardScreen extends Screen {
   //     })
   //     .catch(error => console.error(error))
   // }
-
-  creditUser (userId) {
-    setTimeout(() => {
-      this.props.getUserAccount({
-        id: userId
-      })
-      .then((userData) => {
-        console.log(userData)
-        // this.props.creditAccount()
-      })
-    }, 300)
-  }
 
   loadReferralId () {
         // Create a new referral id for this user

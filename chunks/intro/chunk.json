@@ -45,13 +45,9 @@
         },
         "timer": {
           "id": "buy",
+          "actionTitle": "Claim Your FREE Tokens",
           "source": "timer",
           "periods": [
-            {
-              "until": "02 Apr 2018 00:00:00 PDT",
-              "text":
-                "github://fluidtrends/carmel/content/product/intro/countdown1"
-            },
             {
               "until": "07 May 2018 00:00:00 PDT",
               "text":
