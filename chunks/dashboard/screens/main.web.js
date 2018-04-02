@@ -67,7 +67,7 @@ export default class MainDashboardScreen extends Screen {
         this.createNewReferral(account)
       }
 
-      this.checkReferral()
+      // this.checkReferral()
 
       this.loadSections(account)
     })
@@ -181,9 +181,9 @@ export default class MainDashboardScreen extends Screen {
     }, 300)
   }
 
-  createNewReferral(account) {
-    this.props.newReferral({ userId: this.props.account._id })
-  }
+  // createNewReferral(account) {
+  //   this.props.newReferral({ userId: this.props.account._id })
+  // }
 
   createNewReferral() {
     Data.Cache.cacheItem('referralId', '-L8r8hJK9DGbhjg_T8A3')
@@ -195,10 +195,17 @@ export default class MainDashboardScreen extends Screen {
         this.props.getReferral({ referralId })
       })
       .then(() => Data.Cache.clearCachedItem('referralId'))
-      .catch(error => () => {})
+      .catch(error => console.error(error))
   }
 
-  creditUser(data) {}
+  creditUser(data) {
+    setTimeout(() => {
+      this.props.updateAccount({
+        id: data._id,
+        referredCount: 4
+      })
+    }, 300)
+  }
 
   loadSections(account) {
     this._sections = this.importData('sections')
@@ -273,14 +280,14 @@ export default class MainDashboardScreen extends Screen {
       )
     }
 
-    // return (
-    //   <div>
-    //     <Button onClick={() => this.createNewReferral()}>
-    //       Create referral
-    //     </Button>
-    //     <Button onClick={() => this.checkReferral()}>Add referral</Button>
-    //   </div>
-    // )
+    return (
+      <div>
+        <Button onClick={() => this.createNewReferral()}>
+          Create referral
+        </Button>
+        <Button onClick={() => this.checkReferral()}>Add referral</Button>
+      </div>
+    )
     if (!this.isLoggedIn) {
       if (this.state.resetPassword) {
         return this.renderResetPassword()
