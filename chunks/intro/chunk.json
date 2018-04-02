@@ -3,7 +3,9 @@
   "routes": {
     "main": {
       "title": "Welcome",
+      "desktopTitle": "Start",
       "icon": "home",
+      "skipExtendedMenuOnDesktop": true,
       "extendedMenu": [
         {
           "id": "team",
@@ -13,9 +15,9 @@
       ],
       "path": "/",
       "events": {
-        "cover": "local://me",
+        "cover": "local://tokens",
         "chris": "local://whitepaper",
-        "buy": "local://me/tokens",
+        "buy": "local://tokens",
         "distribution": "local://whitepaper/tokens",
         "economy": "local://whitepaper/economy",
         "architecture": "local://whitepaper/architecture",
@@ -174,6 +176,25 @@
           "textColor": "#37474F",
           "backgroundColor": "#fcfefe"
         }
+      }
+    },
+    "welcome": {
+      "title": "Welcome",
+      "icon": "home",
+      "path": "/welcome",
+      "events": {
+        "cover": "local://me"
+      },
+      "cover": {
+        "image": "start.jpg",
+        "backgroundColor": "#ffffff",
+        "align": "bottom",
+        "opacity": 0.5,
+        "navigation": true,
+        "title": "It has begun.",
+        "subtitle": "Ready to get in the zone?",
+        "type": "default",
+        "primaryActionTitle": "Let's Do This"
       }
     },
     "person": {
