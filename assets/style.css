@@ -381,3 +381,17 @@
     transform: translateX(0);
   }
 }
+
+/* fix for register textfields  */
+
+.mdc-floating-label {
+  padding-right: 15px;
+}
+
+.mdc-text-field__input {
+  flex: 1
+}
+
+.mdc-text-field--upgraded:not(.mdc-text-field--fullwidth):not(.mdc-text-field--box) {
+  align-items: center
+}
