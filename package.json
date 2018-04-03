@@ -51,8 +51,7 @@
         "packageManager": "npm",
         "asar": false,
         "quiet": false,
-        "protocol": "carmel://",
-        "icon": "./assets/carmel-logo.png"
+        "protocol": "carmel://"
       },
       "electronWinstallerConfig": {
         "name": "Carmel"
