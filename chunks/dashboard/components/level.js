@@ -381,6 +381,27 @@ export default class LevelComponent extends Component {
     )
   }
 
+  renderClaimLimit () {
+    return (<div>
+      <Typography
+        use='headline'
+        tag='div'
+        style={{
+          padding: '0.5rem 1rem',
+          textAlign: 'center',
+          padding: '20px'
+        }}
+        theme='text-secondary-on-background'
+    >
+      Congratulations!
+    </Typography>
+      <Typography style={{ textAlign: 'center', marginBottom: '30px' }} use='subheading2' tag='div'>
+      You successfully claimed your FREE Carmel Tokens.
+    </Typography>
+    </div>
+    )
+  }
+
   renderAirdropContent () {
     const airdropAddress = this.state.ethereumAddress
       ? this.state.ethereumAddress
@@ -389,26 +410,9 @@ export default class LevelComponent extends Component {
     const theme = (disabled ? undefined : 'secondary-bg text-primary-on-secondary')
     const buttonTitle = (this.state.ethereumAddress ? 'Claim Your Free CARMEL Tokens' : 'Unlock MetaMask to Claim')
 
-    // if (this.props.account.airdropped) {
-    //   return (<div>
-    //     <Typography
-    //       use='headline'
-    //       tag='div'
-    //       style={{
-    //         padding: '0.5rem 1rem',
-    //         textAlign: 'center',
-    //         padding: '20px'
-    //       }}
-    //       theme='text-secondary-on-background'
-    //   >
-    //     Congratulations!
-    //   </Typography>
-    //     <Typography style={{ textAlign: 'center', marginBottom: '30px' }} use='subheading2' tag='div'>
-    //     You successfully claimed your FREE Carmel Tokens.
-    //   </Typography>
-    //   </div>
-    //   )
-    // }
+    if (this.props.account.airdropped) {
+      return this.renderClaimLimit()
+    }
 
     return (
       <div>

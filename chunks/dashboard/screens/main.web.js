@@ -185,12 +185,12 @@ export default class MainDashboardScreen extends Screen {
   }
 
   gotContext (context) {
-    if (context.period2Total <= 0) {
+    if (context.remainingTokensPeriod <= 0) {
       this.setState({ loading: false, sectionError: 'Period Claim Limit Reached' })
       return
     }
 
-    if (context.period2DailyTotal <= 0) {
+    if (context.remainingTokensDaily <= 0) {
       this.setState({ loading: false, sectionError: 'Daily Claim Limit Reached' })
       return
     }
@@ -198,8 +198,8 @@ export default class MainDashboardScreen extends Screen {
     setTimeout(() => {
       this.props.updateContext({
         contextId: context._id,
-        period2Total: context.period2Total - 100,
-        period2DailyTotal: context.period2DailyTotal - 100
+        remainingTokensDaily: context.remainingTokensDaily - 100,
+        remainingTokensPeriod: context.remainingTokensPeriod - 100
       })
     }, 300)
   }
