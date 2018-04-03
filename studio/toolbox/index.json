@@ -1,0 +1,17 @@
+[{
+  "name": "editor",
+  "image": "https://github.com/fluidtrends/carmel/raw/content/studio/toolbox/editor/large.png",
+  "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/studio/toolbox/editor/small.png",
+  "thumbnail": "https://github.com/fluidtrends/carmel/raw/content/studio/toolbox/editor/thumb.png",
+  "backgroundColor": "#ffffff",
+  "path": "editor",
+  "title": "The Editor",
+  "details": "The Editor",
+  "action": {
+    "handler": "local://studio/toolbox/editor"
+  },
+  "content": {
+    "text": "github://fluidtrends/carmel/content/studio/toolbox/editor/README",
+    "textColor": "#37474F"
+  }
+}]
