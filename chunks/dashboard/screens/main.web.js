@@ -42,7 +42,7 @@ export default class MainDashboardScreen extends Screen {
     this._sideMenu = [].concat(this.menu)
 
     if (this.isLoggedIn) {
-      // this.loadSections(this.account)
+      this.loadSections(this.account)
     }
   }
 
@@ -140,6 +140,7 @@ export default class MainDashboardScreen extends Screen {
 
   gotReferralAccount (account) {
     const referrals = (account.referrals || 0)
+
     Data.Cache.clearCachedItem('referralId')
 
     if (referrals >= 5) {
@@ -159,6 +160,11 @@ export default class MainDashboardScreen extends Screen {
     }, 300)
   }
 
+  updatedReferralAccount (account) {
+    // Already now we can update the user's claim too
+    this.updateAccountWithSimpleClaim()
+  }
+
   receivedReferral (referral) {
     setTimeout(() => {
       this.props.getReferralAccount({
@@ -167,7 +173,7 @@ export default class MainDashboardScreen extends Screen {
     }, 300)
   }
 
-  contextReady () {
+  updateAccountWithSimpleClaim () {
     setTimeout(() => {
       this.props.updateAccount({
         ethereumAddress: this.state.claim.ethereumAddress,
@@ -176,12 +182,18 @@ export default class MainDashboardScreen extends Screen {
         airdropped: true
       })
     }, 300)
+  }
 
+  contextReady () {
     Data.Cache.retrieveCachedItem('referralId')
               .then(referralId => {
+                // This is a claim from a referral
                 this.props.getReferral({ referralId })
               })
-              .catch(() => {})
+              .catch((e) => {
+                // This is a simple claim - not through a referral
+                this.updateAccountWithSimpleClaim()
+              })
   }
 
   gotContext (context) {
