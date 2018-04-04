@@ -42,7 +42,7 @@ export default class MainDashboardScreen extends Screen {
     this._sideMenu = [].concat(this.menu)
 
     if (this.isLoggedIn) {
-      this.loadSections(this.account)
+      // this.loadSections(this.account)
     }
   }
 
@@ -367,6 +367,8 @@ export default class MainDashboardScreen extends Screen {
       var sectionProps = Object.assign(
         {},
         {
+          importData: this.importData,
+          importRemoteData: this.importRemoteData,
           account: this.account,
           browser: this.browser,
           error: this.state.sectionError,

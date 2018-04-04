@@ -3,7 +3,7 @@
   "version": "0.1.4",
   "description": "The Carmel Platform",
   "productName": "Carmel",
-  "main": "node_modules/react-electron-chunky/lib/core",
+  "main": "node_modules/react-electron-chunky/lib",
   "scripts": {
     "test": "react-savor test",
     "lint": "react-savor lint",
