@@ -3,6 +3,9 @@ import { Component } from 'react-dom-chunky'
 import moment from 'moment'
 import validator from 'validator'
 import { LinearProgress } from 'rmwc/LinearProgress'
+import Recaptcha from 'react-recaptcha'
+
+import $script from 'scriptjs'
 
 import { Icon } from 'rmwc/Icon'
 import { TextField, TextFieldIcon, TextFieldHelperText } from 'rmwc/TextField'
@@ -34,6 +37,7 @@ export default class RegisterComponent extends Component {
 
   componentDidMount () {
     super.componentDidMount()
+    $script('https://www.google.com/recaptcha/api.js', 'recaptcha');
   }
 
   done () {
@@ -60,6 +64,15 @@ export default class RegisterComponent extends Component {
       this.setState({
         error: errors.password2,
         errorType: 'password2',
+        loading: false
+      })
+      return
+    }
+
+    if (!this.state.verifiedCaptcha) {
+      this.setState({
+        error: errors.captcha,
+        errorType: 'captcha',
         loading: false
       })
       return
@@ -172,12 +185,20 @@ export default class RegisterComponent extends Component {
               this.setState({ password2: val.target.value, error: '' })
             }
           />
+          <div style={{alignSelf: 'center', marginTop: '20px'}}>
+            <Recaptcha
+              sitekey='6Lex_1AUAAAAALdQO95hdq9WeiG_tbKbhF2WDB3s'
+              verifyCallback = { resp => { if (resp) { this.setState({ verifiedCaptcha: true, error: ''})} }}
+              render='explicit'
+              onloadCallback={() => this.setState({verifiedCaptcha: false})}
+            />
+          </div>
 
           <CardActions style={{ justifyContent: 'center', margin: '20px' }}>
             <CardActionButtons>
               <Button
                 raised
-                disabled={this.state.loading && !this.error}
+                disabled={this.state.loading && !this.error && !this.state.verifiedCaptcha}
                 onClick={this._done}
                 theme='secondary-bg text-primary-on-secondary'
               >
@@ -234,5 +255,6 @@ const errors = {
   email: "Don't forget your email address",
   ethereum: "Don't forget your Ethereum address",
   password: 'Please choose a password',
-  password2: 'Please make sure your passwords match'
+  password2: 'Please make sure your passwords match',
+  captcha: "Please fill out the captcha"
 }
