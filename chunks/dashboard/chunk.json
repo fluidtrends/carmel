@@ -12,6 +12,7 @@
         "navigation": true,
         "type": "menu"
       },
+      "toolboxIndex": "https://raw.githubusercontent.com/fluidtrends/carmel/content/studio/toolbox/index.json",
       "updates": "github://fluidtrends/carmel/master/docs/updates/README",
       "startOperationsOnMount": false,
       "operations": {
@@ -76,6 +77,8 @@
       "path": "/:referral",
       "skipPaths": [
         "story",
+        "toolbox",
+        "profile",
         "whitepaper",
         "roadmap",
         "platform",
