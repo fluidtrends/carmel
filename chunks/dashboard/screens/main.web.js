@@ -141,9 +141,8 @@ export default class MainDashboardScreen extends Screen {
   gotReferralAccount (account) {
     const referrals = (account.referrals || 0)
 
-    Data.Cache.clearCachedItem('referralId')
-
     if (referrals >= 5) {
+      this.updateAccountWithSimpleClaim()
       return
     }
 
@@ -160,8 +159,7 @@ export default class MainDashboardScreen extends Screen {
     }, 300)
   }
 
-  updatedReferralAccount (account) {
-    // Already now we can update the user's claim too
+  updatedReferralAccount () {
     this.updateAccountWithSimpleClaim()
   }
 
@@ -173,15 +171,26 @@ export default class MainDashboardScreen extends Screen {
     }, 300)
   }
 
-  updateAccountWithSimpleClaim () {
+  performClaimUpdate (referralId) {
     setTimeout(() => {
-      this.props.updateAccount({
+      this.props.updateAccount(Object.assign({}, {
         ethereumAddress: this.state.claim.ethereumAddress,
         tokens: this.state.claim.newTokens,
         level: this.state.claim.newLevel,
         airdropped: true
-      })
+      }, referralId && { referral: referralId }))
     }, 300)
+  }
+
+  updateAccountWithSimpleClaim (referralId) {
+    Data.Cache.retrieveCachedItem('referralId')
+              .then(referralId => {
+                Data.Cache.clearCachedItem('referralId')
+                this.performClaimUpdate(referralId)
+              })
+              .catch((e) => {
+                this.performClaimUpdate()
+              })
   }
 
   contextReady () {
