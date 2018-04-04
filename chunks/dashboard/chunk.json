@@ -67,7 +67,7 @@
         ],
         "updateReferralAccount": [
           "firebase://update/users/:userId?userId#updatedFriend",
-          { "onSuccess": "getAccount" }
+          { "onSuccess": "updatedReferralAccount" }
         ]
       }
     },

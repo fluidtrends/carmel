@@ -411,7 +411,7 @@ export default class LevelComponent extends Component {
     const buttonTitle = (this.state.ethereumAddress ? 'Claim Your Free CARMEL Tokens' : 'Unlock MetaMask to Claim')
 
     if (this.props.account.airdropped) {
-      return this.renderClaimLimit()
+      // return this.renderClaimLimit()
     }
 
     return (
