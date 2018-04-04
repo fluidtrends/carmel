@@ -27,7 +27,6 @@ import { ListDivider } from 'rmwc/List'
 import { Fab } from 'rmwc/Fab'
 import { Icon } from 'rmwc/Icon'
 import { Slider } from 'rmwc/Slider'
-import { Ethereum } from 'react-blockchain-chunky/lib'
 
 const CoinMarketCapAPI = `https://api.coinmarketcap.com/v1/ticker/ethereum/?convert=USD`
 const CarmelPrivateSaleAddress = `0x4E52e804905CC320BF631523a9cb1416B8d613Fb`
@@ -61,11 +60,7 @@ export default class LevelComponent extends Component {
   }
 
   timerFired () {
-    if (!this.state.ethereum) {
-      return
-    }
-
-    this.fetchProviderAccount(this.state.ethereum).then(ethereumAddress => {
+    this.fetchProviderAccount(this.state.provider).then(ethereumAddress => {
       this.setState({ ethereumAddress })
     })
   }
@@ -82,7 +77,8 @@ export default class LevelComponent extends Component {
   }
 
   loadLevelData () {
-    const provider = (typeof web3 !== 'undefined' ? web3.currentProvider : undefined)
+    const provider =
+      typeof web3 !== 'undefined' ? web3.currentProvider : undefined
     const level = this.user.level || 0
     const tokens = this.user.tokens || 0
     const up = 10
@@ -91,15 +87,12 @@ export default class LevelComponent extends Component {
     const loading = false
     const tokenPrice = 0.2
 
-    const ethereum = new Ethereum({ provider })
-
     return this.fetchEthereumRate().then(ethereumRate => {
       const ethereumPrice = Number(ethereumRate.price_usd).toFixed(2)
       const carmelPrice = (tokenPrice / ethereumPrice).toFixed(6)
       const nextLevelPrice = (carmelPrice * (nextTokens - tokens)).toFixed(2)
 
       this.setState({
-        ethereum,
         tokenPrice,
         nextLevelPrice,
         ethereumPrice,
@@ -114,7 +107,7 @@ export default class LevelComponent extends Component {
         level
       })
 
-      return this.fetchProviderAccount(ethereum).then(ethereumAddress => {
+      return this.fetchProviderAccount(provider).then(ethereumAddress => {
         this.setState({
           ethereumAddress
         })
@@ -122,9 +115,19 @@ export default class LevelComponent extends Component {
     })
   }
 
-  fetchProviderAccount (ethereum) {
-    return ethereum.refreshAccounts().then(accounts => {
-      return accounts[0]
+  fetchProviderAccount (provider) {
+    if (!provider) {
+      return Promise.resolve()
+    }
+
+    return new Promise((resolve, reject) => {
+      web3.eth.getAccounts((error, result) => {
+        if (error || !result || result.length < 1) {
+          resolve()
+          return
+        }
+        resolve(result[0])
+      })
     })
   }
 
@@ -201,21 +204,12 @@ export default class LevelComponent extends Component {
     const newTokens = this.state.tokens + 100
     const newLevel = Math.floor((newTokens / 1000))
 
-    if (!this.state.ethereum) {
-      this.setState({ error: 'You need an EOS stake in order to claim Carmel Tokens' })
-    }
-
-    this.state.ethereum.eos.getBalance().then(amount => {
-      this.props.onAction('claim', {
-        ethereumAddress: this.state.ethereumAddress,
-        eosTokens: amount,
-        currentLevel: this.state.level,
-        currentTokens: this.state.tokens,
-        newTokens,
-        newLevel
-      })
-    }).catch(e => {
-      this.setState({ error: 'An EOS contract error occurred, please try again' })
+    this.props.onAction('claim', {
+      ethereumAddress: this.state.ethereumAddress,
+      currentLevel: this.state.level,
+      currentTokens: this.state.tokens,
+      newTokens,
+      newLevel
     })
   }
 
