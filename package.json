@@ -10,7 +10,7 @@
     "coverage": "react-savor coverage",
     "codeclimate": "react-savor codeclimate",
     "reset:web": "aws cloudfront create-invalidation --distribution-id E34TLSWETGT1MQ --paths /\\* --profile carmel",
-    "deploy:web": "aws s3 sync web/build s3://www.carmel.io --profile carmel",
+    "deploy:web": "aws s3 sync .chunky/web s3://www.carmel.io --profile carmel",
     "package:web": "chunky package web",
     "push:web": "npm run package:web && npm run deploy:web && npm run reset:web",
     "push": "npm run push:web"
