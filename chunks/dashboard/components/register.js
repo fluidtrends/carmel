@@ -5,8 +5,6 @@ import validator from 'validator'
 import { LinearProgress } from 'rmwc/LinearProgress'
 import Recaptcha from 'react-recaptcha'
 
-import $script from 'scriptjs'
-
 import { Icon } from 'rmwc/Icon'
 import { TextField, TextFieldIcon, TextFieldHelperText } from 'rmwc/TextField'
 import {
@@ -37,7 +35,6 @@ export default class RegisterComponent extends Component {
 
   componentDidMount () {
     super.componentDidMount()
-    $script('https://www.google.com/recaptcha/api.js', 'recaptcha');
   }
 
   done () {
@@ -188,7 +185,7 @@ export default class RegisterComponent extends Component {
           <div style={{alignSelf: 'center', marginTop: '20px'}}>
             <Recaptcha
               sitekey='6Lex_1AUAAAAALdQO95hdq9WeiG_tbKbhF2WDB3s'
-              verifyCallback = { resp => { if (resp) { this.setState({ verifiedCaptcha: true, error: ''})} }}
+              verifyCallback={resp => { if (resp) { this.setState({ verifiedCaptcha: true, error: ''}) } }}
               render='explicit'
               onloadCallback={() => this.setState({verifiedCaptcha: false})}
             />
@@ -256,5 +253,5 @@ const errors = {
   ethereum: "Don't forget your Ethereum address",
   password: 'Please choose a password',
   password2: 'Please make sure your passwords match',
-  captcha: "Please fill out the captcha"
+  captcha: 'Please fill out the captcha'
 }

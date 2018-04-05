@@ -71,13 +71,10 @@
     }
   },
   "dependencies": {
-    "mailchimp-v3": "^1.0.5",
     "react-blockchain-chunky": "0.9.x",
     "react-dom-chunky": "0.9.x",
     "react-electron-chunky": "0.9.x",
-    "react-recaptcha": "^2.3.7",
-    "react-vertical-timeline-component": "^2.0.5",
-    "scriptjs": "^2.5.8"
+    "react-vertical-timeline-component": "^2.0.5"
   },
   "devDependencies": {
     "electron-prebuilt-compile": "1.8.4",
