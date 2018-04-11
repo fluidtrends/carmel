@@ -385,7 +385,8 @@
 /* fix for register textfields  */
 
 .mdc-floating-label {
-  padding-right: 15px;
+  position: absolute;
+  left: 50px;
 }
 
 .mdc-text-field__input {
