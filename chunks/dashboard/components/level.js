@@ -324,7 +324,7 @@ export default class LevelComponent extends Component {
           Get More CARMEL Tokens
         </Typography>
         <Typography style={{ textAlign: 'center' }} use='subheading2' tag='div'>
-          Period 2 - Week 1/5: April 9 - April 16 (75% Discount)
+          Period 2 - Week 2/5: April 9 - April 16 (75% Discount)
         </Typography>
         <ListDivider style={{ marginBottom: '40px' }} />
 
