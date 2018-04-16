@@ -27,6 +27,8 @@ import { ListDivider } from 'rmwc/List'
 import { Fab } from 'rmwc/Fab'
 import { Icon } from 'rmwc/Icon'
 
+const ToolboxIndex = `https://raw.githubusercontent.com/fluidtrends/carmel/content/studio/toolbox/index.json`
+
 export default class ToolboxComponent extends Component {
   constructor (props) {
     super(props)
@@ -46,7 +48,7 @@ export default class ToolboxComponent extends Component {
     const tokens = this.user.tokens || 0
     const loading = false
 
-    this.props.importRemoteData(this.props.toolboxIndex).then(tools => {
+    this.props.importRemoteData(ToolboxIndex).then(tools => {
       this.setState({
         tokens,
         loading,
