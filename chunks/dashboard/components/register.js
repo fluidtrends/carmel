@@ -115,6 +115,21 @@ export default class RegisterComponent extends Component {
     )
   }
 
+  renderCaptcha () {
+    if (this.props.desktop) {
+      return <div />
+    }
+
+    return <div style={{alignSelf: 'center', marginTop: '20px'}}>
+      <Recaptcha
+        sitekey='6Lex_1AUAAAAALdQO95hdq9WeiG_tbKbhF2WDB3s'
+        verifyCallback={resp => { if (resp) { this.setState({ verifiedCaptcha: true, error: '' }) } }}
+        render='explicit'
+        onloadCallback={() => this.setState({ verifiedCaptcha: false })}
+      />
+    </div>
+  }
+
   render () {
     const width = this.props.isSmallScreen ? '95vw' : '600px'
     const padding = this.props.isSmallScreen ? '2px' : '30px'
@@ -182,14 +197,7 @@ export default class RegisterComponent extends Component {
               this.setState({ password2: val.target.value, error: '' })
             }
           />
-          <div style={{alignSelf: 'center', marginTop: '20px'}}>
-            <Recaptcha
-              sitekey='6Lex_1AUAAAAALdQO95hdq9WeiG_tbKbhF2WDB3s'
-              verifyCallback={resp => { if (resp) { this.setState({ verifiedCaptcha: true, error: ''}) } }}
-              render='explicit'
-              onloadCallback={() => this.setState({verifiedCaptcha: false})}
-            />
-          </div>
+          { this.renderCaptcha() }
 
           <CardActions style={{ justifyContent: 'center', margin: '20px' }}>
             <CardActionButtons>
