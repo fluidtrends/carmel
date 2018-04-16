@@ -5,13 +5,32 @@
   "thumbnail": "https://github.com/fluidtrends/carmel/raw/content/studio/toolbox/editor/thumb.png",
   "backgroundColor": "#ffffff",
   "path": "editor",
-  "title": "The Editor",
-  "details": "The Editor",
+  "title": "The Code Editor",
+  "details": "This is where you will spend most of your time as a Developer, writing and reading code.",
+  "actionTitle": "Open",
   "action": {
     "handler": "local://studio/toolbox/editor"
   },
   "content": {
     "text": "github://fluidtrends/carmel/content/studio/toolbox/editor/README",
+    "textColor": "#37474F"
+  }
+},
+{
+  "name": "terminal",
+  "image": "https://github.com/fluidtrends/carmel/raw/content/studio/toolbox/terminal/large.png",
+  "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/studio/toolbox/terminal/small.png",
+  "thumbnail": "https://github.com/fluidtrends/carmel/raw/content/studio/toolbox/terminal/thumb.png",
+  "backgroundColor": "#ffffff",
+  "path": "terminal",
+  "title": "The Command Terminal",
+  "details": "You will interact with The Command Terminal when you will have to run commands.",
+  "actionTitle": "Open",
+  "action": {
+    "handler": "local://studio/toolbox/terminal"
+  },
+  "content": {
+    "text": "github://fluidtrends/carmel/content/studio/toolbox/terminal/README",
     "textColor": "#37474F"
   }
 }]
