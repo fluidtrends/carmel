@@ -6,7 +6,7 @@
   "backgroundColor": "#ffffff",
   "path": "editor",
   "title": "The Code Editor",
-  "details": "This is where you will spend most of your time as a Developer, writing and reading code.",
+  "details": "The Code Editor is the primary tool in your toolbox. This is where you will spend most of your time as a Developer, writing and reading code. ",
   "actionTitle": "Open",
   "action": {
     "handler": "local://studio/toolbox/editor"
@@ -24,7 +24,7 @@
   "backgroundColor": "#ffffff",
   "path": "terminal",
   "title": "The Command Terminal",
-  "details": "You will interact with The Command Terminal when you will have to run commands.",
+  "details": "The Command Terminal is the second most important tool in your toolbox. You will interact with The Command Terminal when you will have to run commands.",
   "actionTitle": "Open",
   "action": {
     "handler": "local://studio/toolbox/terminal"
