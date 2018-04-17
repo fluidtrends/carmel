@@ -14,6 +14,7 @@ import { Fab } from 'rmwc/Fab'
 import { Slider } from 'rmwc/Slider'
 import { Header, Footer } from '.'
 import { Radio } from 'rmwc/Radio'
+import { Utils } from 'react-dom-chunky'
 
 const CoinMarketCapAPI = `https://api.coinmarketcap.com/v1/ticker/ethereum/?convert=USD`
 
@@ -33,6 +34,9 @@ export default class PickerComponent extends Component {
     this._decrementLevel = this.decrementLevel.bind(this)
     this._updateLevel = this.updateLevel.bind(this)
     this._buy = this.buy.bind(this)
+    this._send = this.send.bind(this)
+    this._buyWithMew = this.buyWithMew.bind(this)
+    this._checkout = this.checkout.bind(this)
     this._unpay = this.unpay.bind(this)
     this._updatePayCurrency = this.updatePayCurrency.bind(this)
     this._updatePayMethod = this.updatePayMethod.bind(this)
@@ -76,8 +80,33 @@ export default class PickerComponent extends Component {
     })
   }
 
-  buy () {
+  checkout () {
     this.setState({ checkout: true })
+    
+  }
+
+  buy () {
+  }
+
+  send () {
+  }
+  
+  buyWithMew () {
+    const { nextLevelPrice, nextLevel, nextTokens } = this.state
+    const id = Utils.newShortId()
+    // const data = Utils.newRandomString({
+    //   length: 12,
+    //   charset: 'hex'
+    // })
+    this.props.newTransactionId({
+      id,
+      userEmail: this.props.account.email,
+      userName: this.props.account.name,
+      userId: this.props.account._id,
+      nextTokens,
+      nextLevelPrice,
+      nextLevel
+    })
   }
 
   unpay () {
@@ -136,13 +165,13 @@ export default class PickerComponent extends Component {
         style={{ color: '#66BB6A' }}
         checked={this.state.payMethod === 'metamask'}
         onChange={this._updatePayMethod}>
-        With { CarmelPaymentMethods.metamask}
+        { CarmelPaymentMethods.metamask}
       </Radio>
       <Radio
         value='mew'
         checked={this.state.payMethod === 'mew'}
         onChange={this._updatePayMethod}>
-        With { CarmelPaymentMethods.mew }
+        { CarmelPaymentMethods.mew }
       </Radio>
     </Typography>
   }
@@ -165,27 +194,28 @@ export default class PickerComponent extends Component {
     </Typography>
   }
 
-  renderCurrencyOptions () {
-    if (this.state.checkout) {
-      return <div />
-    }
+  // renderCurrencyOptions () {
+  //   if (this.state.checkout) {
+  //     return <div />
+  //   }
 
-    return <Typography use='title' style={{ color: '#66BB6A' }} tag='h1'>
-      <Radio
-        value='eth'
-        style={{ color: '#66BB6A' }}
-        checked={this.state.payCurrency === 'eth'}
-        onChange={this._updatePayCurrency}>
-          ETH
-        </Radio>
-      <Radio
-        value='usd'
-        checked={this.state.payCurrency === 'usd'}
-        onChange={this._updatePayCurrency}>
-          USD
-      </Radio>
-    </Typography>
-  }
+  //   return <Typography use='title' style={{ color: '#66BB6A' }} tag='h1'>
+  //     <Radio
+  //       value='eth'
+  //       style={{ color: '#66BB6A' }}
+  //       checked={this.state.payCurrency === 'eth'}
+  //       onChange={this._updatePayCurrency}>
+  //         ETH
+  //       </Radio>
+  //     <Radio
+  //       value='usd'
+  //       checked={this.state.payCurrency === 'usd'}
+  //       onChange={this._updatePayCurrency}>
+  //         USD
+  //     </Radio>
+  //   </Typography>
+  // }
+
 
   renderMainContent () {
     const priceETH = this.state.nextLevelPrice
@@ -197,7 +227,7 @@ export default class PickerComponent extends Component {
       <div style={{
         paddingTop: '10px'
       }}>
-        <Typography
+        {/* <Typography
           use='headline'
           tag='div'
           style={{
@@ -208,7 +238,7 @@ export default class PickerComponent extends Component {
   >
           { title }
         </Typography>
-        { this.renderPaymentMethods() }
+        { this.renderPaymentMethods() } */}
 
         <ListDivider style={{ marginTop: '10px', marginBottom: '40px' }} />
 
@@ -245,7 +275,7 @@ export default class PickerComponent extends Component {
         <Typography use='title' style={{ color: '#66BB6A' }} tag='h1'>
           {`TOTAL: ${price}`}
         </Typography>
-        { this.renderCurrencyOptions() }
+        { this.renderPaymentMethods() }
 
         <ListDivider style={{ marginTop: '30px' }} />
 
@@ -320,7 +350,24 @@ export default class PickerComponent extends Component {
   }
 
   renderPrice () {
-    const title = (this.state.checkout ? `Pay With ${CarmelPaymentMethods[this.state.payMethod]}` : 'Buy Now')
+    let title = (this.state.checkout ? `Pay With ${CarmelPaymentMethods[this.state.payMethod]}` : 'Buy Now')
+    let action = (this.state.checkout ? this._buy: this._checkout)
+    let disabled = false
+    let theme = 'secondary-bg text-primary-on-secondary'
+
+    if (this.state.checkout && this.state.payMethod == 'metamask') {
+      const { ethereumAddress } = this.state
+      action = ethereumAddress ? this._send : () => {}
+      disabled = (typeof ethereumAddress === 'undefined')
+      theme =  (disabled ? undefined : 'secondary-bg text-primary-on-secondary')
+      title = ethereumAddress
+        ? `Send ${this.state.nextLevelPrice} ETH`
+        : 'Unlock Metamask to Purchase'
+    }
+
+    if (this.state.checkout && this.state.payMethod == 'mew') {
+      action = this._buyWithMew
+    }
 
     return (
       <div>
@@ -332,9 +379,10 @@ export default class PickerComponent extends Component {
         >
           <CardActionButtons>
             <Button
-              onClick={this._buy}
+              disabled={disabled}
+              theme={theme}
+              onClick={action}
               raised
-              theme='secondary-bg text-primary-on-secondar'
               style={{ marginTop: '10px', marginBottom: '20px' }}>
               { title }
             </Button>

@@ -57,6 +57,10 @@
           "firebase://create/referrals?userId#newReferral",
           { "onSuccess": "createdNewReferralId" }
         ],
+        "newTransactionId": [
+          "firebase://create/transactions?userId#newTransaction",
+          { "onSuccess": "createdNewTransactionId" }
+        ],
         "getReferralAccount": [
           "firebase://retrieve/users/:userId?userId#referralAccount",
           { "onSuccess": "gotReferralAccount" }
