@@ -64,6 +64,10 @@ export default class MainDashboardScreen extends Screen {
     })
   }
 
+  handleSystemEvent (fullPath) {
+    console.log(fullPath)
+  }
+
   renderLogin () {
     return (
       <ChunkComponents.Login
@@ -256,6 +260,7 @@ export default class MainDashboardScreen extends Screen {
           importRemoteData: this.importRemoteData,
           account: this.account,
           browser: this.browser,
+          onEvent: this._onEvent,
           onAction: this._dashboardAction,
           compact: this.isSmallScreen,
           updates: this.props.updates
