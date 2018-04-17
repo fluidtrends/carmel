@@ -25,23 +25,27 @@ import { FormField } from 'rmwc/FormField'
 import { Chip, ChipText, ChipIcon, ChipSet } from 'rmwc/Chip'
 import { ListDivider } from 'rmwc/List'
 import { Fab } from 'rmwc/Fab'
+import { Radio } from 'rmwc/Radio'
 import { Icon } from 'rmwc/Icon'
 import { Slider } from 'rmwc/Slider'
 import { Ethereum } from 'react-blockchain-chunky/lib'
 
 const CoinMarketCapAPI = `https://api.coinmarketcap.com/v1/ticker/ethereum/?convert=USD`
 const CarmelPrivateSaleAddress = `0x4E52e804905CC320BF631523a9cb1416B8d613Fb`
+const CarmelPaymentMethods = { metamask: 'MetaMask', mew: 'MyEtherWallet', cc: 'Credit Card', wire: 'Bank Transfer' }
 
 export default class LevelComponent extends Component {
   constructor (props) {
     super(props)
-    this.state = { ...super.state, loading: true }
+    this.state = { ...super.state, loading: true, payMethod: 'mew' }
     this._installProvider = this.installProvider.bind(this)
     this._transactionDetails = this.transactionDetails.bind(this)
     this._incrementLevel = this.incrementLevel.bind(this)
     this._decrementLevel = this.decrementLevel.bind(this)
     this._updateLevel = this.updateLevel.bind(this)
     this._send = this.send.bind(this)
+    this._updatePayMethod = this.updatePayMethod.bind(this)
+    this._buyWithMew = this.buyWithMew.bind(this)
     this._claim = this.claim.bind(this)
   }
 
@@ -68,6 +72,10 @@ export default class LevelComponent extends Component {
     this.fetchProviderAccount(this.state.ethereum).then(ethereumAddress => {
       this.setState({ ethereumAddress })
     })
+  }
+
+  updatePayMethod (evt) {
+    this.setState({ payMethod: evt.target.value })
   }
 
   stopTimer () {
@@ -197,6 +205,24 @@ export default class LevelComponent extends Component {
     this.sendEther(this.state.nextLevelPrice)
   }
 
+  buyWithMew () {
+    const { nextLevelPrice, nextLevel, nextTokens } = this.state
+    const id = Utils.newShortId()
+    // const data = Utils.newRandomString({
+    //   length: 12,
+    //   charset: 'hex'
+    // })
+    this.props.onAction('buyWithMew', {
+      id,
+      userEmail: this.props.account.email,
+      userName: this.props.account.name,
+      userId: this.props.account._id,
+      nextTokens,
+      nextLevelPrice,
+      nextLevel
+    })
+  }
+
   claim () {
     const newTokens = this.state.tokens + 100
     const newLevel = Math.floor((newTokens / 1000))
@@ -308,7 +334,7 @@ export default class LevelComponent extends Component {
     )
   }
 
-  renderWithProvider () {
+  renderBuyContent () {
     return (
       <div>
         <Typography
@@ -383,12 +409,30 @@ export default class LevelComponent extends Component {
           This purchase increases your level of stake in Carmel to{' '}
           <strong> Level {this.state.nextLevel}</strong>.
         </Typography>
-
+        {this.renderETHPaymentMethods()}
         <ListDivider style={{ marginTop: '30px' }} />
 
         {this.renderPrice()}
       </div>
     )
+  }
+
+  renderETHPaymentMethods () {
+    return <Typography use='title' style={{ color: '#66BB6A' }} tag='h1'>
+      <Radio
+        value='metamask'
+        style={{ color: '#66BB6A' }}
+        checked={this.state.payMethod === 'metamask'}
+        onChange={this._updatePayMethod}>
+        { CarmelPaymentMethods.metamask}
+      </Radio>
+      <Radio
+        value='mew'
+        checked={this.state.payMethod === 'mew'}
+        onChange={this._updatePayMethod}>
+        { CarmelPaymentMethods.mew }
+      </Radio>
+    </Typography>
   }
 
   renderClaimLimit () {
@@ -657,12 +701,20 @@ export default class LevelComponent extends Component {
 
   renderPrice () {
     const { ethereumAddress } = this.state
-    const action = ethereumAddress ? this._send : () => {}
-    const actionText = ethereumAddress
+    let action = ethereumAddress ? this._send : () => {}
+    let actionText = ethereumAddress
       ? `Send ${this.state.nextLevelPrice} ETH`
       : 'Unlock Metamask to Purchase'
-    const disabled = (typeof ethereumAddress === 'undefined')
-    const theme = (disabled ? undefined : 'secondary-bg text-primary-on-secondary')
+    let disabled = (typeof ethereumAddress === 'undefined')
+    let theme = (disabled ? undefined : 'secondary-bg text-primary-on-secondary')
+
+    if (this.state.payMethod == 'mew') {
+      action = this._buyWithMew
+      actionText = `Send ${this.state.nextLevelPrice} ETH`
+      disabled = false
+      theme = 'secondary-bg text-primary-on-secondary'
+    }
+
     return (
       <div>
         <CardActions
@@ -688,7 +740,7 @@ export default class LevelComponent extends Component {
   }
 
   renderMainContent () {
-    return this.renderWithProvider()
+    return this.renderBuyContent()
   }
 
   get error () {
@@ -729,15 +781,15 @@ export default class LevelComponent extends Component {
             margin: '10px',
             justifyContent: 'center',
             flexDirection: 'column',
-            alignItems: 'center'
-          }}
-        >
-          <Card style={{ width, margin: '20px', padding: '0px' }}>
-            <Typography use='title' tag='h1'>
-              {this.state.sending
-                ? `Sending ... Just a sec.`
-                : `Loading ... Just a sec.`}
-            </Typography>
+              alignItems: 'center'
+            }}
+          >
+            <Card style={{ width, margin: '20px', padding: '0px' }}>
+              <Typography use='title' tag='h1'>
+                {this.state.sending
+                  ? `Sending ... Just a sec.`
+                  : `Loading ... Just a sec.`}
+              </Typography>
             <ListDivider />
             <LinearProgress determinate={false} />
           </Card>
