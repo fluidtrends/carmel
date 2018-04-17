@@ -18,6 +18,17 @@
         "title": "Own A Piece Of Carmel",
         "type": "presentation"
       },
+      "startOperationsOnMount": false,
+      "operations": {
+        "newTransactionId": [
+          "firebase://create/transactions?userId#newTransaction",
+          { "onSuccess": "createdNewTransactionId" }
+        ],
+        "updateAccount": [
+          "firebase://update/users/:uid#updated",
+          { "onSuccess": "getAccount", "onError": "updateAccountError" }
+        ]
+      },
       "components": {
         "timer": {
           "id": "buy",
