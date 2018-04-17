@@ -19,6 +19,9 @@
   },
   "transitions": ["replace://start"],
   "provisioning": {},
+  "build": {
+    "platforms": ["darwin/x64"]
+  },
   "theme": {
     "logoImage": "carmel-logo-white.png",
     "logoLightImage": "carmel-logo.png",

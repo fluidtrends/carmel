@@ -49,24 +49,10 @@
       },
       "electronPackagerConfig": {
         "packageManager": "npm",
-        "asar": false,
+        "asar": true,
         "quiet": false,
         "protocol": "carmel://",
-        "icon": "./assets/icons/appicon",
-        "ignore": [
-          ".chunky",
-          ".git",
-          "android",
-          "cloud",
-          "docs",
-          "images",
-          "roadmap",
-          "ios",
-          ".chunky.json",
-          ".DS_Store",
-          "README.md",
-          "web"
-        ]
+        "icon": "./assets/icons/appicon"
       },
       "electronWinstallerConfig": {
         "name": "Carmel"
