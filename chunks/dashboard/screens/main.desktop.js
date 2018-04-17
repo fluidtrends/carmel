@@ -23,7 +23,7 @@ import { ListDivider } from 'rmwc/List'
 export default class MainDashboardScreen extends Screen {
   constructor (props) {
     super(props)
-    this.state = { ...this.state, loading: false }
+    this.state = { ...this.state, loading: false, register: true }
     this._onSectionSelect = this.onSectionSelect.bind(this)
     this._register = this.register.bind(this)
     this._reset = this.reset.bind(this)
@@ -62,6 +62,10 @@ export default class MainDashboardScreen extends Screen {
     this.saveAuth(account).then(() => {
       this.loadSections(account)
     })
+  }
+
+  handleSystemEvent (fullPath) {
+    console.log(fullPath)
   }
 
   renderLogin () {
@@ -252,8 +256,12 @@ export default class MainDashboardScreen extends Screen {
       var sectionProps = Object.assign(
         {},
         {
+          importData: this.importData,
+          importRemoteData: this.importRemoteData,
           account: this.account,
+          desktop: true,
           browser: this.browser,
+          onEvent: this._onEvent,
           onAction: this._dashboardAction,
           compact: this.isSmallScreen,
           updates: this.props.updates

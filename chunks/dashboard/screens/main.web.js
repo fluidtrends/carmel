@@ -417,6 +417,7 @@ export default class MainDashboardScreen extends Screen {
           importRemoteData: this.importRemoteData,
           account: this.account,
           browser: this.browser,
+          onEvent: this._onEvent,
           error: this.state.sectionError,
           onAction: this._dashboardAction,
           compact: this.isSmallScreen,
