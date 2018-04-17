@@ -12,6 +12,14 @@
   "action": {
     "handler": "system://open"
   },
+  "type": "Atom",
+  "version": "1.25.1",
+  "installers": {
+    "mac": "https://github.com/atom/atom/releases/download/v1.25.1/atom-mac.zip",
+    "windows": "https://github.com/atom/atom/releases/download/v1.25.1/AtomSetup-x64.exe",
+    "redhat": "https://github.com/atom/atom/releases/download/v1.25.1/atom.x86_64.rpm",
+    "debian": "https://github.com/atom/atom/releases/download/v1.25.1/atom-amd64.deb"
+  },
   "content": {
     "text": "github://fluidtrends/carmel/content/studio/toolbox/editor/README",
     "textColor": "#37474F"
@@ -30,6 +38,14 @@
   "actionTitleSecondary": "Install",
   "action": {
     "handler": "system://open"
+  },
+  "type": "Hyper",
+  "version": "2.0.0",
+  "installers": {
+    "mac": "https://github.com/zeit/hyper/releases/download/2.0.0/hyper-2.0.0-mac.zip",
+    "windows": "https://github.com/zeit/hyper/releases/download/2.0.0/hyper-Setup-2.0.0.exe",
+    "redhat": "https://github.com/zeit/hyper/releases/download/2.0.0/hyper-2.0.0.x86_64.rpm",
+    "debian": "https://github.com/zeit/hyper/releases/download/2.0.0/hyper_2.0.0_amd64.deb"
   },
   "content": {
     "text": "github://fluidtrends/carmel/content/studio/toolbox/terminal/README",
