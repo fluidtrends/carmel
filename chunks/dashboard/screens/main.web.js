@@ -35,6 +35,7 @@ export default class MainDashboardScreen extends Screen {
     this._dashboardAction = this.dashboardAction.bind(this)
     this._levelUp = this.levelUp.bind(this)
     this._claim = this.claim.bind(this)
+    this._buyWithMew = this.buyWithMew.bind(this)
   }
 
   componentDidMount () {
@@ -72,6 +73,19 @@ export default class MainDashboardScreen extends Screen {
         referralId: data.id
       })
     }, 300)
+  }
+
+  createdNewTransactionId(data) {
+    setTimeout(() => {
+      if (data.nextTokens) {
+        this.triggerRawRedirect(`https://www.myetherwallet.com/?to=0x4E52e804905CC320BF631523a9cb1416B8d613Fb&value=${data.nextLevelPrice}&data=${data.id}#send-transaction`)      
+        this.setState({processingMewPayment: true})
+        this.props.updateAccount({
+          transactionId: data.id,
+          received: false
+        })
+      }
+    }, 300);
   }
 
   loadDashboard (account) {
@@ -133,6 +147,9 @@ export default class MainDashboardScreen extends Screen {
         break
       case 'claim':
         this._claim(props)
+        break
+      case 'buyWithMew':
+        this._buyWithMew(props)
         break
       default:
     }
@@ -230,6 +247,14 @@ export default class MainDashboardScreen extends Screen {
 
     setTimeout(() => {
       this.props.getContext()
+    }, 300)
+  }
+
+  buyWithMew (props) {
+    this.setState({ loading: true, buyWithMew: props })
+
+    setTimeout(() => {
+      this.props.newTransactionId(props)
     }, 300)
   }
 
