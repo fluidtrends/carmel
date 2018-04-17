@@ -14,6 +14,7 @@
   },
   "type": "Atom",
   "version": "1.25.1",
+  "exec": "atom",
   "installers": {
     "mac": "https://github.com/atom/atom/releases/download/v1.25.1/atom-mac.zip",
     "windows": "https://github.com/atom/atom/releases/download/v1.25.1/AtomSetup-x64.exe",
@@ -41,6 +42,7 @@
   },
   "type": "Hyper",
   "version": "2.0.0",
+  "exec": "hyper",
   "installers": {
     "mac": "https://github.com/zeit/hyper/releases/download/2.0.0/Hyper-2.0.0.dmg",
     "windows": "https://github.com/zeit/hyper/releases/download/2.0.0/hyper-Setup-2.0.0.exe",
