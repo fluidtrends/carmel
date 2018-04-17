@@ -1,6 +1,6 @@
 {
   "name": "carmel",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "The Carmel Platform",
   "productName": "Carmel",
   "main": "node_modules/react-electron-chunky/lib",
@@ -51,7 +51,22 @@
         "packageManager": "npm",
         "asar": false,
         "quiet": false,
-        "protocol": "carmel://"
+        "protocol": "carmel://",
+        "icon": "./assets/icons/appicon",
+        "ignore": [
+          ".chunky",
+          ".git",
+          "android",
+          "cloud",
+          "docs",
+          "images",
+          "roadmap",
+          "ios",
+          ".chunky.json",
+          ".DS_Store",
+          "README.md",
+          "web"
+        ]
       },
       "electronWinstallerConfig": {
         "name": "Carmel"
@@ -59,10 +74,13 @@
       "electronInstallerDebian": {
         "homepage": "https://carmel.io"
       },
-      "electronInstallerRedhat": {},
+      "electronInstallerRedhat": {
+
+      },
       "github_repository": {
         "owner": "fluidtrends",
-        "name": "carmel"
+        "name": "carmel",
+        "prerelease": true
       },
       "windowsStoreConfig": {
         "packageName": "carmel.io",

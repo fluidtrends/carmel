@@ -86,8 +86,12 @@ export default class ToolboxComponent extends Component {
   }
 
   initializeEnvironment () {
-    process.noAsar = true
-    shell.config.execPath = shell.which('node').stdout
+    try {
+      process.noAsar = true
+      shell.config.execPath = shell.which('node').stdout
+    } catch (e) {
+      console.log(e)
+    }
 
     if (!fs.existsSync(this.carmelHomeDir)) {
       fs.mkdirsSync(this.carmelHomeDir)
@@ -204,7 +208,6 @@ export default class ToolboxComponent extends Component {
   }
 
   renderCardButtons (item, index) {
-    console.log('renderCardButtons', item, index, this.isToolInstalled(item.name))
     const installed = this.isToolInstalled(item.name)
     const title = (installed ? 'Open' : 'Install')
     const type = (installed ? 'open' : 'install')
@@ -273,9 +276,11 @@ export default class ToolboxComponent extends Component {
   }
 
   renderMainContent () {
+    console.log('****', this.props.desktop)
     return (<div>
       <Components.Collection
         id='tools'
+        desktop={this.props.desktop}
         renderCardButtons={this._renderCardButtons}
         onEvent={this._onEvent}
         categories={this.state.tools} />
