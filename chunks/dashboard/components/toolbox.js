@@ -26,10 +26,11 @@ import { Chip, ChipText, ChipIcon, ChipSet } from 'rmwc/Chip'
 import { ListDivider } from 'rmwc/List'
 import { Fab } from 'rmwc/Fab'
 import { Icon } from 'rmwc/Icon'
-import shell from 'shelljs'
 import * as Utils from 'react-electron-chunky/lib/utils'
 import fs from 'fs-extra'
 import path from 'path'
+const { spawn } = require('child_process')
+const commandExists = require('command-exists')
 
 const ToolboxIndex = `https://raw.githubusercontent.com/fluidtrends/carmel/content/studio/toolbox/index.json`
 
@@ -39,6 +40,38 @@ export default class ToolboxComponent extends Component {
     this.state = { ...super.state, loading: true }
     this._onEvent = this.onEvent.bind(this)
     this._renderCardButtons = this.renderCardButtons.bind(this)
+  }
+
+  runCommand (command, args) {
+    return new Promise((resolve, reject) => {
+      try {
+        const cmd = spawn(command, args)
+
+        var error = ''
+        var result = ''
+
+        cmd.stdout.on('data', (data) => {
+          result = `${result}${data.toString()}`
+          console.log(data.toString())
+        })
+
+        cmd.stderr.on('data', (data) => {
+          error = `${error}${data.toString()}`
+          console.log(data.toString())
+        })
+
+        cmd.on('exit', (code) => {
+          if (code !== 0) {
+            reject(new Error(`Error ${error}`))
+            return
+          }
+
+          resolve(result)
+        })
+      } catch (e) {
+        reject(e)
+      }
+    })
   }
 
   componentDidMount () {
@@ -57,13 +90,11 @@ export default class ToolboxComponent extends Component {
   }
 
   timerFired () {
-    if (!shell.which(this.state.tool.exec)) {
-      // Still not installed yet
-      return
-    }
-
-    this.stopTimer()
-    this.setState({ downloaded: true, installing: false, installed: true })
+    this.runCommand(this.state.tool.exec)
+        .then((data) => {
+          this.stopTimer()
+          this.setState({ downloaded: true, installing: false, installed: true })
+        })
   }
 
   stopTimer () {
@@ -86,12 +117,7 @@ export default class ToolboxComponent extends Component {
   }
 
   initializeEnvironment () {
-    try {
-      process.noAsar = true
-      shell.config.execPath = shell.which('node').stdout
-    } catch (e) {
-      console.log(e)
-    }
+    process.noAsar = true
 
     if (!fs.existsSync(this.carmelHomeDir)) {
       fs.mkdirsSync(this.carmelHomeDir)
@@ -124,7 +150,7 @@ export default class ToolboxComponent extends Component {
       return
     }
 
-    shell.exec(tool.exec)
+    this.runCommand(tool.exec, [])
   }
 
   installTool (name) {
@@ -163,7 +189,7 @@ export default class ToolboxComponent extends Component {
             }
             this.setState({ downloaded: true, tool })
             this.startTimer()
-            shell.exec(`open ${binary}`)
+            this.runCommand('open', [binary])
           })
           .catch((error) => {
             this.setState({ installing: false, error })
@@ -183,13 +209,23 @@ export default class ToolboxComponent extends Component {
   }
 
   isToolInstalled (name) {
-    const tool = this.findTool(name)
+    return new Promise((resolve, reject) => {
+      const tool = this.findTool(name)
 
-    if (!tool || !tool.exec) {
-      return false
-    }
+      if (!tool || !tool.exec) {
+        reject(new Error('Invalid tool executable'))
+        return
+      }
 
-    return shell.which(tool.exec)
+      commandExists('ls', (error, commandExists) => {
+        if (commandExists) {
+          resolve()
+          return
+        }
+
+        reject(new Error('Tool is not installed'))
+      })
+    })
   }
 
   loadTools () {
