@@ -42,7 +42,7 @@
   "type": "Hyper",
   "version": "2.0.0",
   "installers": {
-    "mac": "https://github.com/zeit/hyper/releases/download/2.0.0/hyper-2.0.0-mac.zip",
+    "mac": "https://github.com/zeit/hyper/releases/download/2.0.0/Hyper-2.0.0.dmg",
     "windows": "https://github.com/zeit/hyper/releases/download/2.0.0/hyper-Setup-2.0.0.exe",
     "redhat": "https://github.com/zeit/hyper/releases/download/2.0.0/hyper-2.0.0.x86_64.rpm",
     "debian": "https://github.com/zeit/hyper/releases/download/2.0.0/hyper_2.0.0_amd64.deb"
