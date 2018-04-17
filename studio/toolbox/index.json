@@ -9,7 +9,7 @@
   "details": "The Code Editor is the primary tool in your toolbox. This is where you will spend most of your time as a Developer, writing and reading code. ",
   "actionTitle": "Open",
   "action": {
-    "handler": "local://studio/toolbox/editor"
+    "handler": "openTool"
   },
   "content": {
     "text": "github://fluidtrends/carmel/content/studio/toolbox/editor/README",
@@ -27,7 +27,7 @@
   "details": "The Command Terminal is the second most important tool in your toolbox. You will interact with The Command Terminal when you will have to run commands.",
   "actionTitle": "Open",
   "action": {
-    "handler": "local://studio/toolbox/terminal"
+    "handler": "openTool"
   },
   "content": {
     "text": "github://fluidtrends/carmel/content/studio/toolbox/terminal/README",
