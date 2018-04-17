@@ -8,6 +8,7 @@
   "title": "The Code Editor",
   "details": "The Code Editor is the primary tool in your toolbox. This is where you will spend most of your time as a Developer, writing and reading code. ",
   "actionTitle": "Open",
+  "actionTitleSecondary": "Install",
   "action": {
     "handler": "system://open"
   },
@@ -26,6 +27,7 @@
   "title": "The Command Terminal",
   "details": "The Command Terminal is the second most important tool in your toolbox. You will interact with The Command Terminal when you will have to run commands.",
   "actionTitle": "Open",
+  "actionTitleSecondary": "Install",
   "action": {
     "handler": "system://open"
   },
