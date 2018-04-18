@@ -1,5 +1,5 @@
 import React from 'react'
-import { Component, Components } from 'react-dom-chunky'
+import { Component, Components, Utils } from 'react-dom-chunky'
 import moment from 'moment'
 import validator from 'validator'
 import { LinearProgress } from 'rmwc/LinearProgress'
@@ -26,11 +26,10 @@ import { Chip, ChipText, ChipIcon, ChipSet } from 'rmwc/Chip'
 import { ListDivider } from 'rmwc/List'
 import { Fab } from 'rmwc/Fab'
 import { Icon } from 'rmwc/Icon'
-import * as Utils from 'react-electron-chunky/lib/utils'
+import * as DesktopUtils from 'react-electron-chunky/lib/utils'
 import fs from 'fs-extra'
 import path from 'path'
-const { spawn } = require('child_process')
-const commandExists = require('command-exists')
+import { ipcRenderer } from 'electron'
 
 const ToolboxIndex = `https://raw.githubusercontent.com/fluidtrends/carmel/content/studio/toolbox/index.json`
 
@@ -42,35 +41,26 @@ export default class ToolboxComponent extends Component {
     this._renderCardButtons = this.renderCardButtons.bind(this)
   }
 
-  runCommand (command, args) {
+  shell (command) {
+    return this.command('shell', command)
+  }
+
+  which (command) {
+    return this.command('which', command)
+  }
+
+  command (type, command) {
     return new Promise((resolve, reject) => {
-      try {
-        const cmd = spawn(command, args)
-
-        var error = ''
-        var result = ''
-
-        cmd.stdout.on('data', (data) => {
-          result = `${result}${data.toString()}`
-          console.log(data.toString())
-        })
-
-        cmd.stderr.on('data', (data) => {
-          error = `${error}${data.toString()}`
-          console.log(data.toString())
-        })
-
-        cmd.on('exit', (code) => {
-          if (code !== 0) {
-            reject(new Error(`Error ${error}`))
-            return
-          }
-
-          resolve(result)
-        })
-      } catch (e) {
-        reject(e)
-      }
+      const callId = `${type}-${Utils.newShortId()}`
+      ipcRenderer.on(callId, (event, result) => {
+        console.log('>>> GOT', callId, result)
+        if (result.error) {
+          resolve()
+          return
+        }
+        resolve(result.data)
+      })
+      ipcRenderer.send(type, { command, callId })
     })
   }
 
@@ -90,7 +80,7 @@ export default class ToolboxComponent extends Component {
   }
 
   timerFired () {
-    this.runCommand(this.state.tool.exec)
+    this.shell(this.state.tool.exec)
         .then((data) => {
           this.stopTimer()
           this.setState({ downloaded: true, installing: false, installed: true })
@@ -150,7 +140,7 @@ export default class ToolboxComponent extends Component {
       return
     }
 
-    this.runCommand(tool.exec, [])
+    this.shell(tool.exec)
   }
 
   installTool (name) {
@@ -177,7 +167,7 @@ export default class ToolboxComponent extends Component {
     const isZip = (path.extname(installer) === '.zip')
     const binary = path.resolve(this.toolsHomeDir, `${path.basename(installer)}`)
     this.setState({ installing: name, downloadProgress: 0 })
-    Utils.install(installer,
+    DesktopUtils.install(installer,
                   binary,
                   (downloadProgress) => {
                     this.setState({ downloadProgress })
@@ -189,7 +179,7 @@ export default class ToolboxComponent extends Component {
             }
             this.setState({ downloaded: true, tool })
             this.startTimer()
-            this.runCommand('open', [binary])
+            this.shell(`open ${binary}`)
           })
           .catch((error) => {
             this.setState({ installing: false, error })
@@ -217,14 +207,7 @@ export default class ToolboxComponent extends Component {
         return
       }
 
-      commandExists('ls', (error, commandExists) => {
-        if (commandExists) {
-          resolve()
-          return
-        }
-
-        reject(new Error('Tool is not installed'))
-      })
+      return this.which(tool.exec)
     })
   }
 
