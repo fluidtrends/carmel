@@ -53,7 +53,6 @@ export default class ToolboxComponent extends Component {
     return new Promise((resolve, reject) => {
       const callId = `${type}-${Utils.newShortId()}`
       ipcRenderer.on(callId, (event, result) => {
-        console.log('>>> GOT', callId, result)
         if (result.error) {
           resolve()
           return
@@ -67,7 +66,7 @@ export default class ToolboxComponent extends Component {
   componentDidMount () {
     super.componentDidMount()
     this.initializeEnvironment()
-    this.loadTools()
+    this.refreshTools()
   }
 
   componentWillUnmount () {
@@ -83,7 +82,8 @@ export default class ToolboxComponent extends Component {
     this.shell(this.state.tool.exec)
         .then((data) => {
           this.stopTimer()
-          this.setState({ downloaded: true, installing: false, installed: true })
+          this.setState({ downloaded: true, installing: false, installed: true, loading: true })
+          this.refreshTools()
         })
   }
 
@@ -164,7 +164,6 @@ export default class ToolboxComponent extends Component {
     }
 
     const installer = tool.installers[platform]
-    const isZip = (path.extname(installer) === '.zip')
     const binary = path.resolve(this.toolsHomeDir, `${path.basename(installer)}`)
     this.setState({ installing: name, downloadProgress: 0 })
     DesktopUtils.install(installer,
@@ -173,10 +172,6 @@ export default class ToolboxComponent extends Component {
                     this.setState({ downloadProgress })
                   })
           .then(() => {
-            if (isZip) {
-              this.setState({ downloaded: true, installing: false, installed: true })
-              return
-            }
             this.setState({ downloaded: true, tool })
             this.startTimer()
             this.shell(`open ${binary}`)
@@ -198,38 +193,27 @@ export default class ToolboxComponent extends Component {
     }
   }
 
-  isToolInstalled (name) {
-    return new Promise((resolve, reject) => {
-      const tool = this.findTool(name)
-
-      if (!tool || !tool.exec) {
-        reject(new Error('Invalid tool executable'))
-        return
-      }
-
-      return this.which(tool.exec)
-    })
-  }
-
-  loadTools () {
+  refreshTools () {
     const level = this.user.level || 0
     const tokens = this.user.tokens || 0
     const loading = false
 
-    this.props.importRemoteData(ToolboxIndex).then(tools => {
-      this.setState({
-        tokens,
-        loading,
-        level,
-        tools
+    this.props.importRemoteData(ToolboxIndex).then(raw => {
+      Promise.all(raw.map(tool => this.which(tool.exec).then(installed => Object.assign({}, { installed }, tool)))).then(tools => {
+        this.setState({
+          tokens,
+          loading,
+          level,
+          tools
+        })
       })
     })
   }
 
   renderCardButtons (item, index) {
-    const installed = this.isToolInstalled(item.name)
-    const title = (installed ? 'Open' : 'Install')
-    const type = (installed ? 'open' : 'install')
+    const tool = this.state.tools[index]
+    const title = (tool.installed ? 'Open' : 'Install')
+    const type = (tool.installed ? 'open' : 'install')
 
     return <CardActionButtons>
       <CardAction onClick={this.triggerEvent(item.name || index, Object.assign({}, item.action, { type }))}> { title } </CardAction>
@@ -295,7 +279,6 @@ export default class ToolboxComponent extends Component {
   }
 
   renderMainContent () {
-    console.log('****', this.props.desktop)
     return (<div>
       <Components.Collection
         id='tools'
