@@ -107,8 +107,6 @@ export default class ToolboxComponent extends Component {
   }
 
   initializeEnvironment () {
-    process.noAsar = true
-
     if (!fs.existsSync(this.carmelHomeDir)) {
       fs.mkdirsSync(this.carmelHomeDir)
     }
