@@ -40,7 +40,8 @@
           "squirrel"
         ],
         "darwin": [
-          "zip"
+          "zip",
+          "dmg"
         ],
         "linux": [
           "deb",
@@ -52,7 +53,20 @@
         "asar": false,
         "quiet": false,
         "protocol": "carmel://",
-        "icon": "./assets/icons/appicon"
+        "icon": "./assets/icons/appicon",
+        "ignore": [
+          ".chunky.json",
+          ".chunky",
+          "cloud",
+          "ios",
+          "android",
+          "images",
+          "docs",
+          "roadmap"
+        ]
+      },
+      "electronInstallerDMG": {
+
       },
       "electronWinstallerConfig": {
         "name": "Carmel"
