@@ -197,7 +197,12 @@ export default class ToolboxComponent extends Component {
     const loading = false
 
     this.props.importRemoteData(ToolboxIndex).then(raw => {
-      Promise.all(raw.map(tool => this.which(tool.exec).then(installed => Object.assign({}, { installed }, tool)))).then(tools => {
+      var all = []
+      raw.forEach(tool => {
+        all.push(this.which(tool.exec).then(installed => Object.assign({}, { installed }, tool)))
+      })
+
+      Promise.all(all).then(tools => {
         this.setState({
           tokens,
           loading,
