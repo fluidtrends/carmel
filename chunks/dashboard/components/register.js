@@ -66,7 +66,7 @@ export default class RegisterComponent extends Component {
       return
     }
 
-    if (!this.state.verifiedCaptcha) {
+    if (!this.props.desktop && !this.state.verifiedCaptcha) {
       this.setState({
         error: errors.captcha,
         errorType: 'captcha',

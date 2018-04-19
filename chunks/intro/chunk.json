@@ -11,6 +11,11 @@
           "id": "team",
           "title": "Team",
           "path": "/team"
+        },
+        {
+          "id": "download",
+          "title": "Download",
+          "path": "/download"
         }
       ],
       "path": "/",
@@ -204,6 +209,7 @@
         "platform",
         "admin",
         "dashboard",
+        "download",
         "levelup",
         "tokens",
         "wallet",
@@ -516,6 +522,25 @@
           ],
           "backgroundColor": "#ffffff"
         }
+      }
+    },
+    "download": {
+      "title": "Studio",
+      "icon": "supervisor_account",
+      "path": "/:download",
+      "skipRootVariant": true,
+      "events": {
+        "cover": "local://download"
+      },
+      "cover": {
+        "backgroundColor": "#00838F",
+        "align": "bottom",
+        "image": "start.jpg",
+        "opacity": 0.5,
+        "navigation": true,
+        "title": "Download the #CarmelStudio",
+        "type": "default",
+        "primaryActionTitle": "Download The Carmel Studio"
       }
     }
   }

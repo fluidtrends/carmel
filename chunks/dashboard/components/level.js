@@ -37,7 +37,7 @@ const CarmelPaymentMethods = { metamask: 'MetaMask', mew: 'MyEtherWallet', cc: '
 export default class LevelComponent extends Component {
   constructor (props) {
     super(props)
-    this.state = { ...super.state, loading: true, payMethod: 'mew' }
+    this.state = { ...super.state, loading: true, payMethod: 'metamask' }
     this._installProvider = this.installProvider.bind(this)
     this._transactionDetails = this.transactionDetails.bind(this)
     this._incrementLevel = this.incrementLevel.bind(this)
@@ -409,7 +409,7 @@ export default class LevelComponent extends Component {
           This purchase increases your level of stake in Carmel to{' '}
           <strong> Level {this.state.nextLevel}</strong>.
         </Typography>
-        {this.renderETHPaymentMethods()}
+        {/* {this.renderETHPaymentMethods()} */}
         <ListDivider style={{ marginTop: '30px' }} />
 
         {this.renderPrice()}
