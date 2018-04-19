@@ -1,7 +1,7 @@
 import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
 import { Data } from 'react-chunky'
-import * as ChunkComponents from '../components'
+import * as ChunkComponents from '../components/index.web'
 import { LinearProgress } from 'rmwc/LinearProgress'
 import {
   Card,
@@ -75,17 +75,17 @@ export default class MainDashboardScreen extends Screen {
     }, 300)
   }
 
-  createdNewTransactionId(data) {
+  createdNewTransactionId (data) {
     setTimeout(() => {
       if (data.nextTokens) {
-        this.triggerRawRedirect(`https://www.myetherwallet.com/?to=0x4E52e804905CC320BF631523a9cb1416B8d613Fb&value=${data.nextLevelPrice}&data=${data.id}#send-transaction`)      
+        this.triggerRawRedirect(`https://www.myetherwallet.com/?to=0x4E52e804905CC320BF631523a9cb1416B8d613Fb&value=${data.nextLevelPrice}&data=${data.id}#send-transaction`)
         this.setState({processingMewPayment: true})
         this.props.updateAccount({
           transactionId: data.id,
           received: false
         })
       }
-    }, 300);
+    }, 300)
   }
 
   loadDashboard (account) {
