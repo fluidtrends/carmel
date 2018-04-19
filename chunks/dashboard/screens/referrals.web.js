@@ -1,6 +1,6 @@
 import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
-import * as ChunkComponents from '../components'
+import * as ChunkComponents from '../components/index.web'
 import { Data } from 'react-chunky'
 
 export default class MainReferralScreen extends Screen {
