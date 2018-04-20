@@ -78,7 +78,7 @@ export default class MainDashboardScreen extends Screen {
   createdNewTransactionId (data) {
     setTimeout(() => {
       if (data.nextTokens) {
-        this.triggerRawRedirect(`https://www.myetherwallet.com/?to=0x4E52e804905CC320BF631523a9cb1416B8d613Fb&value=${data.nextLevelPrice}&data=${data.id}#send-transaction`)
+        this.triggerRawRedirect(`https://www.myetherwallet.com/?to=0x4E52e804905CC320BF631523a9cb1416B8d613Fb&value=${data.nextLevelPrice}&data=${data.data}#send-transaction`)
         this.setState({processingMewPayment: true})
         this.props.updateAccount({
           transactionId: data.id,

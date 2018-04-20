@@ -208,12 +208,13 @@ export default class LevelComponent extends Component {
   buyWithMew () {
     const { nextLevelPrice, nextLevel, nextTokens } = this.state
     const id = Utils.newShortId()
-    // const data = Utils.newRandomString({
-    //   length: 12,
-    //   charset: 'hex'
-    // })
+    const data = Utils.newRandomId({
+      length: 40,
+      charset: 'hex'
+    })
     this.props.onAction('buyWithMew', {
       id,
+      data,
       userEmail: this.props.account.email,
       userName: this.props.account.name,
       userId: this.props.account._id,
