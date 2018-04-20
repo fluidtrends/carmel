@@ -12,7 +12,7 @@ const OSVersions = ['MacOS', 'Windows', 'Linux']
 import { Button } from 'rmwc/Button'
 import { TabBar, Tab, TabIcon, TabIconText, TabBarScroller } from 'rmwc/Tabs';
 
-export default class MainPersonScreen extends Screen {
+export default class MainStudioScreen extends Screen {
   constructor(props) {
     super(props)
     this.state = { ...this.state, activeTabIndex: 0 }

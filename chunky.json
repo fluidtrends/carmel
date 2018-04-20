@@ -8,6 +8,7 @@
     "start": {
       "stack": [
         "intro",
+        "studio",
         "roadmap",
         "whitepaper",
         "story",
@@ -20,7 +21,7 @@
   "transitions": ["replace://start"],
   "provisioning": {},
   "build": {
-    "platforms": ["darwin/x64"]
+    "platforms": ["linux/x64"]
   },
   "theme": {
     "logoImage": "carmel-logo-white.png",
