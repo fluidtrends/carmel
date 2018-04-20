@@ -82,6 +82,7 @@
       "skipPaths": [
         "story",
         "toolbox",
+        "studio",
         "profile",
         "whitepaper",
         "roadmap",

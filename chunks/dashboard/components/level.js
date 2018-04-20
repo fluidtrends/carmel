@@ -97,7 +97,7 @@ export default class LevelComponent extends Component {
     const nextLevel = level + up
     const nextTokens = nextLevel * 1000
     const loading = false
-    const tokenPrice = 0.25
+    const tokenPrice = 0.3
 
     const ethereum = new Ethereum({ provider })
 
@@ -350,7 +350,7 @@ export default class LevelComponent extends Component {
           Get More CARMEL Tokens
         </Typography>
         <Typography style={{ textAlign: 'center' }} use='subheading2' tag='div'>
-          Period 2 - Week 2/5: April 9 - April 16 (75% Discount)
+          Period 2 - Week 3/5: April 17 - April 24 (70% Discount)
         </Typography>
         <ListDivider style={{ marginBottom: '40px' }} />
 
@@ -600,7 +600,7 @@ export default class LevelComponent extends Component {
               <ChipText>
                 {' '}
                 CARMEL:{' '}
-                <strong> $0.25 USD = {this.state.carmelPrice} ETH </strong>{' '}
+                <strong> $0.30 USD = {this.state.carmelPrice} ETH </strong>{' '}
               </ChipText>
             </Chip>
             <Chip
@@ -612,7 +612,7 @@ export default class LevelComponent extends Component {
             >
               <ChipText>
                 {' '}
-                <strong> 75% Discount </strong>{' '}
+                <strong> 70% Discount </strong>{' '}
               </ChipText>
               <ChipIcon
                 style={{ color: '#66BB6A', marginLeft: '2px' }}
