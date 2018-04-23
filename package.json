@@ -26,6 +26,7 @@
       "transform-react-jsx",
       "transform-es2015-destructuring",
       "transform-object-rest-spread",
+      "react-css-modules",
       "styled-jsx/babel"
     ],
     "presets": [
