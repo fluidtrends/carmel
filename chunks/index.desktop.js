@@ -2,3 +2,4 @@
 
 export { default as intro } from './intro/index.desktop'
 export { default as dashboard } from './dashboard/index.desktop'
+export { default as challenges } from './challenges/index.desktop'
