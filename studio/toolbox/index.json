@@ -1,17 +1,8 @@
 [{
   "name": "editor",
-  "image": "https://github.com/fluidtrends/carmel/raw/content/studio/toolbox/editor/large.png",
-  "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/studio/toolbox/editor/small.png",
-  "thumbnail": "https://github.com/fluidtrends/carmel/raw/content/studio/toolbox/editor/thumb.png",
-  "backgroundColor": "#ffffff",
   "path": "editor",
   "title": "Atom",
-  "details": "The Code Editor is the primary tool in your toolbox. This is where you will spend most of your time as a Developer, writing and reading code. ",
-  "actionTitle": "Open",
-  "actionTitleSecondary": "Install",
-  "action": {
-    "handler": "system://open"
-  },
+  "details": "An Open Source Code Editor used to read and write code.",
   "type": "Atom",
   "version": "1.25.1",
   "exec": "atom",
@@ -21,25 +12,13 @@
     "redhat": "https://github.com/atom/atom/releases/download/v1.25.1/atom.x86_64.rpm",
     "debian": "https://github.com/atom/atom/releases/download/v1.25.1/atom-amd64.deb"
   },
-  "content": {
-    "text": "github://fluidtrends/carmel/content/studio/toolbox/editor/README",
-    "textColor": "#37474F"
-  }
+  "ready": true
 },
 {
   "name": "terminal",
-  "image": "https://github.com/fluidtrends/carmel/raw/content/studio/toolbox/terminal/large.png",
-  "imageSmall": "https://github.com/fluidtrends/carmel/raw/content/studio/toolbox/terminal/small.png",
-  "thumbnail": "https://github.com/fluidtrends/carmel/raw/content/studio/toolbox/terminal/thumb.png",
-  "backgroundColor": "#ffffff",
   "path": "terminal",
   "title": "Hyper",
-  "details": "The Command Terminal is the second most important tool in your toolbox. You will interact with The Command Terminal when you will have to run commands.",
-  "actionTitle": "Open",
-  "actionTitleSecondary": "Install",
-  "action": {
-    "handler": "system://open"
-  },
+  "details": "An Open Source Command Terminal used to execute commands on your computer.",
   "type": "Hyper",
   "version": "2.0.0",
   "exec": "hyper",
@@ -49,8 +28,31 @@
     "redhat": "https://github.com/zeit/hyper/releases/download/2.0.0/hyper-2.0.0.x86_64.rpm",
     "debian": "https://github.com/zeit/hyper/releases/download/2.0.0/hyper_2.0.0_amd64.deb"
   },
-  "content": {
-    "text": "github://fluidtrends/carmel/content/studio/toolbox/terminal/README",
-    "textColor": "#37474F"
+  "ready": true
+},
+{
+  "name": "git",
+  "path": "git",
+  "title": "Git",
+  "details": "An Open Source Version Control System used to manage your source code.",
+  "type": "Hyper",
+  "version": "2.16.3",
+  "exec": "git",
+  "installers": {
+    "mac": "https://sourceforge.net/projects/git-osx-installer/files/git-2.16.3-intel-universal-mavericks.dmg/download?use_mirror=autoselect",
+    "windows": "https://github.com/git-for-windows/git/releases/download/v2.16.2.windows.1/Git-2.16.2-32-bit.exe"
+  }
+},
+{
+  "name": "node",
+  "path": "node",
+  "title": "Node",
+  "details": "An Open Source JavaScript engine used to run your JavaScript code.",
+  "type": "Node",
+  "version": "8.11.1",
+  "exec": "git",
+  "installers": {
+    "mac": "https://nodejs.org/dist/v8.11.1/node-v8.11.1.pkg",
+    "windows": "https://nodejs.org/dist/v8.11.1/node-v8.11.1-x86.msi"
   }
 }]
