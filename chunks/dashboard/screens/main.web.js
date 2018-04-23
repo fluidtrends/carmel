@@ -422,7 +422,8 @@ export default class MainDashboardScreen extends Screen {
           onAction: this._dashboardAction,
           compact: this.isSmallScreen,
           updates: this.props.updates
-        }
+        },
+        this.props.settings
       )
       return (
         <div style={{}}>
