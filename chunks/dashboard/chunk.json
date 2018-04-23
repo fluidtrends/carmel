@@ -12,7 +12,9 @@
         "navigation": true,
         "type": "menu"
       },
-      "toolboxIndex": "https://raw.githubusercontent.com/fluidtrends/carmel/content/studio/toolbox/index.json",
+      "settings": {
+        "toolboxUrl": "https://raw.githubusercontent.com/fluidtrends/carmel/content/studio/toolbox"
+      },
       "updates": "github://fluidtrends/carmel/master/docs/updates/README",
       "startOperationsOnMount": false,
       "operations": {
