@@ -265,13 +265,14 @@ export default class MainDashboardScreen extends Screen {
           onAction: this._dashboardAction,
           compact: this.isSmallScreen,
           updates: this.props.updates
-        }
+        },
+        this.props.settings
       )
-      return (
-        <div style={{}}>
-          <SectionComponent {...sectionProps} />
-        </div>
-      )
+
+      const Comp = <div>
+        <SectionComponent {...sectionProps} />
+      </div>
+      return this.renderComponent(Comp, `Section-${this.state.section.component}`)
     }
     return <div />
   }
