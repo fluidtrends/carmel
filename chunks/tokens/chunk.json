@@ -75,5 +75,12 @@
         "textColor": "#37474F"
       }
     }
+  },
+  "service": {
+    "functions": ["post://purchases#newPurchase"],
+    "dependencies": {},
+    "requiredFields": {
+      "newPurchase": ["email", "data"]
+    }
   }
 }
