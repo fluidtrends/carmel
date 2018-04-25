@@ -36,7 +36,7 @@ function createGuestPurchase (email, purchase) {
   }, purchase))
 }
 
-function main (event, chunk, config) {
+function main ({ event, chunk, config, log }) {
   return new Promise((resolve, reject) => {
     chunky.firebase.initialize(config.google)
 
