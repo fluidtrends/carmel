@@ -14,6 +14,16 @@ function getUser (email) {
   })
 }
 
+function sendEmail ({ config, text, html }) {
+  return chunky.emailer.send({
+    to: config.settings.adminEmails,
+    from: 'team@carmel.io',
+    subject: 'New Carmel Purchase',
+    text,
+    html
+  })
+}
+
 function createMemberPurchase (user, purchase) {
   return chunky.firebase.operation('add', Object.assign({}, {
     node: 'purchases',
@@ -40,12 +50,21 @@ function main ({ event, chunk, config, log }) {
   return new Promise((resolve, reject) => {
     chunky.firebase.initialize(config.google)
 
+    const successMemberText = (data) => `Member ${data.from} (${data.address}) just purchased ${data.amount} ${data.type}`
+    const successMemberHtml = (data) => `Member ${data.from} (${data.address}) just purchased <strong> ${data.amount} ${data.type} </strong>`
+    const successGuestText = (data) => `Guest ${data.email} (${data.address}) just purchased ${data.amount} ${data.type}`
+    const successGuestHtml = (data) => `Guest ${data.email} (${data.address}) just purchased <strong>${data.amount} ${data.type}</strong>`
+
     getUser(event.body.email)
     .then((user) => createMemberPurchase(user, event.body.data))
-    .then(() => resolve({ message: 'Member purchase pending' }))
+    .then((data) => {
+      resolve({ message: 'Member purchase pending', data })
+    })
     .catch(() => {
-      createGuestPurchase(event.body.email, event.body.data)
-      .then(() => resolve({ message: 'Guest purchase pending' }))
+      return createGuestPurchase(event.body.email, event.body.data)
+             .then((data) => {
+               resolve({ message: 'Member purchase pending', data })
+             })
     })
   })
 }
