@@ -78,22 +78,23 @@
   },
   "service": {
     "functions": [
+      "post://purchases#newPurchase",
       "post://balances#getBalances",
       "get://balances#getBalances",
       "get://transactions#getTransactions",
-      "post://transactions#checkTransactions",
-      "post://purchases#newPurchase"
+      "post://transactions#checkTransactions"
     ],
     "dependencies": {},
     "requiredFields": {
-      "newPurchase": ["email", "data"]
+      "newPurchase": ["email", "currency", "amount", "address", "tokens", "price"]
     },
     "permissions": {
-      "checkTransactions": ["ses:SendEmail"]
+      "checkTransactions": ["ses:SendEmail"],
+      "newPurchase": ["ses:SendEmail"]
     },
     "schedule": {
       "checkTransactions": {
-        "enabled": true,
+        "enabled": false,
         "rate": "5 minutes"
       }
     }
