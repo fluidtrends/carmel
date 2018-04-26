@@ -58,7 +58,7 @@ const createUserWallet = ({ user }) => {
 }
 
 const sendPurchaseReport = (purchase, purchaseKey, config) => {
-  const email = purchase.userEmail
+  const email = purchase.email
   const amount = purchase.amount
   const currency = purchase.currency
 
