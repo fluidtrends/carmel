@@ -1,34 +1,41 @@
 const chunky = require('react-cloud-chunky')
 
-function getUser (email) {
+const filename = __filename
+const auth = { limit: 1 }
+
+const getUser = ({ email }) => {
   return chunky.firebase.operation('retrieve', {
     key: 'users',
     orderBy: 'email',
     equalTo: email
   })
-  .then(data => {
-    if (!data || data.length === 0) {
-      throw new Error('No user')
+  .then((user) => {
+    if (!user || user.length === 0) {
+      // The user does not exist
+      return
     }
-    return data
+    return user
   })
 }
 
-function sendEmail ({ config, text, html }) {
-  return chunky.emailer.send({
-    to: config.settings.adminEmails,
-    from: 'team@carmel.io',
-    subject: 'New Carmel Purchase',
-    text,
-    html
+const getUserWallet = ({ user }) => {
+  return chunky.firebase.operation('retrieve', {
+    key: `wallets/${user._id}`
+  })
+  .then((wallet) => {
+    if (!wallet || wallet.length === 0) {
+      // This user has no wallet
+      return
+    }
+    return wallet
   })
 }
 
-function createMemberPurchase (user, purchase) {
+const createMemberPurchase = ({ user, data, wallet }) => {
   return chunky.firebase.operation('add', Object.assign({}, {
     node: 'purchases',
     status: 'pending'
-  }, purchase, {
+  }, data, {
     from: user.email,
     join: {
       users: {
@@ -38,35 +45,58 @@ function createMemberPurchase (user, purchase) {
   }))
 }
 
-function createGuestPurchase (email, purchase) {
+const createUserWallet = ({ user }) => {
+  return chunky.firebase.operation('add', {
+    node: 'wallets',
+    status: 'new',
+    owner: user.email,
+    join: {
+      users: {
+        id: user._id
+      }
+    }
+  })
+}
+
+const createGuestPurchase = ({ email, data }) => {
   return chunky.firebase.operation('create', Object.assign({}, {
     node: 'purchases',
     status: 'pending',
     email
-  }, purchase))
+  }, data))
 }
 
-function main ({ event, chunk, config, log }) {
-  return new Promise((resolve, reject) => {
-    chunky.firebase.initialize(config.google)
+function executor ({ event, chunk, config }) {
+  chunky.firebase.initialize(config.google)
 
-    const successMemberText = (data) => `Member ${data.from} (${data.address}) just purchased ${data.amount} ${data.type}`
-    const successMemberHtml = (data) => `Member ${data.from} (${data.address}) just purchased <strong> ${data.amount} ${data.type} </strong>`
-    const successGuestText = (data) => `Guest ${data.email} (${data.address}) just purchased ${data.amount} ${data.type}`
-    const successGuestHtml = (data) => `Guest ${data.email} (${data.address}) just purchased <strong>${data.amount} ${data.type}</strong>`
+  return getUser({ email: event.body.email })
+    .then((user) => {
+      if (!user) {
+        return ({ user: false, wallet: false })
+      }
 
-    getUser(event.body.email)
-    .then((user) => createMemberPurchase(user, event.body.data))
-    .then((data) => {
-      resolve({ message: 'Member purchase pending', data })
-    })
-    .catch(() => {
-      return createGuestPurchase(event.body.email, event.body.data)
-             .then((data) => {
-               resolve({ message: 'Member purchase pending', data })
+      return getUserWallet({ user })
+             .then((wallet) => {
+               return ({ user, wallet: wallet || false })
              })
     })
-  })
+    .then(({ user, wallet }) => {
+      if (!user) {
+        // This is a guest event
+        return createGuestPurchase({ email: event.body.email, data: event.body.data })
+      }
+
+      if (!wallet) {
+        // This user exists but has no wallet, let's make one first
+        return createUserWallet({ user })
+              .then((wallet) => {
+                return createMemberPurchase({ user, data: event.body.data, wallet })
+              })
+      }
+
+      // This user has a wallet already
+      return createMemberPurchase({ user, data: event.body.data, wallet })
+    })
 }
 
-module.exports.main = chunky.handler(main, __filename)
+module.exports.main = chunky.handler({ executor, filename, auth })

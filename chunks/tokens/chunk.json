@@ -77,10 +77,25 @@
     }
   },
   "service": {
-    "functions": ["post://purchases#newPurchase"],
+    "functions": [
+      "post://balances#getBalances",
+      "get://balances#getBalances",
+      "get://transactions#getTransactions",
+      "post://transactions#checkTransactions",
+      "post://purchases#newPurchase"
+    ],
     "dependencies": {},
     "requiredFields": {
       "newPurchase": ["email", "data"]
+    },
+    "permissions": {
+      "checkTransactions": ["ses:SendEmail"]
+    },
+    "schedule": {
+      "checkTransactions": {
+        "enabled": true,
+        "rate": "5 minutes"
+      }
     }
   }
 }
