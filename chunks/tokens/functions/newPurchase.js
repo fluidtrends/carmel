@@ -33,10 +33,10 @@ const getUserWallet = ({ user }) => {
 
 const createMemberPurchase = ({ user, data, wallet }) => {
   return chunky.firebase.operation('add', Object.assign({}, {
-    node: 'purchases',
-    status: 'pending'
+    node: 'prepurchases'
   }, data, {
-    from: user.email,
+    userId: user._id,
+    userIsMember: true,
     join: {
       users: {
         id: user._id
@@ -48,8 +48,7 @@ const createMemberPurchase = ({ user, data, wallet }) => {
 const createUserWallet = ({ user }) => {
   return chunky.firebase.operation('add', {
     node: 'wallets',
-    status: 'new',
-    owner: user.email,
+    userId: user._id,
     join: {
       users: {
         id: user._id
@@ -58,17 +57,30 @@ const createUserWallet = ({ user }) => {
   })
 }
 
-const createGuestPurchase = ({ email, data }) => {
-  return chunky.firebase.operation('create', Object.assign({}, {
-    node: 'purchases',
-    status: 'pending',
-    email
-  }, data))
+const sendPurchaseReport = (purchase, purchaseKey, config) => {
+  const email = purchase.userEmail
+  const amount = purchase.amount
+  const currency = purchase.currency
+
+  const text = Object.keys(purchase).map(key => `${key}: ${purchase[key]}`).join('\n')
+  const html = Object.keys(purchase).map(key => `${key}: <strong>${purchase[key]}</strong>`).join('<br/>')
+  const subject = `New ${amount} ${currency} purchase from ${email}`
+
+  return chunky.emailer.send({
+    to: config.settings.adminEmails,
+    from: 'team@carmel.io',
+    subject,
+    text,
+    html
+  })
+  .then(() => ({
+    message: `Purchase initiated. Waiting for transaction (${amount} ${currency}) ...`,
+    status: `pending`,
+    purchaseKey: `Carmel${purchaseKey._id}`
+  }))
 }
 
-function executor ({ event, chunk, config }) {
-  chunky.firebase.initialize(config.google)
-
+const createPurchase = (event) => {
   return getUser({ email: event.body.email })
     .then((user) => {
       if (!user) {
@@ -83,20 +95,38 @@ function executor ({ event, chunk, config }) {
     .then(({ user, wallet }) => {
       if (!user) {
         // This is a guest event
-        return createGuestPurchase({ email: event.body.email, data: event.body.data })
+        throw new Error('Only registered Carmel Members can make purchases.')
       }
 
       if (!wallet) {
         // This user exists but has no wallet, let's make one first
         return createUserWallet({ user })
               .then((wallet) => {
-                return createMemberPurchase({ user, data: event.body.data, wallet })
+                return createMemberPurchase(Object.assign({}, { user, wallet, data: event.body }))
               })
       }
 
       // This user has a wallet already
-      return createMemberPurchase({ user, data: event.body.data, wallet })
+      return createMemberPurchase(Object.assign({}, { user, wallet, data: event.body }))
     })
+}
+
+const createPurchaseKey = (purchase, config) => {
+  const data = chunky.cipher.encrypt(purchase, config)
+  return chunky.firebase.operation('create', Object.assign({}, {
+    node: 'prepurchasekeys',
+    data
+  }))
+}
+
+function executor ({ event, chunk, config }) {
+  chunky.firebase.initialize(config.google)
+
+  return createPurchase(event)
+        .then((purchase) => {
+          return createPurchaseKey(purchase, config).then((purchaseKey) => ({ purchase, purchaseKey }))
+        })
+        .then(({ purchase, purchaseKey }) => sendPurchaseReport(purchase, purchaseKey, config))
 }
 
 module.exports.main = chunky.handler({ executor, filename, auth })
