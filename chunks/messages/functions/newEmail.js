@@ -1,6 +1,9 @@
 const chunky = require('react-cloud-chunky')
 
-function main ({ event, chunk, config }) {
+const filename = __filename
+const auth = { limit: 1 }
+
+const executor = ({ event, chunk, config }) => {
   return chunky.emailer.send({
     to: config.settings.adminEmails,
     from: 'team@carmel.io',
@@ -10,4 +13,4 @@ function main ({ event, chunk, config }) {
   })
 }
 
-module.exports.main = chunky.handler(main, __filename)
+module.exports.main = chunky.handler({ executor, filename, auth })
