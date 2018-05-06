@@ -1,30 +1,30 @@
 import React from 'react'
-import { View, Text, StyleSheet, ScrollView } from 'react-native'
+import { Text, StyleSheet, ScrollView } from 'react-native'
 import { Screen } from 'react-native-chunky'
 
-export default class MainDashboardScreen extends Screen {
-  constructor(props) {
+export default class ResetScreen extends Screen {
+  constructor (props) {
     super(props)
     this.state = { ...this.state }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     super.componentDidMount()
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     super.componentWillMount()
   }
 
-  renderDataError() {
+  renderDataError () {
     return this.renderData()
   }
 
-  renderDataDefaults() {
+  renderDataDefaults () {
     return this.renderData()
   }
 
-  renderContent() {
+  renderContent () {
     return (
       <ScrollView style={styles.content}>
         <Text style={styles.title}>Welcome</Text>
@@ -32,7 +32,7 @@ export default class MainDashboardScreen extends Screen {
     )
   }
 
-  renderData() {
+  renderData () {
     return (
       <ScrollView style={styles.container}>{this.renderContent()}</ScrollView>
     )

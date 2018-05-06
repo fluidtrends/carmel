@@ -196,7 +196,7 @@
     "person": {
       "title": "Stories",
       "icon": "supervisor_account",
-      "path": "/:person",
+      "path": "/@:person",
       "skipPaths": [
         "story",
         "whitepaper",
@@ -205,6 +205,8 @@
         "admin",
         "dashboard",
         "studio",
+        "login",
+        "register",
         "download",
         "levelup",
         "tokens",

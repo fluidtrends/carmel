@@ -1,0 +1,90 @@
+{
+  "name": "auth",
+  "routes": {
+    "register": {
+      "title": "Account",
+      "icon": "account_circle",
+      "alwaysShowIcon": true,
+      "guestOnly": true,
+      "path": "/register",
+      "recaptchaKey": "6Lex_1AUAAAAALdQO95hdq9WeiG_tbKbhF2WDB3s",
+      "cover": {
+        "backgroundColor": "#00838F",
+        "opacity": 0.6,
+        "navigation": true,
+        "image": "start.jpg",
+        "title": "Join The Carmel Revolution",
+        "type": "simple"
+      },
+      "startOperationsOnMount": false,
+      "operations": {
+        "register": [
+          "firebase://register",
+          { "onSuccess": "registerOk", "onError": "registerError" }
+        ]
+      }
+    },
+    "login": {
+      "title": "Account",
+      "icon": "account_circle",
+      "alwaysShowIcon": true,
+      "guestOnly": true,
+      "path": "/login",
+      "cover": {
+        "backgroundColor": "#00838F",
+        "opacity": 0.6,
+        "navigation": true,
+        "image": "start.jpg",
+        "title": "Welcome Back To Carmel",
+        "type": "simple"
+      },
+      "startOperationsOnMount": false,
+      "operations": {
+        "login": [
+          "firebase://login",
+          { "onSuccess": "login", "onError": "loginError" }
+        ]
+      }
+    },
+    "reset": {
+      "title": "Account",
+      "icon": "account_circle",
+      "alwaysShowIcon": true,
+      "path": "/reset",
+      "cover": {
+        "backgroundColor": "#00838F",
+        "opacity": 0.6,
+        "navigation": true,
+        "image": "start.jpg",
+        "title": "Get Back Into Your Carmel Account",
+        "type": "simple"
+      },
+      "startOperationsOnMount": false,
+      "operations": {
+        "reset": [
+          "firebase://reset",
+          { "onSuccess": "resetOk", "onError": "resetError" }
+        ]
+      }
+    },
+    "account": {
+      "title": "Account",
+      "icon": "user",
+      "alwaysShowIcon": true,
+      "private": true,
+      "path": "/me",
+      "cover": {
+        "backgroundColor": "#00838F",
+        "navigation": true,
+        "type": "menu"
+      },
+      "startOperationsOnMount": false,
+      "operations": {
+        "reset": [
+          "firebase://reset",
+          { "onSuccess": "accountOk", "onError": "okError" }
+        ]
+      }
+    }
+  }
+}

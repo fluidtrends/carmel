@@ -1,10 +1,8 @@
 import React from 'react'
-import { Screen, Components } from 'react-dom-chunky'
+import { Screen } from 'react-dom-chunky'
 import { Telegram } from '../components'
-import { Tokens } from 'chunks/dashboard/components/index.web'
 
 export default class MainIntroScreen extends Screen {
-
   constructor (props) {
     super(props)
     this.state = { ...this.state }

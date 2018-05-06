@@ -1,20 +1,20 @@
 import React from 'react'
-import { Screen, Components } from 'react-dom-chunky'
+import { Screen } from 'react-dom-chunky'
 export default class MainRoadmapScreen extends Screen {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { ...this.state }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     super.componentDidMount()
   }
 
-  get features() {
+  get features () {
     return []
   }
 
-  components() {
+  components () {
     return super.components().concat(this.features)
   }
 }

@@ -2,33 +2,33 @@ import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
 
 export default class MainPersonScreen extends Screen {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { ...this.state }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     super.componentDidMount()
 
     this._username = this.props.location.pathname.split('/')[1]
-    this.triggerRedirect(`/me`)
+    // this.triggerRedirect(`/me`)
   }
 
-  get cover() {
+  get cover () {
     return Object.assign({}, this.props.cover, {
       title: `${this.username}'s #CarmelStory`
     })
   }
 
-  get username() {
+  get username () {
     return this._username
   }
 
-  get features() {
+  get features () {
     return []
   }
 
-  components() {
+  components () {
     return super.components().concat(this.features)
   }
 }

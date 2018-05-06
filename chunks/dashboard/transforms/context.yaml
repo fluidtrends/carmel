@@ -1,7 +1,0 @@
-initialContext:
-- operation: create
-  node: context
-  period1DailyTotal: 100000
-  period1Total: 3500000
-  period2DailyTotal: 100000
-  period2Total: 3500000
