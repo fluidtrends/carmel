@@ -1,63 +1,37 @@
 const chunky = require('react-cloud-chunky')
+const Base64 = require('js-base64').Base64
 
 const filename = __filename
 const auth = { limit: 1 }
 
-const getUser = ({ email }) => {
-  return chunky.firebase.operation('retrieve', {
-    key: 'users',
-    orderBy: 'email',
-    equalTo: email
-  })
-  .then((user) => {
-    if (!user || user.length === 0) {
-      // The user does not exist
-      return
-    }
-    return user
-  })
-}
+const createPurchaseKey = (purchase, config) => {
+  const data = chunky.cipher.encrypt(purchase, config)
 
-const getUserWallet = ({ user }) => {
-  return chunky.firebase.operation('retrieve', {
-    key: `wallets/${user._id}`
-  })
-  .then((wallet) => {
-    if (!wallet || wallet.length === 0) {
-      // This user has no wallet
-      return
-    }
-    return wallet
-  })
-}
-
-const createMemberPurchase = ({ user, data, wallet }) => {
-  return chunky.firebase.operation('add', Object.assign({}, {
-    node: 'prepurchases'
-  }, data, {
-    userId: user._id,
-    userIsMember: true,
-    join: {
-      users: {
-        id: user._id
-      }
-    }
+  return chunky.firebase.operation('create', Object.assign({}, {
+    node: 'purchasekeys',
+    data
   }))
 }
 
-const createUserWallet = ({ user }) => {
-  return chunky.firebase.operation('add', {
-    node: 'wallets',
-    userId: user._id,
+const createPurchase = ({ account, config, data }) => {
+  const userIsMember = (account !== undefined)
+
+  var purchase = Object.assign({}, {
+    node: 'purchases',
+    userIsMember
+  }, data, userIsMember && {
+    userId: account.user.uid,
     join: {
       users: {
-        id: user._id
+        id: account.user.uid
       }
     }
   })
+
+  return chunky.firebase.operation(account ? 'add' : 'create', purchase)
 }
 
-const sendPurchaseReport = (purchase, purchaseKey, config) => {
+const sendPurchaseReport = ({ purchase, purchaseKey, config, account }) => {
   const email = purchase.email
   const amount = purchase.amount
   const currency = purchase.currency
@@ -66,6 +40,12 @@ const sendPurchaseReport = (purchase, purchaseKey, config) => {
   const html = Object.keys(purchase).map(key => `${key}: <strong>${purchase[key]}</strong>`).join('<br/>')
   const subject = `New ${amount} ${currency} purchase from ${email}`
 
+  const userHeader = `Thanks for believing in Carmel. You will receive your new Carmel Tokens as soon as your transaction is verified.`
+  const userFields = { status: 'Waiting for your transaction ...', amount: purchase.amount, currency: purchase.currency.toUpperCase(), tokens: purchase.tokens.toLocaleString('en') }
+  const textUser = `${userHeader}\n\n` + Object.keys(userFields).map(key => `${key}: ${userFields[key]}`).join('\n')
+  const htmlUser = `${userHeader}<br/><br/>` + Object.keys(userFields).map(key => `${key}: <strong>${userFields[key]}</strong>`).join('<br/>')
+  const subjectUser = `Congrats on your new ${purchase.tokens.toLocaleString('en')} Carmel Tokens purchase`
+
   return chunky.emailer.send({
     to: config.settings.adminEmails,
     from: 'team@carmel.io',
@@ -73,60 +53,24 @@ const sendPurchaseReport = (purchase, purchaseKey, config) => {
     text,
     html
   })
+  .then(() => chunky.emailer.send({
+    to: [email],
+    from: 'team@carmel.io',
+    subject: subjectUser,
+    text: textUser,
+    html: htmlUser
+  }))
   .then(() => ({
-    message: `Purchase initiated. Waiting for transaction (${amount} ${currency}) ...`,
+    message: `Waiting for transaction (${amount} ${currency}) ...`,
     status: `pending`,
-    purchaseKey: `Carmel${purchaseKey._id}`
+    purchaseKey: `CARMEL${Base64.encode(purchaseKey._id)}`
   }))
 }
 
-const createPurchase = (event) => {
-  return getUser({ email: event.body.email })
-    .then((user) => {
-      if (!user) {
-        return ({ user: false, wallet: false })
-      }
-
-      return getUserWallet({ user })
-             .then((wallet) => {
-               return ({ user, wallet: wallet || false })
-             })
-    })
-    .then(({ user, wallet }) => {
-      if (!user) {
-        // This is a guest event
-        throw new Error('Only registered Carmel Members can make purchases.')
-      }
-
-      if (!wallet) {
-        // This user exists but has no wallet, let's make one first
-        return createUserWallet({ user })
-              .then((wallet) => {
-                return createMemberPurchase(Object.assign({}, { user, wallet, data: event.body }))
-              })
-      }
-
-      // This user has a wallet already
-      return createMemberPurchase(Object.assign({}, { user, wallet, data: event.body }))
-    })
-}
-
-const createPurchaseKey = (purchase, config) => {
-  const data = chunky.cipher.encrypt(purchase, config)
-  return chunky.firebase.operation('create', Object.assign({}, {
-    node: 'prepurchasekeys',
-    data
-  }))
-}
-
-function executor ({ event, chunk, config }) {
-  chunky.firebase.initialize(config.google)
-
-  return createPurchase(event)
-        .then((purchase) => {
-          return createPurchaseKey(purchase, config).then((purchaseKey) => ({ purchase, purchaseKey }))
-        })
-        .then(({ purchase, purchaseKey }) => sendPurchaseReport(purchase, purchaseKey, config))
+function executor ({ event, chunk, config, account }) {
+  return createPurchase({ account, config, data: event.body })
+         .then((purchase) => createPurchaseKey(purchase, config).then((purchaseKey) => ({ purchase, purchaseKey })))
+         .then(({ purchase, purchaseKey }) => sendPurchaseReport({ account, purchase, purchaseKey, config }))
 }
 
 module.exports.main = chunky.handler({ executor, filename, auth })

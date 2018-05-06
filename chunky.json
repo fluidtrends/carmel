@@ -1,7 +1,7 @@
 {
   "name": "Carmel",
   "template": "default",
-  "env": "dev",
+  "env": "next",
   "id": "io.carmel",
   "androidSdkDir": "~/Library/Android/sdk",
   "sections": {
@@ -13,12 +13,24 @@
         "story",
         "challenges",
         "tokens",
-        "dashboard"
+        "auth"
+      ]
+    },
+    "dashboard": {
+      "private": true,
+      "layout": "sidebar",
+      "stack": [
+        "auth",
+        "tokens"
       ]
     }
   },
   "transitions": ["replace://start"],
-  "provisioning": {},
+  "provisioning": {
+    "rest": {
+      "url": "https://api.carmel.io"
+    }
+  },
   "build": {
     "platforms": ["darwin/x64"]
   },
