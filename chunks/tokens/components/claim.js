@@ -22,7 +22,6 @@ export default class ClaimComponent extends Component {
   }
 
   claim (eosBalance) {
-    console.log(eosBalance)
     if (parseInt(eosBalance) === 0) {
       this.setState({ loading: false, error: 'You need to have an EOS stake' })
       return
@@ -52,7 +51,7 @@ export default class ClaimComponent extends Component {
   }
 
   renderMainContent () {
-    if (this.props.wallet && this.props.wallet.claimed) {
+    if ((this.props.wallet && this.props.wallet.claimed) || this.props.account.user.airdropped) {
       // Already claimed
       return <div>
         <Typography
