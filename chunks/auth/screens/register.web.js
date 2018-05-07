@@ -83,6 +83,14 @@ export default class RegisterScreen extends Screen {
     }, 300)
   }
 
+  registerOk () {
+    try {
+      window.location.reload(true)
+    } catch (error) {
+      this.triggerRedirect('/me')
+    }
+  }
+
   registerError (error) {
     this.setState({ loading: false, password: '', password2: '', error: error.message })
   }

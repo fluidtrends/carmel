@@ -20,7 +20,7 @@
       "operations": {
         "register": [
           "firebase://register",
-          { "onSuccess": "login", "onError": "registerError" }
+          { "onSuccess": "registerOk", "onError": "registerError" }
         ]
       }
     },

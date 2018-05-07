@@ -67,8 +67,7 @@ const createTransaction = ({ userId, data }) => {
 const updatePurchase = (transaction) => {
   const data = Object.assign({}, transaction.data, transaction.purchase)
 
-  return Promise.resolve()
-  chunky.firebase.operation('remove', { key: `purchases/${transaction.purchase._id}` })
+  return chunky.firebase.operation('remove', { key: `purchases/${transaction.purchase._id}` })
         .then(() => chunky.firebase.operation('remove', { key: `purchasekeys/${transaction.purchaseKey._id}` }))
         .then(() => chunky.firebase.operation('remove', { key: `users-purchases/${transaction.purchase.userId}/${transaction.purchase._id}` }))
         .then(() => createTransaction({ userId: transaction.purchase.userId, data }))
@@ -168,12 +167,12 @@ const verifyTransactions = ({ purchases, purchasekeys, transactions, config }) =
 
   if (expectedTransactions.length === 0) {
     return Promise.resolve({
-      message: `Found no expected transactions out of ${transactions} total.`
+      message: `Found no expected transactions out of ${transactions.length} total.`
     })
   }
 
   const updates = expectedTransactions.map(expectedTransaction => updatePurchase(expectedTransaction))
-  const lastEthereumTransactionHashes = transactions.map(transaction => ({
+  const lastEthereumTransactionHashes = expectedTransactions.map(transaction => ({
     hash: transaction.hash
   }))
 
@@ -183,11 +182,10 @@ const verifyTransactions = ({ purchases, purchasekeys, transactions, config }) =
                 .then(() => updateWallet(expectedTransactions))
                 .then(() => updateAdmin({ lastEthereumTransaction, lastEthereumTransactionHashes }))
                 .then(() => ({
-                  updates,
                   expectedTransactions,
                   lastEthereumTransaction,
                   lastEthereumTransactionHashes,
-                  message: `${transactions.length} new transactions found.`
+                  message: `${expectedTransactions.length} new transactions found.`
                 }))
 }
 
