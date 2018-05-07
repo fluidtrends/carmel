@@ -472,27 +472,6 @@ export default class CheckoutComponent extends Component {
             </Chip>
           </ChipSet>
         </Typography>
-
-        <Typography use='subheading2' tag='h1' style={{ marginLeft: '20px', textAlign: 'left' }}>
-          <ChipSet>
-            <Chip
-              style={{
-                border: '1px #e7e7e7 solid',
-                height: '38px',
-                padding: '10px',
-                margin: '5px',
-                backgroundColor: '#ffffff',
-                color: '#66BB6A'
-              }}>
-              <ChipText style={{color: '#546E7A', marginRight: '10px'}}>
-                <strong> Address: </strong>
-              </ChipText>
-              <ChipText>
-                <strong> { addressETH } </strong>
-              </ChipText>
-            </Chip>
-          </ChipSet>
-        </Typography>
         { this.renderPaymentDetails() }
       </div>
     }
