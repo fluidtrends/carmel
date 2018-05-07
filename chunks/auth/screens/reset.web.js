@@ -48,7 +48,7 @@ export default class ResetScreen extends Screen {
   }
 
   resetOk (result) {
-    this.setState({ sent: true, loading: false })
+    this.triggerRedirect('/login')
   }
 
   resetError (error) {

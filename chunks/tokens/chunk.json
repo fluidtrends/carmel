@@ -132,8 +132,8 @@
     },
     "schedule": {
       "checkTransactions": {
-        "enabled": false,
-        "rate": "2 minutes"
+        "enabled": true,
+        "rate": "5 minutes"
       }
     }
   }
