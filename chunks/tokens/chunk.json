@@ -6,6 +6,8 @@
       "icon": "favorite",
       "path": "/tokens",
       "action": true,
+      "guestOnly": true,
+      "privateRedirect": "/me/tokens",
       "events": {
         "buy": "local://me/tokens"
       },
@@ -20,13 +22,9 @@
       },
       "startOperationsOnMount": false,
       "operations": {
-        "newTransactionId": [
-          "firebase://create/transactions?userId#newTransaction",
-          { "onSuccess": "createdNewTransactionId" }
-        ],
-        "updateAccount": [
-          "firebase://update/users/:uid#updated",
-          { "onSuccess": "getAccount", "onError": "updateAccountError" }
+        "newTransaction": [
+          "rest://create/tokens/purchases#newTransaction",
+          { "onSuccess": "transactionOk", "onError": "transactionError" }
         ]
       },
       "components": {
@@ -73,6 +71,54 @@
         "text": "github://fluidtrends/carmel/master/docs/tokens/README",
         "image": "carmel-logo.png",
         "textColor": "#37474F"
+      }
+    },
+    "private": {
+      "title": "Tokens",
+      "icon": "rocket",
+      "path": "/me/tokens",
+      "private": true,
+      "events": {
+        "buy": "local://me/tokens"
+      },
+      "cover": {
+        "backgroundColor": "#00838F",
+        "navigation": true,
+        "type": "menu"
+      },
+      "startOperationsOnMount": false,
+      "operations": {
+        "newTransaction": [
+          "rest://create/tokens/purchases#newTransaction",
+          { "onSuccess": "transactionOk", "onError": "transactionError" }
+        ],
+        "verifyTransactions": [
+          "rest://create/tokens/transactions#checkTransactions",
+          { "onSuccess": "transactionVerifiedOk", "onError": "transactionVerifiedError" }
+        ],
+        "getPurchases": "firebase://subscribe/users-purchases/:userId?latest=25&resolve=purchases#getPurchases",
+        "getTransactions": "firebase://subscribe/users-transactions/:userId?latest=100&resolve=transactions#getTransactions"
+      },
+      "subscriptions": ["getPurchases", "getTransactions"]
+    }
+  },
+  "service": {
+    "functions": [
+      "post://transactions#checkTransactions",
+      "post://purchases#newPurchase"
+    ],
+    "dependencies": {},
+    "requiredFields": {
+      "newPurchase": ["email", "currency", "amount", "tokens", "price"]
+    },
+    "permissions": {
+      "checkTransactions": ["ses:SendEmail"],
+      "newPurchase": ["ses:SendEmail"]
+    },
+    "schedule": {
+      "checkTransactions": {
+        "enabled": false,
+        "rate": "5 minutes"
       }
     }
   }

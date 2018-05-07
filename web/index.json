@@ -2,6 +2,10 @@
   "layout": {
     "fixed": true
   },
+  "permissions": {
+    "privateRedirect": "/me",
+    "publicRedirect": "/register"
+  },
   "footer": {
     "sections": [
       {

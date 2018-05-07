@@ -1,17 +1,8 @@
 import React from 'react'
 import { Screen } from 'react-dom-chunky'
-import { Picker } from '../components'
-import { LinearProgress } from 'rmwc/LinearProgress'
-import {
-  Card,
-  CardActions,
-  CardActionButtons
-} from 'rmwc/Card'
-import { Button } from 'rmwc/Button'
-import { Typography } from 'rmwc/Typography'
-import { ListDivider } from 'rmwc/List'
+import { Checkout } from '../components'
 
-export default class MainTokensScreen extends Screen {
+export default class TokensScreen extends Screen {
   constructor (props) {
     super(props)
     this.state = { ...this.state }
@@ -19,13 +10,39 @@ export default class MainTokensScreen extends Screen {
 
   componentDidMount () {
     super.componentDidMount()
+  }
 
-    if (this.isLoggedIn) {
-      this.triggerRedirect(`/me/tokens`)
+  renderMainContent () {
+    return (<div
+      style={{
+        display: 'flex',
+        flex: 1,
+        justifyContent: 'center',
+        flexDirection: 'column',
+        alignItems: 'center'
+      }}>
+      <Checkout
+        error={this.state.error}
+        transaction={this.state.transaction}
+        triggerRawRedirect={this.triggerRawRedirect}
+        newTransaction={this.props.newTransaction} />
+    </div>)
+  }
+
+  transactionOk (transaction) {
+    if (transaction.error) {
+      this.setState({ error: transaction.error })
+      return
     }
+
+    this.setState({ transaction })
+  }
+
+  transactionError (error) {
+    this.setState({ error: error.message })
   }
 
   components () {
-    return []
+    return [this.renderMainContent()]
   }
 }
