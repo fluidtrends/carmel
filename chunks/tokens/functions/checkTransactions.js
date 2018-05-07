@@ -150,7 +150,7 @@ const verifyTransactions = ({ purchases, purchasekeys, transactions, config }) =
   if (!expectedPurchaseKeys || expectedPurchaseKeys.length === 0) {
     // No expected keys
     return Promise.resolve({
-      message: 'No expected transactions'
+      message: 'No pending purchases'
     })
   }
 
@@ -168,7 +168,7 @@ const verifyTransactions = ({ purchases, purchasekeys, transactions, config }) =
 
   if (expectedTransactions.length === 0) {
     return Promise.resolve({
-      message: 'No expected transactions'
+      message: `Found no expected transactions out of ${transactions} total.`
     })
   }
 
