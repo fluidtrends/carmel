@@ -39,6 +39,10 @@ const updateWallet = ({ claim, account }) => {
           return createWallet(userId, data)
         }
 
+        if (wallet.claimed || account.airdropped) {
+          return Promise.resolve()
+        }
+
         return chunky.firebase.operation('update', {
           key: `wallets/${wallet._id}`,
           claimed: data.carmel,

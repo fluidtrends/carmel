@@ -20,6 +20,7 @@ const CarmelPaymentMethods = { metamask: 'MetaMask', mew: 'MyEtherWallet' }
 const CarmelIncrement = 100
 const CarmelMax = 100
 const CarmelStart = 50
+const CarmelPrice = 0.5
 
 export default class CheckoutComponent extends Component {
   constructor (props) {
@@ -179,7 +180,7 @@ export default class CheckoutComponent extends Component {
   fetchPricing () {
     return fetch(CoinMarketCapAPI)
           .then(response => response.json())
-          .then(rates => ({ ethereumRate: rates[0], tokenPrice: 0.40 }))
+          .then(rates => ({ ethereumRate: rates[0], tokenPrice: CarmelPrice }))
   }
 
   get email () {
