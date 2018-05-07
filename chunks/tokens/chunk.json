@@ -25,6 +25,10 @@
         "newTransaction": [
           "rest://create/tokens/purchases#newTransaction",
           { "onSuccess": "transactionOk", "onError": "transactionError" }
+        ],
+        "getContext": [
+          "firebase://retrieve/context?latest=1#freshContext",
+          { "onSuccess": "gotContext" }
         ]
       },
       "components": {
@@ -99,6 +103,10 @@
         "newClaim": [
           "rest://create/tokens/claims#newClaim",
           { "onSuccess": "claimOk", "onError": "claimError" }
+        ],
+        "getContext": [
+          "firebase://retrieve/context?latest=1#freshContext",
+          { "onSuccess": "gotContext" }
         ],
         "getPurchases": "firebase://subscribe/users-purchases/:userId?latest=25&resolve=purchases#getPurchases",
         "getTransactions": "firebase://subscribe/users-transactions/:userId?latest=100&resolve=transactions#getTransactions",
