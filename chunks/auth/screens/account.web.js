@@ -67,7 +67,9 @@ export default class AccountScreen extends Screen {
         alignItems: 'center'
       }}>
       <Card style={{ width, margin: '10px', padding }}>
-        <UserInfo />
+        <UserInfo
+          skipWallet
+          account={this.account} />
         <List
           style={{ marginTop: '20px' }}
           itemLayout='horizontal'
