@@ -83,10 +83,6 @@ export default class RegisterScreen extends Screen {
     }, 300)
   }
 
-  registerOk (account) {
-    console.log(account)
-  }
-
   registerError (error) {
     this.setState({ loading: false, password: '', password2: '', error: error.message })
   }
