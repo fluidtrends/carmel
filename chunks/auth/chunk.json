@@ -21,6 +21,10 @@
         "register": [
           "firebase://register",
           { "onSuccess": "registerOk", "onError": "registerError" }
+        ],
+        "redeem": [
+          "rest://create/auth/credits#redeem",
+          { "onSuccess": "redeemOk", "onError": "redeemError" }
         ]
       }
     },
@@ -86,5 +90,14 @@
         ]
       }
     }
+  },
+  "service": {
+    "functions": [
+      "post://credits#redeem"
+    ],
+    "dependencies": {},
+    "requiredFields": {},
+    "permissions": {},
+    "schedule": {}
   }
 }

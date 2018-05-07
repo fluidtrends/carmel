@@ -84,11 +84,19 @@ export default class RegisterScreen extends Screen {
   }
 
   registerOk () {
+    this.props.redeem()
+  }
+
+  redeemOk (data) {
     try {
       window.location.reload(true)
     } catch (error) {
       this.triggerRedirect('/me')
     }
+  }
+
+  redeemError () {
+    this.redeemOk()
   }
 
   registerError (error) {
