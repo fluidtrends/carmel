@@ -2,7 +2,7 @@ import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
 import { Card } from 'rmwc/Card'
 import UserInfo from '../../auth/components/userInfo'
-import { Checkout } from '../components'
+import { Checkout, Claim } from '../components'
 import { Button } from 'rmwc/Button'
 import { Typography } from 'rmwc/Typography'
 import { List, Icon } from 'antd'
@@ -47,6 +47,10 @@ export default class PrivateTokensScreen extends Screen {
 
   getTransactionsSuccess (transactions) {
     this.setState({ transactions: transactions.filter(t => !Array.isArray(t)) })
+  }
+
+  getWalletSuccess (wallet) {
+    this.setState({ wallet: wallet[0] })
   }
 
   renderTransactionItem (item) {
@@ -147,7 +151,9 @@ export default class PrivateTokensScreen extends Screen {
         alignItems: 'center'
       }}>
       <Card style={{ width, margin: '10px', padding }}>
-        <UserInfo />
+        <UserInfo
+          wallet={this.state.wallet}
+          account={this.account} />
       </Card>
 
       <Checkout
@@ -158,6 +164,12 @@ export default class PrivateTokensScreen extends Screen {
 
       { this.renderTransactionHistory(width, padding) }
 
+      <Claim
+        newClaim={this.props.newClaim}
+        claim={this.state.claim}
+        wallet={this.state.wallet}
+        ethereum={this.props.ethereum}
+        account={this.account} />
     </div>)
   }
 
@@ -171,6 +183,19 @@ export default class PrivateTokensScreen extends Screen {
   }
 
   transactionError (error) {
+    this.setState({ error: error.message })
+  }
+
+  claimOk (claim) {
+    if (claim.error) {
+      this.setState({ error: claim.error })
+      return
+    }
+
+    this.setState({ claim })
+  }
+
+  claimError (error) {
     this.setState({ error: error.message })
   }
 

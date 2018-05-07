@@ -25,20 +25,27 @@ const createWallet = (userId, data) => {
 
 const getWallet = (userId) => {
   return new Promise((resolve, reject) => {
-    chunky.firebase.operation('retrieve', { key: `wallets/${userId}` })
-          .then((wallet) => ((!wallet || wallet.length === 0) ? resolve() : resolve(wallet)))
+    chunky.firebase.operation('retrieve', { key: `users-wallets/${userId}` })
+          .then((wallet) => chunky.firebase.operation('retrieve', { key: `wallets/${wallet._id}` }))
+          .then((wallet) => ((!wallet || (Array.isArray(wallet) && wallet.length === 0)) ? resolve() : resolve(wallet)))
           .catch(() => resolve())
   })
 }
 
-const updateWallet = (userId, tokens) => {
+const updateWallet = (transactions) => {
+  const userId = transactions[0].purchase.userId
+  var total = 0
+  transactions.map(t => (total = total + t.purchase.tokens))
+  const data = { carmel: total, xp: 0 }
+
   return getWallet(userId)
       .then((wallet) => {
         if (!wallet) {
-          return createWallet(userId, { tokens })
+          return createWallet(userId, data)
         }
 
-        return chunky.firebase.operation('update', { key: `wallets/${userId}`, tokens: (wallet.tokens + tokens) })
+        return chunky.firebase.operation('update', { key: `wallets/${wallet._id}`, carmel: (wallet.carmel + data.carmel) })
+              .then(() => chunky.firebase.operation('update', { key: `users-wallets/${userId}`, timestamp: Date.now() }))
       })
 }
 
@@ -59,13 +66,12 @@ const createTransaction = ({ userId, data }) => {
 
 const updatePurchase = (transaction) => {
   const data = Object.assign({}, transaction.data, transaction.purchase)
-  const tokens = transaction.purchase.tokens
 
-  return chunky.firebase.operation('remove', { key: `purchases/${transaction.purchase._id}` })
+  return Promise.resolve()
+  chunky.firebase.operation('remove', { key: `purchases/${transaction.purchase._id}` })
         .then(() => chunky.firebase.operation('remove', { key: `purchasekeys/${transaction.purchaseKey._id}` }))
         .then(() => chunky.firebase.operation('remove', { key: `users-purchases/${transaction.purchase.userId}/${transaction.purchase._id}` }))
         .then(() => createTransaction({ userId: transaction.purchase.userId, data }))
-        .then(() => updateWallet({ userId: transaction.purchase.userId, tokens }))
 }
 
 const getPurchases = () => {
@@ -174,8 +180,10 @@ const verifyTransactions = ({ purchases, purchasekeys, transactions, config }) =
   const lastEthereumTransaction = transactions[0]
 
   return Promise.all(updates)
+                .then(() => updateWallet(expectedTransactions))
                 .then(() => updateAdmin({ lastEthereumTransaction, lastEthereumTransactionHashes }))
                 .then(() => ({
+                  updates,
                   expectedTransactions,
                   lastEthereumTransaction,
                   lastEthereumTransactionHashes,
