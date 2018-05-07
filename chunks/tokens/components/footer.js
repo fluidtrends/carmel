@@ -4,7 +4,6 @@ import { Typography } from 'rmwc/Typography'
 import { Chip, ChipText, ChipIcon, ChipSet } from 'rmwc/Chip'
 
 export default class BuyComponent extends Component {
-
   constructor (props) {
     super(props)
     this.state = { ...super.state, loading: false }
@@ -27,8 +26,7 @@ export default class BuyComponent extends Component {
           justifyContent: 'center',
           flexDirection: 'column',
           alignItems: 'center'
-        }}
-    >
+        }}>
         <Typography use='caption' tag='h1'>
           <ChipSet>
             <Chip style={{ backgroundColor: '#F5F5F5' }}>

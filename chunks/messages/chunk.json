@@ -1,0 +1,13 @@
+{
+  "name": "messages",
+  "service": {
+    "functions": ["post://emails#newEmail"],
+    "dependencies": {},
+    "permissions": {
+      "newEmail": ["ses:SendEmail"]
+    },
+    "requiredFields": {
+      "newEmail": ["text", "html"]
+    }
+  }
+}

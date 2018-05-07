@@ -20,19 +20,19 @@ import { Typography } from 'rmwc/Typography'
 import { ListDivider } from 'rmwc/List'
 
 export default class MainStoryScreen extends Screen {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { ...this.state, loading: true }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     super.componentDidMount()
     this.importRemoteData(this.props.index).then(posts => {
       this.setState({ posts, loading: false })
     })
   }
 
-  renderContent() {
+  renderContent () {
     if (this.state.loading) {
       const width = '100%'
       return (
@@ -47,7 +47,7 @@ export default class MainStoryScreen extends Screen {
           }}
         >
           <Card style={{ width, margin: '20px', padding: '0px' }}>
-            <Typography use="title" tag="h1">
+            <Typography use='title' tag='h1'>
               Loading ... Just a sec.
             </Typography>
             <ListDivider />
@@ -57,10 +57,10 @@ export default class MainStoryScreen extends Screen {
       )
     }
 
-    return <Components.Collection id="posts" categories={this.state.posts} />
+    return <Components.Collection id='posts' categories={this.state.posts} />
   }
 
-  components() {
+  components () {
     return [this.renderContent()]
   }
 }
