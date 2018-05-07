@@ -1,7 +1,6 @@
 {
   "name": "carmel",
   "version": "0.3.0",
-  "environment": "next",
   "description": "The Carmel Platform",
   "productName": "Carmel",
   "main": "node_modules/react-electron-chunky/lib",
