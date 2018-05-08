@@ -109,7 +109,7 @@
           { "onSuccess": "gotContext" }
         ],
         "redeem": [
-          "firebase://create/tokens/redeem#redeem",
+          "rest://create/tokens/redeem#redeem",
           { "onSuccess": "redeemOk", "onError": "redeemError" }
         ],
         "credits": [
@@ -128,7 +128,7 @@
       "post://transactions#checkTransactions",
       "post://purchases#newPurchase",
       "post://claims#newClaim",
-      "post://reedeem#redeem",
+      "post://redeem#redeem",
       "get://credits#credits"
     ],
     "dependencies": {},
