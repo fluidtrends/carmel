@@ -31,11 +31,13 @@ export default class PrivateTokensScreen extends Screen {
   }
 
   onRedeem () {
+    console.log('REDEEM')
     this.setState({ redeeming: true })
     this.props.redeem()
   }
 
   redeemOk (data) {
+    console.log(data)
     this.setState({ redeeming: false })
   }
 
