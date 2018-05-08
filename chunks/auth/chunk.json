@@ -46,7 +46,11 @@
       "operations": {
         "login": [
           "firebase://login",
-          { "onSuccess": "login", "onError": "loginError" }
+          { "onSuccess": "loginOk", "onError": "loginError" }
+        ],
+        "redeem": [
+          "rest://create/auth/credits#redeem",
+          { "onSuccess": "redeemOk", "onError": "redeemError" }
         ]
       }
     },
