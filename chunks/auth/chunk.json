@@ -21,10 +21,6 @@
         "register": [
           "firebase://register",
           { "onSuccess": "registerOk", "onError": "registerError" }
-        ],
-        "redeem": [
-          "rest://create/auth/credits#redeem",
-          { "onSuccess": "redeemOk", "onError": "redeemError" }
         ]
       }
     },
@@ -46,11 +42,7 @@
       "operations": {
         "login": [
           "firebase://login",
-          { "onSuccess": "loginOk", "onError": "loginError" }
-        ],
-        "redeem": [
-          "rest://create/auth/credits#redeem",
-          { "onSuccess": "redeemOk", "onError": "redeemError" }
+          { "onSuccess": "login", "onError": "loginError" }
         ]
       }
     },
@@ -94,14 +86,5 @@
         ]
       }
     }
-  },
-  "service": {
-    "functions": [
-      "post://credits#redeem"
-    ],
-    "dependencies": {},
-    "requiredFields": {},
-    "permissions": {},
-    "schedule": {}
   }
 }
