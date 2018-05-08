@@ -15,14 +15,50 @@ export default class PrivateTokensScreen extends Screen {
     this.state = { ...this.state, transactions: [], purchases: [] }
     this._renderTransactionItem = this.renderTransactionItem.bind(this)
     this._onTransactionsVerify = this.onTransactionsVerify.bind(this)
+    this._onRedeem = this.onRedeem.bind(this)
   }
 
   componentDidMount () {
     super.componentDidMount()
+
+    setTimeout(() => {
+      this.props.credits()
+    }, 300)
   }
 
   componentWillUnmount () {
     super.componentWillMount()
+  }
+
+  onRedeem () {
+    this.setState({ redeeming: true })
+    this.props.redeem()
+  }
+
+  redeemOk (data) {
+    this.setState({ redeeming: false })
+  }
+
+  redeemError (error) {
+    this.setState({ redeeming: false, redeemingError: error })
+  }
+
+  creditsOk (credits) {
+    if (!credits || !credits.data || credits.data.length === 0) {
+      return
+    }
+
+    var total = 0
+    if (!Array.isArray(credits.data)) {
+      total = credits.data.tokens
+    } else {
+      credits.data.map(c => (total = total + c.tokens))
+    }
+
+    this.setState({ credits: total })
+  }
+
+  creditsError () {
   }
 
   transactionVerifiedOk (data) {
@@ -134,6 +170,20 @@ export default class PrivateTokensScreen extends Screen {
     </Card>
   }
 
+  renderReedem () {
+    if (!this.state.credits) {
+      return <div />
+    }
+    return <div>
+      <Typography use='subheading2' tag='h2'>
+        Found { this.state.credits.toLocaleString('en') } CARMEL credits.
+      <Button onClick={this._onRedeem}>
+        Redeem Them Now
+      </Button>
+      </Typography>
+    </div>
+  }
+
   renderMainContent () {
     if (this.state.verifying) {
       return <Components.Loading message='Verifying, please hold on a sec ...' />
@@ -155,6 +205,7 @@ export default class PrivateTokensScreen extends Screen {
           wallet={this.state.wallet}
           account={this.account} />
       </Card>
+      { this.renderReedem() }
 
       <Checkout
         account={this.account}

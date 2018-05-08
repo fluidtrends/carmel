@@ -59,18 +59,6 @@ export default class LoginScreen extends Screen {
     this.triggerRedirect('/register')
   }
 
-  loginOk (account) {
-    this.props.onUserLoggedIn(account).then(() => this.props.redeem())
-  }
-
-  redeemOk (account) {
-    // this.login(account)
-  }
-
-  redeemError () {
-    // this.redeemOk()
-  }
-
   resetPassword () {
     this.triggerRedirect('/reset')
   }
