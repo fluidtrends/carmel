@@ -20,6 +20,7 @@ const CarmelPaymentMethods = { metamask: 'MetaMask', mew: 'MyEtherWallet' }
 const CarmelIncrement = 100
 const CarmelMax = 100
 const CarmelStart = 50
+const CarmelPrice = 0.5
 
 export default class CheckoutComponent extends Component {
   constructor (props) {
@@ -179,7 +180,7 @@ export default class CheckoutComponent extends Component {
   fetchPricing () {
     return fetch(CoinMarketCapAPI)
           .then(response => response.json())
-          .then(rates => ({ ethereumRate: rates[0], tokenPrice: 0.40 }))
+          .then(rates => ({ ethereumRate: rates[0], tokenPrice: CarmelPrice }))
   }
 
   get email () {
@@ -425,34 +426,6 @@ export default class CheckoutComponent extends Component {
     </div>
   }
 
-  renderPaymentPurchaseKey () {
-    if (!this.props.transaction) {
-      return <div />
-    }
-
-    const purchaseKey = this.props.transaction.data.purchaseKey
-    return <Typography use='subheading2' tag='h1' style={{ marginLeft: '20px', textAlign: 'left' }}>
-      <ChipSet>
-        <Chip
-          style={{
-            border: '1px #e7e7e7 solid',
-            height: '38px',
-            padding: '10px',
-            margin: '5px',
-            backgroundColor: '#ffffff',
-            color: '#66BB6A'
-          }}>
-          <ChipText style={{color: '#546E7A', marginRight: '10px'}}>
-            <strong> Purchase Key: </strong>
-          </ChipText>
-          <ChipText>
-            <strong> { purchaseKey } </strong>
-          </ChipText>
-        </Chip>
-      </ChipSet>
-    </Typography>
-  }
-
   renderPrice () {
     const addressETH = '0x4E52e804905CC320BF631523a9cb1416B8d613Fb'
     const priceETH = this.state.nextLevelPrice
@@ -495,29 +468,6 @@ export default class CheckoutComponent extends Component {
               </ChipText>
               <ChipText>
                 <strong> { priceCARMEL } CARMEL </strong>
-              </ChipText>
-            </Chip>
-          </ChipSet>
-        </Typography>
-
-        { this.renderPaymentPurchaseKey() }
-
-        <Typography use='subheading2' tag='h1' style={{ marginLeft: '20px', textAlign: 'left' }}>
-          <ChipSet>
-            <Chip
-              style={{
-                border: '1px #e7e7e7 solid',
-                height: '38px',
-                padding: '10px',
-                margin: '5px',
-                backgroundColor: '#ffffff',
-                color: '#66BB6A'
-              }}>
-              <ChipText style={{color: '#546E7A', marginRight: '10px'}}>
-                <strong> Address: </strong>
-              </ChipText>
-              <ChipText>
-                <strong> { addressETH } </strong>
               </ChipText>
             </Chip>
           </ChipSet>

@@ -83,8 +83,12 @@ export default class RegisterScreen extends Screen {
     }, 300)
   }
 
-  registerOk (account) {
-    console.log(account)
+  registerOk () {
+    try {
+      window.location.reload(true)
+    } catch (error) {
+      this.triggerRedirect('/me')
+    }
   }
 
   registerError (error) {

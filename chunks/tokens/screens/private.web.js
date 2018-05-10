@@ -2,7 +2,7 @@ import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
 import { Card } from 'rmwc/Card'
 import UserInfo from '../../auth/components/userInfo'
-import { Checkout } from '../components'
+import { Checkout, Claim } from '../components'
 import { Button } from 'rmwc/Button'
 import { Typography } from 'rmwc/Typography'
 import { List, Icon } from 'antd'
@@ -15,14 +15,52 @@ export default class PrivateTokensScreen extends Screen {
     this.state = { ...this.state, transactions: [], purchases: [] }
     this._renderTransactionItem = this.renderTransactionItem.bind(this)
     this._onTransactionsVerify = this.onTransactionsVerify.bind(this)
+    this._onRedeem = this.onRedeem.bind(this)
   }
 
   componentDidMount () {
     super.componentDidMount()
+
+    setTimeout(() => {
+      this.props.credits()
+    }, 300)
   }
 
   componentWillUnmount () {
     super.componentWillMount()
+  }
+
+  onRedeem () {
+    console.log('REDEEM')
+    this.setState({ redeeming: true })
+    this.props.redeem()
+  }
+
+  redeemOk (data) {
+    console.log(data)
+    this.setState({ redeeming: false })
+  }
+
+  redeemError (error) {
+    this.setState({ redeeming: false, redeemingError: error })
+  }
+
+  creditsOk (credits) {
+    if (!credits || !credits.data || credits.data.length === 0) {
+      return
+    }
+
+    var total = 0
+    if (!Array.isArray(credits.data)) {
+      total = credits.data.tokens
+    } else {
+      credits.data.map(c => (total = total + c.tokens))
+    }
+
+    this.setState({ credits: total })
+  }
+
+  creditsError () {
   }
 
   transactionVerifiedOk (data) {
@@ -47,6 +85,10 @@ export default class PrivateTokensScreen extends Screen {
 
   getTransactionsSuccess (transactions) {
     this.setState({ transactions: transactions.filter(t => !Array.isArray(t)) })
+  }
+
+  getWalletSuccess (wallet) {
+    this.setState({ wallet: wallet[0] })
   }
 
   renderTransactionItem (item) {
@@ -130,6 +172,20 @@ export default class PrivateTokensScreen extends Screen {
     </Card>
   }
 
+  renderReedem () {
+    if (!this.state.credits) {
+      return <div />
+    }
+    return <div>
+      <Typography use='subheading2' tag='h2'>
+        Found { this.state.credits.toLocaleString('en') } CARMEL credits.
+      <Button onClick={this._onRedeem}>
+        Redeem Them Now
+      </Button>
+      </Typography>
+    </div>
+  }
+
   renderMainContent () {
     if (this.state.verifying) {
       return <Components.Loading message='Verifying, please hold on a sec ...' />
@@ -147,8 +203,11 @@ export default class PrivateTokensScreen extends Screen {
         alignItems: 'center'
       }}>
       <Card style={{ width, margin: '10px', padding }}>
-        <UserInfo />
+        <UserInfo
+          wallet={this.state.wallet}
+          account={this.account} />
       </Card>
+      { this.renderReedem() }
 
       <Checkout
         account={this.account}
@@ -158,6 +217,12 @@ export default class PrivateTokensScreen extends Screen {
 
       { this.renderTransactionHistory(width, padding) }
 
+      <Claim
+        newClaim={this.props.newClaim}
+        claim={this.state.claim}
+        wallet={this.state.wallet}
+        ethereum={this.props.ethereum}
+        account={this.account} />
     </div>)
   }
 
@@ -171,6 +236,19 @@ export default class PrivateTokensScreen extends Screen {
   }
 
   transactionError (error) {
+    this.setState({ error: error.message })
+  }
+
+  claimOk (claim) {
+    if (claim.error) {
+      this.setState({ error: claim.error })
+      return
+    }
+
+    this.setState({ claim })
+  }
+
+  claimError (error) {
     this.setState({ error: error.message })
   }
 

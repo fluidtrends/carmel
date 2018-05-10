@@ -25,6 +25,10 @@
         "newTransaction": [
           "rest://create/tokens/purchases#newTransaction",
           { "onSuccess": "transactionOk", "onError": "transactionError" }
+        ],
+        "getContext": [
+          "firebase://retrieve/context?latest=1#freshContext",
+          { "onSuccess": "gotContext" }
         ]
       },
       "components": {
@@ -96,20 +100,41 @@
           "rest://create/tokens/transactions#checkTransactions",
           { "onSuccess": "transactionVerifiedOk", "onError": "transactionVerifiedError" }
         ],
+        "newClaim": [
+          "rest://create/tokens/claims#newClaim",
+          { "onSuccess": "claimOk", "onError": "claimError" }
+        ],
+        "getContext": [
+          "firebase://retrieve/context?latest=1#freshContext",
+          { "onSuccess": "gotContext" }
+        ],
+        "redeem": [
+          "rest://create/tokens/redeem#redeem",
+          { "onSuccess": "redeemOk", "onError": "redeemError" }
+        ],
+        "credits": [
+          "rest://retrieve/tokens/credits#credits",
+          { "onSuccess": "creditsOk", "onError": "creditsError" }
+        ],
         "getPurchases": "firebase://subscribe/users-purchases/:userId?latest=25&resolve=purchases#getPurchases",
-        "getTransactions": "firebase://subscribe/users-transactions/:userId?latest=100&resolve=transactions#getTransactions"
+        "getTransactions": "firebase://subscribe/users-transactions/:userId?latest=100&resolve=transactions#getTransactions",
+        "getWallet": "firebase://subscribe/users-wallets/:userId?latest=1&resolve=wallets#getWallet"
       },
-      "subscriptions": ["getPurchases", "getTransactions"]
+      "subscriptions": ["getPurchases", "getTransactions", "getWallet"]
     }
   },
   "service": {
     "functions": [
       "post://transactions#checkTransactions",
-      "post://purchases#newPurchase"
+      "post://purchases#newPurchase",
+      "post://claims#newClaim",
+      "post://redeem#redeem",
+      "get://credits#credits"
     ],
     "dependencies": {},
     "requiredFields": {
-      "newPurchase": ["email", "currency", "amount", "tokens", "price"]
+      "newPurchase": ["email", "currency", "amount", "tokens", "price"],
+      "newClaim": ["ethAddress", "eosBalance"]
     },
     "permissions": {
       "checkTransactions": ["ses:SendEmail"],
@@ -117,7 +142,7 @@
     },
     "schedule": {
       "checkTransactions": {
-        "enabled": false,
+        "enabled": true,
         "rate": "5 minutes"
       }
     }
