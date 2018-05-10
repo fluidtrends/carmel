@@ -55,6 +55,17 @@ If you don't have **Node.js** installed on your machine, simply download the lat
 
 [Download Node.js](https://nodejs.org/en/download/)
 
+**Windows build instructions**
+
+this command is useful for installing NVM
+```
+https://github.com/coreybutler/nvm-windows
+```
+this command is useful for installing Node
+```
+nvm install node
+```
+
 **Linux build instructions**
 
 This command is useful for installing NVM.
@@ -72,13 +83,12 @@ Finally, enter this command to install NodeJs:
 nvm install node
 ```
 
-
 **Windows Build Tools (Windows Only)**
 
 If your running Windows, the Chunky CLI also needs to have access to the Windows Build Tools. To install them, just run the following command in your terminal:
 
-```bash
-npm i -g windows-build-tools
+```
+npm i -g --add-python-to-path windows-build-tools
 ```
 
 ## Installing The Chunky CLI
