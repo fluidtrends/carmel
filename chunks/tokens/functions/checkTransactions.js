@@ -25,25 +25,32 @@ const createWallet = (userId, data) => {
 
 const getWallet = (userId) => {
   return new Promise((resolve, reject) => {
-    chunky.firebase.operation('retrieve', { key: `wallets/${userId}` })
-          .then((wallet) => ((!wallet || wallet.length === 0) ? resolve() : resolve(wallet)))
+    chunky.firebase.operation('retrieve', { key: `users-wallets/${userId}` })
+          .then((wallet) => chunky.firebase.operation('retrieve', { key: `wallets/${wallet._id}` }))
+          .then((wallet) => ((!wallet || (Array.isArray(wallet) && wallet.length === 0)) ? resolve() : resolve(wallet)))
           .catch(() => resolve())
   })
 }
 
-const updateWallet = (userId, tokens) => {
+const updateWallet = (transaction) => {
+  const userId = transaction.purchase.userId
+  const carmel = transaction.purchase.tokens
+  const xp = 0
+  const data = { carmel, xp }
+
   return getWallet(userId)
       .then((wallet) => {
         if (!wallet) {
-          return createWallet(userId, { tokens })
+          return createWallet(userId, data)
         }
 
-        return chunky.firebase.operation('update', { key: `wallets/${userId}`, tokens: (wallet.tokens + tokens) })
+        return chunky.firebase.operation('update', { key: `wallets/${wallet._id}`, carmel: (wallet.carmel + data.carmel) })
+              .then(() => chunky.firebase.operation('update', { key: `users-wallets/${userId}`, timestamp: Date.now() }))
       })
 }
 
 const createTransaction = ({ userId, data }) => {
-  var transaction = Object.assign({}, {
+  const transaction = Object.assign({}, {
     node: 'transactions'
   }, data, {
     userId,
@@ -57,15 +64,28 @@ const createTransaction = ({ userId, data }) => {
   return chunky.firebase.operation('add', transaction)
 }
 
+const createGuestTransaction = ({ data }) => {
+  const transaction = Object.assign({}, {
+    node: 'guesttransactions'
+  }, data)
+
+  return chunky.firebase.operation('create', transaction)
+}
+
 const updatePurchase = (transaction) => {
   const data = Object.assign({}, transaction.data, transaction.purchase)
-  const tokens = transaction.purchase.tokens
+
+  if (!transaction.purchase.userId) {
+    return chunky.firebase.operation('remove', { key: `purchases/${transaction.purchase._id}` })
+          .then(() => chunky.firebase.operation('remove', { key: `purchasekeys/${transaction.purchaseKey._id}` }))
+          .then(() => createGuestTransaction({ data }))
+  }
 
   return chunky.firebase.operation('remove', { key: `purchases/${transaction.purchase._id}` })
         .then(() => chunky.firebase.operation('remove', { key: `purchasekeys/${transaction.purchaseKey._id}` }))
         .then(() => chunky.firebase.operation('remove', { key: `users-purchases/${transaction.purchase.userId}/${transaction.purchase._id}` }))
         .then(() => createTransaction({ userId: transaction.purchase.userId, data }))
-        .then(() => updateWallet({ userId: transaction.purchase.userId, tokens }))
+        .then(() => updateWallet(transaction))
 }
 
 const getPurchases = () => {
@@ -81,13 +101,7 @@ const getPurchaseKeys = (purchases) => {
   .then((purchasekeys) => ({ purchases, purchasekeys }))
 }
 
-const updateAdmin = (data) => {
-  return chunky.firebase.operation('update', Object.assign({}, {
-    key: 'purchases/_admin'
-  }, data))
-}
-
-const filterTransactions = (transactions, admin) => {
+const filterTransactions = (transactions) => {
   if (!transactions || transactions.length === 0) {
     return []
   }
@@ -95,19 +109,6 @@ const filterTransactions = (transactions, admin) => {
   var newTransactions = []
   transactions.forEach(transaction => {
     var purchaseKey = Buffer.from(transaction.input.substring(2), 'hex').toString()
-    var skip = false
-
-    if (admin.lastEthereumTransactionHashes) {
-      admin.lastEthereumTransactionHashes.forEach(last => {
-        if (last.hash === transaction.hash) {
-          skip = true
-        }
-      })
-    }
-
-    if (skip) {
-      return
-    }
 
     if (purchaseKey.substring(0, 6).toLowerCase() === 'carmel') {
       newTransactions.push(Object.assign({}, transaction, { purchaseKey }))
@@ -118,19 +119,8 @@ const filterTransactions = (transactions, admin) => {
 }
 
 const getTransactions = (purchases, purchasekeys, config) => {
-  var admin = Object.assign({}, purchases)
-
-  if (Array.isArray(purchases)) {
-    purchases.forEach(purchase => {
-      if (purchase._id === '_admin') {
-        admin = Object.assign({}, purchase)
-      }
-    })
-  }
-
-  const startBlock = admin.lastEthereumTransaction.blockNumber
-  return chunky.etherscan.transactions(config.settings.etherscan.apiKey, { address, total, startBlock })
-               .then((transactions) => filterTransactions(transactions, admin))
+  return chunky.etherscan.transactions(config.settings.etherscan.apiKey, { address, total })
+               .then((transactions) => filterTransactions(transactions))
                .then((transactions) => ({ transactions, purchases, purchasekeys }))
 }
 
@@ -144,42 +134,38 @@ const verifyTransactions = ({ purchases, purchasekeys, transactions, config }) =
   if (!expectedPurchaseKeys || expectedPurchaseKeys.length === 0) {
     // No expected keys
     return Promise.resolve({
-      message: 'No expected transactions'
+      message: 'No pending purchases'
     })
   }
 
   var expectedTransactions = []
   expectedPurchaseKeys.forEach(expectedPurchaseKey => {
     transactions.forEach(transaction => {
-      if (Base64.decode(transaction.purchaseKey.substring(6)) === expectedPurchaseKey._id) {
+      const decodedKey = Base64.decode(transaction.purchaseKey.substring(6))
+      if (decodedKey === expectedPurchaseKey._id) {
         try {
           const purchase = JSON.parse(chunky.cipher.decrypt(expectedPurchaseKey.data, config))
           expectedTransactions.push({ data: transaction, purchase, purchaseKey: expectedPurchaseKey })
-        } catch (e) {}
+        } catch (e) {
+        }
       }
     })
   })
 
   if (expectedTransactions.length === 0) {
     return Promise.resolve({
-      message: 'No expected transactions'
+      message: `Found no expected transactions out of ${transactions.length} total.`
     })
   }
 
   const updates = expectedTransactions.map(expectedTransaction => updatePurchase(expectedTransaction))
-  const lastEthereumTransactionHashes = transactions.map(transaction => ({
-    hash: transaction.hash
-  }))
-
   const lastEthereumTransaction = transactions[0]
 
   return Promise.all(updates)
-                .then(() => updateAdmin({ lastEthereumTransaction, lastEthereumTransactionHashes }))
                 .then(() => ({
                   expectedTransactions,
                   lastEthereumTransaction,
-                  lastEthereumTransactionHashes,
-                  message: `${transactions.length} new transactions found.`
+                  message: `${expectedTransactions.length} new transactions found.`
                 }))
 }
 

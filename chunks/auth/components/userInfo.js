@@ -12,15 +12,40 @@ export default class UserInfoComponent extends Component {
   }
 
   get tokens () {
-    return 1000
+    return (this.props.wallet ? this.props.wallet.carmel : 0) + (this.props.account.user.tokens || 0)
   }
 
   get name () {
-    return 'I. Dan Calinescu'
+    return this.props.account.user.name
   }
 
   get xp () {
     return 0
+  }
+
+  renderTokens () {
+    if (this.props.skipWallet) {
+      return <div />
+    }
+
+    return <Typography use='subheading1' tag='h1'>
+      <ChipSet>
+        <Chip style={{ backgroundColor: '#F5F5F5' }}>
+          <ChipIcon style={{ color: '#66BB6A' }} leading use={`stars`} />
+          <ChipText>
+            {this.tokens.toLocaleString('en')} CARMEL
+            </ChipText>
+        </Chip>
+      </ChipSet>
+      <ChipSet>
+        <Chip style={{ backgroundColor: '#ffffff' }}>
+          <ChipIcon style={{ color: '#1E88E5' }} leading use={`terrain`} />
+          <ChipText style={{ color: '#1E88E5' }}>
+            {this.xp.toLocaleString('en')} CARMEL XP
+            </ChipText>
+        </Chip>
+      </ChipSet>
+    </Typography>
   }
 
   render () {
@@ -57,24 +82,7 @@ export default class UserInfoComponent extends Component {
           }}>
           {this.name}
         </Typography>
-        <Typography use='subheading1' tag='h1'>
-          <ChipSet>
-            <Chip style={{ backgroundColor: '#F5F5F5' }}>
-              <ChipIcon style={{ color: '#66BB6A' }} leading use={`stars`} />
-              <ChipText>
-                {this.tokens.toLocaleString('en')} CARMEL
-                </ChipText>
-            </Chip>
-          </ChipSet>
-          <ChipSet>
-            <Chip style={{ backgroundColor: '#ffffff' }}>
-              <ChipIcon style={{ color: '#1E88E5' }} leading use={`terrain`} />
-              <ChipText style={{ color: '#1E88E5' }}>
-                {this.xp.toLocaleString('en')} CARMEL XP
-                </ChipText>
-            </Chip>
-          </ChipSet>
-        </Typography>
+        { this.renderTokens() }
       </div>
     )
   }

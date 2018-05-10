@@ -63,7 +63,7 @@ const sendPurchaseReport = ({ purchase, purchaseKey, config, account }) => {
   .then(() => ({
     message: `Waiting for transaction (${amount} ${currency}) ...`,
     status: `pending`,
-    purchaseKey: `CARMEL${Base64.encode(purchaseKey._id)}`
+    purchaseKey: '0x' + Buffer.from(`CARMEL${Base64.encode(purchaseKey._id)}`).toString('hex')
   }))
 }
 
