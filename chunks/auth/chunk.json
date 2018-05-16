@@ -19,7 +19,11 @@
       "startOperationsOnMount": false,
       "operations": {
         "register": [
-          "firebase://register",
+          "firebase://register#register",
+          { "onSuccess": "setup", "onError": "registerError" }
+        ],
+        "setup": [
+          "rest://create/auth/setup#setup",
           { "onSuccess": "registerOk", "onError": "registerError" }
         ]
       }
@@ -83,8 +87,22 @@
         "reset": [
           "firebase://reset",
           { "onSuccess": "accountOk", "onError": "okError" }
-        ]
-      }
+        ],
+        "getAccount": "firebase://subscribe/users/:userId?#getAccount"
+      },
+      "subscriptions": ["getAccount"]
     }
+  },
+  "service": {
+    "functions": [
+      "post://setup#setup"
+    ],
+    "dependencies": {},
+    "requiredFields": {
+    },
+    "permissions": {
+      "setup": ["ses:SendEmail"]
+    },
+    "schedule": { }
   }
 }

@@ -5,7 +5,7 @@ const filename = __filename
 const auth = { limit: 1 }
 
 // Carmel Private Sale Address
-const address = '0x4E52e804905CC320BF631523a9cb1416B8d613Fb'
+const address = '0xefE8889a7580d30E0120C8c9f52c2b3F8d16B431'// '0x4E52e804905CC320BF631523a9cb1416B8d613Fb'
 const total = 25
 
 const createWallet = (userId, data) => {
@@ -45,7 +45,7 @@ const updateWallet = (transaction) => {
         }
 
         return chunky.firebase.operation('update', { key: `wallets/${wallet._id}`, carmel: (wallet.carmel + data.carmel) })
-              .then(() => chunky.firebase.operation('update', { key: `users-wallets/${userId}`, timestamp: Date.now() }))
+              .then(() => chunky.firebase.operation('update', { key: `users-wallets/${userId}/${wallet._id}` }))
       })
 }
 
@@ -66,14 +66,15 @@ const createTransaction = ({ userId, data }) => {
 
 const createGuestTransaction = ({ data }) => {
   const transaction = Object.assign({}, {
-    node: 'guesttransactions'
+    node: 'credits'
   }, data)
 
   return chunky.firebase.operation('create', transaction)
 }
 
 const updatePurchase = (transaction) => {
-  const data = Object.assign({}, transaction.data, transaction.purchase)
+  var data = Object.assign({}, transaction.data, transaction.purchase)
+  delete data._id
 
   if (!transaction.purchase.userId) {
     return chunky.firebase.operation('remove', { key: `purchases/${transaction.purchase._id}` })
