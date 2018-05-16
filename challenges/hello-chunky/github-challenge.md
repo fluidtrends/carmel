@@ -16,7 +16,7 @@ You will need a lot of patience and google searching to solve it.
 * Wait for someone to merge your pull request
 * Celebrate your first pull request that you have made on github, and give a star to https://github.com/fluidtrends/carmel/ repo.
 
-## To comple this challenge your name should appear on the list below
-* AgentChris
+## Persons who complete the challenge
+* [AgentChris](https://github.com/AgentChris/)
 
 ### Congrtas don't forget to hit that start button on the carmel repo, it will help us a lot
