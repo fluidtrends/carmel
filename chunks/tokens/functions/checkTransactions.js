@@ -38,15 +38,12 @@ const updateWallet = (transaction) => {
   const xp = 0
   const data = { carmel, xp }
 
-  return getWallet(userId)
-      .then((wallet) => {
-        if (!wallet) {
-          return createWallet(userId, data)
-        }
+  return getWallet(userId).then((wallet) => {
+    const start = (wallet ? Promise.resolve() : createWallet(userId, data))
 
-        return chunky.firebase.operation('update', { key: `wallets/${wallet._id}`, carmel: (wallet.carmel + data.carmel) })
-              .then(() => chunky.firebase.operation('update', { key: `users-wallets/${userId}/${wallet._id}` }))
-      })
+    return start.then(() => chunky.firebase.operation('update', { key: `wallets/${wallet._id}`, carmel: (wallet.carmel + data.carmel) }))
+                .then(() => chunky.firebase.operation('update', { key: `users-wallets/${userId}/${wallet._id}`, timestamp: `${Date.now()}` }))
+  })
 }
 
 const createTransaction = ({ userId, data }) => {
@@ -72,7 +69,42 @@ const createGuestTransaction = ({ data }) => {
   return chunky.firebase.operation('create', transaction)
 }
 
-const updatePurchase = (transaction) => {
+const sendTransactionReport = ({ transaction, guest, config }) => {
+  const email = transaction.purchase.email
+  const amount = transaction.purchase.amount
+  const currency = transaction.purchase.currency
+
+  const text = Object.keys(transaction).map(key => `${key}: ${transaction[key]}`).join('\n')
+  const html = Object.keys(transaction).map(key => `${key}: <strong>${transaction[key]}</strong>`).join('<br/>')
+  const subject = `New ${amount} ${currency} ${guest ? 'member' : 'guest'} purchase from ${email}`
+
+  const userHeader = (guest ? `You just got your Carmel Tokens. Awesome! To redeem them, just create a carmel.io account with this email address.` : `Enjoy your new Carmel Tokens!`)
+  const userFields = { status: 'Purchase complete.', amount: transaction.purchase.amount, currency: transaction.purchase.currency.toUpperCase(), tokens: transaction.purchase.tokens.toLocaleString('en') }
+  const textUser = `${userHeader}\n\n` + Object.keys(userFields).map(key => `${key}: ${userFields[key]}`).join('\n')
+  const htmlUser = `${userHeader}<br/><br/>` + Object.keys(userFields).map(key => `${key}: <strong>${userFields[key]}</strong>`).join('<br/>')
+  const subjectUser = `Woohoo - purchase complete (${transaction.purchase.tokens.toLocaleString('en')} CARMEL).`
+
+  return chunky.emailer.send({
+    to: config.settings.adminEmails,
+    from: 'team@carmel.io',
+    subject,
+    text,
+    html
+  })
+  .then(() => chunky.emailer.send({
+    to: [email],
+    from: 'team@carmel.io',
+    subject: subjectUser,
+    text: textUser,
+    html: htmlUser
+  }))
+  .then(() => ({
+    message: `Purchase complete (${amount} ${currency}).`,
+    status: `done`
+  }))
+}
+
+const updatePurchase = (transaction, config) => {
   var data = Object.assign({}, transaction.data, transaction.purchase)
   delete data._id
 
@@ -80,12 +112,14 @@ const updatePurchase = (transaction) => {
     return chunky.firebase.operation('remove', { key: `purchases/${transaction.purchase._id}` })
           .then(() => chunky.firebase.operation('remove', { key: `purchasekeys/${transaction.purchaseKey._id}` }))
           .then(() => createGuestTransaction({ data }))
+          .then(() => sendTransactionReport({ transaction, guest: true }))
   }
 
   return chunky.firebase.operation('remove', { key: `purchases/${transaction.purchase._id}` })
         .then(() => chunky.firebase.operation('remove', { key: `purchasekeys/${transaction.purchaseKey._id}` }))
         .then(() => chunky.firebase.operation('remove', { key: `users-purchases/${transaction.purchase.userId}/${transaction.purchase._id}` }))
         .then(() => createTransaction({ userId: transaction.purchase.userId, data }))
+        .then(() => sendTransactionReport({ transaction }))
         .then(() => updateWallet(transaction))
 }
 
@@ -159,7 +193,7 @@ const verifyTransactions = ({ purchases, purchasekeys, transactions, config }) =
     })
   }
 
-  const updates = expectedTransactions.map(expectedTransaction => updatePurchase(expectedTransaction))
+  const updates = expectedTransactions.map(expectedTransaction => updatePurchase(expectedTransaction, config))
   const lastEthereumTransaction = transactions[0]
 
   return Promise.all(updates)
