@@ -17,6 +17,7 @@ You will need a lot of patience and google searching to solve it.
 * Celebrate your first pull request that you have made on github, and give a star to https://github.com/fluidtrends/carmel/ repo.
 
 ## Persons who complete the challenge
+* [Iosif1234](https://github.com/Iosif1234)
 * [AgentChris](https://github.com/AgentChris/)
 
 ### Congrtas don't forget to hit that start button on the carmel repo, it will help us a lot
