@@ -1,7 +1,7 @@
 {
   "name": "Carmel",
   "template": "default",
-  "env": "production",
+  "env": "next",
   "id": "io.carmel",
   "androidSdkDir": "~/Library/Android/sdk",
   "sections": {
