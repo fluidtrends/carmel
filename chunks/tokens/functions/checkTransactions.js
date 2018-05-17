@@ -5,7 +5,7 @@ const filename = __filename
 const auth = { limit: 1 }
 
 // Carmel Private Sale Address
-const address = '0x4E52e804905CC320BF631523a9cb1416B8d613Fb'
+const address = '0xefE8889a7580d30E0120C8c9f52c2b3F8d16B431'// '0x4E52e804905CC320BF631523a9cb1416B8d613Fb'
 const total = 25
 
 const createWallet = (userId, data) => {
@@ -38,18 +38,78 @@ const updateWallet = (transaction) => {
   const xp = 0
   const data = { carmel, xp }
 
-  return getWallet(userId)
-      .then((wallet) => {
-        if (!wallet) {
-          return createWallet(userId, data)
-        }
+  return getWallet(userId).then((wallet) => {
+    const start = (wallet ? Promise.resolve() : createWallet(userId, data))
 
-        return chunky.firebase.operation('update', { key: `wallets/${wallet._id}`, carmel: (wallet.carmel + data.carmel) })
-              .then(() => chunky.firebase.operation('update', { key: `users-wallets/${userId}`, timestamp: Date.now() }))
-      })
+    return start.then(() => chunky.firebase.operation('update', { key: `wallets/${wallet._id}`, carmel: (wallet.carmel + data.carmel) }))
+                .then(() => chunky.firebase.operation('update', { key: `users-wallets/${userId}/${wallet._id}`, timestamp: `${Date.now()}` }))
+  })
 }
 
-const createTransaction = ({ userId, data }) => {
+const emailReport = ({ report, guest, config }) => {
+  const email = report.email
+  const amount = report.amount
+  const currency = report.currency
+
+  const userHeader = (guest ? `You just got your Carmel Tokens. Awesome! To redeem them, just create a carmel.io account with this email address.` : `Enjoy your new Carmel Tokens!`)
+  const userFields = { status: 'Purchase complete.', amount: report.amount, currency: report.currency.toUpperCase(), tokens: report.tokens.toLocaleString('en') }
+  const textUser = `${userHeader}\n\n` + Object.keys(userFields).map(key => `${key}: ${userFields[key]}`).join('\n')
+  const htmlUser = `${userHeader}<br/><br/>` + Object.keys(userFields).map(key => `${key}: <strong>${userFields[key]}</strong>`).join('<br/>')
+  const subjectUser = `Woohoo - purchase complete (${report.tokens.toLocaleString('en')} CARMEL).`
+
+  return chunky.emailer.send({
+    to: [email],
+    from: config.settings.fromEmail,
+    subject: subjectUser,
+    text: textUser,
+    html: htmlUser
+  })
+  .then(() => ({
+    message: `Purchase complete (${amount} ${currency}).`,
+    status: `done`
+  }))
+}
+
+const createTransactionReport = ({ userId, data, config }) => {
+  const userMessage = `${data.tokens.toLocaleString('en')} Carmel Tokens`
+  const systemMessage = `${data.tokens.toLocaleString('en')} Carmel Tokens were just added to ${data.email}`
+
+  const report = Object.assign({}, {
+    node: 'events',
+    type: 'tokens',
+    email: data.email,
+    userId,
+    systemMessage,
+    userMessage
+  }, {
+    join: {
+      users: {
+        id: userId
+      }
+    }
+  })
+
+  return chunky.firebase.operation('add', report)
+         .then((result) => emailReport({ report: data, config }))
+}
+
+const createGuestTransactionReport = ({ data, config }) => {
+  const userMessage = `${data.tokens.toLocaleString('en')} Carmel Credits`
+  const systemMessage = `${data.tokens.toLocaleString('en')} Carmel Credits are waiting for ${data.email}`
+
+  const report = Object.assign({}, {
+    node: 'events',
+    type: 'credits',
+    email: data.email,
+    systemMessage,
+    userMessage
+  })
+
+  return chunky.firebase.operation('create', report)
+         .then((result) => emailReport({ report: data, config }))
+}
+
+const createTransaction = ({ userId, data, config }) => {
   const transaction = Object.assign({}, {
     node: 'transactions'
   }, data, {
@@ -62,29 +122,39 @@ const createTransaction = ({ userId, data }) => {
   })
 
   return chunky.firebase.operation('add', transaction)
+         .then(() => createTransactionReport({ userId, data, config }))
 }
 
-const createGuestTransaction = ({ data }) => {
+const createGuestTransaction = ({ data, config }) => {
   const transaction = Object.assign({}, {
-    node: 'guesttransactions'
+    node: 'credits'
   }, data)
 
   return chunky.firebase.operation('create', transaction)
+         .then((result) => createGuestTransactionReport({ data, config }))
 }
 
-const updatePurchase = (transaction) => {
-  const data = Object.assign({}, transaction.data, transaction.purchase)
+const updatePurchase = (transaction, config) => {
+  var data = Object.assign({}, {
+    blockHash: transaction.data.blockHash,
+    hash: transaction.data.hash,
+    from: transaction.data.from,
+    isError: transaction.data.isError,
+    txreceipt_status: transaction.data.txreceipt_status
+  }, transaction.purchase)
+  delete data._id
+  delete data.timestamp
 
   if (!transaction.purchase.userId) {
     return chunky.firebase.operation('remove', { key: `purchases/${transaction.purchase._id}` })
           .then(() => chunky.firebase.operation('remove', { key: `purchasekeys/${transaction.purchaseKey._id}` }))
-          .then(() => createGuestTransaction({ data }))
+          .then(() => createGuestTransaction({ data, config }))
   }
 
   return chunky.firebase.operation('remove', { key: `purchases/${transaction.purchase._id}` })
         .then(() => chunky.firebase.operation('remove', { key: `purchasekeys/${transaction.purchaseKey._id}` }))
         .then(() => chunky.firebase.operation('remove', { key: `users-purchases/${transaction.purchase.userId}/${transaction.purchase._id}` }))
-        .then(() => createTransaction({ userId: transaction.purchase.userId, data }))
+        .then(() => createTransaction({ userId: transaction.purchase.userId, data, config }))
         .then(() => updateWallet(transaction))
 }
 
@@ -158,7 +228,7 @@ const verifyTransactions = ({ purchases, purchasekeys, transactions, config }) =
     })
   }
 
-  const updates = expectedTransactions.map(expectedTransaction => updatePurchase(expectedTransaction))
+  const updates = expectedTransactions.map(expectedTransaction => updatePurchase(expectedTransaction, config))
   const lastEthereumTransaction = transactions[0]
 
   return Promise.all(updates)

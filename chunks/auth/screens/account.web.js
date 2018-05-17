@@ -19,6 +19,18 @@ export default class AccountScreen extends Screen {
     super.componentDidMount()
   }
 
+  subscriptionArgs (subscription) {
+    if (!subscription) {
+      return {}
+    }
+
+    return { userId: this.account.user.uid }
+  }
+
+  getAccountSuccess (account) {
+    this.login(account)
+  }
+
   onProfileItemEdit (item) {
     console.log(item)
   }

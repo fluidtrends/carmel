@@ -13,7 +13,7 @@ import { Form, Input, Icon } from 'antd'
 
 const FormItem = Form.Item
 
-const CarmelETHAddress = `0x4E52e804905CC320BF631523a9cb1416B8d613Fb`
+const CarmelETHAddress = '0xefE8889a7580d30E0120C8c9f52c2b3F8d16B431'// `0x4E52e804905CC320BF631523a9cb1416B8d613Fb`
 const MyEtherWalletUrl = `https://www.myetherwallet.com`
 const CoinMarketCapAPI = `https://api.coinmarketcap.com/v1/ticker/ethereum/?convert=USD`
 const CarmelPaymentMethods = { metamask: 'MetaMask', mew: 'MyEtherWallet' }
@@ -32,6 +32,7 @@ export default class CheckoutComponent extends Component {
     this._send = this.send.bind(this)
     this._back = this.back.bind(this)
     this._updatePayMethod = this.updatePayMethod.bind(this)
+    this._status = this.status.bind(this)
   }
 
   componentDidMount () {
@@ -140,7 +141,7 @@ export default class CheckoutComponent extends Component {
     })
   }
 
-  couldNotSendEther (error) {
+  couldNotSendEther () {
     this.setState({ sending: false, error: 'The transaction was not successful. Please try again.' })
   }
 
@@ -205,7 +206,7 @@ export default class CheckoutComponent extends Component {
   }
 
   back () {
-    this.setState({ waiting: false, error: '' })
+    this.setState({ waiting: false, sending: false, error: '', ethereumTransactionHash: '' })
   }
 
   updatePayMethod (evt) {
@@ -389,26 +390,48 @@ export default class CheckoutComponent extends Component {
     </Typography>
   }
 
+  renderWaiting ({ message }) {
+    return <div style={{ padding: '4px', textAlign: 'center', marginBottom: '20px' }}>
+      <Icon type='check-circle-o' style={{
+        fontSize: '64px',
+        color: '#00bcd4',
+        padding: '10px'
+      }} />
+      <Typography use='title' tag='h1' >
+        { message }
+      </Typography>
+    </div>
+  }
+
+  status () {
+    this.props.triggerRawRedirect(`https://etherscan.io/tx/${this.state.ethereumTransactionHash}`)
+  }
+
   renderPaymentStatus () {
     if (this.state.payMethod === 'metamask') {
       if (!this.state.ethereumAddress) {
-        return <Components.Loading message='Please unlock your MetaMask to complete the transaction ...' />
+        return <Components.Loading message='Please unlock your MetaMask to complete the transaction.' />
       }
 
       if (this.state.ethereumTransactionHash) {
         return <div>
-          <Components.Loading message='Verifying your MetaMask Ethereum Transaction ...' />
-          <Typography use='caption' tag='h1' >
-            Transaction: <a href={`https://etherscan.io/tx/${this.state.ethereumTransactionHash}`}> { this.state.ethereumTransactionHash } </a>
+          { this.renderWaiting({ message: 'Transaction sent successfuly. Waiting for its verification.' }) }
+          <Typography use='caption' tag='h1' style={{ marginTop: '20px', marginBottom: '20px' }} >
+            <Button
+              onClick={this._status}
+              raised
+              style={{ marginTop: '0px', marginBottom: '20px' }}>
+            See Transaction Status
+          </Button>
           </Typography>
         </div>
       }
 
-      return <Components.Loading message='Verifying your MetaMask Ethereum Transaction ...' />
+      return <Components.Loading message='Please confirm the transaction in MetaMask.' />
     }
 
     if (this.state.payMethod === 'mew') {
-      return <Components.Loading message='Verifying your MyEtherWallet Ethereum Transaction ...' />
+      return this.renderWaiting({ message: 'Please complete the transaction with MyEtherWallet.' })
     }
 
     return <div />
@@ -436,7 +459,7 @@ export default class CheckoutComponent extends Component {
 
     if (this.isWaiting) {
       return <div>
-        <Typography use='subheading2' tag='h1' style={{ marginLeft: '20px', textAlign: 'left' }}>
+        <Typography use='subheading2' tag='h1' style={{ marginLeft: '20px', textAlign: 'center' }}>
           <ChipSet>
             <Chip
               style={{
