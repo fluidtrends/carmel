@@ -194,6 +194,26 @@ const getTransactions = (purchases, purchasekeys, config) => {
                .then((transactions) => ({ transactions, purchases, purchasekeys }))
 }
 
+const verifyPurchase = (purchase, purchases) => {
+  if (!purchase || !purchases) {
+    return
+  }
+
+  var found
+
+  purchases.forEach(p => {
+    if (p._id === purchase._id &&
+        p.price === purchase.price &&
+        p.email === purchase.email &&
+        p.currency === purchase.currency &&
+        p.amount === purchase.amount) {
+      found = Object.assign({}, p)
+    }
+  })
+
+  return found
+}
+
 const verifyTransactions = ({ purchases, purchasekeys, transactions, config }) => {
   if (!transactions || transactions.length === 0) {
     return Promise.resolve({ message: 'No new transactions found' })
@@ -209,21 +229,33 @@ const verifyTransactions = ({ purchases, purchasekeys, transactions, config }) =
   }
 
   var expectedTransactions = []
+  var decodedKeys = []
   expectedPurchaseKeys.forEach(expectedPurchaseKey => {
     transactions.forEach(transaction => {
       const decodedKey = Base64.decode(transaction.purchaseKey.substring(6))
+      var decodedKeyData = { expectedPurchaseKey }
       if (decodedKey === expectedPurchaseKey._id) {
+        decodedKeyData.decodedKey = decodedKey
+        decodedKeyData.found = true
         try {
           const purchase = JSON.parse(chunky.cipher.decrypt(expectedPurchaseKey.data, config))
-          expectedTransactions.push({ data: transaction, purchase, purchaseKey: expectedPurchaseKey })
+          const verified = verifyPurchase(purchase, purchases)
+          if (verified) {
+            expectedTransactions.push({ data: transaction, purchase: verified, purchaseKey: expectedPurchaseKey })
+            decodedKeyData.purchase = verified
+          }
         } catch (e) {
+          decodedKeyData.error = e
         }
       }
+      decodedKeys.push(decodedKeyData)
     })
   })
 
   if (expectedTransactions.length === 0) {
     return Promise.resolve({
+      expectedPurchaseKeys,
+      decodedKeys,
       message: `Found no expected transactions out of ${transactions.length} total.`
     })
   }
