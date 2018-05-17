@@ -108,14 +108,6 @@
           "firebase://retrieve/context?latest=1#freshContext",
           { "onSuccess": "gotContext" }
         ],
-        "redeem": [
-          "rest://create/tokens/redeem#redeem",
-          { "onSuccess": "redeemOk", "onError": "redeemError" }
-        ],
-        "credits": [
-          "rest://retrieve/tokens/credits#credits",
-          { "onSuccess": "creditsOk", "onError": "creditsError" }
-        ],
         "getPurchases": "firebase://subscribe/users-purchases/:userId?latest=25&resolve=purchases#getPurchases",
         "getTransactions": "firebase://subscribe/users-transactions/:userId?latest=100&resolve=transactions#getTransactions",
         "getWallet": "firebase://subscribe/users-wallets/:userId?latest=1&resolve=wallets#getWallet"
@@ -127,9 +119,7 @@
     "functions": [
       "post://transactions#checkTransactions",
       "post://purchases#newPurchase",
-      "post://claims#newClaim",
-      "post://redeem#redeem",
-      "get://credits#credits"
+      "post://claims#newClaim"
     ],
     "dependencies": {},
     "requiredFields": {
