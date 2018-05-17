@@ -36,10 +36,6 @@ const sendPurchaseReport = ({ purchase, purchaseKey, config, account }) => {
   const amount = purchase.amount
   const currency = purchase.currency
 
-  const text = Object.keys(purchase).map(key => `${key}: ${purchase[key]}`).join('\n')
-  const html = Object.keys(purchase).map(key => `${key}: <strong>${purchase[key]}</strong>`).join('<br/>')
-  const subject = `New ${amount} ${currency} purchase from ${email}`
-
   const userHeader = `Thanks for believing in Carmel. You will receive your new Carmel Tokens as soon as your transaction is verified.`
   const userFields = { status: 'Waiting for your transaction ...', amount: purchase.amount, currency: purchase.currency.toUpperCase(), tokens: purchase.tokens.toLocaleString('en') }
   const textUser = `${userHeader}\n\n` + Object.keys(userFields).map(key => `${key}: ${userFields[key]}`).join('\n')
@@ -47,19 +43,12 @@ const sendPurchaseReport = ({ purchase, purchaseKey, config, account }) => {
   const subjectUser = `Congrats on your new ${purchase.tokens.toLocaleString('en')} Carmel Tokens purchase`
 
   return chunky.emailer.send({
-    to: config.settings.adminEmails,
-    from: 'team@carmel.io',
-    subject,
-    text,
-    html
-  })
-  .then(() => chunky.emailer.send({
     to: [email],
-    from: 'team@carmel.io',
+    from: config.settings.fromEmail,
     subject: subjectUser,
     text: textUser,
     html: htmlUser
-  }))
+  })
   .then(() => ({
     message: `Waiting for transaction (${amount} ${currency}) ...`,
     status: `pending`,
