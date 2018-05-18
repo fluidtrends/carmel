@@ -6,7 +6,7 @@ const auth = { limit: 1 }
 
 // Carmel Private Sale Address
 const address = '0xefE8889a7580d30E0120C8c9f52c2b3F8d16B431'// '0x4E52e804905CC320BF631523a9cb1416B8d613Fb'
-const total = 25
+const total = 50
 
 const createWallet = (userId, data) => {
   var wallet = Object.assign({}, {
@@ -162,13 +162,15 @@ const getPurchases = () => {
   return chunky.firebase.operation('retrieve', Object.assign({}, {
     key: 'purchases'
   }))
+  .then((data) => (!Array.isArray(data) ? [data] : data))
 }
 
 const getPurchaseKeys = (purchases) => {
   return chunky.firebase.operation('retrieve', Object.assign({}, {
     key: 'purchasekeys'
   }))
-  .then((purchasekeys) => ({ purchases, purchasekeys }))
+  .then((data) => (!Array.isArray(data) ? [data] : data))
+  .then((purchaseKeys) => ({ purchases, purchaseKeys }))
 }
 
 const filterTransactions = (transactions) => {
@@ -188,13 +190,25 @@ const filterTransactions = (transactions) => {
   return newTransactions
 }
 
-const getTransactions = (purchases, purchasekeys, config) => {
+const getTransactions = (purchases, purchaseKeys, config) => {
   return chunky.etherscan.transactions(config.settings.etherscan.apiKey, { address, total })
                .then((transactions) => filterTransactions(transactions))
-               .then((transactions) => ({ transactions, purchases, purchasekeys }))
+               .then((transactions) => ({ transactions, purchases, purchaseKeys }))
 }
 
-const verifyPurchase = (purchase, purchases) => {
+const verifyPurchase = (purchase, original) => {
+  if (!purchase || !original) {
+    return false
+  }
+
+  return (original._id === purchase._id &&
+        original.price === purchase.price &&
+        original.email === purchase.email &&
+        original.currency === purchase.currency &&
+        original.amount === purchase.amount)
+}
+
+const findPurchase = (purchase, purchases) => {
   if (!purchase || !purchases) {
     return
   }
@@ -202,60 +216,65 @@ const verifyPurchase = (purchase, purchases) => {
   var found
 
   purchases.forEach(p => {
-    if (p._id === purchase._id &&
-        p.price === purchase.price &&
-        p.email === purchase.email &&
-        p.currency === purchase.currency &&
-        p.amount === purchase.amount) {
-      found = Object.assign({}, p)
+    if (p._id !== purchase._id) {
+      return
     }
+    found = Object.assign({}, p)
   })
 
   return found
 }
 
-const verifyTransactions = ({ purchases, purchasekeys, transactions, config }) => {
+const findTransaction = ({ purchaseKey, transactions, purchases, config }) => {
+  var transaction
+
+  transactions.forEach(t => {
+    const decodedKey = Base64.decode(t.purchaseKey.substring(6))
+
+    if (decodedKey !== purchaseKey._id) {
+      return
+    }
+
+    try {
+      const decodedData = chunky.cipher.decrypt(purchaseKey.data, config)
+      const purchase = JSON.parse(decodedData)
+      const original = findPurchase(purchase, purchases)
+      const verified = verifyPurchase(purchase, original)
+
+      if (verified) {
+        transaction = { data: t, purchase: original }
+      }
+    } catch (error) {
+    }
+  })
+
+  return transaction
+}
+
+const verifyTransactions = ({ purchases, purchaseKeys, transactions, config }) => {
   if (!transactions || transactions.length === 0) {
     return Promise.resolve({ message: 'No new transactions found' })
   }
 
-  const expectedPurchaseKeys = [].concat(Array.isArray(purchasekeys) ? purchasekeys : [purchasekeys])
-
-  if (!expectedPurchaseKeys || expectedPurchaseKeys.length === 0) {
-    // No expected keys
-    return Promise.resolve({
-      message: 'No pending purchases'
-    })
+  if (!purchaseKeys || purchaseKeys.length === 0) {
+    return Promise.resolve({ message: 'No pending purchases' })
   }
 
   var expectedTransactions = []
-  var decodedKeys = []
-  expectedPurchaseKeys.forEach(expectedPurchaseKey => {
-    transactions.forEach(transaction => {
-      const decodedKey = Base64.decode(transaction.purchaseKey.substring(6))
-      var decodedKeyData = { expectedPurchaseKey }
-      if (decodedKey === expectedPurchaseKey._id) {
-        decodedKeyData.decodedKey = decodedKey
-        decodedKeyData.found = true
-        try {
-          const purchase = JSON.parse(chunky.cipher.decrypt(expectedPurchaseKey.data, config))
-          const verified = verifyPurchase(purchase, purchases)
-          if (verified) {
-            expectedTransactions.push({ data: transaction, purchase: verified, purchaseKey: expectedPurchaseKey })
-            decodedKeyData.purchase = verified
-          }
-        } catch (e) {
-          decodedKeyData.error = e
-        }
-      }
-      decodedKeys.push(decodedKeyData)
-    })
+
+  purchaseKeys.forEach(purchaseKey => {
+    const transaction = findTransaction({ purchaseKey, transactions, config, purchases })
+
+    if (!transaction) {
+      return
+    }
+
+    expectedTransactions.push(transaction)
   })
 
   if (expectedTransactions.length === 0) {
     return Promise.resolve({
-      expectedPurchaseKeys,
-      decodedKeys,
+      expectedTransactions,
       message: `Found no expected transactions out of ${transactions.length} total.`
     })
   }
@@ -274,8 +293,8 @@ const verifyTransactions = ({ purchases, purchasekeys, transactions, config }) =
 function executor ({ event, chunk, config }) {
   return getPurchases()
         .then((purchases) => getPurchaseKeys(purchases))
-        .then(({ purchases, purchasekeys }) => getTransactions(purchases, purchasekeys, config))
-        .then(({ purchases, transactions, purchasekeys }) => verifyTransactions({ purchases, purchasekeys, transactions, config }))
+        .then(({ purchases, purchaseKeys }) => getTransactions(purchases, purchaseKeys, config))
+        .then(({ purchases, transactions, purchaseKeys }) => verifyTransactions({ purchases, purchaseKeys, transactions, config }))
 }
 
 module.exports.main = chunky.handler({ executor, filename, auth })
