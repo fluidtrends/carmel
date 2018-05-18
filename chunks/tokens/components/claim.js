@@ -95,6 +95,11 @@ export default class ClaimComponent extends Component {
 
   renderAction () {
     return <div>
+
+      <Typography use='title' style={{ color: '#90A4AE', marginTop: '5px' }} tag='h1'>
+      Your tokens will be available in your Carmel Wallet as soon as you verify your Carmel Account.
+    </Typography>
+
       <CardActions style={{
         marginTop: '20px',
         justifyContent: 'center'
