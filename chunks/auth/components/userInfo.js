@@ -13,7 +13,7 @@ const VerificationTypes = ['Email', 'Telegram', 'Twitter']
 export default class UserInfoComponent extends Component {
   constructor (props) {
     super(props)
-    this.state = { ...super.state, verification: 0 }
+    this.state = { ...super.state, verification: 1 }
     this._verify = this.verify.bind(this)
   }
 
@@ -24,12 +24,8 @@ export default class UserInfoComponent extends Component {
   }
 
   checkVerificationState () {
-    if (this.isEmailVerified && this.state.verification === 0) {
-      notification.success({
-        message: 'Email Verification Successful',
-        description: 'Awesome! Your email address was just verified.'
-      })
-      this.setState({ verification: 1 })
+    if (this.isEmailVerified && this.state.verification === 1) {
+      this.setState({ verification: 2 })
     }
   }
 
@@ -42,7 +38,7 @@ export default class UserInfoComponent extends Component {
   }
 
   get claimed () {
-    return 100
+    return (this.props.wallet ? (this.props.wallet.claimed || 0) : 0)
   }
 
   verify () {
@@ -60,7 +56,7 @@ export default class UserInfoComponent extends Component {
   }
 
   get isVerified () {
-    return this.state.verification >= 2
+    return this.state.verification >= 3
   }
 
   get isEmailVerified () {
@@ -87,7 +83,7 @@ export default class UserInfoComponent extends Component {
     if (this.state.verification > 0) {
       return <div style={{ marginTop: '10px', marginBottom: '30px' }}>
         <Typography use='subheading2' tag='h1' style={{ color: '#90A4AE', marginBottom: '30px' }}>
-          <strong> { VerificationTypes[this.state.verification] } </strong> verification process coming soon. Stay tuned!
+          <strong> { VerificationTypes[this.state.verification - 1] } </strong> verification process coming soon.
         </Typography>
       </div>
     }
@@ -105,7 +101,7 @@ export default class UserInfoComponent extends Component {
       <Typography use='subheading2' tag='h1' style={{ color: '#90A4AE', marginBottom: '30px' }}>
         Please verify your Carmel Account
       </Typography>
-      <Steps progressDot current={this.state.verification}>
+      <Steps progressDot current={this.state.verification - 1}>
         <Step title='Step 1' description='Email Verification' />
         <Step title='Step 2' description='Telegram Verification' />
         <Step title='Step 3' description='Twitter Verification' />
@@ -132,6 +128,22 @@ export default class UserInfoComponent extends Component {
     </Typography>
   }
 
+  renderClaimed () {
+    if (this.claimed === 0) {
+      return <div />
+    }
+
+    return <Tooltip placement='rightTop' title={ClaimMessage}>
+      <Chip style={{ backgroundColor: '#FAFAFA' }}>
+        <ChipIcon style={{ color: '#FF8F00' }} leading use={`report`} />
+        <ChipText style={{ color: '#FF8F00' }}>
+          {this.claimed.toLocaleString('en')} CARMEL
+        </ChipText>
+        <ChipIcon style={{ color: '#78909C' }} use={`help`} />
+      </Chip>
+    </Tooltip>
+  }
+
   renderTokens () {
     if (this.props.skipWallet) {
       return <div style={{
@@ -155,21 +167,14 @@ export default class UserInfoComponent extends Component {
               {this.tokens.toLocaleString('en')} CARMEL
             </ChipText>
           </Chip>
-          <Tooltip placement='rightTop' title={ClaimMessage}>
-            <Chip style={{ backgroundColor: '#FAFAFA' }}>
-              <ChipIcon style={{ color: '#FF8F00' }} leading use={`report`} />
-              <ChipText style={{ color: '#FF8F00' }}>
-                {this.claimed.toLocaleString('en')} CARMEL
-            </ChipText>
-              <ChipIcon style={{ color: '#78909C' }} use={`help`} />
-            </Chip>
-          </Tooltip>
+          { this.renderClaimed() }
         </ChipSet>
       </Typography>
     </div>
   }
 
   render () {
+    console.log('REM', this.state.verification)
     return (
       <div>
         <div
