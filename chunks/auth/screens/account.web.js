@@ -3,6 +3,7 @@ import { Screen } from 'react-dom-chunky'
 import { Card, CardActions, CardActionButtons } from 'rmwc/Card'
 import { Button } from 'rmwc/Button'
 import { List } from 'antd'
+import { Typography } from 'rmwc/Typography'
 
 import UserInfo from '../components/userInfo'
 
@@ -96,6 +97,9 @@ export default class AccountScreen extends Screen {
           </CardActionButtons>
         </CardActions>
       </Card>
+      <Typography use='caption' tag='h1' style={{ color: '#90A4AE', margin: '20px' }}>
+        * Please verify your Carmel Account before July 16, 2018 in order to redeem your claimed tokens.
+      </Typography>
     </div>)
   }
 

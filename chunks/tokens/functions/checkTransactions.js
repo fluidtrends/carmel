@@ -242,7 +242,7 @@ const findTransaction = ({ purchaseKey, transactions, purchases, config }) => {
       const verified = verifyPurchase(purchase, original)
 
       if (verified) {
-        transaction = { data: t, purchase: original }
+        transaction = { data: t, purchase: original, original, decodedData, verified, purchaseKey }
       }
     } catch (error) {
     }
@@ -274,7 +274,6 @@ const verifyTransactions = ({ purchases, purchaseKeys, transactions, config }) =
 
   if (expectedTransactions.length === 0) {
     return Promise.resolve({
-      expectedTransactions,
       message: `Found no expected transactions out of ${transactions.length} total.`
     })
   }
