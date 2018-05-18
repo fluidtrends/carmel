@@ -308,6 +308,17 @@
                     "https://www.linkedin.com/in/emanuel-tise-70559396/",
                   "text":
                     "github://fluidtrends/carmel/content/team/emanuel/README"
+                },
+                {
+                  "name": "Christian Poputea",
+                  "username": "emanuel",
+                  "title": "Web & Blockchain Developer",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/content/team/cristi/profile.jpeg",
+                  "linkedIn":
+                    "https://www.linkedin.com/in/christian-poputea-0a3b49122/",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/cristi/README"
                 }
               ]
             },
@@ -321,7 +332,7 @@
                   "image":
                     "https://github.com/fluidtrends/carmel/raw/content/team/paul-brie/profile.jpeg",
                   "linkedIn":
-                    "https:/>>>>>>> master/www.linkedin.com/in/paul-brie/",
+                    "https://master/www.linkedin.com/in/paul-brie/",
                   "text":
                     "github://fluidtrends/carmel/content/team/paul-brie/README"
                 },
@@ -356,6 +367,15 @@
                     "https://www.linkedin.com/in/gheorghe-lisca-51801b140/",
                   "text":
                     "github://fluidtrends/carmel/content/team/gheorghe/README"
+                },
+                {
+                  "name": "Roxana Nasoi",
+                  "username": "roxana",
+                  "title": "Blockchain Advisor",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/content/team/roxana/profile.jpg",
+                  "linkedIn": "https://www.linkedin.com/in/roxananasoi/",
+                  "text": "github://fluidtrends/carmel/content/team/roxana/README"
                 },
                 {
                   "name": "Vlad Negrean",
