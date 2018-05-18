@@ -132,7 +132,7 @@
     },
     "schedule": {
       "checkTransactions": {
-        "enabled": false,
+        "enabled": true,
         "rate": "5 minutes"
       }
     }
