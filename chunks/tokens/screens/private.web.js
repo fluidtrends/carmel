@@ -14,7 +14,6 @@ export default class PrivateTokensScreen extends Screen {
     super(props)
     this.state = { ...this.state, transactions: [], purchases: [] }
     this._renderTransactionItem = this.renderTransactionItem.bind(this)
-    this._onTransactionsVerify = this.onTransactionsVerify.bind(this)
   }
 
   componentDidMount () {
@@ -59,11 +58,6 @@ export default class PrivateTokensScreen extends Screen {
         description={item.details}
         title={item.title} />
     </List.Item>
-  }
-
-  onTransactionsVerify () {
-    this.setState({ verifying: true })
-    this.props.verifyTransactions()
   }
 
   renderTransactionItemActions (item) {
@@ -121,11 +115,7 @@ export default class PrivateTokensScreen extends Screen {
       }} />
       <Typography use='title' tag='h2'>
           Transactions History
-        </Typography>
-
-      <Button onClick={this._onTransactionsVerify}>
-        Verify All
-      </Button>
+      </Typography>
       <List
         style={{ marginTop: '20px' }}
         itemLayout='horizontal'
