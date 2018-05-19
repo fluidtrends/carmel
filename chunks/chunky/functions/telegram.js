@@ -4,10 +4,26 @@ const Telegraf = require('telegraf')
 const filename = __filename
 const auth = { limit: 1 }
 
-const executor = ({ event, chunk, config }) => {
-  const bot = new Telegraf(config.telegram.chunkyBot.token)
+var bot
 
-  return Promise.resolve({ bot })
+const setup = ({ token, webhookUrl }) => {
+  if (bot) {
+    // Already loaded
+    return
+  }
+
+  bot = new Telegraf(token, { webhookReply: true })
+  bot.telegram.setWebhook(webhookUrl)
+
+  bot.hears('hi', (ctx) => {
+    ctx.reply('Hey')
+  })
+}
+
+const executor = ({ event, chunk, config }) => {
+  setup(config.settings.telegram.chunkyBot)
+
+  return bot.handleUpdate(event.body)
 }
 
 module.exports.main = chunky.handler({ executor, filename, auth })

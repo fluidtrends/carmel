@@ -242,8 +242,8 @@ const findTransaction = ({ purchaseKey, transactions, purchases, config }) => {
       const original = findPurchase(purchase, purchases)
       const verified = verifyPurchase(purchase, original)
 
-      if (verified) {
-        transaction = { data: t, purchase: original, original, decodedData, verified, purchaseKey }
+      if (verified && (parseInt(t.isError) === 0)) {
+        transaction = { data: t, purchase: original, purchaseKey }
       }
     } catch (error) {
     }

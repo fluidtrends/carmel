@@ -11,7 +11,7 @@ import moment from 'moment'
 export default class PrivateTokensScreen extends Screen {
   constructor (props) {
     super(props)
-    this.state = { ...this.state, transactions: [], purchases: [] }
+    this.state = { ...this.state, transactions: [], purchases: [], claims: [] }
     this._renderTransactionItem = this.renderTransactionItem.bind(this)
   }
 
@@ -43,6 +43,10 @@ export default class PrivateTokensScreen extends Screen {
     this.setState({ purchases: purchases.filter(p => !Array.isArray(p)) })
   }
 
+  getClaimsSuccess (claims) {
+    this.setState({ claims: claims.filter(c => !Array.isArray(c)) })
+  }
+
   getTransactionsSuccess (transactions) {
     this.setState({ transactions: transactions.filter(t => !Array.isArray(t)) })
   }
@@ -54,6 +58,7 @@ export default class PrivateTokensScreen extends Screen {
   renderTransactionItem (item) {
     return <List.Item actions={this.renderTransactionItemActions(item)}>
       <List.Item.Meta
+        icon={item.icon}
         description={item.details}
         title={item.title} />
     </List.Item>
@@ -68,6 +73,19 @@ export default class PrivateTokensScreen extends Screen {
     )
   }
 
+  claimData (claim) {
+    if (!claim) {
+      return
+    }
+
+    return Object.assign({}, claim, {
+      title: `${claim.tokens.toLocaleString('en')} CARMEL`,
+      type: 'claim',
+      details: moment(claim.timestamp).format('MMM Do, YYYY h:mm a'),
+      actions: [{ id: 'verified', icon: 'report', title: 'Successful Claim' }]
+    })
+  }
+
   purchaseData (purchase) {
     if (!purchase) {
       return
@@ -77,7 +95,7 @@ export default class PrivateTokensScreen extends Screen {
       title: `${purchase.tokens.toLocaleString('en')} CARMEL`,
       type: 'purchase',
       details: moment(purchase.timestamp).format('MMM Do, YYYY h:mm a'),
-      actions: [{ id: 'unverified', icon: 'exclamation', title: 'Unverified' }]
+      actions: [{ id: 'unverified', icon: 'exclamation', title: 'Pending Purchase' }]
     })
   }
 
@@ -90,13 +108,15 @@ export default class PrivateTokensScreen extends Screen {
       title: `${transaction.tokens.toLocaleString('en')} CARMEL`,
       type: 'transaction',
       details: moment(transaction.timestamp).format('MMM Do, YYYY h:mm a'),
-      actions: [{ id: 'verified', icon: 'check', title: 'Verified' }]
+      actions: [{ id: 'verified', icon: 'check', title: 'Successful Purchase' }]
     })
   }
 
   get transactionsData () {
     return this.state.transactions.map(transaction => this.transactionData(transaction))
           .concat(this.state.purchases.map(purchase => this.purchaseData(purchase)))
+          .concat(this.state.claims.map(claim => this.claimData(claim)))
+          .sort((a, b) => a.timestamp < b.timestamp)
   }
 
   renderTransactionHistory (width, padding) {
@@ -156,9 +176,11 @@ export default class PrivateTokensScreen extends Screen {
       <Claim
         newClaim={this.props.newClaim}
         claim={this.state.claim}
+        loading={this.props.isDataLoading()}
         error={this.state.claimError}
         wallet={this.state.wallet}
         ethereum={this.props.ethereum}
+        claims={this.state.claims}
         account={this.account} />
     </div>)
   }
@@ -177,25 +199,24 @@ export default class PrivateTokensScreen extends Screen {
   }
 
   claimOk (claim) {
-    console.log('claim:', claim)
     if (claim.data && claim.data.error) {
       notification.error({
         message: 'Your Claim Request Failed',
         description: claim.data.error
       })
-      this.setState({ claimError: claim.data.error, verifying: false })
+      this.setState({ claim: '', claimError: claim.data.error })
       return
     }
 
     notification.success({
       message: 'Your Claim Was Successful',
-      description: 'Thanks for believing in Carmel. Welcome and spread the word.'
+      description: 'Thanks for believing in Carmel. Welcome - and do spread the word :)'
     })
-    this.setState({ claim })
+
+    this.setState({ claim, claimError: '' })
   }
 
   claimError (error) {
-    console.log(error)
     this.setState({ error: error.message })
   }
 
