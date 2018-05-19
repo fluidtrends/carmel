@@ -16,7 +16,7 @@ const setup = ({ token, webhookUrl }) => {
   bot.telegram.setWebhook(webhookUrl)
 
   bot.hears('hi', (ctx) => {
-    ctx.reply('Hey')
+    ctx.reply(`Hey ${ctx.message.from.username}`)
   })
 }
 
