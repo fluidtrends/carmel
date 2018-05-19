@@ -50,7 +50,7 @@ export default class AccountScreen extends Screen {
   renderProfileItem (item) {
     return <List.Item actions={this.renderProfileItemActions(item)}>
       <List.Item.Meta
-        description={item.value}
+        description={item.value || 'Not verified yet'}
         title={item.title} />
     </List.Item>
   }
@@ -64,6 +64,12 @@ export default class AccountScreen extends Screen {
       id: 'email',
       title: 'Email Address',
       value: this.account.user.email
+    }, {
+      id: 'telegram',
+      title: 'Telegram Username'
+    }, {
+      id: 'twitter',
+      title: 'Twitter Username'
     }]
   }
 
