@@ -1,0 +1,13 @@
+{
+  "name": "chunky",
+  "service": {
+    "functions": ["post://telegram#telegram"],
+    "dependencies": {
+      "telegraf": "latest"
+    },
+    "permissions": {
+    },
+    "requiredFields": {
+    }
+  }
+}

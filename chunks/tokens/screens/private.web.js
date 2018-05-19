@@ -3,16 +3,15 @@ import { Screen, Components } from 'react-dom-chunky'
 import { Card } from 'rmwc/Card'
 import UserInfo from '../../auth/components/userInfo'
 import { Checkout, Claim } from '../components'
-import { Button } from 'rmwc/Button'
 import { Typography } from 'rmwc/Typography'
-import { List, Icon } from 'antd'
+import { List, Icon, notification } from 'antd'
 
 import moment from 'moment'
 
 export default class PrivateTokensScreen extends Screen {
   constructor (props) {
     super(props)
-    this.state = { ...this.state, transactions: [], purchases: [], claims: [] }
+    this.state = { ...this.state, transactions: [], purchases: [] }
     this._renderTransactionItem = this.renderTransactionItem.bind(this)
   }
 
@@ -46,10 +45,6 @@ export default class PrivateTokensScreen extends Screen {
 
   getTransactionsSuccess (transactions) {
     this.setState({ transactions: transactions.filter(t => !Array.isArray(t)) })
-  }
-
-  getClaimsSuccess (claims) {
-    this.setState({ claims: claims.filter(c => !Array.isArray(c)) })
   }
 
   getWalletSuccess (wallet) {
@@ -99,23 +94,9 @@ export default class PrivateTokensScreen extends Screen {
     })
   }
 
-  claimData (claim) {
-    if (!claim) {
-      return
-    }
-
-    return Object.assign({}, claim, {
-      title: `${claim.tokens.toLocaleString('en')} CARMEL`,
-      type: 'claim',
-      details: moment(claim.timestamp).format('MMM Do, YYYY h:mm a'),
-      actions: [{ id: 'claimed', icon: 'exclamation', title: 'Claimed' }]
-    })
-  }
-
   get transactionsData () {
     return this.state.transactions.map(transaction => this.transactionData(transaction))
           .concat(this.state.purchases.map(purchase => this.purchaseData(purchase)))
-          .concat(this.state.claims.map(claim => this.claimData(claim)))
   }
 
   renderTransactionHistory (width, padding) {
@@ -175,6 +156,7 @@ export default class PrivateTokensScreen extends Screen {
       <Claim
         newClaim={this.props.newClaim}
         claim={this.state.claim}
+        error={this.state.claimError}
         wallet={this.state.wallet}
         ethereum={this.props.ethereum}
         account={this.account} />
@@ -195,16 +177,25 @@ export default class PrivateTokensScreen extends Screen {
   }
 
   claimOk (claim) {
-    console.log(claim)
-    if (claim.error) {
-      this.setState({ error: claim.error })
+    console.log('claim:', claim)
+    if (claim.data && claim.data.error) {
+      notification.error({
+        message: 'Your Claim Request Failed',
+        description: claim.data.error
+      })
+      this.setState({ claimError: claim.data.error, verifying: false })
       return
     }
 
+    notification.success({
+      message: 'Your Claim Was Successful',
+      description: 'Thanks for believing in Carmel. Welcome and spread the word.'
+    })
     this.setState({ claim })
   }
 
   claimError (error) {
+    console.log(error)
     this.setState({ error: error.message })
   }
 
