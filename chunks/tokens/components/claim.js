@@ -27,7 +27,7 @@ export default class ClaimComponent extends Component {
       return
     }
 
-    this.props.newClaim({ eosBalance, ethAddress: this.state.ethereumAddress, tokens: '1' })
+    this.props.newClaim({ eosBalance, ethAddress: this.state.ethereumAddress })
   }
 
   send () {
@@ -51,25 +51,6 @@ export default class ClaimComponent extends Component {
   }
 
   renderMainContent () {
-    if ((this.props.wallet && this.props.wallet.claimed) || this.props.account.user.airdropped) {
-      // Already claimed
-      return <div>
-        <Typography
-          use='title'
-          tag='div'
-          style={{
-            textAlign: 'center',
-            paddingTop: '30px',
-            paddingBottom: '30px',
-            marginBottom: '40px',
-            borderBottom: '1px #E0E0E0 solid'
-          }}
-          theme='text-secondary-on-background'>
-         You have successfully claimed your FREE Carmel Tokens.
-        </Typography>
-      </div>
-    }
-
     const title = 'Claim FREE CARMEL Tokens'
     return (
       <div>
@@ -97,7 +78,7 @@ export default class ClaimComponent extends Component {
     return <div>
 
       <Typography use='title' style={{ color: '#90A4AE', margin: '10px' }} tag='h1'>
-      Remember to verify your Carmel Account before July 16th, 2018 in order to redeem your claimed tokens.
+      To verify your claim, please verify your account.
     </Typography>
 
       <CardActions style={{

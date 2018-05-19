@@ -31,7 +31,7 @@ const getWallet = (userId) => {
 
 const updateWallet = ({ claim, account }) => {
   const userId = account.user.uid
-  const data = { carmel: claim.carmel, xp: 0, claimed: claim.carmel }
+  const data = { claimed: claim.carmel }
 
   return getWallet(userId)
       .then((wallet) => {
@@ -39,15 +39,13 @@ const updateWallet = ({ claim, account }) => {
           return createWallet(userId, data)
         }
 
-        if (wallet.claimed || account.airdropped) {
+        if (wallet.claimed) {
           return Promise.resolve()
         }
 
         return chunky.firebase.operation('update', {
           key: `wallets/${wallet._id}`,
-          claimed: data.carmel,
-          airdropped: true,
-          carmel: (wallet.carmel + data.carmel)
+          claimed: data.claimed
         })
         .then(() => chunky.firebase.operation('update', { key: `users-wallets/${userId}`, timestamp: Date.now() }))
       })
@@ -56,9 +54,8 @@ const updateWallet = ({ claim, account }) => {
 const createClaim = ({ account, config, data }) => {
   var claim = Object.assign({}, {
     node: 'claims',
-    carmel: ClaimTokens,
-    claimed: ClaimTokens,
-    airdropped: true
+    tokens: ClaimTokens,
+    status: 'unverified'
   }, data, {
     userId: account.user.uid,
     join: {

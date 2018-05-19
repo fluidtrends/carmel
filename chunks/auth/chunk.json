@@ -95,9 +95,12 @@
   },
   "service": {
     "functions": [
-      "post://setup#setup"
+      "post://setup#setup",
+      "post://twitter#twitter"
     ],
-    "dependencies": {},
+    "dependencies": {
+      "twitter": "latest"
+    },
     "requiredFields": {
     },
     "permissions": {

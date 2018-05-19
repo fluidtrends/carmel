@@ -36,7 +36,8 @@ const updateWallet = (transaction) => {
   const userId = transaction.purchase.userId
   const carmel = transaction.purchase.tokens
   const xp = 0
-  const data = { carmel, xp }
+  const claimed = 0
+  const data = { carmel, xp, claimed }
 
   return getWallet(userId).then((wallet) => {
     const start = (wallet ? Promise.resolve() : createWallet(userId, data))
