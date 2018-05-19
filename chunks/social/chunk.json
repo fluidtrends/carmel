@@ -12,7 +12,8 @@
       "newEmail": ["ses:SendEmail"]
     },
     "requiredFields": {
-      "newEmail": ["text", "html"]
+      "newEmail": ["text", "html"],
+      "twitter": ["username"]
     }
   }
 }

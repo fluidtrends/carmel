@@ -21,7 +21,17 @@ function executor ({ event, chunk, config, account }) {
       }
 
       const users = tweets.users
-      resolve({ users })
+      var found
+
+      users.forEach(user => {
+        if (user.screen_name !== event.body.username) {
+          return
+        }
+
+        found = Object.assign({}, user)
+      })
+
+      resolve({ user: found })
     })
   })
 }
