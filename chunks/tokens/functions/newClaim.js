@@ -1,11 +1,10 @@
 const chunky = require('react-cloud-chunky')
-const blockchain = require('react-blockchain-chunky/lib')
 
 const filename = __filename
 const auth = { limit: 1, private: true }
 
 const _claim = () => {
-  return ({ tokens: 100, period: 'airdrop2' })
+  return ({ tokens: 100, period: 'AirDrop' })
 }
 
 const getWallet = (userId) => {
@@ -19,12 +18,6 @@ const getWallet = (userId) => {
 
 const findClaim = (address) => {
   return chunky.firebase.operation('retrieve', { key: `claims/${address}` })
-         .then((claim) => {
-           if (!Array.isArray(claim) && (claim.period === _claim().period)) {
-             throw new Error('You have already claimed your free tokens for this claim period.')
-           }
-           return claim
-         })
 }
 
 const updateWallet = ({ claim, account }) => {
@@ -56,33 +49,29 @@ const createClaim = ({ account, config, data }) => {
 
 const verifyClaim = ({ data, config }) => {
   return new Promise((resolve, reject) => {
-    try {
-      const eth = new blockchain.Ethereum(Object.assign({}, config.settings.ethereum, { account: data.ethAddress }))
-      const eos = eth.eos
-      resolve({ eth, eos })
-      // return eth.eos.getBalance()
-      //           .then((eosBalance) => {
-      //             if (parseInt(eosBalance) === 0) {
-      //               reject(new Error('You need to have an EOS stake'))
-      //               return
-      //             }
-      //             return ({ eosBalance })
-      //           })
-      //           .catch((e) => {
-      //             reject(e)
-      //             // reject(new Error('Please enter a valid Ethereum Address'))
-      //           })
-    } catch (e) {
-      reject(e)
-      // reject(new Error('Please enter a valid Ethereum Address'))
-    }
+    findClaim(data.ethAddress).then((all) => {
+      var claims = (Array.isArray(all) ? all : [all])
+      var claimed = false
+      claims.forEach(claim => {
+        if (claim.period === _claim().period) {
+          claimed = true
+        }
+      })
+
+      if (claimed) {
+        reject(new Error('You already claimed your free tokens.'))
+        return
+      }
+
+      resolve()
+    })
+    .catch((e) => reject(e))
   })
 }
 
 function executor ({ event, chunk, config, account }) {
   return verifyClaim({ data: event.body, config })
-         // .then(() => findClaim(event.body.ethAddress))
-         // .then((claim) => createClaim({ account, config, data: event.body }))
+         .then(() => createClaim({ account, config, data: event.body }))
 }
 
 module.exports.main = chunky.handler({ executor, filename, auth })

@@ -22,10 +22,10 @@ export default class ClaimComponent extends Component {
   }
 
   claim (eosBalance) {
-    // if (parseInt(eosBalance) === 0) {
-    //   this.setState({ loading: false, error: 'You need to have an EOS stake' })
-    //   return
-    // }
+    if (parseInt(eosBalance) === 0) {
+      this.setState({ loading: false, error: 'You need to have an EOS stake' })
+      return
+    }
 
     this.props.newClaim({ eosBalance, ethAddress: this.state.ethereumAddress })
   }
@@ -36,23 +36,39 @@ export default class ClaimComponent extends Component {
       return
     }
 
-    this.setState({ loading: true, error: '', loadingMessage: 'Processing your claim, just a sec please ...' })
+    this.setState({ loading: true, error: '', sentAt: Date.now(), loadingMessage: 'Processing your claim, just a sec please ...' })
 
-    // try {
-    //   this._eth = new Ethereum(Object.assign({}, this.props.ethereum, { account: this.state.ethereumAddress }))
-    //   this._eth.eos.getBalance()
-    //   .then((balance) => this.claim(balance))
-    //   .catch((e) => {
-    //     this.setState({ loading: false, error: 'Invalid Ethereum Address' })
-    //   })
-    // } catch (e) {
-    //   this.setState({ loading: false, error: 'Invalid Ethereum Address' })
-    // }
-    this.claim(1)
+    try {
+      this._eth = new Ethereum(Object.assign({}, this.props.ethereum, { account: this.state.ethereumAddress }))
+      this._eth.eos.getBalance()
+      .then((balance) => this.claim(balance))
+      .catch((e) => {
+        this.setState({ loading: false, error: 'Invalid Ethereum Address' })
+      })
+    } catch (e) {
+      this.setState({ loading: false, error: 'Invalid Ethereum Address' })
+    }
+  }
+
+  get alreadyClaimed () {
+    if (!this.props.claims) {
+      return false
+    }
+
+    var claimed = false
+    this.props.claims.forEach(claim => {
+      claimed = true
+    })
+
+    return claimed
   }
 
   renderMainContent () {
-    const title = 'Claim FREE CARMEL Tokens'
+    if (this.alreadyClaimed) {
+      return <div />
+    }
+
+    const title = 'Claim Your Free CARMEL Tokens'
     return (
       <div>
         <Typography
@@ -77,10 +93,6 @@ export default class ClaimComponent extends Component {
 
   renderAction () {
     return <div>
-
-      <Typography use='title' style={{ color: '#90A4AE', margin: '10px' }} tag='h1'>
-      To verify your claim, please verify your account.
-    </Typography>
 
       <CardActions style={{
         marginTop: '20px',
@@ -126,12 +138,8 @@ export default class ClaimComponent extends Component {
     </div>
   }
 
-  get error () {
-    return this.state.error || this.props.error
-  }
-
   renderError () {
-    if (!this.error) {
+    if (!this.state.error && !this.props.error) {
       return <div />
     }
 
@@ -145,8 +153,8 @@ export default class ClaimComponent extends Component {
           flexDirection: 'column',
           alignItems: 'center'
         }}>
-        <Typography use='title' style={{ color: '#ef5350' }} tag='h1'>
-          { this.error }
+        <Typography use='title' style={{ color: '#ef5350', padding: '10px' }} tag='h1'>
+          { this.state.error || this.props.error}
         </Typography>
       </div>
     )
@@ -155,8 +163,7 @@ export default class ClaimComponent extends Component {
   render () {
     const width = this.props.compact ? '95vw' : '600px'
 
-    console.log(this.error, this.state.loading, this.props.claim)
-    if (!this.error && this.state.loading && !this.props.claim) {
+    if (this.props.loading) {
       return <Components.Loading message={this.state.loadingMessage} />
     }
 
