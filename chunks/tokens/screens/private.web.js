@@ -67,7 +67,7 @@ export default class PrivateTokensScreen extends Screen {
   renderTransactionItemActions (item) {
     return item.actions.map(action =>
       (<Typography use='caption' tag='h2'
-        style={{ color: (action.id === 'verified' ? '#4CAF50' : '#f44336') }}>
+        style={{ color: (action.id === 'verified' ? '#4CAF50' : '#B0BEC5') }}>
         { action.title }
       </Typography>)
     )
@@ -127,7 +127,7 @@ export default class PrivateTokensScreen extends Screen {
     }
 
     return <Card style={{ width, margin: '10px', marginTop: '30px', padding }}>
-      <Icon type='clock-circle' style={{
+      <Icon type='line-chart' style={{
         fontSize: '48px',
         color: '#607D8B',
         padding: '10px'
