@@ -161,6 +161,7 @@ export default class PrivateTokensScreen extends Screen {
       }}>
       <Card style={{ width, margin: '10px', padding }}>
         <UserInfo
+          redirect={this.triggerRawRedirect}
           wallet={this.state.wallet}
           account={this.account} />
       </Card>

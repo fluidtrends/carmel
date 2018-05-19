@@ -95,11 +95,9 @@
   },
   "service": {
     "functions": [
-      "post://setup#setup",
-      "post://twitter#twitter"
+      "post://setup#setup"
     ],
     "dependencies": {
-      "twitter": "latest"
     },
     "requiredFields": {
     },

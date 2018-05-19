@@ -82,6 +82,7 @@ export default class AccountScreen extends Screen {
       <Card style={{ width, margin: '10px', padding }}>
         <UserInfo
           skipWallet
+          redirect={this.triggerRawDirect}
           account={this.account} />
         <List
           style={{ marginTop: '20px' }}
