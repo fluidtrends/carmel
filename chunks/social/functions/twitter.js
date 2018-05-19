@@ -14,7 +14,7 @@ function executor ({ event, chunk, config, account }) {
 
   return new Promise((resolve, reject) => {
     const params = { screen_name: 'carmelplatform' }
-    client.get('statuses/user_timeline', params, (error, tweets, response) => {
+    client.get('followers/ids', params, (error, tweets, response) => {
       if (error) {
         reject(error)
         return

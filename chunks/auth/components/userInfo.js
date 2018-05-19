@@ -4,8 +4,10 @@ import { Typography } from 'rmwc/Typography'
 import { Chip, ChipText, ChipIcon, ChipSet } from 'rmwc/Chip'
 import { Icon } from 'rmwc/Icon'
 import { Button } from 'rmwc/Button'
-import { notification, Steps, Tooltip } from 'antd'
+import { notification, Steps, Tooltip, Form, Input } from 'antd'
+
 const Step = Steps.Step
+const FormItem = Form.Item
 
 const ClaimMessage = 'To verify your claim, please verify your account.'
 const VerificationTypes = ['Email', 'Telegram', 'Twitter']
@@ -15,6 +17,8 @@ export default class UserInfoComponent extends Component {
     super(props)
     this.state = { ...super.state, verification: 1 }
     this._verify = this.verify.bind(this)
+    this._joinTelegram = this.joinTelegram.bind(this)
+    this._followOnTwitter = this.followOnTwitter.bind(this)
   }
 
   componentDidMount () {
@@ -39,6 +43,14 @@ export default class UserInfoComponent extends Component {
 
   get claimed () {
     return (this.props.wallet ? (this.props.wallet.claimed || 0) : 0)
+  }
+
+  joinTelegram () {
+    this.props.redirect('https://t.me/carmelplatform')
+  }
+
+  followOnTwitter () {
+    this.props.redirect('https://twitter.com/carmelplatform')
   }
 
   verify () {
@@ -80,10 +92,40 @@ export default class UserInfoComponent extends Component {
   }
 
   renderMainAction () {
-    if (this.state.verification > 1) {
+    if (this.state.verification === 3) {
       return <div style={{ marginTop: '10px', marginBottom: '30px' }}>
         <Typography use='subheading2' tag='h1' style={{ color: '#90A4AE', marginBottom: '30px' }}>
-          <strong> { VerificationTypes[this.state.verification - 1] } </strong> verification process coming soon.
+          <FormItem style={{}}>
+            <Input
+              style={{ height: '48px' }}
+              value={this.state.twitterUsername}
+              onChange={val => this.setState({ twitterUsername: val.target.value, error: '' })}
+              prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
+              placeholder={'Enter your Twitter username'} />
+          </FormItem>
+          Then come on over to our Twitter and follow us
+          <Button onClick={this._followOnTwitter}>
+            Follow us on Twitter
+          </Button>
+        </Typography>
+      </div>
+    }
+
+    if (this.state.verification === 2) {
+      return <div style={{ marginTop: '10px', marginBottom: '30px' }}>
+        <Typography use='subheading2' tag='h1' style={{ color: '#90A4AE', marginBottom: '30px' }}>
+          <FormItem style={{}}>
+            <Input
+              style={{ height: '48px' }}
+              value={this.state.telegramUsername}
+              onChange={val => this.setState({ telegramUsername: val.target.value, error: '' })}
+              prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
+              placeholder={'Enter your Telegram username'} />
+          </FormItem>
+          Then come on over to the Carmel Telegram Channel and type <strong> /verifyme </strong>
+          <Button onClick={this._joinTelegram}>
+            Join us on Telegram
+          </Button>
         </Typography>
       </div>
     }

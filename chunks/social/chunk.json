@@ -1,8 +1,13 @@
 {
   "name": "social",
   "service": {
-    "functions": ["post://emails#newEmail"],
-    "dependencies": {},
+    "functions": [
+      "post://emails#newEmail",
+      "post://twitter#twitter"
+    ],
+    "dependencies": {
+      "twitter": "latest"
+    },
     "permissions": {
       "newEmail": ["ses:SendEmail"]
     },
