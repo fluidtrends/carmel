@@ -3,58 +3,32 @@ const chunky = require('react-cloud-chunky')
 const filename = __filename
 const auth = { limit: 1, private: true }
 
-const ClaimTokens = 100
-
-const createWallet = (userId, data) => {
-  var wallet = Object.assign({}, {
-    node: 'wallets'
-  }, data, {
-    userId,
-    join: {
-      users: {
-        id: userId
-      }
-    }
-  })
-
-  return chunky.firebase.operation('add', wallet)
-}
-
 const getWallet = (userId) => {
-  return new Promise((resolve, reject) => {
-    chunky.firebase.operation('retrieve', { key: `users-wallets/${userId}` })
-          .then((wallet) => chunky.firebase.operation('retrieve', { key: `wallets/${wallet._id}` }))
-          .then((wallet) => ((!wallet || wallet.length === 0) ? resolve() : resolve(wallet)))
-          .catch(() => resolve())
-  })
+  return chunky.firebase.operation('retrieve', { key: `users-wallets/${userId}` })
+          .then((index) => {
+            delete index._id && delete index.timestamp && delete index.timestamp1
+            const walletId = Object.keys(index)[0]
+            return chunky.firebase.operation('retrieve', { key: `wallets/${walletId}` })
+          })
 }
 
 const updateWallet = ({ claim, account }) => {
-  const userId = account.user.uid
-  const data = { claimed: claim.carmel }
-
-  return getWallet(userId)
-      .then((wallet) => {
-        if (!wallet) {
-          return createWallet(userId, data)
-        }
-
-        if (wallet.claimed) {
-          return Promise.resolve()
-        }
-
-        return chunky.firebase.operation('update', {
-          key: `wallets/${wallet._id}`,
-          claimed: data.claimed
-        })
-        .then(() => chunky.firebase.operation('update', { key: `users-wallets/${userId}`, timestamp: Date.now() }))
+  return getWallet(account.user.uid)
+      .then((wallet) => wallet && chunky.firebase.operation('update', {
+        key: `wallets/${wallet._id}`,
+        claimed: (wallet.claimed + claim.tokens)
       })
+      .then(() => chunky.firebase.operation('update', { key: `users-wallets/${account.user.uid}/${wallet._id}`, timestamp: Date.now() })))
+}
+
+const tokens = () => {
+  return 100
 }
 
 const createClaim = ({ account, config, data }) => {
   var claim = Object.assign({}, {
     node: 'claims',
-    tokens: ClaimTokens,
+    tokens: tokens(),
     status: 'unverified'
   }, data, {
     userId: account.user.uid,

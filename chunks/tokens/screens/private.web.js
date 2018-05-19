@@ -195,6 +195,7 @@ export default class PrivateTokensScreen extends Screen {
   }
 
   claimOk (claim) {
+    console.log(claim)
     if (claim.error) {
       this.setState({ error: claim.error })
       return
