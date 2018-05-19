@@ -108,12 +108,11 @@
           "firebase://retrieve/context?latest=1#freshContext",
           { "onSuccess": "gotContext" }
         ],
-        "getClaims": "firebase://subscribe/users-claims/:userId?latest=10&resolve=claims#getClaims",
         "getPurchases": "firebase://subscribe/users-purchases/:userId?latest=25&resolve=purchases#getPurchases",
         "getTransactions": "firebase://subscribe/users-transactions/:userId?latest=25&resolve=transactions#getTransactions",
         "getWallet": "firebase://subscribe/users-wallets/:userId?latest=1&resolve=wallets#getWallet"
       },
-      "subscriptions": ["getPurchases", "getTransactions", "getWallet", "getClaims"]
+      "subscriptions": ["getPurchases", "getTransactions", "getWallet"]
     }
   },
   "service": {
@@ -122,7 +121,9 @@
       "post://purchases#newPurchase",
       "post://claims#newClaim"
     ],
-    "dependencies": {},
+    "dependencies": {
+      "react-blockchain-chunky": "latest"
+    },
     "requiredFields": {
       "newPurchase": ["email", "currency", "amount", "tokens", "price"],
       "newClaim": ["ethAddress", "eosBalance"]

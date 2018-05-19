@@ -1,5 +1,5 @@
 {
-  "name": "messages",
+  "name": "social",
   "service": {
     "functions": ["post://emails#newEmail"],
     "dependencies": {},

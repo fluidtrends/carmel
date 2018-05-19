@@ -22,10 +22,10 @@ export default class ClaimComponent extends Component {
   }
 
   claim (eosBalance) {
-    if (parseInt(eosBalance) === 0) {
-      this.setState({ loading: false, error: 'You need to have an EOS stake' })
-      return
-    }
+    // if (parseInt(eosBalance) === 0) {
+    //   this.setState({ loading: false, error: 'You need to have an EOS stake' })
+    //   return
+    // }
 
     this.props.newClaim({ eosBalance, ethAddress: this.state.ethereumAddress })
   }
@@ -36,18 +36,19 @@ export default class ClaimComponent extends Component {
       return
     }
 
-    this.setState({ loading: true, error: '', loadingMessage: 'Please hold on a sec ...' })
+    this.setState({ loading: true, error: '', loadingMessage: 'Processing your claim, just a sec please ...' })
 
-    try {
-      this._eth = new Ethereum(Object.assign({}, this.props.ethereum, { account: this.state.ethereumAddress }))
-      this._eth.eos.getBalance()
-      .then((balance) => this.claim(balance))
-      .catch((e) => {
-        this.setState({ loading: false, error: 'Invalid Ethereum Address' })
-      })
-    } catch (e) {
-      this.setState({ loading: false, error: 'Invalid Ethereum Address' })
-    }
+    // try {
+    //   this._eth = new Ethereum(Object.assign({}, this.props.ethereum, { account: this.state.ethereumAddress }))
+    //   this._eth.eos.getBalance()
+    //   .then((balance) => this.claim(balance))
+    //   .catch((e) => {
+    //     this.setState({ loading: false, error: 'Invalid Ethereum Address' })
+    //   })
+    // } catch (e) {
+    //   this.setState({ loading: false, error: 'Invalid Ethereum Address' })
+    // }
+    this.claim(1)
   }
 
   renderMainContent () {
@@ -153,7 +154,9 @@ export default class ClaimComponent extends Component {
 
   render () {
     const width = this.props.compact ? '95vw' : '600px'
-    if (this.state.loading && !this.props.claim) {
+
+    console.log(this.error, this.state.loading, this.props.claim)
+    if (!this.error && this.state.loading && !this.props.claim) {
       return <Components.Loading message={this.state.loadingMessage} />
     }
 
