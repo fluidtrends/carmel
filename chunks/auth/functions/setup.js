@@ -7,7 +7,6 @@ const createWallet = (total, account) => {
   const wallet = Object.assign({}, {
     node: 'wallets',
     carmel: total,
-    claimed: 0,
     xp: 0
   }, {
     userId: account.user.uid,
