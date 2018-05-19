@@ -1,5 +1,5 @@
 import React from 'react'
-import { Component } from 'react-dom-chunky'
+import { Component, Components } from 'react-dom-chunky'
 import { Typography } from 'rmwc/Typography'
 import { Chip, ChipText, ChipIcon, ChipSet } from 'rmwc/Chip'
 import { Icon } from 'rmwc/Icon'
@@ -7,7 +7,7 @@ import { Button } from 'rmwc/Button'
 import { notification, Steps, Tooltip } from 'antd'
 const Step = Steps.Step
 
-const ClaimMessage = 'Please verify your account before July 16th, 2018 in order to redeem your claimed tokens'
+const ClaimMessage = 'To verify your claim, please verify your account.'
 const VerificationTypes = ['Email', 'Telegram', 'Twitter']
 
 export default class UserInfoComponent extends Component {
@@ -30,7 +30,7 @@ export default class UserInfoComponent extends Component {
   }
 
   get tokens () {
-    return (this.props.wallet ? this.props.wallet.carmel : 0) + (this.props.account.user.tokens || 0)
+    return (this.props.wallet ? this.props.wallet.carmel : undefined)
   }
 
   get name () {
@@ -80,7 +80,7 @@ export default class UserInfoComponent extends Component {
   }
 
   renderMainAction () {
-    if (this.state.verification > 0) {
+    if (this.state.verification > 1) {
       return <div style={{ marginTop: '10px', marginBottom: '30px' }}>
         <Typography use='subheading2' tag='h1' style={{ color: '#90A4AE', marginBottom: '30px' }}>
           <strong> { VerificationTypes[this.state.verification - 1] } </strong> verification process coming soon.
@@ -134,18 +134,18 @@ export default class UserInfoComponent extends Component {
     }
 
     return <Tooltip placement='rightTop' title={ClaimMessage}>
-      <Chip style={{ backgroundColor: '#FAFAFA' }}>
-        <ChipIcon style={{ color: '#FF8F00' }} leading use={`report`} />
-        <ChipText style={{ color: '#FF8F00' }}>
-          {this.claimed.toLocaleString('en')} CARMEL
+      <Chip style={{ backgroundColor: '#ffffff', border: '1px solid #ef5350', marginLeft: '10px' }}>
+        <ChipIcon style={{ color: '#ef5350' }} leading use={`report`} />
+        <ChipText style={{ color: '#ef5350' }}>
+          <strong> {this.claimed.toLocaleString('en')} CARMEL </strong> (Unverified Claim)
         </ChipText>
-        <ChipIcon style={{ color: '#78909C' }} use={`help`} />
       </Chip>
+      <ChipIcon style={{ color: '#B0BEC5', marginLeft: '5px', marginTop: '-20px' }} use={`help`} />
     </Tooltip>
   }
 
   renderTokens () {
-    if (this.props.skipWallet) {
+    if (this.props.skipWallet || !this.tokens) {
       return <div style={{
         marginBottom: '20px',
         paddingBottom: '20px',
@@ -161,10 +161,10 @@ export default class UserInfoComponent extends Component {
     }}>
       <Typography use='subheading1' tag='h1' style={{ textAlign: 'left' }}>
         <ChipSet>
-          <Chip style={{ backgroundColor: '#FAFAFA' }}>
-            <ChipIcon style={{ color: '#43A047' }} leading use={`check_circle`} />
-            <ChipText style={{ color: '#43A047' }}>
-              {this.tokens.toLocaleString('en')} CARMEL
+          <Chip style={{ backgroundColor: '#43A047' }}>
+            <ChipIcon style={{ color: '#ffffff' }} leading use={`check_circle`} />
+            <ChipText style={{ color: '#ffffff' }}>
+              <strong> {this.tokens.toLocaleString('en')} CARMEL </strong>
             </ChipText>
           </Chip>
           { this.renderClaimed() }
@@ -174,7 +174,9 @@ export default class UserInfoComponent extends Component {
   }
 
   render () {
-    console.log('REM', this.state.verification)
+    if (!this.props.skipWallet && !this.tokens) {
+      return <Components.Loading message='Loading your details, one sec please ...' />
+    }
     return (
       <div>
         <div
