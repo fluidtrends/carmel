@@ -10,7 +10,7 @@ const Step = Steps.Step
 const FormItem = Form.Item
 
 const ClaimMessage = 'To verify your claim, please verify your account.'
-const VerificationTypes = ['Email', 'Telegram', 'Twitter']
+const VerificationTypes = ['Email', 'Twitter', 'Telegram']
 
 export default class UserInfoComponent extends Component {
   constructor (props) {
@@ -94,18 +94,20 @@ export default class UserInfoComponent extends Component {
   renderMainAction () {
     if (this.state.verification === 3) {
       return <div style={{ marginTop: '10px', marginBottom: '30px' }}>
+        <FormItem style={{}}>
+          <Input
+            style={{ height: '48px' }}
+            value={this.state.telegramUsername}
+            onChange={val => this.setState({ telegramUsername: val.target.value, error: '' })}
+            prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
+            placeholder={'Enter your Telegram username'} />
+        </FormItem>
         <Typography use='subheading2' tag='h1' style={{ color: '#90A4AE', marginBottom: '30px' }}>
-          <FormItem style={{}}>
-            <Input
-              style={{ height: '48px' }}
-              value={this.state.twitterUsername}
-              onChange={val => this.setState({ twitterUsername: val.target.value, error: '' })}
-              prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
-              placeholder={'Enter your Twitter username'} />
-          </FormItem>
-          Then come on over to our Twitter and follow us
-          <Button onClick={this._followOnTwitter}>
-            Follow us on Twitter
+          Then join the Carmel Telegram Channel and type <strong> /verifyme </strong>
+        </Typography>
+        <Typography use='subheading2' tag='h1' style={{ color: '#90A4AE', marginBottom: '30px' }}>
+          <Button raised onClick={this._joinTelegram}>
+          Join us on Telegram
           </Button>
         </Typography>
       </div>
@@ -113,29 +115,35 @@ export default class UserInfoComponent extends Component {
 
     if (this.state.verification === 2) {
       return <div style={{ marginTop: '10px', marginBottom: '30px' }}>
+        <FormItem style={{}}>
+          <Input
+            style={{ height: '48px' }}
+            value={this.state.twitterUsername}
+            onChange={val => this.setState({ twitterUsername: val.target.value, error: '' })}
+            prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
+            placeholder={'Enter your Twitter username'} />
+        </FormItem>
         <Typography use='subheading2' tag='h1' style={{ color: '#90A4AE', marginBottom: '30px' }}>
-          <FormItem style={{}}>
-            <Input
-              style={{ height: '48px' }}
-              value={this.state.telegramUsername}
-              onChange={val => this.setState({ telegramUsername: val.target.value, error: '' })}
-              prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
-              placeholder={'Enter your Telegram username'} />
-          </FormItem>
-          Then come on over to the Carmel Telegram Channel and type <strong> /verifyme </strong>
-          <Button onClick={this._joinTelegram}>
-            Join us on Telegram
+          Then come on over to our Twitter and follow us
+          </Typography>
+        <Typography use='subheading2' tag='h1' style={{ color: '#90A4AE', marginBottom: '30px' }}>
+          <Button raised onClick={this._followOnTwitter}>
+            Follow us on Twitter
           </Button>
         </Typography>
       </div>
     }
 
-    return <Typography use='subheading2' tag='h1' style={{ color: '#90A4AE' }}>
-      Please check your email for the verification link
-      <Button onClick={this._verify}>
+    return <div>
+      <Typography use='subheading2' tag='h1' style={{ color: '#90A4AE' }}>
+        Please check your email for the verification link
+      </Typography>
+      <Typography use='subheading2' tag='h1' style={{ color: '#90A4AE' }}>
+        <Button raised onClick={this._verify}>
         Resend Verification Email
       </Button>
-    </Typography>
+      </Typography>
+    </div>
   }
 
   renderVerificationProgress () {
@@ -145,8 +153,8 @@ export default class UserInfoComponent extends Component {
       </Typography>
       <Steps progressDot current={this.state.verification - 1}>
         <Step title='Step 1' description='Email Verification' />
-        <Step title='Step 2' description='Telegram Verification' />
-        <Step title='Step 3' description='Twitter Verification' />
+        <Step title='Step 2' description='Twitter Verification' />
+        <Step title='Step 3' description='Telegram Verification' />
       </Steps>
     </div>
   }
@@ -216,9 +224,6 @@ export default class UserInfoComponent extends Component {
   }
 
   render () {
-    if (!this.props.skipWallet && !this.tokens) {
-      return <Components.Loading message='Loading your details, one sec please ...' />
-    }
     return (
       <div>
         <div
