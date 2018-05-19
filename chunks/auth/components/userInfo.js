@@ -42,7 +42,7 @@ export default class UserInfoComponent extends Component {
   }
 
   get claimed () {
-    return (this.props.wallet ? (this.props.wallet.claimed || 0) : 0)
+    return (this.props.claimed || 0)
   }
 
   joinTelegram () {

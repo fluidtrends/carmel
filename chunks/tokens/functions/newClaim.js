@@ -10,7 +10,7 @@ const _claim = () => {
 const getWallet = (userId) => {
   return chunky.firebase.operation('retrieve', { key: `users-wallets/${userId}` })
           .then((index) => {
-            delete index._id && delete index.timestamp && delete index.timestamp1
+            delete index._id && delete index.timestamp
             const walletId = Object.keys(index)[0]
             return chunky.firebase.operation('retrieve', { key: `wallets/${walletId}` })
           })
@@ -20,20 +20,10 @@ const findClaim = (address) => {
   return chunky.firebase.operation('retrieve', { key: `claims/${address}` })
 }
 
-const updateWallet = ({ claim, account }) => {
-  return getWallet(account.user.uid)
-      .then((wallet) => wallet && chunky.firebase.operation('update', {
-        key: `wallets/${wallet._id}`,
-        claimed: (wallet.claimed + claim.tokens)
-      })
-      .then(() => chunky.firebase.operation('update', { key: `users-wallets/${account.user.uid}/${wallet._id}`, timestamp: Date.now() })))
-}
-
 const createClaim = ({ account, config, data }) => {
   var claim = Object.assign({}, {
     node: 'claims',
-    id: data.ethAddress,
-    status: 'unverified'
+    id: data.ethAddress
   }, data, _claim(), {
     userId: account.user.uid,
     join: {
@@ -44,7 +34,6 @@ const createClaim = ({ account, config, data }) => {
   })
 
   return chunky.firebase.operation('add', claim)
-        .then((claim) => updateWallet({ claim, account }))
 }
 
 const verifyClaim = ({ data, config }) => {

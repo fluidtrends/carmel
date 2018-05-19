@@ -44,7 +44,10 @@ export default class PrivateTokensScreen extends Screen {
   }
 
   getClaimsSuccess (claims) {
-    this.setState({ claims: claims.filter(c => !Array.isArray(c)) })
+    var total = 0
+    const all = claims.filter(c => !Array.isArray(c))
+    all.filter(c => (!c.verified)).forEach(c => (total = total + c.tokens))
+    this.setState({ claims: all, totalClaimed: total })
   }
 
   getTransactionsSuccess (transactions) {
@@ -162,6 +165,7 @@ export default class PrivateTokensScreen extends Screen {
       <Card style={{ width, margin: '10px', padding }}>
         <UserInfo
           redirect={this.triggerRawRedirect}
+          claimed={this.state.totalClaimed}
           wallet={this.state.wallet}
           account={this.account} />
       </Card>
