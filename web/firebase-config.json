@@ -16,11 +16,11 @@
     "messagingSenderId": "436679009317"
   },
   "production": {
-    "apiKey": "AIzaSyBxhRHoajdWhKmM58mcs6k85Jzdyj2Y_k0",
-    "authDomain": "carmel-platform.firebaseapp.com",
-    "databaseURL": "https://carmel-platform.firebaseio.com",
-    "projectId": "carmel-platform",
-    "storageBucket": "carmel-platform.appspot.com",
-    "messagingSenderId": "524166931663"
+    "apiKey": "AIzaSyAZSkmgXq8TZHbRJx_xD1lxCqfM2mS32pI",
+    "authDomain": "carmel-main.firebaseapp.com",
+    "databaseURL": "https://carmel-main.firebaseio.com",
+    "projectId": "carmel-main",
+    "storageBucket": "carmel-main.appspot.com",
+    "messagingSenderId": "133849590903"
   }
 }

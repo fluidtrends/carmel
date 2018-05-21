@@ -11,6 +11,7 @@ export default class MainWhitepaperScreen extends Screen {
 
   componentDidMount () {
     super.componentDidMount()
+
     this.importRemoteData(this.props.variants).then(sections => {
       const indexedSections = sections.map((s, i) => {
         return Object.assign({}, s, { id: i })
@@ -21,20 +22,26 @@ export default class MainWhitepaperScreen extends Screen {
         return
       }
 
-      var section = this.sections[0]
+      this.refreshSection()
+    })
+  }
 
-      if (this.isRootPath) {
-        this.setState({ section })
+  refreshSection () {
+    var section = this.sections[0]
+
+    if (this.isRootPath) {
+      this.setState({ section })
+      return
+    }
+
+    this.sections.forEach((s, i) => {
+      if (!this.isSamePath(this.path, `${this.props.path}/${s.path}`)) {
         return
       }
-      this.sections.forEach((s, i) => {
-        if (!this.isSamePath(this.path, `${this.props.path}/${s.path}`)) {
-          return
-        }
-        section = Object.assign({}, s, { id: i })
-      })
-      this.setState({ section })
+      section = Object.assign({}, s, { id: i })
     })
+
+    this.setState({ section })
   }
 
   prev () {
@@ -61,7 +68,7 @@ export default class MainWhitepaperScreen extends Screen {
 
   onSectionSelect (section) {
     this.setState({ section })
-    this.triggerRedirect(`${this.props.path}/${section.path}`)
+    // this.triggerRedirect(`${this.props.path}/${section.path}`)
   }
 
   onSectionNavigate (direction) {
@@ -72,8 +79,7 @@ export default class MainWhitepaperScreen extends Screen {
       section = this.prev()
     }
     this.setState({ section })
-
-    this.triggerRedirect(`${this.props.path}/${section.path}`)
+    // this.triggerRedirect(`${this.props.path}/${section.path}`)
   }
 
   components () {
