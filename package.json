@@ -89,13 +89,13 @@
     }
   },
   "dependencies": {
-    "firebaseline": "^0.7.6",
+    "firebaseline": "0.x",
     "platform": "^1.3.5",
     "react": "^16.3.2",
-    "react-blockchain-chunky": "^0.9.7",
+    "react-blockchain-chunky": "0.9.x",
     "react-chunky": "^0.9.37",
     "react-dom": "^16.3.2",
-    "react-dom-chunky": "^0.9.93",
+    "react-dom-chunky": "0.9.x",
     "react-electron-chunky": "0.9.x",
     "react-mdl": "^1.11.0",
     "react-twitter-auth": "0.0.11",

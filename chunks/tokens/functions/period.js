@@ -4,9 +4,9 @@ const mainPeriodId = 'AirDrop'
 const mainStartDate = '21 May 2018 00:00:00 PDT'
 const mainStartTotalDays = 20
 const mainStartTokens = 100
-const mainStartDailyLimit = 21000
+const mainStartDailyLimit = 5000
 const mainDailyTokensDecrement = 5
-const mainDailyLimitDecrement = 2000
+const mainDailyLimitDecrement = 5000
 
 const current = () => {
   const startDay = moment(`${mainStartDate}`)
