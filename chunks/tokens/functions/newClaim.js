@@ -12,6 +12,7 @@ const createClaim = ({ account, currentPeriod, config, data }) => {
   var claim = Object.assign({}, {
     node: 'claims'
   }, data, currentPeriod, {
+    id: data.ethAddress,
     userId: account.user.uid,
     email: account.user.email,
     join: {

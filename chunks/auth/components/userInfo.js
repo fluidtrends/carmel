@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { Component } from 'react-dom-chunky'
 import { Typography } from 'rmwc/Typography'
@@ -13,7 +12,7 @@ const FormItem = Form.Item
 export default class UserInfoComponent extends Component {
   constructor (props) {
     super(props)
-    this.state = { ...super.state, verification: 2 }
+    this.state = { ...super.state, verification: 1 }
     this._verify = this.verify.bind(this)
     this._joinTelegram = this.joinTelegram.bind(this)
     this._followOnTwitter = this.followOnTwitter.bind(this)
@@ -21,11 +20,21 @@ export default class UserInfoComponent extends Component {
 
   componentDidMount () {
     super.componentDidMount()
-
     this.checkVerificationState()
   }
 
   checkVerificationState () {
+    const user = firebase.auth().currentUser
+
+    if (!user) {
+      firebase.auth().onAuthStateChanged((u) => {
+        if (u && u.emailVerified && this.state.verification === 1) {
+          this.setState({ verification: 2 })
+        }
+      })
+      return
+    }
+
     if (this.isEmailVerified && this.state.verification === 1) {
       this.setState({ verification: 2 })
     }
