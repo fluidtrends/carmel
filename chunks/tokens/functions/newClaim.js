@@ -1,31 +1,19 @@
 const chunky = require('react-cloud-chunky')
+const period = require('./period')
 
 const filename = __filename
 const auth = { limit: 1, private: true }
-
-const _claim = () => {
-  return ({ tokens: 100, period: 'AirDrop' })
-}
-
-const getWallet = (userId) => {
-  return chunky.firebase.operation('retrieve', { key: `users-wallets/${userId}` })
-          .then((index) => {
-            delete index._id && delete index.timestamp
-            const walletId = Object.keys(index)[0]
-            return chunky.firebase.operation('retrieve', { key: `wallets/${walletId}` })
-          })
-}
 
 const findClaim = (address) => {
   return chunky.firebase.operation('retrieve', { key: `claims/${address}` })
 }
 
-const createClaim = ({ account, config, data }) => {
+const createClaim = ({ account, currentPeriod, config, data }) => {
   var claim = Object.assign({}, {
-    node: 'claims',
-    id: data.ethAddress
-  }, data, _claim(), {
+    node: 'claims'
+  }, data, currentPeriod, {
     userId: account.user.uid,
+    email: account.user.email,
     join: {
       users: {
         id: account.user.uid
@@ -41,8 +29,11 @@ const verifyClaim = ({ data, config }) => {
     findClaim(data.ethAddress).then((all) => {
       var claims = (Array.isArray(all) ? all : [all])
       var claimed = false
+
+      const currentPeriod = period.current()
+
       claims.forEach(claim => {
-        if (claim.period === _claim().period) {
+        if (claim.periodId === currentPeriod.periodId) {
           claimed = true
         }
       })
@@ -52,7 +43,7 @@ const verifyClaim = ({ data, config }) => {
         return
       }
 
-      resolve()
+      resolve(currentPeriod)
     })
     .catch((e) => reject(e))
   })
@@ -60,7 +51,7 @@ const verifyClaim = ({ data, config }) => {
 
 function executor ({ event, chunk, config, account }) {
   return verifyClaim({ data: event.body, config })
-         .then(() => createClaim({ account, config, data: event.body }))
+         .then((currentPeriod) => createClaim({ account, currentPeriod, config, data: event.body }))
 }
 
 module.exports.main = chunky.handler({ executor, filename, auth })

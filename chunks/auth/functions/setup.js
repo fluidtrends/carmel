@@ -20,6 +20,22 @@ const createWallet = (total, account) => {
   return chunky.firebase.operation('add', wallet)
 }
 
+const createProfile = (account) => {
+  const profile = Object.assign({}, {
+    node: 'profiles'
+  }, {
+    userId: account.user.uid,
+    email: account.user.email,
+    join: {
+      users: {
+        id: account.user.uid
+      }
+    }
+  })
+
+  return chunky.firebase.operation('add', profile)
+}
+
 const findPurchases = (account, credits) => {
   return chunky.firebase.operation('retrieve', Object.assign({}, {
     key: 'purchases',
@@ -77,6 +93,7 @@ function executor ({ event, chunk, config, account }) {
         .then((credits) => findPurchases(account, credits))
         .then(({ credits, purchases }) => createTransactions(credits, purchases, account))
         .then(({ total }) => createWallet(total, account))
+        .then(() => createProfile(account))
 }
 
 module.exports.main = chunky.handler({ executor, filename, auth })

@@ -92,6 +92,10 @@
       },
       "startOperationsOnMount": false,
       "operations": {
+        "getPeriod": [
+          "rest://retrieve/tokens/period#currentPeriod",
+          { "onSuccess": "gotPeriod", "onError": "periodError" }
+        ],
         "newTransaction": [
           "rest://create/tokens/purchases#newTransaction",
           { "onSuccess": "transactionOk", "onError": "transactionError" }
@@ -118,11 +122,13 @@
   },
   "service": {
     "functions": [
+      "get://period#currentPeriod",
       "post://transactions#checkTransactions",
       "post://purchases#newPurchase",
       "post://claims#newClaim"
     ],
     "dependencies": {
+      "moment": "latest"
     },
     "requiredFields": {
       "newPurchase": ["email", "currency", "amount", "tokens", "price"],

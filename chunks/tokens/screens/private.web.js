@@ -17,6 +17,10 @@ export default class PrivateTokensScreen extends Screen {
 
   componentDidMount () {
     super.componentDidMount()
+
+    setTimeout(() => {
+      this.props.getPeriod()
+    }, 300)
   }
 
   componentWillUnmount () {
@@ -181,8 +185,9 @@ export default class PrivateTokensScreen extends Screen {
       <Claim
         newClaim={this.props.newClaim}
         claim={this.state.claim}
+        period={this.state.period}
         loading={this.props.isDataLoading()}
-        error={this.state.claimError}
+        error={this.state.periodError || this.state.claimError}
         wallet={this.state.wallet}
         ethereum={this.props.ethereum}
         claims={this.state.claims}
@@ -201,6 +206,14 @@ export default class PrivateTokensScreen extends Screen {
 
   transactionError (error) {
     this.setState({ error: error.message })
+  }
+
+  gotPeriod (period) {
+    this.setState({ period })
+  }
+
+  periodError (error) {
+    this.setState({ periodError: error.message })
   }
 
   claimOk (claim) {

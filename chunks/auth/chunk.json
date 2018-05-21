@@ -88,14 +88,16 @@
           "firebase://reset",
           { "onSuccess": "accountOk", "onError": "okError" }
         ],
-        "getAccount": "firebase://subscribe/users/:userId?#getAccount"
+        "getAccount": "firebase://subscribe/users/:userId?#getAccount",
+        "getProfile": "firebase://subscribe/users-profiles/:userId?latest=1&resolve=profiles#getProfile"
       },
-      "subscriptions": ["getAccount"]
+      "subscriptions": ["getAccount", "getProfile"]
     }
   },
   "service": {
     "functions": [
-      "post://setup#setup"
+      "post://setup#setup",
+      "post://update#updateAccount"
     ],
     "dependencies": {
     },

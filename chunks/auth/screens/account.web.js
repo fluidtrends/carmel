@@ -3,7 +3,6 @@ import { Screen } from 'react-dom-chunky'
 import { Card, CardActions, CardActionButtons } from 'rmwc/Card'
 import { Button } from 'rmwc/Button'
 import { List } from 'antd'
-import { Typography } from 'rmwc/Typography'
 
 import UserInfo from '../components/userInfo'
 
@@ -29,7 +28,11 @@ export default class AccountScreen extends Screen {
   }
 
   getAccountSuccess (account) {
-    this.login(account)
+    this.login(Object.assign({}, this.account, account))
+  }
+
+  getProfileSuccess (profile) {
+    this.login(Object.assign({}, this.account, profile))
   }
 
   onProfileItemEdit (item) {
@@ -88,7 +91,7 @@ export default class AccountScreen extends Screen {
       <Card style={{ width, margin: '10px', padding }}>
         <UserInfo
           skipWallet
-          redirect={this.triggerRawDirect}
+          redirect={this.triggerRawRedirect}
           account={this.account} />
         <List
           style={{ marginTop: '20px' }}
