@@ -450,7 +450,6 @@ export default class CheckoutComponent extends Component {
   }
 
   renderPrice () {
-    const addressETH = '0x4E52e804905CC320BF631523a9cb1416B8d613Fb'
     const priceETH = this.state.nextLevelPrice
     const priceCARMEL = this.state.nextTokens.toLocaleString('en')
 

@@ -92,8 +92,17 @@ export default class ClaimComponent extends Component {
   }
 
   renderAction () {
-    return <div>
+    const title = (this.props.period ? `Day ${this.props.period.data.day + 1}: ${this.props.period.data.tokens} CARMEL` : '')
 
+    return <div>
+      <Typography
+        use='headline'
+        tag='div'
+        style={{
+          textAlign: 'center'
+        }}>
+        { title }
+      </Typography>
       <CardActions style={{
         marginTop: '20px',
         justifyContent: 'center'

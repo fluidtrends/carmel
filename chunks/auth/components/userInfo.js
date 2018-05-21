@@ -1,5 +1,6 @@
+
 import React from 'react'
-import { Component, Components } from 'react-dom-chunky'
+import { Component } from 'react-dom-chunky'
 import { Typography } from 'rmwc/Typography'
 import { Chip, ChipText, ChipIcon, ChipSet } from 'rmwc/Chip'
 import { Icon } from 'rmwc/Icon'
@@ -9,13 +10,10 @@ import { notification, Steps, Tooltip, Form, Input } from 'antd'
 const Step = Steps.Step
 const FormItem = Form.Item
 
-const ClaimMessage = 'To verify your claim, please verify your account.'
-const VerificationTypes = ['Email', 'Twitter', 'Telegram']
-
 export default class UserInfoComponent extends Component {
   constructor (props) {
     super(props)
-    this.state = { ...super.state, verification: 1 }
+    this.state = { ...super.state, verification: 2 }
     this._verify = this.verify.bind(this)
     this._joinTelegram = this.joinTelegram.bind(this)
     this._followOnTwitter = this.followOnTwitter.bind(this)
@@ -34,7 +32,7 @@ export default class UserInfoComponent extends Component {
   }
 
   get tokens () {
-    return (this.props.wallet ? this.props.wallet.carmel : undefined)
+    return (this.props.wallet ? this.props.wallet.carmel : 0)
   }
 
   get name () {
@@ -91,59 +89,58 @@ export default class UserInfoComponent extends Component {
     })
   }
 
-  renderMainAction () {
-    if (this.state.verification === 3) {
-      return <div style={{ marginTop: '10px', marginBottom: '30px' }}>
-        <FormItem style={{}}>
-          <Input
-            style={{ height: '48px' }}
-            value={this.state.telegramUsername}
-            onChange={val => this.setState({ telegramUsername: val.target.value, error: '' })}
-            prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
-            placeholder={'Enter your Telegram username'} />
-        </FormItem>
-        <Typography use='subheading2' tag='h1' style={{ color: '#90A4AE', marginBottom: '30px' }}>
-          Then join the Carmel Telegram Channel and type <strong> /verifyme </strong>
+  renderTwitterAction () {
+    return <div style={{ marginTop: '10px', marginBottom: '30px' }}>
+      <Typography use='subheading2' tag='h1' style={{ color: '#90A4AE', marginBottom: '30px' }}>
+        Twitter verification coming soon.
         </Typography>
-        <Typography use='subheading2' tag='h1' style={{ color: '#90A4AE', marginBottom: '30px' }}>
-          <Button raised onClick={this._joinTelegram}>
-          Join us on Telegram
-          </Button>
-        </Typography>
-      </div>
-    }
-
-    if (this.state.verification === 2) {
-      return <div style={{ marginTop: '10px', marginBottom: '30px' }}>
-        <FormItem style={{}}>
-          <Input
-            style={{ height: '48px' }}
-            value={this.state.twitterUsername}
-            onChange={val => this.setState({ twitterUsername: val.target.value, error: '' })}
-            prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
-            placeholder={'Enter your Twitter username'} />
-        </FormItem>
-        <Typography use='subheading2' tag='h1' style={{ color: '#90A4AE', marginBottom: '30px' }}>
-          Then come on over to our Twitter and follow us
-          </Typography>
-        <Typography use='subheading2' tag='h1' style={{ color: '#90A4AE', marginBottom: '30px' }}>
-          <Button raised onClick={this._followOnTwitter}>
-            Follow us on Twitter
-          </Button>
-        </Typography>
-      </div>
-    }
-
-    return <div>
-      <Typography use='subheading2' tag='h1' style={{ color: '#90A4AE' }}>
-        Please check your email for the verification link
-      </Typography>
-      <Typography use='subheading2' tag='h1' style={{ color: '#90A4AE' }}>
-        <Button raised onClick={this._verify}>
-        Resend Verification Email
-      </Button>
+      <Typography use='subheading2' tag='h1' style={{ color: '#90A4AE', marginBottom: '30px' }}>
+        <Button raised onClick={this._followOnTwitter}>
+          Follow us on Twitter
+        </Button>
       </Typography>
     </div>
+  }
+
+  renderTelegramAction () {
+    return <div style={{ marginTop: '10px', marginBottom: '30px' }}>
+      <FormItem style={{}}>
+        <Input
+          style={{ height: '48px' }}
+          value={this.state.telegramUsername}
+          onChange={val => this.setState({ telegramUsername: val.target.value, error: '' })}
+          prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
+          placeholder={'Enter your Telegram username'} />
+      </FormItem>
+      <Typography use='subheading2' tag='h1' style={{ color: '#90A4AE', marginBottom: '30px' }}>
+        Then join the Carmel Telegram Channel and type <strong> /verifyme </strong>
+      </Typography>
+      <Typography use='subheading2' tag='h1' style={{ color: '#90A4AE', marginBottom: '30px' }}>
+        <Button raised onClick={this._joinTelegram}>
+        Join us on Telegram
+        </Button>
+      </Typography>
+    </div>
+  }
+
+  renderMainAction () {
+    switch (this.state.verification) {
+      case 3:
+        return this.renderTelegramAction()
+      case 2:
+        return this.renderTwitterAction()
+      default:
+        return <div>
+          <Typography use='subheading2' tag='h1' style={{ color: '#90A4AE' }}>
+          Please check your email for the verification link
+        </Typography>
+          <Typography use='subheading2' tag='h1' style={{ color: '#90A4AE' }}>
+            <Button raised onClick={this._verify}>
+          Resend Verification Email
+        </Button>
+          </Typography>
+        </div>
+    }
   }
 
   renderVerificationProgress () {
@@ -183,7 +180,7 @@ export default class UserInfoComponent extends Component {
       return <div />
     }
 
-    return <Tooltip placement='rightTop' title={ClaimMessage}>
+    return <Tooltip placement='rightTop' title={'To verify your claim, please verify your account.'}>
       <Chip style={{ backgroundColor: '#ffffff', border: '1px solid #ef5350', marginLeft: '10px' }}>
         <ChipIcon style={{ color: '#ef5350' }} leading use={`report`} />
         <ChipText style={{ color: '#ef5350' }}>
@@ -195,7 +192,7 @@ export default class UserInfoComponent extends Component {
   }
 
   renderTokens () {
-    if (this.props.skipWallet || !this.tokens) {
+    if (this.props.skipWallet) {
       return <div style={{
         marginBottom: '20px',
         paddingBottom: '20px',
@@ -212,7 +209,7 @@ export default class UserInfoComponent extends Component {
       <Typography use='subheading1' tag='h1' style={{ textAlign: 'left' }}>
         <ChipSet>
           <Chip style={{ backgroundColor: '#43A047' }}>
-            <ChipIcon style={{ color: '#ffffff' }} leading use={`check_circle`} />
+            <ChipIcon style={{ color: '#ffffff', marginRight: '5px' }} leading use={`check_circle`} />
             <ChipText style={{ color: '#ffffff' }}>
               <strong> {this.tokens.toLocaleString('en')} CARMEL </strong>
             </ChipText>

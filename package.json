@@ -98,6 +98,7 @@
     "react-dom-chunky": "^0.9.93",
     "react-electron-chunky": "0.9.x",
     "react-mdl": "^1.11.0",
+    "react-twitter-auth": "0.0.11",
     "react-vertical-timeline-component": "^2.0.5"
   },
   "devDependencies": {
