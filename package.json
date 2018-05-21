@@ -93,7 +93,7 @@
     "platform": "^1.3.5",
     "react": "^16.3.2",
     "react-blockchain-chunky": "^0.9.7",
-    "react-chunky": "^0.9.24",
+    "react-chunky": "^0.9.37",
     "react-dom": "^16.3.2",
     "react-dom-chunky": "^0.9.93",
     "react-electron-chunky": "0.9.x",
