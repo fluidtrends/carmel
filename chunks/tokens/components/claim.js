@@ -68,6 +68,8 @@ export default class ClaimComponent extends Component {
       return <div />
     }
 
+    console.log(this.props.period)
+
     const title = 'Claim Your Free CARMEL Tokens'
     return (
       <div>

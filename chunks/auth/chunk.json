@@ -96,6 +96,10 @@
           "rest://create/auth/twitter",
           { "onSuccess": "twitterOk", "onError": "twitterError" }
         ],
+        "telegramVerify": [
+          "rest://create/auth/telegram",
+          { "onSuccess": "telegramOk", "onError": "telegramError" }
+        ],
         "getUserProfile": [
           "firebase://retrieve/users-profiles/:userId?latest=1&resolve=profiles#getProfile",
           { "onSuccess": "profileOk", "onError": "profileError" }
@@ -114,14 +118,16 @@
     "functions": [
       "post://setup#setup",
       "post://twitter#twitter",
-      "post://twitter-reverse#twitterReverse"
+      "post://twitter-reverse#twitterReverse",
+      "post://telegram#telegram"
     ],
     "dependencies": {
       "twitter": "latest",
       "oauth": "latest"
     },
     "requiredFields": {
-      "twitter": ["oauthTokens"]
+      "twitter": ["oauthTokens"],
+      "telegram": ["username"]
     },
     "permissions": {
       "setup": ["ses:SendEmail"]

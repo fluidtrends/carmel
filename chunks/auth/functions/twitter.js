@@ -92,25 +92,24 @@ const verify = ({ token, account, config }) => {
     access_token_secret: token.oauth_token_secret
   })
 
-  // return friendship(client)
-  //        .then(({ friendship }) => {
-  //          var found = false
-  //
-  //          if (friendship && friendship.length >= 1) {
-  //            friendship[0].connections.forEach(c => {
-  //              if (c === 'carmelplatform') {
-  //                found = true
-  //              }
-  //            })
-  //          }
-  //
-  //          if (!found) {
-  //            return follow(client)
-  //          }
-  //        })
-  //        .then(() => tweet(client))
+  return friendship(client)
+         .then(({ friendship }) => {
+           var found = false
 
-  return updateProfile({ twitterUsername, twitterUserId }, account.user.uid)
+           if (friendship && friendship.length >= 1) {
+             friendship[0].connections.forEach(c => {
+               if (c === 'carmelplatform') {
+                 found = true
+               }
+             })
+           }
+
+           if (!found) {
+             return follow(client)
+           }
+         })
+         .then(() => tweet(client))
+         .then(() => updateProfile({ twitterUsername, twitterUserId }, account.user.uid))
 }
 
 const getAccessToken = ({ config, query }) => {
