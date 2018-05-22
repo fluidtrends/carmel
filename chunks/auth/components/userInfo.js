@@ -23,6 +23,7 @@ export default class UserInfoComponent extends Component {
 
   componentDidMount () {
     super.componentDidMount()
+
     this.checkVerificationState()
   }
 

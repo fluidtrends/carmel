@@ -4,14 +4,15 @@ import { PieChart, LabelList, Pie, Sector, Cell } from 'recharts'
 
 const data = [
   { name: 'Private Sale', value: 3.5, id: '0', percent: '5%' },
+  { name: 'AirDrop', value: 3.5, id: '1', percent: '5%' },
   { name: 'Pre-Sale', value: 7, id: '1', percent: '10%' },
   { name: 'Public Sale', value: 28, id: '2', percent: '40%' },
-  { name: 'Fluid Fund', value: 7, id: '3', percent: '15%' },
+  { name: 'Fluid Fund', value: 7, id: '3', percent: '10%' },
   { name: 'Founders Fund', value: 14, id: '4', percent: '20%' },
   { name: 'Partners Fund', value: 7, id: '5', percent: '10%' }
 ]
 
-const COLORS = ['#66BB6A', '#43A047', '#2E7D32', '#1A237E', '#0D47A1', '#1976D2']
+const COLORS = ['#66BB6A', '#43A047', '#2E7D32', '#00796B', '#1976D2', '#1A237E', '#0D47A1']
 const RADIAN = Math.PI / 180
 
 export default class ChartComponent extends Component {
