@@ -5,7 +5,7 @@ const filename = __filename
 const auth = { limit: 1 }
 
 // Carmel Private Sale Address
-const address = '0xefE8889a7580d30E0120C8c9f52c2b3F8d16B431'// '0x4E52e804905CC320BF631523a9cb1416B8d613Fb'
+const address = '0x4E52e804905CC320BF631523a9cb1416B8d613Fb'
 const total = 50
 
 const createWallet = (userId, data) => {

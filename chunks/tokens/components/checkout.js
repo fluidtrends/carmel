@@ -13,7 +13,7 @@ import { Form, Input, Icon } from 'antd'
 
 const FormItem = Form.Item
 
-const CarmelETHAddress = '0xefE8889a7580d30E0120C8c9f52c2b3F8d16B431'// `0x4E52e804905CC320BF631523a9cb1416B8d613Fb`
+const CarmelETHAddress = `0x4E52e804905CC320BF631523a9cb1416B8d613Fb`
 const MyEtherWalletUrl = `https://www.myetherwallet.com`
 const CoinMarketCapAPI = `https://api.coinmarketcap.com/v1/ticker/ethereum/?convert=USD`
 const CarmelPaymentMethods = { metamask: 'MetaMask', mew: 'MyEtherWallet' }
@@ -57,7 +57,7 @@ export default class CheckoutComponent extends Component {
       return
     }
 
-    const amount = 0.00001 // this.state.nextLevelPrice
+    const amount = this.state.nextLevelPrice
     const purchaseKey = this.props.transaction.data.purchaseKey
     const sending = true
 
