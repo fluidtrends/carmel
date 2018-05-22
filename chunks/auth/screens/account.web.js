@@ -17,22 +17,26 @@ export default class AccountScreen extends Screen {
 
   componentDidMount () {
     super.componentDidMount()
+
+    console.log(this.account.user.uid)
   }
 
   subscriptionArgs (subscription) {
-    if (!subscription) {
+    if (!subscription || !this.account) {
       return {}
     }
 
     return { userId: this.account.user.uid }
   }
 
-  getAccountSuccess (account) {
-    this.login(Object.assign({}, this.account, account))
+  getAccountSuccess (acc) {
+    const account = Object.assign({}, this.account.user, acc)
+    this.login(account)
   }
 
   getProfileSuccess (profile) {
-    this.login(Object.assign({}, this.account, profile))
+    const account = Object.assign({}, this.account.user, profile[0])
+    this.login(account)
   }
 
   onProfileItemEdit (item) {
@@ -69,11 +73,21 @@ export default class AccountScreen extends Screen {
       value: this.account.user.email
     }, {
       id: 'telegram',
-      title: 'Telegram Username'
+      title: 'Telegram Username',
+      value: this.account.user.telegramUsername
     }, {
       id: 'twitter',
-      title: 'Twitter Username'
+      title: 'Twitter Username',
+      value: this.account.user.twitterUsername
     }]
+  }
+
+  twitterOk (twitter) {
+    this.setState({ twitter })
+  }
+
+  twitterError (error) {
+    this.setState({ twitterError: error.message })
   }
 
   renderMainContent () {
@@ -91,6 +105,9 @@ export default class AccountScreen extends Screen {
       <Card style={{ width, margin: '10px', padding }}>
         <UserInfo
           skipWallet
+          twitter={this.state.twitter}
+          twitterError={this.state.twitterError}
+          twitterVerify={this.props.twitterVerify}
           redirect={this.triggerRawRedirect}
           account={this.account} />
         <List

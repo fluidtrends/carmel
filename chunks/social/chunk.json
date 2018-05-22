@@ -2,18 +2,15 @@
   "name": "social",
   "service": {
     "functions": [
-      "post://emails#newEmail",
       "post://twitter#twitter"
     ],
     "dependencies": {
       "twitter": "latest"
     },
     "permissions": {
-      "newEmail": ["ses:SendEmail"]
     },
     "requiredFields": {
-      "newEmail": ["text", "html"],
-      "twitter": ["username"]
+      "twitter": ["accessToken", "tokenSecret", "userId"]
     }
   }
 }

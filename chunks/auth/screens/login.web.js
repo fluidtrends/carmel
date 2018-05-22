@@ -51,6 +51,15 @@ export default class LoginScreen extends Screen {
     }, 300)
   }
 
+  loginOk (account) {
+    this.setState({ account })
+    this.props.getProfile({ userId: account._id })
+  }
+
+  profileOk (profile) {
+    this.login(Object.assign({}, this.state.account, profile[0]))
+  }
+
   loginError (error) {
     this.setState({ loading: false, password: '', error: error.message })
   }

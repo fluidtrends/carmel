@@ -1,5 +1,5 @@
 import React from 'react'
-import { Component } from 'react-dom-chunky'
+import { Component, Components } from 'react-dom-chunky'
 import { Typography } from 'rmwc/Typography'
 import { Chip, ChipText, ChipIcon, ChipSet } from 'rmwc/Chip'
 import { Icon } from 'rmwc/Icon'
@@ -12,7 +12,7 @@ const FormItem = Form.Item
 export default class UserInfoComponent extends Component {
   constructor (props) {
     super(props)
-    this.state = { ...super.state, verification: 1 }
+    this.state = { ...super.state, verification: 2 }
     this._verify = this.verify.bind(this)
     this._joinTelegram = this.joinTelegram.bind(this)
     this._followOnTwitter = this.followOnTwitter.bind(this)
@@ -37,6 +37,11 @@ export default class UserInfoComponent extends Component {
 
     if (this.isEmailVerified && this.state.verification === 1) {
       this.setState({ verification: 2 })
+      return
+    }
+
+    if (this.props.twitter && this.state.verification === 2) {
+      this.setState({ verification: 3, twitterVerify: false })
     }
   }
 
@@ -57,7 +62,21 @@ export default class UserInfoComponent extends Component {
   }
 
   followOnTwitter () {
-    this.props.redirect('https://twitter.com/carmelplatform')
+    const provider = new firebase.auth.TwitterAuthProvider()
+
+    this.setState({ twitterLoading: true })
+
+    const self = this
+    firebase.auth().signInWithPopup(provider).then(function (result) {
+      const accessToken = result.credential.accessToken
+      const tokenSecret = result.credential.secret
+      self.props.twitterVerify({ tokenSecret, accessToken, userId: self.props.account.user.uid })
+    }).catch(function (error) {
+      notification.error({
+        message: 'Twitter Verification Failed',
+        description: error.message
+      })
+    })
   }
 
   verify () {
@@ -99,13 +118,17 @@ export default class UserInfoComponent extends Component {
   }
 
   renderTwitterAction () {
+    if (this.state.twitterLoading && !this.props.twitter) {
+      return <Components.Loading message='Tweeting and following on your behalf, one sec please ...' />
+    }
+
     return <div style={{ marginTop: '10px', marginBottom: '30px' }}>
       <Typography use='subheading2' tag='h1' style={{ color: '#90A4AE', marginBottom: '30px' }}>
-        Twitter verification coming soon.
-        </Typography>
+        Sign in with Twitter to follow and tweet automatically
+      </Typography>
       <Typography use='subheading2' tag='h1' style={{ color: '#90A4AE', marginBottom: '30px' }}>
         <Button raised onClick={this._followOnTwitter}>
-          Follow us on Twitter
+          Press To Follow & Tweet
         </Button>
       </Typography>
     </div>

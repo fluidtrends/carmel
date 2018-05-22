@@ -46,7 +46,11 @@
       "operations": {
         "login": [
           "firebase://login",
-          { "onSuccess": "login", "onError": "loginError" }
+          { "onSuccess": "loginOk", "onError": "loginError" }
+        ],
+        "getProfile": [
+          "firebase://retrieve/users-profiles/:userId?latest=1&resolve=profiles#getProfile",
+          { "onSuccess": "profileOk", "onError": "loginError" }
         ]
       }
     },
@@ -84,6 +88,14 @@
       },
       "startOperationsOnMount": false,
       "operations": {
+        "twitterVerify": [
+          "rest://create/social/twitter",
+          { "onSuccess": "twitterOk", "onError": "twitterError" }
+        ],
+        "getUserProfile": [
+          "firebase://retrieve/users-profiles/:userId?latest=1&resolve=profiles#getProfile",
+          { "onSuccess": "profileOk", "onError": "profileError" }
+        ],
         "reset": [
           "firebase://reset",
           { "onSuccess": "accountOk", "onError": "okError" }
@@ -96,8 +108,7 @@
   },
   "service": {
     "functions": [
-      "post://setup#setup",
-      "post://update#updateAccount"
+      "post://setup#setup"
     ],
     "dependencies": {
     },
