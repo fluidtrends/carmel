@@ -1,5 +1,6 @@
-const Twitter = require('twitter')
 const chunky = require('react-cloud-chunky')
+const request = require('request')
+const Twitter = require('twitter')
 
 const filename = __filename
 const auth = { limit: 1, private: true }
@@ -80,33 +81,64 @@ const follow = (client) => {
   })
 }
 
-function executor ({ event, chunk, config, account }) {
+const verify = ({ token, account, config }) => {
+  const twitterUsername = token.screen_name
+  const twitterUserId = token.user_id
+
   const client = new Twitter({
     consumer_key: config.settings.twitter.mainApp.apiKey,
     consumer_secret: config.settings.twitter.mainApp.apiSecret,
-    access_token_key: event.body.accessToken,
-    access_token_secret: event.body.tokenSecret
+    access_token_key: token.oauth_token,
+    access_token_secret: token.oauth_token_secret
   })
 
-  return friendship(client)
-         .then(({ friendship }) => {
-           var found = false
+  // return friendship(client)
+  //        .then(({ friendship }) => {
+  //          var found = false
+  //
+  //          if (friendship && friendship.length >= 1) {
+  //            friendship[0].connections.forEach(c => {
+  //              if (c === 'carmelplatform') {
+  //                found = true
+  //              }
+  //            })
+  //          }
+  //
+  //          if (!found) {
+  //            return follow(client)
+  //          }
+  //        })
+  //        .then(() => tweet(client))
 
-           if (friendship && friendship.length >= 1) {
-             friendship[0].connections.forEach(c => {
-               if (c === 'carmelplatform') {
-                 found = true
-               }
-             })
-           }
+  return updateProfile({ twitterUsername, twitterUserId }, account.user.uid)
+}
 
-           if (!found) {
-             return follow(client)
-           }
-         })
-         // .then(() => tweet(client))
-         .then(() => getAccount(client))
-         .then((profile) => updateProfile({ twitterUsername: profile.account.screen_name }, event.body.userId))
+const getAccessToken = ({ config, query }) => {
+  return new Promise((resolve, reject) => {
+    request.post({
+      url: `https://api.twitter.com/oauth/access_token?oauth_verifier`,
+      oauth: {
+        consumer_key: config.settings.twitter.mainApp.apiKey,
+        consumer_secret: config.settings.twitter.mainApp.apiSecret,
+        token: query.oauthTokens.oauth_token
+      },
+      form: { oauth_verifier: query.oauthTokens.oauth_verifier }
+    }, (err, r, data) => {
+      if (err) {
+        reject(err)
+        return
+      }
+
+      var token = '{ "' + data.replace(/&/g, '", "').replace(/=/g, '": "') + '"}'
+      token = JSON.parse(token)
+      resolve({ token })
+    })
+  })
+}
+
+function executor ({ event, chunk, config, account }) {
+  return getAccessToken({ config, query: event.body })
+         .then(({ token }) => verify({ token, account, config }))
 }
 
 module.exports.main = chunky.handler({ executor, filename, auth })

@@ -88,8 +88,12 @@
       },
       "startOperationsOnMount": false,
       "operations": {
+        "twitterAuth": [
+          "rest://create/auth/twitter-reverse",
+          { "onSuccess": "twitterAuthOk", "onError": "twitterError" }
+        ],
         "twitterVerify": [
-          "rest://create/social/twitter",
+          "rest://create/auth/twitter",
           { "onSuccess": "twitterOk", "onError": "twitterError" }
         ],
         "getUserProfile": [
@@ -108,11 +112,16 @@
   },
   "service": {
     "functions": [
-      "post://setup#setup"
+      "post://setup#setup",
+      "post://twitter#twitter",
+      "post://twitter-reverse#twitterReverse"
     ],
     "dependencies": {
+      "twitter": "latest",
+      "oauth": "latest"
     },
     "requiredFields": {
+      "twitter": ["oauthTokens"]
     },
     "permissions": {
       "setup": ["ses:SendEmail"]

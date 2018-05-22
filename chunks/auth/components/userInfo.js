@@ -15,7 +15,9 @@ export default class UserInfoComponent extends Component {
     this.state = { ...super.state, verification: 2 }
     this._verify = this.verify.bind(this)
     this._joinTelegram = this.joinTelegram.bind(this)
-    this._followOnTwitter = this.followOnTwitter.bind(this)
+    this._onTwitterError = this.onTwitterError.bind(this)
+    this._onTwitterSuccess = this.onTwitterSuccess.bind(this)
+    this._verifyTwitter = this.verifyTwitter.bind(this)
   }
 
   componentDidMount () {
@@ -24,6 +26,11 @@ export default class UserInfoComponent extends Component {
   }
 
   checkVerificationState () {
+    if (this.props.account.user.twitterUsername && this.state.verification === 2) {
+      this.setState({ verification: 3, twitterLoading: false })
+      return
+    }
+
     const user = firebase.auth().currentUser
 
     if (!user) {
@@ -37,11 +44,6 @@ export default class UserInfoComponent extends Component {
 
     if (this.isEmailVerified && this.state.verification === 1) {
       this.setState({ verification: 2 })
-      return
-    }
-
-    if (this.props.twitter && this.state.verification === 2) {
-      this.setState({ verification: 3, twitterVerify: false })
     }
   }
 
@@ -57,26 +59,13 @@ export default class UserInfoComponent extends Component {
     return (this.props.claimed || 0)
   }
 
-  joinTelegram () {
-    this.props.redirect('https://t.me/carmelplatform')
+  verifyTwitter () {
+    this.setState({ twitterLoading: true })
+    this.props.twitterAuth()
   }
 
-  followOnTwitter () {
-    const provider = new firebase.auth.TwitterAuthProvider()
-
-    this.setState({ twitterLoading: true })
-
-    const self = this
-    firebase.auth().signInWithPopup(provider).then(function (result) {
-      const accessToken = result.credential.accessToken
-      const tokenSecret = result.credential.secret
-      self.props.twitterVerify({ tokenSecret, accessToken, userId: self.props.account.user.uid })
-    }).catch(function (error) {
-      notification.error({
-        message: 'Twitter Verification Failed',
-        description: error.message
-      })
-    })
+  joinTelegram () {
+    this.props.redirect('https://t.me/carmelplatform')
   }
 
   verify () {
@@ -117,9 +106,18 @@ export default class UserInfoComponent extends Component {
     })
   }
 
+  onTwitterSuccess (data) {
+    console.log(data)
+  }
+
+  onTwitterError (data) {
+    console.log(data)
+  }
+
   renderTwitterAction () {
-    if (this.state.twitterLoading && !this.props.twitter) {
-      return <Components.Loading message='Tweeting and following on your behalf, one sec please ...' />
+    if ((this.state.twitterLoading && !this.props.twitter) || this.props.twitterOAuth) {
+      const message = (this.props.twitterAuth ? 'Tweeting and following on your behalf ...' : 'Verifying your Twitter identity ... ')
+      return <Components.Loading message={message} />
     }
 
     return <div style={{ marginTop: '10px', marginBottom: '30px' }}>
@@ -127,8 +125,8 @@ export default class UserInfoComponent extends Component {
         Sign in with Twitter to follow and tweet automatically
       </Typography>
       <Typography use='subheading2' tag='h1' style={{ color: '#90A4AE', marginBottom: '30px' }}>
-        <Button raised onClick={this._followOnTwitter}>
-          Press To Follow & Tweet
+        <Button raised onClick={this._verifyTwitter}>
+          Verify Twitter
         </Button>
       </Typography>
     </div>

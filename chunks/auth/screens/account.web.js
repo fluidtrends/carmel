@@ -2,7 +2,7 @@ import React from 'react'
 import { Screen } from 'react-dom-chunky'
 import { Card, CardActions, CardActionButtons } from 'rmwc/Card'
 import { Button } from 'rmwc/Button'
-import { List } from 'antd'
+import { List, notification } from 'antd'
 
 import UserInfo from '../components/userInfo'
 
@@ -18,7 +18,26 @@ export default class AccountScreen extends Screen {
   componentDidMount () {
     super.componentDidMount()
 
-    console.log(this.account.user.uid)
+    this.verifyTwitterCallback()
+  }
+
+  verifyTwitterCallback () {
+    if (!this.props.location.search) {
+      return
+    }
+
+    var twitterOAuth = '{ "' + this.props.location.search.substring(1).replace(/&/g, '", "').replace(/=/g, '": "') + '"}'
+    twitterOAuth = JSON.parse(twitterOAuth)
+
+    if (!twitterOAuth.oauth_verifier || !twitterOAuth.oauth_token) {
+      return
+    }
+
+    this.setState({ twitterOAuth })
+    setTimeout(() => {
+      this.props.twitterVerify({ oauthTokens: twitterOAuth })
+    }, 300)
+    this.props.history.push(this.props.location.pathname)
   }
 
   subscriptionArgs (subscription) {
@@ -83,11 +102,25 @@ export default class AccountScreen extends Screen {
   }
 
   twitterOk (twitter) {
+    notification.success({
+      message: 'Twitter Verification Successful',
+      description: 'Thanks for verifying your Twitter identity'
+    })
+    console.log(twitter)
     this.setState({ twitter })
   }
 
   twitterError (error) {
     this.setState({ twitterError: error.message })
+  }
+
+  twitterAuthOk (twitter) {
+    const authUrl = `https://api.twitter.com/oauth/authenticate?oauth_token=${twitter.data.token.oauth_token}`
+    window && window.location.replace(authUrl)
+  }
+
+  get twitterUrl () {
+    return `${this.restUrl}auth/twitter`
   }
 
   renderMainContent () {
@@ -105,9 +138,12 @@ export default class AccountScreen extends Screen {
       <Card style={{ width, margin: '10px', padding }}>
         <UserInfo
           skipWallet
+          twitterOAuth={this.state.twitterOAuth}
+          twitterUrl={this.twitterUrl}
           twitter={this.state.twitter}
           twitterError={this.state.twitterError}
           twitterVerify={this.props.twitterVerify}
+          twitterAuth={this.props.twitterAuth}
           redirect={this.triggerRawRedirect}
           account={this.account} />
         <List
