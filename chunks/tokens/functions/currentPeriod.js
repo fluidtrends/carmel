@@ -10,7 +10,7 @@ function executor ({ event, chunk, config }) {
     try {
       resolve(period.current())
     } catch (e) {
-      resolve(e)
+      reject(e)
     }
   })
 }

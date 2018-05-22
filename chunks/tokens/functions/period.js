@@ -18,15 +18,15 @@ const current = () => {
   const daysLeft = mainStartTotalDays - day - 1
   const dailySupply = mainStartDailyLimit - (day * mainDailyLimitDecrement)
 
-  if (daysLeft <= 0) {
-    throw new Error('This period has ended.')
-  }
+  // if (daysLeft <= 0) {
+  //   throw new Error('This period has ended.')
+  // }
+  //
+  // if (dailySupply <= 0) {
+  //   throw new Error('The daily limit has been reached.')
+  // }
 
-  if (dailySupply <= 0) {
-    throw new Error('The daily limit has been reached.')
-  }
-
-  return ({ periodId: mainPeriodId, day, tokens, hour })
+  return ({ periodId: mainPeriodId, dailySupply, daysLeft, day, tokens, hour })
 }
 
 module.exports = {

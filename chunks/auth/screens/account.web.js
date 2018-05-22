@@ -91,13 +91,13 @@ export default class AccountScreen extends Screen {
       title: 'Email Address',
       value: this.account.user.email
     }, {
-      id: 'telegram',
-      title: 'Telegram Username',
-      value: this.account.user.telegramUsername
-    }, {
       id: 'twitter',
       title: 'Twitter Username',
       value: this.account.user.twitterUsername
+    }, {
+      id: 'telegram',
+      title: 'Telegram Username',
+      value: this.account.user.telegramUsername
     }]
   }
 
@@ -106,12 +106,25 @@ export default class AccountScreen extends Screen {
       message: 'Twitter Verification Successful',
       description: 'Thanks for verifying your Twitter identity'
     })
-    console.log(twitter)
+
     this.setState({ twitter })
   }
 
   twitterError (error) {
     this.setState({ twitterError: error.message })
+  }
+
+  telegramOk (telegram) {
+    notification.success({
+      message: 'Telegram Verification Pending',
+      description: 'Complete verification coming soon'
+    })
+
+    this.setState({ telegram })
+  }
+
+  telegramError (error) {
+    this.setState({ telegramError: error.message })
   }
 
   twitterAuthOk (twitter) {
@@ -143,6 +156,7 @@ export default class AccountScreen extends Screen {
           twitter={this.state.twitter}
           twitterError={this.state.twitterError}
           twitterVerify={this.props.twitterVerify}
+          telegramVerify={this.props.telegramVerify}
           twitterAuth={this.props.twitterAuth}
           redirect={this.triggerRawRedirect}
           account={this.account} />

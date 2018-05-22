@@ -13,6 +13,7 @@ export default class PrivateTokensScreen extends Screen {
     super(props)
     this.state = { ...this.state, transactions: [], purchases: [], claims: [] }
     this._renderTransactionItem = this.renderTransactionItem.bind(this)
+    this._onVerifyAccount = this.onVerifyAccount.bind(this)
   }
 
   componentDidMount () {
@@ -25,6 +26,10 @@ export default class PrivateTokensScreen extends Screen {
 
   componentWillUnmount () {
     super.componentWillMount()
+  }
+
+  onVerifyAccount () {
+    this.triggerRedirect('/me')
   }
 
   transactionVerifiedOk (data) {
@@ -168,6 +173,7 @@ export default class PrivateTokensScreen extends Screen {
       }}>
       <Card style={{ width, margin: '10px', padding }}>
         <UserInfo
+          onVerifyAccount={this._onVerifyAccount}
           redirect={this.triggerRawRedirect}
           claimed={this.state.totalClaimed}
           wallet={this.state.wallet}
@@ -209,6 +215,11 @@ export default class PrivateTokensScreen extends Screen {
   }
 
   gotPeriod (period) {
+    if (period.data.error) {
+      this.setState({ periodError: period.data.error })
+      return
+    }
+
     this.setState({ period })
   }
 

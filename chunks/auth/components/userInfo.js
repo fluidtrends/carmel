@@ -12,8 +12,9 @@ const FormItem = Form.Item
 export default class UserInfoComponent extends Component {
   constructor (props) {
     super(props)
-    this.state = { ...super.state, verification: 2 }
+    this.state = { ...super.state, verification: 1 }
     this._verify = this.verify.bind(this)
+    this._verifyAccount = this.verifyAccount.bind(this)
     this._joinTelegram = this.joinTelegram.bind(this)
     this._onTwitterError = this.onTwitterError.bind(this)
     this._onTwitterSuccess = this.onTwitterSuccess.bind(this)
@@ -25,8 +26,12 @@ export default class UserInfoComponent extends Component {
     this.checkVerificationState()
   }
 
+  verifyAccount () {
+    this.props.onVerifyAccount && this.props.onVerifyAccount()
+  }
+
   checkVerificationState () {
-    if (this.props.account.user.twitterUsername && this.state.verification === 2) {
+    if (this.props.account.user.twitterUsername) {
       this.setState({ verification: 3, twitterLoading: false })
       return
     }
@@ -65,6 +70,18 @@ export default class UserInfoComponent extends Component {
   }
 
   joinTelegram () {
+    if (!this.state.telegramUsername) {
+      notification.error({
+        message: 'Telegram Username Required',
+        description: 'Please enter your Telegram username.'
+      })
+      return
+    }
+
+    setTimeout(() => {
+      this.props.telegramVerify({ username: this.state.telegramUsername })
+    }, 300)
+
     this.props.redirect('https://t.me/carmelplatform')
   }
 
@@ -83,7 +100,7 @@ export default class UserInfoComponent extends Component {
   }
 
   get isVerified () {
-    return this.state.verification >= 3
+    return this.state.verification > 3
   }
 
   get isEmailVerified () {
@@ -116,23 +133,31 @@ export default class UserInfoComponent extends Component {
 
   renderTwitterAction () {
     if ((this.state.twitterLoading && !this.props.twitter) || this.props.twitterOAuth) {
-      const message = (this.props.twitterAuth ? 'Tweeting and following on your behalf ...' : 'Verifying your Twitter identity ... ')
+      const message = 'Verifying your Twitter Account ... '
       return <Components.Loading message={message} />
     }
 
     return <div style={{ marginTop: '10px', marginBottom: '30px' }}>
       <Typography use='subheading2' tag='h1' style={{ color: '#90A4AE', marginBottom: '30px' }}>
-        Sign in with Twitter to follow and tweet automatically
+        Sign in to Twitter to automatically follow us and send a verification tweet
       </Typography>
       <Typography use='subheading2' tag='h1' style={{ color: '#90A4AE', marginBottom: '30px' }}>
         <Button raised onClick={this._verifyTwitter}>
-          Verify Twitter
+          Verify Your Twitter Account
         </Button>
       </Typography>
     </div>
   }
 
   renderTelegramAction () {
+    if (this.props.account.user.telegramUsername) {
+      return <div style={{ marginTop: '10px', marginBottom: '30px' }}>
+        <Typography use='caption' tag='h1' style={{ color: '#90A4AE', marginBottom: '10px' }}>
+        * The complete Telegram verification process is coming soon.
+        </Typography>
+      </div>
+    }
+
     return <div style={{ marginTop: '10px', marginBottom: '30px' }}>
       <FormItem style={{}}>
         <Input
@@ -143,17 +168,31 @@ export default class UserInfoComponent extends Component {
           placeholder={'Enter your Telegram username'} />
       </FormItem>
       <Typography use='subheading2' tag='h1' style={{ color: '#90A4AE', marginBottom: '30px' }}>
-        Then join the Carmel Telegram Channel and type <strong> /verifyme </strong>
-      </Typography>
-      <Typography use='subheading2' tag='h1' style={{ color: '#90A4AE', marginBottom: '30px' }}>
         <Button raised onClick={this._joinTelegram}>
-        Join us on Telegram
+        Verify Your Telegram Account
         </Button>
+      </Typography>
+      <Typography use='caption' tag='h1' style={{ color: '#90A4AE', marginBottom: '10px' }}>
+      * The complete Telegram verification process is coming soon.
       </Typography>
     </div>
   }
 
   renderMainAction () {
+    if (!this.props.skipWallet) {
+      if (this.isVerified) {
+        return <div />
+      }
+
+      return <div>
+        <Typography use='subheading2' tag='h1' style={{ color: '#90A4AE' }}>
+          <Button raised onClick={this._verifyAccount} style={{ marginTop: '15px' }}>
+              Verify Your Account
+          </Button>
+        </Typography>
+      </div>
+    }
+
     switch (this.state.verification) {
       case 3:
         return this.renderTelegramAction()
@@ -174,6 +213,10 @@ export default class UserInfoComponent extends Component {
   }
 
   renderVerificationProgress () {
+    if (!this.props.skipWallet) {
+      return <div />
+    }
+
     return <div style={{ marginTop: '10px', marginBottom: '30px' }}>
       <Typography use='subheading2' tag='h1' style={{ color: '#90A4AE', marginBottom: '30px' }}>
         Please verify your Carmel Account
