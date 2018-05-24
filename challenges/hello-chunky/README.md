@@ -55,6 +55,23 @@ If you don't have **Node.js** installed on your machine, simply download the lat
 
 [Download Node.js](https://nodejs.org/en/download/)
 
+**Linux build instructions**
+
+This command is useful for installing NVM.
+```
+wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+```
+
+Next, you need to install Build Essentials using this command:
+```
+sudo apt-get install build-essential g++
+```
+
+Finally, enter this command to install NodeJs:
+```
+nvm install node
+```
+
 **Windows Build Tools (Windows Only)**
 
 If your running Windows, the Chunky CLI also needs to have access to the Windows Build Tools. To install them, just run the following command in your terminal:
