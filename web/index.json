@@ -2,6 +2,16 @@
   "layout": {
     "fixed": true
   },
+  "permissions": {
+    "privateRedirect": "/me",
+    "publicRedirect": "/register"
+  },
+  "ethereum": {
+    "infura": {
+      "key": "lbSc5wiaSdI145gumKRG",
+      "provider": "mainNet"
+    }
+  },
   "footer": {
     "sections": [
       {
@@ -11,7 +21,7 @@
           {
             "id": "whitepaper",
             "title": "Whitepaper",
-            "link": "https://github.com/fluidtrends/carmel/tree/master/docs/whitepaper/README.md"
+            "link": "local://whitepaper"
           },
           {
             "id": "code",

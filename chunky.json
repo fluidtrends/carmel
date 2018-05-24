@@ -1,16 +1,39 @@
 {
   "name": "Carmel",
   "template": "default",
-  "env": "dev",
+  "env": "production",
   "id": "io.carmel",
   "androidSdkDir": "~/Library/Android/sdk",
   "sections": {
     "start": {
-      "stack": ["intro", "whitepaper", "story", "challenges", "tokens", "dashboard"]
+      "stack": [
+        "intro",
+        "roadmap",
+        "whitepaper",
+        "story",
+        "challenges",
+        "tokens",
+        "auth"
+      ]
+    },
+    "dashboard": {
+      "private": true,
+      "layout": "sidebar",
+      "stack": [
+        "auth",
+        "tokens"
+      ]
     }
   },
   "transitions": ["replace://start"],
-  "provisioning": {},
+  "provisioning": {
+    "rest": {
+      "url": "https://api.carmel.io"
+    }
+  },
+  "build": {
+    "platforms": ["darwin/x64"]
+  },
   "theme": {
     "logoImage": "carmel-logo-white.png",
     "logoLightImage": "carmel-logo.png",

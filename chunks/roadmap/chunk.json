@@ -1,0 +1,115 @@
+{
+  "name": "roadmap",
+  "routes": {
+    "main": {
+      "title": "Roadmap",
+      "icon": "home",
+      "path": "/roadmap",
+      "cover": {
+        "backgroundColor": "#00838F",
+        "opacity": 0.6,
+        "navigation": true,
+        "image": "roadmap.jpg",
+        "title": "The #CarmelRoadmap",
+        "type": "default"
+      },
+      "components": {
+        "timeline": {
+          "id": "roadmap",
+          "source": "timeline",
+          "backgroundColor": "#ffffff",
+          "pastColor": "#66BB6A",
+          "inProgressColor": "#ffffff",
+          "milestones": [
+            {
+              "until": "26 Feb 2018 00:00:00 PDT",
+              "date": "Week 0",
+              "link":
+                "https://github.com/fluidtrends/carmel/releases/tag/v0.1.0",
+              "title": "Release Objective: LAUNCH THE WEBSITE",
+              "subtitle": "v0.1.0",
+              "text": "The main purpose of this milestone is to officially launch the initial version of the product. We want to see a website published at carmel.io and ready to be used, even if it is extremely low in terms of features. We want users to sign up and register to the website so we can start building a community from day one."
+            },
+            {
+              "until": "5 Mar 2018 00:00:00 PDT",
+              "date": "Week 1",
+              "link":
+                "https://github.com/fluidtrends/carmel/releases/tag/v0.1.1",
+              "title": "Release Objective: SELL FIRST TOKENS",
+              "subtitle": "v0.1.1",
+              "text":"We want to enable the very early adopters of the platform who signed up to the website in the previous week, to participate in the private sale. We want to do this by integrating the website with MetaMask and allowing our community to send Ether transactions to the Carmel Private Sale Ethereum address."
+            },
+            {
+              "until": "12 Mar 2018 00:00:00 PDT",
+              "date": "Week 2",
+              "link":
+                "https://github.com/fluidtrends/carmel/releases/tag/v0.1.2",
+              "title": "Release Objective: TELL THE STORY",
+              "subtitle": "v0.1.2",
+              "text":"It's time to start talking about Carmel and about what it is that we believe and what we're all about. We want to start unpacking some of the big ideas that make up the #CarmelStory, such as the Big Carmel Dream (#H>m), the main problem we're trying to solve (#HelpingChrisSleepAtNight) and the Unique Carmel Value Proposition (#TheCarmelWay)."
+            },
+            {
+              "until": "23 Mar 2018 18:00:00 PDT",
+              "date": "Week 3",
+              "link":
+                "https://github.com/fluidtrends/carmel/releases/tag/v0.1.3",
+              "title": "Release Objective: MEET THE TEAM",
+              "subtitle": "v0.1.3",
+              "text": "Time to introduce the people making Carmel happen. Including the Founders, Core Contributors, Advisors and the Partners. This milestone is about more visibility into the team and product roadmap and letting you in on who is doing what - and when."
+            },
+            {
+              "until": "30 Mar 2018 23:59:00 PDT",
+              "date": "Week 4",
+              "link":
+                "https://github.com/fluidtrends/carmel",
+                "title": "Release Objective: LAUNCH THE CARMEL STUDIO",
+              "subtitle": "v0.1.4",
+              "text": "We want to finish Period 1 with a splash and what better way to do so than to allow our community to download the very first release of the Carmel Studio - available for Mac, Windows and Linux. The first release is fairly simple, but should give us a starting point for building the vision not only on the web but on the Learner's development machine."
+            },
+            {
+              "until": "6 May 2018 23:59:59 PDT",
+              "date": "April 2, 2018",
+              "link": "https://carmel.io/whitepaper/tokens#period-2",
+              "title": "EOS AirDrop Starts",
+              "subtitle": "Token Distribution Period 2",
+              "text": "A total of 3,500,000 Carmel Tokens (5% of total supply) are distributed free of charge to the first EOS token holders to claim them. Each EOS token holder can claim 100 FREE Carmel Tokens. Another 50 Carmel Tokens can be earned as bounty for inviting a friend, for up to 5 friends. The total amount of free Carmel Tokens that can be claimed per EOS token holder is 350, thus making the distribution available to at least 10,000 EOS token holders. A maximum of 100,000 token are available per day to ensure a wide distribution. Tokens can be claimed online at carmel.io on a first come first serve basis."
+            },
+            {
+              "until": "10 June 2018 23:59:59 PDT",
+              "date": "May 7, 2018",
+              "link": "https://carmel.io/whitepaper/tokens#period-3",
+              "title": "Public Pre-Sale",
+              "subtitle": "Token Distribution Period 3",
+              "text": "A total (hard cap) of 7,000,000 Carmel Tokens (10% of total supply) are sold at a progressive discount from the Public Sale price of $1.00 USD. The discount starts at 50% and decreases 10% progressively every week. The accepted currency is ETH at a fixed price calculated as the ETH equivalent of $1.00 USD on Day 1 of the period. A maximum of 200,000 tokens are available per day to ensure a wide distribution. There is a maximum number of 20,000 tokens per day per contributor. Tokens can be purchased online at carmel.io on a first come first serve basis."
+            },
+            {
+              "until": "20 Aug 2018 23:59:59 PDT",
+              "date": "June 11, 2018",
+              "link": "https://carmel.io/whitepaper/tokens#period-4",
+              "title": "Public Sale",
+              "subtitle": "Token Distribution Period 4",
+              "text": "A total (hard cap) of 28,000,000 Carmel Tokens (40% of total supply) are sold as ERC-20 tokens. The accepted currency is ETH at a fixed price. The price is the ETH equivalent of $1.00 USD calculated at the Daily ETH rate. A maximum of 400,000 tokens are available per day to ensure a wide distribution. There is a maximum number of 40,000 tokens per day per contributor. Tokens can be purchased at carmel.io on a first come first serve basis."
+            },
+            {
+              "until": "31 Dec 2018 23:59:58 PDT",
+              "date": "Q4 2018",
+              "link": "https://carmel.io/whitepaper/tokens",
+              "title": "ERC20 Exchange Listing",
+              "subtitle": "Listing on ERC20 Exchanges",
+              "text": "The ERC20 Carmel Token will be available for trading after the Public Sale ends on August 20 and until December 31. The ERC20 token gets frozen on January 1st, 2019 and we will migrate to EOS Exchanges instead."
+            },
+            {
+              "until": "31 Dec 2018 23:59:59 PDT",
+              "date": "December 31, 2018",
+              "link":
+                "https://github.com/fluidtrends/carmel/milestone/6",
+                "title": "Release Objective: OFFICIAL 1.0 LAUNCH",
+              "subtitle": "v1.0.0",
+              "text": "The fully functional platform, including the Web App, Mobile App, Desktop App and the EOS Dapp. Migrated to EOS and fully operational."
+            }
+          ]
+        }
+      }
+    }
+  }
+}

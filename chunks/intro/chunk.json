@@ -3,10 +3,26 @@
   "routes": {
     "main": {
       "title": "Welcome",
+      "desktopTitle": "Start",
       "icon": "home",
+      "skipExtendedMenuOnDesktop": true,
+      "extendedMenu": [
+        {
+          "id": "team",
+          "title": "Team",
+          "path": "/team"
+        }
+      ],
       "path": "/",
       "events": {
-        "cover": "local://me"
+        "cover": "local://tokens",
+        "chris": "local://whitepaper",
+        "buy": "local://tokens",
+        "distribution": "local://whitepaper/tokens",
+        "economy": "local://whitepaper/economy",
+        "architecture": "local://whitepaper/architecture",
+        "security": "local://whitepaper/security",
+        "challenges": "local://whitepaper/challenges"
       },
       "cover": {
         "image": "chris.png",
@@ -15,7 +31,8 @@
         "opacity": 0.5,
         "navigation": true,
         "title": "Learn How To Build A Better Future For All Of Us",
-        "subtitle": "Grow Your Tech Skills With Programming Challenges And Earn Experience Points",
+        "subtitle":
+          "Grow Your Tech Skills With Programming Challenges And Earn Experience Points",
         "type": "default",
         "primaryActionTitle": "Start Your Learning Journey"
       },
@@ -26,6 +43,81 @@
           "image": "carmel-logo.png",
           "textColor": "#37474F"
         },
+        "features": [
+          {
+            "id": "chris",
+            "source": "feature",
+            "text":
+              "github://fluidtrends/carmel/content/product/stakeholders/chris",
+            "image": "learning.png",
+            "actionTitle": "Learn more about Chris",
+            "backgroundColor": "#E1F5FE",
+            "textColor": "#0686d8"
+          },
+          {
+            "id": "stakeholders",
+            "source": "feature",
+            "text":
+              "github://fluidtrends/carmel/content/product/stakeholders/all",
+            "image": "stakeholders.png",
+            "reversed": true,
+            "actionTitle": "Meet All The Carmel Stakeholders",
+            "backgroundColor": "#FFFFFF",
+            "textColor": "#0686d8"
+          },
+          {
+            "id": "challenges",
+            "source": "feature",
+            "text":
+              "github://fluidtrends/carmel/content/whitepaper/challenges/summary",
+            "image": "challenges.png",
+            "actionTitle": "Learn More",
+            "backgroundColor": "#E1F5FE",
+            "textColor": "#0686d8"
+          },
+          {
+            "id": "economy",
+            "source": "feature",
+            "text":
+              "github://fluidtrends/carmel/content/whitepaper/token-economy/summary",
+            "image": "economy.png",
+            "reversed": true,
+            "actionTitle": "Learn More",
+            "backgroundColor": "#FFFFFF",
+            "textColor": "#0686d8"
+          },
+          {
+            "id": "distribution",
+            "source": "feature",
+            "text":
+              "github://fluidtrends/carmel/content/whitepaper/token-distribution/summary",
+            "image": "distribution.png",
+            "actionTitle": "Learn More",
+            "backgroundColor": "#E1F5FE",
+            "textColor": "#0686d8"
+          },
+          {
+            "id": "architecture",
+            "source": "feature",
+            "text":
+              "github://fluidtrends/carmel/content/whitepaper/architecture/summary",
+            "image": "architecture.png",
+            "reversed": true,
+            "actionTitle": "Learn More",
+            "backgroundColor": "#FFFFFF",
+            "textColor": "#0686d8"
+          },
+          {
+            "id": "security",
+            "source": "feature",
+            "text":
+              "github://fluidtrends/carmel/content/whitepaper/security/summary",
+            "image": "security.png",
+            "actionTitle": "Learn More",
+            "backgroundColor": "#E1F5FE",
+            "textColor": "#0686d8"
+          }
+        ],
         "pillars": {
           "source": "benefits",
           "benefits": [
@@ -35,44 +127,53 @@
           ],
           "textColor": "#37474F",
           "backgroundColor": "#fcfefe"
-        },
-        "features": [
-          {
-            "id": "feature-challenges",
-            "source": "feature",
-            "text":"github://fluidtrends/carmel/content/whitepaper/challenges/summary",
-            "image":"challenges.png",
-            "actionTitle":"Learn More",
-            "backgroundColor":"#E1F5FE",
-            "textColor":"#0686d8"
-          },
-          {
-            "id": "feature-architecture",
-            "source": "feature",
-            "text":"github://fluidtrends/carmel/content/whitepaper/architecture/summary",
-            "image":"architecture.png",
-            "reversed": true,
-            "actionTitle":"Learn More",
-            "backgroundColor":"#FFFFFF",
-            "textColor":"#0686d8"
-          },
-          {
-            "id": "feature-security",
-            "source": "feature",
-            "text":"github://fluidtrends/carmel/content/whitepaper/security/summary",
-            "image":"security.png",
-            "actionTitle":"Learn More",
-            "backgroundColor":"#E1F5FE",
-            "textColor":"#0686d8"
-          }          
-        ]
+        }
+      }
+    },
+    "welcome": {
+      "title": "Welcome",
+      "icon": "home",
+      "path": "/welcome",
+      "events": {
+        "cover": "local://me"
+      },
+      "cover": {
+        "image": "start.jpg",
+        "backgroundColor": "#ffffff",
+        "align": "bottom",
+        "opacity": 0.5,
+        "navigation": true,
+        "title": "It has begun.",
+        "subtitle": "Ready to get in the zone?",
+        "type": "default",
+        "primaryActionTitle": "Let's Do This"
       }
     },
     "person": {
       "title": "Stories",
       "icon": "supervisor_account",
-      "path": "/:person",
-      "skipPaths": ["story", "whitepaper", "platform", "admin", "dashboard", "levelup", "tokens", "wallet", "community", "challenges", "me"],
+      "path": "/@:person",
+      "skipPaths": [
+        "story",
+        "whitepaper",
+        "roadmap",
+        "platform",
+        "admin",
+        "dashboard",
+        "studio",
+        "login",
+        "register",
+        "download",
+        "levelup",
+        "tokens",
+        "wallet",
+        "referrals",
+        "community",
+        "team",
+        "logout",
+        "challenges",
+        "me"
+      ],
       "skipRootVariant": true,
       "events": {
         "cover": "local://stories"
@@ -84,6 +185,297 @@
         "navigation": true,
         "title": "What's your #CarmelStory?",
         "type": "simple"
+      }
+    },
+    "team": {
+      "title": "Team",
+      "icon": "supervisor_account",
+      "path": "/team",
+      "skipRootVariant": true,
+      "events": {
+        "cover": "local://team"
+      },
+      "cover": {
+        "backgroundColor": "#00838F",
+        "align": "bottom",
+        "opacity": 0.5,
+        "image": "team.jpg",
+        "navigation": true,
+        "title": "Meet the #CarmelTeam",
+        "type": "default"
+      },
+      "components": {
+        "team": {
+          "id": "team",
+          "source": "team",
+          "linkedinIcon":
+            "https://github.com/fluidtrends/carmel/raw/content/images/linkedin.png",
+          "githubIcon":
+            "https://github.com/fluidtrends/carmel/raw/content/images/github.png",
+          "webIcon":
+            "https://github.com/fluidtrends/carmel/raw/content/images/web.png",
+          "sections": [
+            {
+              "title": "Founders",
+              "members": [
+                {
+                  "name": "Dan Calinescu",
+                  "username": "dan",
+                  "title": "Chief Evangelist",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/content/team/dan/profile.png",
+                  "linkedIn": "https://www.linkedin.com/in/idancali/",
+                  "github": "https://github.com/idancali",
+                  "text": "github://fluidtrends/carmel/content/team/dan/README"
+                },
+                {
+                  "name": "Andrei Lazurca",
+                  "username": "andrei",
+                  "title": "Community Manager",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/content/team/andrei/profile.png",
+                  "linkedIn": "https://www.linkedin.com/in/andrei-lazurca/",
+                  "github": "https://github.com/AndreiLaz",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/andrei/README"
+                },
+                {
+                  "name": "Andi Coman",
+                  "username": "andi",
+                  "title": "Product Developer",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/content/team/andi/profile.png",
+                  "linkedIn": "https://www.linkedin.com/in/andi-coman/",
+                  "github": "https://github.com/AndyComan",
+                  "text": "github://fluidtrends/carmel/content/team/andi/README"
+                },
+                {
+                  "name": "Chunky",
+                  "username": "chunky",
+                  "title": "Official Code Monkey",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/content/team/chunky/profile.png",
+                  "github": "https://github.com/fluidtrends/chunky",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/chunky/README"
+                }
+              ]
+            },
+            {
+              "title": "Core Contributors",
+              "members": [
+                {
+                  "name": "Vincent Doare",
+                  "username": "vincent",
+                  "title": "Business Development",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/content/team/vincent/profile.jpg",
+                  "linkedIn":
+                    "https://www.linkedin.com/in/vincent-doare-058170a7/",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/vincent/README"
+                },
+                {
+                  "name": "Robert Pop",
+                  "username": "robert",
+                  "title": "Web & Mobile Developer",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/content/team/robert/profile.png",
+                  "github": "https://github.com/poprobertdaniel",
+                  "linkedIn":
+                    "https://www.linkedin.com/in/robert-pop-90a512b6/",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/robert/README"
+                },
+                {
+                  "name": "Mihai Tise",
+                  "username": "mihai",
+                  "title": "Web & Blockchain Developer",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/content/team/mihai/profile.png",
+                  "linkedIn":
+                    "https://www.linkedin.com/in/mihai-tise-9995b2a3/",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/mihai/README"
+                },
+                {
+                  "name": "Emanuel Tise",
+                  "username": "emanuel",
+                  "title": "Web & Blockchain Developer",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/content/team/emanuel/profile.png",
+                  "linkedIn":
+                    "https://www.linkedin.com/in/emanuel-tise-70559396/",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/emanuel/README"
+                }
+              ]
+            },
+            {
+              "title": "Board of Advisors",
+              "members": [
+                {
+                  "name": "Paul Brie",
+                  "username": "paul-brie",
+                  "title": "Startup Advisor",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/content/team/paul-brie/profile.jpeg",
+                  "linkedIn":
+                    "https:/>>>>>>> master/www.linkedin.com/in/paul-brie/",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/paul-brie/README"
+                },
+                {
+                  "name": "Justin 'officialfuzzy' Fondriest",
+                  "username": "fuzzy",
+                  "title": "Blockchain Advisor",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/content/team/fuzzy/profile.jpg",
+                  "linkedIn":
+                    "https://www.linkedin.com/in/justin-fondriest-7941651a/",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/fuzzy/README"
+                },
+                {
+                  "name": "Nathan 'nsjames' James",
+                  "username": "nsjames",
+                  "title": "Blockchain Technical Advisor",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/content/team/nsjames/profile.jpg",
+                  "github": "https://github.com/nsjames",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/nsjames/README"
+                },
+                {
+                  "name": "Gheorghe Lisca",
+                  "username": "gheorghe",
+                  "title": "Robotics & AI Advisor",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/content/team/gheorghe/profile.jpg",
+                  "linkedIn":
+                    "https://www.linkedin.com/in/gheorghe-lisca-51801b140/",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/gheorghe/README"
+                },
+                {
+                  "name": "Vlad Negrean",
+                  "username": "vlad",
+                  "title": "Financial Advisor",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/content/team/vlad/profile.jpg",
+                  "linkedIn": "https://www.linkedin.com/in/vladnegrean/",
+                  "text": "github://fluidtrends/carmel/content/team/vlad/README"
+                },
+                {
+                  "name": "Paul Oprea",
+                  "username": "paul-oprea",
+                  "title": "Engineering Advisor",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/content/team/paul-oprea/profile.jpg",
+                  "linkedIn": "https://www.linkedin.com/in/pmoprea/",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/paul-oprea/README"
+                },
+                {
+                  "name": "Vivek Parashar",
+                  "username": "vivek",
+                  "title": "Business Intelligence Advisor",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/content/team/vivek/profile.png",
+                  "linkedIn": "https://www.linkedin.com/in/vivekparashar/",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/vivek/README"
+                },
+                {
+                  "name": "Rennie Pelkie",
+                  "username": "rennie",
+                  "title": "Financial Industry Advisor",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/content/team/rennie/profile.jpg",
+                  "linkedIn": "https://www.linkedin.com/in/renniepelkie/",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/rennie/README"
+                },
+                {
+                  "name": "Emil Tamas",
+                  "username": "emil",
+                  "title": "Startup Advisor",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/content/team/emil/profile.jpeg",
+                  "linkedIn": "https://www.linkedin.com/in/emiltamas/",
+                  "text": "github://fluidtrends/carmel/content/team/emil/README"
+                }
+              ]
+            },
+            {
+              "title": "Community Partners",
+              "members": [
+                {
+                  "name": "EOS Angels",
+                  "username": "eosangels",
+                  "title": "EOS Community Partner",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/content/team/eosangels/profile.jpeg",
+                  "website":
+                    "https://eostalk.io/eos-projects/@officialfuzzy/eos-angels-decentralized-venture-capital",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/eosangels/README"
+                },
+                {
+                  "name": "EOS GO",
+                  "username": "eosgo",
+                  "title": "EOS Community Partner",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/content/team/eosgo/profile.jpg",
+                  "website": "http://eosgo.io/",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/eosgo/README"
+                },
+                {
+                  "name": "EOS Talks",
+                  "username": "eostalks",
+                  "title": "EOS Community Partner",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/content/team/eostalks/profile.png",
+                  "website": "https://eostalk.io",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/eostalks/README"
+                },
+                {
+                  "name": "KOREOS",
+                  "username": "koreos",
+                  "title": "EOS Community Partner",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/content/team/koreos/profile.png",
+                  "website": "http://www.koreos.io/",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/koreos/README"
+                },
+                {
+                  "name": "Scatter",
+                  "username": "scatter",
+                  "title": "EOS Community Partner",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/content/team/scatter/profile.jpg",
+                  "website": "http://scatter-eos.com/",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/scatter/README"
+                },
+                {
+                  "name": "The Informal School of IT",
+                  "username": "informal-school",
+                  "title": "Education Partner",
+                  "image":
+                    "https://github.com/fluidtrends/carmel/raw/content/team/scoalainformala/profile.png",
+                  "website": "https://informalschool.com/",
+                  "text":
+                    "github://fluidtrends/carmel/content/team/scoalainformala/README"
+                }
+              ]
+            }
+          ],
+          "backgroundColor": "#ffffff"
+        }
       }
     }
   }

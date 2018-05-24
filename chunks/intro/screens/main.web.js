@@ -1,9 +1,8 @@
 import React from 'react'
-import { Screen, Components } from 'react-dom-chunky'
+import { Screen } from 'react-dom-chunky'
 import { Telegram } from '../components'
 
 export default class MainIntroScreen extends Screen {
-
   constructor (props) {
     super(props)
     this.state = { ...this.state }
@@ -13,14 +12,12 @@ export default class MainIntroScreen extends Screen {
     super.componentDidMount()
   }
 
-
-
-  get features () {
-    return (<Telegram onAction={ () => { this.triggerRawRedirect('https://t.me/carmelplatform') } }/>)
+  get telegram () {
+    return (<Telegram onAction={() => { this.triggerRawRedirect('https://t.me/carmelplatform') }} />)
   }
 
   components () {
     return super.components()
-          .concat(this.features)
+          .concat([this.telegram])
   }
 }

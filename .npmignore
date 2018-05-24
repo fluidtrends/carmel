@@ -1,0 +1,6 @@
+.DS_Store
+node_modules
+.chunky.json
+coverage
+.chunky
+.next

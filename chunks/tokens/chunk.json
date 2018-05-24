@@ -6,24 +6,144 @@
       "icon": "favorite",
       "path": "/tokens",
       "action": true,
+      "guestOnly": true,
+      "privateRedirect": "/me/tokens",
       "events": {
-        "cover": "local://tokens"
+        "buy": "local://me/tokens"
+      },
+      "cover": {
+        "backgroundColor": "#61AFE1",
+        "align": "bottom",
+        "opacity": 0.9,
+        "navigation": true,
+        "image": "distribution.png",
+        "title": "Own A Piece Of Carmel",
+        "type": "presentation"
+      },
+      "startOperationsOnMount": false,
+      "operations": {
+        "newTransaction": [
+          "rest://create/tokens/purchases#newTransaction",
+          { "onSuccess": "transactionOk", "onError": "transactionError" }
+        ],
+        "getContext": [
+          "firebase://retrieve/context?latest=1#freshContext",
+          { "onSuccess": "gotContext" }
+        ]
+      },
+      "components": {
+        "timer": {
+          "id": "buy",
+          "actionTitle": "Claim Your FREE Tokens",
+          "source": "timer",
+          "periods": [
+            {
+              "until": "07 May 2018 00:00:00 PDT",
+              "text": "github://fluidtrends/carmel/content/product/intro/countdown2"
+            },
+            {
+              "until": "14 May 2018 00:00:00 PDT",
+              "text": "github://fluidtrends/carmel/content/product/intro/countdown31"
+            },
+            {
+              "until": "21 May 2018 00:00:00 PDT",
+              "text": "github://fluidtrends/carmel/content/product/intro/countdown32"
+            },
+            {
+              "until": "28 May 2018 00:00:00 PDT",
+              "text": "github://fluidtrends/carmel/content/product/intro/countdown33"
+            },
+            {
+              "until": "04 Jun 2018 00:00:00 PDT",
+              "text": "github://fluidtrends/carmel/content/product/intro/countdown34"
+            },
+            {
+              "until": "11 Jun 2018 00:00:00 PDT",
+              "text": "github://fluidtrends/carmel/content/product/intro/countdown35"
+            },
+            {
+              "until": "20 Aug 2018 00:00:00 PDT",
+              "text": "github://fluidtrends/carmel/content/product/intro/countdown4"
+            }
+          ],
+          "backgroundColor":"#ffffff",
+          "textColor": "#00ACC1"
+        }
+      },
+      "intro": {
+        "source": "summary",
+        "text": "github://fluidtrends/carmel/master/docs/tokens/README",
+        "image": "carmel-logo.png",
+        "textColor": "#37474F"
+      }
+    },
+    "private": {
+      "title": "Tokens",
+      "icon": "rocket",
+      "path": "/me/tokens",
+      "private": true,
+      "events": {
+        "buy": "local://me/tokens"
       },
       "cover": {
         "backgroundColor": "#00838F",
-        "align": "bottom",
-        "opacity": 0.5,
         "navigation": true,
-        "title": "Carmel Token Distribution",
-        "type": "simple"
+        "type": "menu"
       },
-      "components": {
-        "intro": {
-          "source": "summary",
-          "text": "github://fluidtrends/carmel/master/docs/tokens/README",
-          "image": "carmel-logo.png",
-          "textColor": "#37474F"
-        }
+      "startOperationsOnMount": false,
+      "operations": {
+        "newTransaction": [
+          "rest://create/tokens/purchases#newTransaction",
+          { "onSuccess": "transactionOk", "onError": "transactionError" }
+        ],
+        "verifyTransactions": [
+          "rest://create/tokens/transactions#checkTransactions",
+          { "onSuccess": "transactionVerifiedOk", "onError": "transactionVerifiedError" }
+        ],
+        "newClaim": [
+          "rest://create/tokens/claims#newClaim",
+          { "onSuccess": "claimOk", "onError": "claimError" }
+        ],
+        "getContext": [
+          "firebase://retrieve/context?latest=1#freshContext",
+          { "onSuccess": "gotContext" }
+        ],
+        "redeem": [
+          "rest://create/tokens/redeem#redeem",
+          { "onSuccess": "redeemOk", "onError": "redeemError" }
+        ],
+        "credits": [
+          "rest://retrieve/tokens/credits#credits",
+          { "onSuccess": "creditsOk", "onError": "creditsError" }
+        ],
+        "getPurchases": "firebase://subscribe/users-purchases/:userId?latest=25&resolve=purchases#getPurchases",
+        "getTransactions": "firebase://subscribe/users-transactions/:userId?latest=100&resolve=transactions#getTransactions",
+        "getWallet": "firebase://subscribe/users-wallets/:userId?latest=1&resolve=wallets#getWallet"
+      },
+      "subscriptions": ["getPurchases", "getTransactions", "getWallet"]
+    }
+  },
+  "service": {
+    "functions": [
+      "post://transactions#checkTransactions",
+      "post://purchases#newPurchase",
+      "post://claims#newClaim",
+      "post://redeem#redeem",
+      "get://credits#credits"
+    ],
+    "dependencies": {},
+    "requiredFields": {
+      "newPurchase": ["email", "currency", "amount", "tokens", "price"],
+      "newClaim": ["ethAddress", "eosBalance"]
+    },
+    "permissions": {
+      "checkTransactions": ["ses:SendEmail"],
+      "newPurchase": ["ses:SendEmail"]
+    },
+    "schedule": {
+      "checkTransactions": {
+        "enabled": true,
+        "rate": "5 minutes"
       }
     }
   }
