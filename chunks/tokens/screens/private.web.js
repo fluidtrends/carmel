@@ -50,22 +50,16 @@ export default class PrivateTokensScreen extends Screen {
   }
 
   getClaimsSuccess (claims) {
-    var total = 0
-    var tokensReserved = 0
+    var totalClaimed = 0
     const all = claims.filter(c => !Array.isArray(c)).filter(c => !c.verified)
 
     all.forEach(c => {
-      if (!c.periodId === ClaimPeriod) {
-        total = total + c.tokens
-      }
-
-      if (c.periodId === ClaimPeriod) {
-        tokensReserved = tokensReserved + c.tokens
-        total = total + c.tokens
+      if (!c.periodId || c.periodId === ClaimPeriod) {
+        totalClaimed = totalClaimed + c.tokens
       }
     })
 
-    this.setState({ claims: all, totalClaimed: total, tokensReserved })
+    this.setState({ claims: all, totalClaimed })
   }
 
   getProfileSuccess (profile) {
@@ -216,7 +210,7 @@ export default class PrivateTokensScreen extends Screen {
       return <Components.Loading message='Loading claim period details ...' />
     }
 
-    if (!this.state.claim && !this.state.tokensReserved) {
+    if (!this.state.claim && !this.state.totalClaimed) {
       return <ClaimStart
         error={this.state.claimError}
         ethereum={this.props.ethereum}
@@ -262,7 +256,7 @@ export default class PrivateTokensScreen extends Screen {
         <UserInfo
           onVerifyAccount={this._onVerifyAccount}
           redirect={this.triggerRawRedirect}
-          claimed={this.state.tokensReserved}
+          claimed={this.state.totalClaimed}
           wallet={this.state.wallet}
           account={this.account} />
       </Card>
