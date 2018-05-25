@@ -90,14 +90,6 @@ export default class AccountScreen extends Screen {
       id: 'email',
       title: 'Email Address',
       value: this.account.user.email
-    }, {
-      id: 'twitter',
-      title: 'Twitter Username',
-      value: this.account.user.twitterUsername
-    }, {
-      id: 'telegram',
-      title: 'Telegram Username',
-      value: this.account.user.telegramUsername
     }]
   }
 

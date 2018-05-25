@@ -1,7 +1,7 @@
 const moment = require('moment')
 
 const mainPeriodId = 'AirDrop'
-const mainStartDate = '23 May 2018 00:00:00 PDT'
+const mainStartDate = '24 May 2018 00:00:00 PDT'
 const mainStartTotalDays = 20
 const mainStartTokens = 100
 const mainStartDailyLimit = 5000

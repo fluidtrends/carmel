@@ -25,7 +25,7 @@ const CarmelPrice = 0.5
 export default class CheckoutComponent extends Component {
   constructor (props) {
     super(props)
-    this.state = { ...super.state, loading: true, payMethod: 'metamask', loadingMessage: 'Loading, just a sec please ...' }
+    this.state = { ...super.state, loading: true, payMethod: 'mew', loadingMessage: 'Loading, just a sec please ...' }
     this._incrementLevel = this.incrementLevel.bind(this)
     this._decrementLevel = this.decrementLevel.bind(this)
     this._updateLevel = this.updateLevel.bind(this)
@@ -201,6 +201,8 @@ export default class CheckoutComponent extends Component {
       amount: this.state.nextLevelPrice,
       tokens: (this.state.nextTokens - this.state.tokens),
       price: this.state.tokenPrice,
+      method: this.state.payMethod,
+      ethereumAddress: this.state.ethereumAddress,
       currency: 'eth'
     })
   }
@@ -250,18 +252,18 @@ export default class CheckoutComponent extends Component {
 
     return <Typography use='title' style={{ color: '#66BB6A', marginBottom: '20px' }} tag='h1'>
       <Radio
-        value='metamask'
-        style={{ color: '#66BB6A', marginRight: '10px' }}
-        checked={this.state.payMethod === 'metamask'}
-        onChange={this._updatePayMethod}>
-        Send with { CarmelPaymentMethods.metamask }
-      </Radio>
-      <Radio
         value='mew'
         style={{ color: '#66BB6A', marginLeft: '10px' }}
         checked={this.state.payMethod === 'mew'}
         onChange={this._updatePayMethod}>
         Send with { CarmelPaymentMethods.mew }
+      </Radio>
+      <Radio
+        value='metamask'
+        style={{ color: '#66BB6A', marginRight: '10px' }}
+        checked={this.state.payMethod === 'metamask'}
+        onChange={this._updatePayMethod}>
+        Send with { CarmelPaymentMethods.metamask }
       </Radio>
     </Typography>
   }
@@ -304,23 +306,8 @@ export default class CheckoutComponent extends Component {
   }
 
   renderMainContent () {
-    const title = (this.isWaiting ? 'Complete The Ethereum Transaction' : 'Get CARMEL Tokens')
     return (
       <div>
-        <Typography
-          use='headline'
-          tag='div'
-          style={{
-            textAlign: 'center',
-            paddingTop: '30px',
-            paddingBottom: '30px',
-            marginBottom: '40px',
-            borderBottom: '1px #E0E0E0 solid'
-          }}
-          theme='text-secondary-on-background'>
-          { title }
-        </Typography>
-
         { this.renderError() }
 
         <Typography use='title' tag='h1' style={{ margin: '0px' }}>
@@ -431,7 +418,7 @@ export default class CheckoutComponent extends Component {
     }
 
     if (this.state.payMethod === 'mew') {
-      return this.renderWaiting({ message: 'Please complete the transaction with MyEtherWallet.' })
+      return this.renderWaiting({ message: 'Please complete the transaction with MyEtherWallet. Oh - and make sure you allow popups :) ' })
     }
 
     return <div />
@@ -642,6 +629,8 @@ export default class CheckoutComponent extends Component {
       return <Components.Loading message={this.state.loadingMessage} />
     }
 
+    const title = (this.isWaiting ? 'Complete The Ethereum Transaction' : 'Get Your CARMEL Tokens')
+
     return (<div
       style={{
         display: 'flex',
@@ -652,7 +641,18 @@ export default class CheckoutComponent extends Component {
         alignItems: 'center'
       }}>
       <Card style={{ width, margin: '10px', marginBottom: '20px', padding: '0px' }}>
+        <Icon type='area-chart' style={{
+          fontSize: '48px',
+          marginTop: '20px',
+          color: '#607D8B',
+          padding: '10px'
+        }} />
+        <Typography use='headline' tag='h2' style={{ marginBottom: '40px' }}>
+          { title }
+        </Typography>
+
         {this.renderMainContent()}
+
       </Card>
       { this.renderFooter() }
     </div>)

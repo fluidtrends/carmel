@@ -2,18 +2,23 @@ import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
 import { Card } from 'rmwc/Card'
 import UserInfo from '../../auth/components/userInfo'
-import { Checkout, Claim } from '../components'
+import { Checkout, ClaimStart, ClaimContinue, ClaimValidate } from '../components'
 import { Typography } from 'rmwc/Typography'
 import { List, Icon, notification } from 'antd'
 
 import moment from 'moment'
 
+const ClaimPeriod = 'AirDrop'
+
 export default class PrivateTokensScreen extends Screen {
   constructor (props) {
     super(props)
-    this.state = { ...this.state, transactions: [], purchases: [], claims: [] }
+    this.state = { ...this.state, transactions: [], purchases: [], claims: [], totalClaimed: 0 }
     this._renderTransactionItem = this.renderTransactionItem.bind(this)
     this._onVerifyAccount = this.onVerifyAccount.bind(this)
+    this._onClaimAction = this.onClaimAction.bind(this)
+    this._onCancelValidation = this.onCancelValidation.bind(this)
+    this._onStartValidation = this.onStartValidation.bind(this)
   }
 
   componentDidMount () {
@@ -40,23 +45,32 @@ export default class PrivateTokensScreen extends Screen {
     this.setState({ verifying: false, verifyingError: error })
   }
 
-  subscriptionArgs (subscription) {
-    if (!subscription) {
-      return {}
-    }
-
-    return { userId: this.account.user.uid }
-  }
-
   getPurchasesSuccess (purchases) {
     this.setState({ purchases: purchases.filter(p => !Array.isArray(p)) })
   }
 
   getClaimsSuccess (claims) {
     var total = 0
-    const all = claims.filter(c => !Array.isArray(c))
-    all.filter(c => (!c.verified)).forEach(c => (total = total + c.tokens))
-    this.setState({ claims: all, totalClaimed: total })
+    var tokensReserved = 0
+    const all = claims.filter(c => !Array.isArray(c)).filter(c => !c.verified)
+
+    all.forEach(c => {
+      if (!c.periodId === ClaimPeriod) {
+        total = total + c.tokens
+      }
+
+      if (c.periodId === ClaimPeriod) {
+        tokensReserved = tokensReserved + c.tokens
+        total = total + c.tokens
+      }
+    })
+
+    this.setState({ claims: all, totalClaimed: total, tokensReserved })
+  }
+
+  getProfileSuccess (profile) {
+    const account = Object.assign({}, this.account.user, profile[0])
+    this.setState({ account })
   }
 
   getTransactionsSuccess (transactions) {
@@ -94,7 +108,7 @@ export default class PrivateTokensScreen extends Screen {
       title: `${claim.tokens.toLocaleString('en')} CARMEL`,
       type: 'claim',
       details: moment(claim.timestamp).format('MMM Do, YYYY h:mm a'),
-      actions: [{ id: 'verified', icon: 'report', title: 'Successful Claim' }]
+      actions: [{ id: 'verified', icon: 'report', title: 'Tokens Reserved' }]
     })
   }
 
@@ -107,7 +121,7 @@ export default class PrivateTokensScreen extends Screen {
       title: `${purchase.tokens.toLocaleString('en')} CARMEL`,
       type: 'purchase',
       details: moment(purchase.timestamp).format('MMM Do, YYYY h:mm a'),
-      actions: [{ id: 'unverified', icon: 'exclamation', title: 'Pending Purchase' }]
+      actions: [{ id: 'unverified', icon: 'exclamation', title: 'Purchase Pending' }]
     })
   }
 
@@ -120,7 +134,7 @@ export default class PrivateTokensScreen extends Screen {
       title: `${transaction.tokens.toLocaleString('en')} CARMEL`,
       type: 'transaction',
       details: moment(transaction.timestamp).format('MMM Do, YYYY h:mm a'),
-      actions: [{ id: 'verified', icon: 'check', title: 'Successful Purchase' }]
+      actions: [{ id: 'verified', icon: 'check', title: 'Tokens Purchased' }]
     })
   }
 
@@ -139,7 +153,7 @@ export default class PrivateTokensScreen extends Screen {
     }
 
     return <Card style={{ width, margin: '10px', marginTop: '30px', padding }}>
-      <Icon type='line-chart' style={{
+      <Icon type='calendar' style={{
         fontSize: '48px',
         color: '#607D8B',
         padding: '10px'
@@ -153,6 +167,79 @@ export default class PrivateTokensScreen extends Screen {
         dataSource={data}
         renderItem={this._renderTransactionItem} />
     </Card>
+  }
+
+  onCancelValidation () {
+    this.setState({ startValidation: false })
+  }
+
+  onStartValidation () {
+    this.setState({ startValidation: true })
+  }
+
+  renderClaimStep () {
+    return <div />
+  }
+
+  updateProfileOk (data) {
+    console.log('updateProfileOk', data)
+  }
+
+  updateProfileError (error) {
+    console.log('updateProfileError', error)
+  }
+
+  onClaimAction (item, data) {
+    setTimeout(() => {
+      this.props.updateProfile(data)
+    }, 300)
+
+    this.triggerRawRedirect(item.url)
+  }
+
+  subscriptionArgs (subscription) {
+    if (!subscription || !this.account) {
+      return {}
+    }
+
+    return { userId: this.account.user.uid }
+  }
+
+  get isSocialMediaComplete () {
+    return (this.state.account && this.state.account.telegram &&
+            this.state.account.twitter && this.state.account.youtube &&
+            this.state.account.facebook && this.state.account.medium)
+  }
+
+  renderClaim () {
+    if (!this.state.period || !this.state.account) {
+      return <Components.Loading message='Loading claim period details ...' />
+    }
+
+    if (!this.state.claim && !this.state.tokensReserved) {
+      return <ClaimStart
+        error={this.state.claimError}
+        ethereum={this.props.ethereum}
+        newClaim={this.props.newClaim}
+        account={this.state.account}
+        period={this.state.period} />
+    }
+
+    if (!this.state.startValidation) {
+      return <ClaimContinue
+        isSocialMediaComplete={this.isSocialMediaComplete}
+        error={this.state.claimError}
+        account={this.state.account}
+        onContinue={this._onStartValidation}
+        period={this.state.period}
+        onClaimAction={this._onClaimAction} />
+    }
+
+    return <ClaimValidate
+      redirect={this.triggerRawRedirect}
+      onCancelValidation={this._onCancelValidation}
+      account={this.state.account}
+      period={this.state.period} />
   }
 
   renderMainContent () {
@@ -186,18 +273,8 @@ export default class PrivateTokensScreen extends Screen {
         transaction={this.state.transaction}
         triggerRawRedirect={this.triggerRawRedirect} />
 
+      { this.renderClaim(width, padding) }
       { this.renderTransactionHistory(width, padding) }
-
-      <Claim
-        newClaim={this.props.newClaim}
-        claim={this.state.claim}
-        period={this.state.period}
-        loading={this.props.isDataLoading()}
-        error={this.state.periodError || this.state.claimError}
-        wallet={this.state.wallet}
-        ethereum={this.props.ethereum}
-        claims={this.state.claims}
-        account={this.account} />
     </div>)
   }
 
@@ -238,8 +315,8 @@ export default class PrivateTokensScreen extends Screen {
     }
 
     notification.success({
-      message: 'Your Claim Was Successful',
-      description: 'Thanks for believing in Carmel. Welcome - and do spread the word :)'
+      message: 'Your Reservation Was Successful',
+      description: 'Continue the Claiming Process to activate your claim.'
     })
 
     this.setState({ claim, claimError: '' })

@@ -79,7 +79,7 @@
     },
     "private": {
       "title": "Tokens",
-      "icon": "rocket",
+      "icon": "area-chart",
       "path": "/me/tokens",
       "private": true,
       "events": {
@@ -95,6 +95,10 @@
         "getPeriod": [
           "rest://retrieve/tokens/period#currentPeriod",
           { "onSuccess": "gotPeriod", "onError": "periodError" }
+        ],
+        "updateProfile": [
+          "rest://create/auth/update#updateProfile",
+          { "onSuccess": "updateProfileOk", "onError": "updateProfileError" }
         ],
         "newTransaction": [
           "rest://create/tokens/purchases#newTransaction",
@@ -115,9 +119,10 @@
         "getClaims": "firebase://subscribe/users-claims/:userId?latest=25&resolve=claims#getClaims",
         "getPurchases": "firebase://subscribe/users-purchases/:userId?latest=25&resolve=purchases#getPurchases",
         "getTransactions": "firebase://subscribe/users-transactions/:userId?latest=25&resolve=transactions#getTransactions",
-        "getWallet": "firebase://subscribe/users-wallets/:userId?latest=1&resolve=wallets#getWallet"
+        "getWallet": "firebase://subscribe/users-wallets/:userId?latest=1&resolve=wallets#getWallet",
+        "getProfile": "firebase://subscribe/users-profiles/:userId?latest=1&resolve=profiles#getProfile"
       },
-      "subscriptions": ["getPurchases", "getTransactions", "getClaims", "getWallet"]
+      "subscriptions": ["getPurchases", "getTransactions", "getClaims", "getWallet", "getProfile"]
     }
   },
   "service": {
