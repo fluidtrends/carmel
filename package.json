@@ -98,6 +98,7 @@
     "react-dom-chunky": "0.9.x",
     "react-electron-chunky": "0.9.x",
     "react-mdl": "^1.11.0",
+    "react-telegram-login": "^1.0.2-beta-6",
     "react-twitter-auth": "0.0.11",
     "react-vertical-timeline-component": "^2.0.5",
     "twitter": "^1.7.1"

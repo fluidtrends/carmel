@@ -20,7 +20,7 @@ const updateProfile = (data, userId) => {
 }
 
 function executor ({ event, chunk, config, account }) {
-  return updateProfile({ telegramUsername: event.data.username }, account.user.uid)
+  return updateProfile(event.body, account.user.uid)
 }
 
 module.exports.main = chunky.handler({ executor, filename, auth })

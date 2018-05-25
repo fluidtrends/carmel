@@ -119,15 +119,14 @@
       "post://setup#setup",
       "post://twitter#twitter",
       "post://twitter-reverse#twitterReverse",
-      "post://telegram#telegram"
+      "post://update#updateProfile"
     ],
     "dependencies": {
       "twitter": "latest",
       "oauth": "latest"
     },
     "requiredFields": {
-      "twitter": ["oauthTokens"],
-      "telegram": ["username"]
+      "twitter": ["oauthTokens"]
     },
     "permissions": {
       "setup": ["ses:SendEmail"]
