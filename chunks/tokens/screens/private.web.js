@@ -262,7 +262,7 @@ export default class PrivateTokensScreen extends Screen {
         <UserInfo
           onVerifyAccount={this._onVerifyAccount}
           redirect={this.triggerRawRedirect}
-          claimed={this.state.totalClaimed}
+          claimed={this.state.tokensReserved}
           wallet={this.state.wallet}
           account={this.account} />
       </Card>
