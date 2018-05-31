@@ -41,32 +41,32 @@
         "primaryActionTitle": "Participate in the Private Token Sale",
         "social": {
           "twitter": {
-            "url": "",
+            "url": "https://twitter.com/CarmelPlatform",
             "color": "red"
           },
           "youtube": {
-            "url": "",
+            "url": "https://www.youtube.com/channel/UCjiQXohOk0pBmJ6PFElQL-g",
             "color": ""
           },
           "medium": {
-            "url": "",
+            "url": "http://medium.com/carmelplatform",
             "color": "blue"
           },
           "github": {
-            "url": "",
+            "url": "https://github.com/fluidtrends/carmel",
             "color": "pink"
           },
           "facebook": {
-            "url": "",
+            "url": "https://www.facebook.com/carmelio-347131802460343/",
             "color": "green"
           },
           "instagram": {
-            "url": "",
+            "url": "https://www.instagram.com/carmel.io/",
             "color": ""
           },
           "linkedin": {
             "url": "",
-            "color": ""
+            "color": "https://www.linkedin.com/company/carmel-platform/"
           }
         }
       },

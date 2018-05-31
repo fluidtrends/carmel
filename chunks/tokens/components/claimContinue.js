@@ -189,7 +189,7 @@ export default class ClaimComponent extends Component {
         title: "8. Instagram",
         details: "Tune in to our journey at Carmel on Instagram",
         placeholder: "myinstagramusername",
-        url: "https://www.instagram.com/carmel_platform/",
+        url: "https://www.instagram.com/carmel.io/",
         action: "Go"
       },
       {
