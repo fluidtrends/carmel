@@ -20,11 +20,17 @@
       "operations": {
         "register": [
           "firebase://register#register",
-          { "onSuccess": "setup", "onError": "registerError" }
+          {
+            "onSuccess": "setup",
+            "onError": "registerError"
+          }
         ],
         "setup": [
           "rest://create/auth/setup#setup",
-          { "onSuccess": "registerOk", "onError": "registerError" }
+          {
+            "onSuccess": "registerOk",
+            "onError": "registerError"
+          }
         ]
       }
     },
@@ -46,11 +52,17 @@
       "operations": {
         "login": [
           "firebase://login",
-          { "onSuccess": "loginOk", "onError": "loginError" }
+          {
+            "onSuccess": "loginOk",
+            "onError": "loginError"
+          }
         ],
         "getProfile": [
           "firebase://retrieve/users-profiles/:userId?latest=1&resolve=profiles#getProfile",
-          { "onSuccess": "profileOk", "onError": "loginError" }
+          {
+            "onSuccess": "profileOk",
+            "onError": "loginError"
+          }
         ]
       }
     },
@@ -71,7 +83,10 @@
       "operations": {
         "reset": [
           "firebase://reset",
-          { "onSuccess": "resetOk", "onError": "resetError" }
+          {
+            "onSuccess": "resetOk",
+            "onError": "resetError"
+          }
         ]
       }
     },
@@ -90,28 +105,46 @@
       "operations": {
         "twitterAuth": [
           "rest://create/auth/twitter-reverse",
-          { "onSuccess": "twitterAuthOk", "onError": "twitterError" }
+          {
+            "onSuccess": "twitterAuthOk",
+            "onError": "twitterError"
+          }
         ],
         "twitterVerify": [
           "rest://create/auth/twitter",
-          { "onSuccess": "twitterOk", "onError": "twitterError" }
+          {
+            "onSuccess": "twitterOk",
+            "onError": "twitterError"
+          }
         ],
         "telegramVerify": [
           "rest://create/auth/telegram",
-          { "onSuccess": "telegramOk", "onError": "telegramError" }
+          {
+            "onSuccess": "telegramOk",
+            "onError": "telegramError"
+          }
         ],
         "getUserProfile": [
           "firebase://retrieve/users-profiles/:userId?latest=1&resolve=profiles#getProfile",
-          { "onSuccess": "profileOk", "onError": "profileError" }
+          {
+            "onSuccess": "profileOk",
+            "onError": "profileError"
+          }
         ],
         "reset": [
           "firebase://reset",
-          { "onSuccess": "accountOk", "onError": "okError" }
+          {
+            "onSuccess": "accountOk",
+            "onError": "okError"
+          }
         ],
         "getAccount": "firebase://subscribe/users/:userId?#getAccount",
         "getProfile": "firebase://subscribe/users-profiles/:userId?latest=1&resolve=profiles#getProfile"
       },
-      "subscriptions": ["getAccount", "getProfile"]
+      "subscriptions": [
+        "getAccount",
+        "getProfile"
+      ]
     }
   },
   "service": {
@@ -126,11 +159,15 @@
       "oauth": "latest"
     },
     "requiredFields": {
-      "twitter": ["oauthTokens"]
+      "twitter": [
+        "oauthTokens"
+      ]
     },
     "permissions": {
-      "setup": ["ses:SendEmail"]
+      "setup": [
+        "ses:SendEmail"
+      ]
     },
-    "schedule": { }
+    "schedule": {}
   }
 }
