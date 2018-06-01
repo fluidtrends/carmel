@@ -21,7 +21,9 @@ export default class ClaimComponent extends Component {
   }
 
   onItemEdit(item) {
-    if (!this.state[item.id]) {
+    const value = this.state[item.id] === null ? null : (this.state[item.id] || this.props.account[item.id])
+    console.log(value)
+    if (!value) {
       notification.error({
         message: "Missing username",
         description: `${"Add your username before moving on to the next step"}`
@@ -30,7 +32,7 @@ export default class ClaimComponent extends Component {
     }
 
     this.props.onClaimAction &&
-      this.props.onClaimAction(item, { [item.id]: this.state[item.id] })
+      this.props.onClaimAction(item, { [item.id]: value })
   }
 
   next() {
