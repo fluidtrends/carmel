@@ -189,6 +189,7 @@ chunky start web
 
 Let the packager do its thing for a few seconds and then just open your browser to ```localhost:8082``` and have a look at your brand new Web App.
 
+Open your project directory using atom.
 You can go ahead now and edit your product, extend it, package it, deploy it and so much more.
 You should have something like this:
 ![success workspace][success workspace]
