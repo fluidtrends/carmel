@@ -160,13 +160,13 @@ Type this in terminal.
 
 ![win terminal 2][win terminal 2] 
 
-[win terminal 2]: img/win-terminal-2.png
+[win terminal 2]: img/win-terminal-2.jpg
 
 #### Install npm packages for your product
 
 ![win terminal 3][win terminal 3] 
 
-[win terminal 3]: img/win-terminal-3.png
+[win terminal 3]: img/win-terminal-3.jpg
 
 ```bash
 npm i
