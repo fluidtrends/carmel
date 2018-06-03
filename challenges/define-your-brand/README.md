@@ -1,5 +1,6 @@
-<img src="../img/quest.jpg"
-  style="transform: rotate(90deg);"/>
+![brand][brand]
+ 
+[brand]: ../img/quest.jpg
 
 <p align="center">
   <h2 align="center"> Quest #1: "Discover your personal brand" (Pre-Release)</h2>
