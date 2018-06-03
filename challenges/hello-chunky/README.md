@@ -94,29 +94,7 @@ chunky
 
 ## Your First Chunky Product
 
-That's all good and awesome but let's see Chunky in action.
-
-Let's create a brand new Chunky Product.
-
-All you have to do is run the ```init``` command like so:
-
-```bash
-chunky init --name Hello
-```
-
-Go ahead an look in your current directory. Chunky just initialized a new product for you.
-
-Typically you would look through those files, especially the Chunky Manifest, ```chunky.json``` and configure settings to your liking.
-
-For now, let's go ahead with the default configuration.
-
-Next, we want to install a Chunky Product Template, using the ```install``` command.
-
-Let's just install the default template, as follows:
-
-```bash
-chunky install
-```
+Go [here](https://www.google.com) to download your chunky template
 
 If you look through the generated files, you'll notice a lot of new additions.
 
