@@ -100,25 +100,73 @@ Extract this archive in your working folder.
 
 Use [7zip](https://www.7-zip.org/) to extract this on your windows PC.
 
-### For Mac extract this way
+### Steps for MAC
+#### 1. Extract
 
 ![extract for mac][extract for mac] 
 
-[extract for mac]: extract-mac.png
+[extract for mac]: img/extract-mac.png
 
-### For Windows 7/8/10 extract this way
+#### 2.1 Search terminal
+
+Press space while holding cmd button (cmd + space) 
+
+![mac terminal 1][mac terminal 1] 
+
+[mac terminal 1]: img/mac-terminal-1.png
+
+#### 2.2 Open terminal
+
+Type "terminal" and then press enter 
+
+![mac terminal 2][mac terminal 2] 
+
+[mac terminal 2]: img/mac-terminal-2.png
+
+#### 2.3 Navigate in terminal
+
+Type this in terminal.
+```
+   cd ~/Downloads/carmel-chunky-templates/
+```
+(Note: change the path if you extracted carmel-chunky-templates.zip in another folder.)
+
+![mac terminal 3][mac terminal 3] 
+
+[mac terminal 3]: img/mac-terminal-3.png
+
+#### 3 Install npm packages for your product
+
+```npm i```
+![mac terminal 4][mac terminal 4] 
+
+[mac terminal 4]: img/mac-terminal-4.png
+
+### Steps for Windows 7/8/10 extract this way
+
+#### 1. Extract
 
 ![extract for windows][extract for windows] 
 
-[extract for windows]: extract-win.png
+[extract for windows]: img/extract-win.png
 
-If you look through the generated files, you'll notice a lot of new additions.
+#### 2.1 Open folder
 
-You're looking at a full blown Full Stack Product.
+![win terminal 1][win terminal 1] 
 
-One more step. Let's install our product's dependencies.
+[win terminal 1]: img/win-terminal-1.png
 
-Nothing fancy here, just run:
+#### 2.2 Open terminal
+
+![win terminal 2][win terminal 2] 
+
+[win terminal 2]: img/win-terminal-2.png
+
+#### Install npm packages for your product
+
+![win terminal 3][win terminal 3] 
+
+[win terminal 3]: img/win-terminal-3.png
 
 ```bash
 npm i
@@ -142,4 +190,4 @@ You can go ahead now and edit your product, extend it, package it, deploy it and
 You should have something like this:
 ![success workspace][success workspace]
  
-[success workspace]: success.png
+[success workspace]: img/success.png
