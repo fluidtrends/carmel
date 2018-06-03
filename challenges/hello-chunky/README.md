@@ -94,41 +94,82 @@ chunky
 
 ## Your First Chunky Product
 
-That's all good and awesome but let's see Chunky in action.
+Click [here](https://github.com/fluidtrends/carmel/archive/chunky-templates.zip) to download your chunky template
 
-Let's create a brand new Chunky Product.
+Extract this archive in your working folder.
 
-All you have to do is run the ```init``` command like so:
+Use [7zip](https://www.7-zip.org/) to extract this on your windows PC.
 
-```bash
-chunky init --name Hello
+### Steps for MAC
+#### 1. Extract
+
+![extract for mac][extract for mac] 
+
+[extract for mac]: img/extract-mac.png
+
+#### 2.1 Search terminal
+
+Press space while holding cmd button (cmd + space) 
+
+![mac terminal 1][mac terminal 1] 
+
+[mac terminal 1]: img/mac-terminal-1.png
+
+#### 2.2 Open terminal
+
+Type "terminal" and then press enter 
+
+![mac terminal 2][mac terminal 2] 
+
+[mac terminal 2]: img/mac-terminal-2.png
+
+#### 2.3 Navigate in terminal
+
+Type this in terminal.
 ```
-
-Go ahead an look in your current directory. Chunky just initialized a new product for you.
-
-Typically you would look through those files, especially the Chunky Manifest, ```chunky.json``` and configure settings to your liking.
-
-For now, let's go ahead with the default configuration.
-
-Next, we want to install a Chunky Product Template, using the ```install``` command.
-
-Let's just install the default template, as follows:
-
-```bash
-chunky install
+   cd ~/Downloads/carmel-chunky-templates/
 ```
+(Note: change the path if you extracted carmel-chunky-templates.zip in another folder.)
 
-If you look through the generated files, you'll notice a lot of new additions.
+![mac terminal 3][mac terminal 3] 
 
-You're looking at a full blown Full Stack Product.
+[mac terminal 3]: img/mac-terminal-3.png
 
-One more step. Let's install our product's dependencies.
+#### 3 Install npm packages for your product
 
-Nothing fancy here, just run:
+Type this command into terminal: 
+```npm i```
+![mac terminal 4][mac terminal 4] 
 
-```bash
-npm i
-```
+[mac terminal 4]: img/mac-terminal-4.png
+
+### Steps for Windows 7/8/10 extract this way
+
+#### 1. Extract
+
+![extract for windows][extract for windows] 
+
+[extract for windows]: img/extract-win.png
+
+#### 2.1 Open folder
+
+![win terminal 1][win terminal 1] 
+
+[win terminal 1]: img/win-terminal-1.jpg
+
+#### 2.2 Open terminal
+
+![win terminal 2][win terminal 2] 
+
+[win terminal 2]: img/win-terminal-2.jpg
+
+#### Install npm packages for your product
+
+Type this command into terminal: 
+```npm i```
+![win terminal 3][win terminal 3] 
+
+[win terminal 3]: img/win-terminal-3.jpg
 
 Depending on your network connection, this could take a couple of minutes. Let it run and when it's done, pat yourself on the back.
 
@@ -142,6 +183,15 @@ To see what your product looks like, let's just start the Web App in development
 chunky start web
 ```
 
+![chunky start][chunky start] 
+
+[chunky start]: img/chunk-start.jpg
+
 Let the packager do its thing for a few seconds and then just open your browser to ```localhost:8082``` and have a look at your brand new Web App.
 
+Open your project directory using atom.
 You can go ahead now and edit your product, extend it, package it, deploy it and so much more.
+You should have something like this:
+![success workspace][success workspace]
+ 
+[success workspace]: img/success.png
