@@ -1,33 +1,27 @@
 <p align="center">
   <img src="https://raw.githubusercontent.com/fluidtrends/carmel/master/challenges/hello-chunky/icon.gif" width="180">
-  <h2 align="center"> Challenge #1: "" (Pre-Release)</h2>
+  <h2 align="center"> Challenge #1: "Develop your brand" (Pre-Release)</h2>
 </p>
 
-Using chunky you will be able to create your personal website without **spending a ton of time** learning WORDPRESS or other complicated tools. 
+Now that you have a staring point let's define your brand.
+By doing this you will acquire the following super powers:
+```$xslt
+define your own brand, copywriting, json manipulation. 
+```
 
-Starting from literally nothing, **learn how to setup your development machine**, with absolutely **no previous experience** in software development. This challenge helps you get the tools you need for JavaScript development - including a **code editor**, a **terminal** and a JavaScript environment called **Node** - all free of course. Learn how to [**install Chunky**](http://chunky.io) on your machine as well, an awesome Development Platform that will help build beautiful products in no time.
-
-		-change logo
-		-change page menu title
-		-change navigation background
-		-change cover title
-		-change cover subtitle
-		Skilled acquired:
-			-json (beginner)
-			-writing
-			-copywriting
 
 * **Author:** Robert P. & Chris P.
 * **Level:** Beginner
 * **Tags:** web, json, getting started
 
 ---
+###
 
 ## Define your personal brand in minutes using chunky.
 
 ## Tasks
 
-### 1. Change logo
+### 1. Use your own logo
 
 Open chunky.json and change the logo image.
 
@@ -39,7 +33,7 @@ Open chunky.json and change the logo image.
 
 ### 2. Change navigation background
 
-Look in the current file and change navigation background color.
+Look in the current file and modify navigation background color.
 
 <details> 
   <summary>Click me if you need help. </summary>
@@ -47,7 +41,7 @@ Look in the current file and change navigation background color.
    <p> Look at line <b>47</b>. </p> 
 </details>
 
-### 3. Change page menu title
+### 3. Define your page menu title
 
 Let's edit the menu title in order to do that
 you need to the chunks folder and have a look
@@ -59,13 +53,14 @@ at intro folder.
    <p> Open <b>chunk.json<b> file and have a look at <b>line 5<b>. </p> 
 </details>
 
-### 4. Change cover title
+### 4. Add your own cover title
 
-In the current file change cover title.
+In the current file type your new cover title.
 
 <details> 
   <summary>Too hard? I can show a tip ;)</summary>
-   <p> Maye line <b>12</b> will help. </p> 
+   <br />
+   <p> Maybe line <b>12</b> will help. </p> 
 </details>
 
 ### 5. Change cover subtitle
@@ -74,7 +69,8 @@ You should be able to this on your own.
 
 <details> 
   <summary>Don't look here :))</summary>
-   <p> Look at line <b>36</b>. </p> 
+    <br />
+   <p> Look at the line below. </p> 
 </details>
 
 
