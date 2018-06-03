@@ -1,6 +1,6 @@
-![brand][brand]
- 
-[brand]: ../../img/brand.jpg
+<p align="center">
+  <img src ="../img/brand.jpg" />
+</p>
 
 <p align="center">
   <h2 align="center"> Challenge #1: "Develop your brand" (Pre-Release)</h2>
