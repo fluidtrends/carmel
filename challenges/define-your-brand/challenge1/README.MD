@@ -1,5 +1,8 @@
+![brand][brand]
+ 
+[brand]: ../../img/brand.png
+
 <p align="center">
-  <img src="https://raw.githubusercontent.com/fluidtrends/carmel/master/challenges/hello-chunky/icon.gif" width="180">
   <h2 align="center"> Challenge #1: "Develop your brand" (Pre-Release)</h2>
 </p>
 
