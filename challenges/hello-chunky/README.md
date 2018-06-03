@@ -94,7 +94,15 @@ chunky
 
 ## Your First Chunky Product
 
-Go [here](https://github.com/fluidtrends/carmel/archive/chunky-templates.zip) to download your chunky template
+Click [here](https://github.com/fluidtrends/carmel/archive/chunky-templates.zip) to download your chunky template
+
+Extract this archive in your working folder.
+
+Use [7zip](https://www.7-zip.org/) to extract this on your windows PC.
+
+###For Mac extract this way
+![extract for mac][extract for mac] 
+[extract for mac]: extract-mac.png
 
 If you look through the generated files, you'll notice a lot of new additions.
 
@@ -125,5 +133,4 @@ Let the packager do its thing for a few seconds and then just open your browser 
 You can go ahead now and edit your product, extend it, package it, deploy it and so much more.
 You should have something like this:
 ![success workspace][success workspace] 
-
 [success workspace]: success.png
