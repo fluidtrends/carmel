@@ -3,6 +3,7 @@
 [brand]: ../img/quest.jpg
 
 <p align="center">
+  <img src="../img/quest.jpg"/>
   <h2 align="center"> Quest #1: "Discover your personal brand" (Pre-Release)</h2>
 </p>
 
