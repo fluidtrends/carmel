@@ -44,6 +44,7 @@ at intro folder.
 
 <details> 
   <summary>Press me if you are stuck</summary>
+  <br />
    <p> Open chunk.json file and have a look at line 5. </p> 
 </details>
 
