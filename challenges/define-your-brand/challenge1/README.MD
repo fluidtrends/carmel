@@ -33,7 +33,8 @@ Open chunky.json and change the logo image.
 
 <details> 
   <summary>Want a tip? Press this for a hint </summary>
-   <p> Look at line 36. </p> 
+  <br />
+   <p> Look at **line 36**. </p> 
 </details>
 
 ### 2. Change page menu title
@@ -45,7 +46,7 @@ at intro folder.
 <details> 
   <summary>Press me if you are stuck</summary>
   <br />
-   <p> Open chunk.json file and have a look at line 5. </p> 
+   <p> Open **chunk.json** file and have a look at **line 5**. </p> 
 </details>
 
 ### 3. Change navigation background
