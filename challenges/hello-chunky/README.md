@@ -137,6 +137,7 @@ Type this in terminal.
 
 #### 3 Install npm packages for your product
 
+Type this command into terminal: 
 ```npm i```
 ![mac terminal 4][mac terminal 4] 
 
@@ -164,13 +165,11 @@ Type this in terminal.
 
 #### Install npm packages for your product
 
+Type this command into terminal: 
+```npm i```
 ![win terminal 3][win terminal 3] 
 
 [win terminal 3]: img/win-terminal-3.jpg
-
-```bash
-npm i
-```
 
 Depending on your network connection, this could take a couple of minutes. Let it run and when it's done, pat yourself on the back.
 
@@ -183,6 +182,10 @@ To see what your product looks like, let's just start the Web App in development
 ```bash
 chunky start web
 ```
+
+![chunky start][chunky start] 
+
+[chunky start]: img/chunk-start.jpg
 
 Let the packager do its thing for a few seconds and then just open your browser to ```localhost:8082``` and have a look at your brand new Web App.
 
