@@ -154,7 +154,7 @@ Type this in terminal.
 
 ![win terminal 1][win terminal 1] 
 
-[win terminal 1]: img/win-terminal-1.png
+[win terminal 1]: img/win-terminal-1.jpg
 
 #### 2.2 Open terminal
 
