@@ -100,7 +100,7 @@ Extract this archive in your working folder.
 
 Use [7zip](https://www.7-zip.org/) to extract this on your windows PC.
 
-###For Mac extract this way
+### For Mac extract this way
 
 ![extract for mac][extract for mac] 
 
