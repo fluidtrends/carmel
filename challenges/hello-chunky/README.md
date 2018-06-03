@@ -105,7 +105,7 @@ Use [7zip](https://www.7-zip.org/) to extract this on your windows PC.
 
 ![extract for mac][extract for mac] 
 
-[extract for mac]: img/extract-mac.png
+[extract for mac]: ../img/extract-mac.png
 
 #### 2.1 Search terminal
 
@@ -113,7 +113,7 @@ Press space while holding cmd button (cmd + space)
 
 ![mac terminal 1][mac terminal 1] 
 
-[mac terminal 1]: img/mac-terminal-1.png
+[mac terminal 1]: ../img/mac-terminal-1.png
 
 #### 2.2 Open terminal
 
@@ -121,7 +121,7 @@ Type "terminal" and then press enter
 
 ![mac terminal 2][mac terminal 2] 
 
-[mac terminal 2]: img/mac-terminal-2.png
+[mac terminal 2]: ../img/mac-terminal-2.png
 
 #### 2.3 Navigate in terminal
 
@@ -133,7 +133,7 @@ Type this in terminal.
 
 ![mac terminal 3][mac terminal 3] 
 
-[mac terminal 3]: img/mac-terminal-3.png
+[mac terminal 3]: ../img/mac-terminal-3.png
 
 #### 3 Install npm packages for your product
 
@@ -141,7 +141,7 @@ Type this command into terminal:
 ```npm i```
 ![mac terminal 4][mac terminal 4] 
 
-[mac terminal 4]: img/mac-terminal-4.png
+[mac terminal 4]: ../img/mac-terminal-4.png
 
 ### Steps for Windows 7/8/10 extract this way
 
@@ -149,19 +149,19 @@ Type this command into terminal:
 
 ![extract for windows][extract for windows] 
 
-[extract for windows]: img/extract-win.png
+[extract for windows]: ../img/extract-win.png
 
 #### 2.1 Open folder
 
 ![win terminal 1][win terminal 1] 
 
-[win terminal 1]: img/win-terminal-1.jpg
+[win terminal 1]: ../img/win-terminal-1.jpg
 
 #### 2.2 Open terminal
 
 ![win terminal 2][win terminal 2] 
 
-[win terminal 2]: img/win-terminal-2.jpg
+[win terminal 2]: ../img/win-terminal-2.jpg
 
 #### Install npm packages for your product
 
@@ -169,7 +169,7 @@ Type this command into terminal:
 ```npm i```
 ![win terminal 3][win terminal 3] 
 
-[win terminal 3]: img/win-terminal-3.jpg
+[win terminal 3]: ../img/win-terminal-3.jpg
 
 Depending on your network connection, this could take a couple of minutes. Let it run and when it's done, pat yourself on the back.
 
@@ -185,7 +185,7 @@ chunky start web
 
 ![chunky start][chunky start] 
 
-[chunky start]: img/chunk-start.jpg
+[chunky start]: ../img/chunk-start.jpg
 
 Let the packager do its thing for a few seconds and then just open your browser to ```localhost:8082``` and have a look at your brand new Web App.
 
@@ -194,4 +194,4 @@ You can go ahead now and edit your product, extend it, package it, deploy it and
 You should have something like this:
 ![success workspace][success workspace]
  
-[success workspace]: img/success.png
+[success workspace]: ../img/success.png
