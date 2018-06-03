@@ -146,4 +146,6 @@ Let the packager do its thing for a few seconds and then just open your browser 
 
 You can go ahead now and edit your product, extend it, package it, deploy it and so much more.
 
-[logo]: ./success.png
+![citizen science architecture][cit-sci-arch] 
+
+[cit-sci-arch]: success.png
