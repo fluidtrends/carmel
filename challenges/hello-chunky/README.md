@@ -197,4 +197,4 @@ You should have something like this:
 [success workspace]: ../img/success.png
 
 ## Ready to start your Quest?
-1. [Start your learning journey here](https://github.com/fluidtrends/carmel/tree/challenges-chunk/challenges/define-your-brand)
+### [Start your learning journey here](https://github.com/fluidtrends/carmel/tree/challenges-chunk/challenges/define-your-brand)
