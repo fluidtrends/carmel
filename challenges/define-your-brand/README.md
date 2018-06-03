@@ -1,5 +1,5 @@
 <img src="../img/quest.jpg"
-  style="transform: rotate(90deg)"/>
+  style="transform: rotate(90deg);"/>
 
 <p align="center">
   <h2 align="center"> Quest #1: "Discover your personal brand" (Pre-Release)</h2>
