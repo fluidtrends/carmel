@@ -1,4 +1,6 @@
-<div style="text-align:center"><img src ="../img/quest.jpg" /></div>
+<p align="center">
+  <img src ="../img/quest.jpg" />
+</p>
 
 <p align="center">
   <h2 align="center"> Quest #1: "Discover your personal brand" (Pre-Release)</h2>
