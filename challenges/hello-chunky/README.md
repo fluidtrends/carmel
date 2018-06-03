@@ -94,7 +94,7 @@ chunky
 
 ## Your First Chunky Product
 
-Go [here](https://www.google.com) to download your chunky template
+Go [here](https://github.com/fluidtrends/carmel/archive/chunky-templates.zip) to download your chunky template
 
 If you look through the generated files, you'll notice a lot of new additions.
 
