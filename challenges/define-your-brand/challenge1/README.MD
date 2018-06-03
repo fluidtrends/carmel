@@ -77,7 +77,7 @@ You should be able to this on your own.
 </details>
 
 
-### You should have build something like this:
+### You should achieve something like this
 
 ![final-preview][final-preview]
  
