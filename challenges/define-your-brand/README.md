@@ -14,6 +14,7 @@ This your map quest:
 2. [Challenge 2](https://github.com/fluidtrends/carmel/tree/challenges-chunk/challenges/define-your-brand/challenge2)
 2. [Challenge 3](https://github.com/fluidtrends/carmel/tree/challenges-chunk/challenges/define-your-brand/challenge3)
 
+By doing this you will acquire the following rewards:
 ```$xslt
 define your own brand, copywriting, json manipulation. 
 ```

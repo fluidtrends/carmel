@@ -7,7 +7,7 @@
 </p>
 
 Now that you have a staring point let's define your brand.
-By doing this you will acquire the following super powers:
+By doing this you will acquire the following rewards:
 ```$xslt
 define your own brand, copywriting, json manipulation. 
 ```
@@ -76,4 +76,10 @@ You should be able to this on your own.
    <p> Look at the line below. </p> 
 </details>
 
+
+### You should achieve something like this
+
+![final-preview][final-preview]
+ 
+[final-preview]: ../../img/final-challenge-1.jpg
 
