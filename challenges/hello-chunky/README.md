@@ -106,6 +106,12 @@ Use [7zip](https://www.7-zip.org/) to extract this on your windows PC.
 
 [extract for mac]: extract-mac.png
 
+### For Windows 7/8/10 extract this way
+
+![extract for windows][extract for windows] 
+
+[extract for windows]: extract-win.png
+
 If you look through the generated files, you'll notice a lot of new additions.
 
 You're looking at a full blown Full Stack Product.
