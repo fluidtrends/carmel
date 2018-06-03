@@ -42,7 +42,8 @@ Open chunky.json and change the logo image.
 Look in the current file and change navigation background color.
 
 <details> 
-  <summary>Too hard for you? Press this if you want to see the hint </summary>
+  <summary>Click me if you need help. </summary>
+   <br />
    <p> Look at line <b>47</b>. </p> 
 </details>
 
