@@ -72,3 +72,11 @@ It has something to do with second and color
   <br />
    <p> Check the key "secondaryColor" </p>
 </details>
+
+
+
+### You should achieve something like this
+
+![final-preview][final-preview]
+
+[final-preview]: ../../img/final-challenge-2.png
