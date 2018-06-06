@@ -47,12 +47,19 @@ Modify the same file in order to change the text from your "action" button.
 
 ### 3. Update your button's action
 
-Now we are going to modify the route which your button will take the user. To achieve this we need to modify the same file. (Look for events)
+Now we are going to modify the route which your button will take the user. To achieve this we need to modify the same file. (Look for events). 
+even if the events key is empty you will need to add a new key called: "cover" and the new route you want to navigate.
 
 <details>
   <summary>Looking for a tip?</summary>
   <br />
-   <p> Lookup for events key and then the cover key </p>
+   <p> Your events key should look like this:
+     ```
+      "events": {
+        "cover": "local://something"
+      },
+     ```
+   </p>
 </details>
 
 ### 4. Swap your button's color
