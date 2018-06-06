@@ -64,10 +64,11 @@ even if the events key is empty you will need to add a new key called: "cover" a
 
 ### 4. Swap your button's color
 
-As same as we did with the text, but now instead you will swap the color. But now we will go back and modify the chunky.json file.
+As same as we did with the text, but now instead you will swap the color. But now we will go back and modify the chunky.json file. 
+It has something to do with second and color
 
 <details>
   <summary>Find yourself stuck? Click here</summary>
   <br />
-   <p> Lookup for events key and then the cover key </p>
+   <p> Check the key "secondaryColor" </p>
 </details>
