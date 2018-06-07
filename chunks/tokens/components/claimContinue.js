@@ -4,10 +4,12 @@ import { Typography } from "rmwc/Typography"
 import { Card } from "rmwc/Card"
 import { Button } from "rmwc/Button"
 import { List, Icon, Input, notification, Steps } from "antd"
+import Steemit from './steemit'
+import Telegram from './telegram'
 
 const Step = Steps.Step
 
-export default class ClaimComponent extends Component {
+export default class ClaimContinue extends Component {
   constructor(props) {
     super(props)
     this.state = { ...super.state, loading: false, step: 1 }
@@ -22,7 +24,6 @@ export default class ClaimComponent extends Component {
 
   onItemEdit(item) {
     const value = this.state[item.id] === null ? null : (this.state[item.id] || this.props.account[item.id])
-    console.log(value)
     if (!value) {
       notification.error({
         message: "Missing username",
@@ -53,7 +54,7 @@ export default class ClaimComponent extends Component {
   }
 
   renderItem(item) {
-    return (
+    return this.state[item.id] === undefined ? <div /> : (
       <List.Item actions={this.renderItemActions(item)}>
         <div style={{ width: "100%", marginTop: "20px" }}>
           <List.Item.Meta
@@ -90,15 +91,55 @@ export default class ClaimComponent extends Component {
     )
   }
 
+  renderIcons() {
+    const socialNetworks = [
+      "telegram",
+      "twitter",
+      "youtube",
+      "facebook",
+      "github",
+      "medium",
+      "linkedin",
+      "instagram"
+    ]
+
+    const margin = this.props.isSmallScreen ? '0 0 5px 0' : '0 95px 35px 0'
+    const align = this.props.isSmallScreen ? 'center' : 'flex-end'
+    const { social } = this.props
+
+    let enabled, telegramEnabled = this.state['telegram'] !== undefined || this.props.account['telegram'], steemitEnabled = this.state['steemit'] !== undefined || this.props.account['steemit']
+
+    return <div style={{ display: 'flex', flexDirection: 'row', flex: 1, alignItems: 'flex-end', alignSelf: align, margin }}>
+      {socialNetworks.map(key => {
+
+        enabled = this.state[key] !== undefined || this.props.account[key]
+
+        return <Icon key={key} type={key} onClick={() => this.setState({ [key]: this.state[key] === undefined ? '' : undefined })} style={{
+          cursor: "pointer",
+          fontSize: 36,
+          padding: "10px",
+          color: enabled ? '#00bcd4' : "#B0BEC5"
+        }} />
+      })}
+      <div style={{ cursor: 'pointer' }} onClick={() => this.setState({ telegram: this.state['telegram'] === undefined ? '' : undefined })}>
+        <Telegram fill={telegramEnabled ? '#00bcd4' : "#B0BEC5"} />
+      </div>
+      <div style={{ cursor: 'pointer', marginLeft: 5 }} onClick={() => this.setState({ steemit: this.state['steemit'] === undefined ? '' : undefined })}>
+        <Steemit fill={steemitEnabled ? '#00bcd4' : "#B0BEC5"} />
+      </div>
+    </div>
+  }
+
   renderItems() {
-    return (
+    return <div>
+      {this.renderIcons()}
       <List
         style={{ marginTop: "20px" }}
         itemLayout="horizontal"
         dataSource={this.itemData}
         renderItem={this._renderItem}
       />
-    )
+    </div>
   }
 
   renderError() {
@@ -195,17 +236,8 @@ export default class ClaimComponent extends Component {
         action: "Go"
       },
       {
-        id: "reddit",
-        title: "9. Reddit",
-        details: "Share your thoughts about Carmel on reddit",
-        placeholder: "myredditusername",
-        disabled: true,
-        url: "/",
-        action: "Go"
-      },
-      {
         id: "medium",
-        title: "10. Medium",
+        title: "9. Medium",
         details: "Follow our Medium Publication and get to know our story",
         placeholder: "@mymediumusername",
         url: "http://medium.com/carmelplatform",
@@ -239,7 +271,7 @@ export default class ClaimComponent extends Component {
     }
 
     return (
-      <Card style={{ width, margin: "10px", marginTop: "30px", padding }}>
+      <Card style={{ width, margin: "10px", marginTop: "30px", padding, textAlign: 'center' }}>
         <Icon
           type="gift"
           style={{

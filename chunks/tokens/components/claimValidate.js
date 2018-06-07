@@ -48,13 +48,13 @@ export default class ClaimComponent extends Component {
   }
 
   renderItem(item) {
-    return (
+    return this.props.account[item.id] ?
       <List.Item actions={this.renderItemActions(item)}>
         <div style={{ width: "100%", marginTop: "20px" }}>
           <List.Item.Meta title={item.title} description={item.details} />
         </div>
       </List.Item>
-    )
+      : <div />
   }
 
   renderItems() {
@@ -99,7 +99,7 @@ export default class ClaimComponent extends Component {
     return [
       {
         id: "telegram",
-        title: "1. Telegram",
+        title: "Telegram",
         details: "Make sure you joined the Carmel Telegram channel.",
         placeholder: "Enter your Telegram username",
         url: "https://t.me/carmelplatform",
@@ -107,7 +107,7 @@ export default class ClaimComponent extends Component {
       },
       {
         id: "twitter",
-        title: "2. Twitter",
+        title: "Twitter",
         details: "Make sure you are following us on Twitter.",
         placeholder: "Enter your Twitter username",
         url: "https://twitter.com/carmelplatform",
@@ -115,7 +115,7 @@ export default class ClaimComponent extends Component {
       },
       {
         id: "youtube",
-        title: "3. YouTube",
+        title: "YouTube",
         details: "Make sure are subscribed to our YouTube channel.",
         placeholder: "Enter your YouTube username",
         url: "https://www.youtube.com/channel/UCjiQXohOk0pBmJ6PFElQL-g",
@@ -123,7 +123,7 @@ export default class ClaimComponent extends Component {
       },
       {
         id: "facebook",
-        title: "4. Facebook",
+        title: "Facebook",
         details: "Make sure you liked our Facebook page.",
         placeholder: "Enter your Facebook username",
         url: "https://www.facebook.com/carmelio-347131802460343/",
@@ -131,7 +131,7 @@ export default class ClaimComponent extends Component {
       },
       {
         id: "github",
-        title: "5. Github",
+        title: "Github",
         details:
           "Check our progress on Github and don't forget to star Carmel.",
         placeholder: "Enter your Github username",
@@ -140,7 +140,7 @@ export default class ClaimComponent extends Component {
       },
       {
         id: "linkedin",
-        title: "6. Linkedin",
+        title: "Linkedin",
         details: "Make sure you follow us on Linkedin.",
         placeholder: "Enter your Linkedin username",
         url: "https://www.linkedin.com/company/carmel-platform/",
@@ -148,7 +148,7 @@ export default class ClaimComponent extends Component {
       },
       {
         id: "steemit",
-        title: "7. Steemit",
+        title: "Steemit",
         details: "Follow us on Steemit.",
         placeholder: "Enter your Steemit username",
         url: "https://steemit.com/@idancali",
@@ -156,23 +156,15 @@ export default class ClaimComponent extends Component {
       },
       {
         id: "instagram",
-        title: "8. Instagram",
+        title: "Instagram",
         details: "Tune in to our journey at Carmel on Instagram.",
         placeholder: "Enter your Instagram username",
         url: "https://www.instagram.com/carmel.io/",
         action: "Go"
       },
       {
-        id: "reddit",
-        title: "9. Reddit",
-        details: "Share your thoughts about Carmel on reddit.",
-        placeholder: "Enter your reddit username",
-        url: "??????????????",
-        action: "Go"
-      },
-      {
         id: "medium",
-        title: "10. Medium",
+        title: "Medium",
         details: "Follow our Medium Publication and get to know our story.",
         placeholder: "Enter your Medium username",
         url: "http://medium.com/carmelplatform",

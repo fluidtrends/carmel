@@ -238,7 +238,6 @@ export default class PrivateTokensScreen extends Screen {
       "medium",
       "steemit",
       "linkedin",
-      "reddit",
       "instagram",
       "github"
     ]
@@ -251,7 +250,7 @@ export default class PrivateTokensScreen extends Screen {
       }
     })
 
-    return socialNetworkIndex > 5
+    return socialNetworkIndex >= 5
   }
 
   renderClaim() {
