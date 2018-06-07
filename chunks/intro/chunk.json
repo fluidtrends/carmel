@@ -39,34 +39,29 @@
         "subtitle": "The Leading Tech Education Platform On Blockchain",
         "type": "ico",
         "primaryActionTitle": "Participate in the Private Token Sale",
+        "introVideo": "https://www.youtube.com/watch?v=hUcMqblawDE&list=PL9YBPmbctP4izy3pLrev014nSlI9Cr6Se",
         "social": {
           "twitter": {
             "url": "https://twitter.com/CarmelPlatform",
             "color": "red"
           },
           "youtube": {
-            "url": "https://www.youtube.com/channel/UCjiQXohOk0pBmJ6PFElQL-g",
-            "color": ""
+            "url": "https://www.youtube.com/channel/UCjiQXohOk0pBmJ6PFElQL-g"
           },
           "medium": {
-            "url": "http://medium.com/carmelplatform",
-            "color": "blue"
+            "url": "http://medium.com/carmelplatform"
           },
           "github": {
-            "url": "https://github.com/fluidtrends/carmel",
-            "color": "pink"
+            "url": "https://github.com/fluidtrends/carmel"
           },
           "facebook": {
-            "url": "https://www.facebook.com/carmelio-347131802460343/",
-            "color": "green"
+            "url": "https://www.facebook.com/carmelio-347131802460343/"
           },
           "instagram": {
-            "url": "https://www.instagram.com/carmel.io/",
-            "color": ""
+            "url": "https://www.instagram.com/carmel.io/"
           },
           "linkedin": {
-            "url": "",
-            "color": "https://www.linkedin.com/company/carmel-platform/"
+            "url": "https://www.linkedin.com/company/carmel-platform/"
           }
         }
       },
