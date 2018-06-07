@@ -11,8 +11,8 @@ You are about to embark on a quest to discover your own personal brand. Chunky w
 This your map quest:
 
 1. [Customize your website](https://github.com/fluidtrends/carmel/tree/challenges-chunk/challenges/define-your-brand/challenge1)
-2. [Challenge 2](https://github.com/fluidtrends/carmel/tree/challenges-chunk/challenges/define-your-brand/challenge2)
-2. [Challenge 3](https://github.com/fluidtrends/carmel/tree/challenges-chunk/challenges/define-your-brand/challenge3)
+2. [Continue customizing your website](https://github.com/fluidtrends/carmel/tree/challenges-chunk/challenges/define-your-brand/challenge2)
+2. [Finalize your personal website](https://github.com/fluidtrends/carmel/tree/challenges-chunk/challenges/define-your-brand/challenge3)
 
 By doing this you will acquire the following rewards:
 ```$xslt
