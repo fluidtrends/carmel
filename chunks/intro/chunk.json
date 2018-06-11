@@ -30,16 +30,24 @@
         "challenges": "local://whitepaper/challenges"
       },
       "cover": {
-        "image": "new-logo.jpg",
+        "image": "new-logo.png",
         "backgroundColor": "#ffffff",
         "align": "bottom",
         "opacity": 0.5,
         "navigation": true,
-        "title": "More than Learning",
+        "title": "The Fastest Way To Future-Proof Your Career",
         "subtitle": "The Leading Tech Education Platform On Blockchain",
         "type": "ico",
         "primaryActionTitle": "Participate in the Private Token Sale",
         "introVideo": "https://www.youtube.com/watch?v=hUcMqblawDE&list=PL9YBPmbctP4izy3pLrev014nSlI9Cr6Se",
+        "sideLogo": "eos.js",
+        "timedPeriods": [
+          {
+            "until": "16 July 2018 00:00:00 PDT",
+            "text": "Private Sale Ends In",
+            "info": "50% Discount"
+          }
+        ],
         "social": {
           "twitter": {
             "url": "https://twitter.com/CarmelPlatform",
