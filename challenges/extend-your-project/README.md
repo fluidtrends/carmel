@@ -1,23 +1,22 @@
 <p align="center">
-  <img src ="../img/quest.jpg" />
+  <img src ="../img/extend.jpg" />
 </p>
 
 <p align="center">
-  <h2 align="center"> Quest #1: "Discover your personal brand" (Pre-Release)</h2>
+  <h2 align="center"> Quest #2: "Extend your influence" (Pre-Release)</h2>
 </p>
 
-You are about to embark on a quest to discover your own personal brand. Chunky will be your your own comrade in this endeavour.
+The journey continues with more to discover, for yourself, but also for other people following your journey. Extend your influence and your project by adding new content, and new pages.
 
 This your map quest:
 
-1. [Customize your website](https://github.com/fluidtrends/carmel/tree/challenges-chunk/challenges/define-your-brand/challenge1)
-2. [Continue customizing your website](https://github.com/fluidtrends/carmel/tree/challenges-chunk/challenges/define-your-brand/challenge2)
-2. [Finalize your personal website](https://github.com/fluidtrends/carmel/tree/challenges-chunk/challenges/define-your-brand/challenge3)
+1. [Add a new screen](https://github.com/fluidtrends/carmel/tree/challenges-chunk/challenges/extend-your-project/challenge1)
+2. [Create a new page](https://github.com/fluidtrends/carmel/tree/challenges-chunk/challenges/extend-your-project/challenge2)
 
 By doing this you will acquire the following rewards:
 ```$xslt
-define your own brand, copywriting, json manipulation. 
+define your own brand, copywriting, json manipulation, json editing, js, react, objects, arrays. 
 ```
 
-* **Author:** Robert P. & Chris P.
-* **Tags:** web, json, getting started, brand
+* **Author:** aclowwwn.
+* **Tags:** web, json, getting started, brand, js, react, objects, arrays

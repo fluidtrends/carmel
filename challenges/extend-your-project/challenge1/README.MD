@@ -21,7 +21,7 @@ new screes, content, json manipulation.
 ---
 ###
 
-## Add a new screen in minutes using chunky.
+## Add a new screen
 
 ## Tasks
 
