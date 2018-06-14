@@ -35,14 +35,14 @@ Open <b>intro's chunk.json</b>, add a new field named "extendedMenu", containing
    <p> Declaring a new JSON field is easy: the name must be surrounded by quotes, then a semicolon. On the right side of the semicolon you have the value of the object, which, in our case, is an empty array.  </p> 
 </details>
 
-### 2.  Add a new menu item
+### 2. Add a new menu item
 
 Inside the array, add a new object, with the following fields: id, title and path.
 
 <details> 
   <summary>Click me if you need help. </summary>
    <br />
-   <p> To declare a new object, you must use the curly brackets ('{}'), and each field inside the object must be surrounded by quotes, and separated by a coma. </p> 
+   <p> To declare a new object, you must use the curly brackets ('{}'), and each field inside the object must be surrounded by quotes, and separated by a coma. Each field must be initialized with as an empty string.</p> 
 </details>
 
 ### 3. Define your second page menu title
