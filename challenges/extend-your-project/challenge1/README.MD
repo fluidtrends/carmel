@@ -37,12 +37,12 @@ Open <b>intro's chunk.json</b>, add a new field named "extendedMenu", containing
 
 ### 2. Add a new menu item
 
-Inside the array, add a new object, with the following fields: id, title and path.
+Inside the array, add a new object, with the following fields: `id`, `title` and `path`, each one of them containing an empty string.
 
 <details> 
   <summary>Click me if you need help. </summary>
    <br />
-   <p> To declare a new object, you must use the curly brackets ('{}'), and each field inside the object must be surrounded by quotes, and separated by a coma. Each field must be initialized as an empty string.</p> 
+   <p> To declare a new object, you must use the curly brackets ('{}'), and each field inside the object must be surrounded by quotes, and separated by a coma. </p> 
 </details>
 
 ### 3. Define your second page menu title
