@@ -41,7 +41,7 @@ The basic config of the file contains three fields: `title`, `path` and `cover`.
 
 ### 3. Configuring the cover
 
-The next step in configuring the new page is to add new fields to the cover object. You will need an `image` field, containg the name of the image you are going to use as cover, an `opacity` field with a value between `0` and `1`, the `navigation` field set to `true`, a `title` and the `type` of the cover set to `simple`.
+The next step in configuring the new page is to add new fields to the cover object. You will need an `image` field, containg the name of the image you are going to use as cover, an `opacity` field with a value between <code>0</code> and <code>1</code>, the `navigation` field set to <code>true</code>, a `title` and the `type` of the cover set to <code>'simple'</code>.
 
 
 ### You should achieve something like this
