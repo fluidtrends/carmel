@@ -30,7 +30,7 @@
         "challenges": "local://whitepaper/challenges"
       },
       "cover": {
-        "image": "new-logo.png",
+        "image": "chris.png",
         "backgroundColor": "#ffffff",
         "align": "bottom",
         "opacity": 0.5,
