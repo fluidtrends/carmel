@@ -42,7 +42,7 @@ Inside the array, add a new object, with the following fields: id, title and pat
 <details> 
   <summary>Click me if you need help. </summary>
    <br />
-   <p> To declare a new object, you must use the curly brackets ('{}'), and each field inside the object must be surrounded by quotes, and separated by a coma. Each field must be initialized with as an empty string.</p> 
+   <p> To declare a new object, you must use the curly brackets ('{}'), and each field inside the object must be surrounded by quotes, and separated by a coma. Each field must be initialized as an empty string.</p> 
 </details>
 
 ### 3. Define your second page menu title
