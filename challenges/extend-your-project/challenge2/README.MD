@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <h2 align="center"> Challenge #2: "Continue developing your brand" (Pre-Release)</h2>
+  <h2 align="center"> Challenge #2: "Continue extending your influence" (Pre-Release)</h2>
 </p>
 
 Now that you've defined a second page, clicking the new menu item will take you to a blank page. In this challenge we will create a new page, with a simple cover and a title.
