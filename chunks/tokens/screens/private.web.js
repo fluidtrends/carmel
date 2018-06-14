@@ -259,15 +259,17 @@ export default class PrivateTokensScreen extends Screen {
     }
 
     if (!this.state.claim && !this.state.totalClaimed) {
-      return (
-        <ClaimStart
-          error={this.state.claimError}
-          ethereum={this.props.ethereum}
-          newClaim={this.props.newClaim}
-          account={this.state.account}
-          period={this.state.period}
-        />
-      )
+      if (this.state.period && this.state.period.data &&
+          this.state.period.data.daysLeft < 0 && this.state.period.data.tokens === 0) {
+        return <div />
+      }
+
+      return <ClaimStart
+        error={this.state.claimError}
+        ethereum={this.props.ethereum}
+        newClaim={this.props.newClaim}
+        account={this.state.account}
+        period={this.state.period} />
     }
 
     if (!this.state.startValidation) {

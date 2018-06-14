@@ -19,8 +19,9 @@
       "private": true,
       "layout": "sidebar",
       "stack": [
-        "auth",
-        "tokens"
+        "studio",
+        "tokens",
+        "auth"
       ]
     }
   },

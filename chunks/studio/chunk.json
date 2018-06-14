@@ -1,6 +1,28 @@
 {
   "name": "studio",
   "routes": {
+    "journey": {
+      "title": "Journey",
+      "icon": "rocket",
+      "path": "/journey",
+      "private": true,
+      "cover": {
+        "backgroundColor": "#00838F",
+        "navigation": true,
+        "type": "menu"
+      }
+    },
+    "products": {
+      "title": "Products",
+      "icon": "appstore",
+      "path": "/products",
+      "private": true,
+      "cover": {
+        "backgroundColor": "#00838F",
+        "navigation": true,
+        "type": "menu"
+      }
+    },
     "main": {
       "title": "Studio",
       "icon": "home",
@@ -12,6 +34,18 @@
         "image": "start.jpg",
         "title": "Download the #CarmelStudio",
         "type": "default"
+      }
+    },
+    "tools": {
+      "title": "Tools",
+      "icon": "code",
+      "path": "/tools",
+      "toolboxUrl": "https://raw.githubusercontent.com/fluidtrends/carmel/content/studio/toolbox",
+      "private": true,
+      "cover": {
+        "backgroundColor": "#00838F",
+        "navigation": true,
+        "type": "menu"
       }
     }
   }
