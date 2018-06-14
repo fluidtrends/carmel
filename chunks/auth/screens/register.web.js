@@ -12,7 +12,7 @@ import Recaptcha from 'react-recaptcha'
 const FormItem = Form.Item
 
 export default class RegisterScreen extends Screen {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = { ...this.state }
     this._done = this.done.bind(this)
@@ -21,11 +21,11 @@ export default class RegisterScreen extends Screen {
     this.state = { ...super.state }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     super.componentDidMount()
   }
 
-  done () {
+  done() {
     if (!this.state.name) {
       this.setState({ error: errors.name, errorType: 'name', loading: false })
       return
@@ -83,7 +83,7 @@ export default class RegisterScreen extends Screen {
     }, 300)
   }
 
-  registerOk () {
+  registerOk() {
     try {
       window.location.reload(true)
     } catch (error) {
@@ -91,19 +91,19 @@ export default class RegisterScreen extends Screen {
     }
   }
 
-  registerError (error) {
+  registerError(error) {
     this.setState({ loading: false, password: '', password2: '', error: error.message })
   }
 
-  login () {
+  login() {
     this.triggerRedirect('/login')
   }
 
-  get error () {
+  get error() {
     return this.state.error ? this.state.error : this.props.error
   }
 
-  renderError () {
+  renderError() {
     if (!this.error) {
       return
     }
@@ -115,13 +115,13 @@ export default class RegisterScreen extends Screen {
     )
   }
 
-  onKeyPress (event) {
+  onKeyPress(event) {
     if (event.key === 'Enter') {
       this._done()
     }
   }
 
-  renderCaptcha () {
+  renderCaptcha() {
     if (this.props.desktop) {
       return <div />
     }
@@ -133,17 +133,18 @@ export default class RegisterScreen extends Screen {
       alignSelf: 'center',
       textAlign: 'center',
       justifyContent: 'center',
-      alignItems: 'center' }}>
+      alignItems: 'center'
+    }}>
       <Recaptcha
         sitekey={this.props.recaptchaKey}
         verifyCallback={resp => { if (resp) { this.setState({ verifiedCaptcha: true, error: '' }) } }}
         render='explicit'
         onloadCallback={() => this.setState({ verifiedCaptcha: false })}
-        />
+      />
     </div>
   }
 
-  renderFields () {
+  renderFields() {
     return <div>
       <FormItem>
         <Input
@@ -179,11 +180,11 @@ export default class RegisterScreen extends Screen {
           type='password'
           placeholder={placeholders.password2} />
       </FormItem>
-      { this.renderCaptcha() }
+      {this.renderCaptcha()}
     </div>
   }
 
-  renderFormContent (width, padding) {
+  renderFormContent(width, padding) {
     if (this.state.loading) {
       return this.renderLoading()
     }
@@ -199,8 +200,8 @@ export default class RegisterScreen extends Screen {
         </Typography>
       </div>
 
-      { this.renderError() }
-      { this.renderFields() }
+      {this.renderError()}
+      {this.renderFields()}
 
       <CardActions style={{ justifyContent: 'center', margin: '20px' }}>
         <CardActionButtons>
@@ -226,7 +227,7 @@ export default class RegisterScreen extends Screen {
     </Card>
   }
 
-  renderForm () {
+  renderForm() {
     const width = this.props.isSmallScreen ? '95vw' : '600px'
     const padding = this.props.isSmallScreen ? '2px' : '30px'
     return (
@@ -239,12 +240,12 @@ export default class RegisterScreen extends Screen {
           flexDirection: 'column',
           alignItems: 'center'
         }}>
-        { this.renderFormContent(width, padding) }
+        {this.renderFormContent(width, padding)}
       </div>
     )
   }
 
-  components () {
+  components() {
     return [this.renderForm()]
   }
 }
