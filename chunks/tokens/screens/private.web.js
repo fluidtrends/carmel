@@ -210,6 +210,11 @@ export default class PrivateTokensScreen extends Screen {
       return <Components.Loading message='Loading claim period details ...' />
     }
 
+    if (this.state.period && this.state.period.data &&
+        this.state.period.data.daysLeft < 0 && this.state.period.data.tokens === 0) {
+      return <div />
+    }
+
     if (!this.state.claim && !this.state.totalClaimed) {
       return <ClaimStart
         error={this.state.claimError}

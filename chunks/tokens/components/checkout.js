@@ -20,7 +20,7 @@ const CarmelPaymentMethods = { metamask: 'MetaMask', mew: 'MyEtherWallet' }
 const CarmelIncrement = 100
 const CarmelMax = 100
 const CarmelStart = 50
-const CarmelPrice = 0.5
+const CarmelPrice = 0.55
 
 export default class CheckoutComponent extends Component {
   constructor (props) {

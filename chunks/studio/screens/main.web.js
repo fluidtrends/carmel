@@ -34,7 +34,7 @@ export default class MainStudioScreen extends Screen {
       const os = OSVersions[key]
       return <Button style={{marginBottom: 15, width: 300}} key={os}>Download Studio for {os} </Button>
     })
-    return <div  style={{ padding: '4rem 5rem', textAlign: 'center' }}> 
+    return <div  style={{ padding: '4rem 5rem', textAlign: 'center' }}>
         <Typography use="display1" tag="h1">
           Download the Carmel Studio for other platforms
         </Typography>
@@ -52,7 +52,7 @@ export default class MainStudioScreen extends Screen {
         </div>
     </div>
   }
-  
+
   get features() {
     return [this.renderStudioVersions()]
   }

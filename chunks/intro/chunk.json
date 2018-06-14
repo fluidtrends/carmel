@@ -48,6 +48,16 @@
           "image": "carmel-logo.png",
           "textColor": "#37474F"
         },
+        "pillars": {
+          "source": "benefits",
+          "benefits": [
+            { "text": "local://education", "image": "education.png" },
+            { "text": "local://model", "image": "model.png" },
+            { "text": "local://growth", "image": "growth.png" }
+          ],
+          "textColor": "#37474F",
+          "backgroundColor": "#fcfefe"
+        },
         "features": [
           {
             "id": "chris",
@@ -122,17 +132,7 @@
             "backgroundColor": "#E1F5FE",
             "textColor": "#0686d8"
           }
-        ],
-        "pillars": {
-          "source": "benefits",
-          "benefits": [
-            { "text": "local://education", "image": "education.png" },
-            { "text": "local://model", "image": "model.png" },
-            { "text": "local://growth", "image": "growth.png" }
-          ],
-          "textColor": "#37474F",
-          "backgroundColor": "#fcfefe"
-        }
+        ]
       }
     },
     "welcome": {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Component, Utils } from 'react-dom-chunky'
+import { Component, Components, Utils } from 'react-dom-chunky'
 import { LinearProgress } from 'rmwc/LinearProgress'
 import { Card } from 'rmwc/Card'
 import { Typography } from 'rmwc/Typography'
@@ -9,8 +9,6 @@ import * as DesktopUtils from 'react-electron-chunky/lib/utils'
 import fs from 'fs-extra'
 import path from 'path'
 import { ipcRenderer } from 'electron'
-import UserInfo from '../../dashboard/components/userInfo'
-import Loading from '../../dashboard/components/loading'
 import Status from './status'
 import Tools from './tools'
 
@@ -160,8 +158,10 @@ export default class ToolboxComponent extends Component {
     const level = this.user.level || 0
     const tokens = this.user.tokens || 0
     const loading = false
+    const url = `${this.props.toolboxUrl}/index.json`
 
-    this.props.importRemoteData(`${this.props.toolboxUrl}/index.json`).then(raw => {
+    this.props.importRemoteData(url).then(raw => {
+      console.log(raw)
       var all = []
       raw.forEach(tool => {
         all.push(this.which(tool.exec).then(installed => Object.assign({}, { installed }, tool)))
@@ -241,7 +241,7 @@ export default class ToolboxComponent extends Component {
     }
 
     if (this.state.loading) {
-      return <Loading message={`Loading your Carmel Toolbox ... Just a sec, please.`} />
+      return <Components.Loading message={`Loading your Carmel Toolbox ... Just a sec, please.`} />
     }
 
     return (
@@ -254,12 +254,6 @@ export default class ToolboxComponent extends Component {
           flexDirection: 'column',
           alignItems: 'center'
         }}>
-        <Card style={{ width, margin: '10px', padding: '0px' }}>
-          <UserInfo
-            level={this.state.level}
-            tokens={this.state.tokens}
-            user={this.user} />
-        </Card>
         <div style={{ width, margin: '10px', padding: '0px' }}>
           <Status />
         </div>
