@@ -8,7 +8,7 @@ Undistributed tokens are placed in the Fluid Fund. No tokens are burned and no n
 
 A total of **3,500,000 Carmel Tokens** (5% of total supply) are sold privately at a decreasing weekly discount. The accepted currency is ETH at a fixed price calculated as the ETH equivalent of $1.00 USD minus the weekly discount. During the Private Sale, Tokens can be purchased online at [carmel.io](https://www/carmel.io/tokens) via MetaMask or MyEtherWallet.
 
-**EOS AirDrop**
+**EOS AirDrop (Ends June 13th)**
 
 An additional **3,500,000 Carmel Tokens** (5% of total supply) are distributed free of charge to the first EOS token holders to claim them. Each EOS token holder can claim **100 FREE Carmel Tokens**.
 
