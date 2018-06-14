@@ -27,7 +27,7 @@ new screes, content, json manipulation.
 
 ### 1. Extend the menu
 
-Open <b>intro's chunk.json</b>, add a new field named "extendedMenu", containing an empty array. 
+Open <b>intro's chunk.json</b>, add a new field named "extendedMenu", containing an empty array. Inside the `routes` object, you now have a route defined, named `main`. Inside this route, under the `title` field, add the `extendedMenu`. 
 
 <details> 
   <summary>Want a tip? Press this for a hint </summary>

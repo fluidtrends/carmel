@@ -18,5 +18,5 @@ By doing this you will acquire the following rewards:
 define your own brand, copywriting, json manipulation, json editing, js, react, objects, arrays. 
 ```
 
-* **Author:** aclowwwn.
+* **Author:** aclowwwn
 * **Tags:** web, json, getting started, brand, js, react, objects, arrays
