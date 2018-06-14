@@ -22,7 +22,7 @@ A total (**hard cap**) of **7,000,000 Carmel Tokens** (10% of total supply) are 
 
 Additional **Carmel Tokens** might be distributed free of charge to the first EOS token holders to claim them. Each EOS token holder can claim a fixed amount of **Carmel Tokens**.
 
-This AirDrop will go live depending on several factors, including on whether the period will be reach its fundraising goals.
+This AirDrop will go live depending on several factors, including on whether the period will reach its fundraising goals.
 
 If this AirDrop goes live, the tokens can be claimed online at [carmel.io](https://www.carmel.io/tokens) on a first come first serve basis.
 
@@ -34,6 +34,6 @@ A total (**hard cap**) of **28,000,000 Carmel Tokens** (40% of total supply) are
 
 Additional **Carmel Tokens** might be distributed free of charge to the first EOS token holders to claim them. Each EOS token holder can claim a fixed amount of **Carmel Tokens**.
 
-This AirDrop will go live depending on several factors, including on whether the period will be reach its fundraising goals.
+This AirDrop will go live depending on several factors, including on whether the period will reach its fundraising goals.
 
 If this AirDrop goes live, the tokens can be claimed online at [carmel.io](https://www.carmel.io/tokens) on a first come first serve basis.
