@@ -62,7 +62,7 @@ The path is the name that will be added in your project's URL link anytime you n
 <details> 
   <summary>Too hard? I can show a tip ;)</summary>
    <br />
-   <p> The path should usually be the same as the menu title, only in lowercase. </p> 
+   <p> The path should usually be the same as the menu title, only in lowercase, and always starts with a <code>/</code>. </p> 
 </details>
 
 
