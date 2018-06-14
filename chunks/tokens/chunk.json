@@ -130,6 +130,7 @@
       "get://period#currentPeriod",
       "post://transactions#checkTransactions",
       "post://purchases#newPurchase",
+      "get://purchases#checkPurchases",
       "post://claims#newClaim"
     ],
     "dependencies": {
@@ -140,6 +141,7 @@
       "newClaim": ["ethAddress", "eosBalance"]
     },
     "permissions": {
+      "checkPurchases": ["ses:SendEmail"],
       "checkTransactions": ["ses:SendEmail"],
       "newPurchase": ["ses:SendEmail"]
     },

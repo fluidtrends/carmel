@@ -14,7 +14,7 @@ export default class BuyComponent extends Component {
   }
 
   get discount () {
-    return (100 - (this.props.carmelPriceUSD * 100))
+    return (100 - (this.props.carmelPriceUSD * 100).toFixed(0))
   }
 
   render () {

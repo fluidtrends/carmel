@@ -32,28 +32,28 @@ const createPurchase = ({ account, config, data }) => {
 }
 
 const sendPurchaseReport = ({ purchase, purchaseKey, config, account }) => {
-  const email = purchase.email
+  // const email = purchase.email
   const amount = purchase.amount
   const currency = purchase.currency
 
-  const userHeader = `Thanks for believing in Carmel. You will receive your new Carmel Tokens as soon as your transaction is verified.`
-  const userFields = { status: 'Waiting for your transaction ...', amount: purchase.amount, currency: purchase.currency.toUpperCase(), tokens: purchase.tokens.toLocaleString('en') }
-  const textUser = `${userHeader}\n\n` + Object.keys(userFields).map(key => `${key}: ${userFields[key]}`).join('\n')
-  const htmlUser = `${userHeader}<br/><br/>` + Object.keys(userFields).map(key => `${key}: <strong>${userFields[key]}</strong>`).join('<br/>')
-  const subjectUser = `Congrats on your new ${purchase.tokens.toLocaleString('en')} Carmel Tokens purchase`
-
-  return chunky.emailer.send({
-    to: [email],
-    from: config.settings.fromEmail,
-    subject: subjectUser,
-    text: textUser,
-    html: htmlUser
-  })
-  .then(() => ({
+  // const userHeader = `Thanks for believing in Carmel. You will receive your new Carmel Tokens as soon as your transaction is verified.`
+  // const userFields = { status: 'Waiting for your transaction ...', amount: purchase.amount, currency: purchase.currency.toUpperCase(), tokens: purchase.tokens.toLocaleString('en') }
+  // const textUser = `${userHeader}\n\n` + Object.keys(userFields).map(key => `${key}: ${userFields[key]}`).join('\n')
+  // const htmlUser = `${userHeader}<br/><br/>` + Object.keys(userFields).map(key => `${key}: <strong>${userFields[key]}</strong>`).join('<br/>')
+  // const subjectUser = `Congrats on your new ${purchase.tokens.toLocaleString('en')} Carmel Tokens purchase`
+  //
+  // return chunky.emailer.send({
+  //   to: [email],
+  //   from: config.settings.fromEmail,
+  //   subject: subjectUser,
+  //   text: textUser,
+  //   html: htmlUser
+  // })
+  return Promise.resolve({
     message: `Waiting for transaction (${amount} ${currency}) ...`,
     status: `pending`,
     purchaseKey: '0x' + Buffer.from(`CARMEL${Base64.encode(purchaseKey._id)}`).toString('hex')
-  }))
+  })
 }
 
 function executor ({ event, chunk, config, account }) {
