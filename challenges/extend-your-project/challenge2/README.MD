@@ -27,12 +27,12 @@ json (medium), content, js (beginner), react (beginner), object, arrays
 
 ### 1. Add a new route
 
-Open <b>intro's chunk.json</b>. The JSON contains two children (immediate fields) named `name` and `routes`. The `routes` field contains a single field, called `main` - containing the configuration for the main page. Create a new field, with the title you choosed for the second page, and initialize it with an empty array.
+Open <b>intro's chunk.json</b>. The JSON contains two children (immediate fields) named `name` and `routes`. The `routes` field contains a single field, called `main` - containing the configuration for the main page. Create a new field, with the title you choosed for the second page, and initialize it with an empty object.
 
 <details>
   <summary>Want some help?</summary>
   <br />
-   <p> Watch the <i>main</i> route field very carefully: you have the name, surrounded by quotes, a semicolon and an object containing the config. Don't forget, an empty object is represnted by a pair of curly brackets. </p>
+   <p> Watch the <i>main</i> route field very carefully: you have the name, surrounded by quotes, a semicolon and an object containing the config. Don't forget, an empty object is represented by a pair of curly brackets. </p>
 </details>
 
 ### 2. Add a config for your second page
