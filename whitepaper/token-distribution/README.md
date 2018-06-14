@@ -18,6 +18,22 @@ Tokens can be claimed online at [carmel.io](https://www.carmel.io/tokens) on a f
 
 A total (**hard cap**) of **7,000,000 Carmel Tokens** (10% of total supply) are sold as ERC-20 CARMEL tokens at $1.00 USD with a progressive bonus structure. The accepted currency is ETH at a fixed price calculated as the ETH equivalent of $1.00 USD plus the bonus. Tokens can be purchased online at [carmel.io](https://www.carmel.io/tokens) on a first come first serve basis.
 
+**EOS AirDrop (Potential)**
+
+Additional **Carmel Tokens** might be distributed free of charge to the first EOS token holders to claim them. Each EOS token holder can claim a fixed amount of **Carmel Tokens**.
+
+This AirDrop will go live depending on several factors, including on whether the period will be reach its fundraising goals.
+
+If this AirDrop goes live, the tokens can be claimed online at [carmel.io](https://www.carmel.io/tokens) on a first come first serve basis.
+
 ## Public Sale: October 22nd, 2018 - December 31st, 2018
 
 A total (**hard cap**) of **28,000,000 Carmel Tokens** (40% of total supply) are sold as ERC-20 CARMEL tokens as well as EOS CARMEL tokens. The accepted currencies are ETH and EOS. Tokens can be purchased at [carmel.io](https://www.carmel.io/tokens) on a first come first serve basis.
+
+**EOS AirDrop (Potential)**
+
+Additional **Carmel Tokens** might be distributed free of charge to the first EOS token holders to claim them. Each EOS token holder can claim a fixed amount of **Carmel Tokens**.
+
+This AirDrop will go live depending on several factors, including on whether the period will be reach its fundraising goals.
+
+If this AirDrop goes live, the tokens can be claimed online at [carmel.io](https://www.carmel.io/tokens) on a first come first serve basis.
