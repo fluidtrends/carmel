@@ -13,7 +13,7 @@ json (advanced), markdown
 ```
 
 
-* **Author:** Robert P. & Chris P.
+* **Author:** aclowwwn
 * **Level:** Beginner
 * **Tags:** web, json, getting started
 

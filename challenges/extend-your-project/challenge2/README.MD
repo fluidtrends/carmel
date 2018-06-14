@@ -13,7 +13,7 @@ json (medium), content, js (beginner), react (beginner), object, arrays
 ```
 
 
-* **Author:** Andi C.
+* **Author:** aclowwwn
 * **Level:** Beginner
 * **Tags:** web, json, routing, js, react, getting started
 
@@ -38,6 +38,10 @@ Open <b>intro's chunk.json</b>. The JSON contains two children (immediate fields
 ### 2. Add a config for your second page
 
 The basic config of the file contains three fields: `title`, `path` and `cover`. The `title` and `path` fields must be the same as the corresponding fields in the `extendedMenu`, and the `cover` field contains an empty object.
+
+### 3. Configuring the cover
+
+
 
 
 ### You should achieve something like this
