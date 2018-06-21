@@ -6,7 +6,7 @@
   <h2 align="center"> Challenge #3: "Finalize developing your brand" (Pre-Release)</h2>
 </p>
 
-Now that you have a staring point let's define your brand.
+Now that you have a starting point let's define your brand.
 By doing this you will acquire the following rewards:
 ```$xslt
 json (advanced), markdown
