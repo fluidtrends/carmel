@@ -84,7 +84,7 @@ Edit your newly created file and write in it.
 <details>
   <summary>Check this out</summary>
   <br />
-   <p> You can use <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">this</a> to gain some super powers over the markdown file. folder. Also, check this cool dude's implementation of the doc above, in his personal <a href="https://github.com/adrienbenoist/CarmelTemplate/blob/chunky-templates/assets/text/myfirstmarkdown.md">project</a></p>.
+   <p> You can use <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">this</a> to gain some super powers over the markdown file. folder. Also, check this cool dude's implementation of the doc above, in his personal <a href="https://github.com/adrienbenoist/CarmelTemplate/blob/chunky-templates/assets/text/myfirstmarkdown.md">project</a>.</p>
 </details>
 
 
