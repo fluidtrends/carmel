@@ -31,7 +31,7 @@ Open chunky.json and change the logo image.
 <details> 
   <summary>Want a tip? Press this for a hint </summary>
   <br />
-   <p> Have a look at <b>line 36</b>. </p> 
+   <p> Have a look at <b>theme</b> and bellow you should see <b>logoImage</b>. </p>
 </details>
 
 ### 2. Change navigation background
@@ -41,7 +41,7 @@ Look in the current file and modify navigation background color.
 <details> 
   <summary>Click me if you need help. </summary>
    <br />
-   <p> Look at line <b>47</b>. </p> 
+   <p> Look at the <b>navigationColor</b> key </p>
 </details>
 
 ### 3. Define your page menu title
@@ -53,7 +53,7 @@ at intro folder.
 <details> 
   <summary>Press me if you are stuck</summary>
   <br />
-   <p> Open <b>chunk.json<b> file and have a look at <b>line 5<b>. </p> 
+   <p> Open <b>chunk.json<b> file and have a look at the key <b>title<b> from the <b>main</b>. </p>
 </details>
 
 ### 4. Add your own cover title
@@ -63,7 +63,7 @@ In the current file type your new cover title.
 <details> 
   <summary>Too hard? I can show a tip ;)</summary>
    <br />
-   <p> Maybe line <b>12</b> will help. </p> 
+   <p> Look at the <b>cover</b> under that you should have an <b>image</b> key, that is the value you should modify. </p>
 </details>
 
 ### 5. Change cover subtitle
@@ -73,7 +73,7 @@ You should be able to this on your own.
 <details> 
   <summary>Don't look here :))</summary>
     <br />
-   <p> Look at the line below. </p> 
+   <p> Look for the <b>subtitle</b> key as you did with the title key </p>
 </details>
 
 
