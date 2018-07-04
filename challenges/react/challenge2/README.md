@@ -55,11 +55,13 @@ We will create our Component using **class** from ES6
 
 [class component](https://reactjs.org/docs/components-and-props.html#functional-and-class-components)
 
+As a note: all the classes should start with CamelCase (ex: MyComponent)
+
 <details>
   <summary>Try not to use this</summary>
   <br />
    <p> You will define your component and name it by typing: </p>
-   <p> class myComponent extends Component {
+   <p> class MyComponent extends Component {
 
 } </p>
 </details>
@@ -75,10 +77,59 @@ Let's show something pretty basic like a heading or a paragraph that says hello.
 <details>
   <summary>You sure you need this ? you got all the information you need in the link above </summary>
   <br />
-   <p> The render function should be like this: </p>
+   <p> The render function should look like the one below </p>
+</details>
+
 ```jsx
 render() {
-       		return <p>helloooo</p>
-       	}
+    return <p>helloooo</p>
+}
 ```
+
+### 6. Show your component?
+
+We created the component, made it to render a basic text. But how can we see it ?
+
+Here comes the export and import (like in economy, in order to have access to something you need to export it)
+
+You will need to **export default** your component by simply adding these 2 words where you extend your component
+
+[export](https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/export)
+
+Now let's call it somewhere in our application.
+
+Open main.web.js from the intro folder
+
+Let's import our component
+
+<details>
+  <summary>Do it without this </summary>
+  <br />
+  <p>Add the following at the top of your file</p>
+   <p> import MyComponent from '../components/myComponent' </p>
+</details>
+
+After you imported it, let's render it.
+
+Create a new function, let's say showMyComponent
+
+###
+
+```jsx
+get showMyComponent() {
+    return (
+      <MyComponent></MyComponent>
+    )
+  }
+```
+
+Now let's show it near our other components
+
+Edit the components function. Your components function how returns the components from the json file and we need to add one extra component, you can do this by using concat
+
+<details>
+  <summary>Maybe you will need this </summary>
+  <br />
+  <p>return super.components()
+               .concat(this.showMyComponent) </p>
 </details>

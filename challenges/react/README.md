@@ -13,3 +13,4 @@ For this you will need a lot of **patience** and **practice**.
 The map quest will be the following:
 1. [What is React](https://github.com/fluidtrends/carmel/tree/challenges-chunk/challenges/react/challenge1)
 2. [First glimpse at React](https://github.com/fluidtrends/carmel/tree/challenges-chunk/challenges/react/challenge2)
+3. [Props and state](https://github.com/fluidtrends/carmel/tree/challenges-chunk/challenges/react/challenge3)
