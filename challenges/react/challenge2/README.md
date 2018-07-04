@@ -33,3 +33,52 @@ Let's create a new folder into our intro folder called **components** and there 
 No tip for this.
 
 ### 2. Import React into the file
+
+In order to use React, firstly we will need to **import** it in our file.
+
+Read more about [imports](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)
+
+### 3. Import Component from react
+
+This is pretty much the same thing, but instead of importing the React object we will import the **Component**
+
+<details>
+  <summary>Want a tip? Press this for a hint </summary>
+  <br />
+   <p> You can do these 2 tasks in 1 line: </p>
+   <p> import React, {Component} from 'react'</p>
+</details>
+
+### 4. Name your Component
+
+We will create our Component using **class** from ES6
+
+[class component](https://reactjs.org/docs/components-and-props.html#functional-and-class-components)
+
+<details>
+  <summary>Try not to use this</summary>
+  <br />
+   <p> You will define your component and name it by typing: </p>
+   <p> class myComponent extends Component {
+
+} </p>
+</details>
+
+### 5. Let's render something
+
+But what does render means?
+
+Render is a **method** of the Component which will show html content inside our component.
+
+Let's show something pretty basic like a heading or a paragraph that says hello.
+
+<details>
+  <summary>You sure you need this ? you got all the information you need in the link above </summary>
+  <br />
+   <p> The render function should be like this: </p>
+```jsx
+render() {
+       		return <p>helloooo</p>
+       	}
+```
+</details>
