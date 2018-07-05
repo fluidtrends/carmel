@@ -36,7 +36,7 @@ No tip for this.
 
 In order to use React, firstly we will need to **import** it in our file.
 
-Read more about [imports](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)
+Read more about [imports](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import){:target="_blank"}
 
 ### 3. Import Component from react
 
