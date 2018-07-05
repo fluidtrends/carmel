@@ -127,7 +127,7 @@ get showMyComponent() {
 
 Now let's show it near our other components
 
-Edit the components function. Your components function how returns the components from the json file and we need to add one extra component, you can do this by using concat
+Edit the component function. Your components function now returns the components from the json file and we need to add one extra component, you can do this by using concat
 
 <details>
   <summary>Maybe you will need this </summary>
