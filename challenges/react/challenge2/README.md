@@ -78,13 +78,15 @@ Let's show something pretty basic like a heading or a paragraph that says hello.
   <summary>You sure you need this ? you got all the information you need in the link above </summary>
   <br />
    <p> The render function should look like the one below </p>
+ <code>
+   render() {
+       return &lt;p>helloooo &lt;/p>
+   }
+</code>
+
 </details>
 
-```jsx
-render() {
-    return <p>helloooo</p>
-}
-```
+
 
 ### 6. Show your component?
 
