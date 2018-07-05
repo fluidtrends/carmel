@@ -36,3 +36,6 @@ Keep in mind that a library is there to help us building better products, but yo
 
 
 [What is React](https://reactjs.org/tutorial/tutorial.html#what-is-react)
+
+
+[Let's proceed to the next challenge](https://github.com/fluidtrends/carmel/tree/challenges-chunk/challenges/react/challenge2)

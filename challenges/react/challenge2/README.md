@@ -133,3 +133,5 @@ Edit the components function. Your components function how returns the component
   <p>return super.components()
                .concat(this.showMyComponent) </p>
 </details>
+
+[Let's get into props and state](https://github.com/fluidtrends/carmel/tree/challenges-chunk/challenges/react/challenge3)
