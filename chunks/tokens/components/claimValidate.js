@@ -29,6 +29,11 @@ export default class ClaimComponent extends Component {
   }
 
   renderItemActions(item) {
+
+    const validStatus = this.props.account[`${item.id}Valid`]
+    let validationText = validStatus ? (validStatus == 1 ? 'Validated' : 'Invalid Username') : 'Validation Pending'
+    let validationColor = validStatus ? (validStatus == 1 ? '#4CAF50' : '#f44336') : '#FFA000'
+
     return [
       <Typography
         use="caption"
@@ -40,9 +45,9 @@ export default class ClaimComponent extends Component {
       <Typography
         use="caption"
         tag="h2"
-        style={{ textAlign: "left", paddingLeft: "10px", color: "#FFA000" }}
+        style={{ textAlign: "left", paddingLeft: "10px", color: validationColor }}
       >
-        {this.props.account[item.id] ? 'Validation Pending' : ''}
+        {this.props.account[item.id] ? validationText : ''}
       </Typography>
     ]
   }
