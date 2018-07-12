@@ -57,7 +57,9 @@
   "info": {
     "copyright": "© 2018",
     "title": "Carmel",
+    "summary": "The Decentralized Tech Education Platform",
     "watermark": "Created with Chunky.",
+    "cover": "chris.png",
     "analytics": {
       "type": "google",
       "key": "UA-99031266-1"
