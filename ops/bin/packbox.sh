@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cd boxes
-../bin/packer build ${1}.json
+cd ops/boxes
+../../../bin/packer build ${1}.json
