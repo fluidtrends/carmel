@@ -1,0 +1,13 @@
+#!/bin/bash
+
+#DIALOG="$(osascript -e 'display dialog "Alright, so far so good. Time to install some more goodies." buttons {"Continue", "Cancel"} default button "Continue"' 2>/dev/null)"
+
+#if [ ! "$DIALOG" = "button returned:Continue" ]; then   
+#  echo "CANCELLED"
+#  exit 1
+#fi
+
+sudo installer -pkg VirtualBox.pkg -target /
+sudo installer -pkg vagrant.pkg -target /
+vagrant plugin repair
+exit 0

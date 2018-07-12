@@ -35,7 +35,7 @@
         "align": "bottom",
         "opacity": 0.5,
         "navigation": true,
-        "title": "The Fastest Way To Future-Proof Your Career",
+        "title": "The Fastest Way To Future-Proof Your Career.",
         "subtitle": "The Leading Tech Education Platform On Blockchain",
         "type": "ico",
         "primaryActionTitle": "Participate in the Private Token Sale",
@@ -164,20 +164,7 @@
       "title": "Welcome",
       "icon": "home",
       "path": "/welcome",
-      "events": {
-        "cover": "local://me"
-      },
-      "cover": {
-        "image": "start.jpg",
-        "backgroundColor": "#ffffff",
-        "align": "bottom",
-        "opacity": 0.5,
-        "navigation": true,
-        "title": "It has begun.",
-        "subtitle": "Ready to get in the zone?",
-        "type": "default",
-        "primaryActionTitle": "Let's Do This"
-      }
+      "skipMenu": true
     },
     "person": {
       "title": "Stories",
