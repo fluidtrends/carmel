@@ -7,7 +7,7 @@ nvm install 8.11.3
 nvm alias default 8.11.3
 
 echo ". ~/.bashrc" >> ~/.bash_profile
-echo ". ~/context/boot.sh"
+echo ". ~/context/boot.sh" >> ~/.bash_profile
 
 mkdir ~/.carmel
 mkdir ~/products
