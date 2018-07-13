@@ -1,0 +1,1 @@
+**Christian Rosu, Product Development Intern**
