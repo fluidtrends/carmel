@@ -4,4 +4,7 @@ node_modules
 .chunky.json
 build
 .chunky
-.next
+.gitignore
+packer_boxes
+packer_cache
+package-lock.json

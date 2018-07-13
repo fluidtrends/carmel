@@ -3,4 +3,6 @@ node_modules
 .chunky.json
 coverage
 .chunky
-.next
+.vagrant
+packer_boxes
+packer_cache
