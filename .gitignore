@@ -7,3 +7,4 @@ build
 .gitignore
 packer_boxes
 packer_cache
+package-lock.json
