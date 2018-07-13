@@ -3,14 +3,14 @@
     "name": "chunky",
     "backgroundColor": "#ffffff",
     "path": "chunky",
-    "title": "Meet Chunky",
-    "details": "Define your personal brand in minutes using chunky.",
+    "title": "Challenge #1: Define your brand",
+    "details": "Create your personal brand in minutes using Chunky.",
     "actionTitle": "Start challenge #1",
     "xp": "5",
     "category": "Beginner",
     "label": "Web",
     "content": {
-      "text": "github://fluidtrends/carmel/content/challenge/chunky/README",
+      "text": "github.com/fluidtrends/carmel/tree/challenges-chunk/challenges/define-your-brand/challenge1",
       "textColor": "#37474F"
     }
   },
@@ -18,14 +18,14 @@
     "name": "awsome",
     "backgroundColor": "#ffffff",
     "path": "awsome",
-    "title": "You're awsome",
-    "details": "Learn how to create and manage your AWS infrastructure with AWSome",
-    "actionTitle": "Coming soon",
+    "title": "Challenge #2: Continue developing your brand",
+    "details": "Continue to shape your personal brand using Chunky",
+    "actionTitle": "Start challenge #2",
     "xp": "20",
     "category": "Advanced",
     "label": "DevOps",
     "content": {
-      "text": "github://fluidtrends/carmel/content/challenge/awsome/README",
+      "text": "github.com/fluidtrends/carmel/tree/challenges-chunk/challenges/define-your-brand/challenge2",
       "textColor": "#37474F"
     }
   },
@@ -33,14 +33,14 @@
     "name": "react-components",
     "backgroundColor": "#ffffff",
     "path": "react-components",
-    "title": "Your first React component",
-    "details": "Create your first React custom component and integrate it in your Chunky App",
+    "title": "Challenge #3: Finalize developing your brand",
+    "details": "Finish defining your personal brand using Chunky",
     "actionTitle": "Coming soon",
     "xp": "5",
     "category": "Beginner",
     "label": "Web",
     "content": {
-      "text": "github://fluidtrends/carmel/content/challenge/awsome/README",
+      "text": "github.com/fluidtrends/carmel/tree/challenges-chunk/challenges/define-your-brand/challenge3",
       "textColor": "#37474F"
     }
   },
