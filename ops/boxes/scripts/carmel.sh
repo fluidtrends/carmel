@@ -28,4 +28,4 @@ mkdir node_modules
 cp -r ../../node_modules/react-dom-chunky node_modules/react-dom-chunky
 cp -r ../../node_modules/babel-preset-*/ node_modules
 
-npm i -g chunky-cli@0.9.7
+npm i -g chunky-cli@0.9.17
