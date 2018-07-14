@@ -10,10 +10,12 @@ const _name = 'carmelhyper'
 
 var events = {
   ssh: {
+    id: 'ssh',
     cmd: 'vagrant ssh',
     hook: ''
   },
   compiled: {
+    id: 'compiled',
     cmd: 'chunky start web',
     hook: 'Chunky is happy'
   }
@@ -26,11 +28,11 @@ try {
 const registerEvent = (command, client) => {
   const data = `${command.cmd} ${(command.args || []).join(' ')}\n`
 
-  Object.keys(events).forEach(event => {
-    if (events[event].hook && data.includes(events[event].hook)) {
-      events[event].pending = { command, client }
-    }
-  })
+  if (!events[command.id]) {
+    return data
+  }
+
+  events[command.id].pending = { command, client }
 
   return data
 }
@@ -38,7 +40,7 @@ const registerEvent = (command, client) => {
 const handleEvent = (action) => {
   Object.keys(events).forEach(event => {
     if (events[event].pending && events[event].hook && action.data.includes(events[event].hook)) {
-      ipc.server.emit(events[event].pending.client.socket, 'response', { from: _name, cmd: events[event].pending.command.cmd, done: true })
+      ipc.server.emit(events[event].pending.client, 'response', { from: _name, cmd: events[event].cmd, id: events[event].id, done: true })
     }
   })
 }
@@ -51,6 +53,7 @@ exports.middleware = (store) => (next) => (action) => {
 }
 
 const exit = ({ window, dispatch, uid }) => {
+  console.log('!!! GOT EXIT')
   dispatch({
     type: 'SESSION_CLEAR_ACTIVE',
     effect () {
@@ -60,6 +63,7 @@ const exit = ({ window, dispatch, uid }) => {
 }
 
 const run = ({ dispatch, uid, command, client }) => {
+  console.log('>>>>', command)
   if (command.cmd === 'exit') {
     exit({ window, dispatch, uid })
     return
@@ -77,7 +81,7 @@ const run = ({ dispatch, uid, command, client }) => {
 }
 
 const exec = (command, client) => {
-  if (!command.cmd || !command.from) {
+  if (!command.cmd || !command.from || !command.id) {
     return
   }
 
