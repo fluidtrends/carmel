@@ -19,14 +19,10 @@ module.exports = (mainWindow, { callId, command }) => {
     clientDone(mainWindow, callId, error: 'Could not open the terminal')
     return
   }
-    
+
   const watcher = chokidar.watch(path.resolve(CARMEL_HOME_PRODUCTS, command.id), { persistent: true })
-  const browser = browserSync.create(`carmel-${command.id}`)
-  
-  watcher.on('add', path => browser.reload())
-         .on('change', path => browser.reload())
-         .on('unlink', path => browser.reload())
-         
+  var browser
+
   ipc.connectTo('carmelhyper', () => {
     ipc.of.carmelhyper.on('connect', () => {
       console.log(`connected to carmelhyper`)
@@ -41,12 +37,20 @@ module.exports = (mainWindow, { callId, command }) => {
       }
 
       if (id === 'compiled') {
-        browser.init({ server: false, proxy: 'http://localhost:18082' })
+        if (!browser) {
+          browser = browserSync.create(`carmel`)
+          watcher.on('add', path => browser.reload())
+                 .on('change', path => browser.reload())
+                 .on('unlink', path => browser.reload())
+          browser.init({ server: false, proxy: 'http://localhost:18082' })
+          clientDone(mainWindow, callId)
+        }
       }
     })
   })
 
-  mainWindow.on('close', () => {
-    closeTerminal()
-  })
+  // mainWindow.on('close', () => {
+  //   closeTerminal()
+  //   browser && browser.exit()
+  // })
 }
