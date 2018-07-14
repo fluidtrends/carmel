@@ -59,9 +59,9 @@ const isTerminalConnected = () => {
 }
 
 const closeTerminal = () => {
-  if (!isTerminalConnected()) {
-    return
-  }
+  // if (!isTerminalConnected()) {
+  //   return
+  // }
   updateContext({ hyper: false })
   terminalExec({ cmd: 'exit' })
 }

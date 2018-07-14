@@ -7,16 +7,18 @@ import NewWorkspaceForm from '../components/newWorkspace'
 import { Typography } from 'rmwc/Typography'
 import { Card, CardActions, CardMedia, CardActionButtons } from 'rmwc/Card'
 import { Button, ButtonIcon } from 'rmwc/Button'
+import { LinearProgress } from 'rmwc/LinearProgress'
 import { Icon } from 'antd'
 import { Data } from 'react-chunky'
 import Shell from '../components/shell'
 import chokidar from 'chokidar'
+import browserSync from 'browser-sync'
 
 export default class WorkspaceScreen extends Screen {
   constructor (props) {
     super(props)
     this._shell = new Shell()
-    this.state = { ...this.state, loadingWorkspace: true, create: false }
+    this.state = { ...this.state, loadingWorkspace: true, create: false, workspace: { id: '__carmel_default' } }
     this._onCancel = this.onCancel.bind(this)
     this._onStart = this.onStart.bind(this)
     this._onSwitch = this.onSwitch.bind(this)
@@ -52,10 +54,6 @@ export default class WorkspaceScreen extends Screen {
 
   get workspaceContext () {
     return Data.Cache.retrieveCachedItem('_carmel_context')
-  }
-
-  get watcher () {
-    return this._watcher
   }
 
   onStart () {
@@ -104,6 +102,10 @@ export default class WorkspaceScreen extends Screen {
     return path.resolve(this.rootProductDir, 'assets')
   }
 
+  get productBrowser () {
+    return this._productBrowser
+  }
+
   productAsset (name) {
     if (!this.state.workspace) {
       return
@@ -112,36 +114,31 @@ export default class WorkspaceScreen extends Screen {
     return path.resolve(this.productAssetsDir, name)
   }
 
-  productFileAdded (file) {
-    const root = this.rootProductDir
-    const relativePath = file.substring(root.length + 1)
-    const type = path.dirname(relativePath)
-    this.setState({ timestamp: `${Date.now()}`})
+  startBrowser () {
+    this._productBrowser = browserSync.create(`carmel-${this.state.workspace.id}`)
+    this.productBrowser.init({ server: false, proxy: 'http://localhost:18082' })
   }
 
-  productFileChanged (file) {
-    const root = this.rootProductDir
-    const relativePath = file.substring(root.length + 1)
-    const type = path.dirname(relativePath)
-    this.setState({ timestamp: `${Date.now()}`})
-  }
-
-  productFileRemoved (file) {
-    const root = this.rootProductDir
-    const relativePath = file.substring(root.length + 1)
-    const type = path.dirname(relativePath)
-    this.setState({ timestamp: `${Date.now()}` })
+  stopBrowser () {
+    const dir = path.resolve(this.homeDir, '.carmel', 'context')
+    this.productBrowser.exit()
+    this.productBrowser.init({
+      server: {
+        baseDir: dir,
+        index: 'closed.html'
+      }
+    })
   }
 
   stopProduct () {
     this.setState({ stopping: true })
+    this.stopBrowser()
     setTimeout(() => {
       this.shell.exec('stopProduct', { type: 'web', id: this.state.workspace.id }, ({ log }) => {
         this.setState({ log })
       })
       .then((data) => {
         this.setState({ started: false, stopping: false })
-        this.watcher && this.watcher.close()
       })
       .catch(error => {
         this.setState({ error })
@@ -157,10 +154,7 @@ export default class WorkspaceScreen extends Screen {
       })
       .then((data) => {
         this.setState({ started: true, starting: false })
-        this._watcher = chokidar.watch(path.resolve(this.homeDir, '.carmel', 'products', workspace.id), { persistent: true })
-                                .on('add', file => this.productFileChanged(file))
-                                .on('change', file => this.productFileChanged(file))
-                                .on('unlink', file => this.productFileRemoved(file))
+        this.startBrowser()
       })
       .catch(error => {
         this.setState({ error })
@@ -198,14 +192,15 @@ export default class WorkspaceScreen extends Screen {
   }
 
   renderMenu () {
-    return [<Button
-      raised
-      key='add'
-      onClick={this._onSwitch}
-      >
-      <ButtonIcon use='repeat' />
-        Switch Workspace
-      </Button>]
+    return <div />
+    // return [<Button
+    //   raised
+    //   key='add'
+    //   onClick={this._onSwitch}
+    //   >
+    //   <ButtonIcon use='repeat' />
+    //     Switch Workspace
+    //   </Button>]
   }
 
   renderProductCover () {
@@ -221,10 +216,17 @@ export default class WorkspaceScreen extends Screen {
         backgroundImage: `url(${cover})`
       }} />
   }
+
   renderActions () {
     if (this.state.stopping || this.state.starting) {
-      return <Components.Loading message={`${this.state.starting ? 'Starting' : 'Stopping'}`} />
+      return <div style={{ padding: '4px', textAlign: 'center', marginBottom: '10px' }}>
+        <LinearProgress determinate={false} width='300px' />
+        <Typography use='caption' tag='h2'>
+          { this.state.stopping ? 'Stopping ...' : 'Starting ...' }
+        </Typography>
+      </div>
     }
+
     return [<Button
       key='start'
       raised
@@ -234,6 +236,7 @@ export default class WorkspaceScreen extends Screen {
       { this.state.started ? 'Stop' : 'Start' }
     </Button>]
   }
+
   renderWorkspace (width, padding) {
     if (!this.state.workspace || !this.state.product) {
       return <div />

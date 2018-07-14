@@ -1,5 +1,3 @@
-const browserSync = require('browser-sync')
-const chokidar = require('chokidar')
 const ipc = require('node-ipc')
 const path = require('path')
 const {
@@ -8,10 +6,8 @@ const {
   updateContext,
   closeTerminal,
   clientDone,
-  terminalExec,
-  isTerminalConnected,
   CARMEL_HOME,
-  CARMEL_HOME_PRODUCTS
+  terminalExec
 } = require('../common')
 
 module.exports = (mainWindow, { callId, command }) => {
@@ -20,8 +16,9 @@ module.exports = (mainWindow, { callId, command }) => {
     return
   }
 
-  const watcher = chokidar.watch(path.resolve(CARMEL_HOME_PRODUCTS, command.id), { persistent: true })
-  var browser
+  mainWindow.on('close', () => {
+    closeTerminal()
+  })
 
   ipc.connectTo('carmelhyper', () => {
     ipc.of.carmelhyper.on('connect', () => {
@@ -37,20 +34,9 @@ module.exports = (mainWindow, { callId, command }) => {
       }
 
       if (id === 'compiled') {
-        if (!browser) {
-          browser = browserSync.create(`carmel`)
-          watcher.on('add', path => browser.reload())
-                 .on('change', path => browser.reload())
-                 .on('unlink', path => browser.reload())
-          browser.init({ server: false, proxy: 'http://localhost:18082' })
-          clientDone(mainWindow, callId)
-        }
+        console.log("Compiled", command.id)
+        clientDone(mainWindow, callId)
       }
     })
   })
-
-  // mainWindow.on('close', () => {
-  //   closeTerminal()
-  //   browser && browser.exit()
-  // })
 }
