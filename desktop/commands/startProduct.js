@@ -31,14 +31,17 @@ module.exports = (mainWindow, { callId, command }) => {
     ipc.of.carmelhyper.on('connect', () => {
       console.log(`connected to carmelhyper`)
       updateContext({ hyper: true })
-      terminalExec({ cmd: "cd", args: [CARMEL_HOME, "&&", "vagrant", "ssh"] })
+      terminalExec({ cmd: "cd", id: "ssh", args: [CARMEL_HOME, "&&", "vagrant", "ssh"] })
     })
 
-    ipc.of.carmelhyper.on('response', ({ from, cmd, data }) => {
-      if (cmd === 'vagrant ssh') {
-        terminalExec({ cmd: "cd", args: [`products/${command.id}`, "&&", "chunky", "start", "web"] })
+    ipc.of.carmelhyper.on('response', ({ from, id, data }) => {
+      if (id === 'ssh') {
+        terminalExec({ cmd: "cd", id: "compiled", args: [`products/${command.id}`, "&&", "chunky", "start", "web"] })
+        return
+      }
+
+      if (id === 'compiled') {
         browser.init({ server: false, proxy: 'http://localhost:18082' })
-        clientDone(mainWindow, callId)
       }
     })
   })
