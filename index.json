@@ -1,6 +1,10 @@
 [
   {
+<<<<<<< HEAD
     "name": "chunky" ,
+=======
+    "name": "chunky",
+>>>>>>> 928186e24154a1ac7ad79a41fa239d86fcdc1d87
     "backgroundColor": "#ffffff",
     "path": "chunky",
     "title": "Challenge #1: Define your brand",
