@@ -73,6 +73,22 @@
           }
         }
       },
+      "startOperationsOnMount": false,
+      "operations": {
+        "newTransaction": [
+          "rest://create/tokens/purchases#newTransaction",
+          {
+            "onSuccess": "transactionOk",
+            "onError": "transactionError"
+          }
+        ],
+        "getContext": [
+          "firebase://retrieve/context?latest=1#freshContext",
+          {
+            "onSuccess": "gotContext"
+          }
+        ]
+      },
       "components": {
         "intro": {
           "source": "summary",
@@ -83,9 +99,18 @@
         "pillars": {
           "source": "benefits",
           "benefits": [
-            { "text": "local://education", "image": "education.png" },
-            { "text": "local://model", "image": "model.png" },
-            { "text": "local://growth", "image": "growth.png" }
+            {
+              "text": "local://education",
+              "image": "education.png"
+            },
+            {
+              "text": "local://model",
+              "image": "model.png"
+            },
+            {
+              "text": "local://growth",
+              "image": "growth.png"
+            }
           ],
           "textColor": "#37474F",
           "backgroundColor": "#fcfefe"
@@ -281,6 +306,14 @@
                   "text": "github://fluidtrends/carmel/content/team/vincent/README"
                 },
                 {
+                  "name": "Mariana Misca",
+                  "username": "mariana",
+                  "title": "Social Media Manager",
+                  "image": "https://github.com/fluidtrends/carmel/raw/content/team/mariana/mariana.jpg",
+                  "linkedIn": "https://www.linkedin.com/in/mariana-mi%C5%9Fca-58a0ba154/",
+                  "text": "github://fluidtrends/carmel/content/team/mariana/README"
+                },
+                {
                   "name": "Robert Pop",
                   "username": "robert",
                   "title": "Web & Mobile Developer",
@@ -442,6 +475,14 @@
                   "image": "https://github.com/fluidtrends/carmel/raw/content/team/scatter/profile.jpg",
                   "website": "http://scatter-eos.com/",
                   "text": "github://fluidtrends/carmel/content/team/scatter/README"
+                },
+                {
+                  "name": "That Dev Space",
+                  "username": "thatdevspace",
+                  "title": "Community Partner",
+                  "image": "https://github.com/fluidtrends/carmel/raw/content/team/thatdevspace/profile.png",
+                  "website": "http://thatdevspace.com/",
+                  "text": "github://fluidtrends/carmel/content/team/thatdevspace/README"
                 },
                 {
                   "name": "The Informal School of IT",
