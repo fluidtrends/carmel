@@ -53,7 +53,6 @@ exports.middleware = (store) => (next) => (action) => {
 }
 
 const exit = ({ window, dispatch, uid }) => {
-  console.log('!!! GOT EXIT')
   dispatch({
     type: 'SESSION_CLEAR_ACTIVE',
     effect () {
@@ -63,7 +62,6 @@ const exit = ({ window, dispatch, uid }) => {
 }
 
 const run = ({ dispatch, uid, command, client }) => {
-  console.log('>>>>', command)
   if (command.cmd === 'exit') {
     exit({ window, dispatch, uid })
     return
@@ -81,7 +79,7 @@ const run = ({ dispatch, uid, command, client }) => {
 }
 
 const exec = (command, client) => {
-  if (!command.cmd || !command.from || !command.id) {
+  if (!command.cmd || !command.from) {
     return
   }
 
