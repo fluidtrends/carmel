@@ -50,8 +50,8 @@ const exec = ({ mainWindow, cmd, args, client }) => {
   })
 }
 
-const terminalExec = ({ cmd, args }) => {
-  ipc.of.carmelhyper && ipc.of.carmelhyper.emit('command', { from: _name, cmd, args })
+const terminalExec = ({ cmd, id, args }) => {
+  ipc.of.carmelhyper && ipc.of.carmelhyper.emit('command', { from: _name, id, cmd, args })
 }
 
 const isTerminalConnected = () => {
@@ -114,6 +114,8 @@ const initContext = () => {
   if (!fs.existsSync(CARMEL_HOME)) {
     fs.copySync(CARMEL_HOME_TEMPLATE, CARMEL_HOME)
   }
+
+  fs.copySync(path.resolve(CARMEL_HOME_TEMPLATE, 'bin'), path.resolve(CARMEL_HOME, 'bin'))
 
   updateContext({ timestamp: `${Date.now()}`})
 }

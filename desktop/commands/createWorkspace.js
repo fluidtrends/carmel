@@ -2,6 +2,7 @@ const { exec, productExists, clientError, clientData } = require('../common')
 
 module.exports = (mainWindow, args) => {
   const id = args.command.id
+  const name = args.command.name
   const template = args.command.template
 
   if (productExists(id)) {
@@ -9,6 +10,5 @@ module.exports = (mainWindow, args) => {
     return
   }
 
-  const command = `mkdir ~/products/${id} && rsync -av --progress ~/templates/${template}/ ~/products/${id}/ --exclude .git`
-  exec({ mainWindow, cmd: 'vagrant', args: ['ssh', '-c', command], client: args.callId })
+  exec({ mainWindow, cmd: 'vagrant', args: ['ssh', '-c', `~/bin/create.sh ${id} \"${name}\" ${template}`], client: args.callId })
 }
