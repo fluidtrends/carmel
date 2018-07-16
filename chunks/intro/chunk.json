@@ -36,7 +36,8 @@
         "opacity": 0.5,
         "navigation": true,
         "title": "The Fastest Way To Future-Proof Your Career.",
-        "subtitle": "The Leading Tech Education Platform On Blockchain"
+        "subtitle": "The Leading Tech Education Platform On Blockchain",
+        "primaryActionTitle": "Participate in the private token sale"
       },
       "startOperationsOnMount": false,
       "operations": {
