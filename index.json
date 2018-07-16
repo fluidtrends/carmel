@@ -1,7 +1,7 @@
 [
   {
-  
-    "name": "chunky",
+
+    "name": "chunky" ,
     "backgroundColor": "#ffffff",
     "path": "chunky",
     "title": "Challenge #1: Define your brand",
@@ -11,7 +11,7 @@
     "category": "Beginner",
     "label": "Web",
     "content": {
-      "text": "github.com/fluidtrends/carmel/tree/challenges-chunk/challenges/define-your-brand/challenge1",
+      "text": "https://github.com/fluidtrends/carmel/tree/challenges-chunk/challenges/define-your-brand",
       "textColor": "#37474F"
     }
   },
@@ -24,19 +24,19 @@
     "actionTitle": "Start challenge #2",
     "xp": "5",
     "category": "Beginner",
-    "label": "Web",
+    "label": "DevOps",
     "content": {
       "text": "github.com/fluidtrends/carmel/tree/challenges-chunk/challenges/define-your-brand/challenge2",
       "textColor": "#37474F"
     }
   },
   {
-    "name": "reactcomponents",
+    "name": "react-components",
     "backgroundColor": "#ffffff",
     "path": "react-components",
     "title": "Challenge #3: Finalize developing your brand",
     "details": "Finish defining your personal brand using Chunky",
-    "actionTitle": "Start challenge #3",
+    "actionTitle": "Coming soon",
     "xp": "5",
     "category": "Beginner",
     "label": "Web",
