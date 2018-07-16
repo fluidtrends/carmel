@@ -36,42 +36,7 @@
         "opacity": 0.5,
         "navigation": true,
         "title": "The Fastest Way To Future-Proof Your Career.",
-        "subtitle": "The Leading Tech Education Platform On Blockchain",
-        "type": "ico",
-        "primaryActionTitle": "Participate in the Private Token Sale",
-        "introVideo": "https://www.youtube.com/watch?v=hUcMqblawDE&list=PL9YBPmbctP4izy3pLrev014nSlI9Cr6Se",
-        "sideLogo": "eos.js",
-        "timedPeriods": [
-          {
-            "until": "16 July 2018 00:00:00 PDT",
-            "text": "Private Sale Ends In",
-            "info": "50% Discount"
-          }
-        ],
-        "social": {
-          "twitter": {
-            "url": "https://twitter.com/CarmelPlatform",
-            "color": "red"
-          },
-          "youtube": {
-            "url": "https://www.youtube.com/channel/UCjiQXohOk0pBmJ6PFElQL-g"
-          },
-          "medium": {
-            "url": "http://medium.com/carmelplatform"
-          },
-          "github": {
-            "url": "https://github.com/fluidtrends/carmel"
-          },
-          "facebook": {
-            "url": "https://www.facebook.com/carmelio-347131802460343/"
-          },
-          "instagram": {
-            "url": "https://www.instagram.com/carmel.io/"
-          },
-          "linkedin": {
-            "url": "https://www.linkedin.com/company/carmel-platform/"
-          }
-        }
+        "subtitle": "The Leading Tech Education Platform On Blockchain"
       },
       "startOperationsOnMount": false,
       "operations": {
@@ -345,6 +310,38 @@
                   "image": "https://github.com/fluidtrends/carmel/raw/content/team/cristi/profile.jpeg",
                   "linkedIn": "https://www.linkedin.com/in/christian-poputea-0a3b49122/",
                   "text": "github://fluidtrends/carmel/content/team/cristi/README"
+                }
+              ]
+            },
+            {
+              "title": "Carmel Interns",
+              "members": [
+                {
+                  "name": "Adrien Benoist",
+                  "username": "adrien",
+                  "title": "Product Development Intern",
+                  "image": "https://github.com/fluidtrends/carmel/raw/content/team/adrien/profile.jpg",
+                  "linkedIn": "https://www.linkedin.com/in/adrien-benoist-53479baa/",
+                  "github": "https://github.com/adrienbenoist",
+                  "text": "github://fluidtrends/carmel/content/team/adrien/README"
+                },
+                {
+                  "name": "Iosif Dolha",
+                  "username": "iosif",
+                  "title": "Product Development Intern",
+                  "image": "https://github.com/fluidtrends/carmel/raw/content/team/iosif/profile.jpg",
+                  "linkedIn": "https://www.linkedin.com/in/iosif-dolha-3037b815a/",
+                  "github": "https://github.com/iosifdolha",
+                  "text": "github://fluidtrends/carmel/content/team/iosif/README"
+                },
+                {
+                  "name": "Christian Rosu",
+                  "username": "chris",
+                  "title": "Product Development Intern",
+                  "image": "https://github.com/fluidtrends/carmel/raw/content/team/chris/profile.jpg",
+                  "linkedIn": "https://www.linkedin.com/in/rosucristian/",
+                  "github": "https://github.com/cristofor-io",
+                  "text": "github://fluidtrends/carmel/content/team/chris/README"
                 }
               ]
             },
