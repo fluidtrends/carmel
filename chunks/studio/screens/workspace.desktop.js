@@ -73,13 +73,15 @@ export default class WorkspaceScreen extends Screen {
   }
 
   loadProduct (workspace) {
-    try {
-      var product = path.resolve(this.homeDir, '.carmel', 'products', workspace.id, 'chunky.json')
-      product = JSON.parse(fs.readFileSync(product, 'utf8'))
-      this.setState({ workspace, product, timestamp: `${Date.now()}`, loadingWorkspace: false, create: false })
-    } catch (e) {
-      console.log(e)
-    }
+    return new Promise((resolve, reject) => {
+      try {
+        var product = path.resolve(this.homeDir, '.carmel', 'products', workspace.id, 'chunky.json')
+        product = JSON.parse(fs.readFileSync(product, 'utf8'))
+        this.setState({ workspace, product, timestamp: `${Date.now()}`, loadingWorkspace: false, create: false })
+      } catch (e) {
+        console.log(e)
+      }
+    })
   }
 
   refreshProduct () {
