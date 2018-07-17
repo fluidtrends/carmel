@@ -7,8 +7,9 @@
 </p>
 
 With this quest, you will learn how to:
-  * Create a github account (if you don't have one already)
-  * Create a github repository
+  * [Create your email account (if you don't have one already)](challenge1)
+  * Create your github account (if you don't have one already)
+  * Create your github repository
   * Create a Markdown file on the github repository
   * Add the markdown file link to the chunk.json file
 
