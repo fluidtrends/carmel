@@ -17,10 +17,8 @@ define your own brand, copywriting, json manipulation, gitlab.
 * **Tags:** web, json, getting started, gitLab, Markdown
 
 ---
-###
 
 ## Create your email address
-We will chose Google mail as email service
 
 ## Tasks
 
@@ -31,7 +29,7 @@ Open your browser (Google Chrome, Mozilla Firefox, Opera, etc) and in the addres
   <img src ="../../img/Q5/Q5C1_gmail02.jpg" />
 </p>
 
-### 1. Create a new account
+### 2. Create a new account
 **Create your Google account** window be presented to you.
 <p align="center">
 <img src="../../img/Q5/Q5C1_gmail03.jpg" />
@@ -51,6 +49,7 @@ If the username you chose is unique (not existing yet), for example, if I choose
 
 You should provide **Your birthday** and **Gender**, and optionally add your phone number and your recovery email address. Once done, click **NEXT** button. Birthday should prove you are at list 14 years old, so you may have to chose it accordingly.
 
+### 3. Personalize your account
 You will be presented the Privacy and Terms window. Check the two boxes, and click **CREATE ACCOUNT** button.
 <p align="center">
 <img src="../../img/Q5/Q5C1_gmail06.jpg" />
@@ -61,3 +60,5 @@ You'll get a new window, where you can customize your account. By clicking the *
 <p align="center">
 <img src="../../img/Q5/Q5C1_gmail07.jpg" />
 </p>
+
+Congrats, you have a brand new email account, ready for you to use. Want to get the most of it? [Let's go!](challenge2)
