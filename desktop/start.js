@@ -1,6 +1,7 @@
 const ipc = require('node-ipc')
 const commands = require('./commands')
 const { initContext, updateContext, closeTerminal } = require('./common')
+const electron = require('electron')
 
 const _name = 'carmelstudio'
 

@@ -7,8 +7,11 @@ const {
   closeTerminal,
   clientDone,
   CARMEL_HOME,
+  startPreview,
+  stopPreview,
   terminalExec
 } = require('../common')
+
 
 module.exports = (mainWindow, { callId, command }) => {
   if (sh.exec(`hyper`).code != 0) {
@@ -16,25 +19,32 @@ module.exports = (mainWindow, { callId, command }) => {
     return
   }
 
+  updateContext({ id: command.id })
+
   mainWindow.on('close', () => {
     closeTerminal()
+    stopPreview()
   })
 
   ipc.connectTo('carmelhyper', () => {
     ipc.of.carmelhyper.on('connect', () => {
       console.log(`connected to carmelhyper`)
       updateContext({ hyper: true })
-      terminalExec({ cmd: "cd", id: "ssh", args: [CARMEL_HOME, "&&", "vagrant", "ssh"] })
+      terminalExec({ cmd: 'cd', id: 'ssh', args: [CARMEL_HOME, '&&', 'vagrant', 'ssh'] })
     })
 
     ipc.of.carmelhyper.on('response', ({ from, id, data }) => {
+      console.log('response', from, id, data)
       if (id === 'ssh') {
-        terminalExec({ cmd: "cd", id: "compiled", args: [`products/${command.id}`, "&&", "chunky", "start", "web"] })
+        updateContext({ ssh: true })
+        terminalExec({ cmd: 'cd', id: 'compiled', args: [`products/${command.id}`, '&&', 'chunky', 'start', 'web'] })
         return
       }
-
+      
       if (id === 'compiled') {
-        console.log("Compiled", command.id)
+        console.log('Compiled', command.id)
+        updateContext({ preview: true })
+        startPreview()
         clientDone(mainWindow, callId)
       }
     })

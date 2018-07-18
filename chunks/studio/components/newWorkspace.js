@@ -55,7 +55,9 @@ export default class NewWorkspaceComponent extends Component {
     const id = this.state.name.replace(/\s+/g, '-').toLowerCase()
     setTimeout(() => {
       this.shell.exec('createWorkspace', { name: this.state.name, id, template: this.state.template }, ({ log }) => {})
-      .then((data) => this.props.onCreate && this.props.onCreate({ id, name: this.state.name, template: this.state.template }))
+      .then((data) => {
+        this.props.onCreate && this.props.onCreate({ id, name: this.state.name, template: this.state.template })
+      })
       .catch(error => this.setState({ error, loading: false }))
     }, 500)
   }

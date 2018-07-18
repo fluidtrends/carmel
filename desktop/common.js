@@ -3,6 +3,7 @@ const path = require('path')
 const sh = require('shelljs')
 const fs = require('fs-extra')
 const spawn = require('child_process').spawn
+const { BrowserWindow } = require('electron')
 
 const _name = 'carmelstudio'
 
@@ -50,8 +51,8 @@ const exec = ({ mainWindow, cmd, args, client }) => {
   })
 }
 
-const terminalExec = ({ cmd, id, args }) => {
-  ipc.of.carmelhyper && ipc.of.carmelhyper.emit('command', { from: _name, id, cmd, args })
+const terminalExec = (props) => {
+  ipc.of.carmelhyper && ipc.of.carmelhyper.emit('command', Object.assign({}, { from: _name }, props))
 }
 
 const isTerminalConnected = () => {
@@ -59,10 +60,7 @@ const isTerminalConnected = () => {
 }
 
 const closeTerminal = () => {
-  // if (!isTerminalConnected()) {
-  //   return
-  // }
-  updateContext({ hyper: false })
+  updateContext({ hyper: false, ssh: false })
   terminalExec({ cmd: 'exit' })
 }
 
@@ -120,6 +118,39 @@ const initContext = () => {
   updateContext({ timestamp: `${Date.now()}`})
 }
 
+var _previewBrowser
+
+const startPreview = () => {
+  if (_previewBrowser) {
+    return
+  }
+
+  _previewBrowser = new BrowserWindow({
+    width: 960,
+    height: 800,
+    minWidth: 960,
+    minHeight: 800,
+    show: false,
+    backgroundColor: '#0bbcd4'
+  })
+  _previewBrowser.loadURL('http://localhost:18082')
+  _previewBrowser.on('ready-to-show', () => {
+    _previewBrowser.show()
+  })
+}
+
+const stopPreview = () => {
+  if (!_previewBrowser) {
+    return
+  }
+
+  updateContext({ preview: false})
+
+  if (_previewBrowser.isVisible()) {
+    _previewBrowser.close()
+  }
+}
+
 module.exports = {
   CARMEL_HOME,
   CARMEL_HOME_PRODUCTS,
@@ -128,6 +159,8 @@ module.exports = {
   clientData,
   clientLog,
   clientDone,
+  startPreview,
+  stopPreview,
   clientError,
   productExists,
   terminalExec,
