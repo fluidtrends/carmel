@@ -62,7 +62,7 @@ export default class WorkspaceScreen extends Screen {
       return
     }
 
-    this.startProduct(this.state.workspace)
+    this.startProduct(this.state.workspace, this.state.product)
   }
 
   onSwitch () {
@@ -77,9 +77,9 @@ export default class WorkspaceScreen extends Screen {
       try {
         var product = path.resolve(this.homeDir, '.carmel', 'products', workspace.id, 'chunky.json')
         product = JSON.parse(fs.readFileSync(product, 'utf8'))
-        this.setState({ workspace, product, timestamp: `${Date.now()}`, loadingWorkspace: false, create: false })
+        resolve(product)
       } catch (e) {
-        console.log(e)
+        reject(e)
       }
     })
   }
@@ -117,19 +117,29 @@ export default class WorkspaceScreen extends Screen {
   }
 
   startBrowser () {
-    this._productBrowser = browserSync.create(`carmel-${this.state.workspace.id}`)
-    this.productBrowser.init({ server: false, proxy: 'http://localhost:18082' })
+    // setTimeout(() => {
+    //   this.shell.exec('stopProduct', { type: 'web', id: this.state.workspace.id }, ({ log }) => {
+    //     this.setState({ log })
+    //   })
+    //   .then((data) => {
+    //     this.setState({ started: false, stopping: false })
+    //   })
+    //   .catch(error => {
+    //     this.setState({ error })
+    //   })
+    // this._productBrowser = browserSync.create(`carmel-${this.state.workspace.id}`)
+    // this.productBrowser.init({ server: false, open: false, browser: 'google chrome', proxy: 'http://localhost:18082' })
   }
 
   stopBrowser () {
-    const dir = path.resolve(this.homeDir, '.carmel', 'context')
-    this.productBrowser.exit()
-    this.productBrowser.init({
-      server: {
-        baseDir: dir,
-        index: 'closed.html'
-      }
-    })
+    // const dir = path.resolve(this.homeDir, '.carmel', 'context')
+    // this.productBrowser.exit()
+    // this.productBrowser.init({
+    //   server: {
+    //     baseDir: dir,
+    //     index: 'closed.html'
+    //   }
+    // })
   }
 
   stopProduct () {
@@ -148,31 +158,33 @@ export default class WorkspaceScreen extends Screen {
     }, 500)
   }
 
-  startProduct (workspace) {
-    this.setState({ starting: true })
+  startProduct (workspace, product) {
+    this.setState({ starting: true, product })
     setTimeout(() => {
       this.shell.exec('startProduct', { type: 'web', id: workspace.id }, ({ log }) => {
         this.setState({ log })
       })
       .then((data) => {
-        this.setState({ started: true, starting: false })
+        this.setState({ started: true, starting: false, loadingWorkspace: false })
         this.startBrowser()
       })
       .catch(error => {
-        this.setState({ error })
+        this.setState({ started: false, starting: false, loadingWorkspace: false, error })
       })
     }, 500)
   }
 
   onCreate (workspace) {
     try {
+      this.setState({ create: false })
       const context = Object.assign({}, this.workspaceContext, { workspace })
       Data.Cache.cacheItem('_carmel_context', context).then(() => {
-        this.loadProduct(workspace)
-        this.startProduct(workspace)
+        this.loadProduct(workspace).then((product) => {
+          this.startProduct(workspace, product)
+        })
       })
-    } catch (e) {
-      console.log(e)
+    } catch (error) {
+      this.setState({ error, create: false })
     }
   }
 
@@ -185,10 +197,13 @@ export default class WorkspaceScreen extends Screen {
             return
           }
 
-          this.loadProduct(context.workspace)
-          this.startProduct(context.workspace)
+          this.loadProduct(context.workspace).then((product) => {
+            this.setState({ loadingWorkspace: false, workspace: context.workspace, product, create: false })
+          }).catch((error) => {
+            this.setState({ loadingWorkspace: false, create: true })
+          })
         })
-        .catch(() => {
+        .catch((error) => {
           this.setState({ loadingWorkspace: false, create: true })
         })
   }
@@ -206,18 +221,67 @@ export default class WorkspaceScreen extends Screen {
   }
 
   renderProductCover () {
-    const cover = this.productAsset('hero.jpg')
-
-    if (!cover) {
-      return <div />
-    }
-
-    return <CardMedia
-      sixteenByNine
-      style={{
-        backgroundImage: `url(${cover})`
-      }} />
+    return <div />
+    // const cover = this.productAsset('hero.jpg')
+    //
+    // if (!cover) {
+    //   return <div />
+    // }
+    //
+    // return <CardMedia
+    //   sixteenByNine
+    //   style={{
+    //     backgroundImage: `url(${cover})`
+    //   }} />
   }
+
+  renderBrowserHeader () {
+    <div style={{
+      display: 'flex',
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      flexDirection: 'row',
+      alignItems: 'center',
+      padding: '0px',
+      margin: '0px',
+      height: '10vh',
+      weight: '100vw'
+    }}>
+      <Typography use='title' tag='h2' style={{ selfAlign: 'flex-start' }}>
+        Preview
+      </Typography>
+      <Button
+        key='start'
+        raised
+        style={{ backgroundColor: (this.state.started ? '#f44336' : '#4CAF50'), selfAlign: 'flex-end' }}
+        onClick={this._onStart}>
+        <ButtonIcon use={`${this.state.started ? 'pause' : 'play'}_circle_outline`} />
+        { this.state.started ? 'Stop' : 'Start' }
+      </Button>
+    </div>
+  }
+
+  // renderBrowser () {
+  //   // { this.renderBrowserHeader() }
+  //   // <webview id='foo' src='http://localhost:18082' style={{
+  //   //   display: 'flex', flex: 1, height: '100vh'
+  //   // }} />
+  //   return <div style={{
+  //     display: 'flex',
+  //     flex: 1,
+  //     justifyContent: 'center',
+  //     flexDirection: 'column',
+  //     alignItems: 'center',
+  //     padding: '0px',
+  //     margin: '0px',
+  //     height: '100vh',
+  //     width: '100%',
+  //     backgroundColor: '#ee0000'
+  //   }}>
+  //     <h1> hello </h1>
+  //   </div>
+  // }
 
   renderActions () {
     if (this.state.stopping || this.state.starting) {
@@ -288,6 +352,10 @@ export default class WorkspaceScreen extends Screen {
   }
 
   renderMainContent () {
+    if (this.state.error) {
+      console.log(this.state.error)
+    }
+
     if (this.state.create) {
       return <NewWorkspaceForm
         cancel
