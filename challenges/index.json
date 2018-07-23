@@ -1,12 +1,12 @@
 [
   {
 
-    "name": "chunky" ,
+    "name": "define-your-brand-1" ,
     "backgroundColor": "#ffffff",
-    "path": "chunky",
+    "path": "define-your-brand-1",
     "title": "Quest #1: Define your brand",
-    "details": "Create your personal brand in minutes using Chunky.",
-    "actionTitle": "Start quest #1",
+    "details": "Start to create your personal brand in minutes using Chunky.",
+    "actionTitle": "Start challenge #1",
     "xp": "5",
     "category": "Beginner",
     "label": "Web",
@@ -16,12 +16,12 @@
     }
   },
   {
-    "name": "awsome",
+    "name": "define-your-brand-2",
     "backgroundColor": "#ffffff",
-    "path": "awsome",
+    "path": "define-your-brand-2",
     "title": "Quest #2: Continue developing your brand",
     "details": "Continue to shape your personal brand using Chunky",
-    "actionTitle": "Start quest #2",
+    "actionTitle": "Start challenge #2",
     "xp": "5",
     "category": "Beginner",
     "label": "DevOps",
@@ -31,12 +31,12 @@
     }
   },
   {
-    "name": "react-components",
+    "name": "define-your-brand-3",
     "backgroundColor": "#ffffff",
-    "path": "react-components",
+    "path": "define-your-brand-3",
     "title": "Quest #3: Finalize developing your brand",
     "details": "Finish defining your personal brand using Chunky",
-    "actionTitle": "Start quest #3",
+    "actionTitle": "Start challenge #3",
     "xp": "5",
     "category": "Beginner",
     "label": "Web",
@@ -44,50 +44,5 @@
       "text": "github.com/fluidtrends/carmel/tree/challenges-chunk/challenges/define-your-brand/challenge3",
       "textColor": "#37474F"
     }
-  },
-  {
-    "name": "firebase-setup",
-    "backgroundColor": "#ffffff",
-    "path": "firebase-setup",
-    "title": "Setup Firebase",
-    "details": "Set up your Firebase account and get ready to build an awesome app",
-    "actionTitle": "Coming soon",
-    "xp": "10",
-    "category": "Entry",
-    "label": "DevOps",
-    "content": {
-      "text": "github://fluidtrends/carmel/content/challenge/awsome/README",
-      "textColor": "#37474F"
-    }
-  },
-  {
-    "name": "firebase-login",
-    "backgroundColor": "#ffffff",
-    "path": "firebase-login",
-    "title": "Login with Firebase",
-    "details": "Add login to your Chunky app and get ready to have a real app",
-    "actionTitle": "Coming soon",
-    "xp": "10",
-    "category": "Entry",
-    "label": "Web",
-    "content": {
-      "text": "github://fluidtrends/carmel/content/challenge/awsome/README",
-      "textColor": "#37474F"
-    }
-  },
-  {
-    "name": "dashboard",
-    "backgroundColor": "#ffffff",
-    "path": "dashboard",
-    "title": "Create a Dashboard",
-    "details": "Create a Dashboard page, where you can manage user profiles, add blog posts, login, logout and reset password screens",
-    "actionTitle": "Coming soon",
-    "xp": "15",
-    "category": "Intermediate",
-    "label": "Web",
-    "content": {
-      "text": "github://fluidtrends/carmel/content/challenge/awsome/README",
-      "textColor": "#37474F"
-    }
-  }
+  } 
 ]
