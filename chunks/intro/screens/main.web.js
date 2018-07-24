@@ -20,7 +20,16 @@ export default class MainIntroScreen extends Screen {
   }
 
   renderMainContent() {
-    return !this.state.showModal ? <div /> : <BuyModal visible={this.state.showModal} triggerRawRedirect={this.triggerRawRedirect} newTransaction={this.props.newTransaction} onCancel={this._onModalClose} transaction={this.state.transaction} />
+    return !this.state.showModal ?
+      <div /> :
+      <BuyModal
+        visible={this.state.showModal}
+        triggerRawRedirect={this.triggerRawRedirect}
+        newTransaction={this.props.newTransaction}
+        onCancel={this._onModalClose}
+        transaction={this.state.transaction}
+        account={this.props.account}
+      />
   }
 
   transactionOk(transaction) {

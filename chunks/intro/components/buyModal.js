@@ -29,7 +29,12 @@ export default class BuyModal extends Component {
     const width = this.props.isSmallScreen ? '90vh' : 750
     return <Modal width={width} style={{ maxWidth: 700 }} footer={null} visible={this.props.visible} onCancel={this.props.onCancel} >
       <h1 >Participate in the private token sale</h1>
-      <Checkout newTransaction={this.props.newTransaction} triggerRawRedirect={this.props.triggerRawRedirect} transaction={this.props.transaction} />
+      <Checkout
+        newTransaction={this.props.newTransaction}
+        account={this.props.account}
+        triggerRawRedirect={this.props.triggerRawRedirect}
+        transaction={this.props.transaction}
+      />
     </Modal>
   }
 }
