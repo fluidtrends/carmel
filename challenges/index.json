@@ -10,7 +10,7 @@
     "category": "Beginner",
     "label": "Web",
     "content": {
-      "text": "github://fluidtrends/carmel/content/challenge/chunky/README",
+      "text": "github://fluidtrends/carmel/content/challenges/chunky/README",
       "textColor": "#37474F"
     }
   },
@@ -25,7 +25,7 @@
     "category": "Advanced",
     "label": "DevOps",
     "content": {
-      "text": "github://fluidtrends/carmel/content/challenge/awsome/README",
+      "text": "github://fluidtrends/carmel/content/challenges/awsome/README",
       "textColor": "#37474F"
     }
   },
@@ -40,7 +40,7 @@
     "category": "Beginner",
     "label": "Web",
     "content": {
-      "text": "github://fluidtrends/carmel/content/challenge/awsome/README",
+      "text": "github://fluidtrends/carmel/content/challenges/awsome/README",
       "textColor": "#37474F"
     }
   },
@@ -55,7 +55,7 @@
     "category": "Entry",
     "label": "DevOps",
     "content": {
-      "text": "github://fluidtrends/carmel/content/challenge/awsome/README",
+      "text": "github://fluidtrends/carmel/content/challenges/awsome/README",
       "textColor": "#37474F"
     }
   },
@@ -70,7 +70,7 @@
     "category": "Entry",
     "label": "Web",
     "content": {
-      "text": "github://fluidtrends/carmel/content/challenge/awsome/README",
+      "text": "github://fluidtrends/carmel/content/challenges/awsome/README",
       "textColor": "#37474F"
     }
   },
@@ -85,7 +85,7 @@
     "category": "Intermediate",
     "label": "Web",
     "content": {
-      "text": "github://fluidtrends/carmel/content/challenge/awsome/README",
+      "text": "github://fluidtrends/carmel/content/challenges/awsome/README",
       "textColor": "#37474F"
     }
   }
