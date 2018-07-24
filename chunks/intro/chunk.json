@@ -20,7 +20,7 @@
       ],
       "path": "/",
       "events": {
-        "cover": "local://tokens",
+        "cover": "system://buy",
         "chris": "local://whitepaper",
         "buy": "local://tokens",
         "distribution": "local://whitepaper/tokens",
