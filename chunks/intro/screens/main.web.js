@@ -63,4 +63,5 @@ export default class MainIntroScreen extends Screen {
   onModalClose() {
     this.setState({ showModal: false })
   }
+
 }
