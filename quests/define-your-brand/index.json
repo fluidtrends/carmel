@@ -1,0 +1,49 @@
+[
+    {
+  
+      "name": "define-your-brand-1" ,
+      "backgroundColor": "#ffffff",
+      "path": "define-your-brand-1",
+      "title": "Challenge #1: Define your brand",
+      "details": "Start to create your personal brand in minutes using Chunky.",
+      "actionTitle": "Start challenge #1",
+      "xp": "5",
+      "category": "Beginner",
+      "label": "Web",
+      "content": {
+        "text": "github.com/fluidtrends/carmel/tree/challenges-chunk/challenges/define-your-brand",
+        "textColor": "#37474F"
+      }
+    },
+    {
+      "name": "define-your-brand-2",
+      "backgroundColor": "#ffffff",
+      "path": "define-your-brand-2",
+      "title": "Challenge #2: Continue developing your brand",
+      "details": "Continue to shape your personal brand using Chunky",
+      "actionTitle": "Start challenge #2",
+      "xp": "5",
+      "category": "Beginner",
+      "label": "DevOps",
+      "content": {
+        "text": "github.com/fluidtrends/carmel/tree/challenges-chunk/challenges/define-your-brand/challenge2",
+        "textColor": "#37474F"
+      }
+    },
+    {
+      "name": "define-your-brand-3",
+      "backgroundColor": "#ffffff",
+      "path": "define-your-brand-3",
+      "title": "Challenge #3: Finalize developing your brand",
+      "details": "Finish defining your personal brand using Chunky",
+      "actionTitle": "Start challenge #3",
+      "xp": "5",
+      "category": "Beginner",
+      "label": "Web",
+      "content": {
+        "text": "github.com/fluidtrends/carmel/tree/challenges-chunk/challenges/define-your-brand/challenge3",
+        "textColor": "#37474F"
+      }
+    } 
+  ]
+  
