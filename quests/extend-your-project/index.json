@@ -1,0 +1,49 @@
+[
+    {
+  
+      "name": "extend-your-project-1" ,
+      "backgroundColor": "#ffffff",
+      "path": "extend-your-project-1",
+      "title": "Challenge #1: Add a new screen to your project",
+      "details": "Start to create your personal brand in minutes using Chunky.",
+      "actionTitle": "Start challenge #1",
+      "xp": "5",
+      "category": "Beginner",
+      "label": "Web",
+      "content": {
+        "text": "github.com/fluidtrends/carmel/tree/challenges-chunk/challenges/extend-your-project",
+        "textColor": "#37474F"
+      }
+    },
+    {
+      "name": "extend-your-project-2",
+      "backgroundColor": "#ffffff",
+      "path": "extend-your-project-2",
+      "title": "Challenge #2: Continue extending your influence",
+      "details": "Continue to shape your personal brand using Chunky",
+      "actionTitle": "Start challenge #2",
+      "xp": "5",
+      "category": "Beginner",
+      "label": "DevOps",
+      "content": {
+        "text": "github.com/fluidtrends/carmel/tree/challenges-chunk/challenges/extend-your-project/challenge2",
+        "textColor": "#37474F"
+      }
+    },
+    {
+      "name": "extend-your-project-3",
+      "backgroundColor": "#ffffff",
+      "path": "extend-your-project-3",
+      "title": "Challenge #3: Final touch",
+      "details": "Finish defining your personal brand using Chunky",
+      "actionTitle": "Start challenge #3",
+      "xp": "5",
+      "category": "Beginner",
+      "label": "Web",
+      "content": {
+        "text": "github.com/fluidtrends/carmel/tree/challenges-chunk/challenges/extend-your-project/challenge3",
+        "textColor": "#37474F"
+      }
+    } 
+  ]
+  
