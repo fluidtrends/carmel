@@ -61,4 +61,4 @@ You'll get a new window, where you can customize your account. By clicking the *
 <img src="../../img/Q5/Q5C1_gmail07.jpg" />
 </p>
 
-Congrats, you have a brand new email account, ready for you to use. Want to get the most of it? [Let's go!](../challenge2)
+Congrats, you have a brand new email account, ready for you to use. Want to get the most of it? [Let's go!](challenge2)
