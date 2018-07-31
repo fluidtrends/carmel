@@ -76,6 +76,5 @@ export default class MainChallengesScreen extends Screen {
 
   components() {
     return [this.renderContent()]
-    .concat([this.specialButton])
   }
 }

@@ -180,7 +180,9 @@ export default class ClaimComponent extends Component {
 
   renderComponent() {
     const width = this.props.isSmallScreen ? "95vw" : "600px"
-    const padding = this.props.isSmallScreen ? "2px" : "30px"
+    const padding = this.props.isSmallScreen ? "10px" : "30px"
+    const direction = this.props.isSmallScreen ? 'vertical' : 'horizontal'
+    const stepsPad = this.props.isSmallScreen ? 30 : 0
 
     if (this.state.loading) {
       return <Components.Loading message={this.state.loadingMessage} />
@@ -204,7 +206,9 @@ export default class ClaimComponent extends Component {
 
         <Steps
           current={this.state.step}
-          style={{ marginTop: "30px", marginBottom: "30px" }}
+          style={{ margin: stepsPad }}
+          progressDot
+          direction={direction}
         >
           <Step title="Reservation" description="Reserve your tokens" />
           <Step title="Social Media" description="Join our community" />

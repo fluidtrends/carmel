@@ -10,17 +10,17 @@ const Step = Steps.Step
 const FormItem = Form.Item
 
 export default class ClaimComponent extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = { ...super.state, loading: false, step: 0 }
     this._reserve = this.reserve.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     super.componentDidMount()
   }
 
-  onItemEdit (item) {
+  onItemEdit(item) {
     if (!this.state[item.id]) {
       notification.error({
         message: 'Missing username',
@@ -32,7 +32,7 @@ export default class ClaimComponent extends Component {
     this.props.onClaimAction && this.props.onClaimAction(item, { [item.id]: this.state[item.id] })
   }
 
-  claim (eosBalance) {
+  claim(eosBalance) {
     if (parseInt(eosBalance) === 0) {
       this.setState({ loading: false, error: 'You need to have an EOS stake' })
       return
@@ -41,7 +41,7 @@ export default class ClaimComponent extends Component {
     this.props.newClaim({ eosBalance, ethAddress: this.state.ethereumAddress })
   }
 
-  reserve () {
+  reserve() {
     if (!this.state.ethereumAddress) {
       this.setState({ error: 'Please enter your Ethereum Address first' })
       return
@@ -52,16 +52,16 @@ export default class ClaimComponent extends Component {
     try {
       this._eth = new Ethereum(Object.assign({}, this.props.ethereum, { account: this.state.ethereumAddress }))
       this._eth.eos.getBalance()
-      .then((balance) => this.claim(balance))
-      .catch((e) => {
-        this.setState({ loading: false, error: 'Invalid Ethereum Address' })
-      })
+        .then((balance) => this.claim(balance))
+        .catch((e) => {
+          this.setState({ loading: false, error: 'Invalid Ethereum Address' })
+        })
     } catch (e) {
       this.setState({ loading: false, error: 'Invalid Ethereum Address' })
     }
   }
 
-  renderReservation () {
+  renderReservation() {
     const title = (this.props.period ? `Day ${this.props.period.data.day + 1}: ${this.props.period.data.tokens} CARMEL` : '')
 
     return <div>
@@ -71,7 +71,7 @@ export default class ClaimComponent extends Component {
         style={{
           textAlign: 'center'
         }}>
-        { title }
+        {title}
       </Typography>
       <CardActions style={{
         marginTop: '20px',
@@ -94,7 +94,7 @@ export default class ClaimComponent extends Component {
               prefix={<Icon type='lock' style={{ color: 'rgba(0,0,0,.25)' }} />}
               placeholder={'Enter your Ethereum Address'} />
             <Typography use='subheading1' style={{ color: '#90A4AE', marginTop: '5px' }} tag='h1'>
-                  We need this so we can check your EOS balance
+              We need this so we can check your EOS balance
                 </Typography>
           </FormItem>
         </CardActionButtons>
@@ -110,14 +110,14 @@ export default class ClaimComponent extends Component {
             raised
             style={{ marginTop: '0px', marginBottom: '20px' }}>
             <ButtonIcon use='done' />
-                Reserve Your Tokens Now
+            Reserve Your Tokens Now
               </Button>
         </CardActionButtons>
       </CardActions>
     </div>
   }
 
-  renderError () {
+  renderError() {
     if (!this.state.error && !this.props.error) {
       return <div />
     }
@@ -133,13 +133,13 @@ export default class ClaimComponent extends Component {
           alignItems: 'center'
         }}>
         <Typography use='title' style={{ color: '#ef5350', padding: '10px' }} tag='h1'>
-          { this.state.error || this.props.error}
+          {this.state.error || this.props.error}
         </Typography>
       </div>
     )
   }
 
-  renderComponent () {
+  renderComponent() {
     const width = this.props.isSmallScreen ? '95vw' : '600px'
     const padding = this.props.isSmallScreen ? '2px' : '30px'
 
@@ -155,7 +155,7 @@ export default class ClaimComponent extends Component {
         padding: '10px'
       }} />
       <Typography use='title' tag='h2'>
-          Claim Your FREE CARMEL Tokens
+        Claim Your FREE CARMEL Tokens
       </Typography>
 
       <Steps current={this.state.step} style={{ marginTop: '30px', marginBottom: '30px' }}>
@@ -164,8 +164,8 @@ export default class ClaimComponent extends Component {
         <Step title='Activation' description='Final validation' />
       </Steps>
 
-      { this.renderError() }
-      { this.renderReservation() }
+      {this.renderError()}
+      {this.renderReservation()}
 
     </Card>
   }

@@ -103,13 +103,13 @@ export default class ClaimContinue extends Component {
       "instagram"
     ]
 
-    const margin = this.props.isSmallScreen ? '0 0 5px 0' : '0 95px 35px 0'
+    const margin = this.props.isSmallScreen ? '0 30px 5px 0' : '0 95px 35px 0'
     const align = this.props.isSmallScreen ? 'center' : 'flex-end'
     const { social } = this.props
-
+    const overflow = this.props.isSmallScreen ? 'auto' : 'unset'
     let enabled, telegramEnabled = this.state['telegram'] !== undefined || this.props.account['telegram'], steemitEnabled = this.state['steemit'] !== undefined || this.props.account['steemit']
 
-    return <div style={{ display: 'flex', flexDirection: 'row', flex: 1, alignItems: 'flex-end', alignSelf: align, margin }}>
+    return <div style={{ display: 'flex', flexDirection: 'row', flex: 1, alignItems: 'flex-end', alignSelf: align, margin, overflow }}>
       {socialNetworks.map(key => {
 
         enabled = this.state[key] !== undefined || this.props.account[key]
@@ -265,6 +265,8 @@ export default class ClaimContinue extends Component {
   renderComponent() {
     const width = this.props.isSmallScreen ? "95vw" : "600px"
     const padding = this.props.isSmallScreen ? "2px" : "30px"
+    const direction = this.props.isSmallScreen ? 'vertical' : 'horizontal'
+    const stepsPad = this.props.isSmallScreen ? 30 : 0
 
     if (this.state.loading) {
       return <Components.Loading message={this.state.loadingMessage} />
@@ -288,7 +290,9 @@ export default class ClaimContinue extends Component {
 
         <Steps
           current={this.state.step}
-          style={{ marginTop: "30px", marginBottom: "30px" }}
+          style={{ margin: stepsPad }}
+          progressDot
+          direction={direction}
         >
           <Step title="Reservation" description="Reserve your tokens" />
           <Step title="Social Media" description="Join our community" />

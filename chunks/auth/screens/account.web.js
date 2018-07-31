@@ -7,7 +7,7 @@ import { List, notification } from 'antd'
 import UserInfo from '../components/userInfo'
 
 export default class AccountScreen extends Screen {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = { ...this.state }
     this._renderProfileItem = this.renderProfileItem.bind(this)
@@ -15,13 +15,13 @@ export default class AccountScreen extends Screen {
     this._logout = this.logout.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     super.componentDidMount()
 
     this.verifyTwitterCallback()
   }
 
-  verifyTwitterCallback () {
+  verifyTwitterCallback() {
     if (!this.props.location.search) {
       return
     }
@@ -40,7 +40,7 @@ export default class AccountScreen extends Screen {
     this.props.history.push(this.props.location.pathname)
   }
 
-  subscriptionArgs (subscription) {
+  subscriptionArgs(subscription) {
     if (!subscription || !this.account) {
       return {}
     }
@@ -48,32 +48,32 @@ export default class AccountScreen extends Screen {
     return { userId: this.account.user.uid }
   }
 
-  getAccountSuccess (acc) {
+  getAccountSuccess(acc) {
     const account = Object.assign({}, this.account.user, acc)
     this.login(account)
   }
 
-  getProfileSuccess (profile) {
+  getProfileSuccess(profile) {
     const account = Object.assign({}, this.account.user, profile[0])
     this.login(account)
   }
 
-  onProfileItemEdit (item) {
+  onProfileItemEdit(item) {
     console.log(item)
   }
 
-  renderProfileItemActions (item) {
+  renderProfileItemActions(item) {
     if (!item.action) {
       return []
     }
 
     return ([<Button
       onClick={this._onItemEdit(item)}>
-      { item.action }
+      {item.action}
     </Button>])
   }
 
-  renderProfileItem (item) {
+  renderProfileItem(item) {
     return <List.Item actions={this.renderProfileItemActions(item)}>
       <List.Item.Meta
         description={item.value || 'Not verified yet'}
@@ -81,7 +81,7 @@ export default class AccountScreen extends Screen {
     </List.Item>
   }
 
-  get profileData () {
+  get profileData() {
     return [{
       id: 'name',
       title: 'Full Name',
@@ -93,7 +93,7 @@ export default class AccountScreen extends Screen {
     }]
   }
 
-  twitterOk (twitter) {
+  twitterOk(twitter) {
     notification.success({
       message: 'Twitter Verification Successful',
       description: 'Thanks for verifying your Twitter identity'
@@ -102,11 +102,11 @@ export default class AccountScreen extends Screen {
     this.setState({ twitter })
   }
 
-  twitterError (error) {
+  twitterError(error) {
     this.setState({ twitterError: error.message })
   }
 
-  telegramOk (telegram) {
+  telegramOk(telegram) {
     notification.success({
       message: 'Telegram Verification Pending',
       description: 'Complete verification coming soon'
@@ -115,22 +115,23 @@ export default class AccountScreen extends Screen {
     this.setState({ telegram })
   }
 
-  telegramError (error) {
+  telegramError(error) {
     this.setState({ telegramError: error.message })
   }
 
-  twitterAuthOk (twitter) {
+  twitterAuthOk(twitter) {
     const authUrl = `https://api.twitter.com/oauth/authenticate?oauth_token=${twitter.data.token.oauth_token}`
     window && window.location.replace(authUrl)
   }
 
-  get twitterUrl () {
+  get twitterUrl() {
     return `${this.restUrl}auth/twitter`
   }
 
-  renderMainContent () {
-    const width = this.props.isSmallScreen ? '95vw' : '600px'
-    const padding = this.props.isSmallScreen ? '2px' : '30px'
+  renderMainContent() {
+    const width = this.isSmallScreen ? '95vw' : '600px'
+    const padding = this.isSmallScreen ? '30px 10px' : '30px'
+    const margin = this.isSmallScreen ? '50px 0px' : '0'
 
     return (<div
       style={{
@@ -140,7 +141,7 @@ export default class AccountScreen extends Screen {
         flexDirection: 'column',
         alignItems: 'center'
       }}>
-      <Card style={{ width, margin: '10px', padding }}>
+      <Card style={{ width, margin: '10px', padding, margin }}>
         <UserInfo
           skipWallet
           twitterOAuth={this.state.twitterOAuth}
@@ -161,7 +162,7 @@ export default class AccountScreen extends Screen {
           <CardActionButtons style={{ marginLeft: '10px' }}>
             <Button
               onClick={this._logout}>
-                Sign Out
+              Sign Out
               </Button>
           </CardActionButtons>
         </CardActions>
@@ -169,7 +170,7 @@ export default class AccountScreen extends Screen {
     </div>)
   }
 
-  components () {
+  components() {
     return [this.renderMainContent()]
   }
 }

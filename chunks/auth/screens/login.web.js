@@ -12,7 +12,7 @@ import { Form, Input, Icon } from 'antd'
 const FormItem = Form.Item
 
 export default class LoginScreen extends Screen {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = { ...this.state }
     this._done = this.done.bind(this)
@@ -22,11 +22,11 @@ export default class LoginScreen extends Screen {
     this.state = { ...super.state }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     super.componentDidMount()
   }
 
-  done () {
+  done() {
     if (!this.state.email) {
       this.setState({ error: errors.email, errorType: 'email', loading: false })
       return
@@ -51,32 +51,32 @@ export default class LoginScreen extends Screen {
     }, 300)
   }
 
-  loginOk (account) {
+  loginOk(account) {
     this.setState({ account })
     this.props.getProfile({ userId: account._id })
   }
 
-  profileOk (profile) {
+  profileOk(profile) {
     this.login(Object.assign({}, this.state.account, profile[0]))
   }
 
-  loginError (error) {
+  loginError(error) {
     this.setState({ loading: false, password: '', error: error.message })
   }
 
-  register () {
+  register() {
     this.triggerRedirect('/register')
   }
 
-  resetPassword () {
+  resetPassword() {
     this.triggerRedirect('/reset')
   }
 
-  get error () {
+  get error() {
     return this.state.error ? this.state.error : this.props.error
   }
 
-  renderError () {
+  renderError() {
     if (!this.error) {
       return
     }
@@ -88,13 +88,13 @@ export default class LoginScreen extends Screen {
     )
   }
 
-  onKeyPress (event) {
+  onKeyPress(event) {
     if (event.key === 'Enter') {
       this._done()
     }
   }
 
-  renderFormContent (width, padding) {
+  renderFormContent(width, padding) {
     if (this.state.loading) {
       return this.renderLoading()
     }
@@ -110,8 +110,8 @@ export default class LoginScreen extends Screen {
         </Typography>
       </div>
 
-      { this.renderError() }
-      { this.renderFields() }
+      {this.renderError()}
+      {this.renderFields()}
 
       <CardActions style={{ justifyContent: 'center', margin: '20px' }}>
         <CardActionButtons>
@@ -144,7 +144,7 @@ export default class LoginScreen extends Screen {
     </Card>
   }
 
-  renderFields () {
+  renderFields() {
     return <div style={{
     }}>
       <FormItem style={{
@@ -170,25 +170,26 @@ export default class LoginScreen extends Screen {
     </div>
   }
 
-  renderForm () {
-    const width = this.props.isSmallScreen ? '95vw' : '600px'
-    const padding = this.props.isSmallScreen ? '2px' : '30px'
+  renderForm() {
+    const width = this.isSmallScreen ? '95vw' : '600px'
+    const margin = this.isSmallScreen ? '0' : '40px'
+    const padding = this.isSmallScreen ? '5px' : '30px'
     return (
       <div
         style={{
           display: 'flex',
           flex: 1,
-          margin: '40px',
+          margin,
           justifyContent: 'center',
           flexDirection: 'column',
           alignItems: 'center'
         }}>
-        { this.renderFormContent(width, padding)}
+        {this.renderFormContent(width, padding)}
       </div>
     )
   }
 
-  components () {
+  components() {
     return [this.renderForm()]
   }
 }

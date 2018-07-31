@@ -228,14 +228,15 @@ export default class RegisterScreen extends Screen {
   }
 
   renderForm() {
-    const width = this.props.isSmallScreen ? '95vw' : '600px'
-    const padding = this.props.isSmallScreen ? '2px' : '30px'
+    const width = this.isSmallScreen ? '95vw' : '600px'
+    const margin = this.isSmallScreen ? '0' : '40px'
+    const padding = this.isSmallScreen ? '5px' : '30px'
     return (
       <div
         style={{
           display: 'flex',
           flex: 1,
-          margin: '40px',
+          margin,
           justifyContent: 'center',
           flexDirection: 'column',
           alignItems: 'center'

@@ -167,7 +167,7 @@ export default class PrivateTokensScreen extends Screen {
     }
 
     return (
-      <Card style={{ width, margin: "10px", marginTop: "30px", padding }}>
+      <Card style={{ width, margin: "10px", marginTop: "30px", padding: 10 }}>
         <Icon
           type="calendar"
           style={{
@@ -260,11 +260,12 @@ export default class PrivateTokensScreen extends Screen {
 
     if (!this.state.claim && !this.state.totalClaimed) {
       if (this.state.period && this.state.period.data &&
-          this.state.period.data.daysLeft < 0 && this.state.period.data.tokens === 0) {
+        this.state.period.data.daysLeft < 0) {
         return <div />
       }
 
       return <ClaimStart
+        isSmallScreen={this.isSmallScreen}
         error={this.state.claimError}
         ethereum={this.props.ethereum}
         newClaim={this.props.newClaim}
@@ -275,6 +276,7 @@ export default class PrivateTokensScreen extends Screen {
     if (!this.state.startValidation) {
       return (
         <ClaimContinue
+          isSmallScreen={this.isSmallScreen}
           isSocialMediaComplete={this.isSocialMediaComplete}
           error={this.state.claimError}
           account={this.state.account}
@@ -287,6 +289,7 @@ export default class PrivateTokensScreen extends Screen {
 
     return (
       <ClaimValidate
+        isSmallScreen={this.isSmallScreen}
         redirect={this.triggerRawRedirect}
         onCancelValidation={this._onCancelValidation}
         account={this.state.account}
@@ -302,8 +305,8 @@ export default class PrivateTokensScreen extends Screen {
       )
     }
 
-    const width = this.props.isSmallScreen ? "95vw" : "600px"
-    const padding = this.props.isSmallScreen ? "2px" : "30px"
+    const width = this.isSmallScreen ? "95vw" : "600px"
+    const padding = this.isSmallScreen ? "5px" : "30px"
 
     return (
       <div
@@ -326,6 +329,7 @@ export default class PrivateTokensScreen extends Screen {
         </Card>
 
         <Checkout
+          isSmallScreen={this.isSmallScreen}
           account={this.account}
           newTransaction={this.props.newTransaction}
           transaction={this.state.transaction}
