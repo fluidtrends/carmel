@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "524166931663",
+    "firebase_url": "https://carmel-platform.firebaseio.com",
+    "project_id": "carmel-platform",
+    "storage_bucket": "carmel-platform.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:524166931663:android:d85b8b50247f26ea",
+        "android_client_info": {
+          "package_name": "com.carmel.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "524166931663-l82639c5ae9kt3j65qp5n4lilkn0ck4b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWx9Gdc3gz8PhvyKnOnLRbgMTJDS9Ksq0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
