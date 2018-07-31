@@ -314,6 +314,7 @@ export default class PrivateTokensScreen extends Screen {
           display: "flex",
           flex: 1,
           justifyContent: "center",
+          overflow: 'hidden',
           flexDirection: "column",
           alignItems: "center"
         }}

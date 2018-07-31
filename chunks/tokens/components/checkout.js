@@ -23,7 +23,7 @@ const CarmelStart = 50
 const CarmelPrice = 0.55
 
 export default class CheckoutComponent extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = { ...super.state, loading: true, payMethod: 'mew', loadingMessage: 'Loading, just a sec please ...' }
     this._incrementLevel = this.incrementLevel.bind(this)
@@ -35,25 +35,25 @@ export default class CheckoutComponent extends Component {
     this._status = this.status.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     super.componentDidMount()
     this.startTimer()
     this._loadPricing()
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.stopTimer()
   }
 
-  startTimer () {
+  startTimer() {
     const timer = setInterval(() => this.timerFired(), 1000)
     this.setState({ timer })
   }
 
-  timerFired () {
+  timerFired() {
     if (this.state.sending ||
-       !this.isWaiting ||
-       !this.props.transaction) {
+      !this.isWaiting ||
+      !this.props.transaction) {
       return
     }
 
@@ -72,28 +72,28 @@ export default class CheckoutComponent extends Component {
     }
 
     this.fetchProviderAccount(this.state.ethereum)
-        .then(ethereumAddress => {
-          if (!ethereumAddress) {
-            return
-          }
+      .then(ethereumAddress => {
+        if (!ethereumAddress) {
+          return
+        }
 
-          this.setState({ ethereumAddress, sending })
-          this.sendEther({ amount, ethereumAddress, purchaseKey })
-        })
+        this.setState({ ethereumAddress, sending })
+        this.sendEther({ amount, ethereumAddress, purchaseKey })
+      })
   }
 
-  stopTimer () {
+  stopTimer() {
     if (!this.state.timer) {
       return
     }
     clearInterval(this.state.timer)
   }
 
-  fetchProviderAccount (ethereum) {
+  fetchProviderAccount(ethereum) {
     return ethereum.refreshAccounts().then(accounts => accounts[0])
   }
 
-  calculateGas (to, data) {
+  calculateGas(to, data) {
     return new Promise((resolve, reject) => {
       web3.eth.estimateGas({ to, data }, (error, gas) => {
         if (error) {
@@ -105,7 +105,7 @@ export default class CheckoutComponent extends Component {
     })
   }
 
-  sendEthereumTransaction (transaction) {
+  sendEthereumTransaction(transaction) {
     return new Promise((resolve, reject) => {
       web3.eth.sendTransaction(transaction, (error, result) => {
         if (error) {
@@ -117,11 +117,11 @@ export default class CheckoutComponent extends Component {
     })
   }
 
-  sendEtherWithMEW ({ amount, purchaseKey }) {
+  sendEtherWithMEW({ amount, purchaseKey }) {
     this.props.triggerRawRedirect(`${MyEtherWalletUrl}/?to=${CarmelETHAddress}&value=${amount}&data=${purchaseKey}#send-transaction`)
   }
 
-  sendEther ({ ethereumAddress, amount, purchaseKey }) {
+  sendEther({ ethereumAddress, amount, purchaseKey }) {
     const message = `${purchaseKey}`
     const data = web3.toHex(message)
     const from = ethereumAddress
@@ -134,18 +134,18 @@ export default class CheckoutComponent extends Component {
       .catch(error => this.couldNotSendEther(error))
   }
 
-  sendingEther (ethereumTransactionHash) {
+  sendingEther(ethereumTransactionHash) {
     return new Promise((resolve, reject) => {
       this.setState({ ethereumTransactionHash })
       resolve({ ethereumTransactionHash })
     })
   }
 
-  couldNotSendEther () {
+  couldNotSendEther() {
     this.setState({ sending: false, error: 'The transaction was not successful. Please try again.' })
   }
 
-  _loadPricing () {
+  _loadPricing() {
     const level = 0
     const tokens = 0
     const up = CarmelStart
@@ -156,39 +156,39 @@ export default class CheckoutComponent extends Component {
     const ethereum = new Ethereum({ provider })
 
     return this.fetchPricing()
-          .then(({ ethereumRate, tokenPrice }) => {
-            const ethereumPrice = Number(ethereumRate.price_usd).toFixed(2)
-            const carmelPrice = (tokenPrice / ethereumPrice).toFixed(6)
-            const nextLevelPrice = (carmelPrice * (nextTokens - tokens)).toFixed(8)
+      .then(({ ethereumRate, tokenPrice }) => {
+        const ethereumPrice = Number(ethereumRate.price_usd).toFixed(2)
+        const carmelPrice = (tokenPrice / ethereumPrice).toFixed(6)
+        const nextLevelPrice = (carmelPrice * (nextTokens - tokens)).toFixed(8)
 
-            this.setState({
-              tokenPrice,
-              ethereum,
-              nextLevelPrice,
-              ethereumPrice,
-              carmelPrice,
-              ethereumRate,
-              nextTokens,
-              nextLevel,
-              tokens,
-              up,
-              loading,
-              level
-            })
-          })
+        this.setState({
+          tokenPrice,
+          ethereum,
+          nextLevelPrice,
+          ethereumPrice,
+          carmelPrice,
+          ethereumRate,
+          nextTokens,
+          nextLevel,
+          tokens,
+          up,
+          loading,
+          level
+        })
+      })
   }
 
-  fetchPricing () {
+  fetchPricing() {
     return fetch(CoinMarketCapAPI)
-          .then(response => response.json())
-          .then(rates => ({ ethereumRate: rates[0], tokenPrice: CarmelPrice }))
+      .then(response => response.json())
+      .then(rates => ({ ethereumRate: rates[0], tokenPrice: CarmelPrice }))
   }
 
-  get email () {
+  get email() {
     return (this.props.account ? this.props.account.user.email : this.state.email)
   }
 
-  send () {
+  send() {
     if (!this.email) {
       this.setState({ error: 'Please enter your email first' })
       return
@@ -207,19 +207,19 @@ export default class CheckoutComponent extends Component {
     })
   }
 
-  back () {
+  back() {
     this.setState({ waiting: false, sending: false, error: '', ethereumTransactionHash: '' })
   }
 
-  updatePayMethod (evt) {
+  updatePayMethod(evt) {
     this.setState({ payMethod: evt.target.value })
   }
 
-  get isWaiting () {
+  get isWaiting() {
     return (this.state.waiting && !this.error && this.props.transaction)
   }
 
-  renderDecrementButton () {
+  renderDecrementButton() {
     if (this.isWaiting) {
       return <div />
     }
@@ -228,11 +228,11 @@ export default class CheckoutComponent extends Component {
       mini
       onClick={this._decrementLevel}
       style={{ backgroundColor: '#CFD8DC', marginTop: '5px' }}>
-    remove
+      remove
   </Fab>
   }
 
-  renderIncrementButton () {
+  renderIncrementButton() {
     if (this.isWaiting) {
       return <div />
     }
@@ -245,7 +245,7 @@ export default class CheckoutComponent extends Component {
     </Fab>
   }
 
-  renderPaymentMethods () {
+  renderPaymentMethods() {
     if (this.isWaiting) {
       return <div />
     }
@@ -256,19 +256,19 @@ export default class CheckoutComponent extends Component {
         style={{ color: '#66BB6A', marginLeft: '10px' }}
         checked={this.state.payMethod === 'mew'}
         onChange={this._updatePayMethod}>
-        Send with { CarmelPaymentMethods.mew }
+        Send with {CarmelPaymentMethods.mew}
       </Radio>
       <Radio
         value='metamask'
         style={{ color: '#66BB6A', marginRight: '10px' }}
         checked={this.state.payMethod === 'metamask'}
         onChange={this._updatePayMethod}>
-        Send with { CarmelPaymentMethods.metamask }
+        Send with {CarmelPaymentMethods.metamask}
       </Radio>
     </Typography>
   }
 
-  renderUSD () {
+  renderUSD() {
     const priceUSD = (this.state.nextTokens * this.state.tokenPrice).toLocaleString('en')
 
     if (this.isWaiting) {
@@ -276,11 +276,11 @@ export default class CheckoutComponent extends Component {
     }
 
     return <Typography use='subheading2' tag='h1' theme='text-secondary-on-background'>
-      ${ priceUSD } USD
+      ${priceUSD} USD
     </Typography>
   }
 
-  renderTokens () {
+  renderTokens() {
     if (this.isWaiting) {
       return <div />
     }
@@ -305,29 +305,29 @@ export default class CheckoutComponent extends Component {
     </Chip>
   }
 
-  renderMainContent () {
+  renderMainContent() {
     return (
       <div>
-        { this.renderError() }
+        {this.renderError()}
 
         <Typography use='title' tag='h1' style={{ margin: '0px' }}>
           <ChipSet style={{ justifyContent: 'center' }}>
-            { this.renderDecrementButton() }
-            { this.renderTokens() }
-            { this.renderIncrementButton()}
+            {this.renderDecrementButton()}
+            {this.renderTokens()}
+            {this.renderIncrementButton()}
           </ChipSet>
         </Typography>
 
-        { this.renderUSD() }
-        { this.renderSlider() }
-        { this.renderPrice() }
-        { this.renderPaymentMethods() }
-        { this.renderBack() }
+        {this.renderUSD()}
+        {this.renderSlider()}
+        {this.renderPrice()}
+        {this.renderPaymentMethods()}
+        {this.renderBack()}
       </div>
     )
   }
 
-  incrementLevel () {
+  incrementLevel() {
     if (this.state.up === CarmelMax) {
       return
     }
@@ -343,7 +343,7 @@ export default class CheckoutComponent extends Component {
     this.setState({ up, nextLevel, nextLevelPrice, nextTokens })
   }
 
-  decrementLevel () {
+  decrementLevel() {
     if (this.state.up === 1) {
       return
     }
@@ -359,7 +359,7 @@ export default class CheckoutComponent extends Component {
     this.setState({ up, nextLevel, nextLevelPrice, nextTokens })
   }
 
-  updateLevel (event) {
+  updateLevel(event) {
     const up = event.detail.value
     const nextLevel = this.state.level + up
     const nextTokens = nextLevel * CarmelIncrement
@@ -371,13 +371,13 @@ export default class CheckoutComponent extends Component {
     this.setState({ up, nextLevel, nextLevelPrice, nextTokens })
   }
 
-  renderPaymentInfo () {
+  renderPaymentInfo() {
     return <Typography use='caption' tag='h1'>
       You will receive your Carmel Tokens as soon as your Ethereum Transaction is verified. The verification process could take a while, depending on how busy the Ethereum Blockchain is at the moment. You will be notified as soon as your transaction is verified.
     </Typography>
   }
 
-  renderWaiting ({ message }) {
+  renderWaiting({ message }) {
     return <div style={{ padding: '4px', textAlign: 'center', marginBottom: '20px' }}>
       <Icon type='check-circle-o' style={{
         fontSize: '64px',
@@ -385,16 +385,16 @@ export default class CheckoutComponent extends Component {
         padding: '10px'
       }} />
       <Typography use='title' tag='h1' >
-        { message }
+        {message}
       </Typography>
     </div>
   }
 
-  status () {
+  status() {
     this.props.triggerRawRedirect(`https://etherscan.io/tx/${this.state.ethereumTransactionHash}`)
   }
 
-  renderPaymentStatus () {
+  renderPaymentStatus() {
     if (this.state.payMethod === 'metamask') {
       if (!this.state.ethereumAddress) {
         return <Components.Loading message='Please unlock your MetaMask to complete the transaction.' />
@@ -402,13 +402,13 @@ export default class CheckoutComponent extends Component {
 
       if (this.state.ethereumTransactionHash) {
         return <div>
-          { this.renderWaiting({ message: 'Transaction sent successfuly. Waiting for its verification.' }) }
+          {this.renderWaiting({ message: 'Transaction sent successfuly. Waiting for its verification.' })}
           <Typography use='caption' tag='h1' style={{ marginTop: '20px', marginBottom: '20px' }} >
             <Button
               onClick={this._status}
               raised
               style={{ marginTop: '0px', marginBottom: '20px' }}>
-            See Transaction Status
+              See Transaction Status
           </Button>
           </Typography>
         </div>
@@ -424,19 +424,19 @@ export default class CheckoutComponent extends Component {
     return <div />
   }
 
-  renderPaymentDetails () {
+  renderPaymentDetails() {
     return <div style={{
       padding: '20px',
       marginBottom: '20px',
       backgroundColor: 'e0e0e0',
       borderTop: '1px eeeeee #solid'
     }}>
-      { this.renderPaymentStatus() }
-      { this.renderPaymentInfo() }
+      {this.renderPaymentStatus()}
+      {this.renderPaymentInfo()}
     </div>
   }
 
-  renderPrice () {
+  renderPrice() {
     const priceETH = this.state.nextLevelPrice
     const priceCARMEL = this.state.nextTokens.toLocaleString('en')
 
@@ -456,11 +456,11 @@ export default class CheckoutComponent extends Component {
                 backgroundColor: '#ffffff',
                 color: '#66BB6A'
               }}>
-              <ChipText style={{color: '#546E7A', marginRight: '10px'}}>
+              <ChipText style={{ color: '#546E7A', marginRight: '10px' }}>
                 <strong> Total: </strong>
               </ChipText>
               <ChipText>
-                <strong> { priceETH } ETH </strong>
+                <strong> {priceETH} ETH </strong>
               </ChipText>
             </Chip>
             <Chip
@@ -472,23 +472,23 @@ export default class CheckoutComponent extends Component {
                 backgroundColor: '#ffffff',
                 color: '#66BB6A'
               }}>
-              <ChipText style={{color: '#546E7A', marginRight: '10px'}}>
+              <ChipText style={{ color: '#546E7A', marginRight: '10px' }}>
                 <strong> Tokens: </strong>
               </ChipText>
               <ChipText>
-                <strong> { priceCARMEL } CARMEL </strong>
+                <strong> {priceCARMEL} CARMEL </strong>
               </ChipText>
             </Chip>
           </ChipSet>
         </Typography>
-        { this.renderPaymentDetails() }
+        {this.renderPaymentDetails()}
       </div>
     }
 
     return (
       <div>
 
-        { this.renderEmailField() }
+        {this.renderEmailField()}
 
         <CardActions
           style={{
@@ -502,7 +502,7 @@ export default class CheckoutComponent extends Component {
               raised
               style={{ marginTop: '0px', marginBottom: '20px' }}>
               <ButtonIcon use='done' />
-              { title }
+              {title}
             </Button>
           </CardActionButtons>
         </CardActions>
@@ -510,7 +510,7 @@ export default class CheckoutComponent extends Component {
     )
   }
 
-  renderEmailField () {
+  renderEmailField() {
     if (this.isWaiting || this.props.account) {
       return <div />
     }
@@ -536,14 +536,14 @@ export default class CheckoutComponent extends Component {
             prefix={<Icon type='mail' style={{ color: 'rgba(0,0,0,.25)' }} />}
             placeholder={'Enter your email address'} />
           <Typography use='subheading1' style={{ color: '#90A4AE', marginTop: '5px' }} tag='h1'>
-              We need this so we can notify you once your transaction is verified.
+            We need this so we can notify you once your transaction is verified.
             </Typography>
         </FormItem>
       </CardActionButtons>
     </CardActions>
   }
 
-  renderBack () {
+  renderBack() {
     if (!this.isWaiting) {
       return <div />
     }
@@ -568,7 +568,7 @@ export default class CheckoutComponent extends Component {
     )
   }
 
-  renderSlider () {
+  renderSlider() {
     if (this.isWaiting) {
       return <div />
     }
@@ -586,11 +586,11 @@ export default class CheckoutComponent extends Component {
     />
   }
 
-  get error () {
+  get error() {
     return this.state.error || this.props.error
   }
 
-  renderError () {
+  renderError() {
     if (!this.error) {
       return <div />
     }
@@ -606,13 +606,13 @@ export default class CheckoutComponent extends Component {
           alignItems: 'center'
         }}>
         <Typography use='title' style={{ color: '#ef5350' }} tag='h1'>
-          { this.error }
+          {this.error}
         </Typography>
       </div>
     )
   }
 
-  renderFooter () {
+  renderFooter() {
     if (this.isWaiting) {
       return <div />
     }
@@ -623,8 +623,8 @@ export default class CheckoutComponent extends Component {
       ethereumPrice={this.state.ethereumPrice} />
   }
 
-  render () {
-    const width = this.props.compact ? '95vw' : '600px'
+  render() {
+    const width = this.props.isSmallScreen ? '95vw' : '600px'
     if (this.state.loading) {
       return <Components.Loading message={this.state.loadingMessage} />
     }
@@ -648,13 +648,13 @@ export default class CheckoutComponent extends Component {
           padding: '10px'
         }} />
         <Typography use='headline' tag='h2' style={{ marginBottom: '40px' }}>
-          { title }
+          {title}
         </Typography>
 
         {this.renderMainContent()}
 
       </Card>
-      { this.renderFooter() }
+      {this.renderFooter()}
     </div>)
   }
 }
