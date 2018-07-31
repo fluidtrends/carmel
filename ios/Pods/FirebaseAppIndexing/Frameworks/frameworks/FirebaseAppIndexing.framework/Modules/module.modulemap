@@ -1,0 +1,10 @@
+framework module FirebaseAppIndexing {
+
+  export *
+
+  umbrella header "FirebaseAppIndexing.h"
+
+  header "FIRAppIndexing.h"
+
+  link framework "SafariServices"
+}

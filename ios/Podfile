@@ -1,0 +1,22 @@
+platform :ios, '9.1'
+
+target 'chunky' do
+  # use_frameworks!
+
+  # Required by RNFirebase
+  pod 'Firebase/Core'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Analytics'
+  pod 'Firebase/AppIndexing'
+  pod 'Firebase/Crash'
+  pod 'Firebase/Database'
+  pod 'Firebase/DynamicLinks'
+  pod 'Firebase/Messaging'
+  pod 'Firebase/RemoteConfig'
+  pod 'Firebase/Storage'
+
+  target 'chunkyTests' do
+    inherit! :search_paths
+  end
+
+end
