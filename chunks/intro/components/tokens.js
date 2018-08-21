@@ -27,7 +27,7 @@ export default class Challenges extends Component {
 
   sky(offset, speed) {
     return [<Parallax.Layer key='sky' offset={offset} speed={speed} style={{ opacity: 1 }}>
-      <img src={'../../../../assets/background-farm.png'} style={{ display: 'block', width: '100%', margin: '0', height: '100vh', overflow: 'hidden' }} />
+      <img src={'../../../../assets/background-farm.r.png'} style={{ display: 'block', width: '100%', margin: '0', height: '100vh', overflow: 'hidden' }} />
     </Parallax.Layer>]
   }
 
