@@ -1,0 +1,40 @@
+{
+  "settings": {
+    "featureDelay": 5000,
+    "transitionDuration": 2000,
+    "textTransitionDuration": 1000,
+    "logo": "../../../../assets/carmel-logo-white.png",
+    "progress": "Preparing your learning environment, just a minute ... "
+  },
+  "error": {
+    "title": "Oh no, something broke",
+    "subtitle": "Looks like you actually got lost in the tech jungle",
+    "details": "But hey, don't worry we'll get you back on track in no time, just hang in there",
+    "image": "../../../../assets/background-dark.r.png"
+  },
+  "features": [{
+    "title": "You too can be a programmer",
+    "subtitle": "Even if you don't have a computer science degree",
+    "image": "../../../../assets/background-stars.r.png"
+  },
+  {
+    "title": "Learn to create websites",
+    "subtitle": "Faster, easier and more fun than ever before",
+    "image": "../../../../assets/background-default.r.png"
+  },
+  {
+    "title": "Yes, tech education can be fun",
+    "subtitle": "Even if algebra makes you wanna cry",
+    "image": "../../../../assets/background-intro.r.png"
+  },
+  {
+    "title": "Learn to create mobile apps",
+    "subtitle": "Without breaking a sweat or the bank",
+    "image": "../../../../assets/background-farm.r.png"
+  },
+  {
+    "title": "Show off your experience points",
+    "subtitle": "Earn and track your growth as you progress",
+    "image": "../../../../assets/background-hills.r.png"
+  }]
+}
