@@ -121,43 +121,21 @@ class Session {
 
   create () {
     return new Promise((resolve, reject) => {
-      reject(new Error('Work in progress do not touch please :)'))
-      // fs.existsSync(CARMEL_HOME) && fs.removeSync(CARMEL_HOME)
-      // fs.mkdirsSync(CARMEL_HOME_PRODUCTS)
-      // fs.mkdirsSync(CARMEL_HOME_MACHINE)
+      fs.existsSync(CARMEL_HOME) && fs.removeSync(CARMEL_HOME)
+      fs.mkdirsSync(CARMEL_HOME_PRODUCTS)
+      fs.mkdirsSync(CARMEL_HOME_MACHINE)
 
-      // Jimp.read('http://www.example.com/path/to/lenna.jpg')
-      //     .then(image => {
-      //         // do stuff with the image
-      //     })
-      //     .catch(err => {
-      //         // handle an exception
-      //     })
-
-      // const cloneOptions = new Git.CloneOptions()
-      // cloneOptions.checkoutBranch = 'machine'
-      // Git.Clone.clone(CARMEL_REPO, CARMEL_HOME_MACHINE, cloneOptions)
-      //           .then((repo) => {
-      //             console.log(repo)
-      //           })
-      //           .catch((e) => {
-      //             console.log(e)
-      //           })
-
-          // return Git.Repository.open(path.resolve(CARMEL_MACHINE, '.git'))
-          //           .then((repo) => repo.fetch('origin').then(() => repo.mergeBranches('machine', 'origin/machine')))
-
-      // fs.copySync(path.resolve(CARMEL_ROOT, 'desktop', 'machine'), CARMEL_MACHINE)
-      // fs.moveSync(path.resolve(CARMEL_MACHINE, 'git'), path.resolve(CARMEL_MACHINE, '.git'))
-
-      // return this.sessionVault.create(sessionVaultPassword)
-      //             .then((session) => this.machineVault.create(machineVaultPassword).then((machine) => ({ machine: machine.vault, session: session.vault })))
-      //             .then((vaults) => {
-      //               this.createMachineFingerprint(vaults)
-      //               return this.load(vaults.session, true)
-      //             })
-      //             .then((session) => resolve(Object.assign({}, session, { isFirstTime: true })))
-      //             .catch((error) => reject(error))
+      const cloneOptions = new Git.CloneOptions()
+      cloneOptions.checkoutBranch = 'extensions'
+      return Git.Clone.clone(CARMEL_REPO, CARMEL_HOME_MACHINE, cloneOptions)
+                  .then((repo) => this.sessionVault.create(sessionVaultPassword))
+                  .then((session) => this.machineVault.create(machineVaultPassword).then((machine) => ({ machine: machine.vault, session: session.vault })))
+                  .then((vaults) => {
+                    this.createMachineFingerprint(vaults)
+                    return this.load(vaults.session, true)
+                  })
+                  .then((session) => resolve(Object.assign({}, session, { isFirstTime: true })))
+                  .catch((error) => reject(error))
     })
   }
 
@@ -321,6 +299,12 @@ class Session {
     })
   }
 
+  updateCache () {
+    return Git.Repository.open(CARMEL_HOME_MACHINE)
+                .then((repo) => repo.fetch('origin').then(() => repo))
+                .then((repo) => repo.mergeBranches('extensions', 'origin/extensions'))
+  }
+
   load (vault, quickValidation) {
     return new Promise((resolve, reject) => {
       try {
@@ -372,10 +356,11 @@ class Session {
   start ({ mainWindow }) {
     this._mainWindow = mainWindow
 
-    // if (!this.isInitialized) {
-    return this.create()
-    // }
-    // return this.sessionVault.load().then(({ vault }) => this.load(vault))
+    if (!this.isInitialized) {
+      return this.create()
+    }
+
+    return this.sessionVault.load().then(({ vault }) => this.load(vault))
   }
 }
 
