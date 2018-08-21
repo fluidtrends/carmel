@@ -77,9 +77,9 @@ export default class Challenges extends Component {
   }
 
   render() {
-    return [...this.sky(this.props.offset, 0),
-    ...this.title(this.props.offset + 0.1, 0.8),
-    ...this.panel(this.props.offset, 0.8)]
+    return [
+      ...this.title(this.props.offset + 0.1, 0.8),
+      ...this.panel(this.props.offset, 0.8)]
   }
 }
 

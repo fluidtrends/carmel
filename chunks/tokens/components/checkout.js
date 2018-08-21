@@ -9,7 +9,7 @@ import { Slider } from 'rmwc/Slider'
 import { Footer, Steemit } from '.'
 import { Radio } from 'rmwc/Radio'
 import { Ethereum } from 'react-blockchain-chunky/lib'
-import { Form, Input, Icon, Tooltip } from 'antd'
+import { Form, Input, Icon, Tooltip, Checkbox } from 'antd'
 import { Eos, Euro, Eth } from './index'
 import { S_IXUSR } from 'constants';
 
@@ -223,8 +223,25 @@ export default class CheckoutComponent extends Component {
   }
 
   send() {
+    console.log(this.state)
+
     if (!this.email) {
       this.setState({ error: 'Please enter your email first' })
+      return
+    }
+
+    if (!this.state.terms) {
+      this.setState({ error: 'Please confirm the terms' })
+      return
+    }
+
+    if (!this.state.country) {
+      this.setState({ error: 'Please confirm your location' })
+      return
+    }
+
+    if (!this.state.age) {
+      this.setState({ error: 'Please confirm your age' })
       return
     }
 
@@ -591,6 +608,7 @@ export default class CheckoutComponent extends Component {
       <div>
 
         {this.renderEmailField()}
+        {this.renderTerms()}
 
         <CardActions
           style={{
@@ -619,15 +637,16 @@ export default class CheckoutComponent extends Component {
 
     return <CardActions style={{
       marginTop: '20px',
-      justifyContent: 'center'
+      padding: '0 20px'
     }}>
       <CardActionButtons style={{
-        width: '100%'
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start'
       }}>
         <FormItem style={{
-          width: '100%',
-          marginLeft: '30px',
-          marginRight: '30px'
+          width: '100%'
         }}>
           <Input
             style={{
@@ -643,6 +662,41 @@ export default class CheckoutComponent extends Component {
         </FormItem>
       </CardActionButtons>
     </CardActions>
+  }
+
+  renderTerms() {
+    if (this.isWaiting) {
+      return <div />
+    }
+
+    if (this.state.paymentOption !== 'fiat') {
+      return
+    }
+
+    return <CardActions style={{
+      padding: '0 30px'
+    }}>
+      <CardActionButtons style={{
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start'
+      }}>
+        <FormItem>
+          <Checkbox onChange={this.confirmTerm.bind(this, 'terms')}>I have read the <a href="/terms">Terms and Conditions</a></Checkbox>
+        </FormItem>
+        <FormItem>
+          <Checkbox onChange={this.confirmTerm.bind(this, 'country')}>I hereby declare, due to regulations uncertainties, that I am neither a resident in or citizen of the United States of America, nor a resident in or citizen of China, South Korea or Singapore</Checkbox>
+        </FormItem>
+        <FormItem>
+          <Checkbox onChange={this.confirmTerm.bind(this, 'age')}>I declare I am 16 years old or above</Checkbox>
+        </FormItem>
+      </CardActionButtons>
+    </CardActions>
+  }
+
+  confirmTerm(term, ev) {
+    this.setState({ [term]: ev.target.checked })
   }
 
   renderBack() {
