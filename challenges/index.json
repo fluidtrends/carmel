@@ -1,0 +1,97 @@
+[
+  {
+<<<<<<< HEAD
+
+=======
+    "quest": "define-your-brand",
+    "id": "1",
+>>>>>>> d4ac7b8543299355f0e01974f5c6e15b23db39d5
+    "name": "define-your-brand-1" ,
+    "backgroundColor": "#ffffff",
+    "path": "define-your-brand-1",
+    "title": "Challenge #1: Define your brand",
+    "details": "Start to create your personal brand in minutes using Chunky.",
+    "actionTitle": "Start challenge #1",
+    "xp": "5",
+    "category": "Beginner",
+    "label": "Web",
+<<<<<<< HEAD
+=======
+    "totalTasks": 5,
+>>>>>>> d4ac7b8543299355f0e01974f5c6e15b23db39d5
+    "content": {
+      "title": "https://raw.githubusercontent.com/fluidtrends/carmel/challenges-chunk/challenges/define-your-brand/challenge1/title.md",
+      "task1": "https://raw.githubusercontent.com/fluidtrends/carmel/challenges-chunk/challenges/define-your-brand/challenge1/task1.md",
+      "task2": "https://raw.githubusercontent.com/fluidtrends/carmel/challenges-chunk/challenges/define-your-brand/challenge1/task2.md",
+      "task3": "https://raw.githubusercontent.com/fluidtrends/carmel/challenges-chunk/challenges/define-your-brand/challenge1/task3.md",
+      "task4": "https://raw.githubusercontent.com/fluidtrends/carmel/challenges-chunk/challenges/define-your-brand/challenge1/task4.md",
+      "task5": "https://raw.githubusercontent.com/fluidtrends/carmel/challenges-chunk/challenges/define-your-brand/challenge1/task5.md",
+      "json": "https://raw.githubusercontent.com/fluidtrends/carmel/challenges-chunk/challenges/define-your-brand/challenge1/challenge.json",
+      "tasks": "https://raw.githubusercontent.com/fluidtrends/carmel/challenges-chunk/challenges/define-your-brand/challenge1/tasks.md",
+      "textColor": "#37474F"
+    }
+  },
+  {
+<<<<<<< HEAD
+=======
+    "quest": "define-your-brand",
+    "id": "2",
+>>>>>>> d4ac7b8543299355f0e01974f5c6e15b23db39d5
+    "name": "define-your-brand-2",
+    "backgroundColor": "#ffffff",
+    "path": "define-your-brand-2",
+    "title": "Challenge #2: Continue developing your brand",
+    "details": "Continue to shape your personal brand using Chunky",
+    "actionTitle": "Start challenge #2",
+    "xp": "5",
+    "category": "Beginner",
+    "label": "DevOps",
+<<<<<<< HEAD
+=======
+    "totalTasks": 4,
+>>>>>>> d4ac7b8543299355f0e01974f5c6e15b23db39d5
+    "content": {
+      "title": "https://raw.githubusercontent.com/fluidtrends/carmel/challenges-chunk/challenges/define-your-brand/challenge2/title.md",
+      "text": "https://raw.githubusercontent.com/fluidtrends/carmel/challenges-chunk/challenges/define-your-brand/challenge2/README.MD",
+      "json": "https://raw.githubusercontent.com/fluidtrends/carmel/challenges-chunk/challenges/define-your-brand/challenge2/challenge.json",
+      "tasks": "https://raw.githubusercontent.com/fluidtrends/carmel/challenges-chunk/challenges/define-your-brand/challenge2/tasks.md",
+      "task1": "https://raw.githubusercontent.com/fluidtrends/carmel/challenges-chunk/challenges/define-your-brand/challenge2/task1.md",
+      "task2": "https://raw.githubusercontent.com/fluidtrends/carmel/challenges-chunk/challenges/define-your-brand/challenge2/task2.md",
+      "task3": "https://raw.githubusercontent.com/fluidtrends/carmel/challenges-chunk/challenges/define-your-brand/challenge2/task3.md",
+      "task4": "https://raw.githubusercontent.com/fluidtrends/carmel/challenges-chunk/challenges/define-your-brand/challenge2/task4.md",
+      "textColor": "#37474F"
+    }
+  },
+  {
+<<<<<<< HEAD
+=======
+    "quest": "define-your-brand",
+    "id": "3",
+    "locked": true,
+>>>>>>> d4ac7b8543299355f0e01974f5c6e15b23db39d5
+    "name": "define-your-brand-3",
+    "backgroundColor": "#ffffff",
+    "path": "define-your-brand-3",
+    "title": "Challenge #3: Finalize developing your brand",
+    "details": "Finish defining your personal brand using Chunky",
+    "actionTitle": "Start challenge #3",
+    "xp": "5",
+    "category": "Beginner",
+    "label": "Web",
+<<<<<<< HEAD
+=======
+    "totalTasks": 4,
+>>>>>>> d4ac7b8543299355f0e01974f5c6e15b23db39d5
+    "content": {
+      "title": "https://raw.githubusercontent.com/fluidtrends/carmel/challenges-chunk/challenges/define-your-brand/challenge3/title.md",
+      "text": "https://raw.githubusercontent.com/fluidtrends/carmel/challenges-chunk/challenges/define-your-brand/challenge3/README.MD",
+      "json": "https://raw.githubusercontent.com/fluidtrends/carmel/challenges-chunk/challenges/define-your-brand/challenge3/challenge.json",
+      "tasks": "https://raw.githubusercontent.com/fluidtrends/carmel/challenges-chunk/challenges/define-your-brand/challenge3/tasks.md",
+      "task1": "https://raw.githubusercontent.com/fluidtrends/carmel/challenges-chunk/challenges/define-your-brand/challenge3/task1.md",
+      "task2": "https://raw.githubusercontent.com/fluidtrends/carmel/challenges-chunk/challenges/define-your-brand/challenge3/task2.md",
+      "task3": "https://raw.githubusercontent.com/fluidtrends/carmel/challenges-chunk/challenges/define-your-brand/challenge3/task3.md",
+      "task4": "https://raw.githubusercontent.com/fluidtrends/carmel/challenges-chunk/challenges/define-your-brand/challenge3/task4.md",
+      "textColor": "#37474F"
+    }
+  }
+]

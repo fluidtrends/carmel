@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Dan Călinescu",
+    "title": "CEO & Co-Founder",
+    "image": "https://github.com/fluidtrends/carmel/raw/content/team/dan/profile.png",
+    "linkedIn": "https://www.linkedin.com/in/idancali/",
+    "about": {
+      "text": "github://fluidtrends/carmel/content/team/dan/README",
+      "textColor": "#37474F"
+    }
+  },
+  {
+    "name": "Andrei Lazurcă",
+    "title": "Project Manager & Co-Founder",
+    "image": "https://github.com/fluidtrends/carmel/raw/content/team/andrei/profile.png",
+    "linkedIn": "https://www.linkedin.com/in/andrei-lazurca/",
+    "about": {
+      "text": "github://fluidtrends/carmel/content/team/andrei/README",
+      "textColor": "#37474F"
+    }
+  },
+  {
+    "name": "Andi Coman",
+    "title": "Product Developer & Co-Founder",
+    "image": "https://github.com/fluidtrends/carmel/raw/content/team/andi/profile.png",
+    "linkedIn": "https://www.linkedin.com/in/andi-coman/",
+    "about": {
+      "text": "github://fluidtrends/carmel/content/team/andi/README",
+      "textColor": "#37474F"
+    }
+  }
+]
