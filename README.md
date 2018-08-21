@@ -9,3 +9,4 @@
 <p>
 Carmel is a blockchain-based Open Source Education Platform that helps aspiring and seasoned Software Developers grow their skill set and track their growth through tokenized peer challenges. </p>
 <hr/>
+<hr/>
