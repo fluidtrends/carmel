@@ -25,6 +25,7 @@ const CARMEL_MACHINE_BUNDLES = path.resolve(CARMEL_HOME_MACHINE, 'bundles')
 const CARMEL_MACHINE_CHALLENGES = path.resolve(CARMEL_HOME_MACHINE, 'challenges')
 const CARMEL_HOME_PRODUCTS = path.resolve(CARMEL_HOME, 'products')
 const CARMEL_REPO = 'https://github.com/fluidtrends/carmel.git'
+const CARMEL_BRANCH = 'live'
 const CARMEL_TEMPLATE_PROPS = {}
 
 const ENV = {
@@ -126,7 +127,7 @@ class Session {
       fs.mkdirsSync(CARMEL_HOME_MACHINE)
 
       const cloneOptions = new Git.CloneOptions()
-      cloneOptions.checkoutBranch = 'extensions'
+      cloneOptions.checkoutBranch = CARMEL_BRANCH
       return Git.Clone.clone(CARMEL_REPO, CARMEL_HOME_MACHINE, cloneOptions)
                   .then((repo) => this.sessionVault.create(sessionVaultPassword))
                   .then((session) => this.machineVault.create(machineVaultPassword).then((machine) => ({ machine: machine.vault, session: session.vault })))
@@ -302,7 +303,7 @@ class Session {
   updateCache () {
     return Git.Repository.open(CARMEL_HOME_MACHINE)
                 .then((repo) => repo.fetch('origin').then(() => repo))
-                .then((repo) => repo.mergeBranches('extensions', 'origin/extensions'))
+                .then((repo) => repo.mergeBranches(CARMEL_BRANCH, `origin/${CARMEL_BRANCH}`))
   }
 
   load (vault, quickValidation) {
