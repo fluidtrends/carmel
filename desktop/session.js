@@ -7,33 +7,25 @@ const chokidar = require('chokidar')
 const { app } = require('electron')
 const { Product } = require('react-chunky/lib/extended')
 const Git = require('nodegit')
-const importFrom = require('import-from')
-const Module = require('module')
 const Jimp = require('jimp')
 
 const sessionVaultPassword = '_carmel_session'
 const machineVaultPassword = '_carmel_machine'
 
-const CARMEL_ROOT = app.getAppPath()
-const USER_ROOT = app.getPath('userData')
+const CARMEL_REPO = 'https://github.com/fluidtrends/carmel.git'
+const CARMEL_BRANCH = 'live'
+const CARMEL_TEMPLATE_PROPS = {}
 
 const HOME = process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME']
 const CARMEL_HOME = path.resolve(HOME, '.carmel')
-const CARMEL_VAULTS = path.resolve(CARMEL_HOME, '.vaults')
-const CARMEL_HOME_MACHINE = path.resolve(CARMEL_HOME, 'machine')
-const CARMEL_MACHINE_BUNDLES = path.resolve(CARMEL_HOME_MACHINE, 'bundles')
-const CARMEL_MACHINE_CHALLENGES = path.resolve(CARMEL_HOME_MACHINE, 'challenges')
-const CARMEL_HOME_PRODUCTS = path.resolve(CARMEL_HOME, 'products')
-const CARMEL_REPO = 'https://github.com/fluidtrends/carmel.git'
-const CARMEL_TEMPLATE_PROPS = {}
+const CARMEL_ROOT = app.getAppPath()
 
-const ENV = {
-  HOME,
-  CARMEL_HOME,
-  CARMEL_VAULTS,
-  CARMEL_HOME_MACHINE,
-  CARMEL_HOME_PRODUCTS
-}
+const CARMEL_VAULTS = path.resolve(CARMEL_HOME, '.vaults')
+const CARMEL_PRODUCTS = path.resolve(CARMEL_HOME, 'products')
+
+const CARMEL_EXTENSIONS = path.resolve(CARMEL_HOME, 'extensions')
+const CARMEL_BUNDLES = path.resolve(CARMEL_EXTENSIONS, 'bundles')
+const CARMEL_CHALLENGES = path.resolve(CARMEL_EXTENSIONS, 'challenges')
 
 class Session {
   constructor () {
@@ -121,43 +113,21 @@ class Session {
 
   create () {
     return new Promise((resolve, reject) => {
-      reject(new Error('Work in progress do not touch please :)'))
-      // fs.existsSync(CARMEL_HOME) && fs.removeSync(CARMEL_HOME)
-      // fs.mkdirsSync(CARMEL_HOME_PRODUCTS)
-      // fs.mkdirsSync(CARMEL_HOME_MACHINE)
+      fs.existsSync(CARMEL_HOME) && fs.removeSync(CARMEL_HOME)
+      fs.mkdirsSync(CARMEL_PRODUCTS)
+      fs.mkdirsSync(CARMEL_EXTENSIONS)
 
-      // Jimp.read('http://www.example.com/path/to/lenna.jpg')
-      //     .then(image => {
-      //         // do stuff with the image
-      //     })
-      //     .catch(err => {
-      //         // handle an exception
-      //     })
-
-      // const cloneOptions = new Git.CloneOptions()
-      // cloneOptions.checkoutBranch = 'machine'
-      // Git.Clone.clone(CARMEL_REPO, CARMEL_HOME_MACHINE, cloneOptions)
-      //           .then((repo) => {
-      //             console.log(repo)
-      //           })
-      //           .catch((e) => {
-      //             console.log(e)
-      //           })
-
-          // return Git.Repository.open(path.resolve(CARMEL_MACHINE, '.git'))
-          //           .then((repo) => repo.fetch('origin').then(() => repo.mergeBranches('machine', 'origin/machine')))
-
-      // fs.copySync(path.resolve(CARMEL_ROOT, 'desktop', 'machine'), CARMEL_MACHINE)
-      // fs.moveSync(path.resolve(CARMEL_MACHINE, 'git'), path.resolve(CARMEL_MACHINE, '.git'))
-
-      // return this.sessionVault.create(sessionVaultPassword)
-      //             .then((session) => this.machineVault.create(machineVaultPassword).then((machine) => ({ machine: machine.vault, session: session.vault })))
-      //             .then((vaults) => {
-      //               this.createMachineFingerprint(vaults)
-      //               return this.load(vaults.session, true)
-      //             })
-      //             .then((session) => resolve(Object.assign({}, session, { isFirstTime: true })))
-      //             .catch((error) => reject(error))
+      const cloneOptions = new Git.CloneOptions()
+      cloneOptions.checkoutBranch = CARMEL_BRANCH
+      return Git.Clone.clone(CARMEL_REPO, CARMEL_EXTENSIONS, cloneOptions)
+                  .then((repo) => this.sessionVault.create(sessionVaultPassword))
+                  .then((session) => this.machineVault.create(machineVaultPassword).then((machine) => ({ machine: machine.vault, session: session.vault })))
+                  .then((vaults) => {
+                    this.createMachineFingerprint(vaults)
+                    return this.load(vaults.session, true)
+                  })
+                  .then((session) => resolve(Object.assign({}, session, { isFirstTime: true })))
+                  .catch((error) => reject(error))
     })
   }
 
@@ -239,7 +209,7 @@ class Session {
 
   loadProduct (productId) {
     try {
-      const productManifest = path.resolve(CARMEL_HOME_PRODUCTS, productId, 'chunky.json')
+      const productManifest = path.resolve(CARMEL_PRODUCTS, productId, 'chunky.json')
       const dataContent = fs.readFileSync(productManifest, 'utf8')
       const data = JSON.parse(dataContent)
       const product = Object.assign({}, data, { id: productId })
@@ -263,19 +233,19 @@ class Session {
   loadDependencies () {
     try {
       require('app-module-path').addPath(path.resolve(CARMEL_ROOT, 'node_modules'))
-      this._bundles = require.main.require(CARMEL_MACHINE_BUNDLES)
-      this._challenges = require.main.require(CARMEL_MACHINE_CHALLENGES)
+      this._bundles = require.main.require(CARMEL_BUNDLES)
+      this._challenges = require.main.require(CARMEL_CHALLENGES)
     } catch (e) {
     }
   }
 
   loadProducts () {
-    if (!fs.existsSync(CARMEL_HOME_PRODUCTS)) {
+    if (!fs.existsSync(CARMEL_PRODUCTS)) {
       this.sessionVault.write('productId', '')
       return
     }
 
-    const dirs = fs.readdirSync(CARMEL_HOME_PRODUCTS)
+    const dirs = fs.readdirSync(CARMEL_PRODUCTS)
     dirs.filter(d => d[0] !== '.').map(productId => this.loadProduct(productId))
 
     if (!this.products || Object.keys(this.products).length === 0) {
@@ -307,7 +277,7 @@ class Session {
       const bundle = this.bundles[bundleName]
       Object.keys(bundle.templates).forEach(templateName => {
         const template = bundle.templates[templateName]
-        const bundleDir = path.resolve(CARMEL_MACHINE_BUNDLES, bundleName)
+        const bundleDir = path.resolve(CARMEL_BUNDLES, bundleName)
         const assetsDir = path.resolve(bundleDir, 'assets')
         const defaults = template(CARMEL_TEMPLATE_PROPS)
 
@@ -321,11 +291,17 @@ class Session {
     })
   }
 
+  updateExtensions () {
+    return Git.Repository.open(CARMEL_EXTENSIONS)
+                .then((repo) => repo.fetch('origin').then(() => repo))
+                .then((repo) => repo.mergeBranches(CARMEL_BRANCH, `origin/${CARMEL_BRANCH}`))
+  }
+
   load (vault, quickValidation) {
     return new Promise((resolve, reject) => {
       try {
         this._files = {}
-        this.updateCache(quickValidation)
+        this.updateExtensions(quickValidation)
              .then(() => this.checkMachineFingerprint(vault, quickValidation))
              .then((valid) => {
                if (!valid) {
@@ -372,10 +348,11 @@ class Session {
   start ({ mainWindow }) {
     this._mainWindow = mainWindow
 
-    // if (!this.isInitialized) {
-    return this.create()
-    // }
-    // return this.sessionVault.load().then(({ vault }) => this.load(vault))
+    if (!this.isInitialized) {
+      return this.create()
+    }
+
+    return this.sessionVault.load().then(({ vault }) => this.load(vault))
   }
 }
 

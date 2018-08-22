@@ -1,0 +1,11 @@
+{
+	"viewportWidth": 1920,
+	"viewportHeight": 1200,
+	"defaultCommandTimeout": 10000,
+	"video": false,
+	"trashAssetsBeforeRuns":	true,
+	"chromeWebSecurity": false,
+	"pageLoadTimeout": 60000,
+	"fileServerFolder": ".",
+	"integrationFolder": "challenges"
+}
