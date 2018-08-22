@@ -7,5 +7,5 @@
 	"chromeWebSecurity": false,
 	"pageLoadTimeout": 60000,
 	"fileServerFolder": ".",
-	"integrationFolder": "challenges"
+	"integrationFolder": "../challenges"
 }

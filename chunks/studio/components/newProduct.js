@@ -52,7 +52,7 @@ export default class NewProduct extends Component {
   }
 
   template (template) {
-    const image = path.resolve(template.assetsDir, `${template.cover}.r.png`)
+    const image = `http://files.carmel.io/covers/${template.cover}.r.png`
 
     return <div
       key={template.id}
@@ -152,7 +152,7 @@ export default class NewProduct extends Component {
   }
 
   templateThumb (template) {
-    const image = path.resolve(template.assetsDir, `${template.cover}.r.png`)
+    const image = `http://files.carmel.io/covers/${template.cover}.r.png`
 
     const selected = (`${this.state.selectedTemplateId}` === `${template.id}`)
     const opacity = (selected ? 1 : 0.25)

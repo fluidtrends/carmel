@@ -21,11 +21,10 @@ const CARMEL_HOME = path.resolve(HOME, '.carmel')
 const CARMEL_ROOT = app.getAppPath()
 
 const CARMEL_VAULTS = path.resolve(CARMEL_HOME, '.vaults')
+const CARMEL_CACHE = path.resolve(CARMEL_HOME, '.cache')
 const CARMEL_PRODUCTS = path.resolve(CARMEL_HOME, 'products')
 
-const CARMEL_EXTENSIONS = path.resolve(CARMEL_HOME, 'extensions')
-const CARMEL_BUNDLES = path.resolve(CARMEL_EXTENSIONS, 'bundles')
-const CARMEL_CHALLENGES = path.resolve(CARMEL_EXTENSIONS, 'challenges')
+require('app-module-path').addPath(path.resolve(CARMEL_ROOT, 'node_modules'))
 
 class Session {
   constructor () {
@@ -50,6 +49,10 @@ class Session {
 
   get isInitialized () {
     return (fs.existsSync(CARMEL_HOME) && fs.existsSync(CARMEL_VAULTS))
+  }
+
+  get extensions () {
+    return this._extensions
   }
 
   get isFirstTime () {
@@ -80,12 +83,16 @@ class Session {
     return this._challenge
   }
 
+  get challenges () {
+    return this._challenges
+  }
+
   get data () {
     return {
       products: this.products,
       product: this.product,
-      bundles: this.bundles,
       challenge: this.challenge,
+      challenges: this.challenges,
       templates: this.templates,
       root: CARMEL_ROOT
     }
@@ -93,10 +100,6 @@ class Session {
 
   get files () {
     return this._files
-  }
-
-  get bundles () {
-    return this._bundles
   }
 
   createMachineFingerprint (vaults) {
@@ -115,11 +118,11 @@ class Session {
     return new Promise((resolve, reject) => {
       fs.existsSync(CARMEL_HOME) && fs.removeSync(CARMEL_HOME)
       fs.mkdirsSync(CARMEL_PRODUCTS)
-      fs.mkdirsSync(CARMEL_EXTENSIONS)
+      fs.mkdirsSync(CARMEL_CACHE)
 
       const cloneOptions = new Git.CloneOptions()
       cloneOptions.checkoutBranch = CARMEL_BRANCH
-      return Git.Clone.clone(CARMEL_REPO, CARMEL_EXTENSIONS, cloneOptions)
+      return Git.Clone.clone(CARMEL_REPO, CARMEL_CACHE, cloneOptions)
                   .then((repo) => this.sessionVault.create(sessionVaultPassword))
                   .then((session) => this.machineVault.create(machineVaultPassword).then((machine) => ({ machine: machine.vault, session: session.vault })))
                   .then((vaults) => {
@@ -230,15 +233,6 @@ class Session {
         .on('change', this._onWatcherFileChanged)
   }
 
-  loadDependencies () {
-    try {
-      require('app-module-path').addPath(path.resolve(CARMEL_ROOT, 'node_modules'))
-      this._bundles = require.main.require(CARMEL_BUNDLES)
-      this._challenges = require.main.require(CARMEL_CHALLENGES)
-    } catch (e) {
-    }
-  }
-
   loadProducts () {
     if (!fs.existsSync(CARMEL_PRODUCTS)) {
       this.sessionVault.write('productId', '')
@@ -263,38 +257,58 @@ class Session {
     }
 
     const cachedChallengeId = this.sessionVault.read('challengeId')
-    this._challenge = { id: cachedChallengeId }
+    // this._challenge = this.challenges
+    // { id: cachedChallengeId }
+  }
+
+  updateExtensions () {
+    return new Promise((resolve, reject) => {
+      try {
+        this._extensions = {
+          templates: require.main.require(path.resolve(CARMEL_CACHE, 'templates')),
+          fixtures: require.main.require(path.resolve(CARMEL_CACHE, 'templates', 'fixtures')),
+          challenges: require.main.require(path.resolve(CARMEL_CACHE, 'challenges'))
+        }
+
+        resolve()
+        // Git.Repository.open(CARMEL_EXTENSIONS)
+        //             .then((repo) => repo.fetch('origin').then(() => repo))
+        //             .then((repo) => repo.mergeBranches(CARMEL_BRANCH, `origin/${CARMEL_BRANCH}`))
+        //             .then(() => resolve())
+      } catch (error) {
+        console.log(error)
+        reject(error)
+      }
+    })
+  }
+
+  loadChallenges () {
+    this._challenges = []
+
+    if (!this.extensions || !this.extensions.challenges) {
+      return
+    }
   }
 
   loadTemplates () {
     this._templates = []
 
-    if (!this.bundles) {
+    if (!this.extensions || !this.extensions.templates) {
       return
     }
 
-    Object.keys(this.bundles).forEach(bundleName => {
-      const bundle = this.bundles[bundleName]
-      Object.keys(bundle.templates).forEach(templateName => {
-        const template = bundle.templates[templateName]
-        const bundleDir = path.resolve(CARMEL_BUNDLES, bundleName)
-        const assetsDir = path.resolve(bundleDir, 'assets')
-        const defaults = template(CARMEL_TEMPLATE_PROPS)
+    Object.keys(this.extensions.templates).forEach(templateName => {
+      const template = this.extensions.templates[templateName]
+      const bundleDir = path.resolve(CARMEL_CACHE, 'templates')
+      const assetsDir = path.resolve(bundleDir, 'assets')
+      const defaults = template(CARMEL_TEMPLATE_PROPS)
 
-        this._templates.push(Object.assign({}, defaults, {
-          assetsDir,
-          bundleDir,
-          id: this.templates.length,
-          bundle: bundleName
-        }))
-      })
+      this._templates.push(Object.assign({}, defaults, {
+        assetsDir,
+        bundleDir,
+        id: this.templates.length
+      }))
     })
-  }
-
-  updateExtensions () {
-    return Git.Repository.open(CARMEL_EXTENSIONS)
-                .then((repo) => repo.fetch('origin').then(() => repo))
-                .then((repo) => repo.mergeBranches(CARMEL_BRANCH, `origin/${CARMEL_BRANCH}`))
   }
 
   load (vault, quickValidation) {
@@ -308,7 +322,7 @@ class Session {
                  reject(new Error('Invalid machine fingerprint'))
                  return
                }
-               this.loadDependencies()
+               this.loadChallenges()
                this.loadProducts()
                this.loadTemplates()
                this.startWatching()
@@ -324,8 +338,7 @@ class Session {
   createProduct ({ client, name, template }) {
     try {
       const id = name.replace(/[^a-zA-Z0-9]/g, '').toLowerCase()
-
-      const fixture = this.bundles[template.bundle].fixtures[template.fixture]
+      const fixture = this.extensions.fixtures[template.fixture]
       const product = new Product({ name, id, template, fixture, root: CARMEL_ROOT, home: CARMEL_HOME })
 
       product.create()

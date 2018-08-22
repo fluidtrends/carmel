@@ -16,18 +16,18 @@ const growth = require('./growth')
 
 module.exports = {
   bikes,
-  family,
-  startup,
-  growth,
-  kindergarden,
-  personal,
-  travel,
-  parenting,
-  poetry,
-  thoughts,
-  city,
-  vacation,
-  photography,
-  team,
-  fitness
+  family
+  // startup,
+  // growth,
+  // kindergarden,
+  // personal,
+  // travel,
+  // parenting,
+  // poetry,
+  // thoughts,
+  // city,
+  // vacation,
+  // photography,
+  // team,
+  // fitness
 }
