@@ -8,6 +8,7 @@ import Intro from '../components/intro'
 import Studio from '../components/studio'
 import Tokens from '../components/tokens'
 import Team from '../components/team'
+import Footer from '../components/footer'
 
 export default class MainIntroScreen extends Screen {
   constructor(props) {
@@ -16,6 +17,7 @@ export default class MainIntroScreen extends Screen {
 
     this._onModalClose = this.onModalClose.bind(this)
     this._onStart = this.onStart.bind(this)
+    this._meetChris = this.meetChris.bind(this)
     this._onContinue = this.onContinue.bind(this)
     this._download = this.download.bind(this)
   }
@@ -26,6 +28,10 @@ export default class MainIntroScreen extends Screen {
 
   onStart() {
     this.scroller.scrollTo(1)
+  }
+
+  meetChris() {
+    this.triggerRedirect('/whitepaper')
   }
 
   onContinue(index) {
@@ -41,14 +47,14 @@ export default class MainIntroScreen extends Screen {
     return <Parallax
       ref={ref => (this.scroller = ref)}
       scrolling={!this.state.creatingProduct}
-      pages={7}
+      pages={8}
       style={{
         backgroundColor: '#00bcd4'
       }}>
       <Intro
         session={this.props.session}
         offset={0}
-        isSmallScreen={this.state.width < 1224}
+        isSmallScreen={this.isSmallScreen}
         onStart={this._onStart}
         onContinue={this._onContinue.bind(this, 2)} />
       <Studio
@@ -63,17 +69,27 @@ export default class MainIntroScreen extends Screen {
         onCancel={this._onModalClose}
         transaction={this.state.transaction}
         account={this.props.account}
-        isSmallScreen={this.state.width < 1224}
+        isSmallScreen={this.isSmallScreen}
       />
       <Team
         session={this.props.session}
         offset={3}
+      />
+      <Footer
+        session={this.props.session}
+        meetChris={this._meetChris}
+        offset={7}
+        isSmallScreen={this.isSmallScreen}
       />
     </Parallax>
   }
 
   get height() {
     return '100vh'
+  }
+
+  get isSmallScreen() {
+    return this.state.width < 1224
   }
 
   renderNewScreen() {

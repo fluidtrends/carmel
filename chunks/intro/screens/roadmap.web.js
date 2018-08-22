@@ -10,27 +10,28 @@ import Milestones from '../data/milestones'
 
 const Step = Steps.Step
 
-const CurrentMilestoneId = 4
-const CurrentPeriodId = 0
+const CurrentMilestoneId = 7
+const CurrentPeriodId = 1
 
 export default class RoadmapScreen extends Screen {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = { ...this.state }
     this._details = (milestone) => this.details.bind(this, milestone)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     super.componentDidMount()
   }
 
-  renderPeriod (period) {
+  renderPeriod(period) {
     const align = this.isSmallScreen ? 'left' : 'center'
     const description = <Typography use='subheading2' tag='h1' style={{
       color: '#90A4AE',
       marginBottom: '30px',
-      textAlign: align }}>
-      { period.summary }
+      textAlign: align
+    }}>
+      {period.summary}
     </Typography>
 
     return <Step
@@ -39,24 +40,26 @@ export default class RoadmapScreen extends Screen {
       description={description} />
   }
 
-  details (milestone) {
+  details(milestone) {
     this.triggerRawRedirect(`https://github.com/fluidtrends/carmel/milestone/${milestone.id}`)
   }
 
-  renderMilestone (milestone) {
+  renderMilestone(milestone) {
     const description = <div style={{
       marginRight: '30px'
     }}>
       <Typography use='subheading2' tag='h1' style={{
         color: '#90A4AE',
         marginBottom: '10px',
-        textAlign: 'left' }}>
-        { milestone.description }
+        textAlign: 'left'
+      }}>
+        {milestone.description}
       </Typography>
       <Typography use='subheading2' tag='h1' style={{
-        textAlign: 'left' }}>
-        <Button onClick={this._details(milestone)} style={{border: '1px solid #4FC3F7'}}>
-        See Milestone Details
+        textAlign: 'left'
+      }}>
+        <Button onClick={this._details(milestone)} style={{ border: '1px solid #4FC3F7' }}>
+          See Milestone Details
      </Button>
       </Typography>
     </div>
@@ -67,19 +70,19 @@ export default class RoadmapScreen extends Screen {
       description={description} />
   }
 
-  renderPeriods () {
+  renderPeriods() {
     return Periods.map(period => this.renderPeriod(period))
   }
 
-  renderMilestones () {
+  renderMilestones() {
     return Milestones.map(milestone => this.renderMilestone(milestone))
   }
 
-  renderChart () {
+  renderChart() {
     return <Chart isSmallScreen={this.isSmallScreen} />
   }
 
-  renderMainContent () {
+  renderMainContent() {
     const width = this.isSmallScreen ? '95vw' : '800px'
     const padding = this.isSmallScreen ? '2px' : '30px'
     const direction = this.isSmallScreen ? 'vertical' : 'horizontal'
@@ -100,15 +103,15 @@ export default class RoadmapScreen extends Screen {
           Token Distribution
         </Typography>
 
-        { this.renderChart() }
+        {this.renderChart()}
 
         <Steps
           progressDot
           direction={direction}
-          style={{margin: `${stepsPad}px`}}
+          style={{ margin: `${stepsPad}px` }}
           current={CurrentPeriodId}>
 
-          { this.renderPeriods() }
+          {this.renderPeriods()}
 
         </Steps>
       </Card>
@@ -120,10 +123,10 @@ export default class RoadmapScreen extends Screen {
 
         <Steps
           direction={'vertical'}
-          style={{margin: `${stepsPad}px`}}
+          style={{ margin: `${stepsPad}px` }}
           current={CurrentMilestoneId}>
 
-          { this.renderMilestones() }
+          {this.renderMilestones()}
 
         </Steps>
       </Card>
@@ -131,7 +134,7 @@ export default class RoadmapScreen extends Screen {
     </div>)
   }
 
-  components () {
+  components() {
     return super.components().concat([this.renderMainContent()])
   }
 }

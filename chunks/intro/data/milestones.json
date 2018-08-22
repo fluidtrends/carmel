@@ -1,49 +1,62 @@
-[{
-  "id": "1",
-  "title": "March 1st, 2018 (Version 0.1)",
-  "description": "Initial Carmel.io Launch"
-},{
-  "id": "2",
-  "title": "March 7th, 2018 (Version 0.1.1)",
-  "description": "Limited Online Token Purchases"
-},{
-  "id": "5",
-  "title": "April 5th, 2018 (Version 0.2)",
-  "description": "Carmel Studio Private Test Launch"
-},{
-  "id": "7",
-  "title": "May 21st, 2018 (Version 0.3)",
-  "description": "Full Online Token Purchases"
-},{
-  "id": "8",
-  "title": "July 9th, 2018 (Version 0.4)",
-  "description": "Initial Carmel Studio Launch"
-},{
-  "id": "9",
-  "title": "August 6th, 2018 (Version 0.5)",
-  "description": "First Functional Carmel Challenge"
-},{
-  "id": "10",
-  "title": "August 13th, 2018 (Version 0.6)",
-  "description": "Temporary (ERC20) CARMEL Token Launch"
-},{
-  "id": "11",
-  "title": "September 10th, 2018 (Version 0.7)",
-  "description": "Carmel Mobile iOS & Android Launch"
-},{
-  "id": "12",
-  "title": "October 22nd, 2018 (Version 0.8)",
-  "description": "Official EOS CARMEL Token Launch"
-},{
-  "id": "13",
-  "title": "November 19th, 2018 (Version 0.9)",
-  "description": "Initial Chunky Intelligent Guide Prototype"
-},{
-  "id": "14",
-  "title": "December 31st, 2018  (1.0 Beta)",
-  "description": "Carmel 1.0-Beta Release"
-},{
-  "id": "6",
-  "title": "Jan 28, 2019 (Carmel 1.0)",
-  "description": "Official Carmel 1.0 Public Launch"
-}]
+[
+  {
+    "id": "1",
+    "title": "March 1st, 2018 (Version 0.1)",
+    "description": "Initial Carmel.io Launch"
+  },
+  {
+    "id": "2",
+    "title": "March 7th, 2018 (Version 0.1.1)",
+    "description": "Limited Online Token Purchases"
+  },
+  {
+    "id": "5",
+    "title": "April 5th, 2018 (Version 0.2)",
+    "description": "Carmel Studio Private Test Launch"
+  },
+  {
+    "id": "7",
+    "title": "May 21st, 2018 (Version 0.3)",
+    "description": "Full Online Token Purchases"
+  },
+  {
+    "id": "8",
+    "title": "July 9th, 2018 (Version 0.4)",
+    "description": "Initial Carmel Studio Launch"
+  },
+  {
+    "id": "9",
+    "title": "August 6th, 2018 (Version 0.5)",
+    "description": "First Functional Carmel Challenge"
+  },
+  {
+    "id": "10",
+    "title": "August 13th, 2018 (Version 0.6)",
+    "description": "Carmel Tokens Pre Sale Launch"
+  },
+  {
+    "id": "11",
+    "title": "September 10th, 2018 (Version 0.7)",
+    "description": "Carmel Mobile iOS & Android Launch"
+  },
+  {
+    "id": "12",
+    "title": "October 22nd, 2018 (Version 0.8)",
+    "description": "Official EOS CARMEL Token Launch"
+  },
+  {
+    "id": "13",
+    "title": "November 19th, 2018 (Version 0.9)",
+    "description": "Initial Chunky Intelligent Guide Prototype"
+  },
+  {
+    "id": "14",
+    "title": "December 31st, 2018  (1.0 Beta)",
+    "description": "Carmel 1.0-Beta Release"
+  },
+  {
+    "id": "6",
+    "title": "Jan 28, 2019 (Carmel 1.0)",
+    "description": "Official Carmel 1.0 Public Launch"
+  }
+]
