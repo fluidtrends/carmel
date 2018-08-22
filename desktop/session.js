@@ -30,6 +30,8 @@ class Session {
   constructor () {
     this._sessionVault = new cassi.Vault({ name: 'carmelsession', root: CARMEL_VAULTS })
     this._machineVault = new cassi.Vault({ name: 'carmelmachine', root: CARMEL_VAULTS })
+    this._walletVault = new cassi.Vault({ name: 'carmelwallet', root: CARMEL_VAULTS })
+    this._devVault = new cassi.Vault({ name: 'carmeldev', root: CARMEL_VAULTS })
     this._isFirstTime = true
     this._listeners = []
     this._onWatcherFileChanged = this.onWatcherFileChanged.bind(this)
@@ -45,6 +47,14 @@ class Session {
 
   get machineVault () {
     return this._machineVault
+  }
+
+  get devVault () {
+    return this._devVault
+  }
+
+  get walletVault () {
+    return this._walletVault
   }
 
   get isInitialized () {
