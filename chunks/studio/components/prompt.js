@@ -28,6 +28,7 @@ export default class Prompt extends Component {
       marginTop: '40px',
       marginBottom: '10px',
       alignItems: 'center',
+      padding: '10px',
       justifyContent: 'center',
       display: 'flex',
       flexDirection: 'column'

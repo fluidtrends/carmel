@@ -23,7 +23,7 @@ export default class Challenges extends Component {
   }
 
   renderChallengeTitle (challenge) {
-    return <Typography use='title' tag='h2' style={{
+    return <Typography use='title' style={{
       textAlign: 'center',
       color: '#00bcd4'
     }}>
@@ -32,7 +32,7 @@ export default class Challenges extends Component {
   }
 
   renderChallengeSubtitle (challenge) {
-    return <Typography use='body2' tag='h2' style={{
+    return <Typography use='body2' style={{
       textAlign: 'center',
       color: '#455A64'
     }}>
@@ -49,7 +49,7 @@ export default class Challenges extends Component {
     )
 
     const skills = item.skills.map(skill => {
-      return <Chip><ChipText> { skill } </ChipText></Chip>
+      return <Chip key={skill}><ChipText> { skill } </ChipText></Chip>
     })
 
     return <Card
@@ -84,6 +84,7 @@ export default class Challenges extends Component {
           <ButtonIcon use={'check_circle'} />
           Take This Challenge
         </Button>
+
       </List.Item>
     </Card>
   }
