@@ -12,7 +12,7 @@ The only way to reduce our dependency on a centralized authority in a learning e
 
 ## Community Stakeholders
 
-<img align="center" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/stakeholders.png">
+<img align="center" style="margin: 20px" src="http://files.carmel.io/images/stakeholders.png">
 
 The Carmel Community is designed to be a learning community and so the primary stakeholder is and always will be the Learner - ie. Chris. But in order for Chris to be successful, our community needs to include supporting stakeholders - much like any story is simply not the same without its own supporting characters. What would Batman be without Robin... But that's for another time.
 
@@ -20,7 +20,7 @@ So who are the supporting stakeholders in the Carmel Community?
 
 ## Learners
 
-<img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/chris.png">
+<img align="left" style="margin: 20px" src="http://files.carmel.io/images/chris.png">
 
 **You already met Chris**.
 
@@ -32,7 +32,7 @@ Chris **earns Carmel Experience Points (CARMEL XP)** for every Carmel Challenge 
 
 **What About Bob?** 🤔😎
 
-<img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/bob.png">
+<img align="left" style="margin: 20px" src="http://files.carmel.io/images/bob.png">
 
 The heart of the Carmel Content, are the Carmel Challenges. No challenges - no learning - and that will make Chris very sad. We don't want that. We want to make Chris happy and always growing, always learning. That's where Bob comes in.
 
@@ -42,7 +42,7 @@ Bob **creates Carmel Challenges** and **earns Carmel Tokens (CARMEL)** for every
 
 **This is Alice** ✋✍️
 
-<img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/alice.png">
+<img align="left" style="margin: 20px" src="http://files.carmel.io/images/alice.png">
 
 Speaking of incentive models. Carmel offers traditional tech educators - such as professors, teachers, or even schools themselves - a means to extend their in-classroom curriculum to our decentralized model.
 
@@ -52,7 +52,7 @@ Alice **adds Carmel Challenges to her traditional curriculum** and the school an
 
 **Meet Diane** 👀😀
 
-<img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/diane.png">
+<img align="left" style="margin: 20px" src="http://files.carmel.io/images/diane.png">
 
 If Chris does not get hired, the entire model fails. As a community - we need to encourage, help and support learners in their quest to transition to a tech career. That's crucial. And ... that's why Diane is here.
 
@@ -62,7 +62,7 @@ Diane **purchases Carmel Tokens (CARMEL)** and uses them to sponsor Chris in his
 
 **Emma rules**  👍💪
 
-<img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/bob.png">
+<img align="left" style="margin: 20px" src="http://files.carmel.io/images/bob.png">
 
 And what happens once Chris gets hired? Is the Carmel Story over for him? Not at all. Carmel is not only about getting that first job - it's more than that. It's about **Infinite Learning** - which means we want to support Chris for the entire lifetime of his career. But once Chris gets hired, that's not possible without the support for Chris' Development Manager. That would be Emma.
 
@@ -72,7 +72,7 @@ Emma **purchases Carmel Tokens (CARMEL)** and uses them to sponsor Chris - on th
 
 **Fred is on fire** 🔥⚡️
 
-<img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/content/images/fred.png">
+<img align="left" style="margin: 20px" src="http://files.carmel.io/images/fred.png">
 
 So this is great, we have this amazing Developer Community on Carmel. And in this continuously evolving digital world, there's so much need for Development Work. Emma for one - especially if she runs a Digital Agency - would be delighted to get more work. Or maybe even Bob - if he fancies some freelancing. Perhaps Chris himself - if he gathers enough skills to produce quality work, maybe he'll do a few contracts to sharpen his newfound skills and earn some revenue. That said - Carmel loves Entrepreneurs - like Fred.
 

@@ -4,7 +4,7 @@ The Carmel Educational Model introduces key principles that make it a viable sol
 
 #### Token Value
 
-<img align="left" style="margin: 20px" src="https://raw.githubusercontent.com/fluidtrends/carmel/master/images/tokenvalue-icon.png">
+<img align="left" style="margin: 20px" src="http://files.carmel.io/images/tokenvalue-icon.png">
 
 One of the main concerns - if not the primary concern of all - in a blockchain economy is related to the value of the token at the heart of the entire economic model. In Carmel, a token - a Carmel Token - represents a tangible value directly correlated to the learning encapsulated in the challenge at hand. A challenge is authored with the sole purpose of teaching a practical skill. The value of that skill is expressed in units of Carmel Tokens, priced by the original author. The value of the token will change as demand changes but in terms of value correlation, the value of a Carmel Token represents Learning Value.
 
