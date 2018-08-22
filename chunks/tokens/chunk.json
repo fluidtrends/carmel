@@ -12,23 +12,28 @@
         "buy": "local://me/tokens"
       },
       "cover": {
-        "backgroundColor": "#61AFE1",
+        "backgroundColor": "#00838F",
         "align": "bottom",
-        "opacity": 0.9,
+        "opacity": 0.5,
+        "image": "background-stars.r.png",
         "navigation": true,
-        "image": "distribution.r.png",
         "title": "Own A Piece Of Carmel",
-        "type": "presentation"
+        "type": "simple"
       },
       "startOperationsOnMount": false,
       "operations": {
         "newTransaction": [
           "rest://create/tokens/purchases#newTransaction",
-          { "onSuccess": "transactionOk", "onError": "transactionError" }
+          {
+            "onSuccess": "transactionOk",
+            "onError": "transactionError"
+          }
         ],
         "getContext": [
           "firebase://retrieve/context?latest=1#freshContext",
-          { "onSuccess": "gotContext" }
+          {
+            "onSuccess": "gotContext"
+          }
         ]
       },
       "components": {
@@ -66,7 +71,7 @@
               "text": "github://fluidtrends/carmel/content/product/intro/countdown4"
             }
           ],
-          "backgroundColor":"#ffffff",
+          "backgroundColor": "#ffffff",
           "textColor": "#00ACC1"
         }
       },
@@ -94,27 +99,44 @@
       "operations": {
         "getPeriod": [
           "rest://retrieve/tokens/period#currentPeriod",
-          { "onSuccess": "gotPeriod", "onError": "periodError" }
+          {
+            "onSuccess": "gotPeriod",
+            "onError": "periodError"
+          }
         ],
         "updateProfile": [
           "rest://create/auth/update#updateProfile",
-          { "onSuccess": "updateProfileOk", "onError": "updateProfileError" }
+          {
+            "onSuccess": "updateProfileOk",
+            "onError": "updateProfileError"
+          }
         ],
         "newTransaction": [
           "rest://create/tokens/purchases#newTransaction",
-          { "onSuccess": "transactionOk", "onError": "transactionError" }
+          {
+            "onSuccess": "transactionOk",
+            "onError": "transactionError"
+          }
         ],
         "verifyTransactions": [
           "rest://create/tokens/transactions#checkTransactions",
-          { "onSuccess": "transactionVerifiedOk", "onError": "transactionVerifiedError" }
+          {
+            "onSuccess": "transactionVerifiedOk",
+            "onError": "transactionVerifiedError"
+          }
         ],
         "newClaim": [
           "rest://create/tokens/claims#newClaim",
-          { "onSuccess": "claimOk", "onError": "claimError" }
+          {
+            "onSuccess": "claimOk",
+            "onError": "claimError"
+          }
         ],
         "getContext": [
           "firebase://retrieve/context?latest=1#freshContext",
-          { "onSuccess": "gotContext" }
+          {
+            "onSuccess": "gotContext"
+          }
         ],
         "getClaims": "firebase://subscribe/users-claims/:userId?latest=25&resolve=claims#getClaims",
         "getPurchases": "firebase://subscribe/users-purchases/:userId?latest=25&resolve=purchases#getPurchases",
@@ -122,7 +144,13 @@
         "getWallet": "firebase://subscribe/users-wallets/:userId?latest=1&resolve=wallets#getWallet",
         "getProfile": "firebase://subscribe/users-profiles/:userId?latest=1&resolve=profiles#getProfile"
       },
-      "subscriptions": ["getPurchases", "getTransactions", "getClaims", "getWallet", "getProfile"]
+      "subscriptions": [
+        "getPurchases",
+        "getTransactions",
+        "getClaims",
+        "getWallet",
+        "getProfile"
+      ]
     }
   },
   "service": {
@@ -137,13 +165,28 @@
       "moment": "latest"
     },
     "requiredFields": {
-      "newPurchase": ["email", "currency", "amount", "tokens", "price"],
-      "newClaim": ["ethAddress", "eosBalance"]
+      "newPurchase": [
+        "email",
+        "currency",
+        "amount",
+        "tokens",
+        "price"
+      ],
+      "newClaim": [
+        "ethAddress",
+        "eosBalance"
+      ]
     },
     "permissions": {
-      "checkPurchases": ["ses:SendEmail"],
-      "checkTransactions": ["ses:SendEmail"],
-      "newPurchase": ["ses:SendEmail"]
+      "checkPurchases": [
+        "ses:SendEmail"
+      ],
+      "checkTransactions": [
+        "ses:SendEmail"
+      ],
+      "newPurchase": [
+        "ses:SendEmail"
+      ]
     },
     "schedule": {
       "checkTransactions": {

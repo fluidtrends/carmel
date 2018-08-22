@@ -10,11 +10,6 @@
       "skipExtendedMenuOnDesktop": true,
       "extendedMenu": [
         {
-          "id": "team",
-          "title": "Team",
-          "path": "/team"
-        },
-        {
           "id": "roadmap",
           "title": "Roadmap",
           "path": "/roadmap"
@@ -48,44 +43,6 @@
         ]
       }
     },
-    "person": {
-      "title": "Stories",
-      "icon": "supervisor_account",
-      "path": "/@:person",
-      "skipPaths": [
-        "story",
-        "whitepaper",
-        "roadmap",
-        "platform",
-        "admin",
-        "dashboard",
-        "studio",
-        "login",
-        "register",
-        "download",
-        "levelup",
-        "tokens",
-        "wallet",
-        "referrals",
-        "community",
-        "team",
-        "logout",
-        "challenges",
-        "me"
-      ],
-      "skipRootVariant": true,
-      "events": {
-        "cover": "local://stories"
-      },
-      "cover": {
-        "backgroundColor": "#00838F",
-        "align": "bottom",
-        "opacity": 0.5,
-        "navigation": true,
-        "title": "What's your #CarmelStory?",
-        "type": "simple"
-      }
-    },
     "team": {
       "title": "Team",
       "icon": "supervisor_account",
@@ -98,7 +55,7 @@
         "backgroundColor": "#00838F",
         "align": "bottom",
         "opacity": 0.5,
-        "image": "team.r.png",
+        "image": "background-default.r.png",
         "navigation": true,
         "title": "Meet the #CarmelTeam",
         "type": "default"
@@ -112,7 +69,7 @@
         "backgroundColor": "#00838F",
         "align": "bottom",
         "opacity": 0.5,
-        "image": "roadmap.r.png",
+        "image": "background-intro.r.png",
         "navigation": true,
         "title": "Join us on the #RoadTo1B lives changed",
         "type": "default"
@@ -134,10 +91,10 @@
         "backgroundColor": "#00838F",
         "align": "bottom",
         "opacity": 0.5,
-        "image": "terms.r.png",
+        "image": "background-stars.r.png",
         "navigation": true,
         "title": "Carmel Terms and Conditions",
-        "type": "default"
+        "type": "simple"
       },
       "components": {
         "intro": {

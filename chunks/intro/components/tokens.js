@@ -31,6 +31,15 @@ export default class Challenges extends Component {
     </Parallax.Layer>]
   }
 
+  clouds(offset, speed) {
+    return [<Parallax.Layer key='clouds' offset={offset} speed={speed} style={{ opacity: 1 }}>
+      <img src={'../../../../assets/clouds.png'} style={{ display: 'block', width: '10%', marginLeft: '10%' }} />
+    </Parallax.Layer>,
+    <Parallax.Layer key='clouds2' offset={offset} speed={speed} style={{ opacity: 1.0 }}>
+      <img src={'../../../../assets/clouds.png'} style={{ display: 'block', width: '15%', marginLeft: '70%' }} />
+    </Parallax.Layer>]
+  }
+
   title(offset, speed) {
     const fontSize = 18
     const width = 600
@@ -79,6 +88,7 @@ export default class Challenges extends Component {
   render() {
     return [
       ...this.title(this.props.offset + 0.1, 0.8),
+      ...this.clouds(this.props.offset + 0.05, 0.3),      
       ...this.panel(this.props.offset, 0.8)]
   }
 }
