@@ -40,6 +40,22 @@ export default class Challenges extends Component {
     </Parallax.Layer>]
   }
 
+  movingClouds(offset, speed) {
+    return [<Parallax.Layer key='movingClouds' offset={offset} speed={speed} style={{ opacity: 1 }}>
+      <img src={'../../../../assets/cloud1.png'} style={{
+        display: 'block',
+        width: '30%',
+        marginLeft: `50px`
+      }} />
+      <img src={'../../../../assets/cloud1.png'} style={{
+        display: 'block',
+        marginTop: '30px',
+        width: '20%',
+        marginLeft: `100px`
+      }} />
+    </Parallax.Layer>]
+  }
+
   title(offset, speed) {
     const fontSize = 18
     const width = 600
@@ -88,7 +104,8 @@ export default class Challenges extends Component {
   render() {
     return [
       ...this.title(this.props.offset + 0.1, 0.8),
-      ...this.clouds(this.props.offset + 0.05, 0.3),      
+      ...this.clouds(this.props.offset + 0.05, 0.3),
+      ...this.movingClouds(this.props.offset + 0.25, 0.4),
       ...this.panel(this.props.offset, 0.8)]
   }
 }

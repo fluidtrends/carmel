@@ -155,7 +155,7 @@ export default class Welcome extends Component {
     const color = '#FAFAFA'
 
     return [<Parallax.Layer offset={offset} speed={speed} style={{ opacity: 1, display: 'flex', flex: 1, justifyContent: 'center' }}>
-      <h3 key='title' style={{
+      <h3 key='subtitle' style={{
         color,
         textAlign: 'center',
         textShadow: '2px 2px 5px #607D8B',
