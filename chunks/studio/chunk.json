@@ -31,7 +31,7 @@
         "backgroundColor": "#00838F",
         "opacity": 0.6,
         "navigation": true,
-        "image": "start.r.png",
+        "image": "background-default.r.png",
         "title": "Download the #CarmelStudio",
         "type": "default"
       }

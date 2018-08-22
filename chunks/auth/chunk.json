@@ -10,10 +10,11 @@
       "recaptchaKey": "6Lex_1AUAAAAALdQO95hdq9WeiG_tbKbhF2WDB3s",
       "cover": {
         "backgroundColor": "#00838F",
-        "opacity": 0.6,
+        "align": "bottom",
+        "opacity": 0.5,
+        "image": "background-stars.r.png",
         "navigation": true,
-        "image": "start.r.png",
-        "title": "Join The Carmel Revolution",
+        "title": "Join the Carmel Revolution",
         "type": "simple"
       },
       "startOperationsOnMount": false,
@@ -42,10 +43,11 @@
       "path": "/login",
       "cover": {
         "backgroundColor": "#00838F",
-        "opacity": 0.6,
+        "align": "bottom",
+        "opacity": 0.5,
+        "image": "background-stars.r.png",
         "navigation": true,
-        "image": "start.r.png",
-        "title": "Welcome Back To Carmel",
+        "title": "Welcome back to Carmel",
         "type": "simple"
       },
       "startOperationsOnMount": false,
@@ -73,10 +75,11 @@
       "path": "/reset",
       "cover": {
         "backgroundColor": "#00838F",
-        "opacity": 0.6,
+        "align": "bottom",
+        "opacity": 0.5,
+        "image": "background-stars.r.png",
         "navigation": true,
-        "image": "start.r.png",
-        "title": "Get Back Into Your Carmel Account",
+        "title": "Get back into your Carmel account",
         "type": "simple"
       },
       "startOperationsOnMount": false,
