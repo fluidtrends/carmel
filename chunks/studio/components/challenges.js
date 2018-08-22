@@ -40,10 +40,10 @@ export default class Challenges extends Component {
       <List.Item>
         <List.Item.Meta
           title={item.title}
-          description={item.details} />
+          description={item.summary} />
         <Typography use='title' tag='h2' style={{ textAlign: 'center' }}>
           <Button raised theme='secondary-bg on-secondary' onClick={this._selectChallenge(item)}>
-            { item.actionTitle }
+            Take Challenge
           </Button>
         </Typography>
       </List.Item>

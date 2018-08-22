@@ -74,7 +74,7 @@ export default class Workspace extends Screen {
 
   startProduct () {
     const challenges = this.props.session
-    console.log(challenges)
+    console.log(this.props.session)
     this.shell.exec('startProduct', { id: this.product.id, light: LIGHT_START }, (compilation) => {
       if (compilation.compiled && !this.state.productStarted) {
         this.setState({ challenges, compilation, productStarted: true, productStarting: false })
@@ -277,7 +277,7 @@ export default class Workspace extends Screen {
         title='Ready for a challenge?'
         subtitle='Choose a challenge to grow your skills and to advance your product. Ready when you are.' />
       <Challenges
-        challenges={this.state.challenges}
+        challenges={this.props.session.challenges}
         onSelectChallenge={this._onSelectChallenge} />
     </div>
   }

@@ -30,28 +30,28 @@ export default class Challenge extends Component {
 
   componentDidMount () {
     super.componentDidMount()
-    this.reload()
+    // this.reload()
   }
 
   get shell () {
     return this._shell
   }
 
-  reload () {
-    this.props.importRemoteData(this.props.challenge.content.json).then(data => {
-      const { rewards, author, level, tags, rating, quest, challenge, tasksNumber } = data
-      this.setState({
-        rewards,
-        author,
-        level,
-        tags,
-        rating,
-        quest,
-        challenge,
-        tasksNumber
-      })
-    })
-  }
+  // reload () {
+    // this.props.importRemoteData(this.props.challenge.content.json).then(data => {
+    //   const { rewards, author, level, tags, rating, quest, challenge, tasksNumber } = data
+    //   this.setState({
+    //     rewards,
+    //     author,
+    //     level,
+    //     tags,
+    //     rating,
+    //     quest,
+    //     challenge,
+    //     tasksNumber
+    //   })
+    // })
+  // }
 
   showTaskError (tip) {
     notification.open({
