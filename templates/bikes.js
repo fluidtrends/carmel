@@ -1,6 +1,6 @@
 function template (props) {
   return {
-    fixture: 'simple',
+    fixture: 'starter',
     cover: 'bike',
     name: props.name || 'My Bikes',
     title: props.title || 'My amazing bike shop',

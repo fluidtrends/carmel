@@ -6,7 +6,6 @@
       "icon": "appstore",
       "path": "/workspace",
       "layoutBackground": "#f5f500",
-      "challengesIndex": "https://raw.githubusercontent.com/fluidtrends/carmel/content/challenges/index.json",
       "cover": {
         "backgroundColor": "#00838F",
         "navigation": true,

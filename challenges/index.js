@@ -1,5 +1,5 @@
-const starter = require('./starter')
+const defineYourBrand = require('./defineYourBrand')
 
 module.exports = {
-  starter
+  defineYourBrand
 }

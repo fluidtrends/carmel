@@ -32,7 +32,7 @@ export default class Workspace extends Screen {
   constructor (props) {
     super(props)
 
-    this.state = { openFiles: {}, verifying: false }
+    this.state = { openFiles: {} }
     this._shell = new Shell()
     this._onNewProduct = this.onNewProduct.bind(this)
     this._onProductChanged = this.onProductChanged.bind(this)
@@ -45,7 +45,6 @@ export default class Workspace extends Screen {
     this._onShowFileBrowser = this.onShowFileBrowser.bind(this)
     this._onShowCompileErrors = this.onShowCompileErrors.bind(this)
     this._onFileOpen = this.onFileOpen.bind(this)
-    this._verifyTask = this.verifyTask.bind(this)
   }
 
   componentDidMount () {
@@ -73,18 +72,12 @@ export default class Workspace extends Screen {
     this.setState({ showFileBrowser: true })
   }
 
-  loadChallenges () {
-    return this.importRemoteData(this.props.challengesIndex)
-               .then(challenges => challenges.map(challenge => {
-                 const actionObj = { action: {handler: `local://challenges/${challenge.path}`}}
-                 return { ...challenge, ...actionObj }
-               }))
-  }
-
-  startProduct ({ challenge, challenges, challengeStarted, light }) {
-    this.shell.exec('startProduct', { id: this.product.id, light }, (compilation) => {
+  startProduct () {
+    const challenges = this.props.session
+    console.log(challenges)
+    this.shell.exec('startProduct', { id: this.product.id, light: LIGHT_START }, (compilation) => {
       if (compilation.compiled && !this.state.productStarted) {
-        this.setState({ compilation, productStarted: true, challenge, challenges, challengeStarted, productStarting: false })
+        this.setState({ challenges, compilation, productStarted: true, productStarting: false })
         return
       }
 
@@ -92,7 +85,7 @@ export default class Workspace extends Screen {
     })
     .then(({ files, dir, port }) => {
       if (light) {
-        this.setState({ files, dir, port, productStarted: true, productStarting: false, challenge, challenges, challengeStarted })
+        this.setState({ challenges, files, dir, port, productStarted: true, productStarting: false })
         return
       }
       this.setState({ files, dir, port })
@@ -103,18 +96,13 @@ export default class Workspace extends Screen {
         compiling: false,
         errors: [error.message]
       }
-      this.setState({ challenge, challenges, challengeStarted, compilation, productStarted: true, productStarting: false })
+      this.setState({ challenges, compilation, productStarted: true, productStarting: false })
     })
   }
 
   start () {
     this.setState({ productStarting: true, productStarted: false })
-    this.loadChallenges()
-        .then((challenges) => {
-          const challenge = challenges.find(c => this.props.session.challenge && this.props.session.challenge.id === c.id)
-          const challengeStarted = (challenge ? true : false)
-          return this.startProduct({ challenge, challenges, challengeStarted, light: LIGHT_START })
-        })
+    return this.startProduct()
   }
 
   onProductChanged (product) {
@@ -147,73 +135,6 @@ export default class Workspace extends Screen {
     this.shell.cache('challengeId', '')
     this.setState({ challenge: '', challengeStarted: false })
   }
-
-  verifyTask () {
-    this.setState({ verifying: true })
-    // this.shell.exec('verifyTask', { productId: this.product.id, task }, (compilation) => {
-    //   if (compilation.compiled && !this.state.productStarted) {
-    //     this.setState({ compilation, productStarted: true, productStarting: false })
-    //     return
-    //   }
-    //
-    //   this.setState({ compilation })
-    // })
-    // .then(({ files, dir, port }) => {
-    //   this.setState({ files, dir, port })
-    // })
-    // .catch((error) => {
-    //   const compilation = {
-    //     compiled: true,
-    //     compiling: false,
-    //     errors: [error.message]
-    //   }
-    //   this.setState({ compilation, productStarted: true, productStarting: false })
-    // })
-  }
-
-  // renderActiveTask () {
-  //   const dummyTasks = []
-  //   for (let i = 1; i <= 5; i++) {
-  //     dummyTasks.push({
-  //       taskNumber: i,
-  //       completed: false
-  //     })
-  //   }
-  //
-  //   return <Card key='activeTask' style={{
-  //     backgroundColor: '#ffffff',
-  //     width: '100%',
-  //     justifyContent: 'center',
-  //     height: '100%',
-  //     alignItems: 'center',
-  //     height: '120px',
-  //     marginBottom: '10px'
-  //   }}>
-  //     {
-  //     this.state.verifying ?
-  //       <p>verifying ...</p>
-  //     :
-  //       <Task
-  //         activeTask={1}
-  //         tasksNumber={5}
-  //         width={'100%'}
-  //         completedTask={false}
-  //         failedTask={false}
-  //         padding={'20px'}
-  //         tasks={dummyTasks}
-  //         progress={0}
-  //         finalTask={false}
-  //         successMessage={'uhu'}
-  //         errorMessage={'nopeeeee'}
-  //         showChallenge={this._stop}
-  //         content={''}
-  //         verifyTask={this._verifyTask}
-  //         startNextTask={this._startNextTask}
-  //         goBack={this._stop}
-  //     />
-  //   }
-  //   </Card>
-  // }
 
   onFileOpen (file) {
     const relative = path.relative(this.state.dir, file)
