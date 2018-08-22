@@ -1,3 +1,12 @@
-node_modules
 .DS_Store
+node_modules
+*.log
+.chunky.json
+build
+.chunky
+.gitignore
 package-lock.json
+.vagrant
+\.idea/
+.assets
+screenshots
