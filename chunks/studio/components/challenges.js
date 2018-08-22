@@ -22,6 +22,24 @@ export default class Challenges extends Component {
     this.props.onSelectChallenge && this.props.onSelectChallenge(item)
   }
 
+  renderChallengeTitle (challenge) {
+    return <Typography use='title' tag='h2' style={{
+      textAlign: 'center',
+      color: '#00bcd4'
+    }}>
+      { challenge.title }
+    </Typography>
+  }
+
+  renderChallengeSubtitle (challenge) {
+    return <Typography use='body2' tag='h2' style={{
+      textAlign: 'center',
+      color: '#455A64'
+    }}>
+      { challenge.summary }
+    </Typography>
+  }
+
   renderChallenge (item, index) {
     const IconText = ({ type, text }) => (
       <span>
@@ -30,22 +48,42 @@ export default class Challenges extends Component {
       </span>
     )
 
+    const skills = item.skills.map(skill => {
+      return <Chip><ChipText> { skill } </ChipText></Chip>
+    })
+
     return <Card
       key={item.title}
       style={{
         marginBottom: '20px',
         padding: '20px',
-        backgroundColor: '#ffffff'
+        backgroundColor: '#ffffff',
+        justifyContent: 'center',
+        alignItems: 'center',
+        display: 'flex',
+        textAlign: 'center',
+        flexDirection: 'column'
       }}>
+
       <List.Item>
         <List.Item.Meta
-          title={item.title}
-          description={item.summary} />
-        <Typography use='title' tag='h2' style={{ textAlign: 'center' }}>
-          <Button raised theme='secondary-bg on-secondary' onClick={this._selectChallenge(item)}>
-            Take Challenge
-          </Button>
-        </Typography>
+          title={this.renderChallengeTitle(item)}
+          description={this.renderChallengeSubtitle(item)} />
+
+        <ChipSet style={{ textAlign: 'center' }}>
+          { skills }
+        </ChipSet>
+
+        <Button
+          style={{
+            color: '#ffffff',
+            marginTop: '30px',
+            backgroundColor: `#03A9F4`
+          }}
+          onClick={this._selectChallenge(item)}>
+          <ButtonIcon use={'check_circle'} />
+          Take This Challenge
+        </Button>
       </List.Item>
     </Card>
   }

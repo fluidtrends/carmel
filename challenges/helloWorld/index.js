@@ -1,4 +1,6 @@
 const changeMenuTitle = require('./changeMenuTitle')
+const changeMenuSubtitle = require('./changeMenuSubtitle')
+const changeActionTitle = require('./changeActionTitle')
 
 module.exports = (props) => {
   return {
@@ -13,10 +15,10 @@ module.exports = (props) => {
     }],
     level: 0,
     skills: ['json', 'web', 'copywriting', 'branding'],
-    tasks: [{
-      index: 0,
-      id: 'changeMenuTitle',
-      task: changeMenuTitle(Object.assign({}, props))
-    }]
+    tasks: [
+      changeMenuTitle(props),
+      changeMenuSubtitle(props),
+      changeActionTitle(props)
+    ]
   }
 }

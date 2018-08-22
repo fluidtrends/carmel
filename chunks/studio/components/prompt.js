@@ -26,7 +26,11 @@ export default class Prompt extends Component {
     return <Elevation z={2} style={{
       backgroundColor: '#ffffff',
       marginTop: '40px',
-      marginBottom: '10px'
+      marginBottom: '10px',
+      alignItems: 'center',
+      justifyContent: 'center',
+      display: 'flex',
+      flexDirection: 'column'
     }}>
       <Typography use='title' tag='h2' style={{ textAlign: 'center' }}>
         <img src={'../../../../assets/chunky-logo.gif'} style={{ marginTop: '-60px', width: '100px', height: '100px' }} />
@@ -34,7 +38,7 @@ export default class Prompt extends Component {
       <Typography use='title' tag='h2' style={{ marginTop: '-20px', color: '#00bcd4', textAlign: 'center' }}>
         { this.props.title }
       </Typography>
-      <Typography use='caption ' tag='h2' style={{ color: '#90A4AE', textAlign: 'center', marginBottom: '10px' }}>
+      <Typography use='body2 ' tag='h2' style={{ color: '#455A64', textAlign: 'center', marginBottom: '10px' }}>
         { this.props.subtitle }
       </Typography>
       { this.renderChildren() }

@@ -38,10 +38,8 @@ export default class Workspace extends Screen {
     this._onProductChanged = this.onProductChanged.bind(this)
     this._onShowAccountScreen = this.onShowAccountScreen.bind(this)
     this._onTogglePreview = this.onTogglePreview.bind(this)
-    this._onStartChallenge = this.onStartChallenge.bind(this)
     this._onSelectChallenge = this.onSelectChallenge.bind(this)
     this._onUnselectChallenge = this.onUnselectChallenge.bind(this)
-    this._onStopChallenge = this.onStopChallenge.bind(this)
     this._onShowFileBrowser = this.onShowFileBrowser.bind(this)
     this._onShowCompileErrors = this.onShowCompileErrors.bind(this)
     this._onFileOpen = this.onFileOpen.bind(this)
@@ -74,7 +72,6 @@ export default class Workspace extends Screen {
 
   startProduct () {
     const challenges = this.props.session
-    console.log(this.props.session)
     this.shell.exec('startProduct', { id: this.product.id, light: LIGHT_START }, (compilation) => {
       if (compilation.compiled && !this.state.productStarted) {
         this.setState({ challenges, compilation, productStarted: true, productStarting: false })
@@ -118,22 +115,12 @@ export default class Workspace extends Screen {
     this.setState({ preview })
   }
 
-  onStartChallenge (challenge) {
-    this.shell.cache('challengeId', this.state.challenge.id)
-    this.setState({ challengeStarted: true })
-  }
-
   onSelectChallenge (challenge) {
     this.setState({ challenge })
   }
 
   onUnselectChallenge () {
-    this.setState({ challenge: '', challengeStarted: false })
-  }
-
-  onStopChallenge () {
-    this.shell.cache('challengeId', '')
-    this.setState({ challenge: '', challengeStarted: false })
+    this.setState({ challenge: '' })
   }
 
   onFileOpen (file) {
@@ -258,11 +245,7 @@ export default class Workspace extends Screen {
       flexDirection: 'column'
     }}>
       <Challenge
-        started={this.state.challengeStarted}
         onBack={this._onUnselectChallenge}
-        onStop={this._onStopChallenge}
-        importRemoteData={this.importRemoteData}
-        onStartChallenge={this._onStartChallenge}
         challenge={this.state.challenge} />
     </div>
   }
@@ -290,6 +273,12 @@ export default class Workspace extends Screen {
     return [ this.renderChallenge(), this.renderOpenFileTabs() ]
   }
 
+  renderSideDetails () {
+    return <div>
+      details
+    </div>
+  }
+
   renderWorkspace (status) {
     const browserWidth = '60vw'
     const minBrowserWidth = '60px'
@@ -303,7 +292,6 @@ export default class Workspace extends Screen {
         width={browserWidth}
         style={{
           borderRight: '1px #CFD8DC solid',
-          backgroundColor: '#ff0000',
           height: '100vh'
         }}
         collapsedWidth={minBrowserWidth}
