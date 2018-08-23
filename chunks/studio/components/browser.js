@@ -47,13 +47,15 @@ export default class Browser extends Component {
   }
 
   get url () {
-    const default = `http://localhost:${this.props.port}`
-
-    try {
-      return (this.webview && !this.webview.isLoading() ? this.webview.getURL() : default)
-    } catch (e) {
-      return default
+    if (!this.webview) {
+      return 'http://localhost'
     }
+
+    if (this.webview.isLoading()) {
+      return `http://localhost:${this.props.port}`
+    }
+
+    this.webview.getURL()
   }
 
   prev () {
