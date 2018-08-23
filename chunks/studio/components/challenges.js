@@ -40,6 +40,26 @@ export default class Challenges extends Component {
     </Typography>
   }
 
+  renderMainAction (item) {
+    if (item.completed) {
+      return <Typography use='body2' style={{
+        textAlign: 'center',
+        color: '#4CAF50'
+      }}>
+        <Icon type={'check-circle'} style={{ marginRight: 8, color: '#4CAF50' }} />
+        You already completed this challenge
+      </Typography>
+    }
+    return <Button
+      style={{
+        color: '#00bcd4',
+        backgroundColor: `#ffffff`
+      }}
+      onClick={this._selectChallenge(item)}>
+      See Challenge Details
+    </Button>
+  }
+
   renderChallenge (item, index) {
     const IconText = ({ type, text }) => (
       <span>
@@ -74,7 +94,7 @@ export default class Challenges extends Component {
           title={this.renderChallengeTitle(item)}
           description={this.renderChallengeSubtitle(item)} />
 
-        <ChipSet style={{ textAlign: 'center' }}>
+        <ChipSet style={{ textAlign: 'center', marginBottom: '20px' }}>
           { skills }
           <Chip style={{
             backgroundColor: '#4CAF50', color: '#ffffff'
@@ -85,15 +105,7 @@ export default class Challenges extends Component {
           </Chip>
         </ChipSet>
 
-        <Button
-          style={{
-            color: '#00bcd4',
-            marginTop: '30px',
-            backgroundColor: `#ffffff`
-          }}
-          onClick={this._selectChallenge(item)}>
-          See Challenge Details
-        </Button>
+        { this.renderMainAction(item) }
 
       </List.Item>
     </Card>

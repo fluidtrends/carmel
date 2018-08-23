@@ -36,12 +36,12 @@ export default class Toolbar extends Component {
     this.setState({ preview })
   }
 
-  render () {
+  renderMenu () {
     const items = Object.keys(this.props.products).filter(p => (p !== this.props.product.id)).map(p => {
       return <Menu.Item key={p}> <Icon type='laptop' style={{ marginRight: '5px'}} /> {this.props.products[p].name } </Menu.Item>
     })
 
-    const menu = <Menu onClick={this._productChanged}>
+    return <Menu onClick={this._productChanged}>
       { items }
       <Menu.Divider />
       <Menu.Item key='newProduct' style={{ color: '#42A5F5' }}>
@@ -49,7 +49,21 @@ export default class Toolbar extends Component {
         Create a new product
       </Menu.Item>
     </Menu>
+  }
 
+  renderMenuBar () {
+    return <div style={{ padding: '0 5px' }}>
+      { this.props.product.name }
+    </div>
+
+    // return <Dropdown overlay={this.renderMenu(items)} trigger={['click']}>
+    //   <a className='ant-dropdown-link' href='#' style={{ padding: '0 5px' }}>
+    //     { this.props.product.name } <Icon type='down' />
+    //   </a>
+    // </Dropdown>
+  }
+
+  render () {
     return <div style={{
       display: 'flex',
       flex: 1,
@@ -74,11 +88,7 @@ export default class Toolbar extends Component {
         flex: 1,
         display: 'flex'
       }}>
-        <Dropdown overlay={menu} trigger={['click']}>
-          <a className='ant-dropdown-link' href='#' style={{ padding: '0 5px' }}>
-            { this.props.product.name } <Icon type='down' />
-          </a>
-        </Dropdown>
+        { this.renderMenuBar() }
       </div>
       <Icon
         style={{

@@ -18,9 +18,21 @@ const registerCommands = (ipcMain, data, mainWindow) => {
     })
   })
 
-  ipcMain.on('sessionCache', (e, { key, data }) => {
-    console.log(`[${_name}] cache ${key}=${data}`)
-    session.sessionVault.write(key, data)
+  ipcMain.on('sessionCache', (e, { key, data, options }) => {
+    if (!options) {
+      console.log(`[${_name}] cache ${key}=${data}`)
+      session.sessionVault.write(key, data)
+      return
+    }
+
+    if (options && options.push) {
+      const old = session.sessionVault.read(key) || []
+      if (old && Array.isArray(old)) {
+        console.log(`[${_name}] cache ${key}=${data} push`)
+        session.sessionVault.write(key, old.concat(data))
+        return
+      }
+    }
   })
 }
 

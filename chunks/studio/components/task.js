@@ -24,8 +24,6 @@ export default class Task extends Component {
     this._onShowChallenge = this.onShowChallenge.bind(this)
     this._onOpenFile = this.onOpenFile.bind(this)
     this._verifyTask = this.verifyTask.bind(this)
-    // this._startNextTask = this.startNextTask.bind(this)
-    // this._closeTaskDetails = this.closeTaskDetails.bind(this)
   }
 
   componentDidMount () {
@@ -50,6 +48,8 @@ export default class Task extends Component {
       message: this.errorMessage,
       description: tip
     })
+
+    this.setState({ tip, failed: true })
   }
 
   showTaskSuccess (tip) {
@@ -57,6 +57,8 @@ export default class Task extends Component {
       icon: <Icon type='smile' style={{ color: '#4CAF50' }} />,
       message: this.successMessage
     })
+
+    this.props.onSuccess && this.props.onSuccess()
   }
 
   get successMessage () {
@@ -68,13 +70,12 @@ export default class Task extends Component {
   }
 
   verifyTask () {
-    this.setState({ verifyInProgress: true })
+    this.setState({ verifyInProgress: true, failed: false, tip: '' })
 
     this.shell.exec('verifyTask', { task: this.props.task, product: this.props.product, challenge: this.props.challenge })
               .then((result) => {
-                console.log(result)
                 if (!result.success) {
-                  this.setState({ verifyInProgress: false })
+                  this.setState({ verifyInProgress: false, tip: result.tip })
                   this.showTaskError(result.tip)
                   return
                 }
@@ -82,112 +83,61 @@ export default class Task extends Component {
                 this.showTaskSuccess()
               })
               .catch((error) => {
-                console.log(error)
                 this.setState({ verifyInProgress: false })
                 this.showTaskError(error.message)
               })
   }
 
-  // startNextTask (nextTask) {
-  //   this.state.tasks[this.state.activeTask - 1 ].completed = true
-  //   this.setState({
-  //     activeTask: nextTask,
-  //     completedTask: false,
-  //     tasks: this.state.tasks,
-  //     finalTask: nextTask === this.state.tasksNumber ? true : false
-  //   })
-  // }
+  renderVerifyAction () {
+    if (this.state.verifyInProgress) {
+      return <Typography use='body1' style={{
+        textAlign: 'center',
+        color: '#78909C',
+        padding: '20px'
+      }}>
+        <Icon type='loading' style={{
+          color: '#78909C',
+          padding: '10px'
+        }} />
+        Hold on while I check your work ...
+      </Typography>
+    }
+    return <Button
+      onClick={this._verifyTask}
+      style={{
+        margin: '10px',
+        color: '#ffffff',
+        marginBottom: '20px',
+        backgroundColor: `#4CAF50`
+      }}>
+      <ButtonIcon use={'check'} /> Mark Task As Complete
+    </Button>
+  }
 
-  // closeTaskDetails () {
-  //   this.setState({showTaskDetails: !this.state.showTaskDetails})
-  // }
+  renderTip () {
+    if (!this.state.tip) {
+      return <div />
+    }
 
-  // renderTask () {
-  //   const { rewards, startedTasks, completedTask, activeTask, failedTask, tasks, tasksNumber, progress, successMessage, errorMessage, finalTask, showTaskDetails } = this.state
-  //   const width = '100%'
-  //   const padding = '20px'
-  //
-  //   const { title, details, totalTasks } = this.props.challenge
-  //   const currentTaskIndex = 0
-  //   const percent = ((currentTaskIndex / (totalTasks - 1)) * 100)
-  //
-  //   const dummyTasks = []
-  //
-  //   for (let i = 1; i <= 5; i++) {
-  //     dummyTasks.push({
-  //       taskNumber: i,
-  //       completed: false
-  //     })
-  //   }
-  //
-  //   const currentChallengeId = '1'
-  //   const currentTaskTitle = `This is the current task title`
-  //   const currentTaskPrompt = `Task ${currentTaskIndex + 1} of ${totalTasks}: ${currentTaskTitle}`
-  //
-  //   if (this.state.verifyInProgress) {
-  //     return <Prompt
-  //       subtitle={'Give me a sec to verify your work ...'}
-  //       title={currentTaskPrompt}>
-  //       <Typography use='title' tag='h2' style={{
-  //         textAlign: 'center',
-  //         color: '#B0BEC5' }}>
-  //         <Icon type='loading' style={{fontSize: '20px', marginBottom: '20px'}} />
-  //       </Typography>
-  //     </Prompt>
-  //   }
-  //
-  //   return <Prompt
-  //     title={currentTaskPrompt}>
-  //     <div style={{
-  //       display: 'flex',
-  //       flexDirection: 'row',
-  //       flex: 1,
-  //       width: '100%',
-  //       justifyContent: 'center',
-  //       alignItems: 'center'
-  //     }}>
-  //       <AntdButton
-  //         size={'small'}
-  //         style={{margin: '10px', border: 'none', color: '#039BE5' }}
-  //         onClick={this._showPreviousTask}>
-  //         <Icon type='arrow-left' /> Previous
-  //       </AntdButton>
-  //       <AntdButton
-  //         type='primary'
-  //         size={'large'}
-  //         style={{margin: '10px'}}
-  //         onClick={this._verifyTask}>
-  //         <Icon type='play-circle' /> Verify
-  //         </AntdButton>
-  //       <AntdButton
-  //         size={'small'}
-  //         style={{margin: '10px', border: 'none', color: '#039BE5' }}
-  //         onClick={this._showTutorial}>
-  //         <Icon type='question-circle' /> Tutorial
-  //       </AntdButton>
-  //     </div>
-  //     <div style={{
-  //       backgroundColor: '#ffffff',
-  //       padding: '0px',
-  //       marginTop: '10px',
-  //       borderTop: '1px solid #fafafa',
-  //       width: '100%'
-  //     }}>
-  //       <Typography use='body2' tag='h2' style={{
-  //         textAlign: 'center',
-  //         color: '#B0BEC5',
-  //         flex: 1 }}>
-  //         <AntdButton
-  //           size={'small'}
-  //           style={{margin: '10px', color: '#fafafa', backgroundColor: `${this.isStarted ? '#f44336' : '#ef5350'}`}}
-  //           onClick={this._toggleStarted}>
-  //           <Icon type='pause-circle' />
-  //         </AntdButton>
-  //         { this.props.challenge.title }
-  //       </Typography>
-  //     </div>
-  //   </Prompt>
-  // }
+    const tip = <Typography use='body1' style={{
+      textAlign: 'left',
+      color: '#78909C',
+      padding: '20px'
+    }}>
+      <Icon type='warning' style={{
+        color: '#78909C',
+        padding: '10px'
+      }} />
+      { this.state.tip}
+    </Typography>
+
+    return <Popover placement='bottomRight' content={tip}>
+      <Icon type='warning' style={{
+        color: '#f44336',
+        padding: '10px'
+      }} />
+    </Popover>
+  }
 
   renderContent () {
     const popup = <Typography use='body1' style={{
@@ -224,28 +174,24 @@ export default class Task extends Component {
         margin: '10px'
       }}>
         { this.props.task.instructions}
-        <Popover content={popup}>
+        <Popover placement='bottomRight' content={popup}>
           <Icon type='question-circle' style={{
             color: '#78909C',
             padding: '10px'
           }} />
         </Popover>
+        { this.renderTip() }
       </Typography>
 
-      <Button
-        onClick={this._verifyTask}
-        style={{
-          margin: '10px',
-          color: '#ffffff',
-          marginBottom: '20px',
-          backgroundColor: `#4CAF50`
-        }}>
-        <ButtonIcon use={'check'} /> Done
-      </Button>
+      { this.renderVerifyAction() }
     </Prompt>
   }
 
   renderFooter () {
+    if (this.state.verifyInProgress) {
+      return <div />
+    }
+
     return <div style={{
       display: 'flex',
       justifyContent: 'center',

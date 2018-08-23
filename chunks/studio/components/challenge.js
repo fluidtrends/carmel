@@ -20,13 +20,15 @@ export default class Challenge extends Component {
   constructor (props) {
     super(props)
 
-    this.state = { ...this.state, taskIndex: 1, loading: true }
+    this.state = Object.assign({}, { ...this.state, taskIndex: 1 },
+      props.task && { started: true, taskIndex: props.task.index, task: props.task })
     this._shell = new Shell()
     this._goBack = this.goBack.bind(this)
     this._toggleStarted = this.toggleStarted.bind(this)
     this._onShowChallenge = this.onShowChallenge.bind(this)
     this._continueChallenge = this.continueChallenge.bind(this)
     this._onOpenFile = this.onOpenFile.bind(this)
+    this._onTaskCompleted = this.onTaskCompleted.bind(this)
   }
 
   componentDidMount () {
@@ -66,6 +68,22 @@ export default class Challenge extends Component {
   onShowChallenge () {
     this.setState({ showTask: false })
     this.props.onHideTask && this.props.onHideTask()
+  }
+
+  onTaskCompleted () {
+    const taskIndex = this.state.taskIndex + 1
+
+    if (taskIndex > this.props.challenge.tasks.length) {
+      this.setState({ showTask: false, task: false, taskIndex, complete: true, started: false })
+      this.shell.cache('challengeId', '')
+      this.shell.cache('taskId', '')
+      this.shell.cache('completedChallengesIds', [this.props.challenge.id], { push: true })
+      return
+    }
+
+    const task = this.props.challenge.tasks[taskIndex - 1]
+    this.setState({ showTask: false, task, taskIndex })
+    this.shell.cache('taskId', task.id)
   }
 
   toggleStarted () {
@@ -121,7 +139,7 @@ export default class Challenge extends Component {
   }
 
   renderPrice () {
-    if (this.isStarted) {
+    if (this.isStarted || this.state.complete) {
       return <div />
     }
 
@@ -142,9 +160,34 @@ export default class Challenge extends Component {
     return ((this.props.challenge.level + 1) * 5 / this.rate).toFixed(2)
   }
 
+  renderMainAction () {
+    if (this.state.complete) {
+      return <Typography use='title' style={{
+        textAlign: 'center',
+        margin: '10px',
+        color: '#4CAF50'
+      }}>
+        Congratulations, you did it!
+        </Typography>
+    }
+
+    return <Button
+      style={{
+        marginBottom: '10px',
+        color: '#ffffff',
+        marginBottom: '20px',
+        backgroundColor: `${this.isStarted ? '#03A9F4' : '#4CAF50'}`
+      }}
+      onClick={this.isStarted ? this._continueChallenge : this._toggleStarted}>
+      <ButtonIcon use={this.isStarted ? 'forward' : 'play_circle_filled'} />
+      { this.isStarted ? 'Continue' : 'Buy' } Challenge
+    </Button>
+  }
+
   renderContent () {
     if (this.state.showTask) {
       return <Task
+        onSuccess={this._onTaskCompleted}
         onOpenFile={this._onOpenFile}
         onShowChallenge={this._onShowChallenge}
         challenge={this.props.challenge}
@@ -159,7 +202,9 @@ export default class Challenge extends Component {
       title={this.props.challenge.title}>
 
       <ChipSet style={{ textAlign: 'left', marginBottom: '20px' }}>
-        { this.props.challenge.skills.map(skill => <Chip key={skill}><ChipText> { skill } </ChipText></Chip>) }
+        { this.props.challenge.skills.map(skill => <Chip key={skill} style={{ backgroundColor: '#03A9F4', color: '#ffffff'}}>
+          <ChipText> { skill } </ChipText></Chip>)
+        }
         <Chip style={{
           backgroundColor: '#4CAF50', color: '#ffffff'
         }} key='xp'>
@@ -178,17 +223,7 @@ export default class Challenge extends Component {
         renderItem={item => this.renderTaskSummary(item)}
       />
       { this.renderPrice() }
-      <Button
-        style={{
-          marginBottom: '10px',
-          color: '#ffffff',
-          marginBottom: '20px',
-          backgroundColor: `${this.isStarted ? '#03A9F4' : '#4CAF50'}`
-        }}
-        onClick={this.isStarted ? this._continueChallenge : this._toggleStarted}>
-        <ButtonIcon use={this.isStarted ? 'forward' : 'play_circle_filled'} />
-        { this.isStarted ? 'Continue' : 'Buy' } Challenge
-      </Button>
+      { this.renderMainAction() }
     </Prompt>
   }
 
@@ -199,10 +234,11 @@ export default class Challenge extends Component {
 
     const title = this.isStarted ? `Stop taking this challenge` : `Choose another challenge`
     const action = this.isStarted ? this._toggleStarted : this._goBack
+    const icon = this.isStarted ? 'pause' : 'arrow_back'
 
     return <Typography use='title' tag='h2' style={{ marginTop: '20px', textAlign: 'center' }}>
       <Button onClick={action}>
-        <ButtonIcon use='arrow_back' />
+        <ButtonIcon use={icon} />
         { title }
       </Button>
     </Typography>
