@@ -14,8 +14,6 @@ const machineVaultPassword = '_carmel_machine'
 
 const CARMEL_REPO = 'https://github.com/fluidtrends/carmel.git'
 const CARMEL_BRANCH = 'live'
-const CARMEL_TEMPLATE_PROPS = {}
-const CARMEL_CHALLENGE_PROPS = {}
 
 const HOME = process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME']
 const CARMEL_HOME = path.resolve(HOME, '.carmel')
@@ -284,21 +282,33 @@ class Session {
   }
 
   updateCache () {
-    return Git.Repository.open(CARMEL_CACHE)
-                  .then((repo) => repo.fetch('origin').then(() => repo))
-                  .then((repo) => repo.mergeBranches(CARMEL_BRANCH, `origin/${CARMEL_BRANCH}`))
+    return Promise.resolve()
+    // return Git.Repository.open(CARMEL_CACHE)
+    //               .then((repo) => repo.fetch('origin').then(() => repo))
+    //               .then((repo) => repo.mergeBranches(CARMEL_BRANCH, `origin/${CARMEL_BRANCH}`))
   }
 
   loadExtensions () {
     return new Promise((resolve, reject) => {
       try {
+        var challenges = {}
+        var templates = {}
+        var fixtures = {}
+
+        const templateIds = JSON.parse(fs.readFileSync(path.resolve(CARMEL_CACHE, 'templates', 'index.json'), 'utf8'))
+        const fixtureIds = JSON.parse(fs.readFileSync(path.resolve(CARMEL_CACHE, 'templates', 'fixtures', 'index.json'), 'utf8'))
+        const challengeIds = JSON.parse(fs.readFileSync(path.resolve(CARMEL_CACHE, 'challenges', 'index.json'), 'utf8'))
+
+        templateIds.forEach(id => templates[id] = JSON.parse(fs.readFileSync(path.resolve(CARMEL_CACHE, 'templates', `${id}.json`), 'utf8')))
+        fixtureIds.forEach(id => fixtures[id] = JSON.parse(fs.readFileSync(path.resolve(CARMEL_CACHE, 'templates', 'fixtures', `${id}.json`), 'utf8')))
+        challengeIds.forEach(id => challenges[id] = JSON.parse(fs.readFileSync(path.resolve(CARMEL_CACHE, 'challenges', id, `index.json`), 'utf8')))
+
         this._extensions = {
-          templates: require.main.require(path.resolve(CARMEL_CACHE, 'templates')),
-          fixtures: require.main.require(path.resolve(CARMEL_CACHE, 'templates', 'fixtures')),
-          challenges: require.main.require(path.resolve(CARMEL_CACHE, 'challenges'))
+          templates, fixtures, challenges
         }
         resolve()
       } catch (error) {
+        console.log(error)
         reject(error)
       }
     })
@@ -315,8 +325,7 @@ class Session {
     const isCompleted = (challengeName) => (completedChallengesIds && completedChallengesIds.includes(challengeName))
 
     Object.keys(this.extensions.challenges).forEach(challengeName => {
-      const challenge = this.extensions.challenges[challengeName]
-      const defaults = challenge(CARMEL_CHALLENGE_PROPS)
+      const defaults = this.extensions.challenges[challengeName]
       const completed = isCompleted(challengeName)
 
       this._challenges.push(Object.assign({}, defaults, {
@@ -335,10 +344,9 @@ class Session {
     }
 
     Object.keys(this.extensions.templates).forEach(templateName => {
-      const template = this.extensions.templates[templateName]
+      const defaults = this.extensions.templates[templateName]
       const bundleDir = path.resolve(CARMEL_CACHE, 'templates')
       const assetsDir = path.resolve(bundleDir, 'assets')
-      const defaults = template(CARMEL_TEMPLATE_PROPS)
 
       this._templates.push(Object.assign({}, defaults, {
         assetsDir,
@@ -377,7 +385,7 @@ class Session {
   downloadProductCover ({ product, template }) {
     return download.image({
       url: `http://files.carmel.io/covers/${template.cover}.r.png`,
-      dest: path.resolve(product.dir, 'assets', `${template.cover}.r.png`)
+      dest: path.resolve(product.dir, 'assets', `cover.r.png`)
     })
   }
 

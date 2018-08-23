@@ -55,7 +55,7 @@
       "electronPackagerConfig": {
         "name": "Carmel",
         "packageManager": "npm",
-        "asar": true,
+        "asar": false,
         "quiet": false,
         "protocol": "carmel://",
         "icon": "./assets/icons/appicon",
