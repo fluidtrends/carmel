@@ -1,5 +1,3 @@
-const spec = require('./spec')
-
 module.exports = (props) => {
   return {
     id: 'changeMenuTitle',

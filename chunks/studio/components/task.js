@@ -23,7 +23,7 @@ export default class Task extends Component {
     this._shell = new Shell()
     this._onShowChallenge = this.onShowChallenge.bind(this)
     this._onOpenFile = this.onOpenFile.bind(this)
-    // this._verifyTask = this.verifyTask.bind(this)
+    this._verifyTask = this.verifyTask.bind(this)
     // this._startNextTask = this.startNextTask.bind(this)
     // this._closeTaskDetails = this.closeTaskDetails.bind(this)
   }
@@ -67,25 +67,26 @@ export default class Task extends Component {
     return errorMessages[Math.floor(Math.random() * errorMessages.length)]
   }
 
-  // verifyTask () {
-  //   const task = `starter/defineYourBrand/helloWorld/changeMenuTitle`
-  //   this.setState({ verifyInProgress: true })
-  //
-  //   this.shell.exec('verifyTask', { task })
-  //             .then((result) => {
-  //               if (!result.success) {
-  //                 this.setState({ verifyInProgress: false })
-  //                 this.showTaskError(result.tip)
-  //                 return
-  //               }
-  //               this.setState({ verifyInProgress: false })
-  //               this.showTaskSuccess()
-  //             })
-  //             .catch((error) => {
-  //               this.setState({ verifyInProgress: false })
-  //               this.showTaskError(error.message)
-  //             })
-  // }
+  verifyTask () {
+    this.setState({ verifyInProgress: true })
+
+    this.shell.exec('verifyTask', { task: this.props.task, product: this.props.product, challenge: this.props.challenge })
+              .then((result) => {
+                console.log(result)
+                if (!result.success) {
+                  this.setState({ verifyInProgress: false })
+                  this.showTaskError(result.tip)
+                  return
+                }
+                this.setState({ verifyInProgress: false })
+                this.showTaskSuccess()
+              })
+              .catch((error) => {
+                console.log(error)
+                this.setState({ verifyInProgress: false })
+                this.showTaskError(error.message)
+              })
+  }
 
   // startNextTask (nextTask) {
   //   this.state.tasks[this.state.activeTask - 1 ].completed = true
@@ -232,13 +233,14 @@ export default class Task extends Component {
       </Typography>
 
       <Button
+        onClick={this._verifyTask}
         style={{
           margin: '10px',
           color: '#ffffff',
           marginBottom: '20px',
           backgroundColor: `#4CAF50`
         }}>
-        <ButtonIcon use={'check'} /> Verify Task
+        <ButtonIcon use={'check'} /> Done
       </Button>
     </Prompt>
   }
@@ -257,7 +259,7 @@ export default class Task extends Component {
       }}>
         <Button onClick={this._onShowChallenge}>
           <ButtonIcon use='arrow_back' />
-          Go back to the challenge
+          Back to challenge
         </Button>
       </Typography>
       <Typography use='title' tag='h2' style={{

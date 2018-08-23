@@ -81,7 +81,7 @@ export default class Workspace extends Screen {
   }
 
   startProduct () {
-    const challenges = this.props.session
+    const { challenges, challenge, task } = this.props.session
     this.shell.exec('startProduct', { id: this.product.id, light: LIGHT_START }, (compilation) => {
       if (compilation.compiled && !this.state.productStarted) {
         this.setState({ challenges, compilation, productStarted: true, productStarting: false })
@@ -95,7 +95,7 @@ export default class Workspace extends Screen {
         this.setState({ challenges, files, dir, port, productStarted: true, productStarting: false })
         return
       }
-      this.setState({ files, dir, port })
+      this.setState({ challenges, files, dir, port })
     })
     .catch((error) => {
       const compilation = {
@@ -255,6 +255,7 @@ export default class Workspace extends Screen {
       flexDirection: 'column'
     }}>
       <Challenge
+        product={this.product}
         onShowTask={this._onShowTask}
         onHideTask={this._onHideTask}
         onOpenFile={this._onShowFileBrowser}

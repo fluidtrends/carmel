@@ -74,7 +74,7 @@ export default class Challenge extends Component {
     const task = this.props.challenge.tasks[taskIndex - 1]
 
     this.shell.cache('challengeId', started ? this.props.challenge.id : '')
-    this.shell.cache('taskIndex', taskIndex)
+    this.shell.cache('taskId', started ? task.id : '')
 
     this.setState({ started, taskIndex, task, showTask: started })
   }
@@ -148,6 +148,7 @@ export default class Challenge extends Component {
         onOpenFile={this._onOpenFile}
         onShowChallenge={this._onShowChallenge}
         challenge={this.props.challenge}
+        product={this.props.product}
         task={this.state.task} />
     }
 

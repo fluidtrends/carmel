@@ -94,6 +94,10 @@ class Session {
     return this._challenge
   }
 
+  get task () {
+    return this._task
+  }
+
   get challenges () {
     return this._challenges
   }
@@ -103,6 +107,7 @@ class Session {
       products: this.products,
       product: this.product,
       challenge: this.challenge,
+      task: this.task,
       challenges: this.challenges,
       templates: this.templates,
       root: CARMEL_ROOT
@@ -269,13 +274,16 @@ class Session {
 
     const cachedChallengeId = this.sessionVault.read('challengeId')
     this._challenge = this.challenges.find((challenge) => cachedChallengeId === challenge.id)
+
+    const cachedTaskId = this.sessionVault.read('taskId')
+    this._task = this.challenge.tasks.find((task) => cachedTaskId === task.id)
   }
 
   updateCache () {
-    return Promise.resolve()
-    // return Git.Repository.open(CARMEL_CACHE)
-    //               .then((repo) => repo.fetch('origin').then(() => repo))
-    //               .then((repo) => repo.mergeBranches(CARMEL_BRANCH, `origin/${CARMEL_BRANCH}`))
+    // return Promise.resolve()
+    return Git.Repository.open(CARMEL_CACHE)
+                  .then((repo) => repo.fetch('origin').then(() => repo))
+                  .then((repo) => repo.mergeBranches(CARMEL_BRANCH, `origin/${CARMEL_BRANCH}`))
   }
 
   loadExtensions () {
