@@ -35,19 +35,6 @@
         "title": "Download the #CarmelStudio",
         "type": "default"
       }
-    },
-    "challenge": {
-      "icon": "home",
-      "path": "/challenges",
-      "skipRootVariant": true,
-      "variants": "https://raw.githubusercontent.com/fluidtrends/carmel/content/challenges/index.json",
-      "cover": {
-        "backgroundColor": "#00838F",
-        "navigation": true,
-        "type": "default",
-        "opacity": 0.6,
-        "image": "https://github.com/fluidtrends/carmel/blob/challenges-chunk/challenges/img/brand.jpg?raw=true"
-      }
     }
   }
 }
