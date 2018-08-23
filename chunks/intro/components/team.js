@@ -11,7 +11,6 @@ export default class Challenges extends Component {
     super(props)
 
     this.state = { speaking: true }
-    this._showTeam = this.showTeam.bind(this)
   }
 
   componentDidMount() {
@@ -22,25 +21,9 @@ export default class Challenges extends Component {
   componentWillUnmount() {
   }
 
-  showTeam() {
-    this.props.showTeam && this.props.showTeam()
-  }
-
   sky(offset, speed) {
     return [<Parallax.Layer key='sky' offset={offset} speed={speed} style={{ opacity: 0.5 }}>
       <img src={'../../../../assets/background-stars.r.png'} style={{ display: 'block', width: '130%', margin: '0', height: '120vh', overflow: 'hidden' }} />
-    </Parallax.Layer>]
-  }
-
-  more(offset, speed) {
-    return [<Parallax.Layer key='more' offset={offset} speed={speed} style={{ opacity: 1, display: 'flex', flex: 1, justifyContent: 'center', marginTop: 120 }}>
-      <Button
-        theme='secondary-bg text-primary-on-secondary'
-        raised
-        onClick={this._showTeam}
-      >
-        See the rest of the team
-      </Button>
     </Parallax.Layer>]
   }
 
@@ -69,9 +52,15 @@ export default class Challenges extends Component {
     const textWidth = 420
     const color = '#FAFAFA'
 
+    const founders = teamData.sections[0]
+    const smallData = Object.assign({}, teamData, {
+      sections: [founders]
+    })
 
-    return [<Parallax.Layer offset={offset} speed={speed} style={{ opacity: 1, display: 'flex', flex: 1, justifyContent: 'center', xheight: '100vh', xoverflow: 'hidden' }}>
-      <Components.Team {...teamData} small={true} />
+    const data = this.props.isSmallScreen ? smallData : teamData
+
+    return [<Parallax.Layer offset={offset} speed={speed} style={{ opacity: 1, display: 'flex', flex: 1, justifyContent: 'center' }}>
+      <Components.Team {...data} small={true} />
     </Parallax.Layer>]
   }
 
