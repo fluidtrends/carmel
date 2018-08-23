@@ -7,7 +7,7 @@ import Task from '../components/task'
 
 export default class ChallengeScreen extends Screen {
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       ...this.state,
@@ -20,19 +20,28 @@ export default class ChallengeScreen extends Screen {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     super.componentDidMount()
+
+    const account = this.isLoggedIn ? 'member' : 'guest'
+
+    this.triggerAnalyticsEvent({
+      category: `Challenge  `,
+      action: 'Take challenge',
+      label: account
+    })
+
     this.timer = setInterval(() => this.getData(), 1000)
   }
   componentWillUnmount() {
     clearInterval(this.timer)
-}
+  }
 
   getData = () => {
     const variant = this._variant || {}
     const { json } = variant.content ? variant.content : ''
     if (json) {
-      this.importRemoteData(json).then( data => {
+      this.importRemoteData(json).then(data => {
         const { rewards, author, level, tags, rating, quest, challenge, tasksNumber } = data
         clearInterval(this.timer)
         this.setState({
@@ -51,24 +60,24 @@ export default class ChallengeScreen extends Screen {
     }
   }
 
-  get renderStartChallenge () {
+  get renderStartChallenge() {
     const { width, padding } = this.state
 
     return (
       <div
-      style={{
-        display: 'flex',
-        flex: 1,
-        justifyContent: 'center',
-        flexDirection: 'column',
-        alignItems: 'center'
-      }}>
+        style={{
+          display: 'flex',
+          flex: 1,
+          justifyContent: 'center',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }}>
         <Card style={{ width, margin: '10px', padding, alignItems: 'center' }}>
-          <div style={{margin: 30}}>
+          <div style={{ margin: 30 }}>
             <Button
               type="primary"
               block
-              style={{width: 200, height: 50}}
+              style={{ width: 200, height: 50 }}
               onClick={this.startChallenge}
             >
               <Icon type="play-circle" />Take the challenge
@@ -79,46 +88,46 @@ export default class ChallengeScreen extends Screen {
     )
   }
 
-  get renderChallengeData () {
+  get renderChallengeData() {
     const { width, padding } = this.state
 
-    return(
+    return (
       <div
-      style={{
-        display: 'flex',
-        flex: 1,
-        justifyContent: 'center',
-        flexDirection: 'column',
-        alignItems: 'center'
-      }}>
+        style={{
+          display: 'flex',
+          flex: 1,
+          justifyContent: 'center',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }}>
         <Card style={{ width, margin: '10px', padding }}>
           <h2>By doing this you will acquire the following rewards: </h2>
-          <div style={{display: 'flex', flexDirection: 'row'}}>
+          <div style={{ display: 'flex', flexDirection: 'row' }}>
             {
               this.state.rewards.map((reward, i) =>
-                <span key={i} style={{fontStyle: 'italic', fontSize: 16}}>
+                <span key={i} style={{ fontStyle: 'italic', fontSize: 16 }}>
                   {!!i && ', '}
                   {reward}
                 </span>
               )
             }
           </div>
-          <div style={{marginBottom: 20, marginTop: 20}}>
-            <Icon type='user' style={{fontSize: 18, marginRight: 10}}/>
-            <span style={{fontSize: 16}}>{this.state.author}</span>
+          <div style={{ marginBottom: 20, marginTop: 20 }}>
+            <Icon type='user' style={{ fontSize: 18, marginRight: 10 }} />
+            <span style={{ fontSize: 16 }}>{this.state.author}</span>
           </div>
           <div>
-            <Icon type='code' style={{fontSize: 18, marginRight: 10}}/>
-            <span style={{fontSize: 16}}>{this.state.level}</span>
+            <Icon type='code' style={{ fontSize: 18, marginRight: 10 }} />
+            <span style={{ fontSize: 16 }}>{this.state.level}</span>
           </div>
-          <div style={{marginBottom: 20, marginTop: 20}}>
+          <div style={{ marginBottom: 20, marginTop: 20 }}>
             {
-              this.state.tags.map( (tag, i) =>
+              this.state.tags.map((tag, i) =>
                 <Tag key={`tag-${i}`}>{tag}</Tag>
               )
             }
           </div>
-          <div style={{marginBottom: 20, marginTop: 20}}>
+          <div style={{ marginBottom: 20, marginTop: 20 }}>
             <Rate allowHalf disabled value={parseFloat(this.state.rating)} />
           </div>
           <CardActions style={{ justifyContent: 'center', marginTop: '20px' }}>
@@ -126,7 +135,7 @@ export default class ChallengeScreen extends Screen {
               <Button
                 type="primary"
                 block
-                style={{width: 200, height: 50}}
+                style={{ width: 200, height: 50 }}
                 onClick={this.startChallenge}
               >
                 <Icon type="play-circle" />Take the challenge
@@ -138,7 +147,7 @@ export default class ChallengeScreen extends Screen {
     )
   }
 
-  get renderTasks () {
+  get renderTasks() {
     const { width, padding } = this.state
     const widthToSubtractFrom = this.isSmallScreen ? 90 : 740
     const paddingToSubtract = this.isSmallScreen ? 2 : 30
@@ -148,15 +157,15 @@ export default class ChallengeScreen extends Screen {
 
     return (
       <div
-      style={{
-        display: 'flex',
-        flex: 1,
-        justifyContent: 'center',
-        flexDirection: 'column',
-        alignItems: 'center'
-      }}>
-      <Card style={{ width, margin: '10px', padding }}>
-        <Components.Text source={tasks} style={{width: `${textWidth}${this.isSmallScreen ? 'vw' : 'px'}`}}/>,
+        style={{
+          display: 'flex',
+          flex: 1,
+          justifyContent: 'center',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }}>
+        <Card style={{ width, margin: '10px', padding }}>
+          <Components.Text source={tasks} style={{ width: `${textWidth}${this.isSmallScreen ? 'vw' : 'px'}` }} />,
       </Card>
       </div>
     )
@@ -198,18 +207,18 @@ export default class ChallengeScreen extends Screen {
     const { title } = main
 
     const successMessagesJson = require('../../../assets/successMessages.json')
-		const errorMessagesJson = require('../../../assets/errorMessages.json')
-		const { successMessages } = successMessagesJson
-		const { errorMessages } = errorMessagesJson
-		const successMessage = successMessages[Math.floor(Math.random()*successMessages.length)]
-		const errorMessage = errorMessages[Math.floor(Math.random()*errorMessages.length)]
+    const errorMessagesJson = require('../../../assets/errorMessages.json')
+    const { successMessages } = successMessagesJson
+    const { errorMessages } = errorMessagesJson
+    const successMessage = successMessages[Math.floor(Math.random() * successMessages.length)]
+    const errorMessage = errorMessages[Math.floor(Math.random() * errorMessages.length)]
 
-    if ( finalTask ) {
-      this.state.tasks[this.state.activeTask - 1 ].completed = true
+    if (finalTask) {
+      this.state.tasks[this.state.activeTask - 1].completed = true
     }
 
     // return true for now
-    if ( title !== 'Welcome' ) {
+    if (title !== 'Welcome') {
       // ok handler
       this.setState({
         completedTask: true,
@@ -225,7 +234,7 @@ export default class ChallengeScreen extends Screen {
   }
 
   startNextTask = (nextTask) => {
-    this.state.tasks[this.state.activeTask - 1 ].completed = true
+    this.state.tasks[this.state.activeTask - 1].completed = true
     this.setState({
       activeTask: nextTask,
       completedTask: false,
@@ -242,25 +251,25 @@ export default class ChallengeScreen extends Screen {
     })
   }
 
-  components () {
+  components() {
     const variant = this._variant || {}
     const { title } = variant.content ? variant.content : ''
     const width = this.isSmallScreen ? '90vw' : '740px'
     const padding = this.isSmallScreen ? '2px' : '30px'
     const { rewards, startedTasks, completedTask, activeTask, failedTask, tasks, tasksNumber, progress, successMessage, errorMessage, finalTask } = this.state
 
-    if ( !rewards ) {
+    if (!rewards) {
       return [(
         <div
-        style={{
-          display: 'flex',
-          flex: 1,
-          justifyContent: 'center',
-          flexDirection: 'column',
-          alignItems: 'center'
-        }}>
+          style={{
+            display: 'flex',
+            flex: 1,
+            justifyContent: 'center',
+            flexDirection: 'column',
+            alignItems: 'center'
+          }}>
           <Card style={{ width, margin: '10px', padding }}>
-            <Spin size="large"/>
+            <Spin size="large" />
           </Card>
         </div>
       )]
