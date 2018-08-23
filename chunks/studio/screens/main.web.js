@@ -21,18 +21,28 @@ export default class MainStudioScreen extends Screen {
     super.componentDidMount()
   }
 
-  get cover() {
-    return Object.assign({}, this.props.cover, {
-      title: `Download the #CarmelStudio`,
-      primaryActionTitle: `Download Studio for ${Platform.os}`
-    })
+  download(os) {
+    const account = this.isLoggedIn ? 'member' : 'guest'
+    window.open(`http://files.carmel.io/studio/carmel.dmg`, '_blank')
+    this.triggerAnalyticsEvent({
+      category: `Download ${os} ` + this.constructor.name,
+      action: '' + this.props.location.pathname,
+      label: account
+    });
   }
 
   renderStudioVersions() {
     const versions = Object.keys(OSVersions).map(key => {
       const os = OSVersions[key]
-      return <Button style={{ marginBottom: 15, width: 300 }} key={os}>Download Studio for {os} </Button>
+      let action = () => { }
+      let text = 'Coming Soon'
+      if (os == 'MacOS') {
+        action = this.download.bind(this, os)
+        text = `Download Studio for ${os} `
+      }
+      return <Button style={{ marginBottom: 15, width: 300 }} key={os} onClick={action}>{text}</Button>
     })
+
     return <div style={{ padding: '4rem 5rem', textAlign: 'center' }}>
       <Typography use="display1" tag="h1">
         Download the Carmel Studio for other platforms
@@ -50,6 +60,12 @@ export default class MainStudioScreen extends Screen {
         {versions[this.state.activeTabIndex]}
       </div>
     </div>
+  }
+
+  handleSystemEvent(event) {
+    if (event === '/download') {
+      this.download('mac')
+    }
   }
 
   get features() {

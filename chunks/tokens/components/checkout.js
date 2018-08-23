@@ -39,7 +39,7 @@ const BonusMessage = <div>
 export default class CheckoutComponent extends Component {
   constructor(props) {
     super(props)
-    this.state = { ...super.state, loading: true, payMethod: 'mew', currency: 'eth', loadingMessage: 'Loading, just a sec please ...' }
+    this.state = { ...super.state, loading: true, payMethod: 'mew', paymentOption: 'crypto', currency: 'eth', loadingMessage: 'Loading, just a sec please ...' }
     this._incrementLevel = this.incrementLevel.bind(this)
     this._decrementLevel = this.decrementLevel.bind(this)
     this._updateLevel = this.updateLevel.bind(this)
@@ -85,8 +85,9 @@ export default class CheckoutComponent extends Component {
 
     if (this.state.payMethod == 'euro' || this.state.payMethod == 'usd') {
       currency = this.state.payMethod
+      const email = this.state.email
       amount = this.state.payMethod == 'usd' ? this.state.tokenPrice * this.state.nextTokens : (this.state.nextLevelPrice * 1) * this.state.ethereumPriceEur
-      this._payWithFiat({ amount, purchaseKey, currency })
+      this._payWithFiat({ amount, purchaseKey, currency, email })
       this.setState({ sending })
       return
     }
@@ -141,8 +142,8 @@ export default class CheckoutComponent extends Component {
     })
   }
 
-  payWithFiat({ amount, currency, purchaseKey }) {
-    const url = `https://indacoin.com/gw/payment_form?partner=carmel&cur_from=${currency}&cur_to=ETH&amount=${amount}&address=${CarmelETHAddress}&user_id=${purchaseKey}`
+  payWithFiat({ amount, currency, purchaseKey, email }) {
+    const url = `https://indacoin.com/gw/payment_form?partner=carmel&cur_from=${currency}&cur_to=ETH&amount=${amount}&address=${CarmelETHAddress}&user_id=${email}`
     window.open(url, '_blank')
 
   }
@@ -179,6 +180,7 @@ export default class CheckoutComponent extends Component {
     const level = 0
     const tokens = 0
     const up = CarmelStart
+    const max = CarmelMax
     const nextLevel = up
     const nextTokens = nextLevel * CarmelIncrement
     const loading = false
@@ -206,6 +208,7 @@ export default class CheckoutComponent extends Component {
           nextLevel,
           tokens,
           up,
+          max,
           loading,
           level
         })
@@ -223,8 +226,6 @@ export default class CheckoutComponent extends Component {
   }
 
   send() {
-    console.log(this.state)
-
     if (!this.email) {
       this.setState({ error: 'Please enter your email first' })
       return
@@ -261,7 +262,8 @@ export default class CheckoutComponent extends Component {
   }
 
   back() {
-    this.setState({ waiting: false, sending: false, error: '', ethereumTransactionHash: '', paymentOption: null })
+    // this.setState({ waiting: false, sending: false, error: '', ethereumTransactionHash: '', paymentOption: null })
+    this.setState({ waiting: false, sending: false, error: '', ethereumTransactionHash: '' })
   }
 
   updatePayMethod(evt) {
@@ -357,7 +359,7 @@ export default class CheckoutComponent extends Component {
 
     let theme = 'secondary-bg text-primary-on-secondary'
     return <div style={{ display: 'flex', flex: 1, flexDirection: 'center', justifyContent: 'space-around', padding: 20 }}>
-      <Button style={{ width: 150, height: 90, padding: 15 }} theme={theme} raised onClick={() => this.setState({ paymentOption: 'crypto', payMethod: 'mew', currency: 'eth' })}><Eth size={64} /></Button>
+      <Button style={{ width: 150, height: 90, padding: 15 }} theme={theme} raised onClick={() => this.setState({ paymentOption: 'crypto', payMethod: 'mew', currency: 'eth', max: 100 })}><Eth size={64} /></Button>
       <Button style={{ width: 150, height: 90, padding: 15 }} theme={theme} raised onClick={() => this.setState({ paymentOption: 'fiat', payMethod: 'usd', currency: 'usd' })} > <Euro size={64} /></Button>
     </div>
   }
@@ -437,7 +439,7 @@ export default class CheckoutComponent extends Component {
   }
 
   incrementLevel() {
-    if (this.state.up === CarmelMax) {
+    if (this.state.up === this.state.max) {
       return
     }
 
@@ -669,9 +671,9 @@ export default class CheckoutComponent extends Component {
       return <div />
     }
 
-    if (this.state.paymentOption !== 'fiat') {
-      return
-    }
+    // if (this.state.paymentOption !== 'fiat') {
+    //   return
+    // }
 
     return <CardActions style={{
       padding: '0 30px'
@@ -683,13 +685,13 @@ export default class CheckoutComponent extends Component {
         alignItems: 'flex-start'
       }}>
         <FormItem>
-          <Checkbox onChange={this.confirmTerm.bind(this, 'terms')}>I have read the <a href="/terms">Terms and Conditions</a></Checkbox>
+          <Checkbox checked={this.state.terms} onChange={this.confirmTerm.bind(this, 'terms')}>I have read the <a href="/terms">Terms and Conditions</a></Checkbox>
         </FormItem>
         <FormItem>
-          <Checkbox onChange={this.confirmTerm.bind(this, 'country')}>I hereby declare, due to regulations uncertainties, that I am neither a resident in or citizen of the United States of America, nor a resident in or citizen of China, South Korea or Singapore</Checkbox>
+          <Checkbox checked={this.state.country} onChange={this.confirmTerm.bind(this, 'country')}>I hereby declare, due to regulations uncertainties, that I am neither a resident in or citizen of the United States of America.</Checkbox>
         </FormItem>
         <FormItem>
-          <Checkbox onChange={this.confirmTerm.bind(this, 'age')}>I declare I am 16 years old or above</Checkbox>
+          <Checkbox checked={this.state.age} onChange={this.confirmTerm.bind(this, 'age')}>I declare I am 16 years old or above</Checkbox>
         </FormItem>
       </CardActionButtons>
     </CardActions>
@@ -700,7 +702,8 @@ export default class CheckoutComponent extends Component {
   }
 
   renderBack() {
-    if (!this.isWaiting && !this.state.paymentOption) {
+    // if (!this.isWaiting && !this.state.paymentOption) {
+    if (!this.isWaiting) {
       return <div />
     }
 
@@ -736,7 +739,7 @@ export default class CheckoutComponent extends Component {
       onInput={this._updateLevel}
       discrete
       min={1}
-      max={CarmelMax}
+      max={this.state.max}
       displayMarkers
       step={1}
     />
