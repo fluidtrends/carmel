@@ -1,9 +1,15 @@
 import { ipcRenderer } from 'electron'
 import { Utils } from 'react-dom-chunky'
+import Analytics from 'electron-ga'
 
 export default class Shell {
   constructor (props) {
     this._props = props
+    this._analytics = new Analytics('UA-99031266-1')
+  }
+
+  analytics (ea, el) {
+    this._analytics.send('event', { ec: 'Carmel Studio', ea, el })
   }
 
   get props () {

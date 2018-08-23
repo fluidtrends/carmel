@@ -47,7 +47,7 @@ export default class Browser extends Component {
   }
 
   get url () {
-    if (!this.webview) {
+    if (!this.props.port) {
       return 'http://localhost'
     }
 
