@@ -284,7 +284,6 @@ class Session {
   }
 
   updateCache () {
-    // return Promise.resolve()
     return Git.Repository.open(CARMEL_CACHE)
                   .then((repo) => repo.fetch('origin').then(() => repo))
                   .then((repo) => repo.mergeBranches(CARMEL_BRANCH, `origin/${CARMEL_BRANCH}`))

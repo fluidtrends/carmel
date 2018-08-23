@@ -17,7 +17,6 @@ import Browser from '../components/browser'
 import Explorer from '../components/explorer'
 import TabBar from '../components/tabbar'
 import Task from '../components/task'
-import Progress from '../components/progress'
 import Prompt from '../components/prompt'
 
 const { Header, Sider, Content, Footer } = Layout
@@ -45,6 +44,7 @@ export default class Workspace extends Screen {
     this._onHideTask = this.onHideTask.bind(this)
     this._onShowCompileErrors = this.onShowCompileErrors.bind(this)
     this._onFileOpen = this.onFileOpen.bind(this)
+    this._onFileClose = this.onFileClose.bind(this)
   }
 
   componentDidMount () {
@@ -133,6 +133,10 @@ export default class Workspace extends Screen {
     this.setState({ challenge: '' })
   }
 
+  onFileClose (file) {
+    console.log(file)
+  }
+
   onFileOpen (file) {
     const relative = path.relative(this.state.dir, file)
     const openFiles = Object.assign({}, this.state.openFiles)
@@ -217,6 +221,7 @@ export default class Workspace extends Screen {
     return <div style={style}>
       { this.renderProductPreviewAlert() }
       <Browser
+        status={this.productStatus}
         product={this.state.product}
         port={this.state.port} />
     </div>
@@ -229,6 +234,7 @@ export default class Workspace extends Screen {
 
     return <TabBar
       key='tabs'
+      onFileClose={this._onFileClose}
       file={this.state.lastOpenedFile}
       dir={this.state.dir}
       files={this.state.openFiles} />
@@ -345,11 +351,6 @@ export default class Workspace extends Screen {
 
   renderScreenLayout () {
     const productStatus = this.productStatus
-    if (productStatus.isStarting) {
-      return <Progress
-        title='Ready to see your product in action?'
-        message='Hold on a sec, this will be fun I promise ...' />
-    }
 
     return <div style={{
       backgroundColor: '#f5f5f5',

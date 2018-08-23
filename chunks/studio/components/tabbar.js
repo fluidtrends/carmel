@@ -19,12 +19,19 @@ export default class TabBarComponent extends Component {
     this.state = { ...super.state, mode: 'javascript' }
     this._onTabEdited = this.onTabEdited.bind(this)
     this._onTabChanged = this.onTabChanged.bind(this)
+    this._onContentChanged = this.onContentChanged.bind(this)
+    this._onFileChanged = this.onFileChanged.bind(this)
+    this._onFileRemoved = this.onFileRemoved.bind(this)
     this._onSave = this.onSave.bind(this)
     this._cache = {}
   }
 
   componentDidMount () {
     super.componentDidMount()
+  }
+
+  componentWillUnmount () {
+    this.watcher && this.watcher.close()
   }
 
   loadEditor (e) {
@@ -34,9 +41,9 @@ export default class TabBarComponent extends Component {
 
     this._editor = e.editor
 
-    // this._watcher = chokidar.watch(path.resolve(this.props.dir, this.activeFile))
-    // this.watcher.on('change', this._onFileChanged)
-    // this.watcher.on('unlink', this._onFileRemoved)
+    this._watcher = chokidar.watch(path.resolve(this.props.dir, this.activeFile))
+    this.watcher.on('change', this._onFileChanged)
+    this.watcher.on('unlink', this._onFileRemoved)
 
     this.reloadFile(this.activeFile)
 
@@ -45,6 +52,17 @@ export default class TabBarComponent extends Component {
       bindKey: {win: 'Ctrl-S', 'mac': 'Cmd-S'},
       exec: this._onSave
     })
+  }
+
+  onContentChanged (content) {
+    this.setState({ content })
+  }
+
+  onFileChanged () {
+    this.reloadFile(this.activeFile)
+  }
+
+  onFileRemoved () {
   }
 
   get editor () {
@@ -118,7 +136,7 @@ export default class TabBarComponent extends Component {
       showPrintMargin
       showGutter={false}
       highlightActiveLine
-      onChange={this._onCodeChanged}
+      onChange={this._onContentChanged}
       value={this.state.content}
       wrapEnabled
       editorProps={{ blockScrolling: true }} />
