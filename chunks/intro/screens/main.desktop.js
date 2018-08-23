@@ -23,10 +23,10 @@ export default class Main extends Screen {
     super.componentDidMount()
 
     if (this.props.session.product) {
-      this.shell.analytics({ newSession: 'firstTime' })
+      this.shell.analytics('newSession', 'firstTime')
       this.triggerRedirect('/workspace')
     } else {
-      this.shell.analytics({ newSession: 'returning' })
+      this.shell.analytics('newSession', 'returning')
     }
   }
 
@@ -43,7 +43,7 @@ export default class Main extends Screen {
   }
 
   onCreate (product) {
-    this.shell.analytics({ newProduct: 'firstTime' })
+    this.shell.analytics('newProduct', 'firstTime')
     this.triggerRedirect('/workspace')
   }
 

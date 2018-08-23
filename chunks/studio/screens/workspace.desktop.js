@@ -92,7 +92,7 @@ export default class Workspace extends Screen {
       this.setState({ compilation })
     })
     .then(({ files, dir, port }) => {
-      this.shell.analytics({ startProduct: 'success' })
+      this.shell.analytics('startProduct', 'success')
       if (LIGHT_START) {
         this.setState({ challenges, challenge, task, files, dir, port, productStarted: true, productStarting: false })
         return
@@ -100,7 +100,7 @@ export default class Workspace extends Screen {
       this.setState({ challenges, challenge, task, files, dir, port })
     })
     .catch((error) => {
-      this.shell.analytics({ startProduct: 'error', error: error.message })
+      this.shell.analytics('startProduct', error.message)
       const compilation = {
         compiled: true,
         compiling: false,
@@ -144,7 +144,7 @@ export default class Workspace extends Screen {
     const relative = path.relative(this.state.dir, file)
     const openFiles = Object.assign({}, this.state.openFiles)
 
-    this.shell.analytics({ fileOpen: relative })
+    this.shell.analytics('fileOpen', 'relative')
 
     openFiles[relative] = { openTimestamp: `${Date.now}`, fullPath: file }
     this.setState({ openFiles, enableTabs: true, lastOpenedFile: relative, showFileBrowser: false })

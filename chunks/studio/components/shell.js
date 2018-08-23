@@ -8,8 +8,8 @@ export default class Shell {
     this._analytics = new Analytics('UA-99031266-1')
   }
 
-  analytics (data) {
-    this._analytics.send('Carmel Studio', data)
+  analytics (ea, el) {
+    this._analytics.send('event', { ec: 'Carmel Studio', ea, el })
   }
 
   get props () {

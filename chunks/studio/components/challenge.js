@@ -74,7 +74,7 @@ export default class Challenge extends Component {
     const taskIndex = this.state.taskIndex + 1
 
     if (taskIndex > this.props.challenge.tasks.length) {
-      this.shell.analytics({ challenge: 'completed', challengeId: this.props.challenge.id })
+      this.shell.analytics('challengeCompleted', this.props.challenge.id)
 
       this.setState({ showTask: false, task: false, taskIndex, complete: true, started: false })
       this.shell.cache('challengeId', '')
@@ -83,7 +83,7 @@ export default class Challenge extends Component {
       return
     }
 
-    this.shell.analytics({ task: 'completed', challengeId: this.props.challenge.id, taskId: this.state.task.id })
+    this.shell.analytics('taskCompleted', `${this.props.challenge.id}/${this.state.task.id}`)
 
     const task = this.props.challenge.tasks[taskIndex - 1]
     this.setState({ showTask: false, task, taskIndex })
@@ -95,7 +95,7 @@ export default class Challenge extends Component {
     const taskIndex = 1
     const task = this.props.challenge.tasks[taskIndex - 1]
 
-    this.shell.analytics({ challenge: started ? 'started' : 'stopped', challengeId: this.props.challenge.id })
+    this.shell.analytics(started ? 'challengeStarted' : 'challengeStopped', this.props.challenge.id)
 
     this.shell.cache('challengeId', started ? this.props.challenge.id : '')
     this.shell.cache('taskId', started ? task.id : '')
