@@ -10,6 +10,11 @@
       "skipExtendedMenuOnDesktop": true,
       "extendedMenu": [
         {
+          "id": "team",
+          "title": "Team",
+          "path": "/team"
+        },
+        {
           "id": "roadmap",
           "title": "Roadmap",
           "path": "/roadmap"
@@ -18,6 +23,7 @@
       "path": "/",
       "events": {
         "cover": "system://buy",
+        "team": "local://team",
         "chris": "local://whitepaper",
         "buy": "local://tokens",
         "distribution": "local://whitepaper/tokens",
@@ -45,11 +51,11 @@
     },
     "team": {
       "title": "Team",
-      "icon": "supervisor_account",
+      "icon": "favorite",
       "path": "/team",
-      "skipRootVariant": true,
+      "action": true,
       "events": {
-        "cover": "local://team"
+        "cover": "system://team"
       },
       "cover": {
         "backgroundColor": "#00838F",

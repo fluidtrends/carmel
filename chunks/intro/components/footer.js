@@ -9,8 +9,7 @@ export default class Welcome extends Component {
     super(props)
 
     this.state = { speaking: true }
-    this._onStart = this.onStart.bind(this)
-    this._onContinue = this.onContinue.bind(this)
+    this._meetChris = this.meetChris.bind(this)
   }
 
   componentDidMount() {
@@ -21,34 +20,8 @@ export default class Welcome extends Component {
   componentWillUnmount() {
   }
 
-  onContinue() {
-    this.props.onContinue && this.props.onContinue()
-  }
-
-  onStart() {
-    this.props.onStart && this.props.onStart()
-  }
-
-  timer(offset, speed) {
-    const periods = [
-      {
-        until: "22 October 2018 00:00:00 PDT",
-        text: "Pre Sale Live Now!",
-        info: "Bonus For Every Purchase",
-        actionTitle: "Join the Presale",
-        onAction: this._onContinue
-      }
-    ]
-
-    return [<Parallax.Layer key='timer' offset={offset} speed={speed} style={{ opacity: 1, zIndex: 10, maxHeight: 300 }}>
-      <Components.Timer periods={periods} simple={true} />
-    </Parallax.Layer>]
-  }
-
-  sky(offset, speed) {
-    return [<Parallax.Layer key='sky' offset={offset} speed={speed} style={{ opacity: 1 }}>
-      <img src={'../../../../assets/bgtop.png'} style={{ display: 'block', width: '100%', margin: '0' }} />
-    </Parallax.Layer>]
+  meetChris() {
+    this.props.meetChris && this.props.meetChris()
   }
 
   stars(offset, speed) {
@@ -169,13 +142,13 @@ export default class Welcome extends Component {
   panel(offset, speed) {
     const fontSize = 18
     const textWidth = 420
-    const actionText = 'Start Your Learning Journey'
+    const actionText = 'Meet Chris'
     const textPadding = 60
     const color = '#4E342E'
     const width = this.props.isSmallScreen ? 120 : 300
     const speech = this.props.isSmallScreen ? shortSpeech : longSpeech
     return [<Parallax.Layer key='panel' offset={offset} speed={speed} style={{ opacity: 0.8, display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
-      <img src={`../../../../assets/panel.png`} style={{ display: 'block', width: '75%', height: '280px' }} />
+      <img src={`../../../../assets/panel.png`} style={{ display: 'block', width: '75%', height: '300px' }} />
     </Parallax.Layer>,
     <Parallax.Layer
       offset={offset}
@@ -219,13 +192,22 @@ export default class Welcome extends Component {
         }}>
           {speech[2]}
         </h3>
+        <h3 key='3' style={{
+          color,
+          fontSize: `${fontSize}px`,
+          textShadow: '2px 2px 5px #ffffff',
+          fontFamily,
+          textAlign: 'left'
+        }}>
+          {speech[3]}
+        </h3>
         <Typist.Delay ms={500} />
         <h3 key='4' style={{ color: '#602f15', textAlign: 'center', textShadow: '2px 2px 5px #ffffff' }}>
           <Button
             raised
             theme='secondary-bg text-primary-on-secondary'
             style={{ marginTop: '10px', width }}
-            onClick={this._onStart}>
+            onClick={this._meetChris}>
             <ButtonIcon use='done' />
             {actionText}
           </Button>
@@ -243,42 +225,39 @@ export default class Welcome extends Component {
   }
 
   render() {
-    const smallScreenLayout = [...this.sky(this.props.offset, 0),
-    ...this.stars(this.props.offset, 0.1),
-    ...this.clouds(this.props.offset + 0.05, 0.3),
-    ...this.mountains(this.props.offset + 0.67, 0.2),
-    ...this.title(this.props.offset + 0.1, 0.2),
-    ...this.timer(this.props.offset + 0.29, 0.2),
-    ...this.hills(this.props.offset + 0.75, 0.5),
-    ...this.movingClouds(this.props.offset + 0.25, 0.4),
-    ...this.ground(this.props.offset + 0.8, 0.6),
-    ...this.grass(this.props.offset + 0.7, 0.7),
-    ...this.front(this.props.offset + 0.93, 0.8)]
+    const smallScreenLayout = [
+      ...this.stars(this.props.offset, 0.1),
+      ...this.clouds(this.props.offset + 0.05, 0.3),
+      ...this.mountains(this.props.offset + 0.67, 0.2),
+      ...this.hills(this.props.offset + 0.75, 0.5),
+      ...this.movingClouds(this.props.offset + 0.25, 0.4),
+      ...this.ground(this.props.offset + 0.8, 0.6),
+      ...this.grass(this.props.offset + 0.7, 0.7),
+      ...this.front(this.props.offset + 0.93, 0.8)
+    ]
 
 
-    return this.props.isSmallScreen ? smallScreenLayout : [...this.sky(this.props.offset, 0),
-    ...this.stars(this.props.offset, 0.1),
-    ...this.clouds(this.props.offset + 0.05, 0.3),
-    ...this.mountains(this.props.offset + 0.3, 0.2),
-    ...this.title(this.props.offset + 0.15, 0.2),
-    ...this.subtitle(this.props.offset + 0.23, 0.2),
-    ...this.timer(this.props.offset + 0.29, 0.2),
-    ...this.hills(this.props.offset + 0.45, 0.5),
-    ...this.movingClouds(this.props.offset + 0.25, 0.4),
-    ...this.ground(this.props.offset + 0.5, 0.6),
-    ...this.grass(this.props.offset + 0.35, 0.7),
-    ...this.front(this.props.offset + 0.87, 0.8),
-    ...this.panel(this.props.offset, 0.8),
-    ...this.chunky(this.props.offset, 0.8)]
+    return this.props.isSmallScreen ? smallScreenLayout : [
+      ...this.stars(this.props.offset, 0.1),
+      ...this.clouds(this.props.offset + 0.05, 0.3),
+      ...this.mountains(this.props.offset + 0.3, 0.2),
+      ...this.hills(this.props.offset + 0.45, 0.5),
+      ...this.movingClouds(this.props.offset + 0.25, 0.4),
+      ...this.ground(this.props.offset + 0.5, 0.6),
+      ...this.grass(this.props.offset + 0.35, 0.7),
+      ...this.front(this.props.offset + 0.87, 0.8),
+      ...this.panel(this.props.offset, 0.8),
+      ...this.chunky(this.props.offset, 0.8)]
   }
 }
 
 const fontFamilyHeader = "'Merienda', cursive"
 const fontFamily = "'Indie Flower', cursive"
 const longSpeech = [
-  `Hey there, I'm Chunky, your personal mentor!`,
-  `I know the tech world can seem like Everest sometimes`,
-  `but not to worry, I'll help you climb it.`
+  `Hey, it's You, again!`,
+  `Your journey has just begun. However, you are not alone.`,
+  `You're on the path to greatness, along millions of others.`,
+  `I think you should meet Chris. He's the one who started all this.`
 ]
 const shortSpeech = [
   `Hey there, welcome to Carmel!`
