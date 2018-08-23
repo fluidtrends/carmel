@@ -1,6 +1,8 @@
 const changeMenuTitle = require('./changeMenuTitle')
 const changeMenuSubtitle = require('./changeMenuSubtitle')
 const changeActionTitle = require('./changeActionTitle')
+const changeLogo = require('./changeLogo')
+const changeNavigationColor = require('./changeNavigationColor')
 
 module.exports = (props) => {
   return {
@@ -18,7 +20,9 @@ module.exports = (props) => {
     tasks: [
       changeMenuTitle(props),
       changeMenuSubtitle(props),
-      changeActionTitle(props)
+      changeActionTitle(props),
+      changeLogo(props),
+      changeNavigationColor(props)
     ]
   }
 }
