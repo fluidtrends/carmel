@@ -8,6 +8,7 @@ import Intro from '../components/intro'
 import Studio from '../components/studio'
 import Tokens from '../components/tokens'
 import Team from '../components/team'
+import TeamAction from '../components/action'
 import Footer from '../components/footer'
 
 export default class MainIntroScreen extends Screen {
@@ -20,6 +21,7 @@ export default class MainIntroScreen extends Screen {
     this._meetChris = this.meetChris.bind(this)
     this._onContinue = this.onContinue.bind(this)
     this._download = this.download.bind(this)
+    this._showTeam = this.showTeam.bind(this)
   }
 
   componentDidMount() {
@@ -32,6 +34,10 @@ export default class MainIntroScreen extends Screen {
 
   meetChris() {
     this.triggerRedirect('/whitepaper')
+  }
+
+  showTeam() {
+    this.triggerRedirect('/team')
   }
 
   onContinue(index) {
@@ -73,12 +79,19 @@ export default class MainIntroScreen extends Screen {
       />
       <Team
         session={this.props.session}
+        isSmallScreen={this.isSmallScreen}
         offset={3}
+      />
+      <TeamAction
+        session={this.props.session}
+        isSmallScreen={this.isSmallScreen}
+        showTeam={this._showTeam}
+        offset={this.isSmallScreen ? 5 : 6}
       />
       <Footer
         session={this.props.session}
         meetChris={this._meetChris}
-        offset={7}
+        offset={this.isSmallScreen ? 6 : 7}
         isSmallScreen={this.isSmallScreen}
       />
     </Parallax>
@@ -110,19 +123,6 @@ export default class MainIntroScreen extends Screen {
     return (<Telegram onAction={() => { this.triggerRawRedirect('https://t.me/carmelplatform') }} />)
   }
 
-  renderBuyModal() {
-    return !this.state.showModal ?
-      <div /> :
-      <BuyModal
-        visible={this.state.showModal}
-        triggerRawRedirect={this.triggerRawRedirect}
-        newTransaction={this.props.newTransaction}
-        onCancel={this._onModalClose}
-        transaction={this.state.transaction}
-        account={this.props.account}
-      />
-  }
-
   transactionOk(transaction) {
     if (transaction.error) {
       this.setState({ error: transaction.error })
@@ -138,14 +138,8 @@ export default class MainIntroScreen extends Screen {
 
   components() {
     const features = super.components()
-    return [...features, this.renderBuyModal(), this.renderNewScreen(), this.telegram]
+    return [...features, this.renderNewScreen(), this.telegram]
 
-  }
-
-  handleSystemEvent(event) {
-    if (event === '/buy') {
-      this.setState({ showModal: true })
-    }
   }
 
   onModalClose() {
