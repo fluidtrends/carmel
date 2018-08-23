@@ -1,14 +1,6 @@
 import { ipcRenderer } from 'electron'
 import { Utils } from 'react-dom-chunky'
 
-var callHistory = {
-
-}
-
-ipcRenderer.on('sessionEvent', (event, data) => {
-  console.log('GOT SESSION EVENT', data)
-})
-
 export default class Shell {
   constructor (props) {
     this._props = props
@@ -18,8 +10,8 @@ export default class Shell {
     return this._props
   }
 
-  cache (key, data) {
-    ipcRenderer.send('sessionCache', { key, data })
+  cache (key, data, options) {
+    ipcRenderer.send('sessionCache', { key, data, options })
   }
 
   exec (type, command, data) {

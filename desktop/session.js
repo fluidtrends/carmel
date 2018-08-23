@@ -284,10 +284,10 @@ class Session {
   }
 
   updateCache () {
-    // return Promise.resolve()
-    return Git.Repository.open(CARMEL_CACHE)
-                  .then((repo) => repo.fetch('origin').then(() => repo))
-                  .then((repo) => repo.mergeBranches(CARMEL_BRANCH, `origin/${CARMEL_BRANCH}`))
+    return Promise.resolve()
+    // return Git.Repository.open(CARMEL_CACHE)
+    //               .then((repo) => repo.fetch('origin').then(() => repo))
+    //               .then((repo) => repo.mergeBranches(CARMEL_BRANCH, `origin/${CARMEL_BRANCH}`))
   }
 
   loadExtensions () {
@@ -312,12 +312,18 @@ class Session {
       return
     }
 
+    const completedChallengesIds = this.sessionVault.read('completedChallengesIds')
+    const isCompleted = (challengeName) => (completedChallengesIds && completedChallengesIds.includes(challengeName))
+
     Object.keys(this.extensions.challenges).forEach(challengeName => {
       const challenge = this.extensions.challenges[challengeName]
       const defaults = challenge(CARMEL_CHALLENGE_PROPS)
+      const completed = isCompleted(challengeName)
+
       this._challenges.push(Object.assign({}, defaults, {
         index: this.challenges.length,
-        id: challengeName
+        id: challengeName,
+        completed
       }))
     })
   }

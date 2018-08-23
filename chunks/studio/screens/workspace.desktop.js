@@ -84,7 +84,7 @@ export default class Workspace extends Screen {
     const { challenges, challenge, task } = this.props.session
     this.shell.exec('startProduct', { id: this.product.id, light: LIGHT_START }, (compilation) => {
       if (compilation.compiled && !this.state.productStarted) {
-        this.setState({ challenges, compilation, productStarted: true, productStarting: false })
+        this.setState({ challenges, challenge, task, compilation, productStarted: true, productStarting: false })
         return
       }
 
@@ -92,10 +92,10 @@ export default class Workspace extends Screen {
     })
     .then(({ files, dir, port }) => {
       if (LIGHT_START) {
-        this.setState({ challenges, files, dir, port, productStarted: true, productStarting: false })
+        this.setState({ challenges, challenge, task, files, dir, port, productStarted: true, productStarting: false })
         return
       }
-      this.setState({ challenges, files, dir, port })
+      this.setState({ challenges, challenge, task, files, dir, port })
     })
     .catch((error) => {
       const compilation = {
@@ -103,7 +103,7 @@ export default class Workspace extends Screen {
         compiling: false,
         errors: [error.message]
       }
-      this.setState({ challenges, compilation, productStarted: true, productStarting: false })
+      this.setState({ challenges, challenge, task, compilation, productStarted: true, productStarting: false })
     })
   }
 
@@ -256,6 +256,7 @@ export default class Workspace extends Screen {
     }}>
       <Challenge
         product={this.product}
+        task={this.state.task}
         onShowTask={this._onShowTask}
         onHideTask={this._onHideTask}
         onOpenFile={this._onShowFileBrowser}
