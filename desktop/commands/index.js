@@ -3,8 +3,9 @@ const { fork } = require('child_process')
 const { system } = require('../utils')
 
 const eventHandler = (type) => (event, mainWindow, session, props) => {
-  const cwd = path.resolve(system.CARMEL_HOME, '.cache', 'desktop')
+  const cwd = path.resolve(system.CARMEL_ROOT)
   process.chdir(cwd)
+
   const processFile = path.resolve(system.CARMEL_ROOT, 'desktop', 'commands', `${type}.js`)
   const p = fork(processFile, { cwd })
 

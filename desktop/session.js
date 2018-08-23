@@ -7,7 +7,7 @@ const chokidar = require('chokidar')
 const { app } = require('electron')
 const { Product } = require('react-chunky/lib/extended')
 const Git = require('nodegit')
-const Jimp = require('jimp')
+const download = require('image-downloader')
 
 const sessionVaultPassword = '_carmel_session'
 const machineVaultPassword = '_carmel_machine'
@@ -375,6 +375,13 @@ class Session {
     })
   }
 
+  downloadProductCover ({ product, template }) {
+    return download.image({
+      url: `http://files.carmel.io/covers/${template.cover}.r.png`,
+      dest: path.resolve(product.dir, 'assets', `${template.cover}.r.png`)
+    })
+  }
+
   createProduct ({ client, name, template }) {
     try {
       const id = name.replace(/[^a-zA-Z0-9]/g, '').toLowerCase()
@@ -382,6 +389,7 @@ class Session {
       const product = new Product({ name, id, template, fixture, root: CARMEL_ROOT, home: CARMEL_HOME })
 
       product.create()
+             .then(() => this.downloadProductCover({ product, template }))
              .then(() => {
                this.sessionVault.write('productId', id)
                this.loadProducts()
@@ -389,11 +397,9 @@ class Session {
                this.mainWindow.webContents.send(client, { product, done: true })
              })
              .catch((error) => {
-               console.log(error)
                this.mainWindow.webContents.send(client, { error })
              })
     } catch (error) {
-      console.log(error)
       this.mainWindow.webContents.send(client, { error })
     }
   }
