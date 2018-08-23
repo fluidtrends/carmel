@@ -16,7 +16,6 @@ const start = ({ command, CARMEL_HOME, CARMEL_ROOT }) => {
       process.send({ done: true, port, dir: product.dir, files })
     })
     .catch((error) => {
-      console.log(error)
       process.send({ done: true, errors: [error.message] })
     })
 }

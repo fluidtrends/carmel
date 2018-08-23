@@ -6,6 +6,6 @@ it('change the title to a new one', () => {
     const { routes } = json
     const { main } = routes
     const { title } = main
-    expect(title).to.not.equal('Welcome2')
+    expect(title).to.not.equal('Welcome')
   })
 })
