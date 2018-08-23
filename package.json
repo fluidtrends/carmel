@@ -99,6 +99,7 @@
     "decompress": "^4.2.0",
     "decompress-tarxz": "^2.1.1",
     "download-git-repo": "^1.1.0",
+    "electron-ga": "^1.0.6",
     "firebase": "4.12.1",
     "firebaseline": "0.x",
     "get-port": "^4.0.0",

@@ -6,45 +6,48 @@ import { Parallax } from 'react-spring'
 import Welcome from '../components/welcome'
 import Info from '../components/info'
 import NewProduct from '../../studio/components/newProduct'
+import Shell from '../../studio/components/shell'
 
 export default class Main extends Screen {
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.state = {}
+    this._shell = new Shell()
     this._onStart = this.onStart.bind(this)
     this._onContinue = this.onContinue.bind(this)
     this._onCreate = this.onCreate.bind(this)
   }
 
-  componentDidMount() {
+  componentDidMount () {
     super.componentDidMount()
 
-    const account = this.isLoggedIn ? 'member' : 'guest'
-    this.triggerAnalyticsEvent({
-      category: `Intro desktop`,
-      action: 'Init desktop',
-      label: account
-    })
-
     if (this.props.session.product) {
+      this.shell.analytics({ newSession: 'firstTime' })
       this.triggerRedirect('/workspace')
+    } else {
+      this.shell.analytics({ newSession: 'returning' })
     }
   }
 
-  onStart() {
+  get shell () {
+    return this._shell
+  }
+
+  onStart () {
     this.scroller.scrollTo(1)
   }
 
-  onContinue() {
+  onContinue () {
     this.scroller.scrollTo(2)
   }
 
-  onCreate(product) {
+  onCreate (product) {
+    this.shell.analytics({ newProduct: 'firstTime' })
     this.triggerRedirect('/workspace')
   }
 
-  renderIntro() {
+  renderIntro () {
     return <Parallax
       ref={ref => (this.scroller = ref)}
       scrolling={!this.state.creatingProduct}
@@ -67,7 +70,7 @@ export default class Main extends Screen {
     </Parallax>
   }
 
-  renderScreenLayout() {
+  renderScreenLayout () {
     return <div style={{
       backgroundColor: '#ffff00',
       display: 'flex',
