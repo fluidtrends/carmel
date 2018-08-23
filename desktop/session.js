@@ -273,10 +273,14 @@ class Session {
     }
 
     const cachedChallengeId = this.sessionVault.read('challengeId')
-    this._challenge = this.challenges.find((challenge) => cachedChallengeId === challenge.id)
+    if (cachedChallengeId && this.challenges) {
+      this._challenge = this.challenges.find((challenge) => cachedChallengeId === challenge.id)
+    }
 
     const cachedTaskId = this.sessionVault.read('taskId')
-    this._task = this.challenge.tasks.find((task) => cachedTaskId === task.id)
+    if (cachedTaskId && this.challenge) {
+      this._task = this.challenge.tasks.find((task) => cachedTaskId === task.id)
+    }
   }
 
   updateCache () {
