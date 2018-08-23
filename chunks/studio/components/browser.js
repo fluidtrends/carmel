@@ -51,11 +51,7 @@ export default class Browser extends Component {
       return 'http://localhost'
     }
 
-    if (this.webview.isLoading()) {
-      return `http://localhost:${this.props.port}`
-    }
-
-    this.webview.getURL()
+    return `http://localhost:${this.props.port}`
   }
 
   prev () {
