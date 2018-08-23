@@ -49,14 +49,18 @@ export default class Challenges extends Component {
     )
 
     const skills = item.skills.map(skill => {
-      return <Chip key={skill}><ChipText> { skill } </ChipText></Chip>
+      return <Chip style={{ backgroundColor: '#03A9F4', color: '#ffffff'}} key={skill}>
+        <ChipText> { skill } </ChipText>
+      </Chip>
     })
+
+    const xp = (item.level + 1) * 5
 
     return <Card
       key={item.title}
       style={{
-        marginBottom: '20px',
-        padding: '20px',
+        marginBottom: '10px',
+        padding: '10px',
         backgroundColor: '#ffffff',
         justifyContent: 'center',
         alignItems: 'center',
@@ -72,17 +76,23 @@ export default class Challenges extends Component {
 
         <ChipSet style={{ textAlign: 'center' }}>
           { skills }
+          <Chip style={{
+            backgroundColor: '#4CAF50', color: '#ffffff'
+          }} key='price'>
+            <ChipText>
+              { xp } XP
+          </ChipText>
+          </Chip>
         </ChipSet>
 
         <Button
           style={{
-            color: '#ffffff',
+            color: '#00bcd4',
             marginTop: '30px',
-            backgroundColor: `#03A9F4`
+            backgroundColor: `#ffffff`
           }}
           onClick={this._selectChallenge(item)}>
-          <ButtonIcon use={'check_circle'} />
-          Take This Challenge
+          See Challenge Details
         </Button>
 
       </List.Item>

@@ -26,10 +26,15 @@ export default class Challenge extends Component {
     this._toggleStarted = this.toggleStarted.bind(this)
     this._onShowChallenge = this.onShowChallenge.bind(this)
     this._continueChallenge = this.continueChallenge.bind(this)
+    this._onOpenFile = this.onOpenFile.bind(this)
   }
 
   componentDidMount () {
     super.componentDidMount()
+  }
+
+  onOpenFile () {
+    this.props.onOpenFile && this.props.onOpenFile()
   }
 
   get shell () {
@@ -53,22 +58,25 @@ export default class Challenge extends Component {
   }
 
   continueChallenge () {
-    const task = this.props.challenge.tasks[this.state.taskIndex]
+    const task = this.props.challenge.tasks[this.state.taskIndex - 1]
     this.setState({ showTask: true, task })
+    this.props.onShowTask && this.props.onShowTask(task)
   }
 
   onShowChallenge () {
     this.setState({ showTask: false })
+    this.props.onHideTask && this.props.onHideTask()
   }
 
   toggleStarted () {
     const started = !this.state.started
     const taskIndex = 1
+    const task = this.props.challenge.tasks[taskIndex - 1]
 
     this.shell.cache('challengeId', started ? this.props.challenge.id : '')
     this.shell.cache('taskIndex', taskIndex)
 
-    this.setState({ started, taskIndex })
+    this.setState({ started, taskIndex, task, showTask: started })
   }
 
   isTaskComplete (task) {
@@ -112,13 +120,38 @@ export default class Challenge extends Component {
     </List.Item>
   }
 
+  renderPrice () {
+    if (this.isStarted) {
+      return <div />
+    }
+
+    return <Typography use='title' style={{
+      textAlign: 'center',
+      margin: '10px',
+      color: '#4CAF50'
+    }}>
+      { this.price } CARMEL
+    </Typography>
+  }
+
+  get rate () {
+    return 1
+  }
+
+  get price () {
+    return ((this.props.challenge.level + 1) * 5 / this.rate).toFixed(2)
+  }
+
   renderContent () {
     if (this.state.showTask) {
       return <Task
+        onOpenFile={this._onOpenFile}
         onShowChallenge={this._onShowChallenge}
         challenge={this.props.challenge}
         task={this.state.task} />
     }
+
+    const xp = (this.props.challenge.level + 1) * 5
 
     return <Prompt
       subtitle={this.props.challenge.summary}
@@ -126,6 +159,13 @@ export default class Challenge extends Component {
 
       <ChipSet style={{ textAlign: 'left', marginBottom: '20px' }}>
         { this.props.challenge.skills.map(skill => <Chip key={skill}><ChipText> { skill } </ChipText></Chip>) }
+        <Chip style={{
+          backgroundColor: '#4CAF50', color: '#ffffff'
+        }} key='xp'>
+          <ChipText>
+            { xp } XP
+        </ChipText>
+        </Chip>
       </ChipSet>
 
       <List
@@ -136,16 +176,17 @@ export default class Challenge extends Component {
         dataSource={this.props.challenge.tasks}
         renderItem={item => this.renderTaskSummary(item)}
       />
+      { this.renderPrice() }
       <Button
         style={{
-          margin: '10px',
+          marginBottom: '10px',
           color: '#ffffff',
           marginBottom: '20px',
           backgroundColor: `${this.isStarted ? '#03A9F4' : '#4CAF50'}`
         }}
         onClick={this.isStarted ? this._continueChallenge : this._toggleStarted}>
         <ButtonIcon use={this.isStarted ? 'forward' : 'play_circle_filled'} />
-        { this.isStarted ? 'Continue' : 'Start' } Challenge
+        { this.isStarted ? 'Continue' : 'Buy' } Challenge
       </Button>
     </Prompt>
   }
@@ -155,9 +196,13 @@ export default class Challenge extends Component {
       return <div />
     }
 
+    const title = this.isStarted ? `Stop taking this challenge` : `Choose another challenge`
+    const action = this.isStarted ? this._toggleStarted : this._goBack
+
     return <Typography use='title' tag='h2' style={{ marginTop: '20px', textAlign: 'center' }}>
-      <Button onClick={this.isStarted ? this._toggleStarted : this._goBack}>
-        { this.isStarted ? `Stop taking this challenge` : `Choose another challenge` }
+      <Button onClick={action}>
+        <ButtonIcon use='arrow_back' />
+        { title }
       </Button>
     </Typography>
   }

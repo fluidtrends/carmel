@@ -22,7 +22,7 @@ export default class Task extends Component {
     this.state = { ...this.state, taskIndex: 1, loading: true, started: false, verifyInProgress: false, showTaskDetails: false }
     this._shell = new Shell()
     this._onShowChallenge = this.onShowChallenge.bind(this)
-
+    this._onOpenFile = this.onOpenFile.bind(this)
     // this._verifyTask = this.verifyTask.bind(this)
     // this._startNextTask = this.startNextTask.bind(this)
     // this._closeTaskDetails = this.closeTaskDetails.bind(this)
@@ -34,6 +34,10 @@ export default class Task extends Component {
 
   onShowChallenge () {
     this.props.onShowChallenge && this.props.onShowChallenge()
+  }
+
+  onOpenFile () {
+    this.props.onOpenFile && this.props.onOpenFile()
   }
 
   get shell () {
@@ -240,11 +244,33 @@ export default class Task extends Component {
   }
 
   renderFooter () {
-    return <Typography use='title' tag='h2' style={{ marginTop: '20px', textAlign: 'center' }}>
-      <Button onClick={this._onShowChallenge}>
-        Go back to the challenge
-      </Button>
-    </Typography>
+    return <div style={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      flexDirection: 'row'
+    }}>
+      <Typography use='title' tag='h2' style={{
+        marginTop: '20px',
+        flex: 1,
+        textAlign: 'left'
+      }}>
+        <Button onClick={this._onShowChallenge}>
+          <ButtonIcon use='arrow_back' />
+          Go back to the challenge
+        </Button>
+      </Typography>
+      <Typography use='title' tag='h2' style={{
+        marginTop: '20px',
+        flex: 1,
+        textAlign: 'right'
+      }}>
+        <Button onClick={this._onOpenFile}>
+          <ButtonIcon use='file_copy' />
+          Open Source Code
+        </Button>
+      </Typography>
+    </div>
   }
 
   render () {
