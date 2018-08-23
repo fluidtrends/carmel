@@ -21,6 +21,8 @@ module.exports = () => (event, mainWindow, session, props) => {
     }
   }
 
+  process.chdir(fileServerFolder)
+
   cypress
       .run({ spec, config })
       .then((results) => {
