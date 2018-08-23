@@ -3,8 +3,10 @@ const { fork } = require('child_process')
 const { system } = require('../utils')
 
 const eventHandler = (type) => (event, mainWindow, session, props) => {
+  const cwd = path.resolve(system.CARMEL_HOME, '.cache', 'desktop')
+  process.chdir(cwd)
   const processFile = path.resolve(system.CARMEL_ROOT, 'desktop', 'commands', `${type}.js`)
-  const p = fork(processFile, { cwd: path.resolve(system.CARMEL_ROOT, 'desktop') })
+  const p = fork(processFile, { cwd })
 
   p.on('message', (data) => {
     event.sender.send(props.callId, data)
@@ -12,8 +14,6 @@ const eventHandler = (type) => (event, mainWindow, session, props) => {
 
   p.send(Object.assign({}, { start: true }, system, props, { session: session.data }))
 }
-
-process.chdir(path.resolve(system.CARMEL_ROOT, 'desktop'))
 
 const startProduct = eventHandler('startProduct')
 const createProduct = require('./createProduct')(system)

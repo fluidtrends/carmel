@@ -10,7 +10,6 @@ export default class Toolbar extends Component {
     this._productChanged = this.productChanged.bind(this)
     this._showAccountScreen = this.showAccountScreen.bind(this)
     this._togglePreview = this.togglePreview.bind(this)
-    this._showFileBrowser = this.showFileBrowser.bind(this)
   }
 
   componentDidMount () {
@@ -25,10 +24,6 @@ export default class Toolbar extends Component {
 
     const p = this.props.products[item.key]
     this.props.onProductChanged && this.props.onProductChanged(p)
-  }
-
-  showFileBrowser () {
-    this.props.onShowFileBrowser && this.props.onShowFileBrowser()
   }
 
   showAccountScreen () {
@@ -75,19 +70,6 @@ export default class Toolbar extends Component {
         type={this.state.preview ? 'menu-unfold' : 'menu-fold'}
         onClick={this._togglePreview}
           />
-      <Icon
-        style={{
-          color: '#455A64',
-          display: 'flex',
-          fontSize: '18px',
-          lineHeight: '64px',
-          padding: '0 10px',
-          cursor: 'pointer',
-          alignSelf: 'flex-end',
-          transition: 'color .3s'
-        }}
-        type={'copy'}
-        onClick={this._showFileBrowser} />
       <div style={{
         flex: 1,
         display: 'flex'

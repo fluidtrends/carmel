@@ -38,11 +38,11 @@ export default class Workspace extends Screen {
     this._onProductChanged = this.onProductChanged.bind(this)
     this._onShowAccountScreen = this.onShowAccountScreen.bind(this)
     this._onTogglePreview = this.onTogglePreview.bind(this)
-    this._onStartChallenge = this.onStartChallenge.bind(this)
     this._onSelectChallenge = this.onSelectChallenge.bind(this)
     this._onUnselectChallenge = this.onUnselectChallenge.bind(this)
-    this._onStopChallenge = this.onStopChallenge.bind(this)
     this._onShowFileBrowser = this.onShowFileBrowser.bind(this)
+    this._onShowTask = this.onShowTask.bind(this)
+    this._onHideTask = this.onHideTask.bind(this)
     this._onShowCompileErrors = this.onShowCompileErrors.bind(this)
     this._onFileOpen = this.onFileOpen.bind(this)
   }
@@ -72,9 +72,16 @@ export default class Workspace extends Screen {
     this.setState({ showFileBrowser: true })
   }
 
+  onShowTask () {
+    this.setState({ enableTabs: true })
+  }
+
+  onHideTask () {
+    this.setState({ enableTabs: false })
+  }
+
   startProduct () {
-    const challenges = this.props.session
-    console.log(challenges)
+    const { challenges, challenge, task } = this.props.session
     this.shell.exec('startProduct', { id: this.product.id, light: LIGHT_START }, (compilation) => {
       if (compilation.compiled && !this.state.productStarted) {
         this.setState({ challenges, compilation, productStarted: true, productStarting: false })
@@ -84,11 +91,11 @@ export default class Workspace extends Screen {
       this.setState({ compilation })
     })
     .then(({ files, dir, port }) => {
-      if (light) {
+      if (LIGHT_START) {
         this.setState({ challenges, files, dir, port, productStarted: true, productStarting: false })
         return
       }
-      this.setState({ files, dir, port })
+      this.setState({ challenges, files, dir, port })
     })
     .catch((error) => {
       const compilation = {
@@ -118,29 +125,19 @@ export default class Workspace extends Screen {
     this.setState({ preview })
   }
 
-  onStartChallenge (challenge) {
-    this.shell.cache('challengeId', this.state.challenge.id)
-    this.setState({ challengeStarted: true })
-  }
-
   onSelectChallenge (challenge) {
     this.setState({ challenge })
   }
 
   onUnselectChallenge () {
-    this.setState({ challenge: '', challengeStarted: false })
-  }
-
-  onStopChallenge () {
-    this.shell.cache('challengeId', '')
-    this.setState({ challenge: '', challengeStarted: false })
+    this.setState({ challenge: '' })
   }
 
   onFileOpen (file) {
     const relative = path.relative(this.state.dir, file)
     const openFiles = Object.assign({}, this.state.openFiles)
     openFiles[relative] = { openTimestamp: `${Date.now}`, fullPath: file }
-    this.setState({ openFiles, lastOpenedFile: relative, showFileBrowser: false })
+    this.setState({ openFiles, enableTabs: true, lastOpenedFile: relative, showFileBrowser: false })
   }
 
   onShowCompileErrors () {
@@ -226,7 +223,7 @@ export default class Workspace extends Screen {
   }
 
   renderOpenFileTabs () {
-    if (!this.state.openFiles || Object.keys(this.state.openFiles).length === 0) {
+    if (!this.state.enableTabs || !this.state.openFiles || Object.keys(this.state.openFiles).length === 0) {
       return <div key='tabs' />
     }
 
@@ -258,11 +255,11 @@ export default class Workspace extends Screen {
       flexDirection: 'column'
     }}>
       <Challenge
-        started={this.state.challengeStarted}
+        product={this.product}
+        onShowTask={this._onShowTask}
+        onHideTask={this._onHideTask}
+        onOpenFile={this._onShowFileBrowser}
         onBack={this._onUnselectChallenge}
-        onStop={this._onStopChallenge}
-        importRemoteData={this.importRemoteData}
-        onStartChallenge={this._onStartChallenge}
         challenge={this.state.challenge} />
     </div>
   }
@@ -277,7 +274,7 @@ export default class Workspace extends Screen {
         title='Ready for a challenge?'
         subtitle='Choose a challenge to grow your skills and to advance your product. Ready when you are.' />
       <Challenges
-        challenges={this.state.challenges}
+        challenges={this.props.session.challenges}
         onSelectChallenge={this._onSelectChallenge} />
     </div>
   }
@@ -288,6 +285,12 @@ export default class Workspace extends Screen {
     }
 
     return [ this.renderChallenge(), this.renderOpenFileTabs() ]
+  }
+
+  renderSideDetails () {
+    return <div>
+      details
+    </div>
   }
 
   renderWorkspace (status) {
@@ -303,7 +306,6 @@ export default class Workspace extends Screen {
         width={browserWidth}
         style={{
           borderRight: '1px #CFD8DC solid',
-          backgroundColor: '#ff0000',
           height: '100vh'
         }}
         collapsedWidth={minBrowserWidth}
@@ -318,7 +320,6 @@ export default class Workspace extends Screen {
         }}>
           <Elevation z={2}>
             <Toolbar
-              onShowFileBrowser={this._onShowFileBrowser}
               onTogglePreview={this._onTogglePreview}
               onNewProduct={this._onNewProduct}
               onProductChanged={this._onProductChanged}
@@ -343,7 +344,6 @@ export default class Workspace extends Screen {
 
   renderScreenLayout () {
     const productStatus = this.productStatus
-
     if (productStatus.isStarting) {
       return <Progress
         title='Ready to see your product in action?'

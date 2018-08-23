@@ -9,6 +9,8 @@ import { Elevation } from 'rmwc/Elevation'
 import Task from './task'
 import Shell from './shell'
 import Prompt from './prompt'
+const { Button: AntdButton } = require('antd')
+
 const successMessagesJson = require('../../../assets/successMessages.json')
 const errorMessagesJson = require('../../../assets/errorMessages.json')
 const { successMessages } = successMessagesJson
@@ -18,60 +20,25 @@ export default class Challenge extends Component {
   constructor (props) {
     super(props)
 
-    this.state = { ...this.state, loading: true, started: false, verifyInProgress: false, showTaskDetails: false }
+    this.state = { ...this.state, taskIndex: 1, loading: true }
     this._shell = new Shell()
-    this._startChallenge = this.startChallenge.bind(this)
     this._goBack = this.goBack.bind(this)
-    this._stop = this.stop.bind(this)
-    this._verifyTask = this.verifyTask.bind(this)
-    this._startNextTask = this.startNextTask.bind(this)
-    this._closeTaskDetails = this.closeTaskDetails.bind(this)
+    this._toggleStarted = this.toggleStarted.bind(this)
+    this._onShowChallenge = this.onShowChallenge.bind(this)
+    this._continueChallenge = this.continueChallenge.bind(this)
+    this._onOpenFile = this.onOpenFile.bind(this)
   }
 
   componentDidMount () {
     super.componentDidMount()
-    this.reload()
+  }
+
+  onOpenFile () {
+    this.props.onOpenFile && this.props.onOpenFile()
   }
 
   get shell () {
     return this._shell
-  }
-
-  reload () {
-    this.props.importRemoteData(this.props.challenge.content.json).then(data => {
-      const { rewards, author, level, tags, rating, quest, challenge, tasksNumber } = data
-      this.setState({
-        rewards,
-        author,
-        level,
-        tags,
-        rating,
-        quest,
-        challenge,
-        tasksNumber
-      })
-    })
-  }
-
-  showTaskError (tip) {
-    notification.open({
-      icon: <Icon type='frown' style={{ color: '#f44336' }} />,
-      message: this.errorMessage,
-      description: tip
-    })
-  }
-
-  showTaskSuccess (tip) {
-    notification.open({
-      icon: <Icon type='smile' style={{ color: '#4CAF50' }} />,
-      message: this.successMessage
-    })
-  }
-
-  get task () {
-    return {
-
-    }
   }
 
   goBack () {
@@ -82,11 +49,6 @@ export default class Challenge extends Component {
     return this.state.started || this.props.started
   }
 
-  stop () {
-    this.setState({ started: false })
-    this.props.onStop && this.props.onStop()
-  }
-
   get successMessage () {
     return successMessages[Math.floor(Math.random() * successMessages.length)]
   }
@@ -95,314 +57,153 @@ export default class Challenge extends Component {
     return errorMessages[Math.floor(Math.random() * errorMessages.length)]
   }
 
-  verifyTask () {
-    const task = `starter/defineYourBrand/helloWorld/changeMenuTitle`
-    this.setState({ verifyInProgress: true })
-
-    this.shell.exec('verifyTask', { task })
-              .then((result) => {
-                if (!result.success) {
-                  this.setState({ verifyInProgress: false })
-                  this.showTaskError(result.tip)
-                  return
-                }
-                this.setState({ verifyInProgress: false })
-                this.showTaskSuccess()
-              })
-              .catch((error) => {
-                this.setState({ verifyInProgress: false })
-                this.showTaskError(error.message)
-              })
+  continueChallenge () {
+    const task = this.props.challenge.tasks[this.state.taskIndex - 1]
+    this.setState({ showTask: true, task })
+    this.props.onShowTask && this.props.onShowTask(task)
   }
 
-  // verifyTask2 (task) {
-  //   this.setState({ verifyInProgress: true })
-  //   const { quest, challenge, finalTask } = this.state
-  //   const successMessagesJson = require('../../../assets/successMessages.json')
-  //   const errorMessagesJson = require('../../../assets/errorMessages.json')
-  //   const { successMessages } = successMessagesJson
-  //   const { errorMessages } = errorMessagesJson
-  //   const successMessage = successMessages[Math.floor(Math.random() * successMessages.length)]
-  //   const errorMessage = errorMessages[Math.floor(Math.random() * errorMessages.length)]
-  //
-  //   setTimeout(() => {
-  //     this.shell.exec('verifyTask', { task, challenge: this.props.challenge }, (data) => {
-  //       console.log(data)
-  //     })
-  //     .then((result) => {
-  //       notification.success({
-  //         message: successMessage
-  //       })
-  //       this.setState({
-  //         completedTask: true,
-  //         successMessage,
-  //         verifyInProgress: false
-  //       })
-  //       if (finalTask) {
-  //         this.state.tasks[this.state.activeTask - 1 ].completed = true
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       notification.error({
-  //         message: errorMessage
-  //       })
-  //       this.setState({
-  //         failedTask: true,
-  //         errorMessage,
-  //         verifyInProgress: false
-  //       })
-  //     })
-  //   }, 500)
-  // }
-
-  startNextTask (nextTask) {
-    this.state.tasks[this.state.activeTask - 1 ].completed = true
-    this.setState({
-      activeTask: nextTask,
-      completedTask: false,
-      tasks: this.state.tasks,
-      finalTask: nextTask === this.state.tasksNumber ? true : false
-    })
+  onShowChallenge () {
+    this.setState({ showTask: false })
+    this.props.onHideTask && this.props.onHideTask()
   }
 
-  startChallenge () {
-    this.setState({ started: true })
+  toggleStarted () {
+    const started = !this.state.started
+    const taskIndex = 1
+    const task = this.props.challenge.tasks[taskIndex - 1]
 
-    const tasks = []
-    for (let i = 1; i <= this.state.tasksNumber; i++) {
-      tasks.push({
-        taskNumber: i,
-        completed: false
-      })
-    }
+    this.shell.cache('challengeId', started ? this.props.challenge.id : '')
+    this.shell.cache('taskId', started ? task.id : '')
 
-    this.setState({
-      startedTasks: true,
-      progress: this.state.progress ? this.state.progress : 0,
-      activeTask: this.state.activeTask ? this.state.activeTask : 1,
-      tasks
-    })
-
-    this.props.onStartChallenge && this.props.onStartChallenge(this.props.challenge)
+    this.setState({ started, taskIndex, task, showTask: started })
   }
 
-  closeTaskDetails () {
-    this.setState({showTaskDetails: !this.state.showTaskDetails})
+  isTaskComplete (task) {
+    return (task.index < this.state.taskIndex)
   }
 
-  // <Task
-  //   activeTask={1}
-  //   tasksNumber={5}
-  //   width={'100%'}
-  //   completedTask={false}
-  //   failedTask={false}
-  //   padding={'20px'}
-  //   tasks={dummyTasks}
-  //   progress={0}
-  //   finalTask={false}
-  //   showDrawer={showTaskDetails}
-  //   successMessage={'uhu'}
-  //   errorMessage={'nopeeeee'}
-  //   showChallenge={this._stop}
-  //   content={''}
-  //   verifyTask={this._verifyTask}
-  //   startNextTask={this._startNextTask}
-  //   goBack={this._stop}
-  //   closeTaskDetails={this._closeTaskDetails}
-  // />
-
-  renderTask () {
-    const { rewards, startedTasks, completedTask, activeTask, failedTask, tasks, tasksNumber, progress, successMessage, errorMessage, finalTask, showTaskDetails } = this.state
-    const width = '100%'
-    const padding = '20px'
-    const { Button: AntdButton } = require('antd')
-
-    const { title, details, totalTasks } = this.props.challenge
-    const currentTaskIndex = 0
-    const percent = ((currentTaskIndex / (totalTasks - 1)) * 100)
-
-    const dummyTasks = []
-
-    for (let i = 1; i <= 5; i++) {
-      dummyTasks.push({
-        taskNumber: i,
-        completed: false
-      })
-    }
-
-    const currentChallengeId = '1'
-    const currentTaskTitle = `This is the current task title`
-    const currentTaskPrompt = `Task ${currentTaskIndex + 1} of ${totalTasks}: ${currentTaskTitle}`
-
-    if (this.state.verifyInProgress) {
-      return <Prompt
-        subtitle={'Give me a sec to verify your work ...'}
-        title={currentTaskPrompt}>
-        <Typography use='title' tag='h2' style={{
-          textAlign: 'center',
-          color: '#B0BEC5' }}>
-          <Icon type='loading' style={{fontSize: '20px', marginBottom: '20px'}} />
-        </Typography>
-      </Prompt>
-    }
-
-    return <Prompt
-      title={currentTaskPrompt}>
-      <div style={{
-        display: 'flex',
-        flexDirection: 'row',
-        flex: 1,
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}>
-        <AntdButton
-          size={'small'}
-          style={{margin: '10px', border: 'none', color: '#039BE5' }}
-          onClick={this._showPreviousTask}>
-          <Icon type='arrow-left' /> Previous
-        </AntdButton>
-        <AntdButton
-          type='primary'
-          size={'large'}
-          style={{margin: '10px'}}
-          onClick={this._verifyTask}>
-          <Icon type='play-circle' /> Verify
-          </AntdButton>
-        <AntdButton
-          size={'small'}
-          style={{margin: '10px', border: 'none', color: '#039BE5' }}
-          onClick={this._showTutorial}>
-          <Icon type='question-circle' /> Tutorial
-        </AntdButton>
-      </div>
-      <div style={{
-        backgroundColor: '#ffffff',
-        padding: '0px',
-        marginTop: '10px',
-        borderTop: '1px solid #fafafa',
-        width: '100%'
-      }}>
-        <Typography use='body2' tag='h2' style={{
-          textAlign: 'center',
-          color: '#B0BEC5',
-          flex: 1 }}>
-          <AntdButton
-            size={'small'}
-            style={{margin: '10px', color: '#fafafa', backgroundColor: '#ef5350'}}
-            onClick={this._stop}>
-            <Icon type='pause-circle' />
-          </AntdButton>
-          { this.props.challenge.title }
-        </Typography>
-      </div>
-    </Prompt>
-
-    // return <Card style={{ margin: '0px', padding: '20px' }}>
-    //   <h2>STARTED!!!!!!!!!!</h2>
-    //   <CardActions style={{ justifyContent: 'center', marginTop: '20px' }}>
-    //     <CardActionButtons style={{ marginLeft: '10px' }}>
-    //       <Typography use='title' tag='h2' style={{ textAlign: 'center' }}>
-    //         <Button raised theme='secondary-bg on-secondary' onClick={this._startChallenge}>
-    //           STOP this challenge
-    //         </Button>
-    //       </Typography>
-    //     </CardActionButtons>
-    //   </CardActions>
-    // </Card>
-    // return <Task
-    //   activeTask={activeTask}
-    //   tasksNumber={tasksNumber}
-    //   width={width}
-    //   completedTask={completedTask}
-    //   failedTask={failedTask}
-    //   padding={padding}
-    //   tasks={tasks}
-    //   progress={progress}
-    //   finalTask={finalTask}
-    //   successMessage={successMessage}
-    //   errorMessage={errorMessage}
-    //   showChallenge={this._stop}
-    //   content={this.props.challenge.content}
-    //   verifyTask={this._verifyTask}
-    //   startNextTask={this._startNextTask}
-    //   goBack={this._stop} />
+  isCurrentTask (task) {
+    return (task.index === this.state.taskIndex)
   }
 
-  renderTutorial () {
-    return <Components.Text source={this.props.challenge.content.tasks} style={{width: '100%', textAlign: 'left'}} />
+  renderTaskTitle (task) {
+    const textDecoration = this.isTaskComplete(task) ? 'line-through' : 'none'
+    const color = this.isTaskComplete(task) ? '#78909C' : (this.isCurrentTask(task) ? '#00bcd4' : '#CFD8DC')
+
+    return <Typography use='body1' style={{
+      textAlign: 'left',
+      textDecoration,
+      color
+    }}>
+      { task.title }
+    </Typography>
   }
 
-  renderContent () {
-    if (!this.state.rewards) {
+  renderTaskIcon (task) {
+    const backgroundColor = this.isTaskComplete(task) ? '#78909C' : (this.isCurrentTask(task) ? '#00bcd4' : '#F5F5F5')
+    const color = this.isTaskComplete(task) ? '#fafafa' : (this.isCurrentTask(task) ? '#ffffff' : '#CFD8DC')
+
+    return <Avatar size='small' style={{
+      backgroundColor,
+      color
+    }}>
+      { task.index}
+    </Avatar>
+  }
+
+  renderTaskSummary (task) {
+    return <List.Item>
+      <List.Item.Meta
+        avatar={this.renderTaskIcon(task)}
+        title={this.renderTaskTitle(task)} />
+    </List.Item>
+  }
+
+  renderPrice () {
+    if (this.isStarted) {
       return <div />
     }
 
-    // if (this.state.verifyInProgress) {
-    //   return <p>verifying ...</p>
-    // }
+    return <Typography use='title' style={{
+      textAlign: 'center',
+      margin: '10px',
+      color: '#4CAF50'
+    }}>
+      { this.price } CARMEL
+    </Typography>
+  }
 
-    if (this.isStarted) {
-      return this.renderTask()
+  get rate () {
+    return 1
+  }
+
+  get price () {
+    return ((this.props.challenge.level + 1) * 5 / this.rate).toFixed(2)
+  }
+
+  renderContent () {
+    if (this.state.showTask) {
+      return <Task
+        onOpenFile={this._onOpenFile}
+        onShowChallenge={this._onShowChallenge}
+        challenge={this.props.challenge}
+        product={this.props.product}
+        task={this.state.task} />
     }
 
+    const xp = (this.props.challenge.level + 1) * 5
+
     return <Prompt
-      subtitle={this.props.challenge.details}
+      subtitle={this.props.challenge.summary}
       title={this.props.challenge.title}>
 
-      <Typography use='body2' tag='h2' style={{ textAlign: 'center' }}>
-          By doing this you will acquire the following rewards:
-      </Typography>
+      <ChipSet style={{ textAlign: 'left', marginBottom: '20px' }}>
+        { this.props.challenge.skills.map(skill => <Chip key={skill}><ChipText> { skill } </ChipText></Chip>) }
+        <Chip style={{
+          backgroundColor: '#4CAF50', color: '#ffffff'
+        }} key='xp'>
+          <ChipText>
+            { xp } XP
+        </ChipText>
+        </Chip>
+      </ChipSet>
 
-      <div style={{display: 'flex', flexDirection: 'row'}}>
-        {
-          this.state.rewards.map((reward, i) =>
-            <span key={i} style={{fontStyle: 'italic', fontSize: 16}}>
-              {!!i && ', '}
-              {reward}
-            </span>
-          )
-        }
-      </div>
-      <div style={{marginBottom: 20, marginTop: 20}}>
-        <Icon type='user' style={{fontSize: 18, marginRight: 10}} />
-        <span style={{fontSize: 16}}>{this.state.author}</span>
-      </div>
-      <div>
-        <Icon type='code' style={{fontSize: 18, marginRight: 10}} />
-        <span style={{fontSize: 16}}>{this.state.level}</span>
-      </div>
-      <div style={{marginBottom: 20, marginTop: 20}}>
-        {
-          this.state.tags.map((tag, i) =>
-            <Tag key={`tag-${i}`}>{tag}</Tag>
-          )
-        }
-      </div>
-      <div style={{marginBottom: 20, marginTop: 20}}>
-        <Rate allowHalf disabled value={parseFloat(this.state.rating)} />
-      </div>
-      { this.renderTutorial() }
-      <CardActions style={{ justifyContent: 'center', marginTop: '20px' }}>
-        <CardActionButtons style={{ marginLeft: '10px' }}>
-          <Typography use='title' tag='h2' style={{ textAlign: 'center' }}>
-            <Button raised theme='secondary-bg on-secondary' onClick={this._startChallenge}>
-              Take this challenge
-            </Button>
-          </Typography>
-        </CardActionButtons>
-      </CardActions>
+      <List
+        style={{
+          marginLeft: '10px'
+        }}
+        itemLayout='horizontal'
+        dataSource={this.props.challenge.tasks}
+        renderItem={item => this.renderTaskSummary(item)}
+      />
+      { this.renderPrice() }
+      <Button
+        style={{
+          marginBottom: '10px',
+          color: '#ffffff',
+          marginBottom: '20px',
+          backgroundColor: `${this.isStarted ? '#03A9F4' : '#4CAF50'}`
+        }}
+        onClick={this.isStarted ? this._continueChallenge : this._toggleStarted}>
+        <ButtonIcon use={this.isStarted ? 'forward' : 'play_circle_filled'} />
+        { this.isStarted ? 'Continue' : 'Buy' } Challenge
+      </Button>
     </Prompt>
   }
 
   renderFooter () {
-    if (this.isStarted) {
+    if (this.state.showTask) {
       return <div />
     }
 
+    const title = this.isStarted ? `Stop taking this challenge` : `Choose another challenge`
+    const action = this.isStarted ? this._toggleStarted : this._goBack
+
     return <Typography use='title' tag='h2' style={{ marginTop: '20px', textAlign: 'center' }}>
-      <Button onClick={this._goBack}>
-        See all challenges
+      <Button onClick={action}>
+        <ButtonIcon use='arrow_back' />
+        { title }
       </Button>
     </Typography>
   }

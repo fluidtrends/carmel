@@ -22,6 +22,24 @@ export default class Challenges extends Component {
     this.props.onSelectChallenge && this.props.onSelectChallenge(item)
   }
 
+  renderChallengeTitle (challenge) {
+    return <Typography use='title' style={{
+      textAlign: 'center',
+      color: '#00bcd4'
+    }}>
+      { challenge.title }
+    </Typography>
+  }
+
+  renderChallengeSubtitle (challenge) {
+    return <Typography use='body2' style={{
+      textAlign: 'center',
+      color: '#455A64'
+    }}>
+      { challenge.summary }
+    </Typography>
+  }
+
   renderChallenge (item, index) {
     const IconText = ({ type, text }) => (
       <span>
@@ -30,22 +48,53 @@ export default class Challenges extends Component {
       </span>
     )
 
+    const skills = item.skills.map(skill => {
+      return <Chip style={{ backgroundColor: '#03A9F4', color: '#ffffff'}} key={skill}>
+        <ChipText> { skill } </ChipText>
+      </Chip>
+    })
+
+    const xp = (item.level + 1) * 5
+
     return <Card
       key={item.title}
       style={{
-        marginBottom: '20px',
-        padding: '20px',
-        backgroundColor: '#ffffff'
+        marginBottom: '10px',
+        padding: '10px',
+        backgroundColor: '#ffffff',
+        justifyContent: 'center',
+        alignItems: 'center',
+        display: 'flex',
+        textAlign: 'center',
+        flexDirection: 'column'
       }}>
+
       <List.Item>
         <List.Item.Meta
-          title={item.title}
-          description={item.details} />
-        <Typography use='title' tag='h2' style={{ textAlign: 'center' }}>
-          <Button raised theme='secondary-bg on-secondary' onClick={this._selectChallenge(item)}>
-            { item.actionTitle }
-          </Button>
-        </Typography>
+          title={this.renderChallengeTitle(item)}
+          description={this.renderChallengeSubtitle(item)} />
+
+        <ChipSet style={{ textAlign: 'center' }}>
+          { skills }
+          <Chip style={{
+            backgroundColor: '#4CAF50', color: '#ffffff'
+          }} key='price'>
+            <ChipText>
+              { xp } XP
+          </ChipText>
+          </Chip>
+        </ChipSet>
+
+        <Button
+          style={{
+            color: '#00bcd4',
+            marginTop: '30px',
+            backgroundColor: `#ffffff`
+          }}
+          onClick={this._selectChallenge(item)}>
+          See Challenge Details
+        </Button>
+
       </List.Item>
     </Card>
   }

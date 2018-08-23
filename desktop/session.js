@@ -15,6 +15,7 @@ const machineVaultPassword = '_carmel_machine'
 const CARMEL_REPO = 'https://github.com/fluidtrends/carmel.git'
 const CARMEL_BRANCH = 'live'
 const CARMEL_TEMPLATE_PROPS = {}
+const CARMEL_CHALLENGE_PROPS = {}
 
 const HOME = process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME']
 const CARMEL_HOME = path.resolve(HOME, '.carmel')
@@ -93,6 +94,10 @@ class Session {
     return this._challenge
   }
 
+  get task () {
+    return this._task
+  }
+
   get challenges () {
     return this._challenges
   }
@@ -102,6 +107,7 @@ class Session {
       products: this.products,
       product: this.product,
       challenge: this.challenge,
+      task: this.task,
       challenges: this.challenges,
       templates: this.templates,
       root: CARMEL_ROOT
@@ -267,11 +273,24 @@ class Session {
     }
 
     const cachedChallengeId = this.sessionVault.read('challengeId')
-    // this._challenge = this.challenges
-    // { id: cachedChallengeId }
+    if (cachedChallengeId && this.challenges) {
+      this._challenge = this.challenges.find((challenge) => cachedChallengeId === challenge.id)
+    }
+
+    const cachedTaskId = this.sessionVault.read('taskId')
+    if (cachedTaskId && this.challenge) {
+      this._task = this.challenge.tasks.find((task) => cachedTaskId === task.id)
+    }
   }
 
-  updateExtensions () {
+  updateCache () {
+    // return Promise.resolve()
+    return Git.Repository.open(CARMEL_CACHE)
+                  .then((repo) => repo.fetch('origin').then(() => repo))
+                  .then((repo) => repo.mergeBranches(CARMEL_BRANCH, `origin/${CARMEL_BRANCH}`))
+  }
+
+  loadExtensions () {
     return new Promise((resolve, reject) => {
       try {
         this._extensions = {
@@ -279,14 +298,8 @@ class Session {
           fixtures: require.main.require(path.resolve(CARMEL_CACHE, 'templates', 'fixtures')),
           challenges: require.main.require(path.resolve(CARMEL_CACHE, 'challenges'))
         }
-
         resolve()
-        // Git.Repository.open(CARMEL_EXTENSIONS)
-        //             .then((repo) => repo.fetch('origin').then(() => repo))
-        //             .then((repo) => repo.mergeBranches(CARMEL_BRANCH, `origin/${CARMEL_BRANCH}`))
-        //             .then(() => resolve())
       } catch (error) {
-        console.log(error)
         reject(error)
       }
     })
@@ -298,6 +311,15 @@ class Session {
     if (!this.extensions || !this.extensions.challenges) {
       return
     }
+
+    Object.keys(this.extensions.challenges).forEach(challengeName => {
+      const challenge = this.extensions.challenges[challengeName]
+      const defaults = challenge(CARMEL_CHALLENGE_PROPS)
+      this._challenges.push(Object.assign({}, defaults, {
+        index: this.challenges.length,
+        id: challengeName
+      }))
+    })
   }
 
   loadTemplates () {
@@ -316,7 +338,8 @@ class Session {
       this._templates.push(Object.assign({}, defaults, {
         assetsDir,
         bundleDir,
-        id: this.templates.length
+        id: templateName,
+        index: this.templates.length
       }))
     })
   }
@@ -325,7 +348,8 @@ class Session {
     return new Promise((resolve, reject) => {
       try {
         this._files = {}
-        this.updateExtensions(quickValidation)
+        this.updateCache()
+             .then(() => this.loadExtensions())
              .then(() => this.checkMachineFingerprint(vault, quickValidation))
              .then((valid) => {
                if (!valid) {

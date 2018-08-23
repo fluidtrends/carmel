@@ -35,20 +35,28 @@ export default class Explorer extends Component {
 
       if (typeof nodes[node] !== 'object') {
         const ext = path.extname(node).substring(1).toLowerCase()
-        var icon = 'file'
+        var icon = 'file-text'
         switch (ext) {
-          case 'js':
-            icon = 'code-o'
-            break
           case 'md':
             icon = 'file-markdown'
             break
           default:
         }
-        browser.push(<TreeNode title={node} icon={<Icon type={icon} />} key={key} isLeaf />)
+
+        browser.push(<TreeNode
+          title={node}
+          selectable
+          icon={<Icon type={icon} />}
+          key={key}
+          isLeaf
+          />)
         return
       }
-      browser.push(<TreeNode title={node} key={key}>
+
+      browser.push(<TreeNode
+        title={node}
+        selectable={false}
+        key={key}>
         { this.buildFileBrowser(nodes[node], key) }
       </TreeNode>)
     })
