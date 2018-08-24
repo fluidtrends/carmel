@@ -1,6 +1,6 @@
 {
   "fixture": "starter",
-  "cover": "notebook",
+  "cover": "sunrise",
   "chunks": {
     "intro": {
       "routes": {
@@ -8,9 +8,9 @@
           "title": "Welcome",
           "cover": {
             "image": "cover.r.png",
-            "title": "This is my personal site",
-            "subtitle": "You won't believe your eyes",
-            "primaryActionTitle": "Let's do this"
+            "title": "Dream vacation here I come",
+            "subtitle": "Time to ditch the office and get some sun",
+            "primaryActionTitle": "Let's go tanning"
           }
         }
       }

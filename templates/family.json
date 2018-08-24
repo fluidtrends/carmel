@@ -1,6 +1,6 @@
 {
   "fixture": "starter",
-  "cover": "notebook",
+  "cover": "brothers",
   "chunks": {
     "intro": {
       "routes": {
@@ -8,9 +8,9 @@
           "title": "Welcome",
           "cover": {
             "image": "cover.r.png",
-            "title": "This is my personal site",
-            "subtitle": "You won't believe your eyes",
-            "primaryActionTitle": "Let's do this"
+            "title": "There's no place like home",
+            "subtitle": "Let the diaper war begin",
+            "primaryActionTitle": "Meet the family"
           }
         }
       }

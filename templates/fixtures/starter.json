@@ -43,7 +43,7 @@
           "title": "Welcome",
           "cover": {
             "image": "cover.r.png",
-            "titl": "Welcome to my site",
+            "title": "Welcome to my site",
             "subtitle": "This is gonna be great",
             "primaryActionTitle": "Get Started"
           }
