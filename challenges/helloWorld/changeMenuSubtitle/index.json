@@ -3,6 +3,6 @@
     "index": 2,
     "title": "Define your page and add a subtitle for the menu",
     "instructions": "Edit the menu subtitle. In order to do that, you need to open the chunks folder and take a look at the intro folder.",
-    "help": "Tap the 'open file' button and open the chunks/intro/chunk.json file",
+    "help": "Tap the 'open file' button and open the chunks/intro/chunk.json file. Look for subtitle.",
     "files": ["chunks/intro/chunk.json"]
 }
