@@ -1,0 +1,19 @@
+{
+  "fixture": "starter",
+  "cover": "coffee",
+  "chunks": {
+    "intro": {
+      "routes": {
+        "main": {
+          "title": "Welcome",
+          "cover": {
+            "image": "cover.r.png",
+            "title": "Welcome to my Dream Journal",
+            "subtitle": "Get to see what's on my mind and in my heart",
+            "primaryActionTitle": "Read My Dreams"
+          }
+        }
+      }
+    }
+  }
+}

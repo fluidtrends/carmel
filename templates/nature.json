@@ -1,0 +1,19 @@
+{
+  "fixture": "starter",
+  "cover": "road",
+  "chunks": {
+    "intro": {
+      "routes": {
+        "main": {
+          "title": "Welcome",
+          "cover": {
+            "image": "cover.r.png",
+            "title": "Hiking is more than just a passion",
+            "subtitle": "It's a way of life and I'm living it",
+            "primaryActionTitle": "Join Me"
+          }
+        }
+      }
+    }
+  }
+}
