@@ -1,0 +1,19 @@
+{
+  "fixture": "starter",
+  "cover": "photographer",
+  "chunks": {
+    "intro": {
+      "routes": {
+        "main": {
+          "title": "Welcome",
+          "cover": {
+            "image": "cover.r.png",
+            "title": "Seeing the world through a lens",
+            "subtitle": "Check out all the cool places I've seen so far",
+            "primaryActionTitle": "See My Album"
+          }
+        }
+      }
+    }
+  }
+}
