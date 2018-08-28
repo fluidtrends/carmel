@@ -53,7 +53,7 @@ export default class NewProduct extends Component {
 
   template (template) {
     const image = `http://files.carmel.io/covers/${template.cover}.r.png`
-
+    console.log(template)
     return <div
       key={template.id}
       style={{
