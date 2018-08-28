@@ -1,9 +1,8 @@
-it('change the title to a new one', () => {
-  cy.readFile('chunks/intro/chunk.json').then(json => {
-    const { routes } = json
-    const { main } = routes
-    const { cover } = main
-    const { primaryActionTitle } = cover
-    expect(primaryActionTitle).to.not.equal('Get A Bike')
-  })
-})
+const chai = require('chai')
+
+module.exports = ({ readFile, done }) => {
+  const introChunkConfig = readFile('chunks/intro/chunk.json')
+  chai.expect(introChunkConfig).to.exist
+  chai.expect(introChunkConfig.routes.main.cover.primaryActionTitle).to.not.equal('Get A Bike')
+  done()
+}

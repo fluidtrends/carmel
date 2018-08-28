@@ -1,50 +1,34 @@
 const path = require('path')
-const cypress = require('cypress')
-const { system } = require('../utils')
+const fs = require('fs-extra')
+const tmp = require('tmp')
+const Mocha = require('mocha')
 
-const fileServerFolder = path.resolve(system.CARMEL_HOME, '.cache', 'desktop')
+const start = ({ command, CARMEL_HOME, CARMEL_ROOT }) => {
+  const task = command.task
+  const challenge = command.challenge
+  const product = command.product
 
-module.exports = () => (event, mainWindow, session, props) => {
-  const task = props.command.task
-  const challenge = props.command.challenge
-  const product = props.command.product
-  const spec = `../challenges/${challenge.id}/${task.id}/spec.js`
+  const dir = path.resolve(CARMEL_HOME, 'products', product.id)
+  const specFile = path.resolve(CARMEL_ROOT, 'desktop', 'spec.js')
 
-  const config = {
-    fileServerFolder,
-    integrationFolder: '../challenges',
-    env: {
-      product,
-      challenge,
-      task,
-      root: `../../products/${product.id}`
-    }
-  }
+  process.env.CARMEL_TASK_ID = task.id
+  process.env.CARMEL_CHALLENGE_ID = challenge.id
+  process.env.CARMEL_PRODUCT_ID = product.id
+  process.env.CARMEL_PRODUCT_DIR = dir
+  process.env.CARMEL_ROOT = CARMEL_ROOT
+  process.env.CARMEL_HOME = CARMEL_HOME
 
-  process.chdir(fileServerFolder)
+  const mocha = new Mocha({
+    timeout: 12000
+  })
 
-  cypress
-      .run({ spec, config })
-      .then((results) => {
-        const run = results.runs[0]
-
-        if (!run.tests) {
-          return ({ success: false })
-        }
-
-        const { state, error } = run.tests[0]
-
-        if (error && state === 'failed') {
-          const tip = error.split(':')[0]
-          return ({ tip, success: false })
-        }
-
-        return ({ success: true })
-      })
-      .then((result) => {
-        mainWindow.webContents.send(props.callId, Object.assign({}, { done: true }, result))
-      })
-      .catch((error) => {
-        mainWindow.webContents.send(props.callId, { error: error.message })
-      })
+  mocha.addFile(specFile)
+  mocha.run()
 }
+
+process.on('message', (data) => {
+  if (data && data.start) {
+    start(data)
+    return
+  }
+})

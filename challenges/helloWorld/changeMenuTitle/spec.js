@@ -1,11 +1,8 @@
-const { root } = Cypress.env()
-const file = `${root}/chunks/intro/chunk.json`
+const chai = require('chai')
 
-it('change the title to a new one', () => {
-  cy.readFile(file).then(json => {
-    const { routes } = json
-    const { main } = routes
-    const { title } = main
-    expect(title).to.not.equal('Welcome')
-  })
-})
+module.exports = ({ readFile, done }) => {
+  const introChunkConfig = readFile('chunks/intro/chunk.json')
+  chai.expect(introChunkConfig).to.exist
+  chai.expect(introChunkConfig.routes.main.title).to.not.equal('Welcome')
+  done()
+}

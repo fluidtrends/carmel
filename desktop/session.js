@@ -5,9 +5,10 @@ const path = require('path')
 const { decompressDependencies } = require('./utils')
 const chokidar = require('chokidar')
 const { app } = require('electron')
-const { Product } = require('react-chunky/lib/extended')
+const { Product, generatePackage, createFile, installTemplate } = require('react-chunky/lib/extended')
 const Git = require('nodegit')
 const download = require('image-downloader')
+const deepmerge = require('deepmerge')
 
 const sessionVaultPassword = '_carmel_session'
 const machineVaultPassword = '_carmel_machine'
@@ -397,10 +398,22 @@ class Session {
   createProduct ({ client, name, template }) {
     try {
       const id = name.replace(/[^a-zA-Z0-9]/g, '').toLowerCase()
-      const fixture = this.extensions.fixtures[template.fixture]
+      var fixture = this.extensions.fixtures[template.fixture]
       const product = new Product({ name, id, template, fixture, root: CARMEL_ROOT, home: CARMEL_HOME })
 
-      product.create()
+      if (product.exists) {
+        return Promise.reject(new Error('The product already exists'))
+      }
+
+      fs.mkdirsSync(product.dir)
+
+      const packageData = generatePackage({ name })
+      createFile({ root: product.dir, filepath: 'package.json', data: packageData, json: true })
+
+      const t = Object.assign({}, template, { name })
+      fixture = deepmerge(fixture, t)
+
+      installTemplate({ dir: product.dir, home: product.home, template: t, fixture })
              .then(() => this.downloadProductCover({ product, template }))
              .then(() => {
                this.sessionVault.write('productId', id)
@@ -409,9 +422,11 @@ class Session {
                this.mainWindow.webContents.send(client, { product, done: true })
              })
              .catch((error) => {
+               console.log(error)
                this.mainWindow.webContents.send(client, { error })
              })
     } catch (error) {
+      console.log(error)
       this.mainWindow.webContents.send(client, { error })
     }
   }

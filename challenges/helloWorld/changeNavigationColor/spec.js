@@ -1,7 +1,8 @@
-it('change the logo to a new one', () => {
-  cy.readFile('chunky.json').then(json => {
-    const { theme } = json
-    const { navigationColor } = theme
-    expect(navigationColor).to.not.equal('#FFFFFF')
-  })
-})
+const chai = require('chai')
+
+module.exports = ({ readFile, done }) => {
+  const mainConfig = readFile('chunky.json')
+  chai.expect(mainConfig).to.exist
+  chai.expect(mainConfig.theme.navigationColor).to.not.equal('#FFFFFF')
+  done()
+}

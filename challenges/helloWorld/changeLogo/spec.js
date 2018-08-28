@@ -1,8 +1,9 @@
-it('change the logo to a new one', () => {
-  cy.readFile('chunky.json').then(json => {
-    const { theme } = json
-    const { logoImage, logoLightImage } = theme
-    expect(logoLightImage).to.not.equal('logo.png')
-    expect(logoImage).to.not.equal('logo-white.png')
-  })
-})
+const chai = require('chai')
+
+module.exports = ({ readFile, done }) => {
+  const mainConfig = readFile('chunky.json')
+  chai.expect(mainConfig).to.exist
+  chai.expect(mainConfig.theme.logoImage).to.not.equal('logo-white.png')
+  chai.expect(mainConfig.theme.logoLightImage).to.not.equal('logo.png')
+  done()
+}
