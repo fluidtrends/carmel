@@ -411,7 +411,7 @@ class Session {
       createFile({ root: product.dir, filepath: 'package.json', data: packageData, json: true })
 
       const t = Object.assign({}, template, { name })
-      fixture = deepmerge(fixture, t)
+      fixture = deepmerge.all([fixture, t, { manifest: { name }}])
 
       installTemplate({ dir: product.dir, home: product.home, template: t, fixture })
              .then(() => this.downloadProductCover({ product, template }))

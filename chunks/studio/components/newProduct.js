@@ -82,7 +82,7 @@ export default class NewProduct extends Component {
         <Typography use='caption' tag='h2'>
           <ChipSet>
             { template.tags.map(tag => {
-              return <Chip style={{backgroundColor: '#EEEEEE'}}>
+              return <Chip key={tag} style={{backgroundColor: '#EEEEEE'}}>
                 <ChipText style={{ color: '#00bcd4' }}>
                   { tag }
                 </ChipText>
