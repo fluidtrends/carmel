@@ -2,6 +2,10 @@
   "name": "New York City",
   "fixture": "starter",
   "cover": "new-york-city",
+  "manifest": {
+    "template": "newyork"
+  },
+  "tags": ["city", "travel", "starter"],
   "chunks": {
     "intro": {
       "routes": {

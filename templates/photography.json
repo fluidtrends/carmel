@@ -2,6 +2,10 @@
   "name": "Photography Album",
   "fixture": "starter",
   "cover": "photographer",
+  "manifest": {
+    "template": "photography"
+  },
+  "tags": ["personal", "album", "starter"],
   "chunks": {
     "intro": {
       "routes": {

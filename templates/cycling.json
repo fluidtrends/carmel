@@ -2,6 +2,10 @@
   "name": "Mountain Biking",
   "fixture": "starter",
   "cover": "cycling",
+  "manifest": {
+    "template": "cycling"
+  },
+  "tags": ["sports", "personal", "starter"],
   "chunks": {
     "intro": {
       "routes": {

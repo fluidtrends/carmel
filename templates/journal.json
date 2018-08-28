@@ -2,6 +2,10 @@
   "name": "Dream Journal",
   "fixture": "starter",
   "cover": "coffee",
+  "manifest": {
+    "template": "journal"
+  },
+  "tags": ["personal", "blog", "starter"],
   "chunks": {
     "intro": {
       "routes": {

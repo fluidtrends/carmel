@@ -2,6 +2,10 @@
   "name": "Beach Vacation",
   "fixture": "starter",
   "cover": "sunrise",
+  "manifest": {
+    "template": "vacation"
+  },
+  "tags": ["personal", "travel", "starter"],
   "chunks": {
     "intro": {
       "routes": {

@@ -2,6 +2,10 @@
   "name": "Office Culture",
   "fixture": "starter",
   "cover": "office",
+  "manifest": {
+    "template": "culture"
+  },
+  "tags": ["startup", "office", "starter"],
   "chunks": {
     "intro": {
       "routes": {
