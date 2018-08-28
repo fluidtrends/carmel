@@ -1,5 +1,6 @@
 const fs = require('fs-extra')
 const path = require('path')
+const deepmerge = require('deepmerge')
 
 const jsdom = require('jsdom')
 const chai = require('chai')
@@ -12,8 +13,15 @@ const Adapter = require('enzyme-adapter-react-16')
 const CARMEL_HOME = process.env.CARMEL_HOME
 const challengeId = process.env.CARMEL_CHALLENGE_ID
 const productId = process.env.CARMEL_PRODUCT_ID
+const productTemplate = process.env.CARMEL_PRODUCT_TEMPLATE
 const dir = process.env.CARMEL_PRODUCT_DIR
 const taskId = process.env.CARMEL_TASK_ID
+const specFile = path.resolve(CARMEL_HOME, '.cache', 'challenges', challengeId, taskId, 'spec.js')
+const templateFile = path.resolve(CARMEL_HOME, '.cache', 'templates', `${productTemplate}.json`)
+
+chai.use(chaiEnzyme())
+chai.use(chaiAsPromised)
+enzyme.configure({ adapter: new Adapter() })
 
 const readFile = (file) => {
   try {
@@ -33,13 +41,19 @@ const utils = {
 
 describe(challengeId, () => {
   var spec
+  var original
 
   before(() => {
-    spec = require(path.resolve(CARMEL_HOME, '.cache', 'challenges', challengeId, taskId, 'spec.js'))
+    try {
+      spec = require(specFile)
 
-    chai.use(chaiEnzyme())
-    chai.use(chaiAsPromised)
-    enzyme.configure({ adapter: new Adapter() })
+      const template = JSON.parse(fs.readFileSync(templateFile, 'utf8'))
+      const fixtureFile = path.resolve(CARMEL_HOME, '.cache', 'templates', 'fixtures', `${template.fixture}.json`)
+      const fixture = JSON.parse(fs.readFileSync(fixtureFile, 'utf8'))
+
+      original = deepmerge.all([fixture, template])
+    } catch (e) {
+    }
   })
 
   after(() => {
@@ -49,7 +63,7 @@ describe(challengeId, () => {
     try {
       const done = (tip) => {
         if (tip) {
-          process.send(Object.assign({}, { done: true, success: false, tip }))
+          process.send(Object.assign({}, { done: true, success: false, tip, original }))
           finished(new Error(tip))
           return
         }
@@ -65,6 +79,7 @@ describe(challengeId, () => {
         dir,
         challengeId,
         taskId,
+        original,
         productId,
         utils,
         done

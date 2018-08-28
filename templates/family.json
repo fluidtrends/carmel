@@ -1,11 +1,11 @@
 {
-  "name": "Mountain Biking",
+  "name": "Family Album",
   "fixture": "starter",
   "cover": "brothers",
   "manifest": {
     "template": "family"
   },
-  "tags": ["personal", "travel", "starter"],
+  "tags": ["personal", "album", "starter"],
   "chunks": {
     "intro": {
       "routes": {

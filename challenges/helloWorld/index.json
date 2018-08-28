@@ -12,9 +12,6 @@
   "skills": ["json", "web", "copywriting", "branding"],
   "taskIds": [
     "changeMenuTitle",
-    "changeMenuSubtitle",
-    "changeActionTitle",
-    "changeLogo",
-    "changeNavigationColor"
+    "changeIntroTitle"
   ]
 }
