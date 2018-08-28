@@ -8,6 +8,8 @@ const start = ({ command, CARMEL_HOME, CARMEL_ROOT }) => {
   const challenge = command.challenge
   const product = command.product
 
+  console.log(product)
+
   const dir = path.resolve(CARMEL_HOME, 'products', product.id)
   const specFile = path.resolve(CARMEL_ROOT, 'desktop', 'spec.js')
 

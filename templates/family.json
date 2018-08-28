@@ -2,6 +2,10 @@
   "name": "Mountain Biking",
   "fixture": "starter",
   "cover": "brothers",
+  "manifest": {
+    "template": "family"
+  },
+  "tags": ["personal", "travel", "starter"],
   "chunks": {
     "intro": {
       "routes": {

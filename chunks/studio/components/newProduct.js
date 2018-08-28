@@ -53,7 +53,7 @@ export default class NewProduct extends Component {
 
   template (template) {
     const image = `http://files.carmel.io/covers/${template.cover}.r.png`
-    console.log(template)
+
     return <div
       key={template.id}
       style={{
@@ -81,9 +81,13 @@ export default class NewProduct extends Component {
         </Typography>
         <Typography use='caption' tag='h2'>
           <ChipSet>
-            <Chip style={{backgroundColor: '#EEEEEE'}}> <ChipText style={{ color: '#00bcd4' }}>Personal</ChipText> </Chip>
-            <Chip style={{backgroundColor: '#EEEEEE'}}> <ChipText style={{ color: '#00bcd4' }}>Photography</ChipText> </Chip>
-            <Chip style={{backgroundColor: '#EEEEEE'}}> <ChipText style={{ color: '#00bcd4' }}>Simple</ChipText> </Chip>
+            { template.tags.map(tag => {
+              return <Chip style={{backgroundColor: '#EEEEEE'}}>
+                <ChipText style={{ color: '#00bcd4' }}>
+                  { tag }
+                </ChipText>
+              </Chip>
+            })}
           </ChipSet>
         </Typography>
       </div>

@@ -2,6 +2,10 @@
   "name": "Parenting Adventures",
   "fixture": "starter",
   "cover": "dad",
+  "manifest": {
+    "template": "parenting"
+  },
+  "tags": ["family", "blog", "starter"],
   "chunks": {
     "intro": {
       "routes": {

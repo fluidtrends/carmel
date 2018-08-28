@@ -2,6 +2,10 @@
   "name": "Personal Brand",
   "fixture": "starter",
   "cover": "notebook",
+  "manifest": {
+    "template": "personal"
+  },
+  "tags": ["personal", "branding", "starter"],
   "chunks": {
     "intro": {
       "routes": {
