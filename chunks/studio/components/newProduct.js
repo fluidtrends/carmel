@@ -95,10 +95,13 @@ export default class NewProduct extends Component {
   }
 
   selectThumb (id) {
-    if (this.state.selectedTemplateId === id) {
+    const t = this.props.session.templates[this.state.selectedTemplateId]
+    if (t.id === id) {
       return
     }
-    this.templates.slickGoTo(id)
+
+    const tId = this.props.session.templates.map(tmp => tmp.id).indexOf(id)
+    this.templates.slickGoTo(tId)
   }
 
   scrollToProductForm () {
@@ -157,8 +160,9 @@ export default class NewProduct extends Component {
 
   templateThumb (template) {
     const image = `http://files.carmel.io/covers/${template.cover}.r.png`
+    const t = this.props.session.templates[this.state.selectedTemplateId]
 
-    const selected = (`${this.state.selectedTemplateId}` === `${template.id}`)
+    const selected = (`${t.id}` === `${template.id}`)
     const opacity = (selected ? 1 : 0.25)
     const elevation = (selected ? 25 : 0)
 
