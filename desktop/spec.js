@@ -31,7 +31,6 @@ const readFile = (file) => {
 
     return (ext === '.json' ? JSON.parse(content) : content)
   } catch (e) {
-    console.log(e)
   }
 }
 
@@ -67,6 +66,7 @@ describe(challengeId, () => {
           finished(new Error(tip))
           return
         }
+
         process.send(Object.assign({}, { done: true, success: true }))
         finished()
       }

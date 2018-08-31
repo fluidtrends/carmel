@@ -36,6 +36,7 @@ export default class Shell {
 
         data && data(result)
       })
+
       ipcRenderer.send(type, { command, callId })
     })
   }

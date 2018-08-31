@@ -9,6 +9,7 @@ const start = ({ command, CARMEL_HOME, CARMEL_ROOT }) => {
   const product = command.product
 
   const dir = path.resolve(CARMEL_HOME, 'products', product.id)
+
   const specFile = path.resolve(CARMEL_ROOT, 'desktop', 'spec.js')
 
   process.env.CARMEL_TASK_ID = task.id
