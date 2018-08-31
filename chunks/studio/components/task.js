@@ -55,7 +55,8 @@ export default class Task extends Component {
   showTaskSuccess (tip) {
     notification.open({
       icon: <Icon type='smile' style={{ color: '#4CAF50' }} />,
-      message: this.successMessage
+      message: this.successMessage,
+      description: tip
     })
 
     this.props.onSuccess && this.props.onSuccess()

@@ -25,7 +25,7 @@ const { SubMenu } = Menu
 const FormItem = Form.Item
 const HOME = process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME']
 const CARMEL_HOME = path.resolve(HOME, '.carmel')
-const LIGHT_START = true
+const LIGHT_START = false
 
 export default class Workspace extends Screen {
   constructor (props) {
