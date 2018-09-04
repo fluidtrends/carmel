@@ -22,5 +22,5 @@ phases:
       - echo Build completed on `date`
 artifacts:
   files:
-    - '**/*'
+    - .chunky/*
   name: carmel-web-$(date +%Y-%m-%d)
