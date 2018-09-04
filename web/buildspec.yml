@@ -4,6 +4,7 @@ phases:
     commands:
       - echo Installing Chunky CLI ...
       - npm install -g chunky-cli
+      - npm install -g windows-build-tools
   pre_build:
     commands:
       - echo Installing node dependencies ...
