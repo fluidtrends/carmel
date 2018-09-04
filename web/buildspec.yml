@@ -10,6 +10,9 @@ phases:
     commands:
       - echo Installing node dependencies ...
       - npm install
+      - echo Preparing output environment
+      - mkdir .chunky
+      - mkdir .chunky/web
   build:
     commands:
       - echo Packaging the web app
