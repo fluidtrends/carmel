@@ -1,0 +1,21 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - echo Installing Chunky CLI ...
+      - npm install -g chunky-cli
+  pre_build:
+    commands:
+      - echo Installing node dependencies ...
+      - npm install
+  build:
+    commands:
+      - echo Packaging the web app
+      - npm run package:web
+  post_build:
+    commands:
+      - echo Build completed on `date`
+artifacts:
+  files:
+    - .chunky/web/*
+  name: carmel-web-$(date +%Y-%m-%d)

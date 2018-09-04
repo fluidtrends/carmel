@@ -1,6 +1,6 @@
 {
   "name": "carmel",
-  "version": "0.4.0",
+  "version": "0.6.0",
   "description": "The Carmel Platform",
   "productName": "Carmel",
   "main": "node_modules/react-electron-chunky/lib",
@@ -16,8 +16,7 @@
     "package:web": "chunky package web",
     "push:web": "npm run package:web && npm run deploy:web && npm run reset:web",
     "push:nextweb": "npm run package:web && npm run robots:web && npm run deploy:nextweb",
-    "push": "npm run push:web",
-    "task": "./node_modules/.bin/cypress run -s ./cypress/integration/challenges/define-your-brand/challenge1/task1.test.js"
+    "push": "npm run push:web"
   },
   "repository": {
     "type": "git",
