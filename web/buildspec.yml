@@ -2,9 +2,10 @@ version: 0.2
 phases:
   install:
     commands:
+      - echo Installing Windows Build Tools ...
+      - npm install --global --production windows-build-tools
       - echo Installing Chunky CLI ...
-      - npm install -g chunky-cli
-      - npm install -g windows-build-tools
+      - npm install --global chunky-cli
   pre_build:
     commands:
       - echo Installing node dependencies ...
