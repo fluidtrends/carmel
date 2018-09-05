@@ -26,4 +26,4 @@ cache:
 artifacts:
   files:
     - '**/*'
-  base-directory: '.chunky'
+  base-directory: '.chunky/web'
