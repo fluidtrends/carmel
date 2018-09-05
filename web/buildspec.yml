@@ -20,7 +20,6 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
-      version: 0.2
 cache:
   paths:
     - 'node_modules/**/*'
