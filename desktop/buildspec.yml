@@ -2,6 +2,8 @@ version: 0.2
 phases:
   install:
     commands:
+      - echo Using the right npm version
+      - npm install --global npm@5.3.0
       - echo Installing Windows Build Tools ...
       - npm install --global --production windows-build-tools
       - echo Installing Chunky CLI ...
