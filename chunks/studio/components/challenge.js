@@ -6,6 +6,7 @@ import { Typography } from 'rmwc/Typography'
 import { List, Avatar, IconText, Progress, Tag, Rate, Spin, Icon, notification, Badge } from 'antd'
 import { Chip, ChipText, ChipIcon, ChipSet } from 'rmwc/Chip'
 import { Elevation } from 'rmwc/Elevation'
+import { Data } from 'react-chunky'
 import Task from './task'
 import Shell from './shell'
 import Prompt from './prompt'
@@ -91,16 +92,33 @@ export default class Challenge extends Component {
   }
 
   toggleStarted () {
-    const started = !this.state.started
-    const taskIndex = 1
-    const task = this.props.challenge.tasks[taskIndex - 1]
+    if (!this.state.started) {
+      Data.Cache.cacheItem('pendingPurchase', {
+        challenge: {
+          title: this.props.challenge.title,
+          level: this.props.challenge.level,
+          authors: this.props.challenge.authors,
+          skills: this.props.challenge.skills
+        }
+      })
+      .then((data) => {
+        this.props.onBuyChallenge && this.props.onBuyChallenge(this.props.challenge)
+      })
+      .catch(error => console.log(error))
+      return
+    }
 
-    this.shell.analytics(started ? 'challengeStarted' : 'challengeStopped', this.props.challenge.id)
-
-    this.shell.cache('challengeId', started ? this.props.challenge.id : '')
-    this.shell.cache('taskId', started ? task.id : '')
-
-    this.setState({ started, taskIndex, task, showTask: started })
+    // const started = !this.state.started
+    //
+    // const taskIndex = 1
+    // const task = this.props.challenge.tasks[taskIndex - 1]
+    //
+    // this.shell.analytics(started ? 'challengeStarted' : 'challengeStopped', this.props.challenge.id)
+    //
+    // this.shell.cache('challengeId', started ? this.props.challenge.id : '')
+    // this.shell.cache('taskId', started ? task.id : '')
+    //
+    // this.setState({ started, taskIndex, task, showTask: started })
   }
 
   isTaskComplete (task) {

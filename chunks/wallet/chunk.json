@@ -1,6 +1,27 @@
 {
   "name": "wallet",
   "routes": {
+    "main": {
+      "title": "Wallet",
+      "icon": "appstore",
+      "path": "/wallet",
+      "layoutBackground": "#f5f500",
+      "cover": {
+        "backgroundColor": "#00838F",
+        "navigation": true,
+        "type": "menu"
+      },
+      "startOperationsOnMount": false,
+      "operations": {
+        "getWallet": [
+          "firebase://retrieve/users-wallets/:userId?latest=1&resolve=wallets#getWallet",
+          {
+            "onSuccess": "gotWallet",
+            "onError": "failedToGetWallet"
+          }
+        ]
+      }
+    },
     "checkout": {
       "title": "Account",
       "icon": "account_circle",

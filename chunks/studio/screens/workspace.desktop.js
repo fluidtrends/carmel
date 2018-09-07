@@ -45,6 +45,7 @@ export default class Workspace extends Screen {
     this._onShowCompileErrors = this.onShowCompileErrors.bind(this)
     this._onFileOpen = this.onFileOpen.bind(this)
     this._onFileClose = this.onFileClose.bind(this)
+    this._onBuyChallenge = this.onBuyChallenge.bind(this)
   }
 
   componentDidMount () {
@@ -65,7 +66,7 @@ export default class Workspace extends Screen {
   }
 
   onShowAccountScreen () {
-    // this.triggerRedirect('/me')
+    this.triggerRedirect(this.isLoggedIn ? '/me' : '/login')
   }
 
   onShowFileBrowser () {
@@ -260,6 +261,10 @@ export default class Workspace extends Screen {
       files={this.state.files} />
   }
 
+  onBuyChallenge (challenge) {
+    this.triggerRedirect(this.isLoggedIn ? '/wallet' : '/login')
+  }
+
   renderChallenge () {
     return <div key='challenge' style={{
       display: 'flex',
@@ -267,6 +272,8 @@ export default class Workspace extends Screen {
       flexDirection: 'column'
     }}>
       <Challenge
+        onBuyChallenge={this._onBuyChallenge}
+        account={this.account}
         product={this.product}
         task={this.state.task}
         onShowTask={this._onShowTask}

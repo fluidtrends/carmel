@@ -1,5 +1,5 @@
 import React from 'react'
-import { Screen } from 'react-dom-chunky'
+import { Screen, Components } from 'react-dom-chunky'
 import { Card, CardActions, CardActionButtons } from 'rmwc/Card'
 import { Button } from 'rmwc/Button'
 import { List, notification } from 'antd'
@@ -7,21 +7,21 @@ import { List, notification } from 'antd'
 import UserInfo from '../components/userInfo'
 
 export default class AccountScreen extends Screen {
-  constructor(props) {
+  constructor (props) {
     super(props)
-    this.state = { ...this.state }
+    this.state = { ...this.state, inProgress: false }
     this._renderProfileItem = this.renderProfileItem.bind(this)
     this._onProfileItemEdit = (item) => this.onProfileItemEdit.bind(this, item)
     this._logout = this.logout.bind(this)
   }
 
-  componentDidMount() {
+  componentDidMount () {
     super.componentDidMount()
 
     this.verifyTwitterCallback()
   }
 
-  verifyTwitterCallback() {
+  verifyTwitterCallback () {
     if (!this.props.location.search) {
       return
     }
@@ -40,7 +40,7 @@ export default class AccountScreen extends Screen {
     this.props.history.push(this.props.location.pathname)
   }
 
-  subscriptionArgs(subscription) {
+  subscriptionArgs (subscription) {
     if (!subscription || !this.account) {
       return {}
     }
@@ -48,21 +48,21 @@ export default class AccountScreen extends Screen {
     return { userId: this.account.user.uid }
   }
 
-  getAccountSuccess(acc) {
+  getAccountSuccess (acc) {
     const account = Object.assign({}, this.account.user, acc)
     this.login(account)
   }
 
-  getProfileSuccess(profile) {
+  getProfileSuccess (profile) {
     const account = Object.assign({}, this.account.user, profile[0])
     this.login(account)
   }
 
-  onProfileItemEdit(item) {
+  onProfileItemEdit (item) {
     console.log(item)
   }
 
-  renderProfileItemActions(item) {
+  renderProfileItemActions (item) {
     if (!item.action) {
       return []
     }
@@ -73,7 +73,7 @@ export default class AccountScreen extends Screen {
     </Button>])
   }
 
-  renderProfileItem(item) {
+  renderProfileItem (item) {
     return <List.Item actions={this.renderProfileItemActions(item)}>
       <List.Item.Meta
         description={item.value || 'Not verified yet'}
@@ -81,7 +81,7 @@ export default class AccountScreen extends Screen {
     </List.Item>
   }
 
-  get profileData() {
+  get profileData () {
     return [{
       id: 'name',
       title: 'Full Name',
@@ -93,7 +93,7 @@ export default class AccountScreen extends Screen {
     }]
   }
 
-  twitterOk(twitter) {
+  twitterOk (twitter) {
     notification.success({
       message: 'Twitter Verification Successful',
       description: 'Thanks for verifying your Twitter identity'
@@ -102,11 +102,11 @@ export default class AccountScreen extends Screen {
     this.setState({ twitter })
   }
 
-  twitterError(error) {
+  twitterError (error) {
     this.setState({ twitterError: error.message })
   }
 
-  telegramOk(telegram) {
+  telegramOk (telegram) {
     notification.success({
       message: 'Telegram Verification Pending',
       description: 'Complete verification coming soon'
@@ -115,62 +115,101 @@ export default class AccountScreen extends Screen {
     this.setState({ telegram })
   }
 
-  telegramError(error) {
+  telegramError (error) {
     this.setState({ telegramError: error.message })
   }
 
-  twitterAuthOk(twitter) {
+  twitterAuthOk (twitter) {
     const authUrl = `https://api.twitter.com/oauth/authenticate?oauth_token=${twitter.data.token.oauth_token}`
     window && window.location.replace(authUrl)
   }
 
-  get twitterUrl() {
+  get twitterUrl () {
     return `${this.restUrl}auth/twitter`
   }
 
-  renderMainContent() {
-    const width = this.isSmallScreen ? '95vw' : '600px'
-    const padding = this.isSmallScreen ? '30px 10px' : '30px'
+  renderMainContentFooter () {
+    return <div />
+  }
+
+  get skipWallet () {
+    return true
+  }
+
+  get containerStyle () {
+    return {
+      display: 'flex',
+      flex: 1,
+      justifyContent: 'center',
+      flexDirection: 'column',
+      alignItems: 'center'
+    }
+  }
+
+  get formWidth () {
+    return this.isSmallScreen ? '95vw' : '600px'
+  }
+
+  get formPadding () {
+    return this.isSmallScreen ? '10px' : '30px'
+  }
+
+  renderUserInfo () {
+    return <UserInfo
+      skipWallet={this.skipWallet}
+      twitterOAuth={this.state.twitterOAuth}
+      twitterUrl={this.twitterUrl}
+      twitter={this.state.twitter}
+      twitterError={this.state.twitterError}
+      twitterVerify={this.props.twitterVerify}
+      telegramVerify={this.props.telegramVerify}
+      twitterAuth={this.props.twitterAuth}
+      redirect={this.triggerRawRedirect}
+      account={this.account} />
+  }
+
+  renderActiveContent () {
+    return [<List
+      key='active-list'
+      style={{ marginTop: '20px' }}
+      itemLayout='horizontal'
+      dataSource={this.profileData}
+      renderItem={this._renderProfileItem} />,
+      <CardActions style={{ justifyContent: 'center', marginTop: '20px' }} key='active-actions'>
+        <CardActionButtons style={{ marginLeft: '10px' }}>
+          <Button
+            style={{backgroundColor: '#f44336', color: '#ffffff'}}
+            onClick={this._logout}>
+          Sign Out
+          </Button>
+        </CardActionButtons>
+      </CardActions>]
+  }
+
+  renderMainContent () {
+    const width = this.formWidth
+    const padding = this.formPadding
     const margin = this.isSmallScreen ? '50px 0px' : '0'
 
-    return (<div
-      style={{
-        display: 'flex',
-        flex: 1,
-        justifyContent: 'center',
-        flexDirection: 'column',
-        alignItems: 'center'
-      }}>
+    if (this.state.inProgress) {
+      return (<div style={this.containerStyle}>
+        <Card style={{ width, margin: '10px', padding, margin }}>
+          { this.renderUserInfo() }
+          <Components.Loading message='Just a minute, please ...' />
+        </Card>
+      </div>)
+    }
+
+    return (<div style={this.containerStyle}>
       <Card style={{ width, margin: '10px', padding, margin }}>
-        <UserInfo
-          skipWallet
-          twitterOAuth={this.state.twitterOAuth}
-          twitterUrl={this.twitterUrl}
-          twitter={this.state.twitter}
-          twitterError={this.state.twitterError}
-          twitterVerify={this.props.twitterVerify}
-          telegramVerify={this.props.telegramVerify}
-          twitterAuth={this.props.twitterAuth}
-          redirect={this.triggerRawRedirect}
-          account={this.account} />
-        <List
-          style={{ marginTop: '20px' }}
-          itemLayout='horizontal'
-          dataSource={this.profileData}
-          renderItem={this._renderProfileItem} />
-        <CardActions style={{ justifyContent: 'center', marginTop: '20px' }}>
-          <CardActionButtons style={{ marginLeft: '10px' }}>
-            <Button
-              onClick={this._logout}>
-              Sign Out
-              </Button>
-          </CardActionButtons>
-        </CardActions>
+        { this.renderUserInfo() }
+        { this.renderActiveContent() }
       </Card>
+      { this.renderMainContentFooter() }
     </div>)
   }
 
-  components() {
+  components () {
     return [this.renderMainContent()]
   }
 }
