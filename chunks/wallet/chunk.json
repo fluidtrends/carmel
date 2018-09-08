@@ -13,6 +13,13 @@
       },
       "startOperationsOnMount": false,
       "operations": {
+        "sendTokens": [
+          "rest://create/wallet/send#sendTokens",
+          {
+            "onSuccess": "tokensSent",
+            "onError": "failedToSendTokens"
+          }
+        ],
         "getWallet": [
           "firebase://retrieve/users-wallets/:userId?latest=1&resolve=wallets#getWallet",
           {
@@ -42,7 +49,7 @@
   },
   "service": {
     "functions": [
-      "post://update#updateProfile"
+      "post://send#sendTokens"
     ],
     "dependencies": {},
     "requiredFields": {},

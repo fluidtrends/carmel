@@ -12,6 +12,7 @@ export default class MainWalletScreen extends Screen {
     super(props)
     this.state = { ...this.state, inProgress: true }
     this._back = this.back.bind(this)
+    this._send = this.send.bind(this)
   }
 
   componentDidMount () {
@@ -22,6 +23,20 @@ export default class MainWalletScreen extends Screen {
   refreshWallet () {
     const userId = this.account.user.uid
     this.props.getWallet({ userId })
+  }
+
+  send () {
+    this.setState({ inProgress: true })
+    this.props.sendTokens({ amount: this.price, to: 'dan+100@fluidtrends.com' })// this.author.email })
+  }
+
+  tokensSent (data) {
+    console.log(data)
+    this.refreshWallet()
+  }
+
+  failedToSendTokens (error) {
+    this.setState({ inProgress: false })
   }
 
   back () {
@@ -83,7 +98,7 @@ export default class MainWalletScreen extends Screen {
     const factor = 5
     const precision = 2
     const price = (level + 1) * factor * rate
-    return `${price.toFixed(precision).toLocaleString('en')}`
+    return price.toFixed(precision)
   }
 
   get title () {
@@ -91,7 +106,7 @@ export default class MainWalletScreen extends Screen {
   }
 
   get author () {
-    return this.state.pendingPurchase.challenge.authors[0].name
+    return this.state.pendingPurchase.challenge.authors[0]
   }
 
   renderContinuePurchase () {
@@ -105,16 +120,16 @@ export default class MainWalletScreen extends Screen {
         <CardActionButtons style={{ marginLeft: '10px' }}>
           <Button
             theme='secondary-bg text-primary-on-secondary'
-            onClick={this._buy}>
+            onClick={this._send}>
             <ButtonIcon use='verified_user' />
-              Send <strong> { this.price } </strong> CARMEL
+              Send <strong> { this.price.toLocaleString('en') } </strong> CARMEL
             </Button>
         </CardActionButtons>
       </CardActions>,
       <Typography use='body1' key='active-footer' style={{
         textAlign: 'center'
       }}>
-          to <strong> {this.author} </strong>
+          to <strong> {this.author.name} </strong>
       </Typography>
     ]
   }
@@ -152,8 +167,8 @@ export default class MainWalletScreen extends Screen {
       return <Typography use='body1' key='active-main' style={{
         textAlign: 'center'
       }}>
-            You have <strong> { this.tokens } </strong> CARMEL available
-        </Typography>
+        You have <strong> { this.tokens } </strong> CARMEL available
+      </Typography>
     }
 
     return this.renderContinuePurchase()
