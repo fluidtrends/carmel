@@ -14,6 +14,8 @@ const eventHandler = (type) => (event, mainWindow, session, props) => {
   })
 
   p.send(Object.assign({}, { start: true }, system, props, { session: session.data }))
+
+  return p
 }
 
 const startProduct = eventHandler('startProduct')

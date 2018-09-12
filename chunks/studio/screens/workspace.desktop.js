@@ -8,6 +8,8 @@ import { Elevation } from 'rmwc/Elevation'
 import fs from 'fs-extra'
 import path from 'path'
 import { Parallax } from 'react-spring'
+import { Typography } from 'rmwc/Typography'
+import { Data } from 'react-chunky'
 
 import Shell from '../components/shell'
 import Toolbar from '../components/toolbar'
@@ -284,6 +286,22 @@ export default class Workspace extends Screen {
     </div>
   }
 
+  renderStartingMessage () {
+    return <Prompt
+      title='Tweek-N-Learn'
+      subtitle='Get Ready To Learn The Carmel Way'>
+      <Typography use='subtitle1' style={{
+        textAlign: 'center',
+        margin: '20px',
+        color: '#78909C'
+      }}>
+        Learning the <strong> Carmel Way </strong> means starting with a real product
+        and then taking challenges that teach you to tweak your product by writing small
+        chunks of code.
+      </Typography>
+    </Prompt>
+  }
+
   renderChallenges () {
     return <div key='challenges' style={{
       display: 'flex',
@@ -300,6 +318,10 @@ export default class Workspace extends Screen {
   }
 
   renderWorkspaceContent () {
+    if (this.state.productStarting) {
+      return this.renderStartingMessage()
+    }
+
     if (!this.state.challenge) {
       return this.renderChallenges()
     }

@@ -5,6 +5,7 @@ const chokidar = require('chokidar')
 const { downloadArchive } = require('./utils')
 
 const session = new Session()
+var commandHistory = []
 
 const registerCommands = (ipcMain, data, mainWindow) => {
   if (!ipcMain) {
@@ -14,7 +15,8 @@ const registerCommands = (ipcMain, data, mainWindow) => {
   Object.keys(commands).forEach(command => {
     console.log(`[${_name}] registered ${command} command`)
     ipcMain.on(command, (event, args) => {
-      commands[command](event, mainWindow, session, args)
+      const exec = commands[command](event, mainWindow, session, args)
+      commandHistory.push({ command, exec, args })
     })
   })
 
@@ -53,4 +55,27 @@ const start = ({ ipcMain, mainWindow }) => {
   })
 }
 
-module.exports = start
+const stop = () => {
+  return new Promise((resolve, reject) => {
+    console.log(`[${_name}] stopping ... `)
+
+    commandHistory.forEach(cmd => {
+      if (cmd.exec) {
+        console.log(`[${_name}] stopping ${cmd.command} command ...`)
+        cmd.exec.kill('SIGINT')
+      }
+    })
+
+    return session.stop()
+            .then((data) => {
+              console.log(`[${_name}] stopped successfully`)
+              resolve(data)
+            })
+            .catch((error) => {
+              console.log(`[${_name}] could not stop`)
+              reject(error)
+            })
+  })
+}
+
+module.exports = { start, stop }

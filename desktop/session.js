@@ -422,11 +422,9 @@ class Session {
                this.mainWindow.webContents.send(client, { product, done: true })
              })
              .catch((error) => {
-               console.log(error)
                this.mainWindow.webContents.send(client, { error })
              })
     } catch (error) {
-      console.log(error)
       this.mainWindow.webContents.send(client, { error })
     }
   }
@@ -439,6 +437,12 @@ class Session {
     }
 
     return this.sessionVault.load().then(({ vault }) => this.load(vault))
+  }
+
+  stop () {
+    return new Promise((resolve, reject) => {
+      resolve()
+    })
   }
 }
 
