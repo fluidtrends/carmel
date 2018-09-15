@@ -2,7 +2,6 @@ import React from 'react'
 import { Component, Components } from 'react-dom-chunky'
 import { Card } from 'rmwc/Card'
 import { Input, Icon } from 'antd'
-import { Typography } from 'rmwc/Typography'
 import Progress from './progress'
 
 export default class Browser extends Component {

@@ -10,7 +10,7 @@ import path from 'path'
 import { Parallax } from 'react-spring'
 import { Typography } from 'rmwc/Typography'
 import { Data } from 'react-chunky'
-
+import PopupMessage from '../components/popup'
 import Shell from '../components/shell'
 import Toolbar from '../components/toolbar'
 import Challenge from '../components/challenge'
@@ -114,7 +114,15 @@ export default class Workspace extends Screen {
   }
 
   start () {
-    this.setState({ productStarting: true, productStarted: false })
+    this.setState({
+      productStarting: true,
+      productStarted: false,
+      showPopup: true,
+      popupIcon: 'tokens',
+      popupButtonTitle: 'Get Started',
+      popupMessage: "Just 'cause you're awesome, you just got 10 CARMEL tokens.",
+      popupTitle: 'Congratulations'
+    })
     return this.startProduct()
   }
 
@@ -329,6 +337,21 @@ export default class Workspace extends Screen {
     return [ this.renderChallenge(), this.renderOpenFileTabs() ]
   }
 
+  renderPopup () {
+    if (!this.state.showPopup) {
+      return <div key='popupContainer' />
+    }
+
+    return <PopupMessage
+      key='popupContainer'
+      buttonTitle={this.state.popupButtonTitle}
+      icon={this.state.popupIcon}
+      title={this.state.popupTitle}
+      message={this.state.popupMessage}
+      onClose={() => this.setState({ showPopup: false })}
+      message={this.state.popupMessage} />
+  }
+
   renderSideDetails () {
     return <div>
       details
@@ -395,6 +418,7 @@ export default class Workspace extends Screen {
       alignItems: 'center',
       justifyContent: 'center'
     }}>
+      { this.renderPopup() }
       { this.renderWorkspace(productStatus) }
       { this.renderFileExplorer(productStatus) }
     </div>

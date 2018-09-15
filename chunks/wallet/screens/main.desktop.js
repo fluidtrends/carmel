@@ -27,26 +27,28 @@ export default class MainWalletScreen extends Screen {
 
   send () {
     this.setState({ inProgress: true })
-    this.props.sendTokens({ amount: this.price, to: 'dan+100@fluidtrends.com' })// this.author.email })
+    this.props.sendTokens({ amount: this.price, to: this.author.email })
   }
 
-  tokensSent (data) {
-    console.log(data)
-    this.refreshWallet()
+  tokensSent (response) {
+    if (response && response.data && response.data.error) {
+      notification.error({ message: response.data.error })
+      this.setState({ inProgress: false })
+      return
+    }
+
+    this.back()
   }
 
   failedToSendTokens (error) {
+    notification.error({ message: error.message })
     this.setState({ inProgress: false })
   }
 
   back () {
     Data.Cache.clearCachedItem('pendingPurchase')
-              .then(() => {
-                this.triggerRedirect('/workspace')
-              })
-              .catch(error => {
-                this.triggerRedirect('/workspace')
-              })
+              .then(() => this.triggerRedirect('/workspace'))
+              .catch(error => this.triggerRedirect('/workspace'))
   }
 
   renderMainContentFooter () {
@@ -106,7 +108,7 @@ export default class MainWalletScreen extends Screen {
   }
 
   get author () {
-    return this.state.pendingPurchase.challenge.authors[0]
+    return this.state.pendingPurchase.challenge.author
   }
 
   renderContinuePurchase () {
