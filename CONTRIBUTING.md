@@ -23,7 +23,7 @@ Bugs are tracked as [GitHub issues](https://guides.github.com/features/issues/).
 Explain the problem and include additional details to help us reproduce the problem:
 
 * **Use a clear and descriptive title** for the issue to identify the problem.
-* **Describe the exact steps which reproduce the problem** in as many details as possible. For example describe what were you doing in the Carmel studio when the bug appeared. **Don't just list the steps try to explain how you did them**.
+* **Describe the exact steps which reproduce the problem** in as many details as possible. For example describe what were you doing in the Carmel studio when the bug appeared. **Don't just list the steps, try to explain how you did them**.
 * **Provide specific examples to demonstrate the steps**. Include links to files or GitHub projects, or copy/pasteable snippets, which you use in those examples.
 * **Describe the behavior you observed after following the steps** and point out what exactly is the problem with that behavior.
 * **Explain which behavior you expected to see instead and why.**
@@ -33,7 +33,7 @@ Explain the problem and include additional details to help us reproduce the prob
 
 **All the challenges will be under the challenges folder in the root directory.**
 
-Every new set of should be added in a new folder with a [camelCase](https://en.wikipedia.org/wiki/Camel_case) name.
+Every new set of tasks that belong to a specific challenge should be added in a new folder with a [camelCase](https://en.wikipedia.org/wiki/Camel_case) containing the challenge name.
 
 **Note: If you create a new folder you must add it to the index.json file too. For example if you created a new folder called: myChallenge, the index.json should contain that string ["helloWorld", "myChallenge"]**.
 
@@ -45,10 +45,10 @@ For an example index.json look [here](https://github.com/fluidtrends/carmel/blob
 The newly created folder must contain an index.json file which will describe the:
 * **title** - try to add a descriptive title to your challenge
 * **summary** - add an explanatory summary for the users to understand what they will do
-* **author** - must contain the name of the author and his email
-* **level** - the level of the challenge
-* **skills** - skills aquired by someone who will complete this challenge
-* **taskIds** - the ids of the tasks include in the challenge
+* **author** - must contain the author's name and email
+* **level** - level of difficulty
+* **skills** - skills acquired by completing this challenge
+* **taskIds** - the ids of the tasks included in the challenge
 
 #### Task folder
 
@@ -77,19 +77,19 @@ Every index.json must contain:
 * **id** - should be the same with the folder name and the id in the index.json from the challenge folder
 * **index** - every index should be different
 * **title** - descriptive title for the tasks
-* **instructions** - a clear set of instructions to describe the learner what he will have to do in order to complete the task
+* **instructions** - a clear set of instructions to describe what the learner should do to complete the task
 * **help** - any tips so the learner can look into
 * **files** - the files that should be modified
 
-For an example index.json look [here](https://github.com/fluidtrends/carmel/blob/master/challenges/helloWorld/changeIntroTitle/index.json)
+For an example of index.json look [here](https://github.com/fluidtrends/carmel/blob/master/challenges/helloWorld/changeIntroTitle/index.json)
 
 ##### spec.js
 
 This js file will be a unit test written in order to validate the task. It is exported as a javascript module. For the moment we are using [chai](https://www.chaijs.com/).
 
-For an exemple spec.js look [here](https://github.com/fluidtrends/carmel/blob/master/challenges/helloWorld/changeIntroTitle/spec.js)
+For an exemple of spec.js look [here](https://github.com/fluidtrends/carmel/blob/master/challenges/helloWorld/changeIntroTitle/spec.js)
 
-When testing assertions please make sure you add an error message so the user will know what he will have to modify.
+When testing assertions please make sure you add an error message so the user will know what needs to be modified.
 
 ```javascript
 module.exports = ({ chai, utils, original, done }) => {
@@ -106,8 +106,10 @@ module.exports = ({ chai, utils, original, done }) => {
 
 #### Submit your challenge
 
-We will use [GitHub's pull requests](https://help.github.com/articles/about-pull-requests/) for submiting newly created challenges.
+You will need to use [GitHub's pull requests](https://help.github.com/articles/about-pull-requests/) for submiting the newly created challenges.
 
-Create a new pull request with the base branch set in master and after our dev team will look into it.
+Create a new pull request with the base branch set to master and someone from our dev team will look into it.
 
-##### That's it! If you did all of this you successfully added a new challenge and we will review it, once we merged it all the users will see the new challenge in the Carmel desktop.
+##### That's it! If you did all of this you successfully added a new challenge and we will review it, once we merged it with the existing challenges, the users will see your challenge in the Carmel desktop.
+
+The learners will use Carmel tokens to get new chllanges. Everytime they buy your challenge you will get back Carmel tokens porportional to the level of difficulty that the challenge will provide.
