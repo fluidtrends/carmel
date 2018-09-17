@@ -1,6 +1,6 @@
 # Contributing to Carmel
 
-👍🎉 First off all thank you for taking some time to contribute and to help us teach other people to!
+👍🎉 First of all, thank you for taking some time to contribute and help us teach other people too!
 
 The following guideline will try to explain what you need to do in order to contribute to Carmel and create new challenges or submit new bugs.
 
