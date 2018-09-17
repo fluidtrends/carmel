@@ -1,4 +1,4 @@
-#Contributing to Carmel
+# Contributing to Carmel
 
 👍🎉 First off all thank you for taking some time to contribute and to help us teach other people to!
 
