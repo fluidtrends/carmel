@@ -74,7 +74,7 @@ Take for example the index.json from the changeIntroTitle task.
 ```
 
 Every index.json must contain:
-* **id** - should be the same with the folder name and the id in the index.json from the chllange folder
+* **id** - should be the same with the folder name and the id in the index.json from the challenge folder
 * **index** - every index should be different
 * **title** - descriptive title for the tasks
 * **instructions** - a clear set of instructions to describe the learner what he will have to do in order to complete the task
