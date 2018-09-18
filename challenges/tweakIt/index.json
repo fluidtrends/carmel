@@ -1,0 +1,14 @@
+{
+  "title": "Tweak your product",
+  "summary": "Personalize your product",
+  "authors": {
+    "name": "Robert Pop Daniel",
+    "email": "poprobertdaniel22@gmail.com"
+  },
+  "level": 0,
+  "skills": ["json", "web", "branding"],
+  "taskIds": [
+    "changeButtonText",
+		"changeButtonColor"
+  ]
+}

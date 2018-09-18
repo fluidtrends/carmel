@@ -1,0 +1,8 @@
+{
+	"id": "changeButtonText",
+	"index": 1,
+	"title": "Change the text of your button",
+	"instructions": "You need to open the chunk.json file located in the intro folder.",
+	"help": "Tap the 'Open Source Code' button and open the chunks/intro/chunk.json file. Look for primaryActionTitle under the cover key.",
+	"files": ["chunks/intro/chunk.json"]
+}
