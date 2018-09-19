@@ -120,7 +120,7 @@ export default class LoginScreen extends Screen {
             raised
             onClick={this._done}
             theme='secondary-bg text-primary-on-secondary'>
-            <ButtonIcon use='done' />
+            <ButtonIcon icon='done' />
             Login Now
           </Button>
         </CardActionButtons>

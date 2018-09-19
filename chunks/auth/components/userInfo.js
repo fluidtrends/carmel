@@ -112,7 +112,7 @@
             <ChipText style={{ color }}>
               <strong> { title } </strong>
             </ChipText>
-            <ChipIcon style={{ color, marginLeft: '10px' }} use={icon} />
+            <ChipIcon style={{ color, marginLeft: '10px' }} icon={icon} />
           </Chip>
         </ChipSet>
       </Typography>
@@ -129,7 +129,7 @@
             <strong> {this.claimed.toLocaleString('en')} CARMEL </strong> (RESERVED)
         </ChipText>
         </Chip>
-        <ChipIcon style={{ color: '#B0BEC5', marginLeft: '5px', marginTop: '-5px' }} use={`help`} />
+        <ChipIcon style={{ color: '#B0BEC5', marginLeft: '5px', marginTop: '-5px' }} icon={`help`} />
       </Tooltip>
     }
 
@@ -185,9 +185,7 @@
                 marginBottom: '10px',
                 justifyContent: 'flex-start'
               }}>
-              <Icon style={{ fontSize: '50px' }} strategy='ligature'>
-            account_circle
-          </Icon>
+              <Icon style={{ fontSize: '50px' }} iconOptions={{strategy: 'ligature'}} icon={'account_circle'} />
             </Typography>
             <div style={{
               display: 'flex',

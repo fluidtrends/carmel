@@ -395,14 +395,14 @@ export default class CheckoutComponent extends Component {
         <ChipIcon
           style={{ color: '#66BB6A', marginRight: '10px' }}
           leading
-          use={`stars`}
+          icon={`stars`}
         />
         <ChipText>
           {(this.state.nextTokens - this.state.tokens).toLocaleString(
             'en'
           )} CARMEL
         </ChipText>
-        <ChipIcon style={{ color: '#B0BEC5', marginLeft: '5px', marginTop: '-5px' }} use={`redeem`} />
+        <ChipIcon style={{ color: '#B0BEC5', marginLeft: '5px', marginTop: '-5px' }} icon={`redeem`} />
       </Chip>
     </Tooltip>
   }
@@ -623,7 +623,7 @@ export default class CheckoutComponent extends Component {
               onClick={this._send}
               raised
               style={{ marginTop: '0px', marginBottom: '20px' }}>
-              <ButtonIcon use='done' />
+              <ButtonIcon icon='done' />
               {title}
             </Button>
           </CardActionButtons>
@@ -718,7 +718,7 @@ export default class CheckoutComponent extends Component {
             <Button
               onClick={this._back}
               style={{ marginTop: '20px', marginBottom: '20px' }}>
-              <ButtonIcon use='chevron_left' />
+              <ButtonIcon icon='chevron_left' />
               Go Back
             </Button>
           </CardActionButtons>

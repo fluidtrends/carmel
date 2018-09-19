@@ -208,7 +208,7 @@ export default class Welcome extends Component {
             theme='secondary-bg text-primary-on-secondary'
             style={{ marginTop: '10px', width }}
             onClick={this._meetChris}>
-            <ButtonIcon use='done' />
+            <ButtonIcon icon='done' />
             {actionText}
           </Button>
         </h3>

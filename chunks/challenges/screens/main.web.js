@@ -18,7 +18,6 @@ import {
 } from 'rmwc/Card'
 import { Typography } from 'rmwc/Typography'
 import { ListDivider } from 'rmwc/List'
-import { SpecialButton } from '../components'
 
 export default class MainChallengesScreen extends Screen {
   constructor(props) {
@@ -44,10 +43,6 @@ export default class MainChallengesScreen extends Screen {
     })
   }
 
-  get specialButton() {
-    return (<SpecialButton onAction={() => { this.triggerRawRedirect('https://t.me/carmelplatform') }} />)
-  }
-  
   renderContent() {
     if (this.state.loading) {
       const width = '100%'

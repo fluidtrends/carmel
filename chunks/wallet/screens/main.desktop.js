@@ -57,7 +57,7 @@ export default class MainWalletScreen extends Screen {
       alignItems: 'center'
     }}>
       <Button onClick={this._back}>
-        <ButtonIcon use={'arrow_back'} />
+        <ButtonIcon icon={'arrow_back'} />
         Back to Workspace
       </Button>
     </div>
@@ -121,7 +121,7 @@ export default class MainWalletScreen extends Screen {
           <Button
             theme='secondary-bg text-primary-on-secondary'
             onClick={this._send}>
-            <ButtonIcon use='verified_user' />
+            <ButtonIcon icon='verified_user' />
               Send <strong> { this.price.toLocaleString('en') } </strong> CARMEL
             </Button>
         </CardActionButtons>

@@ -109,7 +109,7 @@ export default class ClaimComponent extends Component {
             onClick={this._reserve}
             raised
             style={{ marginTop: '0px', marginBottom: '20px' }}>
-            <ButtonIcon use='done' />
+            <ButtonIcon icon='done' />
             Reserve Your Tokens Now
               </Button>
         </CardActionButtons>

@@ -111,7 +111,7 @@ export default class Task extends Component {
         marginBottom: '20px',
         backgroundColor: `#4CAF50`
       }}>
-      <ButtonIcon use={'check'} /> Mark Task As Complete
+      <ButtonIcon icon={'check'} /> Mark Task As Complete
     </Button>
   }
 
@@ -205,7 +205,7 @@ export default class Task extends Component {
         textAlign: 'left'
       }}>
         <Button onClick={this._onShowChallenge}>
-          <ButtonIcon use='arrow_back' />
+          <ButtonIcon icon='arrow_back' />
           Back to challenge
         </Button>
       </Typography>
@@ -215,7 +215,7 @@ export default class Task extends Component {
         textAlign: 'right'
       }}>
         <Button onClick={this._onOpenFile}>
-          <ButtonIcon use='file_copy' />
+          <ButtonIcon icon='file_copy' />
           Open Source Code
         </Button>
       </Typography>

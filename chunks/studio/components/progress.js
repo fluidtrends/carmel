@@ -37,10 +37,13 @@ export default class Progress extends Component {
         height: '300px',
         flex: 1
       }}>
-        <Icon style={{ color: '#00bcd4',
-          fontSize: '40px',
-          marginTop: '20px'
-        }}>build</Icon>
+        <Icon 
+          icon="build"
+          style={{ color: '#00bcd4',
+            fontSize: '40px',
+            marginTop: '20px'
+          }} 
+        />
         <Typography use='title' tag='h2' style={{ color: '#00bcd4', textAlign: 'center' }}>
           { this.props.title }
         </Typography>

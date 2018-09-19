@@ -64,7 +64,7 @@ export default class AccountScreen extends Screen {
       alignItems: 'center'
     }}>
       <Button onClick={this._back}>
-        <ButtonIcon use={'arrow_back'} />
+        <ButtonIcon icon={'arrow_back'} />
         Back to Workspace
       </Button>
     </div>
