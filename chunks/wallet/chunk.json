@@ -49,7 +49,8 @@
   },
   "service": {
     "functions": [
-      "post://send#sendTokens"
+      "post://send#sendTokens",
+      "post://achievements#newAchievement"
     ],
     "dependencies": {},
     "requiredFields": {},

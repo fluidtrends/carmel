@@ -97,7 +97,7 @@ export default class Challenge extends Component {
         challenge: {
           title: this.props.challenge.title,
           level: this.props.challenge.level,
-          authors: this.props.challenge.authors,
+          author: this.props.challenge.author,
           skills: this.props.challenge.skills
         }
       })
