@@ -1,10 +1,15 @@
-module.exports = ({ chai, utils, original, done }) => {
-  const originalTextContent = original.assets.text.intro
+module.exports = ({ chai, utils, done }) => {
 
-  const introAssetsConfig = utils.readFile('assets/text/intro.md')
-  const contentText = introAssetsConfig
+	// hardcode this for now
 
-  chai.expect(introChunksTextButton).to.not.equal(originalTextContent, `Make sure your content is different`)
+  const originalTextContent = `# Welcome to my site
+
+	## This was built with **Carmel**, the fastest, easiest and most fun way to climb the Digital Mountain. Ready to keep climbing? Let's go. And remember, always be climbing.
+`
+
+  const introContent = utils.readFile('assets/text/intro.md')
+
+  chai.expect(introContent).to.not.equal(originalTextContent, `Make sure your content is different`)
 
   done()
 }
