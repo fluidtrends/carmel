@@ -9,6 +9,7 @@
   "skills": ["json", "web", "branding"],
   "taskIds": [
     "changeButtonText",
-		"changeButtonColor"
+		"changeButtonColor",
+		"changeContent"
   ]
 }
