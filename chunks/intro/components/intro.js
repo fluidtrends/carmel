@@ -3,6 +3,25 @@ import { Component, Components } from 'react-dom-chunky'
 import { Parallax } from 'react-spring'
 import Typist from 'react-typist'
 import { Button, ButtonIcon } from 'rmwc/Button'
+import { Icon, Progress } from "antd"
+import 'antd/dist/antd.css';
+
+import Steemit from '../../tokens/components/steemit'
+import Telegram from '../../tokens/components/telegram'
+
+import YouTube from 'react-youtube'
+
+const introVideo = 'https://www.youtube.com/watch?v=qrHBVDbrOOY'
+
+const socialMediaLinks = {
+  facebook: 'https://www.facebook.com/carmelio-347131802460343/',
+  medium: 'http://medium.com/carmelplatform',
+  instagram: 'https://www.instagram.com/carmel.io/',
+  github: 'https://github.com/fluidtrends/carmel',
+  youtube: 'https://www.youtube.com/channel/UCjiQXohOk0pBmJ6PFElQL-g',
+  twitter: 'https://twitter.com/carmelplatform',
+  linkedin: 'https://www.linkedin.com/company/carmel-platform/'
+}
 
 export default class Welcome extends Component {
   constructor(props) {
@@ -40,104 +59,66 @@ export default class Welcome extends Component {
       }
     ]
 
-    return [<Parallax.Layer key='timer' offset={offset} speed={speed} style={{ opacity: 1, zIndex: 10, maxHeight: 300 }}>
+    return [<div key='timer' offset={offset} speed={speed} style={{ marginTop: 150 }}>
       <Components.Timer periods={periods} simple={true} />
-    </Parallax.Layer>]
+    </div>]
   }
 
   sky(offset, speed) {
-    return [<Parallax.Layer key='sky' offset={offset} speed={speed} style={{ opacity: 1 }}>
-      <img src={'../../../../assets/bgtop.png'} style={{ display: 'block', width: '100%', margin: '0' }} />
+    return [<Parallax.Layer key='sky' offset={offset} speed={speed} style={styles.colorful}>
     </Parallax.Layer>]
   }
 
-  stars(offset, speed) {
-    return [<Parallax.Layer key='stars' offset={offset} speed={speed} style={{ opacity: 0.3 }}>
-      <img src={'../../../../assets/stars.png'} style={{
-        display: 'block',
-        width: '100%',
-        margin: '0'
-      }} />
-      <img src={'../../../../assets/stars.png'} style={{
-        display: 'block',
-        width: '100%',
-        margin: '0'
-      }} />
-      <img src={'../../../../assets/stars.png'} style={{
-        display: 'block',
-        width: '100%',
-        margin: '0'
-      }} />
-    </Parallax.Layer>]
-  }
+  main(offset, speed) {
 
-  clouds(offset, speed) {
-    return [<Parallax.Layer key='clouds' offset={offset} speed={speed} style={{ opacity: 1 }}>
-      <img src={'../../../../assets/clouds.png'} style={{ display: 'block', width: '10%', marginLeft: '10%' }} />
-    </Parallax.Layer>,
-    <Parallax.Layer key='clouds2' offset={offset} speed={speed} style={{ opacity: 1.0 }}>
-      <img src={'../../../../assets/clouds.png'} style={{ display: 'block', width: '15%', marginLeft: '70%' }} />
-    </Parallax.Layer>]
-  }
-
-  movingClouds(offset, speed) {
-    return [<Parallax.Layer key='movingClouds' offset={offset} speed={speed} style={{ opacity: 1 }}>
-      <img src={'../../../../assets/cloud1.png'} style={{
-        display: 'block',
-        width: '30%',
-        marginLeft: `50px`
-      }} />
-      <img src={'../../../../assets/cloud1.png'} style={{
-        display: 'block',
-        marginTop: '30px',
-        width: '20%',
-        marginLeft: `100px`
-      }} />
-    </Parallax.Layer>]
-  }
-
-  mountains(offset, speed) {
-    return [<Parallax.Layer key='mountains' offset={offset} speed={speed} style={{ opacity: 0.8 }}>
-      <img src={'../../../../assets/mountains.png'} style={{ display: 'block', width: '100%', margin: '0' }} />
-    </Parallax.Layer>]
-  }
-
-  hills(offset, speed) {
-    return [<Parallax.Layer key='hills' offset={offset} speed={speed} style={{ opacity: 1 }}>
-      <img src={'../../../../assets/hills.png'} style={{ display: 'block', width: '100%', margin: '0' }} />
-    </Parallax.Layer>]
-  }
-
-  ground(offset, speed) {
-    return [<Parallax.Layer key='ground' offset={offset} speed={speed} style={{ opacity: 1 }}>
-      <img src={'../../../../assets/ground.png'} style={{ display: 'block', width: '100%', margin: '0' }} />
-    </Parallax.Layer>]
-  }
-
-  grass(offset, speed) {
-    return [<Parallax.Layer key='grass' offset={offset} speed={speed} style={{ opacity: 1 }}>
-      <img src={'../../../../assets/grass.png'} style={{ display: 'block', width: '100%', margin: '0' }} />
-    </Parallax.Layer>]
-  }
-
-  front(offset, speed) {
-    return [<Parallax.Layer key='front' offset={offset} speed={speed} style={{ opacity: 1 }}>
-      <img src={'../../../../assets/front.png'} style={{ display: 'block', width: '100%', margin: '0' }} />
-    </Parallax.Layer>]
-  }
-
-  rocks(offset, speed) {
-    return [<Parallax.Layer key='rocks' offset={offset} speed={speed} style={{ opacity: 1 }}>
-      <img src={'../../../../assets/rocks.png'} style={{ display: 'block', width: '100%', margin: '0' }} />
-    </Parallax.Layer>]
+    return <Parallax.Layer offset={offset} className="wharever" speed={speed} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <div style={{ opacity: 1.2, display: 'flex', flex: 2, justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', flex: 1, flexDirection: 'column', alignItems: 'center', padding: '40px 0 0 40px' }}>
+          {this.title()}
+          {this.subtitle()}
+          {this.timer()}
+          {/* {this.distribution()} */}
+          {/* {this.status()} */}
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', flex: 1, xjustifyContent: 'center', alignItems: 'center', padding: '40px 0 0 0' }}>
+          {this.video(this.props.offset + 0.29, 0.2)}
+          {this.videoTitle(this.props.offset + 0.29, 0.2)}
+        </div>
+      </div>
+    </Parallax.Layer>
   }
 
   title(offset, speed) {
     const fontSize = 18
+    const color = '#FAFAFA'
+
+    return [<div offset={offset} speed={speed} >
+      <h1 key='title' style={{
+        color,
+        fontSize: `${fontSize + 55}px`,
+        textShadow: '2px 2px 5px #607D8B'
+      }}>
+        Welcome to Carmel
+        </h1>
+    </div>]
+  }
+
+  status(offset, speed) {
+    const fontSize = 18
     const textWidth = 420
     const color = '#FAFAFA'
 
-    return [<Parallax.Layer offset={offset} speed={speed} style={{ opacity: 1.2, display: 'flex', flex: 1, justifyContent: 'center' }}>
+    return [<div offset={offset} speed={speed} xstyle={{ opacity: 1.2 }}>
+      <Progress percent={30} strokeWidth={50} strokeColor="#66bb6a" style={{ width: 500 }} />
+    </div>]
+  }
+
+  videoTitle(offset, speed) {
+    const fontSize = 18
+    const textWidth = 420
+    const color = '#fff'
+
+    return [<div offset={offset} speed={speed} xstyle={{ opacity: 1.2 }}>
       <h1 key='title' style={{
         color,
         textAlign: 'center',
@@ -145,131 +126,147 @@ export default class Welcome extends Component {
         textShadow: '2px 2px 5px #607D8B',
         width: `${textWidth}px`
       }}>
-        Welcome to Carmel
+        Get to know Carmel
         </h1>
-    </Parallax.Layer>]
+    </div>]
   }
 
   subtitle(offset, speed) {
     const fontSize = 18
     const color = '#FAFAFA'
 
-    return [<Parallax.Layer offset={offset} speed={speed} style={{ opacity: 1, display: 'flex', flex: 1, justifyContent: 'center' }}>
+    return [<div offset={offset} speed={speed} style={{ opacity: 1 }}>
+      <h3 key='subtitle' style={{
+        color,
+        textAlign: 'center',
+        textShadow: '2px 2px 5px #607D8B',
+        fontSize: `${fontSize + 20}px`,
+      }}>
+        {intro}
+      </h3>
+    </div>]
+  }
+
+  distribution(offset, speed) {
+    const fontSize = 18
+    const color = '#FAFAFA'
+
+    return [<div offset={offset} speed={speed} style={{ opacity: 1, marginTop: 50 }}>
       <h3 key='subtitle' style={{
         color,
         textAlign: 'center',
         textShadow: '2px 2px 5px #607D8B',
         fontSize: `${fontSize + 10}px`,
       }}>
-        {intro}
+        {distributedTokens}
       </h3>
-    </Parallax.Layer>]
+    </div>]
   }
 
-  panel(offset, speed) {
+  video(offset, speed) {
     const fontSize = 18
     const textWidth = 420
-    const actionText = 'Start Your Learning Journey'
-    const textPadding = 60
-    const color = '#4E342E'
-    const width = this.props.isSmallScreen ? 120 : 300
-    const speech = this.props.isSmallScreen ? shortSpeech : longSpeech
-    return [<Parallax.Layer key='panel' offset={offset} speed={speed} style={{ opacity: 0.8, display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
-      <img src={`../../../../assets/panel.png`} style={{ display: 'block', width: '75%', height: '280px' }} />
-    </Parallax.Layer>,
-    <Parallax.Layer
-      offset={offset}
-      key='panel2'
-      speed={speed}
-      style={{
-        opacity: 1,
-        display: 'flex',
-        alignItems: 'flex-end',
-        justifyContent: 'center',
-        paddingBottom: `${textPadding}px`
-      }}>
+    const color = '#FAFAFA'
 
-      <Typist cursor={{ show: false }} style={{}}>
-        <h3 style={{
-          color,
-          textAlign: 'left',
-          fontSize: `${fontSize + 4}px`,
-          textShadow: '2px 2px 5px #ffffff',
-          fontFamily,
-          width: `${textWidth}px`
-        }}>
-          {speech[0]}
-        </h3>
-        <Typist.Delay ms={500} />
-        <h3 key='2' style={{
-          color,
-          textAlign: 'left',
-          fontSize: `${fontSize}px`,
-          fontFamily,
-          textShadow: '2px 2px 5px #ffffff'
-        }}>
-          {speech[1]}
-        </h3>
-        <h3 key='3' style={{
-          color,
-          fontSize: `${fontSize}px`,
-          textShadow: '2px 2px 5px #ffffff',
-          fontFamily,
-          textAlign: 'left'
-        }}>
-          {speech[2]}
-        </h3>
-        <Typist.Delay ms={500} />
-        <h3 key='4' style={{ color: '#602f15', textAlign: 'center', textShadow: '2px 2px 5px #ffffff' }}>
-          <Button
-            raised
-            theme='secondary-bg text-primary-on-secondary'
-            style={{ marginTop: '10px', width }}
-            onClick={this._onStart}>
-            <ButtonIcon use='done' />
-            {actionText}
-          </Button>
-        </h3>
-      </Typist>
+    const opts = {
+      height: '390',
+      width: '640',
+      playerVars: { // https://developers.google.com/youtube/player_parameters
+        autoplay: 1
+      }
+    };
+
+    return [<div offset={offset} speed={speed} style={{ marginTop: 200, width: 450, height: 300, border: '1px solid #263238', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <Icon
+        type="youtube"
+        theme="twoTone"
+        style={{
+          cursor: "pointer",
+          fontSize: 36,
+          color: '#e53935'
+        }}
+      />
+      {/* <YouTube
+        videoId="qrHBVDbrOOY"
+        opts={opts}
+        onReady={this._onReady}
+      /> */}
+      {/* <Components.Media video="https://www.youtube.com/watch?v=qrHBVDbrOOY" width={450} height={300} xstyle={{ border: '1px solid red' }} /> */}
+    </div>]
+  }
+
+  _onReady(event) {
+    // access to player in all event handlers via event.target
+    event.target.pauseVideo();
+  }
+
+  icons(offset, speed) {
+    const fontSize = 18
+    const textWidth = 420
+    const color = '#FAFAFA'
+
+    return [<Parallax.Layer offset={offset} speed={speed} style={{ opacity: 1.2, display: 'flex', flex: 1, justifyContent: 'flex-end', zIndex: 9999, height: 100, paddingRight: 70 }}>
+      {this.renderIcons()}
     </Parallax.Layer>]
   }
 
-  chunky(offset, speed) {
-    return [<Parallax.Layer key='chunky' offset={offset} speed={speed} style={{
-      opacity: 1, display: 'flex', width: '220px', alignItems: 'flex-end', justifyContent: 'flex-start'
-    }}>
-      <img src={`../../../../assets/chunky${this.state.speaking ? '-speaking.gif' : '.png'}`} style={{ display: 'block', width: '220px' }} />
-    </Parallax.Layer>]
+  goto(url) {
+    window.open(socialMediaLinks[url], '_blank')
+  }
+
+  renderIcons() {
+    const socialNetworks = [
+      "twitter",
+      "youtube",
+      "github",
+      "linkedin",
+      "facebook",
+      "medium",
+      "instagram"
+    ]
+
+    const align = this.props.isSmallScreen ? 'center' : 'center'
+    const { social } = this.props
+    const overflow = this.props.isSmallScreen ? 'auto' : 'unset'
+
+    return <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', alignSelf: align, overflow }}>
+      {socialNetworks.map(key => {
+        return <div>
+          <Icon
+            key={key}
+            theme="twoTone"
+            type={key}
+            twoToneColor="#00bcd4"
+            className="icon"
+            onClick={this.goto.bind(this, key)}
+            style={{
+              cursor: "pointer",
+              fontSize: 36,
+              padding: "10px"
+            }} />
+          <style jsx>{`
+              div :global(.icon) {
+              }
+              div :global(.icon):hover {  
+                color: ${'#00bcd4'}
+              }
+            `}</style>
+        </div>
+      })}
+    </ div>
   }
 
   render() {
     const smallScreenLayout = [...this.sky(this.props.offset, 0),
-    ...this.stars(this.props.offset, 0.1),
-    ...this.clouds(this.props.offset + 0.05, 0.3),
-    ...this.mountains(this.props.offset + 0.67, 0.2),
     ...this.title(this.props.offset + 0.1, 0.2),
-    ...this.timer(this.props.offset + 0.29, 0.2),
-    ...this.hills(this.props.offset + 0.75, 0.5),
-    ...this.movingClouds(this.props.offset + 0.25, 0.4),
-    ...this.ground(this.props.offset + 0.8, 0.6),
-    ...this.grass(this.props.offset + 0.7, 0.7),
-    ...this.front(this.props.offset + 0.93, 0.8)]
+    ...this.timer(this.props.offset + 0.29, 0.2)]
 
 
-    return this.props.isSmallScreen ? smallScreenLayout : [...this.sky(this.props.offset, 0),
-    ...this.stars(this.props.offset, 0.1),
-    ...this.clouds(this.props.offset + 0.05, 0.3),
-    ...this.mountains(this.props.offset + 0.3, 0.2),
-    ...this.title(this.props.offset + 0.15, 0.2),
-    ...this.subtitle(this.props.offset + 0.23, 0.2),
-    ...this.timer(this.props.offset + 0.29, 0.2),
-    ...this.hills(this.props.offset + 0.45, 0.5),
-    ...this.movingClouds(this.props.offset + 0.25, 0.4),
-    ...this.ground(this.props.offset + 0.5, 0.6),
-    ...this.grass(this.props.offset + 0.35, 0.7),
-    ...this.front(this.props.offset + 0.87, 0.8),
-    ...this.panel(this.props.offset, 0.8),
-    ...this.chunky(this.props.offset, 0.8)]
+    return this.props.isSmallScreen ? smallScreenLayout : [
+      ...this.sky(this.props.offset, 0),
+      ...this.main(this.props.offset + 0.15, 0.2),
+      ...this.icons(this.props.offset + 0.90, 0.2)
+    ]
   }
 }
 
@@ -284,3 +281,17 @@ const shortSpeech = [
   `Hey there, welcome to Carmel!`
 ]
 const intro = 'The First EOS Based Tech Education Platform'
+const distributedTokens = 'Tokens Distributed So Far:'
+
+const styles = {
+  colorful: {
+    height: '200vh',
+    background:
+      `-webkit-linear-gradient(315deg, hsla(182.08, 49%, 12.11%, 1) 2%, hsla(182.08, 49%, 12.11%, 0) 70%),
+      -webkit-linear-gradient(297deg, hsla(183.4, 60.89%, 51.26%, 1) 55%, hsla(183.4, 60.89%, 51.26%, 0) 16%)`,
+    background:
+      `linear-gradient(135deg, hsla(182.08, 49%, 12.11%, 1) 2%, hsla(182.08, 49%, 12.11%, 0) 70%),
+      linear-gradient(153deg, hsla(183.4, 60.89%, 51.26%, 1) 55%, hsla(183.4, 60.89%, 51.26%, 0) 16%)`
+  }
+
+}

@@ -98,10 +98,6 @@ export default class Info extends Component {
 
   render() {
     return [
-      ...this.top(this.props.offset, 0.5),
-      ...this.board(this.props.offset, 0.4),
-      ...this.chunkyHead(this.props.offset, 0.5),
-      ...this.action(this.props.offset, 0.5)
     ]
   }
 }

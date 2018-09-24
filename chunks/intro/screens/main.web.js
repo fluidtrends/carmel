@@ -55,21 +55,21 @@ export default class MainIntroScreen extends Screen {
       scrolling={!this.state.creatingProduct}
       pages={9}
       style={{
-        backgroundColor: '#00bcd4'
+        // backgroundColor: '#00bcd4'
       }}>
       <Intro
         session={this.props.session}
         offset={0}
         isSmallScreen={this.isSmallScreen}
         onStart={this._onStart}
-        onContinue={this._onContinue.bind(this, 2)} />
-      <Studio
+        onContinue={this._onContinue.bind(this, 1)} />
+      {/* <Studio
         session={this.props.session}
         offset={1}
-        onContinue={this._download} />
+        onContinue={this._download} /> */}
       <Tokens
         session={this.props.session}
-        offset={2}
+        offset={1}
         triggerRawRedirect={this.triggerRawRedirect}
         newTransaction={this.props.newTransaction}
         onCancel={this._onModalClose}
