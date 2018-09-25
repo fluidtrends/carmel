@@ -98,7 +98,6 @@
     "chai-as-promised": "^7.1.1",
     "chai-enzyme": "^1.0.0-beta.1",
     "chunky": "0.0.0",
-    "cypress": "^3.0.3",
     "decompress": "^4.2.0",
     "decompress-tarxz": "^2.1.1",
     "download-git-repo": "^1.1.0",
