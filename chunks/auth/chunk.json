@@ -141,6 +141,13 @@
             "onError": "okError"
           }
         ],
+        "getWallet": [
+          "firebase://retrieve/users-wallets/:userId?latest=1&resolve=wallets#getWallet",
+          {
+            "onSuccess": "gotWallet",
+            "onError": "failedToGetWallet"
+          }
+        ],
         "getAccount": "firebase://subscribe/users/:userId?#getAccount",
         "getProfile": "firebase://subscribe/users-profiles/:userId?latest=1&resolve=profiles#getProfile"
       },

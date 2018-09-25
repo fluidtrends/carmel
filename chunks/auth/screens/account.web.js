@@ -68,7 +68,7 @@ export default class AccountScreen extends Screen {
     }
 
     return ([<Button
-      onClick={this._onItemEdit(item)}>
+      onClick={this._onProfileItemEdit(item)}>
       {item.action}
     </Button>])
   }
@@ -186,14 +186,18 @@ export default class AccountScreen extends Screen {
       </CardActions>]
   }
 
-  renderMainContent () {
+  get cardStyle () {
     const width = this.formWidth
     const padding = this.formPadding
     const margin = this.isSmallScreen ? '50px 0px' : '0'
 
+    return { width, padding, margin }
+  }
+
+  renderMainContent () {
     if (this.state.inProgress) {
       return (<div style={this.containerStyle}>
-        <Card style={{ width, margin: '10px', padding, margin }}>
+        <Card style={this.cardStyle}>
           { this.renderUserInfo() }
           <Components.Loading message='Just a minute, please ...' />
         </Card>
@@ -201,7 +205,7 @@ export default class AccountScreen extends Screen {
     }
 
     return (<div style={this.containerStyle}>
-      <Card style={{ width, margin: '10px', padding, margin }}>
+      <Card style={this.cardStyle}>
         { this.renderUserInfo() }
         { this.renderActiveContent() }
       </Card>

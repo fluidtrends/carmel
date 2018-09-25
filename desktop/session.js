@@ -39,11 +39,16 @@ class Session {
     this._onWatcherFileAdded = this.onWatcherFileAdded.bind(this)
     this._products = {}
     this._files = {}
+    this._settings = {}
     this._commandHistory = []
   }
 
   get commandHistory () {
     return this._commandHistory
+  }
+
+  get settings () {
+    return this._settings
   }
 
   get sessionVault () {
@@ -115,6 +120,7 @@ class Session {
       product: this.product,
       challenge: this.challenge,
       task: this.task,
+      settings: this.settings,
       challenges: this.challenges,
       templates: this.templates,
       root: CARMEL_ROOT,
@@ -372,6 +378,10 @@ class Session {
     })
   }
 
+  loadSettings () {
+    this._settings = Object.assign({}, this.sessionVault.read('settings'))
+  }
+
   loadTemplates () {
     this._templates = []
 
@@ -409,6 +419,7 @@ class Session {
                this.loadProducts()
                this.loadTemplates()
                this.startWatching()
+               this.loadSettings()
                resolve(this.data)
              })
               .catch((error) => reject(error))
