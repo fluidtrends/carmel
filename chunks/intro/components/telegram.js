@@ -1,7 +1,6 @@
 import React from 'react'
 import { Component } from 'react-dom-chunky'
 import { Fab } from 'rmwc/Fab'
-import { Icon } from 'rmwc/Icon'
 
 export default class TelegramComponent extends Component {
 

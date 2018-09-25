@@ -12,7 +12,6 @@ import { Chip, ChipText, ChipIcon, ChipSet } from 'rmwc/Chip'
 import { Fab } from 'rmwc/Fab'
 import { ShapeContainer } from 'rmwc/Shape'
 import { Elevation } from 'rmwc/Elevation'
-import { IconButton } from 'rmwc/IconButton'
 import Shell from './shell'
 import fs from 'fs-extra'
 import path from 'path'
@@ -339,7 +338,7 @@ export default class NewProduct extends Component {
             onClick={this._createNewProduct}
             style={{ opacity: `${this.state.title ? 1 : 0.5}` }}
             theme='secondary-bg text-primary-on-secondary'>
-            <ButtonIcon use='done' />
+            <ButtonIcon icon='done' />
             { `Ok, let's create it` }
           </Button>
         </CardActionButtons>

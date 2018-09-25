@@ -39,7 +39,7 @@ export default class Challenges extends Component {
           style={{ marginBottom: '40px' }}
           raised
           onClick={this._showTeam}>
-          <ButtonIcon use='done' />
+          <ButtonIcon icon='done' />
           {`See the rest of the team`}
         </Button>
       </div>

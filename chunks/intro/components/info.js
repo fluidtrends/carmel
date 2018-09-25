@@ -88,7 +88,7 @@ export default class Info extends Component {
           style={{marginBottom: '40px'}}
           raised
           onClick={this._onContinue}>
-          <ButtonIcon use='done' />
+          <ButtonIcon icon='done' />
           { `Create your first website` }
         </Button>
       </div>

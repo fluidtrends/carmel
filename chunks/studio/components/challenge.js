@@ -203,7 +203,7 @@ export default class Challenge extends Component {
         backgroundColor: `${this.isStarted ? '#03A9F4' : '#4CAF50'}`
       }}
       onClick={this.isStarted ? this._continueChallenge : this._toggleStarted}>
-      <ButtonIcon use={this.isStarted ? 'forward' : 'play_circle_filled'} />
+      <ButtonIcon icon={this.isStarted ? 'forward' : 'play_circle_filled'} />
       { this.isStarted ? 'Continue' : 'Buy' } Challenge
     </Button>
   }
@@ -262,7 +262,7 @@ export default class Challenge extends Component {
 
     return <Typography use='title' tag='h2' style={{ marginTop: '20px', textAlign: 'center' }}>
       <Button onClick={action}>
-        <ButtonIcon use={icon} />
+        <ButtonIcon icon={icon} />
         { title }
       </Button>
     </Typography>

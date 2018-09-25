@@ -65,7 +65,7 @@ export default class BuyComponent extends Component {
               <ChipIcon
                 style={{ color: '#66BB6A', marginLeft: '2px' }}
                 leading
-                use={`done`}
+                icon={`done`}
               />
             </Chip>
           </ChipSet>

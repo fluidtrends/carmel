@@ -4,7 +4,6 @@ import moment from 'moment'
 import validator from 'validator'
 import { LinearProgress } from 'rmwc/LinearProgress'
 import base64 from 'base-64'
-import { Icon } from 'rmwc/Icon'
 import { TextField, TextFieldIcon, TextFieldHelperText } from 'rmwc/TextField'
 import {
   Card,
