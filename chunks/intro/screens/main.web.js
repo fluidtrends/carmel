@@ -53,7 +53,7 @@ export default class MainIntroScreen extends Screen {
     return <Parallax
       ref={ref => (this.scroller = ref)}
       scrolling={!this.state.creatingProduct}
-      pages={9}
+      pages={3}
       style={{
         // backgroundColor: '#00bcd4'
       }}>
@@ -80,19 +80,7 @@ export default class MainIntroScreen extends Screen {
       <Team
         session={this.props.session}
         isSmallScreen={this.isSmallScreen}
-        offset={3}
-      />
-      <TeamAction
-        session={this.props.session}
-        isSmallScreen={this.isSmallScreen}
-        showTeam={this._showTeam}
-        offset={this.isSmallScreen ? 5 : 6}
-      />
-      <Footer
-        session={this.props.session}
-        meetChris={this._meetChris}
-        offset={this.isSmallScreen ? 7 : 8}
-        isSmallScreen={this.isSmallScreen}
+        offset={2}
       />
     </Parallax>
   }

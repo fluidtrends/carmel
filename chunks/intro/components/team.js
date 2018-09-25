@@ -57,7 +57,7 @@ export default class Challenges extends Component {
       sections: [founders]
     })
 
-    const data = this.props.isSmallScreen ? smallData : teamData
+    const data = smallData
 
     return [<Parallax.Layer offset={offset} speed={speed} style={{ opacity: 1, display: 'flex', flex: 1, justifyContent: 'center' }}>
       <Components.Team {...data} small={true} />
@@ -66,7 +66,6 @@ export default class Challenges extends Component {
 
   render() {
     return [
-      ...this.sky(this.props.offset, 0),
       ...this.title(this.props.offset, 0),
       ...this.team(this.props.offset + 0.14, 0)
     ]

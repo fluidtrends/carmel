@@ -176,8 +176,8 @@ export default class Welcome extends Component {
       }
     };
 
-    return [<div offset={offset} speed={speed} style={{ marginTop: 200, width: 450, height: 300, border: '1px solid #263238', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <Icon
+    return [<div offset={offset} speed={speed} style={{ marginTop: 75, width: 850, height: 500, xborder: '1px solid #263238' }}>
+      {/* <Icon
         type="youtube"
         theme="twoTone"
         style={{
@@ -185,13 +185,13 @@ export default class Welcome extends Component {
           fontSize: 36,
           color: '#e53935'
         }}
-      />
+      /> */}
       {/* <YouTube
         videoId="qrHBVDbrOOY"
         opts={opts}
         onReady={this._onReady}
       /> */}
-      {/* <Components.Media video="https://www.youtube.com/watch?v=qrHBVDbrOOY" width={450} height={300} xstyle={{ border: '1px solid red' }} /> */}
+      <Components.Media video="https://www.youtube.com/watch?v=qrHBVDbrOOY" width={850} height={500} xstyle={{ border: '1px solid red' }} />
     </div>]
   }
 
