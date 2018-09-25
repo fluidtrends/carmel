@@ -85,7 +85,6 @@ export default class Workspace extends Screen {
   }
 
   runController (controller) {
-    console.log(controller)
     const { type, message } = controller
     switch (type) {
       case 'newAchievement':
@@ -115,7 +114,6 @@ export default class Workspace extends Screen {
 
   startProduct () {
     const { challenges, challenge, task } = this.props.session
-
     this.shell.exec('startProduct', { id: this.product.id, light: LIGHT_START }, (compilation) => {
       if (compilation.compiled && !this.state.productStarted) {
         this.setState({ challenges, challenge, task, compilation, productStarted: true, productStarting: false })

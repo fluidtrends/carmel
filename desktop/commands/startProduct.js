@@ -13,6 +13,8 @@ const {
 const path = require('path')
 const fs = require('fs-extra')
 
+var compiler, server, port
+
 const compilerConfig = ({ dir, port }) => {
   return {
     host: '0.0.0.0',
@@ -59,7 +61,7 @@ const startWebserver = ({ port, product }, cb) => {
       const setup = config({ dir: product.dir, chunks, config: manifest, root, port })
       const compConfig = compilerConfig({ dir: product.dir, root, port })
 
-      const compiler = webpack(setup)
+      compiler = webpack(setup)
 
       compiler.plugin('done', (stats) => {
         console.log('Product compiled.')
@@ -71,7 +73,7 @@ const startWebserver = ({ port, product }, cb) => {
         cb && cb(Object.assign({}, { compiled: false, compiling: true }))
       })
 
-      const server = new WebpackDevServer(compiler, compConfig)
+      server = new WebpackDevServer(compiler, compConfig)
       server.listen(port, '0.0.0.0', (error) => {
         if (error) {
           reject(error)
@@ -79,6 +81,30 @@ const startWebserver = ({ port, product }, cb) => {
         }
         console.log('Product started.')
       })
+    } catch (e) {
+      reject(e)
+    }
+  })
+}
+
+const refreshWebserver = ({ port, product }, cb) => {
+  return new Promise((resolve, reject) => {
+    try {
+      process.noDeprecation = true
+
+      compiler.plugin('done', (stats) => {
+        console.log('Product compiled.')
+        cb && cb(Object.assign({}, { compiled: true, compiling: false }, stats.compilation.errors.length > 0 && { errors: stats.compilation.errors }))
+        resolve({ port, files: product.files })
+      })
+
+      compiler.plugin('compile', (params) => {
+        console.log('Product compiling...')
+        cb && cb(Object.assign({}, { compiled: false, compiling: true }))
+      })
+
+      cb && cb(Object.assign({}, { compiled: true, compiling: false }))
+      resolve({ port, files: product.files })
     } catch (e) {
       reject(e)
     }
@@ -95,6 +121,16 @@ const startProduct = ({ light, product }, cb) => {
   return getPort().then((port) => startWebserver({ port, product }, cb))
 }
 
+const refreshProduct = ({ light, product }, cb) => {
+  console.log('Refreshing product ...', product.id)
+
+  if (light) {
+    return product.loadFileList()
+  }
+
+  return refreshWebserver({ port, product }, cb)
+}
+
 const start = ({ command, CARMEL_HOME, CARMEL_ROOT }) => {
   const product = new Product({ id: command.id, home: CARMEL_HOME, root: CARMEL_ROOT })
 
@@ -106,8 +142,28 @@ const start = ({ command, CARMEL_HOME, CARMEL_ROOT }) => {
     }
     process.send(Object.assign({}, compilation, errors && { errors }))
   })
-  .then(({ port, files }) => {
-    process.send({ done: true, port, dir: product.dir, files })
+  .then((result) => {
+    port = result.port
+    process.send({ done: true, port, dir: product.dir, files: result.files })
+  })
+  .catch((error) => {
+    process.send({ done: true, errors: [error.message] })
+  })
+}
+
+const refresh = ({ command, CARMEL_HOME, CARMEL_ROOT }) => {
+  const product = new Product({ id: command.id, home: CARMEL_HOME, root: CARMEL_ROOT })
+
+  refreshProduct({ light: command.light, product }, (compilation) => {
+    var errors = compilation.errors
+    if (errors) {
+      errors = errors.map((error) => error.message)
+      delete compilation.errors
+    }
+    process.send(Object.assign({}, compilation, errors && { errors }))
+  })
+  .then((result) => {
+    process.send({ done: true, port, dir: product.dir, files: result.files })
   })
   .catch((error) => {
     process.send({ done: true, errors: [error.message] })
@@ -117,6 +173,11 @@ const start = ({ command, CARMEL_HOME, CARMEL_ROOT }) => {
 process.on('message', (data) => {
   if (data && data.start) {
     start(data)
+    return
+  }
+
+  if (data && data.refresh) {
+    refresh(data)
     return
   }
 })

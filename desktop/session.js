@@ -39,6 +39,11 @@ class Session {
     this._onWatcherFileAdded = this.onWatcherFileAdded.bind(this)
     this._products = {}
     this._files = {}
+    this._commandHistory = []
+  }
+
+  get commandHistory () {
+    return this._commandHistory
   }
 
   get sessionVault () {
@@ -120,6 +125,26 @@ class Session {
 
   get files () {
     return this._files
+  }
+
+  runningCommand (name) {
+    var found = false
+
+    this.commandHistory.forEach(c => {
+      if (c.command === name) {
+        found = c
+      }
+    })
+
+    return found
+  }
+
+  registerCommand (command) {
+    this._commandHistory.push(command)
+  }
+
+  clearCommandHistory () {
+    this._commandHistory = []
   }
 
   createMachineFingerprint (vaults) {
@@ -446,6 +471,7 @@ class Session {
 
   stop () {
     return new Promise((resolve, reject) => {
+      this.clearCommandHistory()
       resolve()
     })
   }

@@ -5,7 +5,23 @@ const chokidar = require('chokidar')
 const { downloadArchive } = require('./utils')
 
 const session = new Session()
-var commandHistory = []
+
+const saveCache = (key, data, options) => {
+  if (!options) {
+    console.log(`[${_name}] cache ${key}=${data}`)
+    session.sessionVault.write(key, data)
+    return
+  }
+
+  if (options && options.push) {
+    const old = session.sessionVault.read(key) || []
+    if (old && Array.isArray(old)) {
+      console.log(`[${_name}] cache ${key}=${data} push`)
+      session.sessionVault.write(key, old.concat(data))
+      return
+    }
+  }
+}
 
 const registerCommands = (ipcMain, data, mainWindow) => {
   if (!ipcMain) {
@@ -16,25 +32,15 @@ const registerCommands = (ipcMain, data, mainWindow) => {
     console.log(`[${_name}] registered ${command} command`)
     ipcMain.on(command, (event, args) => {
       const exec = commands[command](event, mainWindow, session, args)
-      commandHistory.push({ command, exec, args })
+      if (exec) {
+        session.registerCommand({ command, exec, args })
+        saveCache('runningCommands', [command], { push: true })
+      }
     })
   })
 
   ipcMain.on('sessionCache', (e, { key, data, options }) => {
-    if (!options) {
-      console.log(`[${_name}] cache ${key}=${data}`)
-      session.sessionVault.write(key, data)
-      return
-    }
-
-    if (options && options.push) {
-      const old = session.sessionVault.read(key) || []
-      if (old && Array.isArray(old)) {
-        console.log(`[${_name}] cache ${key}=${data} push`)
-        session.sessionVault.write(key, old.concat(data))
-        return
-      }
-    }
+    saveCache(key, data, options)
   })
 }
 
@@ -59,7 +65,7 @@ const stop = () => {
   return new Promise((resolve, reject) => {
     console.log(`[${_name}] stopping ... `)
 
-    commandHistory.forEach(cmd => {
+    session.commandHistory.forEach(cmd => {
       if (cmd.exec) {
         console.log(`[${_name}] stopping ${cmd.command} command ...`)
         cmd.exec.kill('SIGINT')
@@ -69,6 +75,7 @@ const stop = () => {
     return session.stop()
             .then((data) => {
               console.log(`[${_name}] stopped successfully`)
+              saveCache('runningCommands', '')
               resolve(data)
             })
             .catch((error) => {

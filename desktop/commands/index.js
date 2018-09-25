@@ -3,6 +3,20 @@ const { fork } = require('child_process')
 const { system } = require('../utils')
 
 const eventHandler = (type) => (event, mainWindow, session, props) => {
+  const runningCommand = session.runningCommand(type)
+
+  if (runningCommand) {
+    console.log(`Command [${type}] is already running. Refreshing ...`)
+
+    runningCommand.exec.on('message', (data) => {
+      event.sender.send(props.callId, data)
+    })
+
+    runningCommand.exec.send(Object.assign({}, { refresh: true }, system, props, { session: session.data }))
+
+    return
+  }
+
   const cwd = path.resolve(system.CARMEL_ROOT)
   process.chdir(cwd)
 
