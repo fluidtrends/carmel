@@ -102,6 +102,9 @@ class Session {
   }
 
   get data () {
+    const machineId = this.sessionVault.read('machineId')
+    const machineFingerprint = this.sessionVault.read('machineFingerprint')
+
     return {
       products: this.products,
       product: this.product,
@@ -109,7 +112,9 @@ class Session {
       task: this.task,
       challenges: this.challenges,
       templates: this.templates,
-      root: CARMEL_ROOT
+      root: CARMEL_ROOT,
+      machineId,
+      machineFingerprint
     }
   }
 

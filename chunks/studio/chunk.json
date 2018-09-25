@@ -10,6 +10,16 @@
         "backgroundColor": "#00838F",
         "navigation": true,
         "type": "menu"
+      },
+      "startOperationsOnMount": false,
+      "operations": {
+        "syncSession": [
+          "rest://create/studio/sessions#newSession",
+          {
+            "onSuccess": "sessionSynced",
+            "onError": "failedToSyncSession"
+          }
+        ]
       }
     },
     "new": {
@@ -36,5 +46,16 @@
         "type": "default"
       }
     }
+  },
+  "service": {
+    "functions": [
+      "post://sessions#syncSession"
+    ],
+    "dependencies": {
+      "moment": "latest"
+    },
+    "requiredFields": {},
+    "permissions": {},
+    "schedule": {}
   }
 }

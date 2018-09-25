@@ -20,6 +20,7 @@ import Explorer from '../components/explorer'
 import TabBar from '../components/tabbar'
 import Task from '../components/task'
 import Prompt from '../components/prompt'
+import * as Stages from '../functions/stages'
 
 const { Header, Sider, Content, Footer } = Layout
 const { SubMenu } = Menu
@@ -83,6 +84,35 @@ export default class Workspace extends Screen {
     this.setState({ enableTabs: false })
   }
 
+  runController (controller) {
+    console.log(controller)
+    const { type, message } = controller
+    switch (type) {
+      case 'newAchievement':
+        this.setState({
+          showPopup: true,
+          popupIcon: 'tokens',
+          popupButtonTitle: 'Continue',
+          popupMessage: message,
+          popupTitle: 'Congratulations'
+        })
+        break
+      default:
+    }
+  }
+
+  sessionSynced (response) {
+    console.log(response)
+    if (response && response.data && response.data.controller) {
+      this.runController(response.data.controller)
+      return
+    }
+  }
+
+  failedToSyncSession (error) {
+    console.log(error)
+  }
+
   startProduct () {
     const { challenges, challenge, task } = this.props.session
 
@@ -113,16 +143,20 @@ export default class Workspace extends Screen {
     })
   }
 
+  syncSession (data) {
+    this.props.syncSession(Object.assign({},
+      { machineId: this.props.session.machineId,
+        machineFingerprint: this.props.session.machineFingerprint },
+      this.props.session.challenge && { challengeId: this.props.session.challenge.id },
+      this.props.session.task && { taskId: this.props.session.task.id },
+      { stage: Stages.START },
+      data
+    ))
+  }
+
   start () {
-    this.setState({
-      productStarting: true,
-      productStarted: false,
-      showPopup: true,
-      popupIcon: 'tokens',
-      popupButtonTitle: 'Get Started',
-      popupMessage: "Just 'cause you're awesome, you just got 10 CARMEL tokens.",
-      popupTitle: 'Congratulations'
-    })
+    this.setState({ productStarting: true, productStarted: false })
+    this.syncSession()
     return this.startProduct()
   }
 
@@ -273,6 +307,10 @@ export default class Workspace extends Screen {
 
   onBuyChallenge (challenge) {
     this.triggerRedirect(this.isLoggedIn ? '/wallet' : '/login')
+  }
+
+  getSessionSuccess (session) {
+    console.log('SESSION:', session)
   }
 
   renderChallenge () {
