@@ -65,27 +65,29 @@ export default class Welcome extends Component {
   }
 
   sky(offset, speed) {
-    return [<Parallax.Layer key='sky' offset={offset} speed={speed} style={styles.colorful}>
-    </Parallax.Layer>]
+    return [<div key='sky' offset={offset} speed={speed} style={styles.colorful}>
+    </div>]
   }
 
   main(offset, speed) {
 
-    return <Parallax.Layer offset={offset} className="wharever" speed={speed} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-      <div style={{ opacity: 1.2, display: 'flex', flex: 2, justifyContent: 'space-between' }}>
-        <div style={{ display: 'flex', flex: 1, flexDirection: 'column', alignItems: 'center', padding: '40px 0 0 40px' }}>
+    return <div offset={offset} className="wharever" speed={speed} style={styles.colorful}>
+      <div style={{ opacity: 1.2, display: 'flex', flex: 2, justifyContent: 'space-between', padding: '100px 0 0 40px' }}>
+        <div style={{ display: 'flex', flex: 1, flexDirection: 'column', alignItems: 'center' }}>
           {this.title()}
           {this.subtitle()}
           {this.timer()}
           {/* {this.distribution()} */}
           {/* {this.status()} */}
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', flex: 1, xjustifyContent: 'center', alignItems: 'center', padding: '40px 0 0 0' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', flex: 1, xjustifyContent: 'center', alignItems: 'center' }}>
           {this.video(this.props.offset + 0.29, 0.2)}
           {this.videoTitle(this.props.offset + 0.29, 0.2)}
         </div>
       </div>
-    </Parallax.Layer>
+      {this.icons()}
+      {}
+    </div>
   }
 
   title(offset, speed) {
@@ -168,36 +170,10 @@ export default class Welcome extends Component {
     const textWidth = 420
     const color = '#FAFAFA'
 
-    const opts = {
-      height: '390',
-      width: '640',
-      playerVars: { // https://developers.google.com/youtube/player_parameters
-        autoplay: 1
-      }
-    };
-
     return [<div offset={offset} speed={speed} style={{ marginTop: 75, width: 850, height: 500, xborder: '1px solid #263238' }}>
-      {/* <Icon
-        type="youtube"
-        theme="twoTone"
-        style={{
-          cursor: "pointer",
-          fontSize: 36,
-          color: '#e53935'
-        }}
-      /> */}
-      {/* <YouTube
-        videoId="qrHBVDbrOOY"
-        opts={opts}
-        onReady={this._onReady}
-      /> */}
+
       <Components.Media video="https://www.youtube.com/watch?v=qrHBVDbrOOY" width={850} height={500} xstyle={{ border: '1px solid red' }} />
     </div>]
-  }
-
-  _onReady(event) {
-    // access to player in all event handlers via event.target
-    event.target.pauseVideo();
   }
 
   icons(offset, speed) {
@@ -205,9 +181,9 @@ export default class Welcome extends Component {
     const textWidth = 420
     const color = '#FAFAFA'
 
-    return [<Parallax.Layer offset={offset} speed={speed} style={{ opacity: 1.2, display: 'flex', flex: 1, justifyContent: 'flex-end', zIndex: 9999, height: 100, paddingRight: 70 }}>
+    return [<div offset={offset} speed={speed} style={{ opacity: 1.2, display: 'flex', justifyContent: 'flex-end', paddingRight: 75, paddingBottom: 20 }}>
       {this.renderIcons()}
-    </Parallax.Layer>]
+    </div>]
   }
 
   goto(url) {
@@ -257,16 +233,11 @@ export default class Welcome extends Component {
   }
 
   render() {
-    const smallScreenLayout = [...this.sky(this.props.offset, 0),
-    ...this.title(this.props.offset + 0.1, 0.2),
-    ...this.timer(this.props.offset + 0.29, 0.2)]
-
-
-    return this.props.isSmallScreen ? smallScreenLayout : [
-      ...this.sky(this.props.offset, 0),
-      ...this.main(this.props.offset + 0.15, 0.2),
-      ...this.icons(this.props.offset + 0.90, 0.2)
-    ]
+    // const smallScreenLayout = [...this.sky(this.props.offset, 0),
+    // ...this.title(this.props.offset + 0.1, 0.2),
+    // ...this.timer(this.props.offset + 0.29, 0.2)]
+    return [
+      ...this.main()]
   }
 }
 
@@ -285,13 +256,17 @@ const distributedTokens = 'Tokens Distributed So Far:'
 
 const styles = {
   colorful: {
-    height: '200vh',
+    height: '100vh',
+    width: '100vw',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
     background:
-      `-webkit-linear-gradient(315deg, hsla(182.08, 49%, 12.11%, 1) 2%, hsla(182.08, 49%, 12.11%, 0) 70%),
-      -webkit-linear-gradient(297deg, hsla(183.4, 60.89%, 51.26%, 1) 55%, hsla(183.4, 60.89%, 51.26%, 0) 16%)`,
+      `-webkit-linear-gradient(315deg, hsla(182.08, 49%, 12.11%, 1) 2%, hsla(182.08, 49%, 12.11%, 0) 90%),
+      -webkit-linear-gradient(297deg, hsla(183.4, 60.89%, 51.26%, 1) 83%, hsla(183.4, 60.89%, 51.26%, 0) 16%)`,
     background:
-      `linear-gradient(135deg, hsla(182.08, 49%, 12.11%, 1) 2%, hsla(182.08, 49%, 12.11%, 0) 70%),
-      linear-gradient(153deg, hsla(183.4, 60.89%, 51.26%, 1) 55%, hsla(183.4, 60.89%, 51.26%, 0) 16%)`
+      `linear-gradient(135deg, hsla(182.08, 49%, 12.11%, 1) 2%, hsla(182.08, 49%, 12.11%, 0) 90%),
+      linear-gradient(153deg, hsla(183.4, 60.89%, 51.26%, 1) 83%, hsla(183.4, 60.89%, 51.26%, 0) 16%)`
   }
 
 }

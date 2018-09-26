@@ -50,15 +50,16 @@ export default class MainIntroScreen extends Screen {
 
 
   renderDefault() {
-    return <Parallax
-      ref={ref => (this.scroller = ref)}
-      scrolling={!this.state.creatingProduct}
-      pages={3}
-      style={{
-        // backgroundColor: '#00bcd4'
-      }}>
+    return <div
+    // ref={ref => (this.scroller = ref)}
+    // scrolling={!this.state.creatingProduct}
+    // pages={3}
+    // style={{
+    //   // backgroundColor: '#00bcd4'
+    // }}
+    >
       <Intro
-        session={this.props.session}
+        // session={this.props.session}
         offset={0}
         isSmallScreen={this.isSmallScreen}
         onStart={this._onStart}
@@ -67,7 +68,7 @@ export default class MainIntroScreen extends Screen {
         session={this.props.session}
         offset={1}
         onContinue={this._download} /> */}
-      <Tokens
+      {/* <Tokens
         session={this.props.session}
         offset={1}
         triggerRawRedirect={this.triggerRawRedirect}
@@ -81,8 +82,8 @@ export default class MainIntroScreen extends Screen {
         session={this.props.session}
         isSmallScreen={this.isSmallScreen}
         offset={2}
-      />
-    </Parallax>
+      /> */}
+    </div>
   }
 
   get height() {
