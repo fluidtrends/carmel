@@ -1,14 +1,17 @@
 import React from 'react'
 import Screen from './account.web'
+import { Components } from 'react-dom-chunky'
 import { Button, ButtonIcon } from 'rmwc/Button'
 import { Card, CardActions, CardActionButtons } from 'rmwc/Card'
 import { Typography } from 'rmwc/Typography'
 import { Data } from 'react-chunky'
 import Shell from '../../studio/components/shell'
 
-const AWS_GUEST_URL = 'https://aws.amazon.com/console'
-const AWS_CONSOLE_URL = 'https://console.aws.amazon.com/console/home'
-const AWS_LOGOUT_URL = 'https://console.aws.amazon.com/console/logout!doLogout'
+const AWS_ROOT_URL = () => 'https://console.aws.amazon.com/'
+const AWS_CONSOLE_URL = () => `${AWS_ROOT_URL()}console/home`
+const AWS_NEWUSER_URL = () => `${AWS_ROOT_URL()}iam/home?#/users$new?step=review`
+const AWS_SECRET_URL = () => `${AWS_ROOT_URL()}iam/home?#/users$new?step=final`
+const AWS_SETUP_URL = (username) => `${AWS_NEWUSER_URL()}&accessKey&userNames=${username}&permissionType=policies&policies=arn:aws:iam::aws:policy%2FAdministratorAccess`
 
 export default class AccountScreen extends Screen {
   constructor (props) {
@@ -16,7 +19,7 @@ export default class AccountScreen extends Screen {
     this.state = { ...super.state, inProgress: false }
     this._back = this.back.bind(this)
     this._shell = new Shell()
-    this._loaded = this.loaded.bind(this)
+    this._browserLoaded = this.browserLoaded.bind(this)
   }
 
   get shell () {
@@ -27,35 +30,86 @@ export default class AccountScreen extends Screen {
     return this.state.settings || this.props.session.settings
   }
 
+  get isCloudSetup () {
+    return this.settings.cloud ? true : false
+  }
+
   componentDidMount () {
     super.componentDidMount()
-    console.log(this.settings)
     this.refreshWallet()
   }
 
-  loaded (ref) {
-    this._webview = ref
-    if (!this._webview) {
+  get browserSession () {
+    if (!this.browser) {
       return
     }
 
-    this._webview.addEventListener('did-navigate', (page) => {
-      console.log(page.url)
-      if (page.url.startsWith(`${AWS_CONSOLE_URL}?region=`)) {
-        const settings = Object.assign({}, this.settings, {
-          cloud: {
-            service: 'aws',
-            summary: 'Using Amazon Web Services'
+    const webContents = this.browser.getWebContents()
+
+    if (!webContents) {
+      return
+    }
+
+    return webContents.session
+  }
+
+  get browser () {
+    return this._browser
+  }
+
+  onBrowserLogout (data) {
+    const self = this
+    const session = this.browserSession
+
+    session.clearStorageData({
+      storages: ['cookies']
+    }, (done) => {
+      const settings = Object.assign({}, this.settings, {
+        cloud: {
+          provider: 'aws',
+          summary: 'Connected to your Amazon account',
+          username: self.state.awsUsername,
+          accessKeyId: data.awsAccessKeyId,
+          secretAccessKey: data.awsSecretAccessKey
+        }
+      })
+      self.shell.cache('settings', settings)
+      self.setState(Object.assign({}, { settings, browse: false }, data))
+    })
+  }
+
+  browserLoaded (ref) {
+    this._browser = ref
+
+    if (!this.browser) {
+      return
+    }
+
+    const self = this
+
+    this.browser.addEventListener('did-navigate-in-page', (page) => {
+      if (page.url.startsWith(AWS_NEWUSER_URL())) {
+        if (this.state.awsCreatingUser) {
+          return
+        }
+        this.browser.executeJavaScript(`setTimeout(function() { $('.wizard-next-button').click(); }, 2000);`, false, () => {
+          self.setState({ awsCreatingUser: false, awsCreatedUser: true, awsCreatingCredentials: true })
+        })
+        self.setState({ awsCreatingUser: true })
+      } else if (page.url.startsWith(AWS_SECRET_URL())) {
+        const js = `angular.element($('.hide-credential a')).triggerHandler('click'); [$('.ng-isolate-scope.access-key-id').text().trim(), $('.secret-access-key .credential').text().trim()];`
+        this.browser.executeJavaScript(js, false, (credentials) => {
+          if (!credentials[1]) {
+            return
           }
+          this.onBrowserLogout({ awsAccessKeyId: credentials[0], awsSecretAccessKey: credentials[1], awsCreatingCredentials: false, awsCreatedCredentials: true })
         })
-        this.shell.cache('settings', settings)
-        this.setState({ settings })
-      } else if (page.url.startsWith(AWS_GUEST_URL)) {
-        const settings = Object.assign({}, this.settings, {
-          cloud: false
-        })
-        this.shell.cache('settings', settings)
-        this.setState({ settings, browse: false })
+      }
+    })
+
+    this.browser.addEventListener('did-navigate', (page) => {
+      if (page.url.startsWith(AWS_CONSOLE_URL())) {
+        this.browser.loadURL(AWS_SETUP_URL(this.state.awsUsername))
       }
     })
   }
@@ -80,8 +134,9 @@ export default class AccountScreen extends Screen {
   }
 
   gotWallet (wallets) {
-    console.log(wallets)
-    // this.setState({ wallet: wallets[0] })
+    console.log('gotWallet')
+    console.log(wallets[0])
+    this.setState({ wallet: wallets[0] })
     // this.checkPendingPurchase()
   }
 
@@ -95,7 +150,16 @@ export default class AccountScreen extends Screen {
   }
 
   handleCloud () {
-    this.setState({ browse: true, browserUrl: AWS_CONSOLE_URL })
+    if (!this.isCloudSetup) {
+      // Connect to AWS
+      this.setState({ browse: true, awsUsername: `Carmel${Date.now()}`, browserUrl: AWS_CONSOLE_URL() })
+      return
+    }
+
+    // Let's disconnect the cloud
+    const settings = Object.assign({}, this.settings, { cloud: false })
+    this.shell.cache('settings', settings)
+    this.setState({ settings })
   }
 
   get profileData () {
@@ -110,8 +174,8 @@ export default class AccountScreen extends Screen {
     }, {
       id: 'cloud',
       title: 'Private Cloud',
-      value: this.settings.cloud ? this.settings.cloud.summary : 'Not available',
-      action: this.settings.cloud ? 'Cloud Console' : 'Setup cloud'
+      value: this.settings.cloud ? this.settings.cloud.summary : 'Not connected',
+      action: this.settings.cloud ? 'Disconnect' : 'Connect'
     }]
   }
 
@@ -128,14 +192,23 @@ export default class AccountScreen extends Screen {
   }
 
   renderBrowser () {
-    return <webview
-      ref={this._loaded}
+    const mask = <div style={{
+      backgroundColor: '#ffffff',
+      width: '100%',
+      height: '100%'
+    }}>
+      <Components.Loading message='Just a minute, please ...' />
+    </div>
+
+    return [<webview
+      ref={this._browserLoaded}
       src={this.state.browserUrl} style={{
         display: 'flex',
         width: '100%',
         height: '100%',
+        opacity: this.state.awsCreatedUser ? 0 : 1.0,
         flex: 1
-      }} />
+      }} />, this.state.awsCreatedUser && mask]
   }
 
   renderActiveContent () {
@@ -165,7 +238,7 @@ export default class AccountScreen extends Screen {
   }
 
   get cardStyle () {
-    if (!this.state.browse) {
+    if (!this.state.browse || this.state.awsCreatedUser) {
       return super.cardStyle
     }
 
@@ -178,6 +251,10 @@ export default class AccountScreen extends Screen {
   }
 
   renderMainContentFooter () {
+    if (this.state.browse && this.state.awsCreatedUser) {
+      return <div />
+    }
+
     return <div style={{
       display: 'flex',
       marginTop: '5px',
