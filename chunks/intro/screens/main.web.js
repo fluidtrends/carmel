@@ -10,6 +10,7 @@ import Tokens from '../components/tokens'
 import Team from '../components/team'
 import TeamAction from '../components/action'
 import Footer from '../components/footer'
+import WhySection from '../components/why'
 
 export default class MainIntroScreen extends Screen {
   constructor(props) {
@@ -64,6 +65,9 @@ export default class MainIntroScreen extends Screen {
         isSmallScreen={this.isSmallScreen}
         onStart={this._onStart}
         onContinue={this._onContinue.bind(this, 1)} />
+      <WhySection
+      
+      />
       {/* <Studio
         session={this.props.session}
         offset={1}
