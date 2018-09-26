@@ -2,23 +2,20 @@ const chunky = require('react-cloud-chunky')
 const moment = require('moment')
 const Stages = require('./stages')
 
-const checkNewAchievement = ({ data, session, previousSession }) => {
+const generateController = ({ data, session, previousSession }) => {
   if (previousSession &&
       previousSession.achievements &&
       previousSession.achievements[data.stage] &&
       session.achievements &&
       session.achievements[data.stage]) {
-    return
+    return false
   }
 
-  const type = 'newAchievement'
   const achievement = Stages.Achievements[data.stage]
-  const message = `You just got ${achievement.tokens} CARMEL.`
+  const type = 'achievement'
 
   return {
-    controller: {
-      type, message, achievement
-    }
+    type, achievement
   }
 }
 
@@ -69,8 +66,8 @@ const start = ({ data, userId, previousSession }) => {
 
 const done = ({ data, userId, session, previousSession }) => {
   return new Promise((resolve, reject) => {
-    const newAchievement = checkNewAchievement({ data, session, previousSession })
-    resolve(Object.assign({}, session, newAchievement))
+    const controller = generateController({ data, session, previousSession })
+    resolve(Object.assign({}, session, { controller }))
   })
 }
 

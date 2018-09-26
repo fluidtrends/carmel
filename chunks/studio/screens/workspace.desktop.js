@@ -84,17 +84,27 @@ export default class Workspace extends Screen {
     this.setState({ enableTabs: false })
   }
 
+  controllerMessage (options) {
+    switch (options.type) {
+      case 'bonus':
+        return `Whoa! You just got ${options.tokens} CARMEL. Just 'cause you're awesome.`
+      default:
+        return `You're awesome`
+    }
+  }
+
   runController (controller) {
-    const { type, message } = controller
+    const { type } = controller
+
     switch (type) {
-      case 'newAchievement':
-        this.setState({
-          showPopup: true,
-          popupIcon: 'tokens',
-          popupButtonTitle: 'Continue',
-          popupMessage: message,
-          popupTitle: 'Congratulations'
-        })
+      case 'achievement':
+        const achievement = controller.achievement
+        const popupButtonTitle = 'Continue'
+        const popupTitle = 'Congratulations'
+        const popupIcon = achievement.type === 'bonus' ? 'tokens' : 'cup'
+        const popupMessage = this.controllerMessage(achievement)
+
+        this.setState({ showPopup: true, popupIcon, popupButtonTitle, popupMessage, popupTitle })
         break
       default:
     }
