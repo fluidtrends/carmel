@@ -32,10 +32,11 @@ const eventHandler = (type) => (event, mainWindow, session, props) => {
   return p
 }
 
+const publishProduct = eventHandler('publishProduct')
 const startProduct = eventHandler('startProduct')
 const createProduct = require('./createProduct')(system)
 const verifyTask = eventHandler('verifyTask')
 
 module.exports = {
-  startProduct, createProduct, verifyTask
+  startProduct, publishProduct, createProduct, verifyTask
 }

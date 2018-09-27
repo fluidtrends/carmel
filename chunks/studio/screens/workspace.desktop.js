@@ -49,6 +49,7 @@ export default class Workspace extends Screen {
     this._onFileOpen = this.onFileOpen.bind(this)
     this._onFileClose = this.onFileClose.bind(this)
     this._onBuyChallenge = this.onBuyChallenge.bind(this)
+    this._onPublishProduct = this.onPublishProduct.bind(this)
   }
 
   componentDidMount () {
@@ -120,6 +121,18 @@ export default class Workspace extends Screen {
 
   failedToSyncSession (error) {
     console.log(error)
+  }
+
+  onPublishProduct () {
+    this.shell.exec('publishProduct', { id: this.product.id, domain: 'idancali.com' }, ({ status }) => {
+      console.log(status)
+    })
+    .then((data) => {
+      console.log(data)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
   }
 
   startProduct () {
@@ -280,6 +293,7 @@ export default class Workspace extends Screen {
     return <div style={style}>
       { this.renderProductPreviewAlert() }
       <Browser
+        onPublish={this._onPublishProduct}
         status={this.productStatus}
         product={this.state.product}
         port={this.state.port} />

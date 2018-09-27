@@ -3,6 +3,7 @@ import { Component, Components } from 'react-dom-chunky'
 import { Card } from 'rmwc/Card'
 import { Input, Icon } from 'antd'
 import Progress from './progress'
+import { Button, ButtonIcon } from 'rmwc/Button'
 
 export default class Browser extends Component {
   constructor (props) {
@@ -13,6 +14,7 @@ export default class Browser extends Component {
     this._prev = this.prev.bind(this)
     this._reload = this.reload.bind(this)
     this._loaded = this.loaded.bind(this)
+    this._publish = this.publish.bind(this)
   }
 
   componentDidMount () {
@@ -21,6 +23,10 @@ export default class Browser extends Component {
 
   loaded (ref) {
     this._webview = ref
+  }
+
+  publish () {
+    this.props.onPublish && this.props.onPublish()
   }
 
   get webview () {
@@ -130,6 +136,16 @@ export default class Browser extends Component {
           margin: '10px',
           flex: 1
         }} />
+      <Button
+        style={{
+          color: '#ffffff',
+          backgroundColor: '#4CAF50',
+          border: '1px solid #ffffff',
+          margin: '10px'
+        }}
+        onClick={this._publish}>
+        Publish
+        </Button>
     </div>
   }
 
