@@ -1,6 +1,7 @@
 import React from 'react'
 import { Component } from 'react-dom-chunky'
 import demo from '../../../assets/studio.gif'
+import { Row, Col } from 'antd'
 
 
 export default class WhySection extends Component {
@@ -22,7 +23,7 @@ export default class WhySection extends Component {
 
   renderTitle() {
     return (
-      <h2 style={{fontWeight: 'bold', mnargin: 0}}>
+      <h2 style={{fontWeight: 'bold', margin: 0}}>
         {whyTitle}
       </h2>
     )
@@ -50,30 +51,38 @@ export default class WhySection extends Component {
 
   render() {
     return (
-      <div style={styles.container}>
-        <div style={{display: 'flex', height: '80px', marginBottom: '50px'}}>
+      <React.Fragment >
+        <div span={12} offset={6}>
           {this.renderTitle()}
         </div>
         {
           whyReasons.map( reason =>
-            <div>
-              <h3>{reason.title}</h3>
-              <div style={styles.columnContainer}>
-                <div
-                  style={styles.columns}
+            <Row gutter={32} type={'flex'} align={'middle'}>
+              <Col span={20} offset={4}>
+                <h3>{reason.title}</h3>
+              </Col>
+                <Col
+                  lg={{span: 8, offset: 4}}
+                  xl={{span: 8, offset: 4}}
+                  xs={{span: 12, offset: 6}} 
+                  sm={{span: 12, offset: 6}} 
+                  md={{span: 12, offset: 6}}
                 >
                   {this.renderFirstColumn(reason.arguments)}
-                </div>
-                <div
-                  style={styles.columns}
+                </Col>
+                <Col
+                  lg={{span: 8, offset: 2}}
+                  xl={{span: 8, offset: 2}}
+                  xs={{span: 12, offset: 6}} 
+                  sm={{span: 12, offset: 6}} 
+                  md={{span: 12, offset: 6}}
                 >
                   {this.renderSecondColumn(reason.pathToGif)}
-                </div>
-              </div>
-            </div>
+                </Col>
+            </Row>
           )
         }
-      </div>
+      </React.Fragment>
       )
     }
     
