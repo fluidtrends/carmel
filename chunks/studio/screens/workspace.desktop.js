@@ -21,6 +21,7 @@ import TabBar from '../components/tabbar'
 import Task from '../components/task'
 import Prompt from '../components/prompt'
 import * as Stages from '../functions/stages'
+import moment from 'moment'
 
 const { Header, Sider, Content, Footer } = Layout
 const { SubMenu } = Menu
@@ -124,14 +125,15 @@ export default class Workspace extends Screen {
   }
 
   onPublishProduct () {
+    this.setState({ productPublishing: true })
     this.shell.exec('publishProduct', { id: this.product.id, domain: 'idancali.com' }, ({ status }) => {
-      console.log(status)
+      this.setState({ productPublishingStatus: status })
     })
     .then((data) => {
-      console.log(data)
+      this.setState({ productPublishing: false, productPublished: true, productPublishingTimestamp: Date.now() })
     })
     .catch((error) => {
-      console.log(error)
+      this.setState({ productPublishing: false, productPublished: false, productPublishingError: error })
     })
   }
 
@@ -223,6 +225,7 @@ export default class Workspace extends Screen {
   get productStatus () {
     const isStarting = (this.state.productStarting && !this.state.productStarted)
     const isStarted = (!this.state.productStarting && this.state.productStarted)
+    const isPublishing = (this.state.productPublishing)
 
     const isCompiling = (isStarted && this.state.compilation && !this.state.compilation.compiled && this.state.compilation.compiling)
     const isCompiled = (isStarted && this.state.compilation && this.state.compilation.compiled && !this.state.compilation.compiling)
@@ -231,6 +234,7 @@ export default class Workspace extends Screen {
 
     const status = {
       isStarting,
+      isPublishing,
       isStarted,
       isCompiling,
       isCompiled,
@@ -248,7 +252,9 @@ export default class Workspace extends Screen {
     var alertMessage = `The product is starting ...`
     var onAction = false
 
-    if (status.isCompiling) {
+    if (status.isPublishing) {
+      alertMessage = `Your product is being prepared for publishing. ${this.state.productPublishingStatus}`
+    } else if (status.isCompiling) {
       alertMessage = 'Applying changes to your product ...'
     } else if (status.isCompiledWithoutErrors) {
       alertType = 'success'
@@ -370,6 +376,22 @@ export default class Workspace extends Screen {
     </Prompt>
   }
 
+  renderPublishingMessage () {
+    return <Prompt
+      title='Publishing'
+      subtitle='Get Ready To See It Live'>
+      <Typography use='subtitle1' style={{
+        textAlign: 'center',
+        margin: '20px',
+        color: '#78909C'
+      }}>
+        Your website is being packaged right now and
+        it may take a minute or two. Once complete, it
+        will be published live.
+        </Typography>
+    </Prompt>
+  }
+
   renderChallenges () {
     return <div key='challenges' style={{
       display: 'flex',
@@ -386,6 +408,10 @@ export default class Workspace extends Screen {
   }
 
   renderWorkspaceContent () {
+    if (this.state.productPublishing) {
+      return this.renderPublishingMessage()
+    }
+
     if (this.state.productStarting) {
       return this.renderStartingMessage()
     }

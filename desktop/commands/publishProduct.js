@@ -81,7 +81,6 @@ const deploy = (product, session, domain) => {
             return bucket.update()
           })
           .then((data) => {
-            console.log(data)
             process.send({ status: 'Bucket updated.', done: true })
           })
           .catch((error) => {

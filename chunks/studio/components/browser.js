@@ -71,7 +71,15 @@ export default class Browser extends Component {
     this.webview && this.webview.reload()
   }
 
+  get canPublish () {
+    return (!this.props.status.isStarting && !this.props.status.isPublishing)
+  }
+
   renderToolbar () {
+    if (this.props.status.isStarting || this.props.status.isPublishing) {
+      return <div />
+    }
+
     return <div style={{
       width: '100%',
       height: '60px',
@@ -137,9 +145,10 @@ export default class Browser extends Component {
           flex: 1
         }} />
       <Button
+        disabled={!this.canPublish}
         style={{
           color: '#ffffff',
-          backgroundColor: '#4CAF50',
+          backgroundColor: this.canPublish ? '#4CAF50' : '#90A4AE',
           border: '1px solid #ffffff',
           margin: '10px'
         }}
@@ -152,6 +161,10 @@ export default class Browser extends Component {
   renderWebview () {
     if (this.props.status.isStarting) {
       return <Progress title='Getting your product ready' message='This can take a minute or two' />
+    }
+
+    if (this.props.status.isPublishing) {
+      return <Progress title='Preparing your product for publishing' message='This can take a minute or two' />
     }
 
     return <webview
