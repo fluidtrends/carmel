@@ -11,6 +11,8 @@ const path = require('path')
 const fs = require('fs-extra')
 const awsome = require('awsome')
 const webpack = require('webpack')
+const browserSync = require('browser-sync')
+const getPort = require('get-port')
 const copyfiles = require('copyfiles')
 
 const build = (product) => {
@@ -18,6 +20,7 @@ const build = (product) => {
     process.send({ status: 'Building ...' })
 
     const dir = path.resolve(product.dir, '.chunky', 'web')
+    const assetsDir = path.resolve(product.dir, 'assets')
     fs.existsSync(dir) && fs.removeSync(dir)
     fs.mkdirsSync(dir)
 
@@ -39,8 +42,10 @@ const build = (product) => {
         reject(error || stats.errors[0])
         return
       }
+
       process.send({ status: 'Built successfully.' })
-      copyfiles(['./web/public/*/**', './web/build'], { up: 2 }, () => resolve())
+      fs.copySync(path.resolve(product.dir, 'assets'), path.resolve(dir, 'assets'))
+      resolve()
     })
   })
 }
@@ -76,12 +81,20 @@ const deploy = (product, session, domain) => {
             return bucket.update()
           })
           .then((data) => {
+            console.log(data)
             process.send({ status: 'Bucket updated.', done: true })
           })
           .catch((error) => {
             process.send({ status: 'Bucket could not be updated.' })
           })
   })
+}
+
+const preview = (product) => {
+  const server = path.resolve(product.dir, '.chunky', 'web')
+  const bs = browserSync.create()
+
+  return getPort().then((port) => bs.init({ port, server }))
 }
 
 const start = ({ command, CARMEL_HOME, CARMEL_ROOT, session }) => {
