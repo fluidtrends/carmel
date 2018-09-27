@@ -226,6 +226,7 @@ export default class Workspace extends Screen {
     const isStarting = (this.state.productStarting && !this.state.productStarted)
     const isStarted = (!this.state.productStarting && this.state.productStarted)
     const isPublishing = (this.state.productPublishing)
+    const isPublished = (!this.state.productPublishing && this.state.productPublished)
 
     const isCompiling = (isStarted && this.state.compilation && !this.state.compilation.compiled && this.state.compilation.compiling)
     const isCompiled = (isStarted && this.state.compilation && this.state.compilation.compiled && !this.state.compilation.compiling)
@@ -253,7 +254,7 @@ export default class Workspace extends Screen {
     var onAction = false
 
     if (status.isPublishing) {
-      alertMessage = `Your product is being prepared for publishing. ${this.state.productPublishingStatus}`
+      alertMessage = `${this.state.productPublishingStatus || 'Getting ready to publish your product ...'}`
     } else if (status.isCompiling) {
       alertMessage = 'Applying changes to your product ...'
     } else if (status.isCompiledWithoutErrors) {
@@ -264,6 +265,10 @@ export default class Workspace extends Screen {
       alertType = 'error'
       const errorsString = `error${errors.length > 1 ? 's' : ''}`
       alertMessage = `Your latest changes produced ${errors.length} ${errorsString}`
+    } else if (status.isPublished) {
+      alertType = 'success'
+      alertMessage = `Your product was successfully published`
+      // this.state.productPublishingTimestamp
     }
 
     return <Card key='alert' style={{
@@ -299,6 +304,7 @@ export default class Workspace extends Screen {
     return <div style={style}>
       { this.renderProductPreviewAlert() }
       <Browser
+        cache={this.cache}
         onPublish={this._onPublishProduct}
         status={this.productStatus}
         product={this.state.product}
