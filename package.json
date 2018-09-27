@@ -16,7 +16,9 @@
     "package:web": "chunky package web",
     "push:web": "npm run package:web && npm run deploy:web && npm run reset:web",
     "push:nextweb": "npm run package:web && npm run robots:web && npm run deploy:nextweb",
-    "push": "npm run push:web"
+    "push": "npm run push:web",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "repository": {
     "type": "git",
@@ -177,6 +179,12 @@
     "electron-prebuilt-compile": "1.8.4",
     "electron-wix-msi": "^1.3.0",
     "react-savor": "0.x",
-    "wixtoolset-compiler": "^1.0.3"
+    "wixtoolset-compiler": "^1.0.3",
+    "@storybook/react": "^3.4.11",
+    "@storybook/addon-actions": "^3.4.11",
+    "@storybook/addon-links": "^3.4.11",
+    "@storybook/addons": "^3.4.11",
+    "babel-core": "^6.26.3",
+    "babel-runtime": "^6.26.0"
   }
 }
