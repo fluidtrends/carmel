@@ -2,6 +2,7 @@ import React from 'react'
 import { Component } from 'react-dom-chunky'
 import demo from '../../../assets/studio.gif'
 import { Row, Col } from 'antd'
+import { AnimatedValue, animated, interpolate, controller as spring } from 'react-spring'
 
 
 export default class WhySection extends Component {
@@ -9,7 +10,8 @@ export default class WhySection extends Component {
     super(props)
 
     this.state = {
-
+      marginLeft: '-1000px',
+      marginRight: '1000px'
     }
   }
 
@@ -49,9 +51,15 @@ export default class WhySection extends Component {
     )
   }
 
+  triggerAnimation = () => {
+
+  }
+
   render() {
+    const animation = new AnimatedValue(1)
+    const hover = () => spring(animation, { to: 2, tension: 200, friction: 100 }).start()
     return (
-      <React.Fragment >
+      <div style={styles.container} onMouseOver={hover}>
         <div span={12} offset={6}>
           {this.renderTitle()}
         </div>
@@ -67,8 +75,17 @@ export default class WhySection extends Component {
                   xs={{span: 12, offset: 6}} 
                   sm={{span: 12, offset: 6}} 
                   md={{span: 12, offset: 6}}
-                >
-                  {this.renderFirstColumn(reason.arguments)}
+                > 
+                  <animated.div
+                    style={{
+                      marginLeft: animation.interpolate({
+                        range: [1, 2],
+                        output: ['-1000px', '0']
+                      })
+                    }}
+                  >
+                    {this.renderFirstColumn(reason.arguments)}
+                  </animated.div>
                 </Col>
                 <Col
                   lg={{span: 8, offset: 2}}
@@ -77,12 +94,21 @@ export default class WhySection extends Component {
                   sm={{span: 12, offset: 6}} 
                   md={{span: 12, offset: 6}}
                 >
-                  {this.renderSecondColumn(reason.pathToGif)}
+                  <animated.div
+                    style={{
+                      marginLeft: animation.interpolate({
+                        range: [1, 2],
+                        output: ['1000px', '0']
+                      })
+                    }}
+                  >
+                    {this.renderSecondColumn(reason.pathToGif)}
+                  </animated.div>
                 </Col>
             </Row>
           )
         }
-      </React.Fragment>
+      </div>
       )
     }
     
@@ -113,12 +139,7 @@ const whyReasons = [
 
 const styles = {
   container: {
-    height: '100vh',
-    width: '100vw',
-    display: 'flex',
-    flexDirection: 'column',
-    marginTop: '50px',
-    alignItems: 'center'
+
   },
   columnContainer: {
     display: 'flex', 
