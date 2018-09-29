@@ -10,6 +10,8 @@ import { Data } from 'react-chunky'
 import Task from './task'
 import Shell from './shell'
 import Prompt from './prompt'
+import ChallengeHeader from './challengeHeader'
+
 const { Button: AntdButton } = require('antd')
 
 const successMessagesJson = require('../../../assets/successMessages.json')
@@ -203,7 +205,7 @@ export default class Challenge extends Component {
         backgroundColor: `${this.isStarted ? '#03A9F4' : '#4CAF50'}`
       }}
       onClick={this.isStarted ? this._continueChallenge : this._toggleStarted}>
-      <ButtonIcon icon={this.isStarted ? 'forward' : 'play_circle_filled'} />
+      <ButtonIcon icon={this.isStarted ? 'forward' : 'play-circle-filled'} />
       { this.isStarted ? 'Continue' : 'Buy' } Challenge
     </Button>
   }

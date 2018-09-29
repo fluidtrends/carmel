@@ -398,15 +398,17 @@ export default class Workspace extends Screen {
     </Prompt>
   }
 
+  // <Prompt
+  //   title='Ready for a challenge?'
+  //   subtitle='Choose a challenge to grow your skills and to advance your product. Ready when you are.' />
+
   renderChallenges () {
     return <div key='challenges' style={{
       display: 'flex',
       flex: 1,
+      width: '100%',
       flexDirection: 'column'
     }}>
-      <Prompt
-        title='Ready for a challenge?'
-        subtitle='Choose a challenge to grow your skills and to advance your product. Ready when you are.' />
       <Challenges
         challenges={this.props.session.challenges}
         onSelectChallenge={this._onSelectChallenge} />
