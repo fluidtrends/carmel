@@ -3,6 +3,7 @@ import { Component } from 'react-dom-chunky'
 import demo from '../../../assets/studio.gif'
 import { Row, Col } from 'antd'
 import { AnimatedValue, animated, interpolate, controller as spring } from 'react-spring'
+import AnimatedSvg from '../components/animatedSvg'
 
 
 export default class WhySection extends Component {
@@ -63,6 +64,12 @@ export default class WhySection extends Component {
         <div span={12} offset={6}>
           {this.renderTitle()}
         </div>
+        <AnimatedSvg
+          path={'../../../assets/developers.svg'}
+          style={{height: 500, width: 500}}
+          duration={500}
+          type={'scenario'}
+        />
         {
           whyReasons.map( reason =>
             <Row gutter={32} type={'flex'} align={'middle'} onMouseOver={hover} key={reason.id}>
