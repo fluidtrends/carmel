@@ -59,13 +59,13 @@ export default class WhySection extends Component {
     const animation = new AnimatedValue(1)
     const hover = () => spring(animation, { to: 2, tension: 200, friction: 100 }).start()
     return (
-      <div style={styles.container} onMouseOver={hover}>
+      <div style={styles.container}>
         <div span={12} offset={6}>
           {this.renderTitle()}
         </div>
         {
           whyReasons.map( reason =>
-            <Row gutter={32} type={'flex'} align={'middle'}>
+            <Row gutter={32} type={'flex'} align={'middle'} onMouseOver={hover} key={reason.id}>
               <Col span={20} offset={4}>
                 <h3>{reason.title}</h3>
               </Col>
@@ -106,7 +106,7 @@ export default class WhySection extends Component {
                   </animated.div>
                 </Col>
             </Row>
-          )
+        )
         }
       </div>
       )
@@ -116,8 +116,11 @@ export default class WhySection extends Component {
 
 const whyTitle = 'Why invest in Carmel'
 
+
+// add this to github
 const whyReasons = [
   {
+    id: 1,
     title: 'TweaknLearn',
     arguments: [
       'Introducing the Tweek and learn concept',
@@ -127,11 +130,22 @@ const whyReasons = [
     pathToGif: '../../../assets/studio.gif'
   },
   {
+    id: 2,
     title: 'Challenges micro learning',
     arguments: [
       'We teach you to code using challenges',
       'Challenges contain small task for you to complete and learn to code',
       'Complete challanges and get badges .... gg robi great text there'
+    ],
+    pathToGif: '../../../assets/challenges.gif'
+  },
+  {
+    id: 3,    
+    title: 'Deploy in no time',
+    arguments: [
+      'You can show your friends what you did',
+      'Deploy as easy as you say banana',
+      'text here'
     ],
     pathToGif: '../../../assets/challenges.gif'
   }
