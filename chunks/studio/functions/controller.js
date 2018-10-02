@@ -49,16 +49,27 @@ const start = ({ data, userId, previousSession }) => {
     const achievement = Object.assign({}, Stages.Achievements[data.stage], { timestamp })
     const hasAchievement = (typeof result.achievements[data.stage] !== 'undefined')
 
-    result.achievements[data.stage] = result.achievements[data.stage] || achievement
-    result.unclaimedTokens = result.unclaimedTokens + parseFloat(achievement.tokens || 0)
-
-    if (!userId) {
+    if (hasAchievement) {
       resolve(result)
       return
     }
 
-    updateUserWallet(userId, result.unclaimedTokens).then(() => {
-      result.unclaimedTokens = 0
+    result.achievements[data.stage] = achievement
+
+    if (!achievement.tokens) {
+      resolve(result)
+      return
+    }
+
+    if (!userId) {
+      result.unclaimedTokens = result.unclaimedTokens + parseFloat(achievement.tokens)
+      resolve(result)
+      return
+    }
+
+    result.unclaimedTokens = 0
+
+    updateUserWallet(userId, achievement.tokens).then(() => {
       resolve(result)
     })
   })

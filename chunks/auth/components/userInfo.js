@@ -2,9 +2,8 @@
   import { Component } from 'react-dom-chunky'
   import { Typography } from 'rmwc/Typography'
   import { Chip, ChipText, ChipIcon, ChipSet } from 'rmwc/Chip'
-  import { Icon } from 'rmwc/Icon'
   import { Button } from 'rmwc/Button'
-  import { notification, Tooltip } from 'antd'
+  import { notification, Icon, Tooltip } from 'antd'
 
   const ReservedMessage = `Congrats on your reserved CARMEL tokens! To transfer them to your Carmel Wallet, please complete the claiming process below.`
 
@@ -185,7 +184,7 @@
                 marginBottom: '10px',
                 justifyContent: 'flex-start'
               }}>
-              <Icon style={{ fontSize: '50px' }} iconOptions={{strategy: 'ligature'}} icon={'account_circle'} />
+              <Icon style={{ fontSize: '24px' }} type='user' />
             </Typography>
             <div style={{
               display: 'flex',

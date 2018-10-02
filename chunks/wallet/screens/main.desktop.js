@@ -27,7 +27,7 @@ export default class MainWalletScreen extends Screen {
 
   send () {
     this.setState({ inProgress: true })
-    this.props.sendTokens({ amount: this.price, to: this.author.email })
+    this.props.sendTokens({ amount: this.price, to: this.author.id })
   }
 
   tokensSent (response) {
@@ -37,7 +37,9 @@ export default class MainWalletScreen extends Screen {
       return
     }
 
-    this.back()
+    Data.Cache.cacheItem('currentChallenge', Object.assign({}, this.state.pendingPurchase))
+              .then((challenge) => this.back())
+              .catch(error => this.back())
   }
 
   failedToSendTokens (error) {
@@ -58,9 +60,11 @@ export default class MainWalletScreen extends Screen {
       flexDirection: 'row',
       alignItems: 'center'
     }}>
-      <Button onClick={this._back}>
-        <ButtonIcon icon={'arrow_back'} />
-        Back to Workspace
+      <Button onClick={this._back} style={{
+        color: '#81D4FA',
+        backgroundColor: '#ECEFF1'
+      }}>
+        { this.state.pendingPurchase ? 'Cancel' : 'Back to Workspace' }
       </Button>
     </div>
   }
@@ -123,7 +127,6 @@ export default class MainWalletScreen extends Screen {
           <Button
             theme='secondary-bg text-primary-on-secondary'
             onClick={this._send}>
-            <ButtonIcon icon='verified_user' />
               Send <strong> { this.price.toLocaleString('en') } </strong> CARMEL
             </Button>
         </CardActionButtons>
@@ -131,7 +134,7 @@ export default class MainWalletScreen extends Screen {
       <Typography use='body1' key='active-footer' style={{
         textAlign: 'center'
       }}>
-          to <strong> {this.author.name} </strong>
+        to <strong> { this.author.name } </strong>
       </Typography>
     ]
   }

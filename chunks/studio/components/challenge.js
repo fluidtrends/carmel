@@ -7,6 +7,7 @@ import { List, Avatar, IconText, Progress, Tag, Rate, Spin, Icon, notification, 
 import { Chip, ChipText, ChipIcon, ChipSet } from 'rmwc/Chip'
 import { Elevation } from 'rmwc/Elevation'
 import { Data } from 'react-chunky'
+import { ListDivider } from 'rmwc/List'
 import Task from './task'
 import Shell from './shell'
 import Prompt from './prompt'
@@ -47,7 +48,9 @@ export default class Challenge extends Component {
   }
 
   goBack () {
-    this.props.onBack && this.props.onBack()
+    Data.Cache.clearCachedItem('currentChallenge').then(() => {
+      this.props.onBack && this.props.onBack()
+    })
   }
 
   get isStarted () {
@@ -97,6 +100,7 @@ export default class Challenge extends Component {
     if (!this.state.started) {
       Data.Cache.cacheItem('pendingPurchase', {
         challenge: {
+          id: this.props.challenge.id,
           title: this.props.challenge.title,
           level: this.props.challenge.level,
           author: this.props.challenge.author,
@@ -187,27 +191,36 @@ export default class Challenge extends Component {
   }
 
   renderMainAction () {
-    if (this.state.complete) {
-      return <Typography use='title' style={{
-        textAlign: 'center',
-        margin: '10px',
-        color: '#4CAF50'
-      }}>
-        Congratulations, you did it!
-        </Typography>
-    }
+    const xp = (this.props.challenge.level + 1) * 5
+    const tokens = parseFloat(xp * 1.00).toFixed(2)
 
-    return <Button
-      style={{
-        marginBottom: '10px',
-        color: '#ffffff',
-        marginBottom: '20px',
-        backgroundColor: `${this.isStarted ? '#03A9F4' : '#4CAF50'}`
-      }}
-      onClick={this.isStarted ? this._continueChallenge : this._toggleStarted}>
-      <ButtonIcon icon={this.isStarted ? 'forward' : 'play-circle-filled'} />
-      { this.isStarted ? 'Continue' : 'Buy' } Challenge
-    </Button>
+    // if (this.state.complete) {
+    //   return <Typography use='title' style={{
+    //     textAlign: 'center',
+    //     margin: '10px',
+    //     color: '#4CAF50'
+    //   }}>
+    //     Congratulations, you did it!
+    //     </Typography>
+    // }
+
+    return <div style={{
+      display: 'flex',
+      flex: 1,
+      flexDirection: 'row',
+      backgroundColor: '#FAFAFA',
+      justifyContent: 'center',
+      padding: '20px'
+    }}>
+      <Button
+        style={{
+          color: '#ffffff',
+          backgroundColor: `${this.isStarted ? '#03A9F4' : '#4CAF50'}`
+        }}
+        onClick={this.isStarted ? this._continueChallenge : this._toggleStarted}>
+        { this.isStarted ? 'Continue Challenge' : `Send ${tokens} CARMEL to start` }
+      </Button>
+    </div>
   }
 
   renderContent () {
@@ -223,34 +236,21 @@ export default class Challenge extends Component {
 
     const xp = (this.props.challenge.level + 1) * 5
 
-    return <Prompt
-      subtitle={this.props.challenge.summary}
-      title={this.props.challenge.title}>
-
-      <ChipSet style={{ textAlign: 'left', marginBottom: '20px' }}>
-        { this.props.challenge.skills.map(skill => <Chip key={skill} style={{ backgroundColor: '#03A9F4', color: '#ffffff'}}>
-          <ChipText> { skill } </ChipText></Chip>)
-        }
-        <Chip style={{
-          backgroundColor: '#4CAF50', color: '#ffffff'
-        }} key='xp'>
-          <ChipText>
-            { xp } XP
-        </ChipText>
-        </Chip>
-      </ChipSet>
-
+    return <Card outlined>
+      <ChallengeHeader challenge={this.props.challenge} />
+      <ListDivider />
       <List
         style={{
-          marginLeft: '10px'
+          backgroundColor: '#FAFAFA',
+          padding: '10px'
         }}
         itemLayout='horizontal'
         dataSource={this.props.challenge.tasks}
         renderItem={item => this.renderTaskSummary(item)}
       />
-      { this.renderPrice() }
+      <ListDivider />
       { this.renderMainAction() }
-    </Prompt>
+    </Card>
   }
 
   renderFooter () {
@@ -260,11 +260,12 @@ export default class Challenge extends Component {
 
     const title = this.isStarted ? `Stop taking this challenge` : `Choose another challenge`
     const action = this.isStarted ? this._toggleStarted : this._goBack
-    const icon = this.isStarted ? 'pause' : 'arrow_back'
 
     return <Typography use='title' tag='h2' style={{ marginTop: '20px', textAlign: 'center' }}>
-      <Button onClick={action}>
-        <ButtonIcon icon={icon} />
+      <Button onClick={action} style={{
+        color: '#81D4FA',
+        backgroundColor: '#ECEFF1'
+      }}>
         { title }
       </Button>
     </Typography>

@@ -42,6 +42,7 @@ export default class Workspace extends Screen {
     this._onShowAccountScreen = this.onShowAccountScreen.bind(this)
     this._onTogglePreview = this.onTogglePreview.bind(this)
     this._onSelectChallenge = this.onSelectChallenge.bind(this)
+    this._onStartChallenge = this.onStartChallenge.bind(this)
     this._onUnselectChallenge = this.onUnselectChallenge.bind(this)
     this._onShowFileBrowser = this.onShowFileBrowser.bind(this)
     this._onShowTask = this.onShowTask.bind(this)
@@ -200,6 +201,10 @@ export default class Workspace extends Screen {
     this.setState({ challenge })
   }
 
+  onStartChallenge (challenge) {
+    this.setState({ challenge, startChallenge: true })
+  }
+
   onUnselectChallenge () {
     this.setState({ challenge: '' })
   }
@@ -354,7 +359,9 @@ export default class Workspace extends Screen {
       flexDirection: 'column'
     }}>
       <Challenge
+        started={this.state.startChallenge}
         onBuyChallenge={this._onBuyChallenge}
+        onStartChallenge={this._onStartChallenge}
         account={this.account}
         product={this.product}
         task={this.state.task}
@@ -398,10 +405,6 @@ export default class Workspace extends Screen {
     </Prompt>
   }
 
-  // <Prompt
-  //   title='Ready for a challenge?'
-  //   subtitle='Choose a challenge to grow your skills and to advance your product. Ready when you are.' />
-
   renderChallenges () {
     return <div key='challenges' style={{
       display: 'flex',
@@ -411,7 +414,8 @@ export default class Workspace extends Screen {
     }}>
       <Challenges
         challenges={this.props.session.challenges}
-        onSelectChallenge={this._onSelectChallenge} />
+        onSelectChallenge={this._onSelectChallenge}
+        onStartChallenge={this._onStartChallenge} />
     </div>
   }
 

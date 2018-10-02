@@ -27,7 +27,7 @@ export default class ChallengeHeader extends Component {
     }}>
       <ChipSet style={{ margin: '0px' }}>
         {
-          this.props.challenge.skills.map(skill => <Chip style={{ backgroundColor: '#FAFAFA', color: '#00bcd4'}} key={skill}>
+          this.props.challenge.skills.map(skill => <Chip style={{ backgroundColor: '#ECEFF1', color: '#00bcd4'}} key={skill}>
             <ChipText> { skill } </ChipText>
           </Chip>)
         }
@@ -36,7 +36,7 @@ export default class ChallengeHeader extends Component {
   }
 
   renderSummary () {
-    return <Typography use='body1' tag='div' style={{
+    return <Typography use='overline' tag='div' style={{
       color: '#90A4AE',
       padding: '10px'
     }}>
@@ -59,8 +59,8 @@ export default class ChallengeHeader extends Component {
       return <div />
     }
 
-    return <Typography use='overline' tag='div' style={{
-      color: '#90A4AE',
+    return <Typography use='body1' tag='div' style={{
+      color: '#CFD8DC',
       textAlign: 'left',
       padding: '10px'
     }}>
@@ -97,8 +97,8 @@ export default class ChallengeHeader extends Component {
       <div style={{
         padding: '10px'
       }}>
-        { this.renderAuthor() }
         { this.renderSummary() }
+        { this.renderAuthor() }
         { this.renderSkills() }
         { this.renderDifficulty() }
       </div>

@@ -77,7 +77,7 @@
    }
 
    renderToolbar () {
-     return <div style={{
+     return <div key='toolbar' style={{
        width: '100%',
        height: '60px',
        backgroundColor: '#78909C',
@@ -157,6 +157,7 @@
 
    renderWebview () {
      return <webview
+       key='webview'
        ref={this._loaded}
        src={this.url} style={{
          display: 'flex',
@@ -188,7 +189,6 @@
    }
 
    get longRunningPercentage () {
-     console.log('longRunningPercentage:', this.state.progressVideoTime, this.state.progressVideoDuration, )
      return ((this.state.progressVideoDuration && this.state.progressVideoTime) ? parseFloat(this.state.progressVideoTime / this.state.progressVideoDuration) : 0)
    }
 
@@ -280,14 +280,14 @@
 
      const progressTitle = `Your product is ${this.longRunningStatus} ...`
 
-     return <div style={{
+     return <div key='progress' style={{
        backgroundColor: '#ffffff',
        display: 'flex',
        width: '100%',
        flexDirection: 'column',
        height: '100%'
      }}>
-       <Typography use='title' style={{
+       <Typography key='title' use='title' style={{
          textAlign: 'center',
          color: '#00bcd4',
          margin: '20px'
@@ -301,6 +301,7 @@
          { progressTitle }
        </Typography>
        <Components.Media
+         key='video'
          cache={this.props.cache}
          onVideoPlayerEvent={this._onVideoPlayerEvent}
          video={`https://www.youtube.com/watch?v=${video.id}`}
@@ -311,22 +312,23 @@
          style={{
            backgroundColor: '#ffffff'
          }} />
-       <LinearProgress progress={percentage} />
+       <LinearProgress key='divider' progress={percentage} />
        <Icon
+         key='icon'
          style={{
            color: '#FFD54F',
            margin: '20px',
            fontSize: '40px'
          }}
          type='smile' />
-       <Typography use='caption' style={{
+       <Typography key='caption' use='caption' style={{
          textAlign: 'center',
          color: '#B0BEC5',
          margin: '5px'
        }}>
          { prompt }
        </Typography>
-       <Typography use='title' style={{
+       <Typography key='summary' use='title' style={{
          textAlign: 'center',
          color: '#00bcd4',
          margin: '5px'
@@ -334,7 +336,7 @@
        }}>
          { video.summary }
        </Typography>
-       <Typography use='caption' style={{
+       <Typography key='status' use='caption' style={{
          textAlign: 'center',
          color: '#B0BEC5 ',
          margin: '5px'
@@ -368,8 +370,8 @@
        backgroundColor: '#f5f5f5'
      })
 
-     return <div style={style}>
-       <Card style={{
+     return <div key='browserContainer' style={style}>
+       <Card key='browserContainerCard' style={{
          width: '100%',
          display: 'flex',
          flex: 1,

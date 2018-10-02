@@ -6,6 +6,7 @@ import { ListDivider } from 'rmwc/List'
 import { Typography } from 'rmwc/Typography'
 import { List, Avatar, Rate, Row, Col, Icon } from 'antd'
 import { Chip, ChipText, ChipIcon, ChipSet } from 'rmwc/Chip'
+import { Data } from 'react-chunky'
 import Prompt from './prompt'
 import ChallengeHeader from './challengeHeader'
 
@@ -19,6 +20,15 @@ export default class Challenges extends Component {
 
   componentDidMount () {
     super.componentDidMount()
+
+    Data.Cache.retrieveCachedItem('currentChallenge').then((data) => {
+      const found = this.props.challenges.find(c => c.id === data.challenge.id)
+      if (!found) {
+        return
+      }
+
+      this.props.onStartChallenge && this.props.onStartChallenge(found)
+    })
   }
 
   selectChallenge (item) {
@@ -38,7 +48,7 @@ export default class Challenges extends Component {
           flexDirection: 'row',
           backgroundColor: '#FAFAFA',
           justifyContent: 'center',
-          padding: '10px'
+          padding: '20px'
         }}>
           <Button
             onClick={this._selectChallenge(item)}
@@ -47,7 +57,7 @@ export default class Challenges extends Component {
               color: '#ffffff',
               backgroundColor: '#4CAF50'
             }}>
-            <strong> Take Challenge </strong>
+            Take This Challenge
           </Button>
         </div>
       </Card>

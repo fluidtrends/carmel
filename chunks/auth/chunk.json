@@ -141,11 +141,11 @@
             "onError": "okError"
           }
         ],
-        "getWallet": [
-          "firebase://retrieve/users-wallets/:userId?latest=1&resolve=wallets#getWallet",
+        "refreshWallet": [
+          "firebase://retrieve/users-wallets/:userId?latest=1&resolve=wallets#wallet",
           {
-            "onSuccess": "gotWallet",
-            "onError": "failedToGetWallet"
+            "onSuccess": "refreshedWallet",
+            "onError": "failedToRefreshWallet"
           }
         ],
         "getAccount": "firebase://subscribe/users/:userId?#getAccount",

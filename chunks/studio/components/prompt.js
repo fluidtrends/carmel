@@ -34,7 +34,7 @@ export default class Prompt extends Component {
       flexDirection: 'column'
     }}>
       <Typography use='title' tag='h2' style={{ margin: '10px', color: '#00bcd4', textAlign: 'center' }}>
-        { this.props.title } asdfa sf ase asef asd fasd fa sdf asd fas df asd fas dfa sdf asd fa sdf asd fas df asdf ads fas
+        { this.props.title }
       </Typography>
       <Typography use='body2 ' tag='h2' style={{ margin: '10px', color: '#455A64', textAlign: 'center', marginBottom: '10px' }}>
         { this.props.subtitle }

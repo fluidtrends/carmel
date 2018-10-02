@@ -9,7 +9,7 @@ import UserInfo from '../components/userInfo'
 export default class AccountScreen extends Screen {
   constructor (props) {
     super(props)
-    this.state = { ...this.state, inProgress: false }
+    this.state = { ...this.state, inProgress: true }
     this._renderProfileItem = this.renderProfileItem.bind(this)
     this._onProfileItemEdit = (item) => this.onProfileItemEdit.bind(this, item)
     this._logout = this.logout.bind(this)
@@ -19,6 +19,19 @@ export default class AccountScreen extends Screen {
     super.componentDidMount()
 
     this.verifyTwitterCallback()
+  }
+
+  refreshWallet () {
+    const userId = this.account.user.uid
+    this.props.refreshWallet({ userId })
+  }
+
+  failedToRefreshWallet (error) {
+    this.refreshWallet()
+  }
+
+  refreshedWallet (wallets) {
+    this.setState({ wallet: wallets[0], inProgress: false })
   }
 
   verifyTwitterCallback () {
@@ -54,6 +67,7 @@ export default class AccountScreen extends Screen {
   }
 
   getProfileSuccess (profile) {
+    this.refreshWallet()
     const account = Object.assign({}, this.account.user, profile[0])
     this.login(account)
   }
@@ -83,10 +97,6 @@ export default class AccountScreen extends Screen {
 
   get profileData () {
     return [{
-      id: 'name',
-      title: 'Full Name',
-      value: this.account.user.name
-    }, {
       id: 'email',
       title: 'Email Address',
       value: this.account.user.email
@@ -133,7 +143,7 @@ export default class AccountScreen extends Screen {
   }
 
   get skipWallet () {
-    return true
+    return false
   }
 
   get containerStyle () {
@@ -156,6 +166,7 @@ export default class AccountScreen extends Screen {
 
   renderUserInfo () {
     return <UserInfo
+      wallet={this.state.wallet}
       skipWallet={this.skipWallet}
       twitterOAuth={this.state.twitterOAuth}
       twitterUrl={this.twitterUrl}

@@ -16,7 +16,7 @@ const AWS_SETUP_URL = (username) => `${AWS_NEWUSER_URL()}&accessKey&userNames=${
 export default class AccountScreen extends Screen {
   constructor (props) {
     super(props)
-    this.state = { ...super.state, inProgress: false }
+    this.state = { ...super.state }
     this._back = this.back.bind(this)
     this._shell = new Shell()
     this._browserLoaded = this.browserLoaded.bind(this)
@@ -36,7 +36,7 @@ export default class AccountScreen extends Screen {
 
   componentDidMount () {
     super.componentDidMount()
-    this.refreshWallet()
+    this.checkPendingPurchase()
   }
 
   get browserSession () {
@@ -123,23 +123,6 @@ export default class AccountScreen extends Screen {
     this.triggerRedirect('/workspace')
   }
 
-  refreshWallet () {
-    const userId = this.account.user.uid
-    this.props.getWallet({ userId })
-  }
-
-  failedToGetWallet (error) {
-    console.log(error)
-    // this.refreshWallet()
-  }
-
-  gotWallet (wallets) {
-    console.log('gotWallet')
-    console.log(wallets[0])
-    this.setState({ wallet: wallets[0] })
-    // this.checkPendingPurchase()
-  }
-
   onProfileItemEdit (item) {
     switch (item.id) {
       case 'cloud':
@@ -164,10 +147,6 @@ export default class AccountScreen extends Screen {
 
   get profileData () {
     return [{
-      id: 'name',
-      title: 'Full Name',
-      value: this.account.user.name
-    }, {
       id: 'email',
       title: 'Email Address',
       value: this.account.user.email
@@ -182,12 +161,11 @@ export default class AccountScreen extends Screen {
   checkPendingPurchase () {
     Data.Cache.retrieveCachedItem('pendingPurchase')
               .then((pendingPurchase) => {
-                this.setState({ inProgress: false })
+                // this.setState({ inProgress: false })
                 this.triggerRedirect('/wallet')
               })
               .catch(error => {
-                console.log(error)
-                this.setState({ inProgress: false })
+                // this.setState({ inProgress: false })
               })
   }
 
@@ -262,10 +240,13 @@ export default class AccountScreen extends Screen {
       flexDirection: 'row',
       alignItems: 'center'
     }}>
-      <Button onClick={this._back}>
-        <ButtonIcon icon={'arrow_back'} />
-        { this.state.browse ? 'Cancel' : 'Back to Workspace' }
-      </Button>
+      <Button onClick={this._back} style={{
+        color: '#81D4FA',
+        backgroundColor: '#ECEFF1'
+      }}>
+      Back to Workspace
+    </Button>
+
     </div>
   }
 
