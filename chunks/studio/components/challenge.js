@@ -43,6 +43,10 @@ export default class Challenge extends Component {
     this.props.onOpenFile && this.props.onOpenFile()
   }
 
+  get isPurchased () {
+    return (this.props.challenge.history ? true : false)
+  }
+
   get shell () {
     return this._shell
   }
@@ -54,7 +58,7 @@ export default class Challenge extends Component {
   }
 
   get isStarted () {
-    return this.state.started || this.props.started
+    return this.state.started
   }
 
   get successMessage () {
@@ -97,34 +101,40 @@ export default class Challenge extends Component {
   }
 
   toggleStarted () {
-    if (!this.state.started) {
-      Data.Cache.cacheItem('pendingPurchase', {
-        challenge: {
-          id: this.props.challenge.id,
-          title: this.props.challenge.title,
-          level: this.props.challenge.level,
-          author: this.props.challenge.author,
-          skills: this.props.challenge.skills
-        }
-      })
-      .then((data) => {
-        this.props.onBuyChallenge && this.props.onBuyChallenge(this.props.challenge)
-      })
-      .catch(error => console.log(error))
+    if (this.isStarted) {
+      console.log('STOP IT!')
+      // const taskIndex = 1
+      // const task = this.props.challenge.tasks[taskIndex - 1]
+
+      // this.shell.analytics(started ? 'challengeStarted' : 'challengeStopped', this.props.challenge.id)
+      // this.shell.cache('challengeId', '')
+      // this.shell.cache('taskId', '')
+
+      this.setState({ started: false, showTask: false })
+      // this.setState({ started: false, taskIndex, task, showTask: false })
       return
     }
 
-    // const started = !this.state.started
-    //
-    // const taskIndex = 1
-    // const task = this.props.challenge.tasks[taskIndex - 1]
-    //
-    // this.shell.analytics(started ? 'challengeStarted' : 'challengeStopped', this.props.challenge.id)
-    //
-    // this.shell.cache('challengeId', started ? this.props.challenge.id : '')
-    // this.shell.cache('taskId', started ? task.id : '')
-    //
-    // this.setState({ started, taskIndex, task, showTask: started })
+    if (this.isPurchased) {
+      const taskIndex = 1
+      const task = this.props.challenge.tasks[taskIndex - 1]
+      this.setState({ started: true, showTask: true, task, taskIndex })
+      return
+    }
+
+    Data.Cache.cacheItem('pendingPurchase', {
+      challenge: {
+        id: this.props.challenge.id,
+        title: this.props.challenge.title,
+        level: this.props.challenge.level,
+        author: this.props.challenge.author,
+        skills: this.props.challenge.skills
+      }
+    })
+    .then((data) => {
+      this.props.onBuyChallenge && this.props.onBuyChallenge(this.props.challenge)
+    })
+    .catch(error => console.log(error))
   }
 
   isTaskComplete (task) {
@@ -218,7 +228,7 @@ export default class Challenge extends Component {
           backgroundColor: `${this.isStarted ? '#03A9F4' : '#4CAF50'}`
         }}
         onClick={this.isStarted ? this._continueChallenge : this._toggleStarted}>
-        { this.isStarted ? 'Continue Challenge' : `Send ${tokens} CARMEL to start` }
+        { this.isStarted ? 'Continue Challenge' : (this.isPurchased ? 'Start Challenge' : `Send ${tokens} CARMEL to start`) }
       </Button>
     </div>
   }

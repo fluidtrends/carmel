@@ -96,10 +96,23 @@ export default class Workspace extends Screen {
     }
   }
 
-  runController (controller) {
-    const { type } = controller
+  get challenges () {
+    return this.props.session.challenges.map(challenge => {
+      const newChallenge = Object.assign({}, challenge, this.state.userChallenges && this.state.userChallenges[challenge.id] && { history: this.state.userChallenges[challenge.id] })
+      return newChallenge
+    })
+  }
 
-    switch (type) {
+  updateLocalSession (data) {
+    const { challenges, controller } = data
+    const userChallenges = Object.assign({}, challenges)
+
+    if (!controller) {
+      this.setState({ userChallenges })
+      return
+    }
+
+    switch (controller.type) {
       case 'achievement':
         const achievement = controller.achievement
         const popupButtonTitle = 'Continue'
@@ -107,22 +120,22 @@ export default class Workspace extends Screen {
         const popupIcon = achievement.type === 'bonus' ? 'tokens' : 'cup'
         const popupMessage = this.controllerMessage(achievement)
 
-        this.setState({ showPopup: true, popupIcon, popupButtonTitle, popupMessage, popupTitle })
+        this.setState(Object.assign({}, { userChallenges, showPopup: true, popupIcon, popupButtonTitle, popupMessage, popupTitle }))
         break
       default:
     }
   }
 
   sessionSynced (response) {
-    console.log(response)
-    if (response && response.data && response.data.controller) {
-      this.runController(response.data.controller)
+    if (!response || !response.data) {
       return
     }
+
+    this.updateLocalSession(response.data)
   }
 
   failedToSyncSession (error) {
-    console.log(error)
+    console.log('failedToSyncSession', error)
   }
 
   onPublishProduct () {
@@ -139,10 +152,10 @@ export default class Workspace extends Screen {
   }
 
   startProduct () {
-    const { challenges, challenge, task } = this.props.session
+    const { challenge, task } = this.props.session
     this.shell.exec('startProduct', { id: this.product.id, light: LIGHT_START }, (compilation) => {
       if (compilation.compiled && !this.state.productStarted) {
-        this.setState({ challenges, challenge, task, compilation, productStarted: true, productStarting: false })
+        this.setState({ challenge, task, compilation, productStarted: true, productStarting: false })
         return
       }
 
@@ -151,10 +164,10 @@ export default class Workspace extends Screen {
     .then(({ files, dir, port }) => {
       this.shell.analytics('startProduct', 'success')
       if (LIGHT_START) {
-        this.setState({ challenges, challenge, task, files, dir, port, productStarted: true, productStarting: false })
+        this.setState({ challenge, task, files, dir, port, productStarted: true, productStarting: false })
         return
       }
-      this.setState({ challenges, challenge, task, files, dir, port })
+      this.setState({ challenge, task, files, dir, port })
     })
     .catch((error) => {
       this.shell.analytics('startProduct', error.message)
@@ -163,7 +176,7 @@ export default class Workspace extends Screen {
         compiling: false,
         errors: [error.message]
       }
-      this.setState({ challenges, challenge, task, compilation, productStarted: true, productStarting: false })
+      this.setState({ challenge, task, compilation, productStarted: true, productStarting: false })
     })
   }
 
@@ -202,7 +215,7 @@ export default class Workspace extends Screen {
   }
 
   onStartChallenge (challenge) {
-    this.setState({ challenge, startChallenge: true })
+    this.setState({ challenge })
   }
 
   onUnselectChallenge () {
@@ -359,7 +372,6 @@ export default class Workspace extends Screen {
       flexDirection: 'column'
     }}>
       <Challenge
-        started={this.state.startChallenge}
         onBuyChallenge={this._onBuyChallenge}
         onStartChallenge={this._onStartChallenge}
         account={this.account}
@@ -413,7 +425,7 @@ export default class Workspace extends Screen {
       flexDirection: 'column'
     }}>
       <Challenges
-        challenges={this.props.session.challenges}
+        challenges={this.challenges}
         onSelectChallenge={this._onSelectChallenge}
         onStartChallenge={this._onStartChallenge} />
     </div>

@@ -39,6 +39,7 @@ const start = ({ data, userId, previousSession }) => {
   return new Promise((resolve, reject) => {
     var result = Object.assign({},
                 { unclaimedTokens: 0 },
+                { challenges: {} },
                 { achievements: {} },
                 previousSession,
                 data.challengeId && { challengeId: data.challengeId },

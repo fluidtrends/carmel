@@ -1,6 +1,5 @@
 const path = require('path')
 const fs = require('fs-extra')
-const tmp = require('tmp')
 const Mocha = require('mocha')
 
 const start = ({ command, CARMEL_HOME, CARMEL_ROOT }) => {
@@ -29,7 +28,7 @@ const start = ({ command, CARMEL_HOME, CARMEL_ROOT }) => {
 }
 
 process.on('message', (data) => {
-  if (data && data.start) {
+  if (data && (data.start || data.refresh)) {
     start(data)
     return
   }

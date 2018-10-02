@@ -3,14 +3,17 @@ const chunky = require('react-cloud-chunky')
 const filename = __filename
 const auth = { limit: 1, private: true }
 
-const getWallet = (userId) => {
+const getUserItem = (userId, item) => {
   return new Promise((resolve, reject) => {
-    chunky.firebase.operation('retrieve', { key: `users-wallets/${userId}` })
-          .then((wallet) => chunky.firebase.operation('retrieve', { key: `wallets/${wallet._id}` }))
-          .then((wallet) => ((!wallet || (Array.isArray(wallet) && wallet.length === 0)) ? resolve() : resolve(wallet)))
+    chunky.firebase.operation('retrieve', { key: `users-${item}/${userId}` })
+          .then((result) => chunky.firebase.operation('retrieve', { key: `${item}/${result._id}` }))
+          .then((data) => ((!data || (Array.isArray(data) && data.length === 0)) ? resolve() : resolve(data)))
           .catch(() => resolve())
   })
 }
+
+const getWallet = (userId) => getUserItem(userId, 'wallets')
+const getSession = (userId) => getUserItem(userId, 'sessions')
 
 const updateWalletTokens = (userId, amount, check) => {
   return getWallet(userId).then((wallet) => {
@@ -23,28 +26,63 @@ const updateWalletTokens = (userId, amount, check) => {
   })
 }
 
-const createTransfer = (from, to, amount, type) => {
+const createPostTransfer = (from, to, amount, result, type, data) => {
+  if (type === 'challengePurchase') {
+    const now = Date.now()
+
+    const update = (session) => Object.assign({}, {
+      key: `sessions/${session._id}/challenges`,
+      [data.challengeId]: {
+        status: 'purchased',
+        purchaseTimestamp: `${now}`
+      }
+    })
+
+    return getSession(from).then((session) => {
+      return chunky.firebase.operation('update', update(session))
+                   .then(() => chunky.firebase.operation('update', { key: `users-sessions/${from}/${session._id}`, timestamp: `${now}` }))
+    })
+  }
+
+  return result
+}
+
+const createTransfer = (from, to, amount, type, data) => {
   return chunky.firebase.operation('add', {
-    node: type,
+    node: 'transfers',
     amount,
-    userId: from,
+    type,
+    data,
+    from,
+    to,
+    join: {
+      users: {
+        id: from
+      }
+    }
+  })
+  .then((result) => chunky.firebase.operation('join', {
+    node: result,
+    nodeName: 'transfers',
     join: {
       users: {
         id: to
       }
     }
-  })
+  }).then(() => result))
 }
 
 function executor ({ event, chunk, config, account }) {
   const amount = event.body.amount
   const userId = account.user.uid
   const to = event.body.to
+  const type = event.body.type || 'transfer'
+  const data = event.body.data || ''
 
   return updateWalletTokens(userId, -amount, true)
                 .then(() => updateWalletTokens(to, amount))
-                .then(() => createTransfer(userId, to, amount, 'transferSent'))
-                .then(() => createTransfer(to, userId, amount, 'transferReceived'))
+                .then(() => createTransfer(userId, to, amount, type, data))
+                .then((result) => createPostTransfer(userId, to, amount, result, type, data))
 }
 
 module.exports.main = chunky.handler({ executor, filename, auth })

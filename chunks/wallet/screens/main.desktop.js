@@ -27,10 +27,18 @@ export default class MainWalletScreen extends Screen {
 
   send () {
     this.setState({ inProgress: true })
-    this.props.sendTokens({ amount: this.price, to: this.author.id })
+    this.props.sendTokens({
+      amount: this.price,
+      to: this.author.id,
+      type: 'challengePurchase',
+      data: {
+        challengeId: this.state.pendingPurchase.challenge.id
+      }
+    })
   }
 
   tokensSent (response) {
+    console.log(response)
     if (response && response.data && response.data.error) {
       notification.error({ message: response.data.error })
       this.setState({ inProgress: false })
@@ -43,6 +51,7 @@ export default class MainWalletScreen extends Screen {
   }
 
   failedToSendTokens (error) {
+    console.log(error)
     notification.error({ message: error.message })
     this.setState({ inProgress: false })
   }
