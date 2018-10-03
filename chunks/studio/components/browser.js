@@ -266,7 +266,6 @@
      const video = this.longProcessVideo
      const prompt = this.longProcessPrompt
      const status = this.longRunningStatus
-     const percentage = this.longRunningPercentage
 
      return <div key='progress' style={{
        backgroundColor: '#000000',
@@ -283,6 +282,13 @@
        }}>
          { prompt }
        </Typography>
+       <Typography key='summary2' use='body1' style={{
+         textAlign: 'center',
+         color: '#ffffff',
+         margin: '20px'
+       }}>
+        Until then watch this:
+       </Typography>
        <Components.Media
          key='video'
          cache={this.props.cache}
@@ -295,23 +301,24 @@
          style={{
            backgroundColor: '#ffffff'
          }} />
-       <LinearProgress key='divider' progress={percentage} />
-       <Typography key='summary' use='body1' style={{
-         textAlign: 'center',
-         color: '#ffffff',
-         margin: '20px'
-       }}>
-        Until then watch this:
-       </Typography>
        <Typography key='summary' use='title' style={{
          textAlign: 'center',
          fontSize: '30px',
          color: '#ffffff',
-         marginTop: '20px'
+         marginTop: '40px'
        }}>
          { video.summary }
        </Typography>
      </div>
+   }
+
+   renderProgressBar () {
+     if (!this.isLongRunning) {
+       return <div />
+     }
+
+     const percentage = this.longRunningPercentage
+     return <LinearProgress key='divider' progress={percentage} />
    }
 
    renderMainBrowserContent () {
@@ -349,6 +356,7 @@
        }}>
          { this.renderMainBrowserContent() }
        </Card>
+       { this.renderProgressBar() }
      </div>
    }
 }

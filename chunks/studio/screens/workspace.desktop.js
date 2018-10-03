@@ -306,7 +306,7 @@ export default class Workspace extends Screen {
 
     var alertMessage = `The product is starting ...`
 
-    var successColor = '#AED581'
+    var successColor = '#81C784'
     var progressColor = '#90CAF9'
     var successBackgroundColor = '#FAFAFA'
     var progressBackgroundColor = '#FFFDE7'
