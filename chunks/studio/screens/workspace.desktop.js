@@ -62,7 +62,7 @@ export default class Workspace extends Screen {
 
   componentDidMount () {
     super.componentDidMount()
-    // this.start()
+    this.start()
   }
 
   get shell () {
@@ -301,44 +301,47 @@ export default class Workspace extends Screen {
     return status
   }
 
-  renderProductPreviewAlert () {
+  renderProductStatusPrompt () {
     const status = this.productStatus
 
-    var alertType = 'info'
     var alertMessage = `The product is starting ...`
-    var onAction = false
+
+    var successColor = '#B0BEC5'
+    var progressColor = '#B0BEC5'
+
+    var successIcon = <Icon type='check-circle' fill style={{ marginRight: '10px', color: successColor }} />
+    var progressIcon = <Icon type='hourglass' fill spin style={{ marginRight: '10px', color: progressColor }} />
+
+    var icon = progressIcon
+    var color = progressColor
 
     if (status.isPublishing) {
       alertMessage = `${this.state.productPublishingStatus || 'Getting ready to publish your product ...'}`
     } else if (status.isCompiling) {
       alertMessage = 'Applying changes to your product ...'
     } else if (status.isCompiledWithoutErrors) {
-      alertType = 'success'
       alertMessage = 'Your product is up and running'
+      icon = successIcon
+      color = successColor
     } else if (status.isCompiledWithErrors) {
       const errors = this.state.compilation.errors
-      alertType = 'error'
       const errorsString = `error${errors.length > 1 ? 's' : ''}`
       alertMessage = `Your latest changes produced ${errors.length} ${errorsString}`
     } else if (status.isPublished) {
-      alertType = 'success'
       alertMessage = `Your product was successfully published`
       // this.state.productPublishingTimestamp
     }
 
-    return <Card key='alert' style={{
-      width: '100%',
-      marginBottom: '5px',
+    return <Typography key='status' style={{
+      textAlign: 'center',
+      marginBottom: '20px',
+      color,
+      padding: '5px',
       textAlign: 'center'
     }}>
-      <Alert style={{
-        width: '100%',
-        textAlign: 'center'
-      }}
-        type={alertType}
-        message={alertMessage}
-        banner />
-    </Card>
+      { icon }
+      { alertMessage }
+    </Typography>
   }
 
   renderProductPreview () {
@@ -357,13 +360,13 @@ export default class Workspace extends Screen {
     })
 
     return <div style={style}>
-      { this.renderProductPreviewAlert() }
       <Browser
         cache={this.cache}
         onPublish={this._onPublishProduct}
         status={this.productStatus}
         product={this.state.product}
         port={this.state.port} />
+      { this.renderProductStatusPrompt() }
     </div>
   }
 
@@ -557,21 +560,10 @@ export default class Workspace extends Screen {
   }
 
   renderMenuBar () {
-   //  <div style={{
-   //   backgroundColor: '#ffff00',
-   //   display: 'flex',
-   //   flex: 1,
-   //   height: '100vh',
-   //   alignItems: 'center',
-   //   justifyContent: 'center',
-   //   flexDirection: "row"
-   // }}>
-   //
-   // </div>
     return <div style={{
       display: 'flex',
-      flex: 1,
       alignItems: 'flex-start',
+      backgroundColor: '#ffff00',
       justifyContent: 'flex-start'
     }}>
       <Icon

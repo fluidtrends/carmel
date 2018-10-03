@@ -226,7 +226,7 @@
    }
 
    get longProcessPrompt () {
-     return 'This could take a minute or two. Sit back, relax and watch'
+     return 'This could take a minute or two'
    }
 
    startProgressVideo (player, data) {
@@ -268,10 +268,8 @@
      const status = this.longRunningStatus
      const percentage = this.longRunningPercentage
 
-     const progressTitle = `Your product is ${this.longRunningStatus} ...`
-
      return <div key='progress' style={{
-       backgroundColor: '#ffffff',
+       backgroundColor: '#000000',
        display: 'flex',
        width: '100%',
        flexDirection: 'column',
@@ -279,16 +277,11 @@
      }}>
        <Typography key='title' use='title' style={{
          textAlign: 'center',
-         color: '#00bcd4',
-         margin: '20px'
+         color: '#ffffff',
+         padding: '20px',
+         marginTop: '10px'
        }}>
-         <Icon
-           onClick={this._prev}
-           style={{
-             marginRight: '10px'
-           }}
-           type='loading' />
-         { progressTitle }
+         { prompt }
        </Typography>
        <Components.Media
          key='video'
@@ -303,35 +296,20 @@
            backgroundColor: '#ffffff'
          }} />
        <LinearProgress key='divider' progress={percentage} />
-       <Icon
-         key='icon'
-         style={{
-           color: '#FFD54F',
-           margin: '20px',
-           fontSize: '40px'
-         }}
-         type='smile' />
-       <Typography key='caption' use='caption' style={{
+       <Typography key='summary' use='body1' style={{
          textAlign: 'center',
-         color: '#B0BEC5',
-         margin: '5px'
+         color: '#ffffff',
+         margin: '20px'
        }}>
-         { prompt }
+        Until then watch this:
        </Typography>
        <Typography key='summary' use='title' style={{
          textAlign: 'center',
-         color: '#00bcd4',
-         margin: '5px'
-
+         fontSize: '30px',
+         color: '#ffffff',
+         marginTop: '20px'
        }}>
          { video.summary }
-       </Typography>
-       <Typography key='status' use='caption' style={{
-         textAlign: 'center',
-         color: '#B0BEC5 ',
-         margin: '5px'
-       }}>
-         { `while your product is ${status}` }
        </Typography>
      </div>
    }
