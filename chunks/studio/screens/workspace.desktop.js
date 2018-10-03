@@ -306,14 +306,17 @@ export default class Workspace extends Screen {
 
     var alertMessage = `The product is starting ...`
 
-    var successColor = '#B0BEC5'
-    var progressColor = '#B0BEC5'
+    var successColor = '#AED581'
+    var progressColor = '#90CAF9'
+    var successBackgroundColor = '#FAFAFA'
+    var progressBackgroundColor = '#FFFDE7'
 
-    var successIcon = <Icon type='check-circle' fill style={{ marginRight: '10px', color: successColor }} />
-    var progressIcon = <Icon type='hourglass' fill spin style={{ marginRight: '10px', color: progressColor }} />
+    var successIcon = <Icon type='check-circle' style={{ marginRight: '10px', color: successColor }} />
+    var progressIcon = <Icon type='hourglass' spin style={{ marginRight: '10px', color: progressColor }} />
 
     var icon = progressIcon
     var color = progressColor
+    var backgroundColor = progressBackgroundColor
 
     if (status.isPublishing) {
       alertMessage = `${this.state.productPublishingStatus || 'Getting ready to publish your product ...'}`
@@ -323,6 +326,7 @@ export default class Workspace extends Screen {
       alertMessage = 'Your product is up and running'
       icon = successIcon
       color = successColor
+      backgroundColor = successBackgroundColor
     } else if (status.isCompiledWithErrors) {
       const errors = this.state.compilation.errors
       const errorsString = `error${errors.length > 1 ? 's' : ''}`
@@ -336,7 +340,8 @@ export default class Workspace extends Screen {
       textAlign: 'center',
       marginBottom: '20px',
       color,
-      padding: '5px',
+      backgroundColor,
+      padding: '10px',
       textAlign: 'center'
     }}>
       { icon }
