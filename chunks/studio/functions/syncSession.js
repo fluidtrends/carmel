@@ -75,6 +75,10 @@ const updateSession = (data, account, previousSession) => {
     case Stages.CHALLENGE_STOPPED:
       session.challenges[data.challengeId] = Object.assign({}, session.challenges[data.challengeId], { status: 'stopped', taskIndex: 1, updatedTimestamp: timestamp, stopTimestamp: timestamp })
       break
+    case Stages.CHALLENGE_RATED:
+      delete session.challengeId
+      session.challenges[data.challengeId] = Object.assign({}, session.challenges[data.challengeId], { status: 'stopped', taskIndex: 1, updatedTimestamp: timestamp, stopTimestamp: timestamp })
+      break
     case Stages.CHALLENGE_CANCELLED:
       delete session.challengeId
       break

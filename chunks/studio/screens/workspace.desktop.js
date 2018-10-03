@@ -49,6 +49,7 @@ export default class Workspace extends Screen {
     this._onShowTask = this.onShowTask.bind(this)
     this._onTaskCompleted = this.onTaskCompleted.bind(this)
     this._onChallengeCompleted = this.onChallengeCompleted.bind(this)
+    this._onChallengeRated = this.onChallengeRated.bind(this)
     this._onHideTask = this.onHideTask.bind(this)
     this._onShowCompileErrors = this.onShowCompileErrors.bind(this)
     this._onFileOpen = this.onFileOpen.bind(this)
@@ -231,6 +232,10 @@ export default class Workspace extends Screen {
     this.syncSession({ stage: Stages.CHALLENGE_COMPLETED, challengeId })
   }
 
+  onChallengeRated ({ challengeId, rating }) {
+    this.syncSession({ stage: Stages.CHALLENGE_RATED, challengeId, rating })
+  }
+
   onStartChallenge ({ challengeId }) {
     this.syncSession({ stage: Stages.CHALLENGE_STARTED, challengeId })
   }
@@ -395,6 +400,7 @@ export default class Workspace extends Screen {
         onStartChallenge={this._onStartChallenge}
         onTaskCompleted={this._onTaskCompleted}
         onChallengeCompleted={this._onChallengeCompleted}
+        onChallengeRated={this._onChallengeRated}
         onStopChallenge={this._onStopChallenge}
         account={this.account}
         product={this.product}

@@ -83,8 +83,11 @@ export default class Challenge extends Component {
     this.props.onHideTask && this.props.onHideTask()
   }
 
-  onChallengeRated (value) {
-    console.log(value)
+  onChallengeRated (rating) {
+    this.props.onChallengeRated && this.props.onChallengeRated({
+      challengeId: this.props.challenge.id,
+      rating
+    })
   }
 
   onTaskCompleted () {

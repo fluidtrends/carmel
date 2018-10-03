@@ -33,7 +33,7 @@ export default class Challenges extends Component {
     }
 
     var since = moment(parseFloat(item.history.purchaseTimestamp)).fromNow()
-    var header = `You got this challenges ${since}`
+    var header = `You got this challenge ${since}`
 
     if (item.history.status === 'completed' && item.history.completedTimestamp) {
       since = moment(parseFloat(item.history.completedTimestamp)).fromNow()
