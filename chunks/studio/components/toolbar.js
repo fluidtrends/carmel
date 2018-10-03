@@ -2,6 +2,9 @@ import React from 'react'
 import { Component, Components } from 'react-dom-chunky'
 import { Dropdown, Menu, Icon, Button } from 'antd'
 
+const SubMenu = Menu.SubMenu
+const ItemGroup = Menu.ItemGroup
+
 export default class Toolbar extends Component {
   constructor (props) {
     super(props)
@@ -19,8 +22,8 @@ export default class Toolbar extends Component {
   }
 
   productChanged (item) {
-    if (item.key === 'newProduct') {
-      this.props.onNewProduct && this.props.onNewProduct()
+    if (item.key) {
+      this.props.onProductOption && this.props.onProductOption(item)
       return
     }
 
@@ -47,16 +50,41 @@ export default class Toolbar extends Component {
   }
 
   renderMenu (options) {
+    // {
+    //   options.map(option => <Menu.Item key={option.id} style={{ padding: '10px' }}> <Icon type={option.icon} style={{ padding: '5px' }} /> {option.title} </Menu.Item>)
+    // }
     return <Menu onClick={this._productChanged} style={{ padding: '0px'}}>
-      {
-        options.map(option => <Menu.Item key={option.id} style={{ padding: '10px' }}> <Icon type={option.icon} style={{ padding: '5px' }} /> {option.title} </Menu.Item>)
-      }
+      <Menu.Item key='openFile' style={{ color: '#607D8B', margin: '0px', padding: '5px 15px 5px 5px' }}>
+        <Icon type='form' style={{ margin: '10px' }} />
+       Open File
+      </Menu.Item>
+      <Menu.Item key='editSettings' style={{ color: '#607D8B', margin: '0px', padding: '5px 15px 5px 5px' }}>
+        <Icon type='setting' style={{ margin: '10px' }} />
+       Edit Settings
+      </Menu.Item>
       <Menu.Divider />
-      <Menu.Item key='newProduct' style={{ color: '#42A5F5', margin: '0px', padding: '5px' }}>
-        <Icon type='plus-circle-o' style={{ margin: '10px' }} />
-        New product
+      <Menu.Item key='changeProduct' style={{ color: '#42A5F5', margin: '0px', padding: '5px 15px 5px 5px' }}>
+        <Icon type='desktop' style={{ margin: '10px' }} />
+       Change Product
       </Menu.Item>
     </Menu>
+    // return <Menu onClick={this._productChanged} style={{ padding: '0px'}}>
+    //   <ItemGroup key='openFile' title='Product Settings'>
+    //     <Menu.Item key='openFile' style={{ color: '#42A5F5', margin: '0px', padding: '5px' }}>
+    //       <Icon type='form' style={{ margin: '10px' }} />
+    //    Open File
+    //   </Menu.Item>
+    //   </ItemGroup>
+    //   <Menu.Divider />
+    //   {
+    //     options.map(option => <Menu.Item key={option.id} style={{ padding: '10px' }}> <Icon type={option.icon} style={{ padding: '5px' }} /> {option.title} </Menu.Item>)
+    //   }
+    //   <Menu.Divider />
+    //   <Menu.Item key='newProduct' style={{ color: '#42A5F5', margin: '0px', padding: '5px' }}>
+    //     <Icon type='plus-circle-o' style={{ margin: '10px' }} />
+    //     New product
+    //   </Menu.Item>
+    // </Menu>
   }
 
   renderMenuBar () {
@@ -137,7 +165,7 @@ export default class Toolbar extends Component {
       <Button
         shape='circle'
         ghost
-        icon='setting'
+        icon='user'
         onClick={this._showAccountScreen}
         style={{
           margin: '15px 0px 15px 10px',

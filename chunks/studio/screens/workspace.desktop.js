@@ -37,7 +37,7 @@ export default class Workspace extends Screen {
 
     this.state = { openFiles: {} }
     this._shell = new Shell()
-    this._onNewProduct = this.onNewProduct.bind(this)
+    this._onProductOption = this.onProductOption.bind(this)
     this._onProductChanged = this.onProductChanged.bind(this)
     this._onShowAccountScreen = this.onShowAccountScreen.bind(this)
     this._onShowTVScreen = this.onShowTVScreen.bind(this)
@@ -181,7 +181,7 @@ export default class Workspace extends Screen {
       this.setState({ compilation })
     })
     .then(({ files, dir, port }) => {
-      this.shell.analytics('startProduct', 'success')
+      // this.shell.analytics('startProduct', 'success')
       if (LIGHT_START) {
         this.setState({ files, dir, port, productStarted: true, productStarting: false })
         return
@@ -189,7 +189,7 @@ export default class Workspace extends Screen {
       this.setState({ files, dir, port })
     })
     .catch((error) => {
-      this.shell.analytics('startProduct', error.message)
+      // this.shell.analytics('startProduct', error.message)
       const compilation = {
         compiled: true,
         compiling: false,
@@ -222,8 +222,18 @@ export default class Workspace extends Screen {
     this.setState({ product })
   }
 
-  onNewProduct () {
-    this.triggerRedirect('/new')
+  onProductOption (item) {
+    switch (item.key) {
+      case 'newProduct':
+        this.triggerRedirect('/new')
+        break
+      case 'openFile':
+        this.onShowFileBrowser()
+        break
+      case 'editSettings':
+        break
+      default:
+    }
   }
 
   onTogglePreview (preview) {
@@ -396,7 +406,7 @@ export default class Workspace extends Screen {
     return <Explorer
       key='explorer'
       onFileOpen={this._onFileOpen}
-      product={this.state.product}
+      product={this.product}
       dir={this.state.dir}
       onClose={() => this.setState({ showFileBrowser: false })}
       files={this.state.files} />
@@ -424,7 +434,6 @@ export default class Workspace extends Screen {
         product={this.product}
         onShowTask={this._onShowTask}
         onHideTask={this._onHideTask}
-        onOpenFile={this._onShowFileBrowser}
         onBack={this._onUnselectChallenge}
         challenge={this.challenge} />
     </div>
@@ -512,6 +521,30 @@ export default class Workspace extends Screen {
     </div>
   }
 
+  renderWorkspaceMenu () {
+    if (this.state.productPublishing || this.state.productStarting) {
+      return <div />
+    }
+
+    return <Header key='header' style={{
+      background: '#ffffff',
+      padding: 0,
+      borderBottom: '1px #CFD8DC solid'
+    }}>
+      <Elevation z={2}>
+        <Toolbar
+          onTogglePreview={this._onTogglePreview}
+          onProductOption={this._onProductOption}
+          onProductChanged={this._onProductChanged}
+          onShowAccountScreen={this._onShowAccountScreen}
+          onShowTVScreen={this._onShowTVScreen}
+          onShowBountiesScreen={this._onShowBountiesScreen}
+          products={this.products}
+          product={this.product} />
+      </Elevation>
+    </Header>
+  }
+
   renderWorkspace (status) {
     const browserWidth = '60vw'
     const minBrowserWidth = '0px'
@@ -532,23 +565,7 @@ export default class Workspace extends Screen {
         { this.renderProductPreview() }
       </Sider>
       <Layout key='workspace' style={{ minHeight: '100vh' }}>
-        <Header key='header' style={{
-          background: '#ffffff',
-          padding: 0,
-          borderBottom: '1px #CFD8DC solid'
-        }}>
-          <Elevation z={2}>
-            <Toolbar
-              onTogglePreview={this._onTogglePreview}
-              onNewProduct={this._onNewProduct}
-              onProductChanged={this._onProductChanged}
-              onShowAccountScreen={this._onShowAccountScreen}
-              onShowTVScreen={this._onShowTVScreen}
-              onShowBountiesScreen={this._onShowBountiesScreen}
-              products={this.products}
-              product={this.product} />
-          </Elevation>
-        </Header>
+        { this.renderWorkspaceMenu() }
         <Layout key='content' style={{
           display: 'flex',
           flex: 1,
@@ -562,53 +579,6 @@ export default class Workspace extends Screen {
         </Layout>
       </Layout>
     </Layout>
-  }
-
-  renderMenuBar () {
-    return <div style={{
-      display: 'flex',
-      alignItems: 'flex-start',
-      backgroundColor: '#ffff00',
-      justifyContent: 'flex-start'
-    }}>
-      <Icon
-        style={{
-          color: '#455A64',
-          display: 'flex',
-          fontSize: '18px',
-          marginLeft: '10px',
-          lineHeight: '64px',
-          padding: '0 10px',
-          cursor: 'pointer',
-          transition: 'color .3s'
-        }}
-        type={'menu-fold'}
-     />
-      <div style={{
-        flex: 1,
-        display: 'flex'
-      }}>
-        <Typography use='subtitle1' style={{
-          textAlign: 'center',
-          margin: '20px',
-          color: '#78909C'
-        }}>
-        Your jdjd sadfasd
-        </Typography>
-      </div>
-      <Icon
-        style={{
-          color: '#455A64',
-          display: 'flex',
-          fontSize: '18px',
-          lineHeight: '64px',
-          padding: '0 24px',
-          cursor: 'pointer',
-          alignSelf: 'flex-end',
-          transition: 'color .3s'
-        }}
-        type={'user'} />
-    </div>
   }
 
   renderScreenLayout () {

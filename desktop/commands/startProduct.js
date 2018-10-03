@@ -66,6 +66,7 @@ const startWebserver = ({ port, product }, cb) => {
       compiler.plugin('done', (stats) => {
         console.log('Product compiled.')
         cb && cb(Object.assign({}, { compiled: true, compiling: false }, stats.compilation.errors.length > 0, { errors: stats.compilation.errors }))
+        console.log('RESULTED', product.files)
         resolve({ port, files: product.files })
       })
       compiler.plugin('compile', (params) => {
@@ -118,7 +119,9 @@ const startProduct = ({ light, product }, cb) => {
     return product.loadFileList()
   }
 
-  return getPort().then((port) => startWebserver({ port, product }, cb))
+  return product.loadFileList()
+          .then(() => getPort())
+          .then((port) => startWebserver({ port, product }, cb))
 }
 
 const refreshProduct = ({ light, product }, cb) => {
@@ -128,7 +131,8 @@ const refreshProduct = ({ light, product }, cb) => {
     return product.loadFileList()
   }
 
-  return refreshWebserver({ port, product }, cb)
+  return product.loadFileList()
+         .then(() => refreshWebserver({ port, product }, cb))
 }
 
 const start = ({ command, CARMEL_HOME, CARMEL_ROOT }) => {

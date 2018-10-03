@@ -92,6 +92,7 @@ export default class Explorer extends Component {
   }
 
   render () {
+    console.log(this.props)
     if (!this.props.files || !this.props.dir) {
       return <div />
     }

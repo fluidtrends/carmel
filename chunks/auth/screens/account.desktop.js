@@ -58,6 +58,10 @@ export default class AccountScreen extends Screen {
     return this._browser
   }
 
+  get sidebarWidth () {
+    return 0
+  }
+
   onBrowserLogout (data) {
     const self = this
     const session = this.browserSession
