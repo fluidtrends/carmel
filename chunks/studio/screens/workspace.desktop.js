@@ -43,9 +43,12 @@ export default class Workspace extends Screen {
     this._onTogglePreview = this.onTogglePreview.bind(this)
     this._onSelectChallenge = this.onSelectChallenge.bind(this)
     this._onStartChallenge = this.onStartChallenge.bind(this)
+    this._onStopChallenge = this.onStopChallenge.bind(this)
     this._onUnselectChallenge = this.onUnselectChallenge.bind(this)
     this._onShowFileBrowser = this.onShowFileBrowser.bind(this)
     this._onShowTask = this.onShowTask.bind(this)
+    this._onTaskCompleted = this.onTaskCompleted.bind(this)
+    this._onChallengeCompleted = this.onChallengeCompleted.bind(this)
     this._onHideTask = this.onHideTask.bind(this)
     this._onShowCompileErrors = this.onShowCompileErrors.bind(this)
     this._onFileOpen = this.onFileOpen.bind(this)
@@ -90,7 +93,7 @@ export default class Workspace extends Screen {
   controllerMessage (options) {
     switch (options.type) {
       case 'bonus':
-        return `Whoa! You just got ${options.tokens} CARMEL. Just 'cause you're awesome.`
+        return `You just unlocked ${options.tokens} CARMEL tokens! ${options.reason}`
       default:
         return `You're awesome`
     }
@@ -103,12 +106,18 @@ export default class Workspace extends Screen {
     })
   }
 
+  get challenge () {
+    const id = this.state.challengeId
+    return this.challenges.find(c => id === c.id)
+  }
+
   updateLocalSession (data) {
-    const { challenges, controller } = data
+    console.log(data)
+    const { challenges, controller, challengeId } = data
     const userChallenges = Object.assign({}, challenges)
 
     if (!controller) {
-      this.setState({ userChallenges })
+      this.setState({ userChallenges, challengeId })
       return
     }
 
@@ -120,7 +129,7 @@ export default class Workspace extends Screen {
         const popupIcon = achievement.type === 'bonus' ? 'tokens' : 'cup'
         const popupMessage = this.controllerMessage(achievement)
 
-        this.setState(Object.assign({}, { userChallenges, showPopup: true, popupIcon, popupButtonTitle, popupMessage, popupTitle }))
+        this.setState(Object.assign({}, { userChallenges, challengeId, showPopup: true, popupIcon, popupButtonTitle, popupMessage, popupTitle }))
         break
       default:
     }
@@ -152,10 +161,9 @@ export default class Workspace extends Screen {
   }
 
   startProduct () {
-    const { challenge, task } = this.props.session
     this.shell.exec('startProduct', { id: this.product.id, light: LIGHT_START }, (compilation) => {
       if (compilation.compiled && !this.state.productStarted) {
-        this.setState({ challenge, task, compilation, productStarted: true, productStarting: false })
+        this.setState({ compilation, productStarted: true, productStarting: false })
         return
       }
 
@@ -164,10 +172,10 @@ export default class Workspace extends Screen {
     .then(({ files, dir, port }) => {
       this.shell.analytics('startProduct', 'success')
       if (LIGHT_START) {
-        this.setState({ challenge, task, files, dir, port, productStarted: true, productStarting: false })
+        this.setState({ files, dir, port, productStarted: true, productStarting: false })
         return
       }
-      this.setState({ challenge, task, files, dir, port })
+      this.setState({ files, dir, port })
     })
     .catch((error) => {
       this.shell.analytics('startProduct', error.message)
@@ -176,19 +184,20 @@ export default class Workspace extends Screen {
         compiling: false,
         errors: [error.message]
       }
-      this.setState({ challenge, task, compilation, productStarted: true, productStarting: false })
+      this.setState({ compilation, productStarted: true, productStarting: false })
     })
   }
 
   syncSession (data) {
-    this.props.syncSession(Object.assign({},
+    const request = Object.assign({},
       { machineId: this.props.session.machineId,
-        machineFingerprint: this.props.session.machineFingerprint },
-      this.props.session.challenge && { challengeId: this.props.session.challenge.id },
-      this.props.session.task && { taskId: this.props.session.task.id },
-      { stage: Stages.START },
-      data
-    ))
+        machineFingerprint: this.props.session.machineFingerprint,
+        stage: Stages.WORKSPACE,
+        challengeId: ''
+      },
+      data)
+
+    this.props.syncSession(request)
   }
 
   start () {
@@ -210,16 +219,29 @@ export default class Workspace extends Screen {
     this.setState({ preview })
   }
 
-  onSelectChallenge (challenge) {
-    this.setState({ challenge })
+  onSelectChallenge ({ challengeId }) {
+    this.setState({ challengeId })
   }
 
-  onStartChallenge (challenge) {
-    this.setState({ challenge })
+  onTaskCompleted ({ taskIndex, challengeId }) {
+    this.syncSession({ stage: Stages.TASK_COMPLETED, challengeId })
+  }
+
+  onChallengeCompleted ({ challengeId }) {
+    this.syncSession({ stage: Stages.CHALLENGE_COMPLETED, challengeId })
+  }
+
+  onStartChallenge ({ challengeId }) {
+    this.syncSession({ stage: Stages.CHALLENGE_STARTED, challengeId })
+  }
+
+  onStopChallenge ({ challengeId }) {
+    this.syncSession({ stage: Stages.CHALLENGE_STOPPED, challengeId })
   }
 
   onUnselectChallenge () {
-    this.setState({ challenge: '' })
+    this.syncSession({ stage: Stages.CHALLENGE_CANCELLED })
+    this.setState({ challengeId: '' })
   }
 
   onFileClose (file) {
@@ -361,10 +383,6 @@ export default class Workspace extends Screen {
     this.triggerRedirect(this.isLoggedIn ? '/wallet' : '/login')
   }
 
-  getSessionSuccess (session) {
-    console.log('SESSION:', session)
-  }
-
   renderChallenge () {
     return <div key='challenge' style={{
       display: 'flex',
@@ -373,15 +391,18 @@ export default class Workspace extends Screen {
     }}>
       <Challenge
         onBuyChallenge={this._onBuyChallenge}
+        onSelectChallenge={this._onSelectChallenge}
         onStartChallenge={this._onStartChallenge}
+        onTaskCompleted={this._onTaskCompleted}
+        onChallengeCompleted={this._onChallengeCompleted}
+        onStopChallenge={this._onStopChallenge}
         account={this.account}
         product={this.product}
-        task={this.state.task}
         onShowTask={this._onShowTask}
         onHideTask={this._onHideTask}
         onOpenFile={this._onShowFileBrowser}
         onBack={this._onUnselectChallenge}
-        challenge={this.state.challenge} />
+        challenge={this.challenge} />
     </div>
   }
 
@@ -426,8 +447,7 @@ export default class Workspace extends Screen {
     }}>
       <Challenges
         challenges={this.challenges}
-        onSelectChallenge={this._onSelectChallenge}
-        onStartChallenge={this._onStartChallenge} />
+        onSelectChallenge={this._onSelectChallenge} />
     </div>
   }
 
@@ -440,7 +460,7 @@ export default class Workspace extends Screen {
       return this.renderStartingMessage()
     }
 
-    if (!this.state.challenge) {
+    if (!this.challenge) {
       return this.renderChallenges()
     }
 

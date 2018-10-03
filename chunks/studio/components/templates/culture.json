@@ -1,0 +1,24 @@
+{
+  "name": "Office Culture",
+  "fixture": "starter",
+  "cover": "office",
+  "manifest": {
+    "template": "culture"
+  },
+  "tags": ["startup", "office", "starter"],
+  "chunks": {
+    "intro": {
+      "routes": {
+        "main": {
+          "title": "Welcome",
+          "cover": {
+            "image": "cover.r.png",
+            "title": "Yeah we work hard most of the time",
+            "subtitle": "But we're also enjoying every bit of it",
+            "primaryActionTitle": "See Our Office"
+          }
+        }
+      }
+    }
+  }
+}

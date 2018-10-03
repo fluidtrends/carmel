@@ -8,6 +8,7 @@ import { List, Avatar, Rate, Row, Col, Icon } from 'antd'
 import { Chip, ChipText, ChipIcon, ChipSet } from 'rmwc/Chip'
 import { Data } from 'react-chunky'
 import Prompt from './prompt'
+import moment from 'moment'
 import ChallengeHeader from './challengeHeader'
 
 export default class Challenges extends Component {
@@ -20,27 +21,48 @@ export default class Challenges extends Component {
 
   componentDidMount () {
     super.componentDidMount()
-
-    Data.Cache.retrieveCachedItem('currentChallenge').then((data) => {
-      const found = this.props.challenges.find(c => c.id === data.challenge.id)
-      if (!found) {
-        return
-      }
-
-      this.props.onStartChallenge && this.props.onStartChallenge(found)
-    })
   }
 
   selectChallenge (item) {
-    this.props.onSelectChallenge && this.props.onSelectChallenge(item)
+    this.props.onSelectChallenge && this.props.onSelectChallenge({ challengeId: item.id })
+  }
+
+  renderChallengeHeader (item) {
+    if (!item.history) {
+      return <div />
+    }
+
+    var since = moment(parseFloat(item.history.purchaseTimestamp)).fromNow()
+    var header = `You got this challenges ${since}`
+
+    if (item.history.status === 'completed' && item.history.completedTimestamp) {
+      since = moment(parseFloat(item.history.completedTimestamp)).fromNow()
+      header = `You completed this challenge ${since}`
+    }
+
+    return <Typography use='body1' style={{
+      textAlign: 'center',
+      color: '#81C784',
+      padding: '5px',
+      backgroundColor: '#eeee99'
+    }}>
+      { header }
+    </Typography>
   }
 
   renderChallenge (item) {
+    var prompt = (item.history ? 'Take Challenge' : 'Get Challenge')
+
+    if (item.history && item.history.status === 'completed') {
+      prompt = `Rate Challenge`
+    }
+
     return <div key={item.title} style={{ marginBottom: '10px' }}>
       <Card outlined>
         <CardPrimaryAction onClick={this._selectChallenge(item)}>
           <ChallengeHeader challenge={item} />
         </CardPrimaryAction>
+        { this.renderChallengeHeader(item)}
         <ListDivider />
         <div style={{
           display: 'flex',
@@ -55,9 +77,9 @@ export default class Challenges extends Component {
             style={{
               display: 'flex',
               color: '#ffffff',
-              backgroundColor: '#4CAF50'
+              backgroundColor: (item.history ? '#03A9F4' : '#4CAF50')
             }}>
-            Take This Challenge
+            { prompt }
           </Button>
         </div>
       </Card>

@@ -25,7 +25,7 @@ export default class Challenge extends Component {
     super(props)
 
     this.state = Object.assign({}, { ...this.state, taskIndex: 1 },
-      props.task && { started: true, taskIndex: props.task.index, task: props.task })
+      props.challenge && props.challenge.history && props.challenge.history.taskIndex && { started: (props.challenge.history.status === 'started' ? true : false), taskIndex: props.challenge.history.taskIndex })
     this._shell = new Shell()
     this._goBack = this.goBack.bind(this)
     this._toggleStarted = this.toggleStarted.bind(this)
@@ -33,6 +33,7 @@ export default class Challenge extends Component {
     this._continueChallenge = this.continueChallenge.bind(this)
     this._onOpenFile = this.onOpenFile.bind(this)
     this._onTaskCompleted = this.onTaskCompleted.bind(this)
+    this._onChallengeRated = this.onChallengeRated.bind(this)
   }
 
   componentDidMount () {
@@ -47,14 +48,16 @@ export default class Challenge extends Component {
     return (this.props.challenge.history ? true : false)
   }
 
+  get isCompleted () {
+    return (this.props.challenge.history && this.props.challenge.history.status === 'completed' ? true : false)
+  }
+
   get shell () {
     return this._shell
   }
 
   goBack () {
-    Data.Cache.clearCachedItem('currentChallenge').then(() => {
-      this.props.onBack && this.props.onBack()
-    })
+    this.props.onBack && this.props.onBack()
   }
 
   get isStarted () {
@@ -80,44 +83,43 @@ export default class Challenge extends Component {
     this.props.onHideTask && this.props.onHideTask()
   }
 
+  onChallengeRated (value) {
+    console.log(value)
+  }
+
   onTaskCompleted () {
     const taskIndex = this.state.taskIndex + 1
 
     if (taskIndex > this.props.challenge.tasks.length) {
-      this.shell.analytics('challengeCompleted', this.props.challenge.id)
+      this.props.onChallengeCompleted && this.props.onChallengeCompleted({
+        challengeId: this.props.challenge.id
+      })
 
       this.setState({ showTask: false, task: false, taskIndex, complete: true, started: false })
-      this.shell.cache('challengeId', '')
-      this.shell.cache('taskId', '')
-      this.shell.cache('completedChallengesIds', [this.props.challenge.id], { push: true })
       return
     }
 
-    this.shell.analytics('taskCompleted', `${this.props.challenge.id}/${this.state.task.id}`)
+    this.props.onTaskCompleted && this.props.onTaskCompleted({
+      challengeId: this.props.challenge.id,
+      taskIndex: this.state.taskIndex
+    })
 
     const task = this.props.challenge.tasks[taskIndex - 1]
+
     this.setState({ showTask: false, task, taskIndex })
-    this.shell.cache('taskId', task.id)
   }
 
   toggleStarted () {
     if (this.isStarted) {
-      console.log('STOP IT!')
-      // const taskIndex = 1
-      // const task = this.props.challenge.tasks[taskIndex - 1]
-
-      // this.shell.analytics(started ? 'challengeStarted' : 'challengeStopped', this.props.challenge.id)
-      // this.shell.cache('challengeId', '')
-      // this.shell.cache('taskId', '')
-
-      this.setState({ started: false, showTask: false })
-      // this.setState({ started: false, taskIndex, task, showTask: false })
+      this.props.onStopChallenge && this.props.onStopChallenge({ challengeId: this.props.challenge.id })
+      this.setState({ started: false, showTask: false, taskIndex: 1 })
       return
     }
 
     if (this.isPurchased) {
       const taskIndex = 1
       const task = this.props.challenge.tasks[taskIndex - 1]
+      this.props.onStartChallenge && this.props.onStartChallenge({ challengeId: this.props.challenge.id })
       this.setState({ started: true, showTask: true, task, taskIndex })
       return
     }
@@ -201,18 +203,31 @@ export default class Challenge extends Component {
   }
 
   renderMainAction () {
+    if (this.isCompleted) {
+      return <div style={{
+        display: 'flex',
+        flex: 1,
+        flexDirection: 'column',
+        backgroundColor: '#FAFAFA',
+        justifyContent: 'center',
+        padding: '20px'
+      }}>
+        <Typography use='caption' style={{
+          textAlign: 'center',
+          color: '#B0BEC5',
+          paddingBottom: '10px'
+        }}>
+        How did you like this challenge?
+      </Typography>
+        <Typography use='caption' style={{
+          textAlign: 'center'}}>
+          <Rate onChange={this._onChallengeRated} />
+        </Typography>
+      </div>
+    }
+
     const xp = (this.props.challenge.level + 1) * 5
     const tokens = parseFloat(xp * 1.00).toFixed(2)
-
-    // if (this.state.complete) {
-    //   return <Typography use='title' style={{
-    //     textAlign: 'center',
-    //     margin: '10px',
-    //     color: '#4CAF50'
-    //   }}>
-    //     Congratulations, you did it!
-    //     </Typography>
-    // }
 
     return <div style={{
       display: 'flex',
@@ -225,23 +240,24 @@ export default class Challenge extends Component {
       <Button
         style={{
           color: '#ffffff',
-          backgroundColor: `${this.isStarted ? '#03A9F4' : '#4CAF50'}`
+          backgroundColor: `${this.isStarted || this.isPurchased ? '#03A9F4' : '#4CAF50'}`
         }}
         onClick={this.isStarted ? this._continueChallenge : this._toggleStarted}>
-        { this.isStarted ? 'Continue Challenge' : (this.isPurchased ? 'Start Challenge' : `Send ${tokens} CARMEL to start`) }
+        { this.isStarted ? 'Continue' : (this.isPurchased ? 'Start Challenge' : `Send ${tokens} CARMEL to start`) }
       </Button>
     </div>
   }
 
   renderContent () {
     if (this.state.showTask) {
+      const task = this.props.challenge.tasks[this.state.taskIndex - 1]
       return <Task
         onSuccess={this._onTaskCompleted}
         onOpenFile={this._onOpenFile}
         onShowChallenge={this._onShowChallenge}
         challenge={this.props.challenge}
         product={this.props.product}
-        task={this.state.task} />
+        task={task} />
     }
 
     const xp = (this.props.challenge.level + 1) * 5
@@ -268,14 +284,16 @@ export default class Challenge extends Component {
       return <div />
     }
 
-    const title = this.isStarted ? `Stop taking this challenge` : `Choose another challenge`
+    const title = this.isStarted ? `Stop Challenge` : `Choose another challenge`
     const action = this.isStarted ? this._toggleStarted : this._goBack
+    const icon = this.isStarted ? 'pause' : 'arrow-left'
 
     return <Typography use='title' tag='h2' style={{ marginTop: '20px', textAlign: 'center' }}>
       <Button onClick={action} style={{
         color: '#81D4FA',
         backgroundColor: '#ECEFF1'
       }}>
+        <Icon type={icon} style={{ marginRight: '5px' }} />
         { title }
       </Button>
     </Typography>

@@ -166,16 +166,6 @@
        }} />
    }
 
-   renderWebview () {
-     return <webview
-       ref={this._loaded}
-       src={this.url} style={{
-         display: 'flex',
-         width: '100%',
-         flex: 1
-       }} />
-   }
-
    get canPublish () {
      return (!this.props.status.isStarting && !this.props.status.isPublishing)
    }

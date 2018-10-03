@@ -210,6 +210,7 @@ export default class Task extends Component {
           color: '#81D4FA',
           backgroundColor: '#ECEFF1'
         }}>
+          <Icon type={'arrow-left'} style={{ marginRight: '5px' }} />
           Back to challenge
         </Button>
       </Typography>

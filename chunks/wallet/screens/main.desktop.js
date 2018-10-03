@@ -38,20 +38,16 @@ export default class MainWalletScreen extends Screen {
   }
 
   tokensSent (response) {
-    console.log(response)
     if (response && response.data && response.data.error) {
       notification.error({ message: response.data.error })
       this.setState({ inProgress: false })
       return
     }
 
-    Data.Cache.cacheItem('currentChallenge', Object.assign({}, this.state.pendingPurchase))
-              .then((challenge) => this.back())
-              .catch(error => this.back())
+    this.back()
   }
 
   failedToSendTokens (error) {
-    console.log(error)
     notification.error({ message: error.message })
     this.setState({ inProgress: false })
   }

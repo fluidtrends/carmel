@@ -30,13 +30,19 @@ const createPostTransfer = (from, to, amount, result, type, data) => {
   if (type === 'challengePurchase') {
     const now = Date.now()
 
-    const update = (session) => Object.assign({}, {
-      key: `sessions/${session._id}/challenges`,
-      [data.challengeId]: {
-        status: 'purchased',
-        purchaseTimestamp: `${now}`
+    const update = (session) => {
+      return {
+        key: `sessions/${session._id}`,
+        challengeId: data.challengeId,
+        challenges: Object.assign({}, session.challenges, {
+          [data.challengeId]: {
+            status: 'purchased',
+            purchaseTimestamp: `${now}`,
+            updatedTimestamp: `${now}`
+          }
+        })
       }
-    })
+    }
 
     return getSession(from).then((session) => {
       return chunky.firebase.operation('update', update(session))
