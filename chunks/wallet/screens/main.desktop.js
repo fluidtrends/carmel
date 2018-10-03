@@ -187,11 +187,10 @@ export default class MainWalletScreen extends Screen {
   renderMainContent () {
     const width = this.formWidth
     const padding = this.formPadding
-    const margin = this.isSmallScreen ? '50px 0px' : '0'
 
     if (this.state.inProgress) {
       return (<div style={this.containerStyle}>
-        <Card style={{ width, margin: '10px', padding, margin }}>
+        <Card style={{ width, margin: '10px', padding }}>
           { this.renderUserInfo() }
           <Components.Loading message='Just a minute, please ...' />
         </Card>
@@ -199,7 +198,7 @@ export default class MainWalletScreen extends Screen {
     }
 
     return (<div style={this.containerStyle}>
-      <Card style={{ width, margin: '10px', padding, margin }}>
+      <Card style={{ width, margin: '10px', padding }}>
         { this.renderUserInfo() }
         { this.renderActiveContent() }
       </Card>

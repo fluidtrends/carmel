@@ -88,7 +88,8 @@ export default class Challenges extends Component {
 
   render () {
     return <div style={{
-      width: '100%',
+      width: '380px',
+      alignSelf: 'center',
       marginBottom: '10px'
     }}>
       <List

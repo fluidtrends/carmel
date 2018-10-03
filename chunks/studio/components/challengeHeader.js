@@ -23,6 +23,7 @@ export default class ChallengeHeader extends Component {
   renderSkills () {
     return <Typography use='body1' tag='div' style={{
       color: '#90A4AE',
+      textAlign: 'center',
       padding: '0px'
     }}>
       <ChipSet style={{ margin: '0px' }}>
@@ -36,11 +37,11 @@ export default class ChallengeHeader extends Component {
   }
 
   renderSummary () {
-    return <Typography use='overline' tag='div' style={{
+    return <Typography use='body1' tag='div' style={{
       color: '#90A4AE',
       padding: '10px'
     }}>
-      { this.props.challenge.summary}
+      { this.props.challenge.summary }
     </Typography>
   }
 
@@ -55,38 +56,68 @@ export default class ChallengeHeader extends Component {
   }
 
   renderAuthor () {
-    if (!this.props.challenge.author || !this.props.challenge.author.name) {
-      return <div />
-    }
-
-    return <Typography use='body1' tag='div' style={{
-      color: '#CFD8DC',
-      textAlign: 'left',
-      padding: '10px'
+    return <div style={{
+      flex: 1,
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      justifyContent: 'center',
+      display: 'flex',
+      height: '50px',
+      padding: '0px'
     }}>
-      <Icon type='user' theme='filled' /> { this.props.challenge.author.name }
-    </Typography>
+      <Typography use='caption' tag='div' style={{
+        color: '#B0BEC5',
+        textAlign: 'left'
+      }}>
+        <Icon type='user' style={{marginRight: '5px'}} />
+        { this.props.challenge.author.name }
+      </Typography>
+    </div>
   }
 
   renderDifficulty () {
     const xp = (this.props.challenge.level + 1) * 5
-    const tokens = parseFloat(xp * 1.00).toFixed(2)
+    const level = LEVELS[this.props.challenge.level]
 
     return <Typography use='body1' tag='div' style={{
       color: '#00bcd4',
-      textAlign: 'left',
-      padding: '10px'
+      textAlign: 'right',
+      display: 'flex',
+      height: '50px',
+      flexDirection: 'column',
+      alignItems: 'flex-end',
+      justifyContent: 'center',
+      padding: '0px'
     }}>
-      <Rate character={<Icon type='rocket' />} disabled defaultValue={this.props.challenge.level + 1} style={{
-        color: '#00bcd4'
-      }} />
-      <Chip style={{ backgroundColor: '#00bcd4', color: '#ffffff'}}>
-        <ChipText> { xp } XP </ChipText>
-      </Chip>
-      <Chip style={{ backgroundColor: '#ffffff', color: '#4CAF50', border: '1px solid #4CAF50'}}>
-        <ChipText> { tokens } CARMEL </ChipText>
+      <Chip style={{
+        backgroundColor: '#ffffff',
+        color: '#00bcd4',
+        border: '1px solid #00bcd4',
+        padding: '0px'
+      }}>
+        <span style={{padding: '0px 10px 0px 10px'}}>
+          { level }
+        </span>
+        <Chip style={{ backgroundColor: '#00bcd4', color: '#ffffff', margin: '-1px'}}>
+          <ChipText> { xp } XP </ChipText>
+        </Chip>
       </Chip>
     </Typography>
+  }
+
+  renderDetails () {
+    return <div style={{
+      flex: 1,
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      justifyContent: 'flex-start',
+      padding: '10px',
+      marginTop: '-10px'
+    }}>
+      { this.renderAuthor() }
+      { this.renderDifficulty() }
+    </div>
   }
 
   render () {
@@ -98,9 +129,8 @@ export default class ChallengeHeader extends Component {
         padding: '10px'
       }}>
         { this.renderSummary() }
-        { this.renderAuthor() }
+        { this.renderDetails() }
         { this.renderSkills() }
-        { this.renderDifficulty() }
       </div>
     </div>
   }

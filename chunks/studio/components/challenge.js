@@ -246,7 +246,7 @@ export default class Challenge extends Component {
           backgroundColor: `${this.isStarted || this.isPurchased ? '#03A9F4' : '#4CAF50'}`
         }}
         onClick={this.isStarted ? this._continueChallenge : this._toggleStarted}>
-        { this.isStarted ? 'Continue' : (this.isPurchased ? 'Start Challenge' : `Send ${tokens} CARMEL to start`) }
+        { this.isStarted ? 'Keep Going' : (this.isPurchased ? 'Start Challenge' : `Send ${tokens} CARMEL to start`) }
       </Button>
     </div>
   }
@@ -303,7 +303,11 @@ export default class Challenge extends Component {
   }
 
   render () {
-    return <div>
+    return <div style={{
+      width: '380px',
+      alignSelf: 'center',
+      marginBottom: '10px'
+    }}>
       { this.renderContent() }
       { this.renderFooter() }
     </div>

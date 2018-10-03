@@ -60,7 +60,7 @@ export default class Workspace extends Screen {
 
   componentDidMount () {
     super.componentDidMount()
-    this.start()
+    // this.start()
   }
 
   get shell () {
@@ -440,7 +440,7 @@ export default class Workspace extends Screen {
         Your website is being packaged right now and
         it may take a minute or two. Once complete, it
         will be published live.
-        </Typography>
+      </Typography>
     </Prompt>
   }
 
@@ -534,6 +534,7 @@ export default class Workspace extends Screen {
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
+          flexDirection: 'column',
           padding: '10px',
           backgroundColor: '#f5f5f5'
         }}>
@@ -541,6 +542,64 @@ export default class Workspace extends Screen {
         </Layout>
       </Layout>
     </Layout>
+  }
+
+  renderMenuBar () {
+   //  <div style={{
+   //   backgroundColor: '#ffff00',
+   //   display: 'flex',
+   //   flex: 1,
+   //   height: '100vh',
+   //   alignItems: 'center',
+   //   justifyContent: 'center',
+   //   flexDirection: "row"
+   // }}>
+   //
+   // </div>
+    return <div style={{
+      display: 'flex',
+      flex: 1,
+      alignItems: 'flex-start',
+      justifyContent: 'flex-start'
+    }}>
+      <Icon
+        style={{
+          color: '#455A64',
+          display: 'flex',
+          fontSize: '18px',
+          marginLeft: '10px',
+          lineHeight: '64px',
+          padding: '0 10px',
+          cursor: 'pointer',
+          transition: 'color .3s'
+        }}
+        type={'menu-fold'}
+     />
+      <div style={{
+        flex: 1,
+        display: 'flex'
+      }}>
+        <Typography use='subtitle1' style={{
+          textAlign: 'center',
+          margin: '20px',
+          color: '#78909C'
+        }}>
+        Your jdjd sadfasd
+        </Typography>
+      </div>
+      <Icon
+        style={{
+          color: '#455A64',
+          display: 'flex',
+          fontSize: '18px',
+          lineHeight: '64px',
+          padding: '0 24px',
+          cursor: 'pointer',
+          alignSelf: 'flex-end',
+          transition: 'color .3s'
+        }}
+        type={'user'} />
+    </div>
   }
 
   renderScreenLayout () {
