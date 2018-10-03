@@ -46,31 +46,47 @@ export default class Toolbar extends Component {
     this.setState({ preview })
   }
 
-  renderMenu () {
-    const items = Object.keys(this.props.products).filter(p => (p !== this.props.product.id)).map(p => {
-      return <Menu.Item key={p}> <Icon type='laptop' style={{ marginRight: '5px' }} /> {this.props.products[p].name } </Menu.Item>
-    })
-
-    return <Menu onClick={this._productChanged}>
-      { items }
+  renderMenu (options) {
+    return <Menu onClick={this._productChanged} style={{ padding: '0px'}}>
+      {
+        options.map(option => <Menu.Item key={option.id} style={{ padding: '10px' }}> <Icon type={option.icon} style={{ padding: '5px' }} /> {option.title} </Menu.Item>)
+      }
       <Menu.Divider />
-      <Menu.Item key='newProduct' style={{ color: '#42A5F5' }}>
-        <Icon type='plus-circle-o' style={{ marginRight: '5px'}} />
-        Create a new product
+      <Menu.Item key='newProduct' style={{ color: '#42A5F5', margin: '0px', padding: '5px' }}>
+        <Icon type='plus-circle-o' style={{ margin: '10px' }} />
+        New product
       </Menu.Item>
     </Menu>
   }
 
   renderMenuBar () {
-    return <div style={{ padding: '0 5px', color: '#03A9F4' }}>
-      { this.props.product.name }
-    </div>
+    const options = Object.keys(this.props.products).map(p => ({
+      id: this.props.products[p].id,
+      icon: 'desktop',
+      title: this.props.products[p].name
+    }))
 
-    // return <Dropdown overlay={this.renderMenu(items)} trigger={['click']}>
-    //   <a className='ant-dropdown-link' href='#' style={{ padding: '0 5px' }}>
-    //     { this.props.product.name } <Icon type='down' />
-    //   </a>
-    // </Dropdown>
+    return <Dropdown overlay={this.renderMenu(options)} trigger={['click']}>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        <a className='ant-dropdown-link' href='#' style={{
+          padding: '0px 5px',
+          color: '#03A9F4',
+          textDecoration: 'none'
+        }}>
+          { this.props.product.name }
+        </a>
+        <Icon type='down' style={{
+          fontSize: '20px',
+          color: '#03A9F4',
+          cursor: 'pointer'
+        }} />
+      </div>
+    </Dropdown>
   }
 
   render () {
@@ -93,8 +109,7 @@ export default class Toolbar extends Component {
           transition: 'color .3s'
         }}
         type={this.state.preview ? 'menu-unfold' : 'menu-fold'}
-        onClick={this._togglePreview}
-          />
+        onClick={this._togglePreview} />
       <div style={{
         flex: 1,
         display: 'flex'
