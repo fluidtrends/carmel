@@ -22,6 +22,30 @@
         ]
       }
     },
+    "tv": {
+      "title": "Carmel TV",
+      "icon": "appstore",
+      "path": "/tv",
+      "layoutBackground": "#f5f500",
+      "cover": {
+        "backgroundColor": "#00838F",
+        "navigation": true,
+        "type": "menu"
+      },
+      "startOperationsOnMount": false
+    },
+    "bounties": {
+      "title": "Carmel Bounties",
+      "icon": "appstore",
+      "path": "/bounties",
+      "layoutBackground": "#f5f500",
+      "cover": {
+        "backgroundColor": "#00838F",
+        "navigation": true,
+        "type": "menu"
+      },
+      "startOperationsOnMount": false
+    },
     "new": {
       "title": "New Product",
       "icon": "appstore",

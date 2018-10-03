@@ -40,6 +40,8 @@ export default class Workspace extends Screen {
     this._onNewProduct = this.onNewProduct.bind(this)
     this._onProductChanged = this.onProductChanged.bind(this)
     this._onShowAccountScreen = this.onShowAccountScreen.bind(this)
+    this._onShowTVScreen = this.onShowTVScreen.bind(this)
+    this._onShowBountiesScreen = this.onShowBountiesScreen.bind(this)
     this._onTogglePreview = this.onTogglePreview.bind(this)
     this._onSelectChallenge = this.onSelectChallenge.bind(this)
     this._onStartChallenge = this.onStartChallenge.bind(this)
@@ -77,6 +79,14 @@ export default class Workspace extends Screen {
 
   onShowAccountScreen () {
     this.triggerRedirect(this.isLoggedIn ? '/me' : '/login')
+  }
+
+  onShowTVScreen () {
+    this.triggerRedirect('/tv')
+  }
+
+  onShowBountiesScreen () {
+    this.triggerRedirect('/bounties')
   }
 
   onShowFileBrowser () {
@@ -496,7 +506,7 @@ export default class Workspace extends Screen {
 
   renderWorkspace (status) {
     const browserWidth = '60vw'
-    const minBrowserWidth = '60px'
+    const minBrowserWidth = '0px'
     const browserHeight = '100vh'
 
     return <Layout key='workspace' style={{ height: '100vh' }}>
@@ -525,6 +535,8 @@ export default class Workspace extends Screen {
               onNewProduct={this._onNewProduct}
               onProductChanged={this._onProductChanged}
               onShowAccountScreen={this._onShowAccountScreen}
+              onShowTVScreen={this._onShowTVScreen}
+              onShowBountiesScreen={this._onShowBountiesScreen}
               products={this.products}
               product={this.product} />
           </Elevation>

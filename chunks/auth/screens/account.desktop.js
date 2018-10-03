@@ -4,6 +4,7 @@ import { Components } from 'react-dom-chunky'
 import { Button, ButtonIcon } from 'rmwc/Button'
 import { Card, CardActions, CardActionButtons } from 'rmwc/Card'
 import { Typography } from 'rmwc/Typography'
+import { List, notification, Icon } from 'antd'
 import { Data } from 'react-chunky'
 import Shell from '../../studio/components/shell'
 
@@ -244,6 +245,7 @@ export default class AccountScreen extends Screen {
         color: '#81D4FA',
         backgroundColor: '#ECEFF1'
       }}>
+        <Icon type={'arrow-left'} style={{ marginRight: '5px' }} />
       Back to Workspace
     </Button>
 

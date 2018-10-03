@@ -1,6 +1,6 @@
 import React from 'react'
 import { Component, Components } from 'react-dom-chunky'
-import { Dropdown, Menu, Icon } from 'antd'
+import { Dropdown, Menu, Icon, Button } from 'antd'
 
 export default class Toolbar extends Component {
   constructor (props) {
@@ -9,6 +9,8 @@ export default class Toolbar extends Component {
     this.state = { }
     this._productChanged = this.productChanged.bind(this)
     this._showAccountScreen = this.showAccountScreen.bind(this)
+    this._showTVScreen = this.showTVScreen.bind(this)
+    this._showBountiesScreen = this.showBountiesScreen.bind(this)
     this._togglePreview = this.togglePreview.bind(this)
   }
 
@@ -26,8 +28,16 @@ export default class Toolbar extends Component {
     this.props.onProductChanged && this.props.onProductChanged(p)
   }
 
+  showTVScreen () {
+    this.props.onShowTVScreen && this.props.onShowTVScreen()
+  }
+
   showAccountScreen () {
     this.props.onShowAccountScreen && this.props.onShowAccountScreen()
+  }
+
+  showBountiesScreen () {
+    this.props.onShowBountiesScreen && this.props.onShowBountiesScreen()
   }
 
   togglePreview () {
@@ -38,7 +48,7 @@ export default class Toolbar extends Component {
 
   renderMenu () {
     const items = Object.keys(this.props.products).filter(p => (p !== this.props.product.id)).map(p => {
-      return <Menu.Item key={p}> <Icon type='laptop' style={{ marginRight: '5px'}} /> {this.props.products[p].name } </Menu.Item>
+      return <Menu.Item key={p}> <Icon type='laptop' style={{ marginRight: '5px' }} /> {this.props.products[p].name } </Menu.Item>
     })
 
     return <Menu onClick={this._productChanged}>
@@ -52,7 +62,7 @@ export default class Toolbar extends Component {
   }
 
   renderMenuBar () {
-    return <div style={{ padding: '0 5px' }}>
+    return <div style={{ padding: '0 5px', color: '#03A9F4' }}>
       { this.props.product.name }
     </div>
 
@@ -68,11 +78,12 @@ export default class Toolbar extends Component {
       display: 'flex',
       flex: 1,
       alignItems: 'flex-start',
-      justifyContent: 'flex-start'
+      justifyContent: 'flex-start',
+      paddingRight: '10px'
     }}>
       <Icon
         style={{
-          color: '#455A64',
+          color: '#607D8B',
           display: 'flex',
           fontSize: '18px',
           marginLeft: '10px',
@@ -90,19 +101,33 @@ export default class Toolbar extends Component {
       }}>
         { this.renderMenuBar() }
       </div>
-      <Icon
+      <Button
+        shape='circle'
+        icon='play-circle'
+        ghost
+        onClick={this._showTVScreen}
         style={{
-          color: '#455A64',
-          display: 'flex',
-          fontSize: '18px',
-          lineHeight: '64px',
-          padding: '0 24px',
-          cursor: 'pointer',
-          alignSelf: 'flex-end',
-          transition: 'color .3s'
-        }}
-        type={'user'}
-        onClick={this._showAccountScreen} />
+          margin: '15px 0px 15px 10px',
+          color: '#607D8B'
+        }} />
+      <Button
+        shape='circle'
+        icon='gift'
+        ghost
+        onClick={this._showBountiesScreen}
+        style={{
+          margin: '15px 0px 15px 10px',
+          color: '#607D8B'
+        }} />
+      <Button
+        shape='circle'
+        ghost
+        icon='setting'
+        onClick={this._showAccountScreen}
+        style={{
+          margin: '15px 0px 15px 10px',
+          color: '#607D8B'
+        }} />
     </div>
   }
 
