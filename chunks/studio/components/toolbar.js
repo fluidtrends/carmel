@@ -137,6 +137,15 @@ export default class Toolbar extends Component {
             margin: '15px 0px 15px 0px',
             color: '#03A9F4'
           }} />
+        <Button
+          shape='circle'
+          icon='setting'
+          ghost
+          onClick={() => this._productOption({ key: '/productSettings' })}
+          style={{
+            margin: '15px 0px 15px 0px',
+            color: '#03A9F4'
+          }} />
         { this.renderMenuPrimary() }
       </div>
       <div style={{
