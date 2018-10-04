@@ -5,7 +5,7 @@ import { Typography } from 'rmwc/Typography'
 
 const OSVersions = ['MacOS', 'Windows', 'Linux']
 import { Button } from 'rmwc/Button'
-import { TabBar, Tab, TabIcon, TabIconText, TabBarScroller } from 'rmwc/Tabs';
+import { TabBar, Tab } from 'rmwc/Tabs';
 
 export default class MainStudioScreen extends Screen {
   constructor(props) {
@@ -14,7 +14,7 @@ export default class MainStudioScreen extends Screen {
   }
 
   changeOs(evt) {
-    this.setState({ 'activeTabIndex': evt.detail.activeTabIndex })
+    this.setState({ 'activeTabIndex': evt.detail.index })
   }
 
   componentDidMount() {
@@ -49,7 +49,7 @@ export default class MainStudioScreen extends Screen {
         </Typography>
       <TabBar
         activeTabIndex={this.state.activeTabIndex}
-        onChange={this.changeOs.bind(this)}
+        onActivated={this.changeOs.bind(this)}
       >
         <Tab>MacOs</Tab>
         <Tab>Windows</Tab>

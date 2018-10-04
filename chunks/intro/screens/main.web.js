@@ -10,6 +10,8 @@ import Tokens from '../components/tokens'
 import Team from '../components/team'
 import TeamAction from '../components/action'
 import Footer from '../components/footer'
+import WhySection from '../components/why'
+import PlatformSection from '../components/platform'
 
 export default class MainIntroScreen extends Screen {
   constructor(props) {
@@ -50,26 +52,33 @@ export default class MainIntroScreen extends Screen {
 
 
   renderDefault() {
-    return <Parallax
-      ref={ref => (this.scroller = ref)}
-      scrolling={!this.state.creatingProduct}
-      pages={9}
-      style={{
-        backgroundColor: '#00bcd4'
-      }}>
+    return <div
+    // ref={ref => (this.scroller = ref)}
+    // scrolling={!this.state.creatingProduct}
+    // pages={3}
+    // style={{
+    //   display: 'flex',
+    //   flex: 1,
+    //   flexDirection: 'column'
+    // }}
+    >
       <Intro
-        session={this.props.session}
+        // session={this.props.session}
         offset={0}
         isSmallScreen={this.isSmallScreen}
         onStart={this._onStart}
-        onContinue={this._onContinue.bind(this, 2)} />
-      <Studio
+        onContinue={this._onContinue.bind(this, 1)} 
+      />
+
+      <WhySection/>
+      <PlatformSection/>
+      {/* <Studio
         session={this.props.session}
         offset={1}
-        onContinue={this._download} />
-      <Tokens
+        onContinue={this._download} /> */}
+      {/* <Tokens
         session={this.props.session}
-        offset={2}
+        offset={1}
         triggerRawRedirect={this.triggerRawRedirect}
         newTransaction={this.props.newTransaction}
         onCancel={this._onModalClose}
@@ -80,21 +89,9 @@ export default class MainIntroScreen extends Screen {
       <Team
         session={this.props.session}
         isSmallScreen={this.isSmallScreen}
-        offset={3}
-      />
-      <TeamAction
-        session={this.props.session}
-        isSmallScreen={this.isSmallScreen}
-        showTeam={this._showTeam}
-        offset={this.isSmallScreen ? 5 : 6}
-      />
-      <Footer
-        session={this.props.session}
-        meetChris={this._meetChris}
-        offset={this.isSmallScreen ? 7 : 8}
-        isSmallScreen={this.isSmallScreen}
-      />
-    </Parallax>
+        offset={2}
+      /> */}
+    </div>
   }
 
   get height() {

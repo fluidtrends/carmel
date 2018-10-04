@@ -26,15 +26,16 @@ const CarmelStart = 50
 const CarmelPrice = 1
 
 const BonusMessage = <div>
-  100 - 500 Carmel - 10% bonus
+  50 – 500 Carmel -> 10% bonus
   <br />
-  500 Carmel - 1000 Carmel - 15% bonus
+  100 Carmel - 1000 Carmel -> 15% bonus
   <br />
-  1000 Carmel - 5000 Carmel -  20% bonus
+  1000 Carmel - 5000 Carmel -> 20% bonus
   <br />
-  5000 Carmel - 10.000 Carmel - 30% bonus
+  5000 Carmel - 10.000 Carmel -> 30% bonus
   <br />
-  10.000 ++ Carmel -  private discussion</div>
+  10.000 ++ Carmel -> private discussion
+  </div>
 
 export default class CheckoutComponent extends Component {
   constructor(props) {

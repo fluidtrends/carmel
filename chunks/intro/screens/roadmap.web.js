@@ -66,7 +66,6 @@ export default class RoadmapScreen extends Screen {
 
     return <Step
       key={milestone.id}
-      title={milestone.title}
       description={description} />
   }
 

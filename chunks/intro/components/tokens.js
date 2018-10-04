@@ -104,9 +104,8 @@ export default class Challenges extends Component {
   render() {
     return [
       ...this.title(this.props.offset + 0.1, 0.8),
-      ...this.clouds(this.props.offset + 0.05, 0.3),
-      ...this.movingClouds(this.props.offset + 0.25, 0.4),
-      ...this.panel(this.props.offset, 0.8)]
+      ...this.panel(this.props.offset, 0.8)
+    ]
   }
 }
 
