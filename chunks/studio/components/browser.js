@@ -210,7 +210,7 @@
    }
 
    get longProcessPrompt () {
-     return 'This could take a minute or two'
+     return 'This could take a while'
    }
 
    startProgressVideo (player, data) {

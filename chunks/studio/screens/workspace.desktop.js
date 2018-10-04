@@ -25,6 +25,7 @@ import moment from 'moment'
 
 const { Header, Sider, Content, Footer } = Layout
 const { SubMenu } = Menu
+const TabPane = Tabs.TabPane
 
 const FormItem = Form.Item
 const HOME = process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME']
@@ -159,7 +160,7 @@ export default class Workspace extends Screen {
   }
 
   onPublishProduct () {
-    this.setState({ productPublishing: true })
+    this.setState({ productPublishing: true, preview: false })
     this.shell.exec('publishProduct', { id: this.product.id, domain: 'idancali.com' }, ({ status }) => {
       this.setState({ productPublishingStatus: status })
     })
@@ -389,22 +390,6 @@ export default class Workspace extends Screen {
     </div>
   }
 
-  renderOpenFileTabs () {
-    console.log('renderOpenFileTabs')
-    if (!this.state.enableTabs || !this.state.openFiles || Object.keys(this.state.openFiles).length === 0) {
-      return <div key='tabs' />
-    }
-
-    console.log('renderOpenFileTabs 2')
-
-    return <TabBar
-      key='tabs'
-      onFileClose={this._onFileClose}
-      file={this.state.lastOpenedFile}
-      dir={this.state.dir}
-      files={this.state.openFiles} />
-  }
-
   renderFileExplorer (status) {
     if (!this.state.showFileBrowser) {
       return <div key='explorer' />
@@ -528,6 +513,37 @@ export default class Workspace extends Screen {
     </div>
   }
 
+  renderWorkspaceItems () {
+    if (this.canShowTabs) {
+      var prompt = 'Choose a Challenge'
+
+      if (this.challenge) {
+        prompt = 'See Challenge Details'
+      }
+
+      return <Typography use='title' tag='h2' style={{ marginTop: '20px', textAlign: 'center' }}>
+        <Button onClick={() => {}} style={{
+          color: '#81D4FA',
+          backgroundColor: '#ECEFF1'
+        }}>
+          { prompt }
+        </Button>
+      </Typography>
+    }
+
+    return <Layout key='content' style={{
+      display: 'flex',
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      flexDirection: 'column',
+      padding: '10px',
+      backgroundColor: '#f5f5f5'
+    }}>
+      { this.renderWorkspaceContent() }
+    </Layout>
+  }
+
   renderWorkspaceMenu () {
     if (this.state.productPublishing || this.state.productStarting) {
       return <div />
@@ -552,6 +568,63 @@ export default class Workspace extends Screen {
     </Header>
   }
 
+  get canShowTabs () {
+    return this.state.enableTabs && this.state.openFiles && Object.keys(this.state.openFiles).length > 0
+  }
+
+  renderTabs () {
+    // console.log('renderOpenFileTabs')
+    // if (!this.state.enableTabs || !this.state.openFiles || Object.keys(this.state.openFiles).length === 0) {
+    //   return <div key='tabs' />
+    // }
+    //
+    // console.log('renderOpenFileTabs 2')
+    //
+    // return <TabBar
+    //   key='tabs'
+    //   onFileClose={this._onFileClose}
+    //   file={this.state.lastOpenedFile}
+    //   dir={this.state.dir}
+    //   files={this.state.openFiles} />
+
+    // <Tabs
+    //   hideAdd
+    //   defaultActiveKey='1'
+    //   tabPosition={'top'}
+    //   type='editable-card'
+    //   style={{
+    //     height: 220
+    //   }}>
+    //   <TabPane tab='Tab 1' key='1'>Content of tab 1</TabPane>
+    //   <TabPane tab='Tab 2' key='2'>Content of tab 2</TabPane>
+    //   <TabPane tab='Tab 2' key='3'>Content of tab 2</TabPane>
+    //   <TabPane tab='Tab 2' key='4'>Content of tab 2</TabPane>
+    //   <TabPane tab='Tab 2' key='5'>Content of tab 2</TabPane>
+    //   <TabPane tab='Tab 2' key='6'>Content of tab 2</TabPane>
+    //   <TabPane tab='Tab 2' key='7'>Content of tab 2</TabPane>
+    // </Tabs>
+
+    if (!this.canShowTabs) {
+      return <div />
+    }
+
+    return <div style={{
+      flex: 1,
+      display: 'flex',
+      padding: '10px',
+      justifyContent: 'flex-start',
+      width: this.state.preview ? '100vw' : '40vw',
+      margin: '10px'
+    }}>
+      <TabBar
+        key='tabs'
+        onFileClose={this._onFileClose}
+        file={this.state.lastOpenedFile}
+        dir={this.state.dir}
+        files={this.state.openFiles} />
+    </div>
+  }
+
   renderWorkspace (status) {
     const browserWidth = '60vw'
     const minBrowserWidth = '0px'
@@ -573,18 +646,8 @@ export default class Workspace extends Screen {
       </Sider>
       <Layout key='workspace' style={{ minHeight: '100vh' }}>
         { this.renderWorkspaceMenu() }
-        <Layout key='content' style={{
-          display: 'flex',
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexDirection: 'column',
-          padding: '10px',
-          backgroundColor: '#f5f5f5'
-        }}>
-          { this.renderWorkspaceContent() }
-          { this.renderOpenFileTabs() }
-        </Layout>
+        { this.renderTabs() }
+        { this.renderWorkspaceItems() }
       </Layout>
     </Layout>
   }
