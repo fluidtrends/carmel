@@ -130,18 +130,18 @@ export default class Toolbar extends Component {
       }}>
         <Button
           shape='circle'
-          icon='copy'
+          icon='export'
           ghost
-          onClick={() => this._productOption({ key: '/openFile' })}
+          onClick={() => this._productOption({ key: '/publishProduct' })}
           style={{
             margin: '15px 0px 15px 0px',
             color: '#03A9F4'
           }} />
         <Button
           shape='circle'
-          icon='setting'
+          icon='copy'
           ghost
-          onClick={() => this._productOption({ key: '/productSettings' })}
+          onClick={() => this._productOption({ key: '/openFile' })}
           style={{
             margin: '15px 0px 15px 0px',
             color: '#03A9F4'

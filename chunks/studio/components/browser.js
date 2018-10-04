@@ -18,7 +18,6 @@
      this._prev = this.prev.bind(this)
      this._reload = this.reload.bind(this)
      this._loaded = this.loaded.bind(this)
-     this._publish = this.publish.bind(this)
      this._onVideoPlayerEvent = this.onVideoPlayerEvent.bind(this)
    }
 
@@ -28,10 +27,6 @@
 
    loaded (ref) {
      this._webview = ref
-   }
-
-   publish () {
-     this.props.onPublish && this.props.onPublish()
    }
 
    get webview () {
@@ -141,17 +136,6 @@
            margin: '10px',
            flex: 1
          }} />
-       <Button
-         disabled={!this.canPublish}
-         style={{
-           color: '#ffffff',
-           backgroundColor: this.canPublish ? '#4CAF50' : '#90A4AE',
-           border: '1px solid #ffffff',
-           margin: '10px'
-         }}
-         onClick={this._publish}>
-        Publish
-        </Button>
      </div>
    }
 

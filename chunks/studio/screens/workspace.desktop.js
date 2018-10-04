@@ -224,6 +224,9 @@ export default class Workspace extends Screen {
 
   onProductOption (type) {
     switch (type) {
+      case 'publishProduct':
+        this.onPublishProduct()
+        break
       case 'newProduct':
         this.triggerRedirect('/new')
         break
