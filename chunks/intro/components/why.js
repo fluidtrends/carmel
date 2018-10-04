@@ -1,8 +1,7 @@
 import React from 'react'
-import { Component } from 'react-dom-chunky'
-import demo from '../../../assets/studio.gif'
+import { Component, Components } from 'react-dom-chunky'
 import { Row, Col } from 'antd'
-import { AnimatedValue, animated, interpolate, controller as spring } from 'react-spring'
+import { AnimatedValue, animated, controller as spring } from 'react-spring'
 import AnimatedSvg from '../components/animatedSvg'
 
 
@@ -11,8 +10,6 @@ export default class WhySection extends Component {
     super(props)
 
     this.state = {
-      marginLeft: '-1000px',
-      marginRight: '1000px'
     }
   }
 
@@ -32,14 +29,10 @@ export default class WhySection extends Component {
     )
   }
 
-  renderFirstColumn(paragraphs) {
+  renderFirstColumn(fileName) {
     return (
       <div style={{display: 'flex', flexDirection: 'column'}}>
-      {
-        paragraphs.map( paragraph =>
-          <p>{paragraph}</p>
-        )
-      }
+        <Components.Text source={`local:${fileName}`}/>
       </div>
     )
   }
@@ -52,10 +45,6 @@ export default class WhySection extends Component {
     )
   }
 
-  triggerAnimation = () => {
-
-  }
-
   render() {
     const animation = new AnimatedValue(1)
     const hover = () => spring(animation, { to: 2, tension: 200, friction: 100 }).start()
@@ -64,12 +53,6 @@ export default class WhySection extends Component {
         <div span={12} offset={6}>
           {this.renderTitle()}
         </div>
-        <AnimatedSvg
-          path={'../../../assets/developers.svg'}
-          style={{height: 500, width: 500}}
-          duration={500}
-          type={'scenario'}
-        />
         {
           whyReasons.map( reason =>
             <Row gutter={32} type={'flex'} align={'middle'} onMouseOver={hover} key={reason.id}>
@@ -129,31 +112,19 @@ const whyReasons = [
   {
     id: 1,
     title: 'TweaknLearn',
-    arguments: [
-      'Introducing the Tweek and learn concept',
-      'In Carmel you start with a product and you will learn by tweaking it',
-      'Choose from different tempplates ?  I don\'t know.... need some text here. pls help ......'
-    ],
+    arguments: 'reason1',
     pathToGif: '../../../assets/studio.gif'
   },
   {
     id: 2,
     title: 'Challenges micro learning',
-    arguments: [
-      'We teach you to code using challenges',
-      'Challenges contain small task for you to complete and learn to code',
-      'Complete challanges and get badges .... gg robi great text there'
-    ],
+    arguments: 'reason2',
     pathToGif: '../../../assets/challenges.gif'
   },
   {
     id: 3,    
     title: 'Deploy in no time',
-    arguments: [
-      'You can show your friends what you did',
-      'Deploy as easy as you say banana',
-      'text here'
-    ],
+    arguments: 'reason3',    
     pathToGif: '../../../assets/challenges.gif'
   }
 ]

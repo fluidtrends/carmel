@@ -11,6 +11,7 @@ import Team from '../components/team'
 import TeamAction from '../components/action'
 import Footer from '../components/footer'
 import WhySection from '../components/why'
+import PlatformSection from '../components/platform'
 
 export default class MainIntroScreen extends Screen {
   constructor(props) {
@@ -56,7 +57,9 @@ export default class MainIntroScreen extends Screen {
     // scrolling={!this.state.creatingProduct}
     // pages={3}
     // style={{
-    //   // backgroundColor: '#00bcd4'
+    //   display: 'flex',
+    //   flex: 1,
+    //   flexDirection: 'column'
     // }}
     >
       <Intro
@@ -64,10 +67,11 @@ export default class MainIntroScreen extends Screen {
         offset={0}
         isSmallScreen={this.isSmallScreen}
         onStart={this._onStart}
-        onContinue={this._onContinue.bind(this, 1)} />
-      <WhySection
-      
+        onContinue={this._onContinue.bind(this, 1)} 
       />
+
+      <WhySection/>
+      <PlatformSection/>
       {/* <Studio
         session={this.props.session}
         offset={1}
