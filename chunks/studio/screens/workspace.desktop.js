@@ -277,9 +277,10 @@ export default class Workspace extends Screen {
     const relative = path.relative(this.state.dir, file)
     const openFiles = Object.assign({}, this.state.openFiles)
 
-    this.shell.analytics('fileOpen', 'relative')
+    // this.shell.analytics('fileOpen', 'relative')
 
     openFiles[relative] = { openTimestamp: `${Date.now}`, fullPath: file }
+
     this.setState({ openFiles, enableTabs: true, lastOpenedFile: relative, showFileBrowser: false })
   }
 
@@ -386,9 +387,12 @@ export default class Workspace extends Screen {
   }
 
   renderOpenFileTabs () {
+    console.log('renderOpenFileTabs')
     if (!this.state.enableTabs || !this.state.openFiles || Object.keys(this.state.openFiles).length === 0) {
       return <div key='tabs' />
     }
+
+    console.log('renderOpenFileTabs 2')
 
     return <TabBar
       key='tabs'
@@ -497,7 +501,7 @@ export default class Workspace extends Screen {
       return this.renderChallenges()
     }
 
-    return [ this.renderChallenge(), this.renderOpenFileTabs() ]
+    return this.renderChallenge()
   }
 
   renderPopup () {
@@ -576,6 +580,7 @@ export default class Workspace extends Screen {
           backgroundColor: '#f5f5f5'
         }}>
           { this.renderWorkspaceContent() }
+          { this.renderOpenFileTabs() }
         </Layout>
       </Layout>
     </Layout>

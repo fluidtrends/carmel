@@ -159,7 +159,7 @@ export default class Toolbar extends Component {
           onClick={this._showTVScreen}
           style={{
             margin: '15px 0px 15px 0px',
-            color: '#607D8B'
+            color: '#90A4AE'
           }} />
         <Button
           shape='circle'
@@ -168,7 +168,7 @@ export default class Toolbar extends Component {
           onClick={this._showBountiesScreen}
           style={{
             margin: '15px 0px 15px 0px',
-            color: '#607D8B'
+            color: '#90A4AE'
           }} />
         <Button
           shape='circle'
@@ -177,7 +177,7 @@ export default class Toolbar extends Component {
           onClick={this._showAccountScreen}
           style={{
             margin: '15px 0px 15px 0px',
-            color: '#607D8B'
+            color: '#90A4AE'
           }} />
       </div>
     </div>
