@@ -222,8 +222,8 @@ export default class Workspace extends Screen {
     this.setState({ product })
   }
 
-  onProductOption (item) {
-    switch (item.key) {
+  onProductOption (type) {
+    switch (type) {
       case 'newProduct':
         this.triggerRedirect('/new')
         break

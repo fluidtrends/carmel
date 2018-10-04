@@ -10,7 +10,7 @@ export default class Toolbar extends Component {
     super(props)
 
     this.state = { }
-    this._productChanged = this.productChanged.bind(this)
+    this._productOption = this.productOption.bind(this)
     this._showAccountScreen = this.showAccountScreen.bind(this)
     this._showTVScreen = this.showTVScreen.bind(this)
     this._showBountiesScreen = this.showBountiesScreen.bind(this)
@@ -21,14 +21,16 @@ export default class Toolbar extends Component {
     super.componentDidMount()
   }
 
-  productChanged (item) {
-    if (item.key) {
-      this.props.onProductOption && this.props.onProductOption(item)
-      return
-    }
+  productOption (item) {
+    const [keyType, key] = item.key.split('/')
 
-    const p = this.props.products[item.key]
-    this.props.onProductChanged && this.props.onProductChanged(p)
+    switch (keyType) {
+      case 'product':
+        this.props.onProductChanged && this.props.onProductChanged(this.props.products[key])
+        break
+      default:
+        this.props.onProductOption && this.props.onProductOption(key)
+    }
   }
 
   showTVScreen () {
@@ -50,127 +52,125 @@ export default class Toolbar extends Component {
   }
 
   renderMenu (options) {
-    // {
-    //   options.map(option => <Menu.Item key={option.id} style={{ padding: '10px' }}> <Icon type={option.icon} style={{ padding: '5px' }} /> {option.title} </Menu.Item>)
-    // }
-    return <Menu onClick={this._productChanged} style={{ padding: '0px'}}>
-      <Menu.Item key='openFile' style={{ color: '#607D8B', margin: '0px', padding: '5px 15px 5px 5px' }}>
-        <Icon type='form' style={{ margin: '10px' }} />
-       Open File
-      </Menu.Item>
-      <Menu.Item key='editSettings' style={{ color: '#607D8B', margin: '0px', padding: '5px 15px 5px 5px' }}>
-        <Icon type='setting' style={{ margin: '10px' }} />
-       Edit Settings
-      </Menu.Item>
+    const products = Object.keys(this.props.products).map(p => <Menu.Item key={`product/${this.props.products[p].id}`} style={{ color: '#607D8B', margin: '0px', padding: '5px 15px 5px 5px' }}>
+      <Icon type='desktop' style={{ margin: '10px' }} />
+      { this.props.products[p].name }
+    </Menu.Item>)
+
+    return <Menu onClick={this._productOption} style={{ padding: '0px'}}>
+      { products }
       <Menu.Divider />
-      <Menu.Item key='changeProduct' style={{ color: '#42A5F5', margin: '0px', padding: '5px 15px 5px 5px' }}>
-        <Icon type='desktop' style={{ margin: '10px' }} />
-       Change Product
+      <Menu.Item key='/newProduct' style={{ color: '#42A5F5', margin: '0px', padding: '5px 15px 5px 5px' }}>
+        <Icon type='plus-circle' style={{ margin: '10px' }} />
+        Create New Product
       </Menu.Item>
     </Menu>
-    // return <Menu onClick={this._productChanged} style={{ padding: '0px'}}>
-    //   <ItemGroup key='openFile' title='Product Settings'>
-    //     <Menu.Item key='openFile' style={{ color: '#42A5F5', margin: '0px', padding: '5px' }}>
-    //       <Icon type='form' style={{ margin: '10px' }} />
-    //    Open File
-    //   </Menu.Item>
-    //   </ItemGroup>
-    //   <Menu.Divider />
-    //   {
-    //     options.map(option => <Menu.Item key={option.id} style={{ padding: '10px' }}> <Icon type={option.icon} style={{ padding: '5px' }} /> {option.title} </Menu.Item>)
-    //   }
-    //   <Menu.Divider />
-    //   <Menu.Item key='newProduct' style={{ color: '#42A5F5', margin: '0px', padding: '5px' }}>
-    //     <Icon type='plus-circle-o' style={{ margin: '10px' }} />
-    //     New product
-    //   </Menu.Item>
-    // </Menu>
   }
 
-  renderMenuBar () {
-    const options = Object.keys(this.props.products).map(p => ({
-      id: this.props.products[p].id,
-      icon: 'desktop',
-      title: this.props.products[p].name
-    }))
-
-    return <Dropdown overlay={this.renderMenu(options)} trigger={['click']}>
-      <div style={{
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}>
-        <a className='ant-dropdown-link' href='#' style={{
-          padding: '0px 5px',
-          color: '#03A9F4',
-          textDecoration: 'none'
+  renderMenuPrimary () {
+    return <div style={{
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }}>
+      <Dropdown
+        overlay={this.renderMenu()}
+        trigger={['click']}>
+        <div style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          marginLeft: '5px',
+          justifyContent: 'center'
         }}>
-          { this.props.product.name }
-        </a>
-        <Icon type='down' style={{
-          fontSize: '20px',
-          color: '#03A9F4',
-          cursor: 'pointer'
-        }} />
-      </div>
-    </Dropdown>
+          <Button style={{
+            color: '#03A9F4'
+          }}>
+            { this.props.product.name }
+            <Icon type='down' style={{
+              color: '#03A9F4',
+              cursor: 'pointer'
+            }} />
+          </Button>
+        </div>
+      </Dropdown>
+    </div>
   }
 
   render () {
     return <div style={{
       display: 'flex',
       flex: 1,
+      flexDirection: 'row',
       alignItems: 'flex-start',
       justifyContent: 'flex-start',
       paddingRight: '10px'
     }}>
       <Icon
         style={{
-          color: '#607D8B',
+          color: '#03A9F4',
           display: 'flex',
           fontSize: '18px',
           marginLeft: '10px',
           lineHeight: '64px',
           padding: '0 10px',
           cursor: 'pointer',
+          marginTop: '0px',
           transition: 'color .3s'
         }}
         type={this.state.preview ? 'menu-unfold' : 'menu-fold'}
         onClick={this._togglePreview} />
       <div style={{
         flex: 1,
-        display: 'flex'
+        display: 'flex',
+        height: '64px',
+        paddingTop: '2px',
+        justifyContent: 'flex-start'
       }}>
-        { this.renderMenuBar() }
+        <Button
+          shape='circle'
+          icon='copy'
+          ghost
+          onClick={() => this._productOption({ key: '/openFile' })}
+          style={{
+            margin: '15px 0px 15px 0px',
+            color: '#03A9F4'
+          }} />
+        { this.renderMenuPrimary() }
       </div>
-      <Button
-        shape='circle'
-        icon='play-circle'
-        ghost
-        onClick={this._showTVScreen}
-        style={{
-          margin: '15px 0px 15px 10px',
-          color: '#607D8B'
-        }} />
-      <Button
-        shape='circle'
-        icon='gift'
-        ghost
-        onClick={this._showBountiesScreen}
-        style={{
-          margin: '15px 0px 15px 10px',
-          color: '#607D8B'
-        }} />
-      <Button
-        shape='circle'
-        ghost
-        icon='user'
-        onClick={this._showAccountScreen}
-        style={{
-          margin: '15px 0px 15px 10px',
-          color: '#607D8B'
-        }} />
+      <div style={{
+        display: 'flex',
+        justifyContent: 'flex-end'
+      }}>
+        <Button
+          shape='circle'
+          icon='play-circle'
+          ghost
+          onClick={this._showTVScreen}
+          style={{
+            margin: '15px 0px 15px 0px',
+            color: '#607D8B'
+          }} />
+        <Button
+          shape='circle'
+          icon='gift'
+          ghost
+          onClick={this._showBountiesScreen}
+          style={{
+            margin: '15px 0px 15px 0px',
+            color: '#607D8B'
+          }} />
+        <Button
+          shape='circle'
+          ghost
+          icon='user'
+          onClick={this._showAccountScreen}
+          style={{
+            margin: '15px 0px 15px 0px',
+            color: '#607D8B'
+          }} />
+      </div>
     </div>
   }
 
