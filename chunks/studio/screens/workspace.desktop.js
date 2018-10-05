@@ -1,8 +1,8 @@
 import React from 'react'
 import { Component, Components, Screen } from 'react-dom-chunky'
-import { Button, ButtonIcon } from 'rmwc/Button'
-import { Form, Icon, Row, Col, List, Alert, Breadcrumb, Dropdown, Avatar, Menu, Tabs, Layout, notification, Drawer } from 'antd'
+import { Form, Icon, Row, Col, List, Collapse, Alert, Breadcrumb, Dropdown, Avatar, Menu, Tabs, Layout, notification, Drawer } from 'antd'
 import { Card, CardActions, CardActionButtons } from 'rmwc/Card'
+import { Button, ButtonIcon } from 'rmwc/Button'
 import { Fab } from 'rmwc/Fab'
 import { Elevation } from 'rmwc/Elevation'
 import fs from 'fs-extra'
@@ -26,6 +26,7 @@ import moment from 'moment'
 const { Header, Sider, Content, Footer } = Layout
 const { SubMenu } = Menu
 const TabPane = Tabs.TabPane
+const Panel = Collapse.Panel
 
 const FormItem = Form.Item
 const HOME = process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME']
@@ -464,35 +465,6 @@ export default class Workspace extends Screen {
     </Prompt>
   }
 
-  renderChallenges () {
-    return <div key='challenges' style={{
-      display: 'flex',
-      flex: 1,
-      width: '100%',
-      flexDirection: 'column'
-    }}>
-      <Challenges
-        challenges={this.challenges}
-        onSelectChallenge={this._onSelectChallenge} />
-    </div>
-  }
-
-  renderWorkspaceContent () {
-    if (this.state.productPublishing) {
-      return this.renderPublishingMessage()
-    }
-
-    if (this.state.productStarting) {
-      return this.renderStartingMessage()
-    }
-
-    if (!this.challenge) {
-      return this.renderChallenges()
-    }
-
-    return this.renderChallenge()
-  }
-
   renderPopup () {
     if (!this.state.showPopup) {
       return <div key='popupContainer' />
@@ -514,33 +486,118 @@ export default class Workspace extends Screen {
     </div>
   }
 
-  renderWorkspaceItems () {
-    if (this.canShowTabs) {
-      var prompt = 'Choose a Challenge'
+  get canShowTabs () {
+    return this.state.enableTabs && this.state.openFiles && Object.keys(this.state.openFiles).length > 0
+  }
 
-      if (this.challenge) {
-        prompt = 'See Challenge Details'
-      }
-
-      return <Typography use='title' tag='h2' style={{ marginTop: '20px', textAlign: 'center' }}>
-        <Button onClick={() => {}} style={{
-          color: '#81D4FA',
-          backgroundColor: '#ECEFF1'
-        }}>
-          { prompt }
-        </Button>
-      </Typography>
+  renderWorkspaceContent () {
+    if (this.state.productPublishing) {
+      return this.renderPublishingMessage()
     }
 
+    if (this.state.productStarting) {
+      return this.renderStartingMessage()
+    }
+
+    if (!this.challenge) {
+      return this.renderChallenges()
+    }
+
+    return this.renderChallenge()
+  }
+
+  renderChallenges () {
+    // <Button onClick={() => {}} style={{
+    //   color: '#FFFFFF',
+    //   width: '100%',
+    //   backgroundColor: '#00bcd4'
+    // }}>
+    //     Select a challenge
+    //   <Icon type={'caret-down'} style={{ marginLeft: '5px' }} />
+    // </Button>
+
+    // return <div key='challenges' style={{
+    //   display: 'flex',
+    //   backgroundColor: '#00bcd4',
+    //   width: '100%',
+    //   margin: '10px',
+    //   flexDirection: 'column'
+    // }}>
+    //   <Typography
+    //     use='title'
+    //     tag='div' style={{
+    //       textAlign: 'center',
+    //       color: '#FFFFFF'
+    //     }}>
+    //     Hey
+    //     <Button onClick={() => {}} style={{
+    //       color: '#FFFFFF',
+    //       backgroundColor: '#00bcd4'
+    //     }}>
+    //     CHALLENGE
+    //     <Icon type={'caret-down'} style={{ marginLeft: '5px' }} />
+    //     </Button>
+    //   </Typography>
+    // </div>
+
+    if (this.canShowTabs) {
+      // <Icon type={'caret-down'} style={{ marginLeft: '5px' }} />
+      return <Button onClick={() => {
+        this.setState({ enableTabs: false })
+      }} style={{
+        color: '#FFFFFF',
+        backgroundColor: '#00bcd4',
+        margin: '10px'
+      }}>
+        See Details
+      </Button>
+    }
+
+    return <div key='challenges' style={{
+      display: 'flex',
+      flex: 1,
+      width: '100%',
+      flexDirection: 'column'
+    }}>
+      <Challenges
+        challenges={this.challenges}
+        onSelectChallenge={this._onSelectChallenge} />
+    </div>
+  }
+
+  renderWorkspaceTabs () {
+    if (!this.canShowTabs) {
+      return <div />
+    }
+
+    return <div style={{
+      flex: 1,
+      display: 'flex',
+      paddingBottom: '10px',
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: this.state.preview ? '99vw' : '40vw'
+    }}>
+      <TabBar
+        key='tabs'
+        onFileClose={this._onFileClose}
+        file={this.state.lastOpenedFile}
+        dir={this.state.dir}
+        files={this.state.openFiles} />
+    </div>
+  }
+
+  renderWorkspaceLayout () {
     return <Layout key='content' style={{
       display: 'flex',
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
       flexDirection: 'column',
-      padding: '10px',
+      paddingTop: '10px',
       backgroundColor: '#f5f5f5'
     }}>
+      { this.renderWorkspaceTabs() }
       { this.renderWorkspaceContent() }
     </Layout>
   }
@@ -569,33 +626,6 @@ export default class Workspace extends Screen {
     </Header>
   }
 
-  get canShowTabs () {
-    return this.state.enableTabs && this.state.openFiles && Object.keys(this.state.openFiles).length > 0
-  }
-
-  renderTabs () {
-    if (!this.canShowTabs) {
-      return <div />
-    }
-
-    return <div style={{
-      flex: 1,
-      display: 'flex',
-      padding: '0px',
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginTop: '10px',
-      width: this.state.preview ? '99vw' : '40vw'
-    }}>
-      <TabBar
-        key='tabs'
-        onFileClose={this._onFileClose}
-        file={this.state.lastOpenedFile}
-        dir={this.state.dir}
-        files={this.state.openFiles} />
-    </div>
-  }
-
   renderWorkspace (status) {
     const browserWidth = '60vw'
     const minBrowserWidth = '0px'
@@ -619,8 +649,7 @@ export default class Workspace extends Screen {
         minHeight: '100vh'
       }}>
         { this.renderWorkspaceMenu() }
-        { this.renderTabs() }
-        { this.renderWorkspaceItems() }
+        { this.renderWorkspaceLayout() }
       </Layout>
     </Layout>
   }
