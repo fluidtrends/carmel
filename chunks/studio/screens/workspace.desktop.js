@@ -124,7 +124,6 @@ export default class Workspace extends Screen {
   }
 
   updateLocalSession (data) {
-    console.log(data)
     const { challenges, controller, challengeId } = data
     const userChallenges = Object.assign({}, challenges)
 
@@ -274,14 +273,16 @@ export default class Workspace extends Screen {
   }
 
   onFileClose (file) {
-    console.log(file)
+    if (this.state.openFiles && this.state.openFiles[file]) {
+      const openFiles = Object.assign({}, this.state.openFiles)
+      delete openFiles[file]
+      this.setState({ openFiles })
+    }
   }
 
   onFileOpen (file) {
     const relative = path.relative(this.state.dir, file)
     const openFiles = Object.assign({}, this.state.openFiles)
-
-    // this.shell.analytics('fileOpen', 'relative')
 
     openFiles[relative] = { openTimestamp: `${Date.now}`, fullPath: file }
 
@@ -573,37 +574,6 @@ export default class Workspace extends Screen {
   }
 
   renderTabs () {
-    // console.log('renderOpenFileTabs')
-    // if (!this.state.enableTabs || !this.state.openFiles || Object.keys(this.state.openFiles).length === 0) {
-    //   return <div key='tabs' />
-    // }
-    //
-    // console.log('renderOpenFileTabs 2')
-    //
-    // return <TabBar
-    //   key='tabs'
-    //   onFileClose={this._onFileClose}
-    //   file={this.state.lastOpenedFile}
-    //   dir={this.state.dir}
-    //   files={this.state.openFiles} />
-
-    // <Tabs
-    //   hideAdd
-    //   defaultActiveKey='1'
-    //   tabPosition={'top'}
-    //   type='editable-card'
-    //   style={{
-    //     height: 220
-    //   }}>
-    //   <TabPane tab='Tab 1' key='1'>Content of tab 1</TabPane>
-    //   <TabPane tab='Tab 2' key='2'>Content of tab 2</TabPane>
-    //   <TabPane tab='Tab 2' key='3'>Content of tab 2</TabPane>
-    //   <TabPane tab='Tab 2' key='4'>Content of tab 2</TabPane>
-    //   <TabPane tab='Tab 2' key='5'>Content of tab 2</TabPane>
-    //   <TabPane tab='Tab 2' key='6'>Content of tab 2</TabPane>
-    //   <TabPane tab='Tab 2' key='7'>Content of tab 2</TabPane>
-    // </Tabs>
-
     if (!this.canShowTabs) {
       return <div />
     }

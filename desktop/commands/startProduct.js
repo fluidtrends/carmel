@@ -66,7 +66,6 @@ const startWebserver = ({ port, product }, cb) => {
       compiler.plugin('done', (stats) => {
         console.log('Product compiled.')
         cb && cb(Object.assign({}, { compiled: true, compiling: false }, stats.compilation.errors.length > 0, { errors: stats.compilation.errors }))
-        console.log('RESULTED', product.files)
         resolve({ port, files: product.files })
       })
       compiler.plugin('compile', (params) => {
