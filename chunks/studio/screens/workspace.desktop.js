@@ -611,10 +611,11 @@ export default class Workspace extends Screen {
     return <div style={{
       flex: 1,
       display: 'flex',
-      padding: '10px',
-      justifyContent: 'flex-start',
-      width: this.state.preview ? '100vw' : '40vw',
-      margin: '10px'
+      padding: '0px',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: '10px',
+      width: this.state.preview ? '99vw' : '40vw'
     }}>
       <TabBar
         key='tabs'
@@ -644,7 +645,9 @@ export default class Workspace extends Screen {
         collapsed={this.state.preview}>
         { this.renderProductPreview() }
       </Sider>
-      <Layout key='workspace' style={{ minHeight: '100vh' }}>
+      <Layout key='workspace' style={{
+        minHeight: '100vh'
+      }}>
         { this.renderWorkspaceMenu() }
         { this.renderTabs() }
         { this.renderWorkspaceItems() }

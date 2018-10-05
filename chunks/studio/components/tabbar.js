@@ -129,6 +129,9 @@ export default class TabBarComponent extends Component {
       mode={this.state.mode}
       theme='github'
       style={{
+        borderBottom: '1px solid #EEEEEE',
+        borderLeft: '1px solid #EEEEEE',
+        borderRight: '1px solid #EEEEEE',
         display: 'flex',
         height: '100%',
         flex: 1
@@ -164,7 +167,7 @@ export default class TabBarComponent extends Component {
 
     return <div style={{
       padding: '0px',
-      margin: '0px',
+      margin: '10px',
       width: '100%',
       flex: 1,
       display: 'flex',
