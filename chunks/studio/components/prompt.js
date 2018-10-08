@@ -26,7 +26,6 @@ export default class Prompt extends Component {
     return <Elevation z={2} style={{
       backgroundColor: '#ffffff',
       marginTop: '0px',
-      marginBottom: '10px',
       alignItems: 'center',
       justifyContent: 'center',
       display: 'flex',

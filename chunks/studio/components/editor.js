@@ -10,20 +10,28 @@ import 'brace/theme/github'
 import chokidar from 'chokidar'
 import fs from 'fs-extra'
 import { Snackbar } from 'rmwc/Snackbar'
+import { remote } from 'electron'
+import { Button, ButtonIcon } from 'rmwc/Button'
 
 const TabPane = Tabs.TabPane
 
-export default class TabBarComponent extends Component {
+export default class EditorComponent extends Component {
   constructor (props) {
     super(props)
+
     this.state = { ...super.state, mode: 'javascript' }
+
     this._onTabEdited = this.onTabEdited.bind(this)
     this._onTabChanged = this.onTabChanged.bind(this)
     this._onTabSelected = this.onTabSelected.bind(this)
+
     this._onContentChanged = this.onContentChanged.bind(this)
+    this._onFileTabChanged = this.onFileTabChanged.bind(this)
+    this._onFileTabSelected = this.onFileTabSelected.bind(this)
     this._onFileChanged = this.onFileChanged.bind(this)
     this._onFileRemoved = this.onFileRemoved.bind(this)
     this._onSave = this.onSave.bind(this)
+
     this._cache = {}
   }
 
@@ -98,22 +106,66 @@ export default class TabBarComponent extends Component {
     try {
       const content = fs.readFileSync(path.resolve(this.props.dir, file), 'utf8')
       this.cache[file] = content
-      this.setState({ content, mode, activeFile: file })
+      this.setState({ content, mode, activeFile: file, showEditor: true, activeFileTimestamp: `${Date.now()}` })
     } catch (error) {
     }
   }
 
   onTabEdited (file) {
-    this.props.onFileClose && this.props.onFileClose(file)
+    this.closeFile(file)
   }
 
   onTabSelected (file) {
-    this.props.onTabSelected && this.props.onTabSelected(file)
+    if (this.state.showEditor) {
+      return
+    }
+    this.setState({ showEditor: true })
   }
 
   onTabChanged (file) {
-    this.props.onTabChanged && this.props.onTabChanged(file)
     this.reloadFile(file)
+  }
+
+  openFile (file) {
+    const openFiles = Object.assign({}, this.openFiles)
+
+    const timestamp = `${Date.now()}`
+    openFiles[file] = { timestamp, fullPath: path.join(this.props.dir, file) }
+
+    this.props.onMaximize && this.props.onMaximize()
+
+    this.setState({
+      openFiles,
+      showEditor: true,
+      lastOpenedFile: { file, timestamp }
+    })
+  }
+
+  get openFiles () {
+    return Object.assign({}, this.state.openFiles)
+  }
+
+  closeFile (file) {
+    if (!this.openFiles || !this.openFiles[file]) {
+      return
+    }
+    const openFiles = Object.assign({}, this.openFiles)
+    delete openFiles[file]
+    this.setState({ openFiles })
+  }
+
+  onFileTabSelected (file) {
+    if (this.state.showEditor) {
+      return
+    }
+    this.setState({ showEditor: true })
+  }
+
+  onFileTabChanged (file) {
+    if (this.state.showEditor) {
+      return
+    }
+    this.setState({ showEditor: true })
   }
 
   renderTab (filename, options, index) {
@@ -125,9 +177,9 @@ export default class TabBarComponent extends Component {
       key={filename} />
   }
 
-  renderEditor () {
-    if (this.props.hideContent) {
-      return
+  renderContent () {
+    if (!this.state.showEditor) {
+      return <div style={{ marginBottom: '10px'}} />
     }
 
     return <AceEditor
@@ -156,11 +208,12 @@ export default class TabBarComponent extends Component {
   }
 
   get activeFile () {
-    return this.state.activeFile || Object.keys(this.props.files)[0]
+    var file = (this.state.activeFile || Object.keys(this.openFiles)[0])
+    return file
   }
 
   renderSnack () {
-    if (this.props.hideContent) {
+    if (!this.state.showEditor) {
       return <div />
     }
 
@@ -171,22 +224,37 @@ export default class TabBarComponent extends Component {
       onHide={() => this.setState({ showSnack: false })} / >
   }
 
+  renderChildren () {
+    if (!this.state.showEditor) {
+      return this.props.children
+    }
+
+    return <Button key='more' onClick={() => this.setState({ showEditor: false })} style={{
+      color: '#FFFFFF',
+      backgroundColor: '#00bcd4',
+      margin: '10px'
+    }}>
+      { 'See Details' }
+    </Button>
+  }
+
   render () {
-    if (!this.props.files || this.props.files.length === 0) {
-      return <div />
+    if (!this.hasOpenFiles) {
+      return this.props.children
     }
 
     var index = 0
-    const tabs = Object.keys(this.props.files).map(f => this.renderTab(f, this.props.files[f], index++))
+    const tabs = Object.keys(this.openFiles).map(f => this.renderTab(f, this.openFiles[f], index++))
 
-    return <div style={Object.assign({}, {
+    return <div style={{
       padding: '0px',
       margin: '10px',
       width: '100%',
       height: '50px',
       display: 'flex',
-      flexDirection: 'column'
-    }, this.props.hideContent || { flex: 1, height: '100%' })}>
+      flexDirection: 'column',
+      flex: 1,
+      height: '100%' }}>
       <Tabs
         hideAdd
         animated={false}
@@ -205,8 +273,32 @@ export default class TabBarComponent extends Component {
         onEdit={this._onTabEdited}>
         { tabs }
       </Tabs>
-      { this.renderEditor() }
+      { this.renderContent() }
+      { this.renderChildren() }
       { this.renderSnack() }
     </div>
+  }
+
+  openFileBrowser () {
+    remote.dialog.showOpenDialog({
+      defaultPath: this.props.dir,
+      properties: ['openFile']
+    }, (files) => {
+      if (!files || files.length < 1) {
+        return
+      }
+      const relative = path.relative(this.props.dir, files[0])
+      const isOk = !relative.startsWith('..')
+
+      if (!isOk) {
+        return
+      }
+
+      this.openFile(relative)
+    })
+  }
+
+  get hasOpenFiles () {
+    return this.openFiles && Object.keys(this.openFiles).length > 0
   }
 }

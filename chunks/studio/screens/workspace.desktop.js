@@ -21,17 +21,6 @@ import Prompt from '../components/prompt'
 import WorkspaceContent from '../components/workspaceContent'
 import * as Stages from '../functions/stages'
 import moment from 'moment'
-import SlidingPane from 'react-sliding-pane'
-import {
-  Drawer,
-  DrawerHeader,
-  DrawerContent,
-  DrawerTitle,
-  DrawerScrim,
-  DrawerSubtitle
-} from 'rmwc/Drawer'
-import { remote } from 'electron'
-import { Flipper, Flipped } from 'react-flip-toolkit'
 
 const { Sider, Content, Footer } = Layout
 const { SubMenu } = Menu
@@ -231,40 +220,21 @@ export default class Workspace extends Screen {
     }
   }
 
-  showFileBrowser () {
-    remote.dialog.showOpenDialog({
-      defaultPath: this.state.dir,
-      properties: ['openFile']
-    }, (files) => {
-      if (!files || files.length < 1) {
-        return
-      }
-      const relative = path.relative(this.state.dir, files[0])
-      const isOk = !relative.startsWith('..')
-
-      if (!isOk) {
-        return
-      }
-
-      this.setState({ lastOpenedFile: files[0] })
-    })
-  }
-
   onProductOption (type) {
-    switch (type) {
-      case 'publishProduct':
-        this.onPublishProduct()
-        break
-      case 'switchProduct':
-        // this.triggerRedirect('/new')
-        break
-      case 'openFile':
-        this.showFileBrowser()
-        break
-      case 'editSettings':
-        break
-      default:
-    }
+    // switch (type) {
+    //   case 'publishProduct':
+    //     this.onPublishProduct()
+    //     break
+    //   case 'switchProduct':
+    //     // this.triggerRedirect('/new')
+    //     break
+    //   case 'openFile':
+    //     this.showFileBrowser()
+    //     break
+    //   case 'editSettings':
+    //     break
+    //   default:
+    // }
   }
 
   onTogglePreview (preview) {
@@ -506,7 +476,6 @@ export default class Workspace extends Screen {
             onProductOption={this._onProductOption}
             onScreenChanged={this._onScreenChanged}
             product={this.product}
-            lastOpenedFile={this.state.lastOpenedFile}
             isProductPublishing={this.state.productPublishing}
             isProductStarting={this.state.productStarting}
             challengeId={this.state.challengeId}
