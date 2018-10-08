@@ -58,7 +58,7 @@ export default class Info extends Component {
           fontSize,
           textAlign: 'center'
         }}>
-          { `With Carmel you will be able create websites, mobile apps and more. I'm going to show you how. Oh, and no previous experience is necessary. Easy peasy.`}
+          { `With Carmel you will be able to create websites, mobile apps and more. I'm going to show you how. Oh, and no previous experience is necessary. Easy peasy.`}
           <br />
           <br />
           { `Hey, wanna create a website right now?`}
