@@ -1,6 +1,6 @@
 import React from 'react'
 import { Component, Components, Screen } from 'react-dom-chunky'
-import { Form, Icon, Row, Col, List, Collapse, Alert, Breadcrumb, Dropdown, Avatar, Menu, Tabs, Layout, notification, Drawer } from 'antd'
+import { Form, Icon, Row, Col, List, Collapse, Alert, Breadcrumb, Dropdown, Avatar, Menu, Tabs, Layout, notification } from 'antd'
 import { Card, CardActions, CardActionButtons } from 'rmwc/Card'
 import { Button, ButtonIcon } from 'rmwc/Button'
 import { Fab } from 'rmwc/Fab'
@@ -22,6 +22,17 @@ import Task from '../components/task'
 import Prompt from '../components/prompt'
 import * as Stages from '../functions/stages'
 import moment from 'moment'
+import SlidingPane from 'react-sliding-pane'
+import {
+  Drawer,
+  DrawerHeader,
+  DrawerContent,
+  DrawerTitle,
+  DrawerScrim,
+  DrawerSubtitle
+} from 'rmwc/Drawer'
+import { remote } from 'electron'
+import { Flipper, Flipped } from 'react-flip-toolkit'
 
 const { Header, Sider, Content, Footer } = Layout
 const { SubMenu } = Menu
@@ -49,15 +60,15 @@ export default class Workspace extends Screen {
     this._onStartChallenge = this.onStartChallenge.bind(this)
     this._onStopChallenge = this.onStopChallenge.bind(this)
     this._onUnselectChallenge = this.onUnselectChallenge.bind(this)
-    this._onShowFileBrowser = this.onShowFileBrowser.bind(this)
     this._onShowTask = this.onShowTask.bind(this)
     this._onTaskCompleted = this.onTaskCompleted.bind(this)
     this._onChallengeCompleted = this.onChallengeCompleted.bind(this)
     this._onChallengeRated = this.onChallengeRated.bind(this)
     this._onHideTask = this.onHideTask.bind(this)
     this._onShowCompileErrors = this.onShowCompileErrors.bind(this)
-    this._onFileOpen = this.onFileOpen.bind(this)
     this._onFileClose = this.onFileClose.bind(this)
+    this._onFileTabChanged = this.onFileTabChanged.bind(this)
+    this._onFileTabSelected = this.onFileTabSelected.bind(this)
     this._onBuyChallenge = this.onBuyChallenge.bind(this)
     this._onPublishProduct = this.onPublishProduct.bind(this)
   }
@@ -91,8 +102,36 @@ export default class Workspace extends Screen {
     this.triggerRedirect('/bounties')
   }
 
-  onShowFileBrowser () {
-    this.setState({ showFileBrowser: true })
+  openFile (file) {
+    const openFiles = Object.assign({}, this.state.openFiles)
+
+    openFiles[file] = { openTimestamp: `${Date.now}`, fullPath: path.join(this.state.dir, file) }
+
+    this.setState({
+      openFiles,
+      enableTabs: true,
+      lastOpenedFile: file
+    })
+  }
+
+  showFileBrowser () {
+    remote.dialog.showOpenDialog({
+      defaultPath: this.state.dir,
+      properties: ['openFile']
+    }, (files) => {
+      if (!files || files.length < 1) {
+        return
+      }
+
+      const relative = path.relative(this.state.dir, files[0])
+      const isOk = !relative.startsWith('..')
+
+      if (!isOk) {
+        return
+      }
+
+      this.openFile(files[0])
+    })
   }
 
   onShowTask () {
@@ -182,6 +221,7 @@ export default class Workspace extends Screen {
       this.setState({ compilation })
     })
     .then(({ files, dir, port }) => {
+      console.log(port)
       // this.shell.analytics('startProduct', 'success')
       if (LIGHT_START) {
         this.setState({ files, dir, port, productStarted: true, productStarting: false })
@@ -224,6 +264,7 @@ export default class Workspace extends Screen {
   }
 
   onProductOption (type) {
+    console.log('onProductOption', type)
     switch (type) {
       case 'publishProduct':
         this.onPublishProduct()
@@ -232,7 +273,7 @@ export default class Workspace extends Screen {
         this.triggerRedirect('/new')
         break
       case 'openFile':
-        this.onShowFileBrowser()
+        this.showFileBrowser()
         break
       case 'editSettings':
         break
@@ -279,15 +320,6 @@ export default class Workspace extends Screen {
       delete openFiles[file]
       this.setState({ openFiles })
     }
-  }
-
-  onFileOpen (file) {
-    const relative = path.relative(this.state.dir, file)
-    const openFiles = Object.assign({}, this.state.openFiles)
-
-    openFiles[relative] = { openTimestamp: `${Date.now}`, fullPath: file }
-
-    this.setState({ openFiles, enableTabs: true, lastOpenedFile: relative, showFileBrowser: false })
   }
 
   onShowCompileErrors () {
@@ -392,45 +424,8 @@ export default class Workspace extends Screen {
     </div>
   }
 
-  renderFileExplorer (status) {
-    if (!this.state.showFileBrowser) {
-      return <div key='explorer' />
-    }
-
-    return <Explorer
-      key='explorer'
-      onFileOpen={this._onFileOpen}
-      product={this.product}
-      dir={this.state.dir}
-      onClose={() => this.setState({ showFileBrowser: false })}
-      files={this.state.files} />
-  }
-
   onBuyChallenge (challenge) {
     this.triggerRedirect(this.isLoggedIn ? '/wallet' : '/login')
-  }
-
-  renderChallenge () {
-    return <div key='challenge' style={{
-      display: 'flex',
-      width: '100%',
-      flexDirection: 'column'
-    }}>
-      <Challenge
-        onBuyChallenge={this._onBuyChallenge}
-        onSelectChallenge={this._onSelectChallenge}
-        onStartChallenge={this._onStartChallenge}
-        onTaskCompleted={this._onTaskCompleted}
-        onChallengeCompleted={this._onChallengeCompleted}
-        onChallengeRated={this._onChallengeRated}
-        onStopChallenge={this._onStopChallenge}
-        account={this.account}
-        product={this.product}
-        onShowTask={this._onShowTask}
-        onHideTask={this._onHideTask}
-        onBack={this._onUnselectChallenge}
-        challenge={this.challenge} />
-    </div>
   }
 
   renderStartingMessage () {
@@ -465,6 +460,43 @@ export default class Workspace extends Screen {
     </Prompt>
   }
 
+  renderChallenge () {
+    return <div key='challenge' style={{
+      display: 'flex',
+      flex: 1,
+      width: '100%',
+      flexDirection: 'column'
+    }}>
+      <Challenge
+        onBuyChallenge={this._onBuyChallenge}
+        onSelectChallenge={this._onSelectChallenge}
+        onStartChallenge={this._onStartChallenge}
+        onTaskCompleted={this._onTaskCompleted}
+        onChallengeCompleted={this._onChallengeCompleted}
+        onChallengeRated={this._onChallengeRated}
+        onStopChallenge={this._onStopChallenge}
+        account={this.account}
+        product={this.product}
+        onShowTask={this._onShowTask}
+        onHideTask={this._onHideTask}
+        onBack={this._onUnselectChallenge}
+        challenge={this.challenge} />
+    </div>
+  }
+
+  renderChallenges () {
+    return <div key='challenges' style={{
+      display: 'flex',
+      flex: 1,
+      width: '100%',
+      flexDirection: 'column'
+    }}>
+      <Challenges
+        challenges={this.challenges}
+        onSelectChallenge={this._onSelectChallenge} />
+    </div>
+  }
+
   renderPopup () {
     if (!this.state.showPopup) {
       return <div key='popupContainer' />
@@ -486,8 +518,22 @@ export default class Workspace extends Screen {
     </div>
   }
 
-  get canShowTabs () {
-    return this.state.enableTabs && this.state.openFiles && Object.keys(this.state.openFiles).length > 0
+  get hasOpenFiles () {
+    return this.state.openFiles && Object.keys(this.state.openFiles).length > 0
+  }
+
+  onFileTabSelected (file) {
+    if (this.state.enableTabs) {
+      return
+    }
+    this.setState({ enableTabs: true })
+  }
+
+  onFileTabChanged (file) {
+    if (this.state.enableTabs) {
+      return
+    }
+    this.setState({ enableTabs: true })
   }
 
   renderWorkspaceContent () {
@@ -499,105 +545,84 @@ export default class Workspace extends Screen {
       return this.renderStartingMessage()
     }
 
-    if (!this.challenge) {
-      return this.renderChallenges()
+    if (!this.hasOpenFiles) {
+      return (this.state.challengeId ? this.renderChallenge() : this.renderChallenges())
     }
 
-    return this.renderChallenge()
-  }
-
-  renderChallenges () {
-    // <Button onClick={() => {}} style={{
-    //   color: '#FFFFFF',
-    //   width: '100%',
-    //   backgroundColor: '#00bcd4'
-    // }}>
-    //     Select a challenge
-    //   <Icon type={'caret-down'} style={{ marginLeft: '5px' }} />
-    // </Button>
-
-    // return <div key='challenges' style={{
-    //   display: 'flex',
-    //   backgroundColor: '#00bcd4',
-    //   width: '100%',
-    //   margin: '10px',
-    //   flexDirection: 'column'
-    // }}>
-    //   <Typography
-    //     use='title'
-    //     tag='div' style={{
-    //       textAlign: 'center',
-    //       color: '#FFFFFF'
-    //     }}>
-    //     Hey
-    //     <Button onClick={() => {}} style={{
-    //       color: '#FFFFFF',
-    //       backgroundColor: '#00bcd4'
-    //     }}>
-    //     CHALLENGE
-    //     <Icon type={'caret-down'} style={{ marginLeft: '5px' }} />
-    //     </Button>
-    //   </Typography>
-    // </div>
-
-    if (this.canShowTabs) {
-      // <Icon type={'caret-down'} style={{ marginLeft: '5px' }} />
-      return <Button onClick={() => {
-        this.setState({ enableTabs: false })
-      }} style={{
-        color: '#FFFFFF',
-        backgroundColor: '#00bcd4',
-        margin: '10px'
+    if (!this.state.enableTabs && this.hasOpenFiles) {
+      return <div style={{
+        flex: 1,
+        display: 'flex',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        width: '100%',
+        alignItems: 'center'
       }}>
-        See Details
-      </Button>
+        <TabBar
+          key='tabs'
+          hideContent
+          onTabChanged={this._onFileTabChanged}
+          onFileClose={this._onFileClose}
+          onTabSelected={this._onFileTabSelected}
+          file={this.state.lastOpenedFile}
+          dir={this.state.dir}
+          files={this.state.openFiles} />
+        { this.state.challengeId ? this.renderChallenge() : this.renderChallenges() }
+      </div>
     }
 
-    return <div key='challenges' style={{
-      display: 'flex',
-      flex: 1,
-      width: '100%',
-      flexDirection: 'column'
-    }}>
-      <Challenges
-        challenges={this.challenges}
-        onSelectChallenge={this._onSelectChallenge} />
-    </div>
-  }
-
-  renderWorkspaceTabs () {
-    if (!this.canShowTabs) {
-      return <div />
+    if (this.state.enableTabs && this.hasOpenFiles) {
+      return <div style={{
+        flex: 1,
+        display: 'flex',
+        width: '100%',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        alignItems: 'center'
+      }}>
+        <TabBar
+          key='tabs'
+          onTabChanged={this._onFileTabChanged}
+          onTabSelected={this._onFileTabSelected}
+          onFileClose={this._onFileClose}
+          file={this.state.lastOpenedFile}
+          dir={this.state.dir}
+          files={this.state.openFiles} />
+        <Button onClick={() => {
+          this.setState({ enableTabs: false })
+        }} style={{
+          color: '#FFFFFF',
+          backgroundColor: '#00bcd4',
+          margin: '10px'
+        }}>
+          { this.state.challengeId ? 'See Challenge Details' : 'Choose a challenge' }
+        </Button>
+      </div>
     }
 
-    return <div style={{
-      flex: 1,
-      display: 'flex',
-      paddingBottom: '10px',
-      justifyContent: 'center',
-      alignItems: 'center',
-      width: this.state.preview ? '99vw' : '40vw'
-    }}>
-      <TabBar
-        key='tabs'
-        onFileClose={this._onFileClose}
-        file={this.state.lastOpenedFile}
-        dir={this.state.dir}
-        files={this.state.openFiles} />
-    </div>
+    // return <Flipper flipKey={this.state.workspaceMode}>
+    //   <Flipped flipId='default'>
+    //     { this.renderWorkspaceContentDefault() }
+    //   </Flipped>
+    //   <Flipped flipId='editor'>
+    //     { this.renderWorkspaceContentEditor() }
+    //   </Flipped>
+    // </Flipper>
   }
 
   renderWorkspaceLayout () {
+    const width = this.width / (this.state.preview ? 1 : 2)
+
     return <Layout key='content' style={{
       display: 'flex',
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
+      padding: '10px',
       flexDirection: 'column',
-      paddingTop: '10px',
-      backgroundColor: '#f5f5f5'
+      backgroundColor: '#f5f5f5',
+      width: `${width}px`
     }}>
-      { this.renderWorkspaceTabs() }
       { this.renderWorkspaceContent() }
     </Layout>
   }
@@ -626,36 +651,9 @@ export default class Workspace extends Screen {
     </Header>
   }
 
-  renderWorkspace (status) {
-    const browserWidth = '60vw'
-    const minBrowserWidth = '0px'
-    const browserHeight = '100vh'
-
-    return <Layout key='workspace' style={{ height: '100vh' }}>
-      <Sider
-        key='preview'
-        trigger={null}
-        collapsible
-        width={browserWidth}
-        style={{
-          borderRight: '1px #CFD8DC solid',
-          height: '100vh'
-        }}
-        collapsedWidth={minBrowserWidth}
-        collapsed={this.state.preview}>
-        { this.renderProductPreview() }
-      </Sider>
-      <Layout key='workspace' style={{
-        minHeight: '100vh'
-      }}>
-        { this.renderWorkspaceMenu() }
-        { this.renderWorkspaceLayout() }
-      </Layout>
-    </Layout>
-  }
-
   renderScreenLayout () {
-    const productStatus = this.productStatus
+    const w = this.width
+    const wSide = (w / 2)
 
     return <div style={{
       backgroundColor: '#f5f5f5',
@@ -665,9 +663,27 @@ export default class Workspace extends Screen {
       alignItems: 'center',
       justifyContent: 'center'
     }}>
-      { this.renderPopup() }
-      { this.renderWorkspace(productStatus) }
-      { this.renderFileExplorer(productStatus) }
+      <Layout key='workspace' style={{ height: '100vh' }}>
+        <Sider
+          key='preview'
+          trigger={null}
+          collapsible
+          width={`${wSide}px`}
+          style={{
+            borderRight: '1px #CFD8DC solid',
+            height: '100vh'
+          }}
+          collapsedWidth={'0px'}
+          collapsed={this.state.preview}>
+          { this.renderProductPreview() }
+        </Sider>
+        <Layout key='workspace2' style={{
+          minHeight: '100vh'
+        }}>
+          { this.renderWorkspaceMenu() }
+          { this.renderWorkspaceLayout() }
+        </Layout>
+      </Layout>
     </div>
   }
 }

@@ -19,6 +19,7 @@ export default class TabBarComponent extends Component {
     this.state = { ...super.state, mode: 'javascript' }
     this._onTabEdited = this.onTabEdited.bind(this)
     this._onTabChanged = this.onTabChanged.bind(this)
+    this._onTabSelected = this.onTabSelected.bind(this)
     this._onContentChanged = this.onContentChanged.bind(this)
     this._onFileChanged = this.onFileChanged.bind(this)
     this._onFileRemoved = this.onFileRemoved.bind(this)
@@ -106,7 +107,12 @@ export default class TabBarComponent extends Component {
     this.props.onFileClose && this.props.onFileClose(file)
   }
 
+  onTabSelected (file) {
+    this.props.onTabSelected && this.props.onTabSelected(file)
+  }
+
   onTabChanged (file) {
+    this.props.onTabChanged && this.props.onTabChanged(file)
     this.reloadFile(file)
   }
 
@@ -120,10 +126,14 @@ export default class TabBarComponent extends Component {
   }
 
   renderEditor () {
+    if (this.props.hideContent) {
+      return
+    }
+
     return <AceEditor
       key='editor'
       ref={(e) => this.loadEditor(e)}
-      height='100px'
+      height='100%'
       width='100%'
       fontSize={14}
       mode={this.state.mode}
@@ -150,6 +160,10 @@ export default class TabBarComponent extends Component {
   }
 
   renderSnack () {
+    if (this.props.hideContent) {
+      return <div />
+    }
+
     return <Snackbar
       key='alert'
       show={this.state.showSnack}
@@ -165,15 +179,14 @@ export default class TabBarComponent extends Component {
     var index = 0
     const tabs = Object.keys(this.props.files).map(f => this.renderTab(f, this.props.files[f], index++))
 
-    return <div style={{
+    return <div style={Object.assign({}, {
       padding: '0px',
       margin: '10px',
       width: '100%',
-      flex: 1,
+      height: '50px',
       display: 'flex',
-      height: '100%',
       flexDirection: 'column'
-    }}>
+    }, this.props.hideContent || { flex: 1, height: '100%' })}>
       <Tabs
         hideAdd
         animated={false}
@@ -187,8 +200,9 @@ export default class TabBarComponent extends Component {
           width: '100%',
           display: 'flex'
         }}
+        onTabClick={this._onTabSelected}
         onChange={this._onTabChanged}
-        onEdit={this._onTabEdited} >
+        onEdit={this._onTabEdited}>
         { tabs }
       </Tabs>
       { this.renderEditor() }

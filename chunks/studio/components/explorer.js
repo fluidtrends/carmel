@@ -99,15 +99,22 @@ export default class Explorer extends Component {
     const nodes = this.sortNodes(this.props.files)
     const browser = this.buildFileBrowser(nodes, this.props.dir)
 
-    return <Modal
-      title='Select a file to open'
-      onCancel={this._onClose}
-      footer={[<Button key='back' onClick={this._onClose}>Cancel</Button>]}
-      visible>
-      <DirectoryTree
-        onSelect={this._onFileBrowserSelect}>
-        { browser }
-      </DirectoryTree>
-    </Modal>
+    console.log(DirectoryTree)
+
+    return <DirectoryTree
+      onSelect={this._onFileBrowserSelect}>
+      { browser }
+    </DirectoryTree>
+
+    // return <Modal
+    //   title='Select a file to open'
+    //   onCancel={this._onClose}
+    //   footer={[<Button key='back' onClick={this._onClose}>Cancel</Button>]}
+    //   visible>
+    //   <DirectoryTree
+    //     onSelect={this._onFileBrowserSelect}>
+    //     { browser }
+    //   </DirectoryTree>
+    // </Modal>
   }
 }
