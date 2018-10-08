@@ -20,8 +20,6 @@ export default class WorkspaceContent extends Component {
     this._onProductOption = this.onProductOption.bind(this)
     this._onScreenChanged = this.onScreenChanged.bind(this)
     this._onTogglePreview = this.onTogglePreview.bind(this)
-    this._onMaximizeEditor = this.onMaximizeEditor.bind(this)
-    this._onMinimizeEditor = this.onMinimizeEditor.bind(this)
   }
 
   componentDidMount () {
@@ -91,8 +89,7 @@ export default class WorkspaceContent extends Component {
 
   renderMenu () {
     return <div key='header' style={{
-      width: '100%',
-      marginBottom: '10px'
+      width: '100%'
     }}>
       <Toolbar
         account={this.props.account}
@@ -106,18 +103,11 @@ export default class WorkspaceContent extends Component {
   renderEditor () {
     return <Editor
       key='editor'
+      challengeId={this.props.challengeId}
       ref={(e) => this._editor = e}
       dir={this.props.dir}>
       { this.props.children }
     </Editor>
-  }
-
-  onMaximizeEditor () {
-    this.setState({ editorIsMinimized: false })
-  }
-
-  onMinimizeEditor () {
-    this.setState({ editorIsMinimized: true })
   }
 
   render () {

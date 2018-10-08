@@ -76,16 +76,16 @@ export default class Toolbar extends Component {
     // </Menu.Item>)
 
     return <Menu onClick={this._productOption} style={{ padding: '0px'}}>
-      <Menu.Item key='/openFile' style={{ color: '#00bcd4', margin: '0px', padding: '5px 15px 5px 5px' }}>
+      <Menu.Item key='/openFile' style={{ color: '#546E7A', margin: '0px', padding: '5px 15px 5px 5px' }}>
         <Icon type='file-text' style={{ margin: '10px' }} />
         Open File
       </Menu.Item>
-      <Menu.Item key='/publishProduct' style={{ color: '#00bcd4', margin: '0px', padding: '5px 15px 5px 5px' }}>
+      <Menu.Item key='/publishProduct' style={{ color: '#546E7A', margin: '0px', padding: '5px 15px 5px 5px' }}>
         <Icon type='cloud-upload' style={{ margin: '10px' }} />
         Publish Product
       </Menu.Item>
       <Menu.Divider />
-      <Menu.Item key='/switchProduct' style={{ color: '#00bcd4', margin: '0px', padding: '5px 15px 5px 5px' }}>
+      <Menu.Item key='/switchProduct' style={{ color: '#546E7A', margin: '0px', padding: '5px 15px 5px 5px' }}>
         <Icon type='retweet' style={{ margin: '10px' }} />
         Switch Product
       </Menu.Item>

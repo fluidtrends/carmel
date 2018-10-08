@@ -12,6 +12,7 @@ import fs from 'fs-extra'
 import { Snackbar } from 'rmwc/Snackbar'
 import { remote } from 'electron'
 import { Button, ButtonIcon } from 'rmwc/Button'
+import { Typography } from 'rmwc/Typography'
 
 const TabPane = Tabs.TabPane
 
@@ -41,6 +42,10 @@ export default class EditorComponent extends Component {
 
   componentWillUnmount () {
     this.watcher && this.watcher.close()
+  }
+
+  get alertMessage () {
+    return this.state.alertMessage || 'Enjoy your Carmel Experience.'
   }
 
   loadEditor (e) {
@@ -136,9 +141,10 @@ export default class EditorComponent extends Component {
 
     this.setState({
       openFiles,
-      showEditor: true,
-      lastOpenedFile: { file, timestamp }
+      showEditor: true
     })
+
+    this.reloadFile(file)
   }
 
   get openFiles () {
@@ -149,9 +155,14 @@ export default class EditorComponent extends Component {
     if (!this.openFiles || !this.openFiles[file]) {
       return
     }
+
     const openFiles = Object.assign({}, this.openFiles)
+    const isActiveFile = (file === this.state.activeFile)
+
     delete openFiles[file]
-    this.setState({ openFiles })
+
+    const activeFile = (Object.keys(openFiles).length > 0 ? Object.keys(this.openFiles)[0] : undefined)
+    this.setState(Object.assign({ openFiles }, isActiveFile && { activeFile }))
   }
 
   onFileTabSelected (file) {
@@ -178,8 +189,8 @@ export default class EditorComponent extends Component {
   }
 
   renderContent () {
-    if (!this.state.showEditor) {
-      return <div style={{ marginBottom: '10px'}} />
+    if (!this.hasOpenFiles || !this.state.showEditor) {
+      return <div />
     }
 
     return <AceEditor
@@ -208,8 +219,7 @@ export default class EditorComponent extends Component {
   }
 
   get activeFile () {
-    var file = (this.state.activeFile || Object.keys(this.openFiles)[0])
-    return file
+    return (this.state.activeFile || Object.keys(this.openFiles)[0])
   }
 
   renderSnack () {
@@ -224,6 +234,10 @@ export default class EditorComponent extends Component {
       onHide={() => this.setState({ showSnack: false })} / >
   }
 
+  get childrenAction () {
+    return (this.props.challengeId ? 'See Challenge Details' : 'Take a challenge')
+  }
+
   renderChildren () {
     if (!this.state.showEditor) {
       return this.props.children
@@ -232,29 +246,46 @@ export default class EditorComponent extends Component {
     return <Button key='more' onClick={() => this.setState({ showEditor: false })} style={{
       color: '#FFFFFF',
       backgroundColor: '#00bcd4',
-      margin: '10px'
+      margin: '10px 0px 10px 0px'
     }}>
-      { 'See Details' }
+      { this.childrenAction }
     </Button>
+  }
+
+  renderAlertMenu () {
+    return <div key='alertMenu' style={{
+      padding: '20px',
+      textAlign: 'center',
+      width: '100%'
+    }}>
+      <Typography use='caption' style={{
+        textAlign: 'center',
+        backgroundColor: '#ffff00',
+        padding: '5px',
+        color: '#039BE5'
+      }}>
+        {this.alertMessage}
+      </Typography>
+
+    </div>
   }
 
   render () {
     if (!this.hasOpenFiles) {
-      return this.props.children
+      return [this.renderAlertMenu(), this.props.children]
     }
 
     var index = 0
     const tabs = Object.keys(this.openFiles).map(f => this.renderTab(f, this.openFiles[f], index++))
 
     return <div style={{
-      padding: '0px',
-      margin: '10px',
+      padding: '0px 10px 0px 10px',
       width: '100%',
-      height: '50px',
       display: 'flex',
       flexDirection: 'column',
       flex: 1,
       height: '100%' }}>
+      { this.renderAlertMenu() }
       <Tabs
         hideAdd
         animated={false}
@@ -264,6 +295,7 @@ export default class EditorComponent extends Component {
         tabBarStyle={{
           padding: '0px',
           margin: '0px',
+          marginBottom: `${this.state.showEditor ? 0 : 10}px`,
           flex: 1,
           width: '100%',
           display: 'flex'
