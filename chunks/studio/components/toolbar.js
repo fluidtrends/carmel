@@ -115,22 +115,27 @@ export default class Toolbar extends Component {
     return <Elevation z={2} style={{
       display: 'flex',
       flex: 1,
-      padding: '10px',
       backgroundColor: '#ffffff',
       width: '100%',
+      padding: '10px',
       flexDirection: 'row',
-      alignItems: 'flex-start',
+      alignItems: 'center',
       height: '100%',
-      justifyContent: 'flex-start'
+      justifyContent: 'center'
     }}>
       <div style={{
         display: 'flex',
         flexDirection: 'row',
-        flex: 1,
-        alignItems: 'flex-start',
         justifyContent: 'flex-start'
       }}>
         { this.icon(this.state.preview ? 'phonelink' : 'phonelink_off', () => this.togglePreview()) }
+      </div>
+      <div style={{
+        display: 'flex',
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-start'
+      }}>
         <Dropdown
           overlay={this.renderProductMenu()}
           trigger={['hover']}>
