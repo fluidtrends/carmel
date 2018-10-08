@@ -53,14 +53,6 @@ export default class MainIntroScreen extends Screen {
 
   renderDefault() {
     return <div
-    // ref={ref => (this.scroller = ref)}
-    // scrolling={!this.state.creatingProduct}
-    // pages={3}
-    // style={{
-    //   display: 'flex',
-    //   flex: 1,
-    //   flexDirection: 'column'
-    // }}
     >
       <Intro
         // session={this.props.session}
@@ -70,8 +62,14 @@ export default class MainIntroScreen extends Screen {
         onContinue={this._onContinue.bind(this, 1)} 
       />
 
-      <WhySection/>
+      <WhySection
+        onContinue={this._download}
+      />
       <PlatformSection/>
+      <Team
+        session={this.props.session}
+        isSmallScreen={this.isSmallScreen}
+      />
       {/* <Studio
         session={this.props.session}
         offset={1}
@@ -102,20 +100,6 @@ export default class MainIntroScreen extends Screen {
     return this.state.width < 1224
   }
 
-  renderNewScreen() {
-    return <div style={{
-      backgroundColor: '#ffffff',
-      display: 'flex',
-      flex: 1,
-      height: '100vh',
-      alignItems: 'center',
-      justifyContent: 'center'
-    }}>
-      {this.renderDefault()}
-    </div>
-  }
-
-
   get telegram() {
     return (<Telegram onAction={() => { this.triggerRawRedirect('https://t.me/carmelplatform') }} />)
   }
@@ -135,7 +119,7 @@ export default class MainIntroScreen extends Screen {
 
   components() {
     const features = super.components()
-    return [...features, this.renderNewScreen(), this.telegram]
+    return [...features, this.renderDefault(), this.telegram]
 
   }
 

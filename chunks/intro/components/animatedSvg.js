@@ -1,9 +1,9 @@
 import React from 'react'
 import ReactVivus from 'react-vivus'
 
-const AnimatedSvg = ({style, path, type, duration, timingFunction}) => (
+const AnimatedSvg = ({style, path, type, duration, timingFunction, id}) => (
   <ReactVivus
-    id="svg2"
+    id={id}
     option={{
       file: path,
       type: type,
