@@ -22,10 +22,10 @@
         ]
       }
     },
-    "tv": {
-      "title": "Carmel TV",
+    "community": {
+      "title": "Carmel Community",
       "icon": "appstore",
-      "path": "/tv",
+      "path": "/community",
       "layoutBackground": "#f5f500",
       "cover": {
         "backgroundColor": "#00838F",

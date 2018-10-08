@@ -9,7 +9,7 @@ import { ListDivider } from 'rmwc/List'
 import { Typography } from 'rmwc/Typography'
 const TabPane = Tabs.TabPane
 
-export default class MainTVScreen extends Screen {
+export default class MainCommunityScreen extends Screen {
   constructor (props) {
     super(props)
     this.state = { ...this.state, inProgress: false }
@@ -74,7 +74,7 @@ export default class MainTVScreen extends Screen {
         textAlign: 'center',
         color: '#78909C'
       }}>
-      No videos yet
+      No activity yet. Coming soon.
     </Typography>
     </div>
   }
@@ -90,8 +90,8 @@ export default class MainTVScreen extends Screen {
         marginBottom: '20px',
         justifyContent: 'flex-start'
       }}>
-      <Icon style={{ margin: '5px 10px 0px 0px' }} type='play-circle' theme='filled' />
-      Carmel TV
+      <Icon style={{ margin: '5px 10px 0px 0px' }} type='team' theme='filled' />
+      Carmel Community
     </Typography>
   }
 

@@ -74,7 +74,7 @@ export default class MainBountiesScreen extends Screen {
         textAlign: 'center',
         color: '#78909C'
       }}>
-      No bounties yet
+      No bounties yet. Coming soon.
     </Typography>
     </div>
   }
@@ -90,7 +90,7 @@ export default class MainBountiesScreen extends Screen {
         marginBottom: '20px',
         justifyContent: 'flex-start'
       }}>
-      <Icon style={{ margin: '5px 10px 0px 0px' }} type='gift' theme='filled' />
+      <Icon style={{ margin: '5px 10px 0px 0px' }} type='trophy' theme='filled' />
       Carmel Bounties
     </Typography>
   }
