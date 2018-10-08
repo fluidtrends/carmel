@@ -10,7 +10,8 @@ export default class PlatformSection extends Component {
     super(props)
 
     this.state = {
-      showSvg: false
+      showSvg: false,
+      startAnimation: false
     }
   }
 
@@ -22,60 +23,63 @@ export default class PlatformSection extends Component {
     
   }
 
-  renderTitle() {
-    return (
-      <h2 style={{fontWeight: 'bold', margin: 0}}>
-        {platformTitle}
-      </h2>
-    )
-  }
-
   animnateSvg = () => {
-    this.setState({showSvg: true})
+    this.setState({showSvg: true, startAnimation: true})
   }
 
   render() {
     return (
-      <div style={styles.container}>
+      <div>
         <div span={12} offset={6}>
-          {this.renderTitle()}
+          <h2 style={{fontWeight: 'bold', margin: 0}}>
+            Position
+          </h2>
         </div>
         
-        <Row gutter={32} type={'flex'} onMouseEnter={this.animnateSvg} align={'middle'}>
-          <Col span={20} offset={4}>
-          <AnimatedSection
-            animationType={'slideFromLeft'}
-          >
-            <AnimatedSvg
-              path={'../../../assets/education.svg'}
-              style={{height: 500, width: 500}}
-              duration={500}
-              type={'delayed'}
-            />
-          </AnimatedSection>
+        <Row gutter={32} type={'flex'} onMouseOver={this.animnateSvg} align={'middle'}>
+          <Col
+            lg={{span: 8, offset: 4}}
+            xl={{span: 8, offset: 4}}
+            xs={{span: 12, offset: 6}} 
+            sm={{span: 12, offset: 6}} 
+            md={{span: 12, offset: 6}}
+          > 
+            <AnimatedSection
+              animationType={'slideFromLeft'}
+              startAnimation={this.state.startAnimation}
+            >
+              <AnimatedSvg
+                path={'../../../assets/education.svg'}
+                style={{height: 500, width: 500}}
+                duration={500}
+                type={'delayed'}
+                id={'educationSvg'}
+              />
+            </AnimatedSection>
+          </Col>
+          <Col
+            lg={{span: 8, offset: 2}}
+            xl={{span: 8, offset: 2}}
+            xs={{span: 12, offset: 6}} 
+            sm={{span: 12, offset: 6}} 
+            md={{span: 12, offset: 6}}
+          > 
+            <AnimatedSection
+              animationType={'slideFromRight'}
+              startAnimation={this.state.startAnimation}
+            >
+              <AnimatedSvg
+                path={'../../../assets/developers.svg'}
+                style={{height: 500, width: 500}}
+                duration={500}
+                type={'sync'}
+                id={'developersSvg'}
+              />
+            </AnimatedSection>
           </Col> 
         </Row>
       </div>
       )
     }
     
-}
-
-const platformTitle = 'Platform'
-
-
-const styles = {
-  container: {
-
-  },
-  columnContainer: {
-    display: 'flex', 
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  columns: {
-    margin: '20px',
-    maxWidth: '600px'
-  }
 }
