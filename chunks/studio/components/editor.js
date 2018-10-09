@@ -13,6 +13,8 @@ import { Snackbar } from 'rmwc/Snackbar'
 import { remote } from 'electron'
 import { Button, ButtonIcon } from 'rmwc/Button'
 import { Typography } from 'rmwc/Typography'
+import { Flipper, Flipped } from 'react-flip-toolkit'
+import { Transition, animated, Spring } from 'react-spring'
 
 const TabPane = Tabs.TabPane
 
@@ -92,13 +94,11 @@ export default class EditorComponent extends Component {
   }
 
   onSave () {
-    console.log('ON SA')
     try {
       fs.writeFileSync(path.resolve(this.props.dir, this.activeFile), this.state.content, 'utf8')
       this.cache[this.activeFile] = this.state.content
       this.setState({ snack: 'Changes saved', showSnack: true })
     } catch (error) {
-      console.log(error)
     }
   }
 
@@ -195,7 +195,7 @@ export default class EditorComponent extends Component {
       return <div />
     }
 
-    return <AceEditor
+    return this.animate(<AceEditor
       key='editor'
       ref={(e) => this.loadEditor(e)}
       width='100%'
@@ -203,11 +203,12 @@ export default class EditorComponent extends Component {
       mode={this.state.mode}
       theme='github'
       style={{
-        borderRight: '1px solid #EEEEEE',
-        borderLeft: '1px solid #EEEEEE',
-        borderBottom: `1px solid ${this.state.showEditor ? '#EEEEEE' : '#f5f5f5'}`,
+        padding: '0px',
+        backgroundColor: '#FFFFFF',
+        height: this.state.showEditor ? '100%' : '0px',
         display: 'flex',
-        height: `${this.state.showEditor ? '100%' : '0px'}`
+        paddingTop: this.state.showEditor ? '10px' : '0px',
+        marginTop: this.state.showEditor ? '0px' : '10px'
       }}
       showPrintMargin
       showGutter={false}
@@ -215,7 +216,13 @@ export default class EditorComponent extends Component {
       onChange={this._onContentChanged}
       value={this.state.content}
       wrapEnabled
-      editorProps={{ blockScrolling: true }} />
+      focus={this.state.showEditor}
+      readOnly={!this.state.showEditor}
+      editorProps={{ $blockScrolling: true }} />, {
+        opacity: this.state.showEditor ? 0.1 : 1
+      }, {
+        opacity: this.state.showEditor ? 1 : 0.1
+      })
   }
 
   get activeFile () {
@@ -243,18 +250,33 @@ export default class EditorComponent extends Component {
       return this.props.children
     }
 
-    return <Button key='more' onClick={() => this.setState({ showEditor: false })} style={{
-      color: '#FFFFFF',
-      backgroundColor: '#00bcd4',
-      margin: '10px 0px 10px 0px'
+    return <div style={{
+      display: 'flex',
+      padding: '20px',
+      backgroundColor: '#ffffff',
+      justifyContent: 'center',
+      width: '100%'
     }}>
-      { this.childrenAction }
-    </Button>
+      <Button key='more' onClick={() => this.setState({ showEditor: false })} style={{
+        color: '#FFFFFF',
+        backgroundColor: '#00bcd4'
+      }}>
+        { this.childrenAction }
+      </Button>
+    </div>
+  }
+
+  animate (element, from, to) {
+    const animatedElement = (styles) => <animated.div> { React.cloneElement(element, styles) } </animated.div>
+
+    return <Spring key={element.props.key} config={{ tension: 10, friction: 10 }} native from={from} to={to}>
+      { (styles) => <animated.div style={Object.assign({}, element.props.style, styles)}> { element } </animated.div> }
+    </Spring>
   }
 
   renderAlertMenu () {
-    return <div key='alertMenu' style={{
-      padding: '20px',
+    return this.animate(<div key='alertMenu' style={{
+      padding: '10px',
       textAlign: 'center',
       width: '100%'
     }}>
@@ -266,8 +288,7 @@ export default class EditorComponent extends Component {
       }}>
         {this.alertMessage}
       </Typography>
-
-    </div>
+    </div>, { opacity: 0 }, { opacity: 1 })
   }
 
   render () {
@@ -279,7 +300,7 @@ export default class EditorComponent extends Component {
     const tabs = Object.keys(this.openFiles).map(f => this.renderTab(f, this.openFiles[f], index++))
 
     return <div style={{
-      padding: '0px 10px 0px 10px',
+      padding: '0px',
       width: '100%',
       display: 'flex',
       flexDirection: 'column',
@@ -288,14 +309,13 @@ export default class EditorComponent extends Component {
       { this.renderAlertMenu() }
       <Tabs
         hideAdd
-        animated={false}
+        animated
         activeKey={this.activeFile}
         tabPosition='top'
         type='editable-card'
         tabBarStyle={{
-          padding: '0px',
+          padding: '0px 10px 0px 10px',
           margin: '0px',
-          marginBottom: `${this.state.showEditor ? 0 : 10}px`,
           flex: 1,
           width: '100%',
           display: 'flex'
