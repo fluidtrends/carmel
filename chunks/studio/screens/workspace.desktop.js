@@ -431,7 +431,7 @@ export default class Workspace extends Screen {
   renderScreenLayout () {
     const w = this.width
     const wSide = (w / 2)
-    const wContent = this.state.preview ? w : wSide
+    const wContent = this.state.preview ? w - 5 : wSide
 
     return <div style={{
       backgroundColor: '#f5f5f5',
