@@ -95,7 +95,7 @@ export default class Challenges extends Component {
       <List
         itemLayout='vertical'
         size='large'
-        dataSource={this.props.challenges.concat(this.props.challenges)}
+        dataSource={this.props.challenges}
         renderItem={item => this.renderChallenge(item)} />
     </div>
   }
