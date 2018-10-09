@@ -49,7 +49,7 @@ export default class EditorComponent extends Component {
   }
 
   loadEditor (e) {
-    if (this.editor) {
+    if (!e || this.editor) {
       return
     }
 
@@ -92,11 +92,13 @@ export default class EditorComponent extends Component {
   }
 
   onSave () {
+    console.log('ON SA')
     try {
       fs.writeFileSync(path.resolve(this.props.dir, this.activeFile), this.state.content, 'utf8')
       this.cache[this.activeFile] = this.state.content
       this.setState({ snack: 'Changes saved', showSnack: true })
     } catch (error) {
+      console.log(error)
     }
   }
 
@@ -189,25 +191,23 @@ export default class EditorComponent extends Component {
   }
 
   renderContent () {
-    if (!this.hasOpenFiles || !this.state.showEditor) {
+    if (!this.hasOpenFiles) {
       return <div />
     }
 
     return <AceEditor
       key='editor'
       ref={(e) => this.loadEditor(e)}
-      height='100%'
       width='100%'
       fontSize={14}
       mode={this.state.mode}
       theme='github'
       style={{
-        borderBottom: '1px solid #EEEEEE',
-        borderLeft: '1px solid #EEEEEE',
         borderRight: '1px solid #EEEEEE',
+        borderLeft: '1px solid #EEEEEE',
+        borderBottom: `1px solid ${this.state.showEditor ? '#EEEEEE' : '#f5f5f5'}`,
         display: 'flex',
-        height: '100%',
-        flex: 1
+        height: `${this.state.showEditor ? '100%' : '0px'}`
       }}
       showPrintMargin
       showGutter={false}
