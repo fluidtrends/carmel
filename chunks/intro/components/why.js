@@ -87,7 +87,7 @@ export default class WhySection extends Component {
                     )}
                   </Spring>
                   :
-                  <div style={{height: '200px'}}/>
+                  <div style={{height: '300px'}}/>
                 }
                   
                 </Col>
