@@ -2,7 +2,7 @@ import React from 'react'
 import { Component } from 'react-dom-chunky'
 import { Parallax } from 'react-spring'
 import Typist from 'react-typist'
-import { Button, ButtonIcon } from 'rmwc/Button'
+import { Button, ButtonIcon } from '@rmwc/button'
 
 export default class Info extends Component {
   constructor (props) {

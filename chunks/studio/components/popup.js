@@ -1,8 +1,8 @@
 import React from 'react'
 import { Component, Components } from 'react-dom-chunky'
 import { Modal, Button } from 'antd'
-import { Typography } from 'rmwc/Typography'
-import { Icon } from 'rmwc/Icon'
+import { Typography } from '@rmwc/typography'
+import { Icon } from '@rmwc/icon'
 import Prompt from './prompt'
 
 export default class Popup extends Component {

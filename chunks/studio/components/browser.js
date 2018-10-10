@@ -1,10 +1,10 @@
  import React from 'react'
  import { Component, Components } from 'react-dom-chunky'
- import { Card } from 'rmwc/Card'
+ import { Card } from '@rmwc/card'
  import { Input, Icon, Progress } from 'antd'
- import { Button, ButtonIcon } from 'rmwc/Button'
- import { Typography } from 'rmwc/Typography'
- import { LinearProgress } from 'rmwc/LinearProgress'
+ import { Button, ButtonIcon } from '@rmwc/button'
+ import { Typography } from '@rmwc/typography'
+ import { LinearProgress } from '@rmwc/linear-progress'
  import { Data } from 'react-chunky'
 
  const PROGRESS_CACHE = '_cacheProgressVideo'
@@ -52,6 +52,7 @@
    }
 
    get url () {
+     console.log(this.props.port)
      if (!this.props.port) {
        return 'http://localhost'
      }

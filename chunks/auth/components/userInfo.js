@@ -1,8 +1,8 @@
   import React from 'react'
   import { Component } from 'react-dom-chunky'
-  import { Typography } from 'rmwc/Typography'
-  import { Chip, ChipText, ChipIcon, ChipSet } from 'rmwc/Chip'
-  import { Button } from 'rmwc/Button'
+  import { Typography } from '@rmwc/typography'
+  import { Chip, ChipText, ChipIcon, ChipSet } from '@rmwc/chip'
+  import { Button } from '@rmwc/button'
   import { notification, Icon, Tooltip } from 'antd'
 
   const ReservedMessage = `Congrats on your reserved CARMEL tokens! To transfer them to your Carmel Wallet, please complete the claiming process below.`

@@ -1,9 +1,9 @@
 import React from 'react'
 import { Component, Components } from 'react-dom-chunky'
-import { Card } from 'rmwc/Card'
-import { Typography } from 'rmwc/Typography'
+import { Card } from '@rmwc/card'
+import { Typography } from '@rmwc/typography'
 import Typist from 'react-typist'
-import { Icon } from 'rmwc/Icon'
+import { Icon } from '@rmwc/icon'
 
 export default class Progress extends Component {
   constructor (props) {
@@ -37,12 +37,12 @@ export default class Progress extends Component {
         height: '300px',
         flex: 1
       }}>
-        <Icon 
-          icon="build"
+        <Icon
+          icon='build'
           style={{ color: '#00bcd4',
             fontSize: '40px',
             marginTop: '20px'
-          }} 
+          }}
         />
         <Typography use='title' tag='h2' style={{ color: '#00bcd4', textAlign: 'center' }}>
           { this.props.title }

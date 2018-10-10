@@ -1,6 +1,6 @@
 import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
-import { LinearProgress } from 'rmwc/LinearProgress'
+import { LinearProgress } from '@rmwc/linear-progress'
 import {
   Card,
   CardMedia,
@@ -15,9 +15,9 @@ import {
   CardSubtitle,
   CardSupportingText,
   CardHorizontalBlock
-} from 'rmwc/Card'
-import { Typography } from 'rmwc/Typography'
-import { ListDivider } from 'rmwc/List'
+} from '@rmwc/card'
+import { Typography } from '@rmwc/typography'
+import { ListDivider } from '@rmwc/list'
 
 export default class MainStoryScreen extends Screen {
   constructor (props) {

@@ -1,9 +1,9 @@
 import React from 'react'
 import { Screen } from 'react-dom-chunky'
 import { Steps } from 'antd'
-import { Typography } from 'rmwc/Typography'
-import { Card, CardActions, CardActionButtons } from 'rmwc/Card'
-import { Button } from 'rmwc/Button'
+import { Typography } from '@rmwc/typography'
+import { Card, CardActions, CardActionButtons } from '@rmwc/card'
+import { Button } from '@rmwc/button'
 import { Chart } from '../components'
 import Periods from '../data/periods'
 import Milestones from '../data/milestones'
@@ -14,17 +14,17 @@ const CurrentMilestoneId = 7
 const CurrentPeriodId = 1
 
 export default class RoadmapScreen extends Screen {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { ...this.state }
     this._details = (milestone) => this.details.bind(this, milestone)
   }
 
-  componentDidMount() {
+  componentDidMount () {
     super.componentDidMount()
   }
 
-  renderPeriod(period) {
+  renderPeriod (period) {
     const align = this.isSmallScreen ? 'left' : 'center'
     const description = <Typography use='subheading2' tag='h1' style={{
       color: '#90A4AE',
@@ -40,11 +40,11 @@ export default class RoadmapScreen extends Screen {
       description={description} />
   }
 
-  details(milestone) {
+  details (milestone) {
     this.triggerRawRedirect(`https://github.com/fluidtrends/carmel/milestone/${milestone.id}`)
   }
 
-  renderMilestone(milestone) {
+  renderMilestone (milestone) {
     const description = <div style={{
       marginRight: '30px'
     }}>
@@ -69,19 +69,19 @@ export default class RoadmapScreen extends Screen {
       description={description} />
   }
 
-  renderPeriods() {
+  renderPeriods () {
     return Periods.map(period => this.renderPeriod(period))
   }
 
-  renderMilestones() {
+  renderMilestones () {
     return Milestones.map(milestone => this.renderMilestone(milestone))
   }
 
-  renderChart() {
+  renderChart () {
     return <Chart isSmallScreen={this.isSmallScreen} />
   }
 
-  renderMainContent() {
+  renderMainContent () {
     const width = this.isSmallScreen ? '95vw' : '800px'
     const padding = this.isSmallScreen ? '2px' : '30px'
     const direction = this.isSmallScreen ? 'vertical' : 'horizontal'
@@ -133,7 +133,7 @@ export default class RoadmapScreen extends Screen {
     </div>)
   }
 
-  components() {
+  components () {
     return super.components().concat([this.renderMainContent()])
   }
 }

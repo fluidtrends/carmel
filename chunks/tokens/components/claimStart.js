@@ -1,8 +1,8 @@
 import React from 'react'
 import { Component, Components } from 'react-dom-chunky'
-import { Typography } from 'rmwc/Typography'
-import { Card, CardActionButtons, CardActions } from 'rmwc/Card'
-import { Button, ButtonIcon } from 'rmwc/Button'
+import { Typography } from '@rmwc/typography'
+import { Card, CardActionButtons, CardActions } from '@rmwc/card'
+import { Button, ButtonIcon } from '@rmwc/button'
 import { List, Icon, Form, Input, notification, Steps } from 'antd'
 import { Ethereum } from 'react-blockchain-chunky/lib'
 
@@ -10,17 +10,17 @@ const Step = Steps.Step
 const FormItem = Form.Item
 
 export default class ClaimComponent extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { ...super.state, loading: false, step: 0 }
     this._reserve = this.reserve.bind(this)
   }
 
-  componentDidMount() {
+  componentDidMount () {
     super.componentDidMount()
   }
 
-  onItemEdit(item) {
+  onItemEdit (item) {
     if (!this.state[item.id]) {
       notification.error({
         message: 'Missing username',
@@ -32,7 +32,7 @@ export default class ClaimComponent extends Component {
     this.props.onClaimAction && this.props.onClaimAction(item, { [item.id]: this.state[item.id] })
   }
 
-  claim(eosBalance) {
+  claim (eosBalance) {
     if (parseInt(eosBalance) === 0) {
       this.setState({ loading: false, error: 'You need to have an EOS stake' })
       return
@@ -41,7 +41,7 @@ export default class ClaimComponent extends Component {
     this.props.newClaim({ eosBalance, ethAddress: this.state.ethereumAddress })
   }
 
-  reserve() {
+  reserve () {
     if (!this.state.ethereumAddress) {
       this.setState({ error: 'Please enter your Ethereum Address first' })
       return
@@ -61,7 +61,7 @@ export default class ClaimComponent extends Component {
     }
   }
 
-  renderReservation() {
+  renderReservation () {
     const title = (this.props.period ? `Day ${this.props.period.data.day + 1}: ${this.props.period.data.tokens} CARMEL` : '')
 
     return <div>
@@ -117,7 +117,7 @@ export default class ClaimComponent extends Component {
     </div>
   }
 
-  renderError() {
+  renderError () {
     if (!this.state.error && !this.props.error) {
       return <div />
     }
@@ -139,7 +139,7 @@ export default class ClaimComponent extends Component {
     )
   }
 
-  renderComponent() {
+  renderComponent () {
     const width = this.props.isSmallScreen ? '95vw' : '600px'
     const padding = this.props.isSmallScreen ? '2px' : '30px'
 

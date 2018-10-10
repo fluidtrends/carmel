@@ -1,12 +1,12 @@
 import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
-import { Card, CardActions, CardActionButtons } from 'rmwc/Card'
-import { Button, ButtonIcon } from 'rmwc/Button'
+import { Card, CardActions, CardActionButtons } from '@rmwc/card'
+import { Button, ButtonIcon } from '@rmwc/button'
 import { List, Tabs, notification, Icon } from 'antd'
 import UserInfo from '../../auth/components/userInfo'
 import { Data } from 'react-chunky'
-import { ListDivider } from 'rmwc/List'
-import { Typography } from 'rmwc/Typography'
+import { ListDivider } from '@rmwc/list'
+import { Typography } from '@rmwc/typography'
 const TabPane = Tabs.TabPane
 
 export default class MainCommunityScreen extends Screen {

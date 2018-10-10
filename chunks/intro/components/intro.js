@@ -2,9 +2,9 @@ import React from 'react'
 import { Component, Components } from 'react-dom-chunky'
 import { Parallax } from 'react-spring'
 import Typist from 'react-typist'
-import { Button, ButtonIcon } from 'rmwc/Button'
-import { Icon, Progress } from "antd"
-import 'antd/dist/antd.css';
+import { Button, ButtonIcon } from '@rmwc/button'
+import { Icon, Progress } from 'antd'
+import 'antd/dist/antd.css'
 
 import Steemit from '../../tokens/components/steemit'
 import Telegram from '../../tokens/components/telegram'
@@ -24,7 +24,7 @@ const socialMediaLinks = {
 }
 
 export default class Welcome extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.state = { speaking: true }
@@ -32,46 +32,44 @@ export default class Welcome extends Component {
     this._onContinue = this.onContinue.bind(this)
   }
 
-  componentDidMount() {
+  componentDidMount () {
     super.componentDidMount()
     setTimeout(() => this.setState({ speaking: false }), 13000)
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
   }
 
-  onContinue() {
+  onContinue () {
     this.props.onContinue && this.props.onContinue()
   }
 
-  onStart() {
+  onStart () {
     this.props.onStart && this.props.onStart()
   }
 
-  timer(offset, speed) {
+  timer (offset, speed) {
     const periods = [
       {
-        until: "22 October 2018 00:00:00 PDT",
-        text: "Pre Sale Live Now!",
-        info: "Bonus For Every Purchase",
-        actionTitle: "Join the Presale",
+        until: '22 October 2018 00:00:00 PDT',
+        text: 'Pre Sale Live Now!',
+        info: 'Bonus For Every Purchase',
+        actionTitle: 'Join the Presale',
         onAction: this._onContinue
       }
     ]
 
     return [<div key='timer' offset={offset} speed={speed} style={{ marginTop: 150 }}>
-      <Components.Timer periods={periods} simple={true} />
+      <Components.Timer periods={periods} simple />
     </div>]
   }
 
-  sky(offset, speed) {
-    return [<div key='sky' offset={offset} speed={speed} style={styles.colorful}>
-    </div>]
+  sky (offset, speed) {
+    return [<div key='sky' offset={offset} speed={speed} style={styles.colorful} />]
   }
 
-  main(offset, speed) {
-
-    return <div offset={offset} className="wharever" speed={speed} style={styles.colorful}>
+  main (offset, speed) {
+    return <div offset={offset} className='wharever' speed={speed} style={styles.colorful}>
       <div style={{ opacity: 1.2, display: 'flex', flex: 2, justifyContent: 'space-between', padding: '100px 0 0 40px' }}>
         <div style={{ display: 'flex', flex: 1, flexDirection: 'column', alignItems: 'center' }}>
           {this.title()}
@@ -90,7 +88,7 @@ export default class Welcome extends Component {
     </div>
   }
 
-  title(offset, speed) {
+  title (offset, speed) {
     const fontSize = 18
     const color = '#FAFAFA'
 
@@ -105,17 +103,17 @@ export default class Welcome extends Component {
     </div>]
   }
 
-  status(offset, speed) {
+  status (offset, speed) {
     const fontSize = 18
     const textWidth = 420
     const color = '#FAFAFA'
 
     return [<div offset={offset} speed={speed} xstyle={{ opacity: 1.2 }}>
-      <Progress percent={30} strokeWidth={50} strokeColor="#66bb6a" style={{ width: 500 }} />
+      <Progress percent={30} strokeWidth={50} strokeColor='#66bb6a' style={{ width: 500 }} />
     </div>]
   }
 
-  videoTitle(offset, speed) {
+  videoTitle (offset, speed) {
     const fontSize = 18
     const textWidth = 420
     const color = '#fff'
@@ -133,7 +131,7 @@ export default class Welcome extends Component {
     </div>]
   }
 
-  subtitle(offset, speed) {
+  subtitle (offset, speed) {
     const fontSize = 18
     const color = '#FAFAFA'
 
@@ -142,14 +140,14 @@ export default class Welcome extends Component {
         color,
         textAlign: 'center',
         textShadow: '2px 2px 5px #607D8B',
-        fontSize: `${fontSize + 20}px`,
+        fontSize: `${fontSize + 20}px`
       }}>
         {intro}
       </h3>
     </div>]
   }
 
-  distribution(offset, speed) {
+  distribution (offset, speed) {
     const fontSize = 18
     const color = '#FAFAFA'
 
@@ -158,25 +156,25 @@ export default class Welcome extends Component {
         color,
         textAlign: 'center',
         textShadow: '2px 2px 5px #607D8B',
-        fontSize: `${fontSize + 10}px`,
+        fontSize: `${fontSize + 10}px`
       }}>
         {distributedTokens}
       </h3>
     </div>]
   }
 
-  video(offset, speed) {
+  video (offset, speed) {
     const fontSize = 18
     const textWidth = 420
     const color = '#FAFAFA'
 
     return [<div offset={offset} speed={speed} style={{ marginTop: 75, width: 850, height: 500, xborder: '1px solid #263238' }}>
 
-      <Components.Media video="https://www.youtube.com/watch?v=qrHBVDbrOOY" width={850} height={500} xstyle={{ border: '1px solid red' }} />
+      <Components.Media video='https://www.youtube.com/watch?v=qrHBVDbrOOY' width={850} height={500} xstyle={{ border: '1px solid red' }} />
     </div>]
   }
 
-  icons(offset, speed) {
+  icons (offset, speed) {
     const fontSize = 18
     const textWidth = 420
     const color = '#FAFAFA'
@@ -186,19 +184,19 @@ export default class Welcome extends Component {
     </div>]
   }
 
-  goto(url) {
+  goto (url) {
     window.open(socialMediaLinks[url], '_blank')
   }
 
-  renderIcons() {
+  renderIcons () {
     const socialNetworks = [
-      "twitter",
-      "youtube",
-      "github",
-      "linkedin",
-      "facebook",
-      "medium",
-      "instagram"
+      'twitter',
+      'youtube',
+      'github',
+      'linkedin',
+      'facebook',
+      'medium',
+      'instagram'
     ]
 
     const align = this.props.isSmallScreen ? 'center' : 'center'
@@ -210,15 +208,15 @@ export default class Welcome extends Component {
         return <div>
           <Icon
             key={key}
-            theme="twoTone"
+            theme='twoTone'
             type={key}
-            twoToneColor="#00bcd4"
-            className="icon"
+            twoToneColor='#00bcd4'
+            className='icon'
             onClick={this.goto.bind(this, key)}
             style={{
-              cursor: "pointer",
+              cursor: 'pointer',
               fontSize: 36,
-              padding: "10px"
+              padding: '10px'
             }} />
           <style jsx>{`
               div :global(.icon) {
@@ -232,7 +230,7 @@ export default class Welcome extends Component {
     </ div>
   }
 
-  render() {
+  render () {
     // const smallScreenLayout = [...this.sky(this.props.offset, 0),
     // ...this.title(this.props.offset + 0.1, 0.2),
     // ...this.timer(this.props.offset + 0.29, 0.2)]
