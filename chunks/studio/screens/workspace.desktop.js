@@ -443,6 +443,7 @@ export default class Workspace extends Screen {
       alignItems: 'center',
       justifyContent: 'center'
     }}>
+      { this.renderPopup() }
       <Layout key='workspace'
         style={{ height: '100vh' }}>
         <Sider
