@@ -1,9 +1,10 @@
   import React from 'react'
   import { Component } from 'react-dom-chunky'
-  import { Typography } from 'rmwc/Typography'
-  import { Chip, ChipText, ChipIcon, ChipSet } from 'rmwc/Chip'
-  import { Button } from 'rmwc/Button'
-  import { notification, Icon, Tooltip } from 'antd'
+  import { Typography } from '@rmwc/typography'
+  import { Chip, ChipText, ChipIcon, ChipSet } from '@rmwc/chip'
+  import { Button } from '@rmwc/button'
+  import { notification, Tooltip } from 'antd'
+  import { Icon } from '@rmwc/icon'
 
   const ReservedMessage = `Congrats on your reserved CARMEL tokens! To transfer them to your Carmel Wallet, please complete the claiming process below.`
 
@@ -175,17 +176,7 @@
               paddingBottom: '00px',
               marginBottom: '00px'
             }}>
-            <Typography
-              use='headline'
-              tag='h1'
-              style={{
-                display: 'flex',
-                flex: 1,
-                marginBottom: '10px',
-                justifyContent: 'flex-start'
-              }}>
-              <Icon style={{ fontSize: '24px' }} type='user' />
-            </Typography>
+
             <div style={{
               display: 'flex',
               flex: 10,
@@ -194,8 +185,9 @@
               flexDirection: 'column',
               alignItems: 'left'
             }}>
+
               <Typography
-                use='title'
+                use='headline5'
                 tag='h1'
                 style={{
                   display: 'flex',

@@ -1,16 +1,16 @@
 import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
-import { Button, ButtonIcon } from 'rmwc/Button'
+import { Button, ButtonIcon } from '@rmwc/button'
 
 export default class MainWhitepaperScreen extends Screen {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { ...this.state }
     this._onSectionSelect = this.onSectionSelect.bind(this)
     this._onSectionNavigate = this.onSectionNavigate.bind(this)
   }
 
-  componentDidMount() {
+  componentDidMount () {
     super.componentDidMount()
 
     this.importRemoteData(this.props.variants).then(sections => {
@@ -27,7 +27,7 @@ export default class MainWhitepaperScreen extends Screen {
     })
   }
 
-  refreshSection() {
+  refreshSection () {
     var section = this.sections[0]
 
     if (this.isRootPath) {
@@ -45,7 +45,7 @@ export default class MainWhitepaperScreen extends Screen {
     this.setState({ section })
   }
 
-  prev() {
+  prev () {
     const section = this.state.section
 
     if (section.id === 0) {
@@ -54,7 +54,7 @@ export default class MainWhitepaperScreen extends Screen {
     return this.sections[this.state.section.id - 1]
   }
 
-  next() {
+  next () {
     const section = this.state.section
 
     if (section.id === this.sections.length) {
@@ -63,16 +63,16 @@ export default class MainWhitepaperScreen extends Screen {
     return this.sections[this.state.section.id + 1]
   }
 
-  get sections() {
+  get sections () {
     return this._sections || []
   }
 
-  onSectionSelect(section) {
+  onSectionSelect (section) {
     this.setState({ section })
     // this.triggerRedirect(`${this.props.path}/${section.path}`)
   }
 
-  onSectionNavigate(direction) {
+  onSectionNavigate (direction) {
     let section
     if (direction === 1) {
       section = this.next()
@@ -83,18 +83,18 @@ export default class MainWhitepaperScreen extends Screen {
     // this.triggerRedirect(`${this.props.path}/${section.path}`)
   }
 
-  download(lang) {
+  download (lang) {
     window.open(`http://files.carmel.io/whitepaper/${lang}.pdf`, '_blank')
   }
 
-  renderDownload() {
+  renderDownload () {
     return <div style={{ display: 'flex', flex: 1, padding: 10 }}>
       <Button onClick={this.download.bind(this, 'en')} style={{ marginRight: 10 }} >Download whitepaper</Button>
       <Button onClick={this.download.bind(this, 'ch')}>下载</Button>
     </div>
   }
 
-  components() {
+  components () {
     return [
       this.renderDownload(),
       <Components.Dashboard

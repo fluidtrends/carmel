@@ -28,7 +28,7 @@ export default class Intro extends Component {
     this._onContinue = this.onContinue.bind(this)
   }
 
-  componentDidMount() {
+  componentDidMount () {
     super.componentDidMount()
 
     let b = baffle('h1', {
@@ -41,24 +41,24 @@ export default class Intro extends Component {
 
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
   }
 
-  onContinue() {
+  onContinue () {
     this.props.onContinue && this.props.onContinue()
   }
 
-  onStart() {
+  onStart () {
     this.props.onStart && this.props.onStart()
   }
 
   timer() {
     const periods = [
       {
-        until: "22 October 2018 00:00:00 PDT",
-        text: "Pre Sale Live Now!",
-        info: "Bonus For Every Purchase",
-        actionTitle: "Join the Presale",
+        until: '22 October 2018 00:00:00 PDT',
+        text: 'Pre Sale Live Now!',
+        info: 'Bonus For Every Purchase',
+        actionTitle: 'Join the Presale',
         onAction: this._onContinue
       }
     ]
@@ -183,7 +183,7 @@ export default class Intro extends Component {
         color,
         textAlign: 'center',
         textShadow: '2px 2px 5px #607D8B',
-        fontSize: `${fontSize + 10}px`,
+        fontSize: `${fontSize + 10}px`
       }}>
         {distributedTokens}
       </h3>
@@ -217,19 +217,19 @@ export default class Intro extends Component {
     </div>]
   }
 
-  goto(url) {
+  goto (url) {
     window.open(socialMediaLinks[url], '_blank')
   }
 
-  renderIcons() {
+  renderIcons () {
     const socialNetworks = [
-      "twitter",
-      "youtube",
-      "github",
-      "linkedin",
-      "facebook",
-      "medium",
-      "instagram"
+      'twitter',
+      'youtube',
+      'github',
+      'linkedin',
+      'facebook',
+      'medium',
+      'instagram'
     ]
 
     const align = this.props.isSmallScreen ? 'center' : 'center'
@@ -241,15 +241,15 @@ export default class Intro extends Component {
         return <div>
           <Icon
             key={key}
-            theme="twoTone"
+            theme='twoTone'
             type={key}
-            twoToneColor="#00bcd4"
-            className="icon"
+            twoToneColor='#00bcd4'
+            className='icon'
             onClick={this.goto.bind(this, key)}
             style={{
-              cursor: "pointer",
+              cursor: 'pointer',
               fontSize: 36,
-              padding: "10px"
+              padding: '10px'
             }} />
           <style jsx>{`
               div :global(.icon) {
@@ -263,7 +263,7 @@ export default class Intro extends Component {
     </ div>
   }
 
-  render() {
+  render () {
     // const smallScreenLayout = [...this.sky(this.props.offset, 0),
     // ...this.title(this.props.offset + 0.1, 0.2),
     // ...this.timer(this.props.offset + 0.29, 0.2)]

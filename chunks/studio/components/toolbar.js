@@ -1,9 +1,9 @@
 import React from 'react'
 import { Component, Components } from 'react-dom-chunky'
 import { Dropdown, Menu, Icon } from 'antd'
-import { Button, ButtonIcon } from 'rmwc/Button'
-import { Fab } from 'rmwc/Fab'
-import { Elevation } from 'rmwc/Elevation'
+import { Button, ButtonIcon } from '@rmwc/button'
+import { Fab } from '@rmwc/fab'
+import { Elevation } from '@rmwc/elevation'
 
 const SubMenu = Menu.SubMenu
 const ItemGroup = Menu.ItemGroup

@@ -1,10 +1,10 @@
  import React from 'react'
  import { Component, Components } from 'react-dom-chunky'
- import { Card } from 'rmwc/Card'
+ import { Card } from '@rmwc/card'
  import { Input, Icon, Progress } from 'antd'
- import { Button, ButtonIcon } from 'rmwc/Button'
- import { Typography } from 'rmwc/Typography'
- import { LinearProgress } from 'rmwc/LinearProgress'
+ import { Button, ButtonIcon } from '@rmwc/button'
+ import { Typography } from '@rmwc/typography'
+ import { LinearProgress } from '@rmwc/linear-progress'
  import { Data } from 'react-chunky'
 
  const PROGRESS_CACHE = '_cacheProgressVideo'
@@ -27,6 +27,32 @@
 
    loaded (ref) {
      this._webview = ref
+
+     if (!this.webview) {
+       return
+     }
+
+     console.log('LOADED BROWSER')
+
+     this.webview.addEventListener('dom-ready', () => {
+       console.log('dom-ready')
+     })
+
+     this.webview.addEventListener('did-navigate-in-page', (e, page) => {
+       console.log('did-navigate-in-page', page)
+     })
+
+     this.webview.addEventListener('will-navigate', (e, page) => {
+       console.log('will-navigate', page)
+     })
+
+     this.webview.addEventListener('did-start-loading', () => {
+       console.log('did-start-loading')
+     })
+
+     this.webview.addEventListener('did-stop-loading', () => {
+       console.log('did-stop-loading')
+     })
    }
 
    get webview () {
@@ -137,17 +163,6 @@
            flex: 1
          }} />
      </div>
-   }
-
-   renderWebview () {
-     return <webview
-       key='webview'
-       ref={this._loaded}
-       src={this.url} style={{
-         display: 'flex',
-         width: '100%',
-         flex: 1
-       }} />
    }
 
    get canPublish () {
@@ -305,6 +320,17 @@
      return <LinearProgress key='divider' progress={percentage} />
    }
 
+   renderWebview () {
+     return <webview
+       key='webview'
+       ref={this._loaded}
+       src={this.url} style={{
+         display: 'flex',
+         width: '100%',
+         flex: 1
+       }} />
+   }
+
    renderMainBrowserContent () {
      if (!this.isLongRunning) {
        if (this.state.progressVideoTime) {
@@ -318,15 +344,14 @@
 
    render () {
      const style = Object.assign({}, {
-       height: '100vh',
+       height: '100%',
        display: 'flex',
        flex: 1,
        width: '100%',
        justifyContent: 'center',
        alignItems: 'center',
-       padding: '20px',
-       flexDirection: 'column',
-       backgroundColor: '#f5f5f5'
+       padding: 0,
+       flexDirection: 'column'
      })
 
      return <div key='browserContainer' style={style}>

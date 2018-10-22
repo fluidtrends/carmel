@@ -3,7 +3,7 @@
   "routes": {
     "workspace": {
       "title": "Workspace",
-      "icon": "appstore",
+      "icon": "dashboard",
       "path": "/workspace",
       "layoutBackground": "#f5f500",
       "cover": {
@@ -19,32 +19,77 @@
             "onSuccess": "sessionSynced",
             "onError": "failedToSyncSession"
           }
+        ],
+        "refreshAccount": [
+          "firebase://retrieve/users/:userId#getAccount",
+          {
+            "onSuccess": "accountSuccess",
+            "onError": "accountError"
+          }
+        ],
+        "refreshProfile": [
+          "firebase://retrieve/users-profiles/:userId?latest=1&resolve=profiles#getProfile",
+          {
+            "onSuccess": "profileSuccess",
+            "onError": "accountError"
+          }
+        ],
+        "refreshWallet": [
+          "firebase://retrieve/users-wallets/:userId?latest=1&resolve=wallets#wallet",
+          {
+            "onSuccess": "walletSuccess",
+            "onError": "accountError"
+          }
         ]
       }
     },
-    "community": {
-      "title": "Carmel Community",
-      "icon": "appstore",
-      "path": "/community",
-      "layoutBackground": "#f5f500",
-      "cover": {
-        "backgroundColor": "#00838F",
-        "navigation": true,
-        "type": "menu"
-      },
+    "notifications": {
+      "title": "Notifications",
+      "icon": "notifications",
+      "path": "/notifications",
       "startOperationsOnMount": false
     },
-    "bounties": {
-      "title": "Carmel Bounties",
-      "icon": "appstore",
-      "path": "/bounties",
-      "layoutBackground": "#f5f500",
-      "cover": {
-        "backgroundColor": "#00838F",
-        "navigation": true,
-        "type": "menu"
-      },
+    "support": {
+      "title": "Support",
+      "icon": "help",
+      "path": "/support",
       "startOperationsOnMount": false
+    },
+    "resources": {
+      "title": "Resources",
+      "icon": "library_books",
+      "path": "/resources",
+      "startOperationsOnMount": false
+    },
+    "achievements": {
+      "title": "achievements",
+      "icon": "stars",
+      "path": "/achievements",
+      "startOperationsOnMount": false,
+      "operations": {
+        "refreshWallet": [
+          "firebase://retrieve/users-wallets/:userId?latest=1&resolve=wallets#getWallet",
+          {
+            "onSuccess": "refreshedWallet",
+            "onError": "failedToRefreshWallet"
+          }
+        ]
+      }
+    },
+    "bounties": {
+      "title": "Bounties",
+      "icon": "monetization_on",
+      "path": "/bounties",
+      "startOperationsOnMount": false,
+      "operations": {
+        "refreshWallet": [
+          "firebase://retrieve/users-wallets/:userId?latest=1&resolve=wallets#getWallet",
+          {
+            "onSuccess": "refreshedWallet",
+            "onError": "failedToRefreshWallet"
+          }
+        ]
+      }
     },
     "new": {
       "title": "New Product",

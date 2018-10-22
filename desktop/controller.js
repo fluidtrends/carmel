@@ -3,6 +3,10 @@ const _name = 'carmelstudio'
 const Session = require('./session')
 const chokidar = require('chokidar')
 const { downloadArchive } = require('./utils')
+const express = require('express')
+const router = express.Router()
+const app = express()
+const bodyParser = require('body-parser')
 
 const session = new Session()
 
@@ -55,6 +59,7 @@ const start = ({ ipcMain, mainWindow }) => {
               resolve(data)
             })
             .catch((error) => {
+              console.log(error)
               console.log(`[${_name}] could not start`)
               reject(error)
             })

@@ -1,11 +1,11 @@
 import React from 'react'
 import { Component, Components } from 'react-dom-chunky'
-import { Card, CardActions } from 'rmwc/Card'
-import { Button, ButtonIcon } from 'rmwc/Button'
-import { ListDivider } from 'rmwc/List'
-import { Typography } from 'rmwc/Typography'
+import { Card, CardActions } from '@rmwc/card'
+import { Button, ButtonIcon } from '@rmwc/button'
+import { ListDivider } from '@rmwc/list'
+import { Typography } from '@rmwc/typography'
 import { List, Avatar, Rate, Progress, Row, Col, Icon } from 'antd'
-import { Chip, ChipText, ChipIcon, ChipSet } from 'rmwc/Chip'
+import { Chip, ChipText, ChipIcon, ChipSet } from '@rmwc/chip'
 
 const LEVELS = ['Beginner', 'Entry', 'Intermediate', 'Advanced', 'Expert']
 
@@ -21,9 +21,9 @@ export default class ChallengeHeader extends Component {
   }
 
   renderSkills () {
-    return <Typography use='body1' tag='div' style={{
+    return <Typography use='headline5' tag='div' style={{
       color: '#90A4AE',
-      textAlign: 'center',
+      textAlign: 'left',
       padding: '0px'
     }}>
       <ChipSet style={{ margin: '0px' }}>

@@ -1,10 +1,10 @@
 import React from 'react'
 import { Typography } from '@rmwc/typography'
-import Screen from '../../../chunks/studio/screens/base.desktop'
+import Screen from './base.desktop'
 import { Button, ButtonIcon } from '@rmwc/button'
 import UserInfo from '../../../chunks/auth/components/userInfo'
 
-export default class ProfileScreen extends Screen {
+export default class AchivementsScreen extends Screen {
   constructor (props) {
     super(props)
     this.state = { ...super.state }
@@ -24,6 +24,11 @@ export default class ProfileScreen extends Screen {
         wallet={this.account.user.wallet}
         redirect={this.triggerRawRedirect}
         account={this.account} />
+      {
+        this.renderScreenMainMessage({
+          message: 'No achievements yet.'
+        })
+      }
     </div>)
   }
 }

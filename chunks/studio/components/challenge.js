@@ -1,13 +1,13 @@
 import React from 'react'
 import { Component, Components } from 'react-dom-chunky'
-import { Card, CardActions, CardActionButtons } from 'rmwc/Card'
-import { Button, ButtonIcon } from 'rmwc/Button'
-import { Typography } from 'rmwc/Typography'
+import { Card, CardActions, CardActionButtons } from '@rmwc/card'
+import { Button, ButtonIcon } from '@rmwc/button'
+import { Typography } from '@rmwc/typography'
 import { List, Avatar, IconText, Progress, Tag, Rate, Spin, Icon, notification, Badge } from 'antd'
-import { Chip, ChipText, ChipIcon, ChipSet } from 'rmwc/Chip'
-import { Elevation } from 'rmwc/Elevation'
+import { Chip, ChipText, ChipIcon, ChipSet } from '@rmwc/chip'
+import { Elevation } from '@rmwc/elevation'
 import { Data } from 'react-chunky'
-import { ListDivider } from 'rmwc/List'
+import { ListDivider } from '@rmwc/list'
 import Task from './task'
 import Shell from './shell'
 import Prompt from './prompt'
@@ -304,12 +304,21 @@ export default class Challenge extends Component {
 
   render () {
     return <div style={{
-      width: '380px',
+      width: '100%',
       alignSelf: 'center',
-      marginBottom: '10px'
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      display: 'flex'
     }}>
-      { this.renderContent() }
-      { this.renderFooter() }
+      <div style={{
+        width: '450px',
+        alignSelf: 'center',
+        marginBottom: '10px'
+      }}>
+        { this.renderContent() }
+        { this.renderFooter() }
+      </div>
     </div>
   }
 

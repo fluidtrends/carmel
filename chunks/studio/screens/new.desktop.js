@@ -33,9 +33,11 @@ export default class New extends Screen {
   renderScreenLayout () {
     return <div style={{
       backgroundColor: '#f5f5f5',
-      display: 'flex',
+      display: 'block',
       flex: 1,
+      overflow: 'scroll',
       height: '100vh',
+      padding: '20px',
       alignItems: 'center',
       justifyContent: 'center'
     }}>

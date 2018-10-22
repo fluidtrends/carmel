@@ -1,4 +1,7 @@
 export { default as new } from './new.desktop'
 export { default as workspace } from './workspace.desktop'
-export { default as community } from './community.desktop'
+export { default as notifications } from './notifications.desktop'
 export { default as bounties } from './bounties.desktop'
+export { default as support } from './support.desktop'
+export { default as resources } from './resources.desktop'
+export { default as achievements } from './achievements.desktop'

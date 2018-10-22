@@ -1,22 +1,22 @@
-import React from "react"
-import { Screen, Components } from "react-dom-chunky"
-import { Card } from "rmwc/Card"
-import UserInfo from "../../auth/components/userInfo"
+import React from 'react'
+import { Screen, Components } from 'react-dom-chunky'
+import { Card } from '@rmwc/card'
+import UserInfo from '../../auth/components/userInfo'
 import {
   Checkout,
   ClaimStart,
   ClaimContinue,
   ClaimValidate
-} from "../components"
-import { Typography } from "rmwc/Typography"
-import { List, Icon, notification } from "antd"
+} from '../components'
+import { Typography } from '@rmwc/typography'
+import { List, Icon, notification } from 'antd'
 
-import moment from "moment"
+import moment from 'moment'
 
-const ClaimPeriod = "AirDrop"
+const ClaimPeriod = 'AirDrop'
 
 export default class PrivateTokensScreen extends Screen {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       ...this.state,
@@ -32,7 +32,7 @@ export default class PrivateTokensScreen extends Screen {
     this._onStartValidation = this.onStartValidation.bind(this)
   }
 
-  componentDidMount() {
+  componentDidMount () {
     super.componentDidMount()
 
     setTimeout(() => {
@@ -40,27 +40,27 @@ export default class PrivateTokensScreen extends Screen {
     }, 300)
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     super.componentWillMount()
   }
 
-  onVerifyAccount() {
-    this.triggerRedirect("/me")
+  onVerifyAccount () {
+    this.triggerRedirect('/me')
   }
 
-  transactionVerifiedOk(data) {
+  transactionVerifiedOk (data) {
     this.setState({ verifying: false })
   }
 
-  transactionVerifiedError(error) {
+  transactionVerifiedError (error) {
     this.setState({ verifying: false, verifyingError: error })
   }
 
-  getPurchasesSuccess(purchases) {
+  getPurchasesSuccess (purchases) {
     this.setState({ purchases: purchases.filter(p => !Array.isArray(p)) })
   }
 
-  getClaimsSuccess(claims) {
+  getClaimsSuccess (claims) {
     var totalClaimed = 0
     const all = claims.filter(c => !Array.isArray(c)).filter(c => !c.verified)
 
@@ -73,20 +73,20 @@ export default class PrivateTokensScreen extends Screen {
     this.setState({ claims: all, totalClaimed })
   }
 
-  getProfileSuccess(profile) {
+  getProfileSuccess (profile) {
     const account = Object.assign({}, this.account.user, profile[0])
     this.setState({ account })
   }
 
-  getTransactionsSuccess(transactions) {
+  getTransactionsSuccess (transactions) {
     this.setState({ transactions: transactions.filter(t => !Array.isArray(t)) })
   }
 
-  getWalletSuccess(wallet) {
+  getWalletSuccess (wallet) {
     this.setState({ wallet: wallet[0] })
   }
 
-  renderTransactionItem(item) {
+  renderTransactionItem (item) {
     return (
       <List.Item actions={this.renderTransactionItemActions(item)}>
         <List.Item.Meta
@@ -98,60 +98,60 @@ export default class PrivateTokensScreen extends Screen {
     )
   }
 
-  renderTransactionItemActions(item) {
+  renderTransactionItemActions (item) {
     return item.actions.map(action => (
       <Typography
-        use="caption"
-        tag="h2"
-        style={{ color: action.id === "verified" ? "#4CAF50" : "#B0BEC5" }}
+        use='caption'
+        tag='h2'
+        style={{ color: action.id === 'verified' ? '#4CAF50' : '#B0BEC5' }}
       >
         {action.title}
       </Typography>
     ))
   }
 
-  claimData(claim) {
+  claimData (claim) {
     if (!claim) {
       return
     }
 
     return Object.assign({}, claim, {
-      title: `${claim.tokens.toLocaleString("en")} CARMEL`,
-      type: "claim",
-      details: moment(claim.timestamp).format("MMM Do, YYYY h:mm a"),
-      actions: [{ id: "verified", icon: "report", title: "Tokens Reserved" }]
+      title: `${claim.tokens.toLocaleString('en')} CARMEL`,
+      type: 'claim',
+      details: moment(claim.timestamp).format('MMM Do, YYYY h:mm a'),
+      actions: [{ id: 'verified', icon: 'report', title: 'Tokens Reserved' }]
     })
   }
 
-  purchaseData(purchase) {
+  purchaseData (purchase) {
     if (!purchase) {
       return
     }
 
     return Object.assign({}, purchase, {
-      title: `${purchase.tokens.toLocaleString("en")} CARMEL`,
-      type: "purchase",
-      details: moment(purchase.timestamp).format("MMM Do, YYYY h:mm a"),
+      title: `${purchase.tokens.toLocaleString('en')} CARMEL`,
+      type: 'purchase',
+      details: moment(purchase.timestamp).format('MMM Do, YYYY h:mm a'),
       actions: [
-        { id: "unverified", icon: "exclamation", title: "Purchase Pending" }
+        { id: 'unverified', icon: 'exclamation', title: 'Purchase Pending' }
       ]
     })
   }
 
-  transactionData(transaction) {
+  transactionData (transaction) {
     if (!transaction) {
       return
     }
 
     return Object.assign({}, transaction, {
-      title: `${transaction.tokens.toLocaleString("en")} CARMEL`,
-      type: "transaction",
-      details: moment(transaction.timestamp).format("MMM Do, YYYY h:mm a"),
-      actions: [{ id: "verified", icon: "check", title: "Tokens Purchased" }]
+      title: `${transaction.tokens.toLocaleString('en')} CARMEL`,
+      type: 'transaction',
+      details: moment(transaction.timestamp).format('MMM Do, YYYY h:mm a'),
+      actions: [{ id: 'verified', icon: 'check', title: 'Tokens Purchased' }]
     })
   }
 
-  get transactionsData() {
+  get transactionsData () {
     return this.state.transactions
       .map(transaction => this.transactionData(transaction))
       .concat(this.state.purchases.map(purchase => this.purchaseData(purchase)))
@@ -159,7 +159,7 @@ export default class PrivateTokensScreen extends Screen {
       .sort((a, b) => a.timestamp < b.timestamp)
   }
 
-  renderTransactionHistory(width, padding) {
+  renderTransactionHistory (width, padding) {
     const data = this.transactionsData
 
     if (data.length === 0) {
@@ -167,21 +167,21 @@ export default class PrivateTokensScreen extends Screen {
     }
 
     return (
-      <Card style={{ width, margin: "10px", marginTop: "30px", padding: 10 }}>
+      <Card style={{ width, margin: '10px', marginTop: '30px', padding: 10 }}>
         <Icon
-          type="calendar"
+          type='calendar'
           style={{
-            fontSize: "48px",
-            color: "#607D8B",
-            padding: "10px"
+            fontSize: '48px',
+            color: '#607D8B',
+            padding: '10px'
           }}
         />
-        <Typography use="title" tag="h2">
+        <Typography use='title' tag='h2'>
           Transactions History
         </Typography>
         <List
-          style={{ marginTop: "20px" }}
-          itemLayout="horizontal"
+          style={{ marginTop: '20px' }}
+          itemLayout='horizontal'
           dataSource={data}
           renderItem={this._renderTransactionItem}
         />
@@ -189,27 +189,27 @@ export default class PrivateTokensScreen extends Screen {
     )
   }
 
-  onCancelValidation() {
+  onCancelValidation () {
     this.setState({ startValidation: false })
   }
 
-  onStartValidation() {
+  onStartValidation () {
     this.setState({ startValidation: true })
   }
 
-  renderClaimStep() {
+  renderClaimStep () {
     return <div />
   }
 
-  updateProfileOk(data) {
-    console.log("updateProfileOk", data)
+  updateProfileOk (data) {
+    console.log('updateProfileOk', data)
   }
 
-  updateProfileError(error) {
-    console.log("updateProfileError", error)
+  updateProfileError (error) {
+    console.log('updateProfileError', error)
   }
 
-  onClaimAction(item, data) {
+  onClaimAction (item, data) {
     setTimeout(() => {
       this.props.updateProfile(data)
     }, 300)
@@ -217,7 +217,7 @@ export default class PrivateTokensScreen extends Screen {
     this.triggerRawRedirect(item.url)
   }
 
-  subscriptionArgs(subscription) {
+  subscriptionArgs (subscription) {
     if (!subscription || !this.account) {
       return {}
     }
@@ -225,21 +225,21 @@ export default class PrivateTokensScreen extends Screen {
     return { userId: this.account.user.uid }
   }
 
-  get isSocialMediaComplete() {
+  get isSocialMediaComplete () {
     if (!this.state.account) {
       return
     }
 
     const socialNetworks = [
-      "telegram",
-      "twitter",
-      "youtube",
-      "facebook",
-      "medium",
-      "steemit",
-      "linkedin",
-      "instagram",
-      "github"
+      'telegram',
+      'twitter',
+      'youtube',
+      'facebook',
+      'medium',
+      'steemit',
+      'linkedin',
+      'instagram',
+      'github'
     ]
 
     let socialNetworkIndex = 0
@@ -253,9 +253,9 @@ export default class PrivateTokensScreen extends Screen {
     return socialNetworkIndex >= 5
   }
 
-  renderClaim() {
+  renderClaim () {
     if (!this.state.period || !this.state.account) {
-      return <Components.Loading message="Loading claim period details ..." />
+      return <Components.Loading message='Loading claim period details ...' />
     }
 
     if (!this.state.claim && !this.state.totalClaimed) {
@@ -298,28 +298,28 @@ export default class PrivateTokensScreen extends Screen {
     )
   }
 
-  renderMainContent() {
+  renderMainContent () {
     if (this.state.verifying) {
       return (
-        <Components.Loading message="Verifying, please hold on a sec ..." />
+        <Components.Loading message='Verifying, please hold on a sec ...' />
       )
     }
 
-    const width = this.isSmallScreen ? "95vw" : "600px"
-    const padding = this.isSmallScreen ? "5px" : "30px"
+    const width = this.isSmallScreen ? '95vw' : '600px'
+    const padding = this.isSmallScreen ? '5px' : '30px'
 
     return (
       <div
         style={{
-          display: "flex",
+          display: 'flex',
           flex: 1,
-          justifyContent: "center",
+          justifyContent: 'center',
           overflow: 'hidden',
-          flexDirection: "column",
-          alignItems: "center"
+          flexDirection: 'column',
+          alignItems: 'center'
         }}
       >
-        <Card style={{ width, margin: "10px", padding }}>
+        <Card style={{ width, margin: '10px', padding }}>
           <UserInfo
             onVerifyAccount={this._onVerifyAccount}
             redirect={this.triggerRawRedirect}
@@ -343,7 +343,7 @@ export default class PrivateTokensScreen extends Screen {
     )
   }
 
-  transactionOk(transaction) {
+  transactionOk (transaction) {
     if (transaction.error) {
       this.setState({ error: transaction.error })
       return
@@ -352,11 +352,11 @@ export default class PrivateTokensScreen extends Screen {
     this.setState({ transaction })
   }
 
-  transactionError(error) {
+  transactionError (error) {
     this.setState({ error: error.message })
   }
 
-  gotPeriod(period) {
+  gotPeriod (period) {
     if (period.data.error) {
       this.setState({ periodError: period.data.error })
       return
@@ -365,33 +365,33 @@ export default class PrivateTokensScreen extends Screen {
     this.setState({ period })
   }
 
-  periodError(error) {
+  periodError (error) {
     this.setState({ periodError: error.message })
   }
 
-  claimOk(claim) {
+  claimOk (claim) {
     if (claim.data && claim.data.error) {
       notification.error({
-        message: "Your Claim Request Failed",
+        message: 'Your Claim Request Failed',
         description: claim.data.error
       })
-      this.setState({ claim: "", claimError: claim.data.error })
+      this.setState({ claim: '', claimError: claim.data.error })
       return
     }
 
     notification.success({
-      message: "Your Reservation Was Successful",
-      description: "Continue the Claiming Process to activate your claim."
+      message: 'Your Reservation Was Successful',
+      description: 'Continue the Claiming Process to activate your claim.'
     })
 
-    this.setState({ claim, claimError: "" })
+    this.setState({ claim, claimError: '' })
   }
 
-  claimError(error) {
+  claimError (error) {
     this.setState({ error: error.message })
   }
 
-  components() {
+  components () {
     return [this.renderMainContent()]
   }
 }

@@ -6,7 +6,7 @@ import { BuyModal } from '../components'
 import Intro from '../components/intro'
 
 export default class MainIntroScreen extends Screen {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { ...this.state, showModal: false }
 
@@ -18,7 +18,7 @@ export default class MainIntroScreen extends Screen {
     this._showTeam = this.showTeam.bind(this)
   }
 
-  componentDidMount() {
+  componentDidMount () {
     super.componentDidMount()
   }
 
@@ -26,48 +26,65 @@ export default class MainIntroScreen extends Screen {
     this.triggerRedirect('/tokens')
   }
 
-  meetChris() {
+  meetChris () {
     this.triggerRedirect('/whitepaper')
   }
 
-  showTeam() {
+  showTeam () {
     this.triggerRedirect('/team')
   }
 
-  onContinue(index) {
+  onContinue (index) {
     this.scroller.scrollTo(index)
   }
 
-  download() {
+  download () {
     this.triggerRedirect('/download')
   }
 
-
-  renderDefault() {
-    return <div
-    >
+  renderDefault () {
+    // <Studio
+    //   session={this.props.session}
+    //   offset={1}
+    //   onContinue={this._download} /> */}
+    // <Tokens
+    //   session={this.props.session}
+    //   offset={1}
+    //   triggerRawRedirect={this.triggerRawRedirect}
+    //   newTransaction={this.props.newTransaction}
+    //   onCancel={this._onModalClose}
+    //   transaction={this.state.transaction}
+    //   account={this.props.account}
+    //   isSmallScreen={this.isSmallScreen}
+    // />
+    // <Team
+    //   session={this.props.session}
+    //   isSmallScreen={this.isSmallScreen}
+    //   offset={2}
+    // />
+    return <div>
       <Intro
         offset={0}
         isSmallScreen={this.isSmallScreen}
         onStart={this._onStart}
-        onContinue={this._onContinue.bind(this, 1)} 
+        onContinue={this._onContinue.bind(this, 1)}
       />
     </div>
   }
 
-  get height() {
+  get height () {
     return '100vh'
   }
 
-  get isSmallScreen() {
+  get isSmallScreen () {
     return this.state.width < 1224
   }
 
-  get telegram() {
+  get telegram () {
     return (<Telegram onAction={() => { this.triggerRawRedirect('https://t.me/carmelplatform') }} />)
   }
 
-  transactionOk(transaction) {
+  transactionOk (transaction) {
     if (transaction.error) {
       this.setState({ error: transaction.error })
       return
@@ -76,17 +93,17 @@ export default class MainIntroScreen extends Screen {
     this.setState({ transaction })
   }
 
-  transactionError(error) {
+  transactionError (error) {
     this.setState({ error: error.message })
   }
 
-  components() {
+  components () {
     const features = super.components()
     return [ this.renderDefault(), ...features, this.telegram]
 
   }
 
-  onModalClose() {
+  onModalClose () {
     this.setState({ showModal: false })
   }
 

@@ -59,7 +59,7 @@ export default class AnimatedSection extends Component {
           )}
           </Spring>
           :
-          <div style={{height: '200px'}}/>
+          <div style={{height: '300px'}}/>
         }
       </React.Fragment>
     )
@@ -68,34 +68,3 @@ export default class AnimatedSection extends Component {
 
 
 }
-
-// const AnimatedSection = ({ children, animationType, startAnimation }) => {
-//   const animation = new AnimatedValue(1)
-//   const hover = () => spring(animation, { to: 2, tension: 200, friction: 30 }).start()
-//   const unhover = () => spring(animation, { to: 1, tension: 0, friction: 1 }).start()
-//   const animations = {
-//     opacity: {
-//       opacity: animation.interpolate({ range: [1, 2], output: ['0', '1'] })
-//     }
-//   }
-//   const animationMap = (animationType) => {
-//     return animations[animationType]
-//   }
-
-//   return (
-//     {
-//       animationType === 'opacity' ?
-//       <animated.div
-//         className="item"
-//         style={animationMap(animationType)}
-//         onMouseOver={hover}
-//         >
-//         {children}
-//       </animated.div>
-//       :
-      
-//     }
-//   )
-// }
-
-// export default AnimatedSection

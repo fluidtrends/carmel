@@ -1,7 +1,7 @@
 import React from 'react'
 import { Component, Components } from 'react-dom-chunky'
-import { Elevation } from 'rmwc/Elevation'
-import { Typography } from 'rmwc/Typography'
+import { Elevation } from '@rmwc/elevation'
+import { Typography } from '@rmwc/typography'
 
 export default class Prompt extends Component {
   constructor (props) {

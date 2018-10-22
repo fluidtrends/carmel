@@ -1,15 +1,24 @@
 import React from 'react'
 import { Component, Components } from 'react-dom-chunky'
-import { Card, CardActions, CardPrimaryAction, CardActionButtons } from 'rmwc/Card'
-import { Button, ButtonIcon } from 'rmwc/Button'
-import { ListDivider } from 'rmwc/List'
-import { Typography } from 'rmwc/Typography'
+import { Card, CardActions, CardPrimaryAction, CardActionButtons } from '@rmwc/card'
+import { Button, ButtonIcon } from '@rmwc/button'
+import { ListDivider } from '@rmwc/list'
+import { Typography } from '@rmwc/typography'
 import { List, Avatar, Rate, Row, Col, Icon } from 'antd'
-import { Chip, ChipText, ChipIcon, ChipSet } from 'rmwc/Chip'
+import { Chip, ChipText, ChipIcon, ChipSet } from '@rmwc/chip'
 import { Data } from 'react-chunky'
 import Prompt from './prompt'
 import moment from 'moment'
 import ChallengeHeader from './challengeHeader'
+import {
+  GridList,
+  GridTile,
+  GridTileIcon,
+  GridTilePrimary,
+  GridTilePrimaryContent,
+  GridTileSecondary,
+  GridTileTitle
+} from '@rmwc/grid-list'
 
 export default class Challenges extends Component {
   constructor (props) {
@@ -40,7 +49,7 @@ export default class Challenges extends Component {
       header = `You completed this challenge ${since}`
     }
 
-    return <Typography use='body1' style={{
+    return <Typography use='headline4' style={{
       textAlign: 'center',
       color: '#81C784',
       padding: '5px',
@@ -86,16 +95,44 @@ export default class Challenges extends Component {
     </div>
   }
 
+  render2 () {
+    return <GridList
+      tileGutter1
+      withIconAlignStart
+      tileAspect={'16x9'}>
+
+      {[...Array(28)].map((val, i) => (
+        <GridTile key={i}>
+          <GridTilePrimary>
+            <GridTilePrimaryContent>
+              <img src='https://material-components-web.appspot.com/images/1-1.jpg' alt='test' />
+            </GridTilePrimaryContent>
+          </GridTilePrimary>
+          <GridTileSecondary>
+            <GridTileIcon icon='info' />
+            <GridTileTitle>Tile {i + 1}</GridTileTitle>
+          </GridTileSecondary>
+        </GridTile>
+      ))}
+    </GridList>
+  }
+
   render () {
     return <div style={{
-      width: '380px',
+      width: '100%',
       alignSelf: 'center',
-      marginBottom: '10px'
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      display: 'flex'
     }}>
       <List
         itemLayout='vertical'
         size='large'
-        dataSource={this.props.challenges.concat(this.props.challenges)}
+        style={{
+          width: '450px'
+        }}
+        dataSource={this.props.challenges}
         renderItem={item => this.renderChallenge(item)} />
     </div>
   }
