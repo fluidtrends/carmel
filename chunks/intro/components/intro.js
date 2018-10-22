@@ -1,17 +1,11 @@
 import React from 'react'
 import { Component, Components } from 'react-dom-chunky'
-import { Parallax } from 'react-spring'
 import Typist from 'react-typist'
 import { Button, ButtonIcon } from 'rmwc/Button'
-import { Icon, Progress } from "antd"
+import { Icon } from "antd"
 import 'antd/dist/antd.css';
 
 import baffle from 'baffle'
-
-import Steemit from '../../tokens/components/steemit'
-import Telegram from '../../tokens/components/telegram'
-
-import YouTube from 'react-youtube'
 
 const introVideo = 'https://www.youtube.com/watch?v=qrHBVDbrOOY'
 
@@ -119,16 +113,6 @@ export default class Intro extends Component {
     </div>]
   }
 
-  status() {
-    const fontSize = 18
-    const textWidth = 420
-    const color = '#FAFAFA'
-
-    return [<div xstyle={{ opacity: 1.2 }}>
-      <Progress percent={30} strokeWidth={50} strokeColor="#66bb6a" style={{ width: 500 }} />
-    </div>]
-  }
-
   videoTitle() {
     const fontSize = 18
     const textWidth = 420
@@ -173,7 +157,6 @@ export default class Intro extends Component {
           textAlign: 'center',
           fontSize: `${fontSize}px`,
           marginRight: 10,
-          fontFamily,
         }}>
           100% Owned by the Community. Accesible to Everyone. Unique Educational Model.
         </h3>
@@ -189,18 +172,6 @@ export default class Intro extends Component {
           </Button>
         </h3>
     </Typist>
-
-
-    return [<div style={{ opacity: 1 }}>
-      <h3 key='subtitle' id="bleah" style={{
-        color,
-        textAlign: 'center',
-        textShadow: '2px 2px 5px #607D8B',
-        fontSize: `${fontSize + 20}px`,
-      }}>
-        {intro}
-      </h3>
-    </div>]
   }
 
   distribution() {
@@ -230,7 +201,7 @@ export default class Intro extends Component {
 
     return <div style={{ display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <div style={{ marginTop: 75, width: 650, height: 350}}>
-          <Components.Media video="https://www.youtube.com/watch?v=qrHBVDbrOOY" width={650} height={350}/>
+          <Components.Media video={introVideo} width={650} height={350}/>
       </div>
       {this.videoTitle()}
     </div>
@@ -302,8 +273,7 @@ export default class Intro extends Component {
   }
 }
 
-const fontFamilyHeader = "'Merienda', cursive"
-const fontFamily = "'Indie Flower', cursive"
+const intro = 'The First EOS Based Tech Education Platform'
 
 const styles = {
   colorful: {

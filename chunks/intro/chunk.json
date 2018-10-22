@@ -6,7 +6,6 @@
       "desktopTitle": "Start",
       "icon": "home",
       "forceNavigation": true,
-      "noFooter": true,
       "skipExtendedMenuOnDesktop": true,
       "xcover": {
         "backgroundColor": "#00838F",

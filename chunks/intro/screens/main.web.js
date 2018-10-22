@@ -3,15 +3,7 @@ import { Screen } from 'react-dom-chunky'
 import { Telegram } from '../components'
 import { BuyModal } from '../components'
 
-import { Parallax } from 'react-spring'
 import Intro from '../components/intro'
-import Studio from '../components/studio'
-import Tokens from '../components/tokens'
-import Team from '../components/team'
-import TeamAction from '../components/action'
-import Footer from '../components/footer'
-import WhySection from '../components/why'
-import PlatformSection from '../components/platform'
 
 export default class MainIntroScreen extends Screen {
   constructor(props) {
@@ -31,7 +23,7 @@ export default class MainIntroScreen extends Screen {
   }
 
   onStart() {
-    this.scroller.scrollTo(1)
+    this.triggerRedirect('/tokens')
   }
 
   meetChris() {
@@ -55,40 +47,11 @@ export default class MainIntroScreen extends Screen {
     return <div
     >
       <Intro
-        // session={this.props.session}
         offset={0}
         isSmallScreen={this.isSmallScreen}
         onStart={this._onStart}
         onContinue={this._onContinue.bind(this, 1)} 
       />
-
-      {/* <WhySection
-        onContinue={this._download}
-      />
-      <PlatformSection/>
-      <Team
-        session={this.props.session}
-        isSmallScreen={this.isSmallScreen}
-      /> */}
-      {/* <Studio
-        session={this.props.session}
-        offset={1}
-        onContinue={this._download} /> */}
-      {/* <Tokens
-        session={this.props.session}
-        offset={1}
-        triggerRawRedirect={this.triggerRawRedirect}
-        newTransaction={this.props.newTransaction}
-        onCancel={this._onModalClose}
-        transaction={this.state.transaction}
-        account={this.props.account}
-        isSmallScreen={this.isSmallScreen}
-      />
-      <Team
-        session={this.props.session}
-        isSmallScreen={this.isSmallScreen}
-        offset={2}
-      /> */}
     </div>
   }
 
