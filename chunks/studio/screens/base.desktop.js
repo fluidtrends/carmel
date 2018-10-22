@@ -18,6 +18,7 @@ import Progress from '../components/progress'
 import { Layout } from 'antd'
 import Bounce from 'react-reveal/Bounce'
 import Fade from 'react-reveal/Fade'
+import { Spring } from 'react-spring'
 
 const { remote } = require('electron')
 
@@ -528,6 +529,19 @@ export default class BaseStudioScreen extends Screen {
   //   </RubberBand>
   // }
 
+  renderMainMenu () {
+    return <MainMenu
+      product={this.product}
+      products={this.props.session.products}
+      account={this.account}
+      secondary={this.isSecondary}
+      title={this.mainMenuTitle}
+      onItemSelected={this._onMenuItemSelected}
+      onSignIn={() => this.triggerRedirect('/login')}
+      backgroundColor={this.props.theme.primaryColor}
+      menus={this.menus} />
+  }
+
   renderScreenLayout () {
     if (this.state.inProgress) {
       return <div style={{
@@ -555,26 +569,18 @@ export default class BaseStudioScreen extends Screen {
       </div>
     }
 
-    return <div style={{
-      backgroundColor: '#ECEFF1',
-      height: '100vh',
-      width: '100vw',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'flex-start'
-    }}>
+    return <div
+      style={{
+        backgroundColor: '#ECEFF1',
+        height: '100vh',
+        width: '100vw',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'flex-start'
+      }}>
       { this.renderPopupMessage() }
-      <MainMenu
-        product={this.product}
-        products={this.props.session.products}
-        account={this.account}
-        secondary={this.isSecondary}
-        title={this.mainMenuTitle}
-        onItemSelected={this._onMenuItemSelected}
-        onSignIn={() => this.triggerRedirect('/login')}
-        backgroundColor={this.props.theme.primaryColor}
-        menus={this.menus} />
+      { this.renderMainMenu()}
       <Bounce
         right={this.isSecondary}
         left={!this.isSecondary}>

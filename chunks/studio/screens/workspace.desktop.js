@@ -13,6 +13,7 @@ import Bounce from 'react-reveal/Bounce'
 import Fade from 'react-reveal/Fade'
 import RubberBand from 'react-reveal/RubberBand'
 import Zoom from 'react-reveal/Zoom'
+import Pulse from 'react-reveal/Bounce'
 
 export default class Workspace extends Screen {
   constructor (props) {
@@ -68,6 +69,7 @@ export default class Workspace extends Screen {
     if (refresh) {
       this.setState({
         productId,
+        primaryView: 'workspace',
         productStarting: true,
         productStarted: false,
         inProgress: true,
