@@ -304,12 +304,21 @@ export default class Challenge extends Component {
 
   render () {
     return <div style={{
-      width: '380px',
+      width: '100%',
       alignSelf: 'center',
-      marginBottom: '10px'
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      display: 'flex'
     }}>
-      { this.renderContent() }
-      { this.renderFooter() }
+      <div style={{
+        width: '450px',
+        alignSelf: 'center',
+        marginBottom: '10px'
+      }}>
+        { this.renderContent() }
+        { this.renderFooter() }
+      </div>
     </div>
   }
 

@@ -10,6 +10,15 @@ import { Data } from 'react-chunky'
 import Prompt from './prompt'
 import moment from 'moment'
 import ChallengeHeader from './challengeHeader'
+import {
+  GridList,
+  GridTile,
+  GridTileIcon,
+  GridTilePrimary,
+  GridTilePrimaryContent,
+  GridTileSecondary,
+  GridTileTitle
+} from '@rmwc/grid-list'
 
 export default class Challenges extends Component {
   constructor (props) {
@@ -84,6 +93,28 @@ export default class Challenges extends Component {
         </div>
       </Card>
     </div>
+  }
+
+  render2 () {
+    return <GridList
+      tileGutter1
+      withIconAlignStart
+      tileAspect={'16x9'}>
+
+      {[...Array(28)].map((val, i) => (
+        <GridTile key={i}>
+          <GridTilePrimary>
+            <GridTilePrimaryContent>
+              <img src='https://material-components-web.appspot.com/images/1-1.jpg' alt='test' />
+            </GridTilePrimaryContent>
+          </GridTilePrimary>
+          <GridTileSecondary>
+            <GridTileIcon icon='info' />
+            <GridTileTitle>Tile {i + 1}</GridTileTitle>
+          </GridTileSecondary>
+        </GridTile>
+      ))}
+    </GridList>
   }
 
   render () {

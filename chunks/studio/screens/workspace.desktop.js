@@ -7,6 +7,7 @@ import { Icon } from '@rmwc/icon'
 import { Spring } from 'react-spring'
 import Browser from '../components/browser'
 import Challenges from '../components/challenges'
+import Challenge from '../components/challenge'
 import Wobble from 'react-reveal/Wobble'
 import Bounce from 'react-reveal/Bounce'
 import Fade from 'react-reveal/Fade'
@@ -19,6 +20,13 @@ export default class Workspace extends Screen {
 
     this.state = { ...super.state }
     this._onSelectChallenge = this.onSelectChallenge.bind(this)
+    this._onBuyChallenge = this.onBuyChallenge.bind(this)
+    this._onStartChallenge = this.onStartChallenge.bind(this)
+    this._onTaskCompleted = this.onTaskCompleted.bind(this)
+    this._onChallengeCompleted = this.onChallengeCompleted.bind(this)
+    this._onChallengeRated = this.onChallengeRated.bind(this)
+    this._onStopChallenge = this.onStopChallenge.bind(this)
+    this._onUnselectChallenge = this.onUnselectChallenge.bind(this)
   }
 
   componentDidMount () {
@@ -27,6 +35,33 @@ export default class Workspace extends Screen {
     Data.Cache.retrieveCachedItem('product')
               .then((data) => { this.changeProduct(data.id, true) })
               .catch(() => { this.changeProduct(this.product.id, true) })
+  }
+
+  onSelectChallenge ({ challengeId }) {
+    this.setState({ challengeId })
+  }
+
+  onBuyChallenge (challenge) {
+    this.triggerRedirect(this.isLoggedIn ? '/wallet' : '/login')
+  }
+
+  onStartChallenge ({ challengeId }) {
+  }
+
+  onTaskCompleted ({ taskIndex, challengeId }) {
+  }
+
+  onChallengeCompleted ({ challengeId }) {
+  }
+
+  onChallengeRated ({ challengeId, rating }) {
+  }
+
+  onStopChallenge ({ challengeId }) {
+  }
+
+  onUnselectChallenge () {
+    this.setState({ challengeId: '' })
   }
 
   changeProduct (productId, refresh) {
@@ -56,8 +91,8 @@ export default class Workspace extends Screen {
     })
   }
 
-  onSelectChallenge (challenge) {
-    this.setState({ challenge })
+  onSelectChallenge ({ challengeId }) {
+    this.setState({ challengeId })
   }
 
   startProduct (productId) {
@@ -128,118 +163,106 @@ export default class Workspace extends Screen {
     </div>
   }
 
-  renderScreenTrayContents () {
-    if (this.state.challenge) {
-      return <div>
-        heye
-      </div>
-    }
+  // renderScreenTray () {
+  //   if (!this.state.showChallenges) {
+  //     if (typeof this.state.showChallenges === 'undefined') {
+  //       return <Wobble duration={800} delay={800}>
+  //         <RubberBand duration={800} delay={1600}>
+  //           <Button onClick={() => this.setState({ showChallenges: true })} style={{
+  //             color: '#ffffff',
+  //             backgroundColor: this.props.theme.primaryColor
+  //           }}>
+  //             <Icon icon={'play_circle_filled'} style={{ marginRight: '5px' }} />
+  //             {`Take a challenge`}
+  //           </Button>
+  //         </RubberBand>
+  //       </Wobble>
+  //     }
+  //     return <Button onClick={() => this.setState({ showChallenges: true })} style={{
+  //       color: '#ffffff',
+  //       backgroundColor: this.props.theme.primaryColor
+  //     }}>
+  //       <Icon icon={'play_circle_filled'} style={{ marginRight: '5px' }} />
+  //       {`Take a challenge`}
+  //     </Button>
+  //   }
+  //
+  //   return <div style={{
+  //     margin: 0,
+  //     display: 'block',
+  //     overflow: 'scroll',
+  //     width: '100%',
+  //     flexDirection: 'column',
+  //     justifyContent: 'center',
+  //     alignItems: 'center',
+  //     textAlign: 'center'
+  //   }}>
+  //     <Bounce bottom duration={500} delay={100}>
+  //       { this.renderScreenTrayContents() }
+  //     </Bounce>
+  //   </div>
+  // }
 
-    return <Challenges
-      challenges={this.challenges.concat(this.challenges).concat(this.challenges)}
-      onSelectChallenge={this._onSelectChallenge} />
-  }
+  // renderScreenTrayHeader () {
+  //   if (!this.state.showChallenges) {
+  //     return <div />
+  //   }
+  //
+  //   return <Zoom top delay={100} duration={500}>
+  //     <div style={{
+  //       display: 'flex',
+  //       flexDirection: 'row',
+  //       width: '100%',
+  //       margin: '20px',
+  //       padding: '20px'
+  //     }}>
+  //       <Typography use='headline5' style={{
+  //         display: 'flex',
+  //         flex: 1,
+  //         paddingLeft: '20px',
+  //         alignSelf: 'flex-start',
+  //         textAlign: 'center',
+  //         color: '#FFFFFF'
+  //       }}>
+  //       Select a challenge:
+  //     </Typography>
+  //       <Button onClick={() => this.setState({ showChallenges: false })} style={{
+  //         color: '#ffffff',
+  //         display: 'flex',
+  //         alignSelf: 'flex-end'
+  //       }}>
+  //         <Icon icon={'cancel'} />
+  //       </Button>
+  //     </div>
+  //   </Zoom>
+  // }
 
-  renderScreenTray () {
-    if (!this.state.showChallenges) {
-      if (typeof this.state.showChallenges === 'undefined') {
-        return <Wobble duration={800} delay={800}>
-          <RubberBand duration={800} delay={1600}>
-            <Button onClick={() => this.setState({ showChallenges: true })} style={{
-              color: '#ffffff',
-              backgroundColor: this.props.theme.primaryColor
-            }}>
-              <Icon icon={'play_circle_filled'} style={{ marginRight: '5px' }} />
-              {`Take a challenge`}
-            </Button>
-          </RubberBand>
-        </Wobble>
-      }
-      return <Button onClick={() => this.setState({ showChallenges: true })} style={{
-        color: '#ffffff',
-        backgroundColor: this.props.theme.primaryColor
-      }}>
-        <Icon icon={'play_circle_filled'} style={{ marginRight: '5px' }} />
-        {`Take a challenge`}
-      </Button>
-    }
-
-    return <div style={{
-      margin: 0,
-      display: 'block',
-      overflow: 'scroll',
-      width: '100%',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      textAlign: 'center'
-    }}>
-      <Bounce bottom duration={500} delay={100}>
-        { this.renderScreenTrayContents() }
-      </Bounce>
-    </div>
-  }
-
-  renderScreenTrayHeader () {
-    if (!this.state.showChallenges) {
-      return <div />
-    }
-
-    return <Zoom top delay={100} duration={500}>
-      <div style={{
-        display: 'flex',
-        flexDirection: 'row',
-        width: '100%',
-        margin: '20px',
-        padding: '20px'
-      }}>
-        <Typography use='headline5' style={{
-          display: 'flex',
-          flex: 1,
-          paddingLeft: '20px',
-          alignSelf: 'flex-start',
-          textAlign: 'center',
-          color: '#FFFFFF'
-        }}>
-        Select a challenge:
-      </Typography>
-        <Button onClick={() => this.setState({ showChallenges: false })} style={{
-          color: '#ffffff',
-          display: 'flex',
-          alignSelf: 'flex-end'
-        }}>
-          <Icon icon={'cancel'} />
-        </Button>
-      </div>
-    </Zoom>
-  }
-
-  renderScreenFooter () {
-    if (this.state.primaryView && this.state.primaryView !== 'workspace') {
-      return <div />
-    }
-
-    return <div
-      onClick={() => this.setState({ showChallenges: !this.state.showChallenges })}
-      style={{
-        margin: 0,
-        padding: 0,
-        height: this.state.showChallenges ? `${this.height - 75}px` : '60px',
-        width: `${this.width - (this.state.sideMenuExpanded ? 240 : 100)}px`,
-        display: 'flex',
-        backgroundColor: this.state.showChallenges ? `rgba(0, 16, 31, 1)` : 'rgba(101, 125, 139, 0)',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        position: 'absolute',
-        bottom: this.state.showChallenges ? '0px' : '10px',
-        right: '10px',
-        boxShadow: '10px #455A64'
-      }}>
-      { this.renderScreenTrayHeader() }
-      { this.renderScreenTray() }
-    </div>
-  }
+  // renderScreenFooter () {
+  //   if (this.state.primaryView && this.state.primaryView !== 'workspace') {
+  //     return <div />
+  //   }
+  //
+  //   return <div
+  //     onClick={() => this.setState({ showChallenges: !this.state.showChallenges })}
+  //     style={{
+  //       margin: 0,
+  //       padding: 0,
+  //       height: this.state.showChallenges ? `${this.height - 75}px` : '60px',
+  //       width: `${this.width - (this.state.sideMenuExpanded ? 240 : 100)}px`,
+  //       display: 'flex',
+  //       backgroundColor: this.state.showChallenges ? `rgba(0, 16, 31, 1)` : 'rgba(101, 125, 139, 0)',
+  //       flexDirection: 'column',
+  //       justifyContent: 'center',
+  //       alignItems: 'center',
+  //       position: 'absolute',
+  //       bottom: this.state.showChallenges ? '0px' : '10px',
+  //       right: '10px',
+  //       boxShadow: '10px #455A64'
+  //     }}>
+  //     { this.renderScreenTrayHeader() }
+  //     { this.renderScreenTray() }
+  //   </div>
+  // }
 
   get challenges () {
     return this.props.session.challenges.map(challenge => {
@@ -272,9 +295,24 @@ export default class Workspace extends Screen {
   }
 
   renderChallenges () {
-    return this.renderScreenContentsContainer(this.renderScreenMainMessage({
-      message: 'No challenges yet.'
-    }))
+    if (this.state.challengeId) {
+      return this.renderScreenContentsContainer(<Challenge
+        onBuyChallenge={this._onBuyChallenge}
+        onSelectChallenge={this._onSelectChallenge}
+        onStartChallenge={this._onStartChallenge}
+        onTaskCompleted={this._onTaskCompleted}
+        onChallengeCompleted={this._onChallengeCompleted}
+        onChallengeRated={this._onChallengeRated}
+        onStopChallenge={this._onStopChallenge}
+        account={this.account}
+        product={this.product}
+        onBack={this._onUnselectChallenge}
+        challenge={this.challenge} />)
+    }
+
+    return this.renderScreenContentsContainer(<Challenges
+      challenges={this.challenges}
+      onSelectChallenge={this._onSelectChallenge} />)
   }
 
   renderScreenContents () {
@@ -285,11 +323,12 @@ export default class Workspace extends Screen {
         return this.renderSettingsPrimaryView()
       case 'live':
         return this.renderLivePrimaryView()
+      case 'challenges':
+        return this.renderChallenges()
       default:
     }
 
     return <div style={{
-      paddingBottom: '70px',
       height: '100%'
     }}>
       { this.renderDefaultPrimaryView() }

@@ -24,8 +24,11 @@ export default class SideMenu extends Component {
   }
 
   renderMenuItem ({ id, badge, title, icon }) {
+    const isSelected = ((id === this.props.menus.side[0].id && !this.props.selected) || (this.props.selected === id))
+
     return <Menu.Item key={`${id}`} style={{
       padding: '0px',
+      backgroundColor: isSelected ? '#00bcd4' : 'rgba(0, 16, 31, 1)',
       color: '#ffffff'
     }}>
       <Badge offset={[-2, -20]} count={badge}>
@@ -52,7 +55,31 @@ export default class SideMenu extends Component {
       return [this.props.selected]
     }
 
-    return []
+    return
+  }
+
+  renderMenuAction () {
+    if (this.props.expanded) {
+      return <Button
+        onClick={() => this._itemSelected({ key: 'challenges' })}
+        style={{
+          color: '#ffffff',
+          fontSize: '12px',
+          backgroundColor: '#00bcd4'
+        }}>
+        <Icon icon={'play_circle_filled'} style={{ marginRight: '5px' }} />
+        {`Take a challenge`}
+      </Button>
+    }
+
+    return <Button
+      onClick={() => this._itemSelected({ key: 'challenges' })}
+      style={{
+        color: '#ffffff',
+        backgroundColor: '#00bcd4'
+      }}>
+      <Icon icon={'play_circle_filled'} style={{ }} />
+    </Button>
   }
 
   render () {
@@ -84,6 +111,16 @@ export default class SideMenu extends Component {
           this.props.menus.side.map(item => this.renderMenuItem(item))
         }
       </Menu>
+      <div style={{
+        width: '100%',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        marginTop: '10px',
+        display: 'flex',
+        alignItems: 'center'
+      }}>
+        { this.renderMenuAction() }
+      </div>
     </Sider>
   }
 }
