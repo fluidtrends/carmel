@@ -26,16 +26,15 @@ const CarmelStart = 50
 const CarmelPrice = 1
 
 const BonusMessage = <div>
-  50 – 500 Carmel -> 10% bonus
+  100 - 500 Carmel - 10% bonus
   <br />
-  100 Carmel - 1000 Carmel -> 15% bonus
+  500 Carmel - 1000 Carmel - 15% bonus
   <br />
-  1000 Carmel - 5000 Carmel -> 20% bonus
+  1000 Carmel - 5000 Carmel -  20% bonus
   <br />
-  5000 Carmel - 10.000 Carmel -> 30% bonus
+  5000 Carmel - 10.000 Carmel - 30% bonus
   <br />
-  10.000 ++ Carmel -> private discussion
-  </div>
+  10.000 ++ Carmel -  private discussion</div>
 
 export default class CheckoutComponent extends Component {
   constructor (props) {
@@ -284,8 +283,8 @@ export default class CheckoutComponent extends Component {
     return <Fab
       mini
       onClick={this._decrementLevel}
-      style={{ backgroundColor: '#CFD8DC', marginTop: '5px' }}>
-      remove
+      style={{ backgroundColor: '#CFD8DC', marginTop: '5px', textAlign: 'center' }}>
+        <ButtonIcon style={{marginRight: 7}}>remove</ButtonIcon>
   </Fab>
   }
 
@@ -297,8 +296,8 @@ export default class CheckoutComponent extends Component {
     return <Fab
       mini
       onClick={this._incrementLevel}
-      style={{ marginTop: '5px' }}>
-      add
+      style={{ marginTop: '5px', textAlign: 'center' }}>
+        <ButtonIcon style={{marginRight: 7}}>add</ButtonIcon>
     </Fab>
   }
 
@@ -374,7 +373,7 @@ export default class CheckoutComponent extends Component {
 
     const secondaryPrice = this.state.paymentOption == 'fiat' ? `€${priceEUR.toFixed(3)} EURO` : `${priceETH.toFixed(3)} ETH`
 
-    return <Typography use='subheading2' tag='h1' theme='text-secondary-on-background'>
+    return <Typography use='headline5' tag='h1' theme='text-secondary-on-background' style={{ marginTop: 20 }}>
       ${priceUSD} USD/ {secondaryPrice}
     </Typography>
   }
@@ -395,14 +394,14 @@ export default class CheckoutComponent extends Component {
         <ChipIcon
           style={{ color: '#66BB6A', marginRight: '10px' }}
           leading
-          icon={`stars`}
+          use={`stars`}
         />
         <ChipText>
           {(this.state.nextTokens - this.state.tokens).toLocaleString(
             'en'
           )} CARMEL
         </ChipText>
-        <ChipIcon style={{ color: '#B0BEC5', marginLeft: '5px', marginTop: '-5px' }} icon={`redeem`} />
+        <ChipIcon style={{ color: '#B0BEC5', marginLeft: '5px', marginTop: '-5px' }} use={`redeem`} />
       </Chip>
     </Tooltip>
   }
@@ -622,7 +621,7 @@ export default class CheckoutComponent extends Component {
               onClick={this._send}
               raised
               style={{ marginTop: '0px', marginBottom: '20px' }}>
-              <ButtonIcon icon='done' />
+              <ButtonIcon use='done' />
               {title}
             </Button>
           </CardActionButtons>
@@ -657,7 +656,7 @@ export default class CheckoutComponent extends Component {
             onChange={val => this.setState({ email: val.target.value, error: '' })}
             prefix={<Icon type='mail' style={{ color: 'rgba(0,0,0,.25)' }} />}
             placeholder={'Enter your email address'} />
-          <Typography use='subheading1' style={{ color: '#90A4AE', marginTop: '5px' }} tag='h1'>
+          <Typography use='headline5' style={{ color: '#90A4AE', marginTop: '5px' }} tag='h1'>
             We need this so we can notify you once your transaction is verified.
             </Typography>
         </FormItem>
@@ -717,7 +716,7 @@ export default class CheckoutComponent extends Component {
             <Button
               onClick={this._back}
               style={{ marginTop: '20px', marginBottom: '20px' }}>
-              <ButtonIcon icon='chevron_left' />
+              <ButtonIcon use='chevron_left' />
               Go Back
             </Button>
           </CardActionButtons>

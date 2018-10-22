@@ -6,8 +6,17 @@
       "desktopTitle": "Start",
       "icon": "home",
       "forceNavigation": true,
-      "noFooter": true,
       "skipExtendedMenuOnDesktop": true,
+      "xcover": {
+        "backgroundColor": "#00838F",
+        "align": "bottom",
+        "opacity": 0.5,
+        "image": "robots.r.png",
+        "navigation": true,
+        "title": "H > m",
+        "video": "https://www.youtube.com/watch?v=QBEnXQqbKUI",
+        "type": "default"
+      },
       "extendedMenu": [
         {
           "id": "team",
@@ -20,6 +29,92 @@
           "path": "/roadmap"
         }
       ],
+      "components": {
+        "intro": {
+          "source": "summary",
+          "text": "local://intro",
+          "image": "carmel-logo.png",
+          "textColor": "#37474F"
+        },
+        "pillars": {
+          "source": "benefits",
+          "benefits": [
+            { "text": "local://education", "image": "education.png" },
+            { "text": "local://model", "image": "model.png" },
+            { "text": "local://growth", "image": "growth.png" }
+          ],
+          "textColor": "#37474F",
+          "backgroundColor": "#fcfefe"
+        },
+        "features": [
+          {
+            "id": "chris",
+            "source": "feature",
+            "text": "github://fluidtrends/carmel/content/product/stakeholders/chris",
+            "image": "learning.png",
+            "actionTitle": "Learn more about Chris",
+            "backgroundColor": "#E1F5FE",
+            "textColor": "#0686d8"
+          },
+          {
+            "id": "stakeholders",
+            "source": "feature",
+            "text": "github://fluidtrends/carmel/content/product/stakeholders/all",
+            "image": "stakeholders.png",
+            "reversed": true,
+            "actionTitle": "Meet All The Carmel Stakeholders",
+            "backgroundColor": "#FFFFFF",
+            "textColor": "#0686d8"
+          },
+          {
+            "id": "challenges",
+            "source": "feature",
+            "text": "github://fluidtrends/carmel/content/whitepaper/challenges/summary",
+            "image": "challenges.png",
+            "actionTitle": "Learn More",
+            "backgroundColor": "#E1F5FE",
+            "textColor": "#0686d8"
+          },
+          {
+            "id": "economy",
+            "source": "feature",
+            "text": "github://fluidtrends/carmel/content/whitepaper/token-economy/summary",
+            "image": "economy.png",
+            "reversed": true,
+            "actionTitle": "Learn More",
+            "backgroundColor": "#FFFFFF",
+            "textColor": "#0686d8"
+          },
+          {
+            "id": "distribution",
+            "source": "feature",
+            "text": "github://fluidtrends/carmel/content/whitepaper/token-distribution/summary",
+            "image": "distribution.png",
+            "actionTitle": "Learn More",
+            "backgroundColor": "#E1F5FE",
+            "textColor": "#0686d8"
+          },
+          {
+            "id": "architecture",
+            "source": "feature",
+            "text": "github://fluidtrends/carmel/content/whitepaper/architecture/summary",
+            "image": "architecture.png",
+            "reversed": true,
+            "actionTitle": "Learn More",
+            "backgroundColor": "#FFFFFF",
+            "textColor": "#0686d8"
+          },
+          {
+            "id": "security",
+            "source": "feature",
+            "text": "github://fluidtrends/carmel/content/whitepaper/security/summary",
+            "image": "security.png",
+            "actionTitle": "Learn More",
+            "backgroundColor": "#E1F5FE",
+            "textColor": "#0686d8"
+          }
+        ]
+      },
       "path": "/",
       "events": {
         "cover": "system://buy",
