@@ -3,7 +3,7 @@
   "routes": {
     "main": {
       "title": "Wallet",
-      "icon": "appstore",
+      "icon": "account_balance_wallet",
       "path": "/wallet",
       "layoutBackground": "#f5f500",
       "cover": {
@@ -20,11 +20,11 @@
             "onError": "failedToSendTokens"
           }
         ],
-        "getWallet": [
+        "refreshWallet": [
           "firebase://retrieve/users-wallets/:userId?latest=1&resolve=wallets#getWallet",
           {
-            "onSuccess": "gotWallet",
-            "onError": "failedToGetWallet"
+            "onSuccess": "refreshedWallet",
+            "onError": "failedToRefreshWallet"
           }
         ]
       }

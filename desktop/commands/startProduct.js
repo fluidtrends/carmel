@@ -12,16 +12,14 @@ const {
 } = require('react-chunky/lib/extended')
 const path = require('path')
 const fs = require('fs-extra')
+const async = require('async')
+const fetch = require('node-fetch')
 
 var compiler, server, port
 
 const compilerConfig = ({ dir, port }) => {
   return {
     host: '0.0.0.0',
-    watchOptions: {
-      poll: true,
-      aggregateTimeout: 100
-    },
     inline: true,
     quiet: true,
     noInfo: true,
@@ -62,14 +60,11 @@ const startWebserver = ({ port, product }, cb) => {
       const compConfig = compilerConfig({ dir: product.dir, root, port })
 
       compiler = webpack(setup)
-
       compiler.plugin('done', (stats) => {
-        console.log('Product compiled.')
         cb && cb(Object.assign({}, { compiled: true, compiling: false }, stats.compilation.errors.length > 0, { errors: stats.compilation.errors }))
         resolve({ port, files: product.files })
       })
       compiler.plugin('compile', (params) => {
-        console.log('Product compiling...')
         cb && cb(Object.assign({}, { compiled: false, compiling: true }))
       })
 
@@ -79,7 +74,6 @@ const startWebserver = ({ port, product }, cb) => {
           reject(error)
           return
         }
-        console.log('Product started.')
       })
     } catch (e) {
       reject(e)
@@ -93,13 +87,11 @@ const refreshWebserver = ({ port, product }, cb) => {
       process.noDeprecation = true
 
       compiler.plugin('done', (stats) => {
-        console.log('Product compiled.')
         cb && cb(Object.assign({}, { compiled: true, compiling: false }, stats.compilation.errors.length > 0 && { errors: stats.compilation.errors }))
         resolve({ port, files: product.files })
       })
 
       compiler.plugin('compile', (params) => {
-        console.log('Product compiling...')
         cb && cb(Object.assign({}, { compiled: false, compiling: true }))
       })
 

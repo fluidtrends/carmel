@@ -1,0 +1,19 @@
+{
+  "side": [
+    { "id": "workspace", "title": "Workspace", "icon": "dashboard" },
+    { "id": "files", "title": "Files", "icon": "description" },
+    { "id": "live", "title": "Live", "icon": "important_devices" },
+    { "id": "settings", "title": "Settings", "icon": "build" }
+  ],
+  "main": [
+    { "id": "notifications", "title": "Notifications", "icon": "notifications", "route": "/notifications" },
+    { "id": "resources", "title": "Resources", "icon": "library_books", "route": "/resources"},
+    { "id": "help", "title": "Help", "icon": "help", "route": "/support"}
+  ],
+  "account": [
+    { "id": "bounties", "title": "Bounties", "icon": "monetization_on", "route": "/bounties" },
+    { "id": "wallet", "title": "Wallet", "icon": "account_balance_wallet", "route": "/wallet" },
+    { "id": "achievements", "title": "Achievements", "icon": "stars", "route": "/achievements" },
+    { "id": "profile", "title": "Profile", "icon": "account_circle", "route": "/profile" }
+  ]
+}

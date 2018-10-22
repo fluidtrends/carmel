@@ -1,9 +1,9 @@
 import React from 'react'
 import { Component, Components } from 'react-dom-chunky'
-import { Modal, Button } from 'antd'
 import { Typography } from '@rmwc/typography'
 import { Icon } from '@rmwc/icon'
 import Prompt from './prompt'
+import { Modal, Button } from 'antd'
 
 export default class Popup extends Component {
   constructor (props) {
@@ -23,12 +23,11 @@ export default class Popup extends Component {
 
   render () {
     return <Modal
-      key='popup'
       title={this.props.title}
       centered
       closable
       onCancel={this._onClose}
-      footer={[<div style={{textAlign: 'center', margin: '10px'}}><Button type='primary' key='back' onClick={this._onClose}>{this.props.buttonTitle}</Button></div>]}
+      footer={[<div key='footerMain' style={{textAlign: 'center', margin: '10px'}}><Button type='primary' key='back' onClick={this._onClose}>{this.props.buttonTitle}</Button></div>]}
       visible>
       <Typography use='title' key='icon' tag='h2' style={{ textAlign: 'center', color: '#00bcd4' }}>
         <img src={`../../../../assets/${this.props.icon}.png`} style={{

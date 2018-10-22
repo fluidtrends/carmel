@@ -21,9 +21,9 @@ export default class ChallengeHeader extends Component {
   }
 
   renderSkills () {
-    return <Typography use='body1' tag='div' style={{
+    return <Typography use='headline5' tag='div' style={{
       color: '#90A4AE',
-      textAlign: 'center',
+      textAlign: 'left',
       padding: '0px'
     }}>
       <ChipSet style={{ margin: '0px' }}>

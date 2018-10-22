@@ -65,6 +65,13 @@
             "onSuccess": "profileOk",
             "onError": "loginError"
           }
+        ],
+        "getAccount": [
+          "firebase://retrieve/users/:userId?latest=1#getAccount",
+          {
+            "onSuccess": "accountOk",
+            "onError": "accountError"
+          }
         ]
       }
     },
@@ -155,6 +162,34 @@
         "getAccount",
         "getProfile"
       ]
+    },
+    "profile": {
+      "title": "Profile",
+      "icon": "user",
+      "alwaysShowIcon": true,
+      "path": "/profile",
+      "cover": {
+        "backgroundColor": "#00838F",
+        "navigation": true,
+        "type": "menu"
+      },
+      "startOperationsOnMount": false,
+      "operations": {
+        "refreshProfile": [
+          "firebase://retrieve/users-profiles/:userId?latest=1&resolve=profiles#getProfile",
+          {
+            "onSuccess": "profileSuccess",
+            "onError": "profileError"
+          }
+        ],
+        "refreshWallet": [
+          "firebase://retrieve/users-wallets/:userId?latest=1&resolve=wallets#wallet",
+          {
+            "onSuccess": "walletSuccess",
+            "onError": "walletError"
+          }
+        ]
+      }
     }
   },
   "service": {

@@ -40,7 +40,7 @@ export default class Challenges extends Component {
       header = `You completed this challenge ${since}`
     }
 
-    return <Typography use='body1' style={{
+    return <Typography use='headline4' style={{
       textAlign: 'center',
       color: '#81C784',
       padding: '5px',
@@ -88,13 +88,19 @@ export default class Challenges extends Component {
 
   render () {
     return <div style={{
-      width: '380px',
+      width: '100%',
       alignSelf: 'center',
-      marginBottom: '10px'
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      display: 'flex'
     }}>
       <List
         itemLayout='vertical'
         size='large'
+        style={{
+          width: '450px'
+        }}
         dataSource={this.props.challenges}
         renderItem={item => this.renderChallenge(item)} />
     </div>

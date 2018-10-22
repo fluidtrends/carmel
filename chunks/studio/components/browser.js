@@ -27,6 +27,25 @@
 
    loaded (ref) {
      this._webview = ref
+
+     if (!this.webview) {
+       return
+     }
+
+     this.webview.addEventListener('dom-ready', () => {
+     })
+
+     this.webview.addEventListener('did-navigate-in-page', (e, page) => {
+     })
+
+     this.webview.addEventListener('will-navigate', (e, page) => {
+     })
+
+     this.webview.addEventListener('did-start-loading', () => {
+     })
+
+     this.webview.addEventListener('did-stop-loading', () => {
+     })
    }
 
    get webview () {
@@ -52,7 +71,6 @@
    }
 
    get url () {
-     console.log(this.props.port)
      if (!this.props.port) {
        return 'http://localhost'
      }
@@ -138,17 +156,6 @@
            flex: 1
          }} />
      </div>
-   }
-
-   renderWebview () {
-     return <webview
-       key='webview'
-       ref={this._loaded}
-       src={this.url} style={{
-         display: 'flex',
-         width: '100%',
-         flex: 1
-       }} />
    }
 
    get canPublish () {
@@ -306,6 +313,17 @@
      return <LinearProgress key='divider' progress={percentage} />
    }
 
+   renderWebview () {
+     return <webview
+       key='webview'
+       ref={this._loaded}
+       src={this.url} style={{
+         display: 'flex',
+         width: '100%',
+         flex: 1
+       }} />
+   }
+
    renderMainBrowserContent () {
      if (!this.isLongRunning) {
        if (this.state.progressVideoTime) {
@@ -319,15 +337,14 @@
 
    render () {
      const style = Object.assign({}, {
-       height: '100vh',
+       height: '100%',
        display: 'flex',
        flex: 1,
        width: '100%',
        justifyContent: 'center',
        alignItems: 'center',
-       padding: '20px',
-       flexDirection: 'column',
-       backgroundColor: '#f5f5f5'
+       padding: 0,
+       flexDirection: 'column'
      })
 
      return <div key='browserContainer' style={style}>
