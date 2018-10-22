@@ -62,14 +62,14 @@ export default class MainIntroScreen extends Screen {
         onContinue={this._onContinue.bind(this, 1)} 
       />
 
-      <WhySection
+      {/* <WhySection
         onContinue={this._download}
       />
       <PlatformSection/>
       <Team
         session={this.props.session}
         isSmallScreen={this.isSmallScreen}
-      />
+      /> */}
       {/* <Studio
         session={this.props.session}
         offset={1}
@@ -119,7 +119,7 @@ export default class MainIntroScreen extends Screen {
 
   components() {
     const features = super.components()
-    return [...features, this.renderDefault(), this.telegram]
+    return [ this.renderDefault(), ...features, this.telegram]
 
   }
 

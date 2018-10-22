@@ -94,6 +94,7 @@
   "dependencies": {
     "app-module-path": "^2.2.0",
     "awsome": "^0.3.0",
+    "baffle": "^0.3.6",
     "brace": "^0.11.1",
     "browser-sync": "^2.24.5",
     "cassi": "^0.2.3",

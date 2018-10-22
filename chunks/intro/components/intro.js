@@ -6,6 +6,8 @@ import { Button, ButtonIcon } from 'rmwc/Button'
 import { Icon, Progress } from "antd"
 import 'antd/dist/antd.css';
 
+import baffle from 'baffle'
+
 import Steemit from '../../tokens/components/steemit'
 import Telegram from '../../tokens/components/telegram'
 
@@ -23,7 +25,7 @@ const socialMediaLinks = {
   linkedin: 'https://www.linkedin.com/company/carmel-platform/'
 }
 
-export default class Welcome extends Component {
+export default class Intro extends Component {
   constructor(props) {
     super(props)
 
@@ -34,7 +36,15 @@ export default class Welcome extends Component {
 
   componentDidMount() {
     super.componentDidMount()
-    setTimeout(() => this.setState({ speaking: false }), 13000)
+
+    let b = baffle('h1', {
+      characters: `<<▒ █▓▓▓▓ █<░█░ ▒<█ >▓░<▓ █▓█▓ ▓█▓ >░█< /▓▒/>>||||\\\\\\\\\\`,
+      speed: 75
+  })
+
+    b.reveal(5000)
+
+
   }
 
   componentWillUnmount() {
@@ -48,7 +58,7 @@ export default class Welcome extends Component {
     this.props.onStart && this.props.onStart()
   }
 
-  timer(offset, speed) {
+  timer() {
     const periods = [
       {
         until: "22 October 2018 00:00:00 PDT",
@@ -59,69 +69,79 @@ export default class Welcome extends Component {
       }
     ]
 
-    return [<div key='timer' offset={offset} speed={speed} style={{ marginTop: 150 }}>
+    if( this.props.isSmallScreen ) {
+      return <div />
+    }
+
+    return [<div key='timer' style={{ marginTop: 150 }}>
       <Components.Timer periods={periods} simple={true} />
     </div>]
   }
 
-  sky(offset, speed) {
-    return [<div key='sky' offset={offset} speed={speed} style={styles.colorful}>
+  sky() {
+    return [<div key='sky' style={styles.colorful}>
     </div>]
   }
 
-  main(offset, speed) {
+  main() {
 
-    return <div offset={offset} className="wharever" speed={speed} style={styles.colorful}>
-      <div style={{ opacity: 1.2, display: 'flex', flex: 2, justifyContent: 'space-between', padding: '100px 0 0 40px' }}>
-        <div style={{ display: 'flex', flex: 1, flexDirection: 'column', alignItems: 'center' }}>
+    const padding = this.props.isSmallScreen? '0 20px' : '100px 0 0 40px'
+
+    return <div className="wharever" style={styles.colorful}>
+      <div style={{ opacity: 1.2, display: 'flex', flex: 2, justifyContent: 'center', padding }}>
+        <div style={{ display: 'flex', flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
           {this.title()}
           {this.subtitle()}
-          {this.timer()}
-          {/* {this.distribution()} */}
-          {/* {this.status()} */}
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', flex: 1, xjustifyContent: 'center', alignItems: 'center' }}>
-          {this.video(this.props.offset + 0.29, 0.2)}
-          {this.videoTitle(this.props.offset + 0.29, 0.2)}
-        </div>
+        {this.video()}
       </div>
       {this.icons()}
       {}
     </div>
   }
 
-  title(offset, speed) {
+  title() {
     const fontSize = 18
     const color = '#FAFAFA'
 
-    return [<div offset={offset} speed={speed} >
-      <h1 key='title' style={{
-        color,
-        fontSize: `${fontSize + 55}px`,
-        textShadow: '2px 2px 5px #607D8B'
-      }}>
+    return [<div >
+      <h1 
+        key="title"
+        id="title" 
+        style={{
+          color,
+          fontSize: `${fontSize + 55}px`,
+          textShadow: '2px 2px 5px #607D8B'
+        }}
+      >
         Welcome to Carmel
-        </h1>
+      </h1>
     </div>]
   }
 
-  status(offset, speed) {
+  status() {
     const fontSize = 18
     const textWidth = 420
     const color = '#FAFAFA'
 
-    return [<div offset={offset} speed={speed} xstyle={{ opacity: 1.2 }}>
+    return [<div xstyle={{ opacity: 1.2 }}>
       <Progress percent={30} strokeWidth={50} strokeColor="#66bb6a" style={{ width: 500 }} />
     </div>]
   }
 
-  videoTitle(offset, speed) {
+  videoTitle() {
     const fontSize = 18
     const textWidth = 420
     const color = '#fff'
 
-    return [<div offset={offset} speed={speed} xstyle={{ opacity: 1.2 }}>
-      <h1 key='title' style={{
+
+    if( this.props.isSmallScreen ) {
+      return <div />
+    }
+
+
+    return [<div xstyle={{ opacity: 1.2 }}>
+      <h2 key='title' style={{
         color,
         textAlign: 'center',
         fontSize: `${fontSize + 30}px`,
@@ -129,16 +149,50 @@ export default class Welcome extends Component {
         width: `${textWidth}px`
       }}>
         Get to know Carmel
-        </h1>
+        </h2>
     </div>]
   }
 
-  subtitle(offset, speed) {
-    const fontSize = 18
+  subtitle() {
+    const fontSize = 26
     const color = '#FAFAFA'
 
-    return [<div offset={offset} speed={speed} style={{ opacity: 1 }}>
-      <h3 key='subtitle' style={{
+    return <Typist cursor={{ show: false }} style={{}}>
+        <Typist.Delay ms={5000} />
+        <h2 key='subtitle' id="bleah" style={{
+          color,
+          textAlign: 'center',
+          textShadow: '2px 2px 5px #607D8B',
+          fontSize: `${fontSize + 10}px`
+        }}>
+          {intro}
+        </h2>
+        <Typist.Delay ms={500} />
+        <h3 key='2' style={{
+          color,
+          textAlign: 'center',
+          fontSize: `${fontSize}px`,
+          marginRight: 10,
+          fontFamily,
+        }}>
+          100% Owned by the Community. Accesible to Everyone. Unique Educational Model.
+        </h3>
+        <Typist.Delay ms={500} />
+        <h3 key='4' style={{ color: '#602f15', textAlign: 'center', textShadow: '2px 2px 5px #ffffff' }}>
+          <Button
+            raised
+            theme='secondary-bg text-primary-on-secondary'
+            style={{ marginTop: '10px' }}
+            onClick={this._onStart}>
+            <ButtonIcon icon='done' />
+              Start Your Journey Now
+          </Button>
+        </h3>
+    </Typist>
+
+
+    return [<div style={{ opacity: 1 }}>
+      <h3 key='subtitle' id="bleah" style={{
         color,
         textAlign: 'center',
         textShadow: '2px 2px 5px #607D8B',
@@ -149,11 +203,11 @@ export default class Welcome extends Component {
     </div>]
   }
 
-  distribution(offset, speed) {
+  distribution() {
     const fontSize = 18
     const color = '#FAFAFA'
 
-    return [<div offset={offset} speed={speed} style={{ opacity: 1, marginTop: 50 }}>
+    return [<div style={{ opacity: 1, marginTop: 50 }}>
       <h3 key='subtitle' style={{
         color,
         textAlign: 'center',
@@ -165,23 +219,29 @@ export default class Welcome extends Component {
     </div>]
   }
 
-  video(offset, speed) {
+  video() {
     const fontSize = 18
     const textWidth = 420
     const color = '#FAFAFA'
 
-    return [<div offset={offset} speed={speed} style={{ marginTop: 75, width: 850, height: 500, xborder: '1px solid #263238' }}>
+    if( this.props.isSmallScreen ) {
+      return <div />
+    }
 
-      <Components.Media video="https://www.youtube.com/watch?v=qrHBVDbrOOY" width={850} height={500} xstyle={{ border: '1px solid red' }} />
-    </div>]
+    return <div style={{ display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <div style={{ marginTop: 75, width: 650, height: 350}}>
+          <Components.Media video="https://www.youtube.com/watch?v=qrHBVDbrOOY" width={650} height={350}/>
+      </div>
+      {this.videoTitle()}
+    </div>
   }
 
-  icons(offset, speed) {
+  icons() {
     const fontSize = 18
     const textWidth = 420
     const color = '#FAFAFA'
 
-    return [<div offset={offset} speed={speed} style={{ opacity: 1.2, display: 'flex', justifyContent: 'flex-end', paddingRight: 75, paddingBottom: 20 }}>
+    return [<div style={{ opacity: 1.2, display: 'flex', justifyContent: 'flex-end', paddingRight: 100, paddingBottom: 20 }}>
       {this.renderIcons()}
     </div>]
   }
@@ -237,22 +297,13 @@ export default class Welcome extends Component {
     // ...this.title(this.props.offset + 0.1, 0.2),
     // ...this.timer(this.props.offset + 0.29, 0.2)]
     return [
-      ...this.main()]
+      ...this.main()
+    ]
   }
 }
 
 const fontFamilyHeader = "'Merienda', cursive"
 const fontFamily = "'Indie Flower', cursive"
-const longSpeech = [
-  `Hey there, I'm Chunky, your personal mentor!`,
-  `I know the tech world can seem like Everest sometimes`,
-  `but not to worry, I'll help you climb it.`
-]
-const shortSpeech = [
-  `Hey there, welcome to Carmel!`
-]
-const intro = 'The First EOS Based Tech Education Platform'
-const distributedTokens = 'Tokens Distributed So Far:'
 
 const styles = {
   colorful: {
