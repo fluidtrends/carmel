@@ -30,18 +30,12 @@ export default class Welcome extends Component {
   }
 
   timer(offset, speed) {
-    const periods = [
-      {
-        until: "22 October 2018 00:00:00 PDT",
-        text: "Pre Sale Live Now!",
-        info: "Bonus For Every Purchase",
-        actionTitle: "Join the Presale",
-        onAction: this._onContinue
-      }
-    ]
+   
 
-    return [<Parallax.Layer key='timer' offset={offset} speed={speed} style={{ opacity: 1, zIndex: 10, maxHeight: 300 }}>
-      <Components.Timer periods={periods} simple={true} />
+    return [<Parallax.Layer key='timer' offset={offset} speed={speed} style={{ opacity: 1, zIndex: 1000, maxHeight: 300, textAlign: 'center', marginTop: 40 }}>
+      <Button raised theme="secondary-bg" style={{height: 40, width: 150}} onClick={this._onContinue}>
+        Get tokens
+      </Button>
     </Parallax.Layer>]
   }
 
@@ -172,7 +166,7 @@ export default class Welcome extends Component {
     const actionText = 'Start Your Learning Journey'
     const textPadding = 60
     const color = '#4E342E'
-    const width = this.props.isSmallScreen ? 120 : 300
+    const width = this.props.isSmallScreen ? 120 : 320
     const speech = this.props.isSmallScreen ? shortSpeech : longSpeech
     return [<Parallax.Layer key='panel' offset={offset} speed={speed} style={{ opacity: 0.8, display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
       <img src={`../../../../assets/panel.png`} style={{ display: 'block', width: '75%', height: '280px' }} />

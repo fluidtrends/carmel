@@ -284,8 +284,8 @@ export default class CheckoutComponent extends Component {
     return <Fab
       mini
       onClick={this._decrementLevel}
-      style={{ backgroundColor: '#CFD8DC', marginTop: '5px' }}>
-      remove
+      style={{ backgroundColor: '#CFD8DC', marginTop: '5px', textAlign: 'center' }}>
+        <ButtonIcon style={{marginRight: 7}}>remove</ButtonIcon>
   </Fab>
   }
 
@@ -297,8 +297,8 @@ export default class CheckoutComponent extends Component {
     return <Fab
       mini
       onClick={this._incrementLevel}
-      style={{ marginTop: '5px' }}>
-      add
+      style={{ marginTop: '5px', textAlign: 'center' }}>
+        <ButtonIcon style={{marginRight: 7}}>add</ButtonIcon>
     </Fab>
   }
 
@@ -374,7 +374,7 @@ export default class CheckoutComponent extends Component {
 
     const secondaryPrice = this.state.paymentOption == 'fiat' ? `€${priceEUR.toFixed(3)} EURO` : `${priceETH.toFixed(3)} ETH`
 
-    return <Typography use='subheading2' tag='h1' theme='text-secondary-on-background'>
+    return <Typography use='headline5' tag='h1' theme='text-secondary-on-background' style={{ marginTop: 20 }}>
       ${priceUSD} USD/ {secondaryPrice}
     </Typography>
   }
@@ -658,7 +658,7 @@ export default class CheckoutComponent extends Component {
             onChange={val => this.setState({ email: val.target.value, error: '' })}
             prefix={<Icon type='mail' style={{ color: 'rgba(0,0,0,.25)' }} />}
             placeholder={'Enter your email address'} />
-          <Typography use='subheading1' style={{ color: '#90A4AE', marginTop: '5px' }} tag='h1'>
+          <Typography use='headline5' style={{ color: '#90A4AE', marginTop: '5px' }} tag='h1'>
             We need this so we can notify you once your transaction is verified.
             </Typography>
         </FormItem>
