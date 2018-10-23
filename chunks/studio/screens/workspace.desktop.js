@@ -14,6 +14,7 @@ import Fade from 'react-reveal/Fade'
 import RubberBand from 'react-reveal/RubberBand'
 import Zoom from 'react-reveal/Zoom'
 import Pulse from 'react-reveal/Bounce'
+import { notification } from 'antd'
 
 export default class Workspace extends Screen {
   constructor (props) {
@@ -43,7 +44,22 @@ export default class Workspace extends Screen {
   }
 
   onBuyChallenge (challenge) {
-    this.triggerRedirect(this.isLoggedIn ? '/wallet' : '/login')
+    if (!this.isLoggedIn) {
+      this.triggerRedirect('/login')
+      return
+    }
+
+    const { level, author } = this.challenge
+    this.setState({ inProgress: true, progressMessage: 'Transferring Tokens ...' })
+
+    this.props.sendTokens({
+      amount: this.calculatePrice(level),
+      to: author.id,
+      type: 'challengePurchase',
+      data: {
+        challengeId: this.state.challengeId
+      }
+    })
   }
 
   onStartChallenge ({ challengeId }) {
@@ -73,7 +89,7 @@ export default class Workspace extends Screen {
         productStarting: true,
         productStarted: false,
         inProgress: true,
-        progressMessage: 'Getting your website ready, just a sec please ...'
+        progressMessage: 'Preparing Your Product Workspace. Just a sec, please ...'
       })
       this.startProduct(productId)
       this.props.refreshAccount({ userId: this.account.user.uid })
@@ -87,7 +103,7 @@ export default class Workspace extends Screen {
         productStarting: true,
         productStarted: false,
         inProgress: true,
-        progressMessage: 'Getting your website ready, just a sec please ...'
+        progressMessage: 'Preparing Your Product Workspace. Just a sec, please ...'
       })
       this.startProduct(productId)
     })
@@ -163,6 +179,30 @@ export default class Workspace extends Screen {
         { this.product.name } is not ready yet.
       </Typography>
     </div>
+  }
+
+  calculatePrice (level) {
+    const rate = 1
+    const factor = 5
+    const precision = 2
+    const price = (level + 1) * factor * rate
+    return price.toFixed(precision)
+  }
+
+  tokensSent (response) {
+    if (response && response.data && response.data.error) {
+      notification.error({ message: response.data.error })
+      this.setState({ inProgress: false })
+      return
+    }
+
+    this.setState({ inProgress: false })
+    this.syncSession()
+  }
+
+  failedToSendTokens (error) {
+    notification.error({ message: error.message })
+    this.setState({ inProgress: false })
   }
 
   // renderScreenTray () {
@@ -274,8 +314,7 @@ export default class Workspace extends Screen {
   }
 
   get challenge () {
-    const id = this.state.challengeId
-    return this.challenges.find(c => id === c.id)
+    return this.challenges.find(c => this.state.challengeId === c.id)
   }
 
   renderFilesPrimaryView () {
@@ -299,8 +338,8 @@ export default class Workspace extends Screen {
   renderChallenges () {
     if (this.state.challengeId) {
       return this.renderScreenContentsContainer(<Challenge
-        onBuyChallenge={this._onBuyChallenge}
         onSelectChallenge={this._onSelectChallenge}
+        onBuyChallenge={this._onBuyChallenge}
         onStartChallenge={this._onStartChallenge}
         onTaskCompleted={this._onTaskCompleted}
         onChallengeCompleted={this._onChallengeCompleted}

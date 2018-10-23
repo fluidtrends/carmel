@@ -40,6 +40,13 @@
             "onSuccess": "walletSuccess",
             "onError": "accountError"
           }
+        ],
+        "sendTokens": [
+          "rest://create/wallet/send#sendTokens",
+          {
+            "onSuccess": "tokensSent",
+            "onError": "failedToSendTokens"
+          }
         ]
       }
     },

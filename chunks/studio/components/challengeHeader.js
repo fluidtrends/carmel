@@ -46,7 +46,7 @@ export default class ChallengeHeader extends Component {
   }
 
   renderTitle () {
-    return <Typography use='title' tag='div' style={{
+    return <Typography use='headline5' tag='div' style={{
       color: '#ffffff',
       backgroundColor: '#00bcd4',
       padding: '10px'

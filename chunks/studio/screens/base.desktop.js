@@ -19,6 +19,7 @@ import { Layout } from 'antd'
 import Bounce from 'react-reveal/Bounce'
 import Fade from 'react-reveal/Fade'
 import { Spring } from 'react-spring'
+import * as Stages from '../functions/stages'
 
 const { remote } = require('electron')
 
@@ -52,6 +53,7 @@ export default class BaseStudioScreen extends Screen {
     const user = Object.assign({}, this.state.user, { wallet: wallet[0] })
     this.setState({ user })
     this.login(user)
+    this.syncSession()
   }
 
   profileSuccess (profile) {
@@ -222,67 +224,61 @@ export default class BaseStudioScreen extends Screen {
     }
   }
 
-  // controllerMessage (options) {
-  //   switch (options.type) {
-  //     case 'bonus':
-  //       return `You just unlocked ${options.tokens} CARMEL tokens! ${options.reason}`
-  //     default:
-  //       return `You're awesome`
-  //   }
-  // }
+  controllerMessage (options) {
+    switch (options.type) {
+      case 'bonus':
+        return `You just unlocked ${options.tokens} CARMEL tokens! ${options.reason}`
+      default:
+        return `You're awesome`
+    }
+  }
 
-  // updateLocalSession (data) {
-  //   const { challenges, controller, challengeId } = data
-  //   const userChallenges = Object.assign({}, challenges)
-  //
-  //   if (!controller) {
-  //     this.setState({ userChallenges, challengeId })
-  //     return
-  //   }
-  //
-  //   switch (controller.type) {
-  //     case 'achievement':
-  //       const achievement = controller.achievement
-  //       const popupButtonTitle = 'Continue'
-  //       const popupTitle = 'Congratulations'
-  //       const popupIcon = achievement.type === 'bonus' ? 'tokens' : 'cup'
-  //       const popupMessage = this.controllerMessage(achievement)
-  //
-  //       this.setState(Object.assign({}, { userChallenges, challengeId, showPopup: true, popupIcon, popupButtonTitle, popupMessage, popupTitle }))
-  //       break
-  //     default:
-  //   }
-  // }
+  updateLocalSession (data) {
+    const { challenges, controller, challengeId } = data
+    const userChallenges = Object.assign({}, challenges)
 
-  // sessionSynced (response) {
-  //   if (!response || !response.data) {
-  //     return
-  //   }
-  //
-  //   this.updateLocalSession(response.data)
-  // }
+    if (!controller) {
+      this.setState({ userChallenges, challengeId })
+      return
+    }
 
-  // failedToSyncSession (error) {
-  //   console.log('failedToSyncSession', error)
-  // }
+    switch (controller.type) {
+      case 'achievement':
+        const achievement = controller.achievement
+        const popupButtonTitle = 'Continue'
+        const popupTitle = 'Congratulations'
+        const popupIcon = achievement.type === 'bonus' ? 'tokens' : 'cup'
+        const popupMessage = this.controllerMessage(achievement)
 
-  // syncSession (data) {
-  //   const request = Object.assign({},
-  //     { machineId: this.props.session.machineId,
-  //       machineFingerprint: this.props.session.machineFingerprint,
-  //       stage: Stages.WORKSPACE,
-  //       challengeId: ''
-  //     },
-  //     data)
-  //
-  //   this.props.syncSession(request)
-  // }
+        this.setState(Object.assign({}, { userChallenges, challengeId, showPopup: true, popupIcon, popupButtonTitle, popupMessage, popupTitle }))
+        break
+      default:
+    }
+  }
 
-  // start () {
-    // this.setState({ productStarting: true, productStarted: false })
-    // this.syncSession()
-    // return this.startProduct()
-  // }
+  sessionSynced (response) {
+    if (!response || !response.data) {
+      return
+    }
+
+    this.updateLocalSession(response.data)
+  }
+
+  failedToSyncSession (error) {
+    console.log('failedToSyncSession', error)
+  }
+
+  syncSession (data) {
+    const request = Object.assign({},
+      { machineId: this.props.session.machineId,
+        machineFingerprint: this.props.session.machineFingerprint,
+        stage: Stages.WORKSPACE,
+        challengeId: ''
+      },
+      data)
+
+    this.props.syncSession(request)
+  }
 
   renderPopupMessage () {
     if (!this.state.showPopup) {
@@ -545,7 +541,7 @@ export default class BaseStudioScreen extends Screen {
   renderScreenLayout () {
     if (this.state.inProgress) {
       return <div style={{
-        backgroundColor: 'rgba(0, 16, 31, 0.9)',
+        backgroundColor: '#ECEFF1',
         height: '100vh',
         width: '100vw',
         display: 'flex',

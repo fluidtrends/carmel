@@ -10,15 +10,6 @@ import { Data } from 'react-chunky'
 import Prompt from './prompt'
 import moment from 'moment'
 import ChallengeHeader from './challengeHeader'
-import {
-  GridList,
-  GridTile,
-  GridTileIcon,
-  GridTilePrimary,
-  GridTilePrimaryContent,
-  GridTileSecondary,
-  GridTileTitle
-} from '@rmwc/grid-list'
 
 export default class Challenges extends Component {
   constructor (props) {
@@ -49,7 +40,7 @@ export default class Challenges extends Component {
       header = `You completed this challenge ${since}`
     }
 
-    return <Typography use='headline4' style={{
+    return <Typography use='caption' style={{
       textAlign: 'center',
       color: '#81C784',
       padding: '5px',
@@ -60,7 +51,8 @@ export default class Challenges extends Component {
   }
 
   renderChallenge (item) {
-    var prompt = (item.history ? 'Take Challenge' : 'Get Challenge')
+    // var prompt = (item.history ? 'Take Challenge' : 'Take Challenge')
+    var prompt = 'Take Challenge'
 
     if (item.history && item.history.status === 'completed') {
       prompt = `Rate Challenge`
@@ -86,35 +78,13 @@ export default class Challenges extends Component {
             style={{
               display: 'flex',
               color: '#ffffff',
-              backgroundColor: (item.history ? '#03A9F4' : '#4CAF50')
+              backgroundColor: (item.history ? '#03A9F4' : '#00bcd4')
             }}>
             { prompt }
           </Button>
         </div>
       </Card>
     </div>
-  }
-
-  render2 () {
-    return <GridList
-      tileGutter1
-      withIconAlignStart
-      tileAspect={'16x9'}>
-
-      {[...Array(28)].map((val, i) => (
-        <GridTile key={i}>
-          <GridTilePrimary>
-            <GridTilePrimaryContent>
-              <img src='https://material-components-web.appspot.com/images/1-1.jpg' alt='test' />
-            </GridTilePrimaryContent>
-          </GridTilePrimary>
-          <GridTileSecondary>
-            <GridTileIcon icon='info' />
-            <GridTileTitle>Tile {i + 1}</GridTileTitle>
-          </GridTileSecondary>
-        </GridTile>
-      ))}
-    </GridList>
   }
 
   render () {
