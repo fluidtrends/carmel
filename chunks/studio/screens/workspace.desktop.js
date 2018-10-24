@@ -92,7 +92,7 @@ export default class Workspace extends Screen {
         progressMessage: 'Preparing Your Product Workspace. Just a sec, please ...'
       })
       this.startProduct(productId)
-      this.props.refreshAccount({ userId: this.account.user.uid })
+      this.syncSession()
       return
     }
 
@@ -107,6 +107,30 @@ export default class Workspace extends Screen {
       })
       this.startProduct(productId)
     })
+  }
+
+  calculatePrice (level) {
+    const rate = 1
+    const factor = 5
+    const precision = 2
+    const price = (level + 1) * factor * rate
+    return price.toFixed(precision)
+  }
+
+  tokensSent (response) {
+    if (response && response.data && response.data.error) {
+      notification.error({ message: response.data.error })
+      this.setState({ inProgress: false })
+      return
+    }
+
+    this.setState({ inProgress: false })
+    this.syncSession()
+  }
+
+  failedToSendTokens (error) {
+    notification.error({ message: error.message })
+    this.setState({ inProgress: false })
   }
 
   onSelectChallenge ({ challengeId }) {
@@ -179,30 +203,6 @@ export default class Workspace extends Screen {
         { this.product.name } is not ready yet.
       </Typography>
     </div>
-  }
-
-  calculatePrice (level) {
-    const rate = 1
-    const factor = 5
-    const precision = 2
-    const price = (level + 1) * factor * rate
-    return price.toFixed(precision)
-  }
-
-  tokensSent (response) {
-    if (response && response.data && response.data.error) {
-      notification.error({ message: response.data.error })
-      this.setState({ inProgress: false })
-      return
-    }
-
-    this.setState({ inProgress: false })
-    this.syncSession()
-  }
-
-  failedToSendTokens (error) {
-    notification.error({ message: error.message })
-    this.setState({ inProgress: false })
   }
 
   // renderScreenTray () {

@@ -53,7 +53,6 @@ export default class BaseStudioScreen extends Screen {
     const user = Object.assign({}, this.state.user, { wallet: wallet[0] })
     this.setState({ user })
     this.login(user)
-    this.syncSession()
   }
 
   profileSuccess (profile) {
@@ -75,6 +74,53 @@ export default class BaseStudioScreen extends Screen {
   accountSuccess (account) {
     this.setState({ user: Object.assign({}, this.state.user, account) })
     this.props.refreshProfile({ userId: this.account.user.uid })
+  }
+
+  failedToSyncSession (error) {
+    console.log('failedToSyncSession', error)
+  }
+
+  syncSession (data) {
+    this.props.syncSession(Object.assign({},
+      { machineId: this.props.session.machineId,
+        machineFingerprint: this.props.session.machineFingerprint,
+        stage: Stages.WORKSPACE,
+        challengeId: ''
+      }, data))
+  }
+
+  sessionSynced (response) {
+    if (!response || !response.data) {
+      return
+    }
+
+    this.updateLocalSession(response.data)
+  }
+
+  updateLocalSession (data) {
+    const { challenges, controller, challengeId } = data
+    const userChallenges = Object.assign({}, challenges)
+
+    if (!controller) {
+      this.setState({ userChallenges, challengeId })
+      this.props.refreshAccount({ userId: this.account.user.uid })
+      return
+    }
+
+    switch (controller.type) {
+      case 'achievement':
+        const achievement = controller.achievement
+        const popupButtonTitle = 'Continue'
+        const popupTitle = 'Congratulations'
+        const popupIcon = achievement.type === 'bonus' ? 'tokens' : 'cup'
+        const popupMessage = this.controllerMessage(achievement)
+
+        this.setState(Object.assign({}, { userChallenges, challengeId, showPopup: true, popupIcon, popupButtonTitle, popupMessage, popupTitle }))
+        break
+      default:
+    }
+
+    this.props.refreshAccount({ userId: this.account.user.uid })
   }
 
   get shell () {
@@ -231,53 +277,6 @@ export default class BaseStudioScreen extends Screen {
       default:
         return `You're awesome`
     }
-  }
-
-  updateLocalSession (data) {
-    const { challenges, controller, challengeId } = data
-    const userChallenges = Object.assign({}, challenges)
-
-    if (!controller) {
-      this.setState({ userChallenges, challengeId })
-      return
-    }
-
-    switch (controller.type) {
-      case 'achievement':
-        const achievement = controller.achievement
-        const popupButtonTitle = 'Continue'
-        const popupTitle = 'Congratulations'
-        const popupIcon = achievement.type === 'bonus' ? 'tokens' : 'cup'
-        const popupMessage = this.controllerMessage(achievement)
-
-        this.setState(Object.assign({}, { userChallenges, challengeId, showPopup: true, popupIcon, popupButtonTitle, popupMessage, popupTitle }))
-        break
-      default:
-    }
-  }
-
-  sessionSynced (response) {
-    if (!response || !response.data) {
-      return
-    }
-
-    this.updateLocalSession(response.data)
-  }
-
-  failedToSyncSession (error) {
-    console.log('failedToSyncSession', error)
-  }
-
-  syncSession (data) {
-    const request = Object.assign({},
-      { machineId: this.props.session.machineId,
-        machineFingerprint: this.props.session.machineFingerprint,
-        stage: Stages.WORKSPACE,
-        challengeId: ''
-      },
-      data)
-
-    this.props.syncSession(request)
   }
 
   renderPopupMessage () {
