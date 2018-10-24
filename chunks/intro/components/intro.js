@@ -32,7 +32,7 @@ export default class Intro extends Component {
     super.componentDidMount()
 
     let b = baffle('h1', {
-      characters: `<<▒ █▓▓▓▓ █<░█░ ▒<█ >▓░<▓ █▓█▓ ▓█▓ >░█< /▓▒/>>||||\\\\\\\\\\`,
+      characters: `<<▒ █▓▓▓▓ █<░█░ ▒<█ >▓░<▓ █▓█▓ ▓█▓ >░█< /▓▒/>>||\\`,
       speed: 75
   })
 
@@ -104,8 +104,7 @@ export default class Intro extends Component {
         id="title" 
         style={{
           color,
-          fontSize: `${fontSize + 55}px`,
-          textShadow: '2px 2px 5px #607D8B'
+          fontSize: `${fontSize + 55}px`
         }}
       >
         Welcome to Carmel
@@ -146,7 +145,6 @@ export default class Intro extends Component {
         <h2 key='subtitle' id="bleah" style={{
           color,
           textAlign: 'center',
-          textShadow: '2px 2px 5px #607D8B',
           fontSize: `${fontSize + 10}px`
         }}>
           {intro}
@@ -161,7 +159,7 @@ export default class Intro extends Component {
           100% Owned by the Community. Accesible to Everyone. Unique Educational Model.
         </h3>
         <Typist.Delay ms={500} />
-        <h3 key='4' style={{ color: '#602f15', textAlign: 'center', textShadow: '2px 2px 5px #ffffff' }}>
+        <h3 key='4' style={{ color: '#602f15', textAlign: 'center' }}>
           <Button
             raised
             theme='secondary-bg text-primary-on-secondary'
@@ -182,7 +180,6 @@ export default class Intro extends Component {
       <h3 key='subtitle' style={{
         color,
         textAlign: 'center',
-        textShadow: '2px 2px 5px #607D8B',
         fontSize: `${fontSize + 10}px`
       }}>
         {distributedTokens}
