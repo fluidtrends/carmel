@@ -6,6 +6,13 @@
  import { Typography } from '@rmwc/typography'
  import { LinearProgress } from '@rmwc/linear-progress'
  import { Data } from 'react-chunky'
+ import ProgressiveImage from 'react-progressive-image'
+ import Wobble from 'react-reveal/Wobble'
+ import Bounce from 'react-reveal/Bounce'
+ import Fade from 'react-reveal/Fade'
+ import RubberBand from 'react-reveal/RubberBand'
+ import Zoom from 'react-reveal/Zoom'
+ import Pulse from 'react-reveal/Bounce'
 
  const PROGRESS_CACHE = '_cacheProgressVideo'
 
@@ -32,26 +39,25 @@
        return
      }
 
-     console.log('LOADED BROWSER')
-
+     const self = this
      this.webview.addEventListener('dom-ready', () => {
-       console.log('dom-ready')
+       self.setState({ ready: true })
      })
 
      this.webview.addEventListener('did-navigate-in-page', (e, page) => {
-       console.log('did-navigate-in-page', page)
+       // console.log('did-navigate-in-page', page)
      })
 
      this.webview.addEventListener('will-navigate', (e, page) => {
-       console.log('will-navigate', page)
+       // console.log('will-navigate', page)
      })
 
      this.webview.addEventListener('did-start-loading', () => {
-       console.log('did-start-loading')
+       // console.log('did-start-loading')
      })
 
      this.webview.addEventListener('did-stop-loading', () => {
-       console.log('did-stop-loading')
+       // console.log('did-stop-loading')
      })
    }
 
@@ -327,19 +333,42 @@
        src={this.url} style={{
          display: 'flex',
          width: '100%',
+         backgroundColor: '#ffffff',
          flex: 1
        }} />
    }
 
    renderMainBrowserContent () {
-     if (!this.isLongRunning) {
-       if (this.state.progressVideoTime) {
-         Data.Cache.cacheItem(PROGRESS_CACHE, { video: this.longProcessVideo, time: this.state.progressVideoTime })
-       }
-       return [this.renderToolbar(), this.renderWebview()]
-     }
+     // console.log(this.webview)
+     // if (this.webview) {
+       // console.log(this.webview.isLoading(),
+       // this.webview.isWaitingForResponse(),
+       // this.webview.getURL(),
+       // this.webview.getTitle())
+     // }
 
-     return this.renderProgressVideo()
+     console.log(this.state.ready)
+
+     // if (!this.state.ready) {
+     //   return <div style={{
+     //     backgroundColor: '#ffff00',
+     //     display: 'flex',
+     //     flexDirection: 'column',
+     //     justifyContent: 'center',
+     //     alignItems: 'center'
+     //   }}>
+     //    hey
+     //   </div>
+     // }
+
+     // if (!this.isLongRunning) {
+       // if (this.state.progressVideoTime) {
+         // Data.Cache.cacheItem(PROGRESS_CACHE, { video: this.longProcessVideo, time: this.state.progressVideoTime })
+       // }
+     return this.renderWebview()
+     // }
+
+     // return this.renderProgressVideo()
    }
 
    render () {
@@ -354,18 +383,21 @@
        flexDirection: 'column'
      })
 
+     //   <Card key='browserContainerCard' style={{
+     //     width: '100%',
+     //     display: 'flex',
+     //     flex: 1,
+     //     justifyContent: 'center',
+     //     alignItems: 'center',
+     //     flexDirection: 'column'
+     //   }}>
+     //     { this.renderMainBrowserContent() }
+     //   </Card>
+     //   { this.renderProgressBar() }
+     // </div>
+
      return <div key='browserContainer' style={style}>
-       <Card key='browserContainerCard' style={{
-         width: '100%',
-         display: 'flex',
-         flex: 1,
-         justifyContent: 'center',
-         alignItems: 'center',
-         flexDirection: 'column'
-       }}>
-         { this.renderMainBrowserContent() }
-       </Card>
-       { this.renderProgressBar() }
+       { this.renderWebview() }
      </div>
    }
 }

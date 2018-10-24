@@ -18,6 +18,8 @@ import Progress from '../components/progress'
 import { Layout } from 'antd'
 import Bounce from 'react-reveal/Bounce'
 import Fade from 'react-reveal/Fade'
+import { Spring } from 'react-spring'
+import * as Stages from '../functions/stages'
 
 const { remote } = require('electron')
 
@@ -72,6 +74,53 @@ export default class BaseStudioScreen extends Screen {
   accountSuccess (account) {
     this.setState({ user: Object.assign({}, this.state.user, account) })
     this.props.refreshProfile({ userId: this.account.user.uid })
+  }
+
+  failedToSyncSession (error) {
+    console.log('failedToSyncSession', error)
+  }
+
+  syncSession (data) {
+    this.props.syncSession(Object.assign({},
+      { machineId: this.props.session.machineId,
+        machineFingerprint: this.props.session.machineFingerprint,
+        stage: Stages.WORKSPACE,
+        challengeId: ''
+      }, data))
+  }
+
+  sessionSynced (response) {
+    if (!response || !response.data) {
+      return
+    }
+
+    this.updateLocalSession(response.data)
+  }
+
+  updateLocalSession (data) {
+    const { challenges, controller, challengeId } = data
+    const userChallenges = Object.assign({}, challenges)
+
+    if (!controller) {
+      this.setState({ userChallenges, challengeId })
+      this.props.refreshAccount({ userId: this.account.user.uid })
+      return
+    }
+
+    switch (controller.type) {
+      case 'achievement':
+        const achievement = controller.achievement
+        const popupButtonTitle = 'Continue'
+        const popupTitle = 'Congratulations'
+        const popupIcon = achievement.type === 'bonus' ? 'tokens' : 'cup'
+        const popupMessage = this.controllerMessage(achievement)
+
+        this.setState(Object.assign({}, { userChallenges, challengeId, showPopup: true, popupIcon, popupButtonTitle, popupMessage, popupTitle }))
+        break
+      default:
+    }
+
+    this.props.refreshAccount({ userId: this.account.user.uid })
   }
 
   get shell () {
@@ -221,67 +270,14 @@ export default class BaseStudioScreen extends Screen {
     }
   }
 
-  // controllerMessage (options) {
-  //   switch (options.type) {
-  //     case 'bonus':
-  //       return `You just unlocked ${options.tokens} CARMEL tokens! ${options.reason}`
-  //     default:
-  //       return `You're awesome`
-  //   }
-  // }
-
-  // updateLocalSession (data) {
-  //   const { challenges, controller, challengeId } = data
-  //   const userChallenges = Object.assign({}, challenges)
-  //
-  //   if (!controller) {
-  //     this.setState({ userChallenges, challengeId })
-  //     return
-  //   }
-  //
-  //   switch (controller.type) {
-  //     case 'achievement':
-  //       const achievement = controller.achievement
-  //       const popupButtonTitle = 'Continue'
-  //       const popupTitle = 'Congratulations'
-  //       const popupIcon = achievement.type === 'bonus' ? 'tokens' : 'cup'
-  //       const popupMessage = this.controllerMessage(achievement)
-  //
-  //       this.setState(Object.assign({}, { userChallenges, challengeId, showPopup: true, popupIcon, popupButtonTitle, popupMessage, popupTitle }))
-  //       break
-  //     default:
-  //   }
-  // }
-
-  // sessionSynced (response) {
-  //   if (!response || !response.data) {
-  //     return
-  //   }
-  //
-  //   this.updateLocalSession(response.data)
-  // }
-
-  // failedToSyncSession (error) {
-  //   console.log('failedToSyncSession', error)
-  // }
-
-  // syncSession (data) {
-  //   const request = Object.assign({},
-  //     { machineId: this.props.session.machineId,
-  //       machineFingerprint: this.props.session.machineFingerprint,
-  //       stage: Stages.WORKSPACE,
-  //       challengeId: ''
-  //     },
-  //     data)
-  //
-  //   this.props.syncSession(request)
-  // }
-
-  // start () {
-    // this.setState({ productStarting: true, productStarted: false })
-    // this.syncSession()
-    // return this.startProduct()
-  // }
+  controllerMessage (options) {
+    switch (options.type) {
+      case 'bonus':
+        return `You just unlocked ${options.tokens} CARMEL tokens! ${options.reason}`
+      default:
+        return `You're awesome`
+    }
+  }
 
   renderPopupMessage () {
     if (!this.state.showPopup) {
@@ -528,10 +524,23 @@ export default class BaseStudioScreen extends Screen {
   //   </RubberBand>
   // }
 
+  renderMainMenu () {
+    return <MainMenu
+      product={this.product}
+      products={this.props.session.products}
+      account={this.account}
+      secondary={this.isSecondary}
+      title={this.mainMenuTitle}
+      onItemSelected={this._onMenuItemSelected}
+      onSignIn={() => this.triggerRedirect('/login')}
+      backgroundColor={this.props.theme.primaryColor}
+      menus={this.menus} />
+  }
+
   renderScreenLayout () {
     if (this.state.inProgress) {
       return <div style={{
-        backgroundColor: 'rgba(0, 16, 31, 0.9)',
+        backgroundColor: '#ECEFF1',
         height: '100vh',
         width: '100vw',
         display: 'flex',
@@ -555,26 +564,18 @@ export default class BaseStudioScreen extends Screen {
       </div>
     }
 
-    return <div style={{
-      backgroundColor: '#ECEFF1',
-      height: '100vh',
-      width: '100vw',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'flex-start'
-    }}>
+    return <div
+      style={{
+        backgroundColor: '#ECEFF1',
+        height: '100vh',
+        width: '100vw',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'flex-start'
+      }}>
       { this.renderPopupMessage() }
-      <MainMenu
-        product={this.product}
-        products={this.props.session.products}
-        account={this.account}
-        secondary={this.isSecondary}
-        title={this.mainMenuTitle}
-        onItemSelected={this._onMenuItemSelected}
-        onSignIn={() => this.triggerRedirect('/login')}
-        backgroundColor={this.props.theme.primaryColor}
-        menus={this.menus} />
+      { this.renderMainMenu()}
       <Bounce
         right={this.isSecondary}
         left={!this.isSecondary}>

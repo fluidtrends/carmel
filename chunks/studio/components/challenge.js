@@ -23,9 +23,14 @@ const { errorMessages } = errorMessagesJson
 export default class Challenge extends Component {
   constructor (props) {
     super(props)
+    this.state = Object.assign({},
+      { ...this.state, taskIndex: 1 },
+      props.challenge &&
+      props.challenge.history &&
+      props.challenge.history.taskIndex &&
+        { started: (props.challenge.history.status === 'started' ? true : false),
+          taskIndex: props.challenge.history.taskIndex })
 
-    this.state = Object.assign({}, { ...this.state, taskIndex: 1 },
-      props.challenge && props.challenge.history && props.challenge.history.taskIndex && { started: (props.challenge.history.status === 'started' ? true : false), taskIndex: props.challenge.history.taskIndex })
     this._shell = new Shell()
     this._goBack = this.goBack.bind(this)
     this._toggleStarted = this.toggleStarted.bind(this)
@@ -127,19 +132,7 @@ export default class Challenge extends Component {
       return
     }
 
-    Data.Cache.cacheItem('pendingPurchase', {
-      challenge: {
-        id: this.props.challenge.id,
-        title: this.props.challenge.title,
-        level: this.props.challenge.level,
-        author: this.props.challenge.author,
-        skills: this.props.challenge.skills
-      }
-    })
-    .then((data) => {
-      this.props.onBuyChallenge && this.props.onBuyChallenge(this.props.challenge)
-    })
-    .catch(error => console.log(error))
+    this.props.onBuyChallenge && this.props.onBuyChallenge()
   }
 
   isTaskComplete (task) {
@@ -243,7 +236,7 @@ export default class Challenge extends Component {
       <Button
         style={{
           color: '#ffffff',
-          backgroundColor: `${this.isStarted || this.isPurchased ? '#03A9F4' : '#4CAF50'}`
+          backgroundColor: `${this.isStarted || this.isPurchased ? '#03A9F4' : '#00bcd4'}`
         }}
         onClick={this.isStarted ? this._continueChallenge : this._toggleStarted}>
         { this.isStarted ? 'Keep Going' : (this.isPurchased ? 'Start Challenge' : `Send ${tokens} CARMEL to start`) }

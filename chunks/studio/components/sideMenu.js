@@ -26,11 +26,10 @@ export default class SideMenu extends Component {
   renderMenuItem ({ id, badge, title, icon }) {
     const isSelected = ((id === this.props.menus.side[0].id && !this.props.selected) || (this.props.selected === id))
 
-    return <Menu.Item key={`${id}`} style={{
+    return <Menu.Item key={`${id}`} style={Object.assign({}, {
       padding: '0px',
-      backgroundColor: isSelected ? '#00bcd4' : 'rgba(0, 16, 31, 1)',
       color: '#ffffff'
-    }}>
+    }, isSelected && { backgroundColor: '#00bcd4' })}>
       <Badge offset={[-2, -20]} count={badge}>
         <Icon
           icon={icon}
@@ -87,6 +86,9 @@ export default class SideMenu extends Component {
       trigger={null}
       collapsible
       width={220}
+      style={{
+        backgroundColor: 'rgba(0, 16, 31, 1)'
+      }}
       collapsed={!this.props.expanded}>
       <div style={{
         marginTop: '64px',

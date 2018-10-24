@@ -22,7 +22,13 @@ const getWallet = (userId) => {
   })
 }
 
-const updateUserWallet = (userId, amount) => {
+const updateUserWallet = (controller, userId) => {
+  if (!controller || !controller.achievement || !controller.achievement.tokens) {
+    return Promise.resolve()
+  }
+
+  const amount = controller.achievement.tokens
+
   return getWallet(userId)
         .then(wallet =>
           chunky.firebase.operation('update', { key: `wallets/${wallet._id}`, carmel: (parseFloat(wallet.carmel) + parseFloat(amount)) })
@@ -93,8 +99,9 @@ const updateSession = (data, account, previousSession) => {
 
   var controller = (!hasPreviousStageAchivement && hasStageAchivement ? { type: 'achievement', achievement: Object.assign({}, Stages.Achievements[data.stage]) } : undefined)
 
-  return chunky.firebase.operation(account ? 'add' : 'create', session)
-         .then((result) => Object.assign({}, result, controller && { controller }))
+  return updateUserWallet(controller, userId)
+         .then(() => chunky.firebase.operation(account ? 'add' : 'create', session)
+                .then((result) => Object.assign({}, result, controller && { controller })))
 }
 
 function executor ({ event, chunk, config, account }) {
