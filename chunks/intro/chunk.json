@@ -39,9 +39,9 @@
         "pillars": {
           "source": "benefits",
           "benefits": [
-            { "text": "local://education", "image": "education.png" },
-            { "text": "local://model", "image": "model.png" },
-            { "text": "local://growth", "image": "growth.png" }
+            { "text": "local://tweak", "image": "tweak.svg" },
+            { "text": "local://reputation", "image": "reputation.svg" },
+            { "text": "local://market", "image": "market.svg" }
           ],
           "textColor": "#37474F",
           "backgroundColor": "#fcfefe"
