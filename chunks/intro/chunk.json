@@ -33,7 +33,14 @@
         "intro": {
           "source": "summary",
           "text": "local://intro",
-          "image": "carmel-logo.png",
+          "image": "carmel.svg",
+          "textColor": "#37474F"
+        },
+        "video": {
+          "source": "presentation",
+          "text": "local://intro",
+          "url": "https://www.youtube.com/watch?v=QBEnXQqbKUI",
+          "image": "presentation.png",
           "textColor": "#37474F"
         },
         "pillars": {
