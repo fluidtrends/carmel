@@ -169,11 +169,11 @@
       "cover": {
         "backgroundColor": "#00838F",
         "align": "bottom",
-        "opacity": 0.5,
-        "image": "background-default.r.png",
+        "opacity": 0.2,
+        "image": "team.r.png",
         "navigation": true,
         "title": "Meet the #CarmelTeam",
-        "type": "default"
+        "type": "simple"
       }
     },
     "roadmap": {
@@ -183,11 +183,11 @@
       "cover": {
         "backgroundColor": "#00838F",
         "align": "bottom",
-        "opacity": 0.5,
-        "image": "background-intro.r.png",
+        "opacity": 0.2,
+        "image": "roadmap.r.png",
         "navigation": true,
         "title": "Join us on the #RoadTo1B lives changed",
-        "type": "default"
+        "type": "simple"
       },
       "components": {
         "intro": {
