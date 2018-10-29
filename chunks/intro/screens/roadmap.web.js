@@ -33,7 +33,7 @@ export default class RoadmapScreen extends Screen {
     }}>
       {period.summary}
     </Typography>
-
+    return <div />
     return <Step
       key={period.id}
       title={period.title}

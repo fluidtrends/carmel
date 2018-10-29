@@ -50,15 +50,25 @@
     "linkHoverBackgroundColor": "#F5F5F5",
     "progressColor": "rgba(50,50,50,0.9)",
     "primaryColor": "#00bcd4",
-    "secondaryColor": "#66BB6A",
+    "secondaryColor": "#006A4E",
     "statusBarLight": false,
     "navigationColor": "#FFFFFF",
     "navigationTintColor": "#37474F",
+    "nanvigationTextButton": "#FFFFFF",
     "backgroundColor": "#999999",
     "footerTintColor": "#CFD8DC",
     "footerHeaderColor": "#90A4AE",
     "footerColor": "#546E7A",
     "footerBottomColor": "#37474F"
+  },
+  "socialMediaLinks": {
+    "facebook": "https://www.facebook.com/carmelio-347131802460343/",
+    "medium": "http://medium.com/carmelplatform",
+    "instagram": "https://www.instagram.com/carmel.io/",
+    "github": "https://github.com/fluidtrends/carmel",
+    "youtube": "https://www.youtube.com/channel/UCjiQXohOk0pBmJ6PFElQL-g",
+    "twitter": "https://twitter.com/carmelplatform",
+    "linkedin": "https://www.linkedin.com/company/carmel-platform/"
   },
   "info": {
     "copyright": "© 2018",
