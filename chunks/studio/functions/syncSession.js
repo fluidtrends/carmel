@@ -59,7 +59,8 @@ const updateSession = (data, account, previousSession) => {
     { timestamp,
       stage: data.stage || ''
     },
-  data.challengeId && { challengeId: data.challengeId },
+    data.challengeId && { challengeId: data.challengeId },
+    data.taskIndex && { taskIndex: data.taskIndex },
   account && {
     userId: account.user.uid,
     userEmail: account.user.email,

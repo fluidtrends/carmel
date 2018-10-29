@@ -17,6 +17,7 @@ import RubberBand from 'react-reveal/RubberBand'
 import Zoom from 'react-reveal/Zoom'
 import Pulse from 'react-reveal/Bounce'
 import { notification } from 'antd'
+import * as Stages from '../functions/stages'
 
 export default class Workspace extends Screen {
   constructor (props) {
@@ -71,18 +72,23 @@ export default class Workspace extends Screen {
   }
 
   onStartChallenge ({ challengeId }) {
+    this.syncSession({ stage: Stages.CHALLENGE_STARTED, challengeId })
   }
 
   onTaskCompleted ({ taskIndex, challengeId }) {
+    this.syncSession({ stage: Stages.TASK_COMPLETED, challengeId, taskIndex })
   }
 
   onChallengeCompleted ({ challengeId }) {
+    this.syncSession({ stage: Stages.CHALLENGE_COMPLETED, challengeId })
   }
 
   onChallengeRated ({ challengeId, rating }) {
+    this.syncSession({ stage: Stages.CHALLENGE_RATED, challengeId })
   }
 
   onStopChallenge ({ challengeId }) {
+    this.syncSession({ stage: Stages.CHALLENGE_STOPPED, challengeId })
   }
 
   onUnselectChallenge () {
@@ -129,17 +135,19 @@ export default class Workspace extends Screen {
       return
     }
 
-    Data.Cache.cacheItem('product', { id: productId }).then((data) => {
+    Data.Cache.clearCachedItem('openFiles')
+    .then(() => Data.Cache.cacheItem('product', { id: productId }).then((data) => {
       this.shell.cache('productId', productId)
       this.setState({
         productId,
+        openFiles: {},
         productStarting: true,
         productStarted: false,
         inProgress: true,
         progressMessage: 'Preparing Your Product Workspace. Just a sec, please ...'
       })
       this.startProduct(productId)
-    })
+    }))
   }
 
   calculatePrice (level) {
@@ -217,107 +225,6 @@ export default class Workspace extends Screen {
   get sideMenuItem () {
     return this.menus.side.find(i => i.id === this.state.primaryView)
   }
-
-  // renderScreenTray () {
-  //   if (!this.state.showChallenges) {
-  //     if (typeof this.state.showChallenges === 'undefined') {
-  //       return <Wobble duration={800} delay={800}>
-  //         <RubberBand duration={800} delay={1600}>
-  //           <Button onClick={() => this.setState({ showChallenges: true })} style={{
-  //             color: '#ffffff',
-  //             backgroundColor: this.props.theme.primaryColor
-  //           }}>
-  //             <Icon icon={'play_circle_filled'} style={{ marginRight: '5px' }} />
-  //             {`Take a challenge`}
-  //           </Button>
-  //         </RubberBand>
-  //       </Wobble>
-  //     }
-  //     return <Button onClick={() => this.setState({ showChallenges: true })} style={{
-  //       color: '#ffffff',
-  //       backgroundColor: this.props.theme.primaryColor
-  //     }}>
-  //       <Icon icon={'play_circle_filled'} style={{ marginRight: '5px' }} />
-  //       {`Take a challenge`}
-  //     </Button>
-  //   }
-  //
-  //   return <div style={{
-  //     margin: 0,
-  //     display: 'block',
-  //     overflow: 'scroll',
-  //     width: '100%',
-  //     flexDirection: 'column',
-  //     justifyContent: 'center',
-  //     alignItems: 'center',
-  //     textAlign: 'center'
-  //   }}>
-  //     <Bounce bottom duration={500} delay={100}>
-  //       { this.renderScreenTrayContents() }
-  //     </Bounce>
-  //   </div>
-  // }
-
-  // renderScreenTrayHeader () {
-  //   if (!this.state.showChallenges) {
-  //     return <div />
-  //   }
-  //
-  //   return <Zoom top delay={100} duration={500}>
-  //     <div style={{
-  //       display: 'flex',
-  //       flexDirection: 'row',
-  //       width: '100%',
-  //       margin: '20px',
-  //       padding: '20px'
-  //     }}>
-  //       <Typography use='headline5' style={{
-  //         display: 'flex',
-  //         flex: 1,
-  //         paddingLeft: '20px',
-  //         alignSelf: 'flex-start',
-  //         textAlign: 'center',
-  //         color: '#FFFFFF'
-  //       }}>
-  //       Select a challenge:
-  //     </Typography>
-  //       <Button onClick={() => this.setState({ showChallenges: false })} style={{
-  //         color: '#ffffff',
-  //         display: 'flex',
-  //         alignSelf: 'flex-end'
-  //       }}>
-  //         <Icon icon={'cancel'} />
-  //       </Button>
-  //     </div>
-  //   </Zoom>
-  // }
-
-  // renderScreenFooter () {
-  //   if (this.state.primaryView && this.state.primaryView !== 'workspace') {
-  //     return <div />
-  //   }
-  //
-  //   return <div
-  //     onClick={() => this.setState({ showChallenges: !this.state.showChallenges })}
-  //     style={{
-  //       margin: 0,
-  //       padding: 0,
-  //       height: this.state.showChallenges ? `${this.height - 75}px` : '60px',
-  //       width: `${this.width - (this.state.sideMenuExpanded ? 240 : 100)}px`,
-  //       display: 'flex',
-  //       backgroundColor: this.state.showChallenges ? `rgba(0, 16, 31, 1)` : 'rgba(101, 125, 139, 0)',
-  //       flexDirection: 'column',
-  //       justifyContent: 'center',
-  //       alignItems: 'center',
-  //       position: 'absolute',
-  //       bottom: this.state.showChallenges ? '0px' : '10px',
-  //       right: '10px',
-  //       boxShadow: '10px #455A64'
-  //     }}>
-  //     { this.renderScreenTrayHeader() }
-  //     { this.renderScreenTray() }
-  //   </div>
-  // }
 
   get challenges () {
     return this.props.session.challenges.map(challenge => {
