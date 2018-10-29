@@ -38,6 +38,10 @@ export default class Workspace extends Screen {
   componentDidMount () {
     super.componentDidMount()
 
+    Data.Cache.retrieveCachedItem('openFiles').then((openFiles) => {
+      this.setState({ openFiles })
+    })
+
     Data.Cache.retrieveCachedItem('product')
               .then((data) => { this.changeProduct(data.id, true) })
               .catch(() => { this.changeProduct(this.product.id, true) })
@@ -87,13 +91,19 @@ export default class Workspace extends Screen {
 
   onFileOpen (file) {
     const openFiles = Object.assign({}, this.openFiles, { [file]: true })
-    this.setState({ openFiles, primaryView: 'workspace' })
+
+    Data.Cache.cacheItem('openFiles', openFiles).then((data) => {
+      this.setState({ openFiles, primaryView: 'workspace' })
+    })
   }
 
   onFileClose (file) {
     const openFiles = Object.assign({}, this.openFiles)
     delete openFiles[file]
-    this.setState({ openFiles })
+
+    Data.Cache.cacheItem('openFiles', openFiles).then((data) => {
+      this.setState({ openFiles })
+    })
   }
 
   get openFiles () {
