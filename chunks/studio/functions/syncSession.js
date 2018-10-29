@@ -22,19 +22,26 @@ const getWallet = (userId) => {
   })
 }
 
+const getChallenge = (challengeId) => {
+  return new Promise((resolve, reject) => {
+    return chunky.firebase.operation('retrieve', { key: `challenges/${challengeId}` })
+          .then((challenge) => ((!challenge || (Array.isArray(challenge) && challenge.length === 0)) ? resolve() : resolve(challenge)))
+          .catch(() => resolve())
+  })
+}
+
 const updateChallenge = (challengeId, data) => {
   if (!challengeId || Object.keys(data).length === 0) {
     return Promise.resolve()
   }
-  return chunky.firebase.operation('retrieve', { key: `challenges/${challengeId}` })
-         .then((challenge) => {
-           var updates = {}
-           Object.keys(data).map(field => {
-             updates[filed] = data[field] + (challenge[field] || 0)
-           })
-           return chunky.firebase.operation('update', Object.assign({}, { key: `challenges/${challengeId}` }, updates))
-         })
-         .catch(() => chunky.firebase.operation('create', Object.assign({}, { node: 'challenges', id: challengeId }, data)))
+
+  return getChallenge(challengeId).then((challenge) => {
+    var updates = {}
+    Object.keys(data).map(field => {
+      updates[field] = data[field] + ((challenge && challenge[field]) || 0)
+    })
+    return chunky.firebase.operation('update', Object.assign({}, { key: `challenges/${challengeId}`, timestamp: `${Date.now()}` }, updates))
+  })
 }
 
 const updateUserWallet = (controller, userId) => {
