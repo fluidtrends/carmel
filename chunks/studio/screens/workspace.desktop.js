@@ -84,7 +84,7 @@ export default class Workspace extends Screen {
   }
 
   onChallengeRated ({ challengeId, rating }) {
-    this.syncSession({ stage: Stages.CHALLENGE_RATED, challengeId })
+    this.syncSession({ stage: Stages.CHALLENGE_RATED, challengeId, rating })
   }
 
   onStopChallenge ({ challengeId }) {
