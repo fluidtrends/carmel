@@ -33,15 +33,22 @@
         "intro": {
           "source": "summary",
           "text": "local://intro",
-          "image": "carmel-logo.png",
+          "image": "carmel.svg",
+          "textColor": "#37474F"
+        },
+        "video": {
+          "source": "presentation",
+          "text": "local://intro",
+          "url": "https://www.youtube.com/watch?v=qrHBVDbrOOY",
+          "image": "presentation.png",
           "textColor": "#37474F"
         },
         "pillars": {
           "source": "benefits",
           "benefits": [
-            { "text": "local://education", "image": "education.png" },
-            { "text": "local://model", "image": "model.png" },
-            { "text": "local://growth", "image": "growth.png" }
+            { "text": "local://tweak", "image": "tweak.svg" },
+            { "text": "local://reputation", "image": "reputation.svg" },
+            { "text": "local://market", "image": "market.svg" }
           ],
           "textColor": "#37474F",
           "backgroundColor": "#fcfefe"
@@ -54,7 +61,8 @@
             "image": "learning.png",
             "actionTitle": "Learn more about Chris",
             "backgroundColor": "#E1F5FE",
-            "textColor": "#0686d8"
+            "textColor": "#0686d8",
+            "animation": true
           },
           {
             "id": "stakeholders",
@@ -64,7 +72,8 @@
             "reversed": true,
             "actionTitle": "Meet All The Carmel Stakeholders",
             "backgroundColor": "#FFFFFF",
-            "textColor": "#0686d8"
+            "textColor": "#0686d8",
+            "animation": true
           },
           {
             "id": "challenges",
@@ -73,7 +82,8 @@
             "image": "challenges.png",
             "actionTitle": "Learn More",
             "backgroundColor": "#E1F5FE",
-            "textColor": "#0686d8"
+            "textColor": "#0686d8",
+            "animation": true
           },
           {
             "id": "economy",
@@ -83,7 +93,8 @@
             "reversed": true,
             "actionTitle": "Learn More",
             "backgroundColor": "#FFFFFF",
-            "textColor": "#0686d8"
+            "textColor": "#0686d8",
+            "animation": true
           },
           {
             "id": "distribution",
@@ -92,7 +103,8 @@
             "image": "distribution.png",
             "actionTitle": "Learn More",
             "backgroundColor": "#E1F5FE",
-            "textColor": "#0686d8"
+            "textColor": "#0686d8",
+            "animation": true
           },
           {
             "id": "architecture",
@@ -102,7 +114,8 @@
             "reversed": true,
             "actionTitle": "Learn More",
             "backgroundColor": "#FFFFFF",
-            "textColor": "#0686d8"
+            "textColor": "#0686d8",
+            "animation": true
           },
           {
             "id": "security",
@@ -111,7 +124,8 @@
             "image": "security.png",
             "actionTitle": "Learn More",
             "backgroundColor": "#E1F5FE",
-            "textColor": "#0686d8"
+            "textColor": "#0686d8",
+            "animation": true
           }
         ]
       },
