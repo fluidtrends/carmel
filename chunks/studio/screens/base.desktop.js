@@ -103,7 +103,7 @@ export default class BaseStudioScreen extends Screen {
 
     if (!controller) {
       this.setState({ userChallenges, challengeId })
-      this.props.refreshAccount({ userId: this.account.user.uid })
+      this.isLoggedIn && this.props.refreshAccount({ userId: this.account.user.uid })
       return
     }
 
@@ -118,6 +118,10 @@ export default class BaseStudioScreen extends Screen {
         this.setState(Object.assign({}, { userChallenges, challengeId, showPopup: true, popupIcon, popupButtonTitle, popupMessage, popupTitle }))
         break
       default:
+    }
+
+    if (!this.isLoggedIn) {
+      return
     }
 
     this.props.refreshAccount({ userId: this.account.user.uid })

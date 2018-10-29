@@ -29,6 +29,10 @@ export default class ProfileScreen extends Screen {
   }
 
   get profileData () {
+    if (!this.account.user.wallet) {
+      return []
+    }
+
     return [{
       id: 'name',
       title: 'Full Name',

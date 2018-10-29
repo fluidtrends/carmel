@@ -26,10 +26,12 @@ export default class SideMenu extends Component {
   renderMenuItem ({ id, badge, title, icon }) {
     const isSelected = ((id === this.props.menus.side[0].id && !this.props.selected) || (this.props.selected === id))
 
-    return <Menu.Item key={`${id}`} style={Object.assign({}, {
-      padding: '0px',
-      color: '#ffffff'
-    }, isSelected && { backgroundColor: '#00bcd4' })}>
+    return <Menu.Item key={`${id}`} style={{
+      padding: 0,
+      margin: 0,
+      color: '#ffffff',
+      backgroundColor: isSelected ? '#00bcd4' : 'rgba(0, 16, 31, 1)'
+    }}>
       <Badge offset={[-2, -20]} count={badge}>
         <Icon
           icon={icon}

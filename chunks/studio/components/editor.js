@@ -46,8 +46,8 @@ export default class EditorComponent extends Component {
     this.watcher && this.watcher.close()
   }
 
-  get alertMessage () {
-    return this.state.alertMessage || 'Enjoy your Carmel Experience.'
+  get hasOpenFiles () {
+    return this.openFiles && Object.keys(this.openFiles).length > 0
   }
 
   loadEditor (e) {
@@ -74,11 +74,18 @@ export default class EditorComponent extends Component {
     this.setState({ content })
   }
 
-  onFileChanged () {
-    this.reloadFile(this.activeFile)
+  onFileChanged (file) {
+    if (!this.hasOpenFiles || !this.openFiles[file]) {
+      return
+    }
+
+    this.reloadFile(file)
   }
 
-  onFileRemoved () {
+  onFileRemoved (file) {
+    if (!this.hasOpenFiles) {
+      return
+    }
   }
 
   get editor () {
@@ -102,10 +109,10 @@ export default class EditorComponent extends Component {
     }
   }
 
-  reloadFile (file) {
+  reloadFile (file, cached) {
     const mode = 'javascript'
 
-    if (this.cache[file]) {
+    if (this.cache[file] && cached) {
       this.setState({ content: this.cache[file], mode, activeFile: file })
       return
     }
@@ -119,7 +126,7 @@ export default class EditorComponent extends Component {
   }
 
   onTabEdited (file) {
-    this.closeFile(file)
+    this.props.onFileClose && this.props.onFileClose(file)
   }
 
   onTabSelected (file) {
@@ -130,41 +137,11 @@ export default class EditorComponent extends Component {
   }
 
   onTabChanged (file) {
-    this.reloadFile(file)
-  }
-
-  openFile (file) {
-    const openFiles = Object.assign({}, this.openFiles)
-
-    const timestamp = `${Date.now()}`
-    openFiles[file] = { timestamp, fullPath: path.join(this.props.dir, file) }
-
-    this.props.onMaximize && this.props.onMaximize()
-
-    this.setState({
-      openFiles,
-      showEditor: true
-    })
-
-    this.reloadFile(file)
+    this.reloadFile(file, true)
   }
 
   get openFiles () {
-    return Object.assign({}, this.state.openFiles)
-  }
-
-  closeFile (file) {
-    if (!this.openFiles || !this.openFiles[file]) {
-      return
-    }
-
-    const openFiles = Object.assign({}, this.openFiles)
-    const isActiveFile = (file === this.state.activeFile)
-
-    delete openFiles[file]
-
-    const activeFile = (Object.keys(openFiles).length > 0 ? Object.keys(this.openFiles)[0] : undefined)
-    this.setState(Object.assign({ openFiles }, isActiveFile && { activeFile }))
+    return Object.assign({}, this.props.files)
   }
 
   onFileTabSelected (file) {
@@ -195,7 +172,7 @@ export default class EditorComponent extends Component {
       return <div />
     }
 
-    return this.animate(<AceEditor
+    return <AceEditor
       key='editor'
       ref={(e) => this.loadEditor(e)}
       width='100%'
@@ -205,10 +182,8 @@ export default class EditorComponent extends Component {
       style={{
         padding: '0px',
         backgroundColor: '#FFFFFF',
-        height: this.state.showEditor ? '100%' : '0px',
-        display: 'flex',
-        paddingTop: this.state.showEditor ? '10px' : '0px',
-        marginTop: this.state.showEditor ? '0px' : '10px'
+        height: '100%',
+        display: 'flex'
       }}
       showPrintMargin
       showGutter={false}
@@ -218,11 +193,7 @@ export default class EditorComponent extends Component {
       wrapEnabled
       focus={this.state.showEditor}
       readOnly={!this.state.showEditor}
-      editorProps={{ $blockScrolling: true }} />, {
-        opacity: this.state.showEditor ? 0.1 : 1
-      }, {
-        opacity: this.state.showEditor ? 1 : 0.1
-      })
+      editorProps={{ $blockScrolling: true }} />
   }
 
   get activeFile () {
@@ -241,59 +212,9 @@ export default class EditorComponent extends Component {
       onHide={() => this.setState({ showSnack: false })} / >
   }
 
-  get childrenAction () {
-    return (this.props.challengeId ? 'See Challenge Details' : 'Take a challenge')
-  }
-
-  renderChildren () {
-    if (!this.state.showEditor) {
-      return this.props.children
-    }
-
-    return <div style={{
-      display: 'flex',
-      padding: '20px',
-      backgroundColor: '#ffffff',
-      justifyContent: 'center',
-      width: '100%'
-    }}>
-      <Button key='more' onClick={() => this.setState({ showEditor: false })} style={{
-        color: '#FFFFFF',
-        backgroundColor: '#00bcd4'
-      }}>
-        { this.childrenAction }
-      </Button>
-    </div>
-  }
-
-  animate (element, from, to) {
-    const animatedElement = (styles) => <animated.div> { React.cloneElement(element, styles) } </animated.div>
-
-    return <Spring key={element.props.key} config={{ tension: 10, friction: 10 }} native from={from} to={to}>
-      { (styles) => <animated.div style={Object.assign({}, element.props.style, styles)}> { element } </animated.div> }
-    </Spring>
-  }
-
-  renderAlertMenu () {
-    return this.animate(<div key='alertMenu' style={{
-      padding: '10px',
-      textAlign: 'center',
-      width: '100%'
-    }}>
-      <Typography use='caption' style={{
-        textAlign: 'center',
-        backgroundColor: '#ffff00',
-        padding: '5px',
-        color: '#039BE5'
-      }}>
-        {this.alertMessage}
-      </Typography>
-    </div>, { opacity: 0 }, { opacity: 1 })
-  }
-
   render () {
     if (!this.hasOpenFiles) {
-      return [this.renderAlertMenu(), this.props.children]
+      return <div />
     }
 
     var index = 0
@@ -306,7 +227,6 @@ export default class EditorComponent extends Component {
       flexDirection: 'column',
       flex: 1,
       height: '100%' }}>
-      { this.renderAlertMenu() }
       <Tabs
         hideAdd
         animated
@@ -326,31 +246,9 @@ export default class EditorComponent extends Component {
         { tabs }
       </Tabs>
       { this.renderContent() }
-      { this.renderChildren() }
       { this.renderSnack() }
     </div>
+    return <div />
   }
 
-  openFileBrowser () {
-    remote.dialog.showOpenDialog({
-      defaultPath: this.props.dir,
-      properties: ['openFile']
-    }, (files) => {
-      if (!files || files.length < 1) {
-        return
-      }
-      const relative = path.relative(this.props.dir, files[0])
-      const isOk = !relative.startsWith('..')
-
-      if (!isOk) {
-        return
-      }
-
-      this.openFile(relative)
-    })
-  }
-
-  get hasOpenFiles () {
-    return this.openFiles && Object.keys(this.openFiles).length > 0
-  }
 }

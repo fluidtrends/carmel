@@ -6,8 +6,10 @@ import { Button, ButtonIcon } from '@rmwc/button'
 import { Icon } from '@rmwc/icon'
 import { Spring } from 'react-spring'
 import Browser from '../components/browser'
-import Challenges from '../components/challenges'
 import Challenge from '../components/challenge'
+import Explorer from '../components/explorer'
+import Challenges from '../components/challenges'
+import Editor from '../components/editor'
 import Wobble from 'react-reveal/Wobble'
 import Bounce from 'react-reveal/Bounce'
 import Fade from 'react-reveal/Fade'
@@ -29,6 +31,8 @@ export default class Workspace extends Screen {
     this._onChallengeRated = this.onChallengeRated.bind(this)
     this._onStopChallenge = this.onStopChallenge.bind(this)
     this._onUnselectChallenge = this.onUnselectChallenge.bind(this)
+    this._onFileOpen = this.onFileOpen.bind(this)
+    this._onFileClose = this.onFileClose.bind(this)
   }
 
   componentDidMount () {
@@ -79,6 +83,25 @@ export default class Workspace extends Screen {
 
   onUnselectChallenge () {
     this.setState({ challengeId: '' })
+  }
+
+  onFileOpen (file) {
+    const openFiles = Object.assign({}, this.openFiles, { [file]: true })
+    this.setState({ openFiles, primaryView: 'workspace' })
+  }
+
+  onFileClose (file) {
+    const openFiles = Object.assign({}, this.openFiles)
+    delete openFiles[file]
+    this.setState({ openFiles })
+  }
+
+  get openFiles () {
+    return this.state.openFiles || {}
+  }
+
+  get hasOpenFiles () {
+    return this.openFiles && Object.keys(this.openFiles).length > 0
   }
 
   changeProduct (productId, refresh) {
@@ -183,26 +206,6 @@ export default class Workspace extends Screen {
 
   get sideMenuItem () {
     return this.menus.side.find(i => i.id === this.state.primaryView)
-  }
-
-  renderDefaultPrimaryView () {
-    if (this.state.productStarted) {
-      return <Browser
-        cache={this.cache}
-        status={this.productStatus}
-        product={this.product}
-        port={this.state.port} />
-    }
-
-    return <div>
-      <Typography use='overline' style={{
-        display: 'flex',
-        color: 'rgba(0, 16, 31, 1)',
-        flex: 1
-      }}>
-        { this.product.name } is not ready yet.
-      </Typography>
-    </div>
   }
 
   // renderScreenTray () {
@@ -318,9 +321,12 @@ export default class Workspace extends Screen {
   }
 
   renderFilesPrimaryView () {
-    return this.renderScreenContentsContainer(this.renderScreenMainMessage({
-      message: 'No files yet.'
-    }))
+    return this.renderScreenContentsContainer(
+      <Explorer
+        onFileOpen={this._onFileOpen}
+        dir={this.state.dir}
+        files={this.state.files}
+      />)
   }
 
   renderSettingsPrimaryView () {
@@ -356,7 +362,45 @@ export default class Workspace extends Screen {
       onSelectChallenge={this._onSelectChallenge} />)
   }
 
-  renderScreenContents () {
+  renderDefaultPrimaryView () {
+    if (this.state.productStarted) {
+      return <Browser
+        cache={this.cache}
+        status={this.productStatus}
+        product={this.product}
+        port={this.state.port} />
+    }
+
+    return <div>
+      <Typography use='overline' style={{
+        display: 'flex',
+        color: 'rgba(0, 16, 31, 1)',
+        flex: 1
+      }}>
+        { this.product.name } is not ready yet.
+      </Typography>
+    </div>
+  }
+
+  renderDefaultSideView () {
+    if (!this.hasOpenFiles) {
+      return <div />
+    }
+
+    return <div style={{
+      marginRight: '10px',
+      flex: 1,
+      maxWidth: '40vw'
+    }}>
+      <Editor
+        onFileClose={this._onFileClose}
+        key={'editor'}
+        files={this.openFiles}
+      />
+    </div>
+  }
+
+  renderOverlay () {
     switch (this.state.primaryView) {
       case 'files':
         return this.renderFilesPrimaryView()
@@ -369,10 +413,38 @@ export default class Workspace extends Screen {
       default:
     }
 
-    return <div style={{
-      height: '100%'
-    }}>
-      { this.renderDefaultPrimaryView() }
-    </div>
+    return <div />
+  }
+
+  renderScreenContents () {
+    return [<div
+      key='main'
+      style={{
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+        width: '100%'
+      }}>
+      { this.renderDefaultSideView() }
+      <div style={{
+        flex: 1
+      }}>
+        { this.renderDefaultPrimaryView() }
+      </div>
+    </div>, this.state.primaryView !== 'workspace' &&
+      <div
+        key='overlay'
+        style={{
+          position: 'absolute',
+          right: '10px',
+          bottom: '10px',
+          left: '90px',
+          top: '74px',
+          zIndex: 10
+        }}>
+        {
+      this.renderOverlay()
+    }
+      </div>]
   }
 }

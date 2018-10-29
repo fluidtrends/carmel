@@ -45,19 +45,19 @@
      })
 
      this.webview.addEventListener('did-navigate-in-page', (e, page) => {
-       // console.log('did-navigate-in-page', page)
+       console.log('did-navigate-in-page', page)
      })
 
      this.webview.addEventListener('will-navigate', (e, page) => {
-       // console.log('will-navigate', page)
+       console.log('will-navigate', page)
      })
 
      this.webview.addEventListener('did-start-loading', () => {
-       // console.log('did-start-loading')
+       console.log('did-start-loading')
      })
 
      this.webview.addEventListener('did-stop-loading', () => {
-       // console.log('did-stop-loading')
+       console.log('did-stop-loading')
      })
    }
 
