@@ -38,13 +38,6 @@ export default class BaseStudioScreen extends Screen {
 
   componentDidMount () {
     super.componentDidMount()
-
-    // this.showPopup({
-    //   buttonTitle: 'Keep Going',
-    //   icon: 'tokens',
-    //   title: 'Great job!',
-    //   message: 'wassup'
-    // })
   }
 
   /***********************************************************/
@@ -85,11 +78,13 @@ export default class BaseStudioScreen extends Screen {
       { machineId: this.props.session.machineId,
         machineFingerprint: this.props.session.machineFingerprint,
         stage: Stages.WORKSPACE,
+        taskIndex: 0,
         challengeId: ''
       }, data))
   }
 
   sessionSynced (response) {
+    console.log(response)
     if (!response || !response.data) {
       return
     }
@@ -103,7 +98,7 @@ export default class BaseStudioScreen extends Screen {
 
     if (!controller) {
       this.setState({ userChallenges, challengeId })
-      this.props.refreshAccount({ userId: this.account.user.uid })
+      this.isLoggedIn && this.props.refreshAccount({ userId: this.account.user.uid })
       return
     }
 
@@ -120,6 +115,10 @@ export default class BaseStudioScreen extends Screen {
       default:
     }
 
+    if (!this.isLoggedIn) {
+      return
+    }
+
     this.props.refreshAccount({ userId: this.account.user.uid })
   }
 
@@ -127,63 +126,63 @@ export default class BaseStudioScreen extends Screen {
     return this._shell
   }
 
-  loadCookies () {
-    return new Promise((resolve, reject) => {
-      remote.session.defaultSession.cookies.get({}, (error, cookies) => {
-        error ? reject(error) : resolve(cookies)
-      })
-    })
-  }
+  // loadCookies () {
+  //   return new Promise((resolve, reject) => {
+  //     remote.session.defaultSession.cookies.get({}, (error, cookies) => {
+  //       error ? reject(error) : resolve(cookies)
+  //     })
+  //   })
+  // }
 
-  loadAuthCookie ({ name, domain }) {
-    return this.loadCookies()
-               .then((cookies) => cookies.find(cookie => (cookie.domain.endsWith(domain) && cookie.secure && cookie.name === name)))
-  }
+  // loadAuthCookie ({ name, domain }) {
+  //   return this.loadCookies()
+  //              .then((cookies) => cookies.find(cookie => (cookie.domain.endsWith(domain) && cookie.secure && cookie.name === name)))
+  // }
 
-  openTwitterWindow () {
-    this.openWindow({
-      url: 'https://twitter.com/intent/follow?screen_name=carmelplatform',
-      authCookieDomain: 'twitter.com',
-      authCookieName: 'auth_token'
-    })
-  }
+  // openTwitterWindow () {
+  //   this.openWindow({
+  //     url: 'https://twitter.com/intent/follow?screen_name=carmelplatform',
+  //     authCookieDomain: 'twitter.com',
+  //     authCookieName: 'auth_token'
+  //   })
+  // }
 
-  openWindow ({ url, authCookieDomain, authCookieName }) {
-    const win = new remote.BrowserWindow({
-      show: false,
-      modal: true,
-      alwaysOnTop: false,
-      backgroundColor: this.props.theme.primaryColor,
-      width: 800,
-      height: 600
-    })
-
-    win.webContents.on('did-finish-load', () => {
-    })
-
-    win.webContents.on('did-navigate', (e, page) => {
-      this.loadAuthCookie({ domain: authCookieDomain, name: authCookieName })
-          .then((cookie) => console.log(cookie))
-      console.log(page)
-    })
-
-    win.webContents.on('did-navigate-in-page', (e, page) => {
-      this.loadAuthCookie({ name: authCookieDomain, domain: authCookieName })
-          .then((cookie) => console.log(cookie))
-      console.log(page)
-    })
-
-    win.once('ready-to-show', () => {
-      win.show()
-    })
-
-    win.on('closed', () => {
-      win = null
-    })
-
-    win.loadURL(url)
-    this.setState({ win })
-  }
+  // openWindow ({ url, authCookieDomain, authCookieName }) {
+  //   const win = new remote.BrowserWindow({
+  //     show: false,
+  //     modal: true,
+  //     alwaysOnTop: false,
+  //     backgroundColor: this.props.theme.primaryColor,
+  //     width: 800,
+  //     height: 600
+  //   })
+  //
+  //   win.webContents.on('did-finish-load', () => {
+  //   })
+  //
+  //   win.webContents.on('did-navigate', (e, page) => {
+  //     this.loadAuthCookie({ domain: authCookieDomain, name: authCookieName })
+  //         .then((cookie) => console.log(cookie))
+  //     console.log(page)
+  //   })
+  //
+  //   win.webContents.on('did-navigate-in-page', (e, page) => {
+  //     this.loadAuthCookie({ name: authCookieDomain, domain: authCookieName })
+  //         .then((cookie) => console.log(cookie))
+  //     console.log(page)
+  //   })
+  //
+  //   win.once('ready-to-show', () => {
+  //     win.show()
+  //   })
+  //
+  //   win.on('closed', () => {
+  //     win = null
+  //   })
+  //
+  //   win.loadURL(url)
+  //   this.setState({ win })
+  // }
 
   get screenTitle () {
     return this.props.title

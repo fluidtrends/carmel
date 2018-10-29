@@ -6,8 +6,10 @@ import { Button, ButtonIcon } from '@rmwc/button'
 import { Icon } from '@rmwc/icon'
 import { Spring } from 'react-spring'
 import Browser from '../components/browser'
-import Challenges from '../components/challenges'
 import Challenge from '../components/challenge'
+import Explorer from '../components/explorer'
+import Challenges from '../components/challenges'
+import Editor from '../components/editor'
 import Wobble from 'react-reveal/Wobble'
 import Bounce from 'react-reveal/Bounce'
 import Fade from 'react-reveal/Fade'
@@ -15,6 +17,7 @@ import RubberBand from 'react-reveal/RubberBand'
 import Zoom from 'react-reveal/Zoom'
 import Pulse from 'react-reveal/Bounce'
 import { notification } from 'antd'
+import * as Stages from '../functions/stages'
 
 export default class Workspace extends Screen {
   constructor (props) {
@@ -29,10 +32,16 @@ export default class Workspace extends Screen {
     this._onChallengeRated = this.onChallengeRated.bind(this)
     this._onStopChallenge = this.onStopChallenge.bind(this)
     this._onUnselectChallenge = this.onUnselectChallenge.bind(this)
+    this._onFileOpen = this.onFileOpen.bind(this)
+    this._onFileClose = this.onFileClose.bind(this)
   }
 
   componentDidMount () {
     super.componentDidMount()
+
+    Data.Cache.retrieveCachedItem('openFiles').then((openFiles) => {
+      this.setState({ openFiles })
+    })
 
     Data.Cache.retrieveCachedItem('product')
               .then((data) => { this.changeProduct(data.id, true) })
@@ -63,22 +72,52 @@ export default class Workspace extends Screen {
   }
 
   onStartChallenge ({ challengeId }) {
+    this.syncSession({ stage: Stages.CHALLENGE_STARTED, challengeId })
   }
 
   onTaskCompleted ({ taskIndex, challengeId }) {
+    this.syncSession({ stage: Stages.TASK_COMPLETED, challengeId, taskIndex })
   }
 
   onChallengeCompleted ({ challengeId }) {
+    this.syncSession({ stage: Stages.CHALLENGE_COMPLETED, challengeId })
   }
 
   onChallengeRated ({ challengeId, rating }) {
+    this.syncSession({ stage: Stages.CHALLENGE_RATED, challengeId, rating })
   }
 
   onStopChallenge ({ challengeId }) {
+    this.syncSession({ stage: Stages.CHALLENGE_STOPPED, challengeId })
   }
 
   onUnselectChallenge () {
     this.setState({ challengeId: '' })
+  }
+
+  onFileOpen (file) {
+    const openFiles = Object.assign({}, this.openFiles, { [file]: true })
+
+    Data.Cache.cacheItem('openFiles', openFiles).then((data) => {
+      this.setState({ openFiles, primaryView: 'workspace' })
+    })
+  }
+
+  onFileClose (file) {
+    const openFiles = Object.assign({}, this.openFiles)
+    delete openFiles[file]
+
+    Data.Cache.cacheItem('openFiles', openFiles).then((data) => {
+      this.setState({ openFiles })
+    })
+  }
+
+  get openFiles () {
+    return this.state.openFiles || {}
+  }
+
+  get hasOpenFiles () {
+    return this.openFiles && Object.keys(this.openFiles).length > 0
   }
 
   changeProduct (productId, refresh) {
@@ -96,17 +135,19 @@ export default class Workspace extends Screen {
       return
     }
 
-    Data.Cache.cacheItem('product', { id: productId }).then((data) => {
+    Data.Cache.clearCachedItem('openFiles')
+    .then(() => Data.Cache.cacheItem('product', { id: productId }).then((data) => {
       this.shell.cache('productId', productId)
       this.setState({
         productId,
+        openFiles: {},
         productStarting: true,
         productStarted: false,
         inProgress: true,
         progressMessage: 'Preparing Your Product Workspace. Just a sec, please ...'
       })
       this.startProduct(productId)
-    })
+    }))
   }
 
   calculatePrice (level) {
@@ -185,127 +226,6 @@ export default class Workspace extends Screen {
     return this.menus.side.find(i => i.id === this.state.primaryView)
   }
 
-  renderDefaultPrimaryView () {
-    if (this.state.productStarted) {
-      return <Browser
-        cache={this.cache}
-        status={this.productStatus}
-        product={this.product}
-        port={this.state.port} />
-    }
-
-    return <div>
-      <Typography use='overline' style={{
-        display: 'flex',
-        color: 'rgba(0, 16, 31, 1)',
-        flex: 1
-      }}>
-        { this.product.name } is not ready yet.
-      </Typography>
-    </div>
-  }
-
-  // renderScreenTray () {
-  //   if (!this.state.showChallenges) {
-  //     if (typeof this.state.showChallenges === 'undefined') {
-  //       return <Wobble duration={800} delay={800}>
-  //         <RubberBand duration={800} delay={1600}>
-  //           <Button onClick={() => this.setState({ showChallenges: true })} style={{
-  //             color: '#ffffff',
-  //             backgroundColor: this.props.theme.primaryColor
-  //           }}>
-  //             <Icon icon={'play_circle_filled'} style={{ marginRight: '5px' }} />
-  //             {`Take a challenge`}
-  //           </Button>
-  //         </RubberBand>
-  //       </Wobble>
-  //     }
-  //     return <Button onClick={() => this.setState({ showChallenges: true })} style={{
-  //       color: '#ffffff',
-  //       backgroundColor: this.props.theme.primaryColor
-  //     }}>
-  //       <Icon icon={'play_circle_filled'} style={{ marginRight: '5px' }} />
-  //       {`Take a challenge`}
-  //     </Button>
-  //   }
-  //
-  //   return <div style={{
-  //     margin: 0,
-  //     display: 'block',
-  //     overflow: 'scroll',
-  //     width: '100%',
-  //     flexDirection: 'column',
-  //     justifyContent: 'center',
-  //     alignItems: 'center',
-  //     textAlign: 'center'
-  //   }}>
-  //     <Bounce bottom duration={500} delay={100}>
-  //       { this.renderScreenTrayContents() }
-  //     </Bounce>
-  //   </div>
-  // }
-
-  // renderScreenTrayHeader () {
-  //   if (!this.state.showChallenges) {
-  //     return <div />
-  //   }
-  //
-  //   return <Zoom top delay={100} duration={500}>
-  //     <div style={{
-  //       display: 'flex',
-  //       flexDirection: 'row',
-  //       width: '100%',
-  //       margin: '20px',
-  //       padding: '20px'
-  //     }}>
-  //       <Typography use='headline5' style={{
-  //         display: 'flex',
-  //         flex: 1,
-  //         paddingLeft: '20px',
-  //         alignSelf: 'flex-start',
-  //         textAlign: 'center',
-  //         color: '#FFFFFF'
-  //       }}>
-  //       Select a challenge:
-  //     </Typography>
-  //       <Button onClick={() => this.setState({ showChallenges: false })} style={{
-  //         color: '#ffffff',
-  //         display: 'flex',
-  //         alignSelf: 'flex-end'
-  //       }}>
-  //         <Icon icon={'cancel'} />
-  //       </Button>
-  //     </div>
-  //   </Zoom>
-  // }
-
-  // renderScreenFooter () {
-  //   if (this.state.primaryView && this.state.primaryView !== 'workspace') {
-  //     return <div />
-  //   }
-  //
-  //   return <div
-  //     onClick={() => this.setState({ showChallenges: !this.state.showChallenges })}
-  //     style={{
-  //       margin: 0,
-  //       padding: 0,
-  //       height: this.state.showChallenges ? `${this.height - 75}px` : '60px',
-  //       width: `${this.width - (this.state.sideMenuExpanded ? 240 : 100)}px`,
-  //       display: 'flex',
-  //       backgroundColor: this.state.showChallenges ? `rgba(0, 16, 31, 1)` : 'rgba(101, 125, 139, 0)',
-  //       flexDirection: 'column',
-  //       justifyContent: 'center',
-  //       alignItems: 'center',
-  //       position: 'absolute',
-  //       bottom: this.state.showChallenges ? '0px' : '10px',
-  //       right: '10px',
-  //       boxShadow: '10px #455A64'
-  //     }}>
-  //     { this.renderScreenTrayHeader() }
-  //     { this.renderScreenTray() }
-  //   </div>
-  // }
-
   get challenges () {
     return this.props.session.challenges.map(challenge => {
       const newChallenge = Object.assign({}, challenge, this.state.userChallenges && this.state.userChallenges[challenge.id] && { history: this.state.userChallenges[challenge.id] })
@@ -318,9 +238,12 @@ export default class Workspace extends Screen {
   }
 
   renderFilesPrimaryView () {
-    return this.renderScreenContentsContainer(this.renderScreenMainMessage({
-      message: 'No files yet.'
-    }))
+    return this.renderScreenContentsContainer(
+      <Explorer
+        onFileOpen={this._onFileOpen}
+        dir={this.state.dir}
+        files={this.state.files}
+      />)
   }
 
   renderSettingsPrimaryView () {
@@ -356,7 +279,45 @@ export default class Workspace extends Screen {
       onSelectChallenge={this._onSelectChallenge} />)
   }
 
-  renderScreenContents () {
+  renderDefaultPrimaryView () {
+    if (this.state.productStarted) {
+      return <Browser
+        cache={this.cache}
+        status={this.productStatus}
+        product={this.product}
+        port={this.state.port} />
+    }
+
+    return <div>
+      <Typography use='overline' style={{
+        display: 'flex',
+        color: 'rgba(0, 16, 31, 1)',
+        flex: 1
+      }}>
+        { this.product.name } is not ready yet.
+      </Typography>
+    </div>
+  }
+
+  renderDefaultSideView () {
+    if (!this.hasOpenFiles) {
+      return <div />
+    }
+
+    return <div style={{
+      marginRight: '10px',
+      flex: 1,
+      maxWidth: '40vw'
+    }}>
+      <Editor
+        onFileClose={this._onFileClose}
+        key={'editor'}
+        files={this.openFiles}
+      />
+    </div>
+  }
+
+  renderOverlay () {
     switch (this.state.primaryView) {
       case 'files':
         return this.renderFilesPrimaryView()
@@ -369,10 +330,38 @@ export default class Workspace extends Screen {
       default:
     }
 
-    return <div style={{
-      height: '100%'
-    }}>
-      { this.renderDefaultPrimaryView() }
-    </div>
+    return <div />
+  }
+
+  renderScreenContents () {
+    return [<div
+      key='main'
+      style={{
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+        width: '100%'
+      }}>
+      { this.renderDefaultSideView() }
+      <div style={{
+        flex: 1
+      }}>
+        { this.renderDefaultPrimaryView() }
+      </div>
+    </div>, this.state.primaryView !== 'workspace' &&
+      <div
+        key='overlay'
+        style={{
+          position: 'absolute',
+          right: '10px',
+          bottom: '10px',
+          left: '90px',
+          top: '74px',
+          zIndex: 10
+        }}>
+        {
+      this.renderOverlay()
+    }
+      </div>]
   }
 }
