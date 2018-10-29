@@ -97,33 +97,23 @@
             "animation": true
           },
           {
-            "id": "distribution",
-            "source": "feature",
-            "text": "github://fluidtrends/carmel/content/whitepaper/token-distribution/summary",
-            "image": "distribution.png",
-            "actionTitle": "Learn More",
-            "backgroundColor": "#E1F5FE",
-            "textColor": "#0686d8",
-            "animation": true
-          },
-          {
             "id": "architecture",
             "source": "feature",
             "text": "github://fluidtrends/carmel/content/whitepaper/architecture/summary",
             "image": "architecture.png",
-            "reversed": true,
             "actionTitle": "Learn More",
-            "backgroundColor": "#FFFFFF",
+            "backgroundColor": "#E1F5FE",
             "textColor": "#0686d8",
             "animation": true
           },
           {
             "id": "security",
             "source": "feature",
+            "reversed": true,
             "text": "github://fluidtrends/carmel/content/whitepaper/security/summary",
             "image": "security.png",
             "actionTitle": "Learn More",
-            "backgroundColor": "#E1F5FE",
+            "backgroundColor": "#FFFFFF",
             "textColor": "#0686d8",
             "animation": true
           }
