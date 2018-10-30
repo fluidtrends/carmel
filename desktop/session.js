@@ -39,6 +39,16 @@ class Session {
     this._onWatcherFileAdded = this.onWatcherFileAdded.bind(this)
     this._products = {}
     this._files = {}
+    this._settings = {}
+    this._commandHistory = []
+  }
+
+  get commandHistory () {
+    return this._commandHistory
+  }
+
+  get settings () {
+    return this._settings
   }
 
   get sessionVault () {
@@ -102,19 +112,45 @@ class Session {
   }
 
   get data () {
+    const machineId = this.sessionVault.read('machineId')
+    const machineFingerprint = this.sessionVault.read('machineFingerprint')
+
     return {
       products: this.products,
       product: this.product,
       challenge: this.challenge,
       task: this.task,
+      settings: this.settings,
       challenges: this.challenges,
       templates: this.templates,
-      root: CARMEL_ROOT
+      root: CARMEL_ROOT,
+      machineId,
+      machineFingerprint
     }
   }
 
   get files () {
     return this._files
+  }
+
+  runningCommand (name) {
+    var found = false
+
+    this.commandHistory.forEach(c => {
+      if (c.command === name) {
+        found = c
+      }
+    })
+
+    return found
+  }
+
+  registerCommand (command) {
+    this._commandHistory.push(command)
+  }
+
+  clearCommandHistory () {
+    this._commandHistory = []
   }
 
   createMachineFingerprint (vaults) {
@@ -342,6 +378,10 @@ class Session {
     })
   }
 
+  loadSettings () {
+    this._settings = Object.assign({}, this.sessionVault.read('settings'))
+  }
+
   loadTemplates () {
     this._templates = []
 
@@ -379,6 +419,7 @@ class Session {
                this.loadProducts()
                this.loadTemplates()
                this.startWatching()
+               this.loadSettings()
                resolve(this.data)
              })
               .catch((error) => reject(error))
@@ -422,11 +463,9 @@ class Session {
                this.mainWindow.webContents.send(client, { product, done: true })
              })
              .catch((error) => {
-               console.log(error)
                this.mainWindow.webContents.send(client, { error })
              })
     } catch (error) {
-      console.log(error)
       this.mainWindow.webContents.send(client, { error })
     }
   }
@@ -439,6 +478,13 @@ class Session {
     }
 
     return this.sessionVault.load().then(({ vault }) => this.load(vault))
+  }
+
+  stop () {
+    return new Promise((resolve, reject) => {
+      this.clearCommandHistory()
+      resolve()
+    })
   }
 }
 

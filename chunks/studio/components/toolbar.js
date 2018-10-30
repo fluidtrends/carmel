@@ -1,33 +1,35 @@
 import React from 'react'
 import { Component, Components } from 'react-dom-chunky'
 import { Dropdown, Menu, Icon } from 'antd'
+import { Button, ButtonIcon } from '@rmwc/button'
+import { Fab } from '@rmwc/fab'
+import { Elevation } from '@rmwc/elevation'
+
+const SubMenu = Menu.SubMenu
+const ItemGroup = Menu.ItemGroup
 
 export default class Toolbar extends Component {
   constructor (props) {
     super(props)
 
     this.state = { }
-    this._productChanged = this.productChanged.bind(this)
-    this._showAccountScreen = this.showAccountScreen.bind(this)
-    this._togglePreview = this.togglePreview.bind(this)
+    this._productOption = this.productOption.bind(this)
   }
 
   componentDidMount () {
     super.componentDidMount()
   }
 
-  productChanged (item) {
-    if (item.key === 'newProduct') {
-      this.props.onNewProduct && this.props.onNewProduct()
-      return
+  productOption (item) {
+    const [keyType, key] = item.key.split('/')
+
+    switch (keyType) {
+      case 'screen':
+        this.props.onScreenChanged && this.props.onScreenChanged(key)
+        break
+      default:
+        this.props.onProductOption && this.props.onProductOption(key)
     }
-
-    const p = this.props.products[item.key]
-    this.props.onProductChanged && this.props.onProductChanged(p)
-  }
-
-  showAccountScreen () {
-    this.props.onShowAccountScreen && this.props.onShowAccountScreen()
   }
 
   togglePreview () {
@@ -36,74 +38,135 @@ export default class Toolbar extends Component {
     this.setState({ preview })
   }
 
-  renderMenu () {
-    const items = Object.keys(this.props.products).filter(p => (p !== this.props.product.id)).map(p => {
-      return <Menu.Item key={p}> <Icon type='laptop' style={{ marginRight: '5px'}} /> {this.props.products[p].name } </Menu.Item>
-    })
+  trimString (s, max) {
+    const needsTrimming = name.length > max
+    return s.substring(0, needsTrimming ? max : s.length) + (needsTrimming ? '...' : '')
+  }
 
-    return <Menu onClick={this._productChanged}>
-      { items }
+  renderUserTitle () {
+    if (!this.props.account || !this.props.account.user) {
+      return 'Sign In'
+    }
+
+    return this.trimString(this.props.account.user.name, 16)
+  }
+
+  renderUserMenu (options) {
+    return <Menu onClick={this._productOption} style={{ padding: '0px'}}>
+      <Menu.Item key='screen/community' style={{ color: '#546E7A', margin: '0px', padding: '5px 15px 5px 5px' }}>
+        <Icon type='team' style={{ margin: '10px' }} />
+          Community Resources
+        </Menu.Item>
+      <Menu.Item key='screen/bounties' style={{ color: '#546E7A', margin: '0px', padding: '5px 15px 5px 5px' }}>
+        <Icon type='trophy' style={{ margin: '10px' }} />
+        Bounties
+      </Menu.Item>
       <Menu.Divider />
-      <Menu.Item key='newProduct' style={{ color: '#42A5F5' }}>
-        <Icon type='plus-circle-o' style={{ marginRight: '5px'}} />
-        Create a new product
+      <Menu.Item key='screen/settings' style={{ color: '#546E7A', margin: '0px', padding: '5px 15px 5px 5px' }}>
+        <Icon type='setting' style={{ margin: '10px' }} />
+          Account Settings
+        </Menu.Item>
+    </Menu>
+  }
+
+  renderProductMenu (options) {
+    // const products = Object.keys(this.props.products).map(p => <Menu.Item key={`product/${this.props.products[p].id}`} style={{ color: '#607D8B', margin: '0px', padding: '5px 15px 5px 5px' }}>
+    //   <Icon type='desktop' style={{ margin: '10px' }} />
+    //   { this.props.products[p].name }
+    // </Menu.Item>)
+
+    return <Menu onClick={this._productOption} style={{ padding: '0px'}}>
+      <Menu.Item key='/openFile' style={{ color: '#546E7A', margin: '0px', padding: '5px 15px 5px 5px' }}>
+        <Icon type='file-text' style={{ margin: '10px' }} />
+        Open File
+      </Menu.Item>
+      <Menu.Item key='/publishProduct' style={{ color: '#546E7A', margin: '0px', padding: '5px 15px 5px 5px' }}>
+        <Icon type='cloud-upload' style={{ margin: '10px' }} />
+        Publish Product
+      </Menu.Item>
+      <Menu.Divider />
+      <Menu.Item key='/switchProduct' style={{ color: '#546E7A', margin: '0px', padding: '5px 15px 5px 5px' }}>
+        <Icon type='retweet' style={{ margin: '10px' }} />
+        Switch Product
       </Menu.Item>
     </Menu>
   }
 
-  renderMenuBar () {
-    return <div style={{ padding: '0 5px' }}>
-      { this.props.product.name }
-    </div>
-
-    // return <Dropdown overlay={this.renderMenu(items)} trigger={['click']}>
-    //   <a className='ant-dropdown-link' href='#' style={{ padding: '0 5px' }}>
-    //     { this.props.product.name } <Icon type='down' />
-    //   </a>
-    // </Dropdown>
+  icon (type, action) {
+    return <Button
+      onClick={action}
+      style={{
+        color: '#546E7A',
+        textAlign: 'center',
+        padding: '0px',
+        justifyContent: 'center',
+        margin: '0px'
+      }}>
+      <ButtonIcon icon={type}
+        style={{
+          selfAlign: 'center',
+          padding: '0px',
+          margin: '0px'
+        }} />
+    </Button>
   }
 
   render () {
-    return <div style={{
+    return <Elevation z={2} style={{
       display: 'flex',
       flex: 1,
-      alignItems: 'flex-start',
-      justifyContent: 'flex-start'
+      backgroundColor: '#ffffff',
+      width: '100%',
+      padding: '10px',
+      flexDirection: 'row',
+      alignItems: 'center',
+      height: '100%',
+      justifyContent: 'center'
     }}>
-      <Icon
-        style={{
-          color: '#455A64',
-          display: 'flex',
-          fontSize: '18px',
-          marginLeft: '10px',
-          lineHeight: '64px',
-          padding: '0 10px',
-          cursor: 'pointer',
-          transition: 'color .3s'
-        }}
-        type={this.state.preview ? 'menu-unfold' : 'menu-fold'}
-        onClick={this._togglePreview}
-          />
       <div style={{
-        flex: 1,
-        display: 'flex'
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'flex-start'
       }}>
-        { this.renderMenuBar() }
+        { this.icon(this.state.preview ? 'phonelink' : 'phonelink_off', () => this.togglePreview()) }
       </div>
-      <Icon
-        style={{
-          color: '#455A64',
-          display: 'flex',
-          fontSize: '18px',
-          lineHeight: '64px',
-          padding: '0 24px',
-          cursor: 'pointer',
-          alignSelf: 'flex-end',
-          transition: 'color .3s'
-        }}
-        type={'user'}
-        onClick={this._showAccountScreen} />
-    </div>
+      <div style={{
+        display: 'flex',
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-start'
+      }}>
+        <Dropdown
+          overlay={this.renderProductMenu()}
+          trigger={['hover']}>
+          <Button style={{
+            color: '#00bcd4',
+            marginLeft: '3px'
+          }}>
+            { this.trimString(this.props.product.name, 20) }
+            <ButtonIcon icon='expand_more' />
+          </Button>
+        </Dropdown>
+      </div>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'flex-end'
+      }}>
+        <Dropdown
+          overlay={this.renderUserMenu()}
+          trigger={['hover']}>
+          <Button style={{
+            color: '#546E7A',
+            marginLeft: '3px'
+          }}>
+            <ButtonIcon icon='account_circle' />
+            { this.renderUserTitle() }
+            <ButtonIcon icon='expand_more' />
+          </Button>
+        </Dropdown>
+      </div>
+    </Elevation>
   }
 
 }

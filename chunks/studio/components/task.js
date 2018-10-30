@@ -1,11 +1,11 @@
 import React from 'react'
 import { Component, Components } from 'react-dom-chunky'
-import { Card, CardActions, CardActionButtons } from 'rmwc/Card'
-import { Button, ButtonIcon } from 'rmwc/Button'
-import { Typography } from 'rmwc/Typography'
+import { Card, CardActions, CardActionButtons } from '@rmwc/card'
+import { Button, ButtonIcon } from '@rmwc/button'
+import { Typography } from '@rmwc/typography'
 import { List, Avatar, IconText, Popover, Progress, Tag, Rate, Spin, Icon, notification, Badge } from 'antd'
-import { Chip, ChipText, ChipIcon, ChipSet } from 'rmwc/Chip'
-import { Elevation } from 'rmwc/Elevation'
+import { Chip, ChipText, ChipIcon, ChipSet } from '@rmwc/chip'
+import { Elevation } from '@rmwc/elevation'
 import Shell from './shell'
 import Prompt from './prompt'
 const { Button: AntdButton } = require('antd')
@@ -111,7 +111,7 @@ export default class Task extends Component {
         marginBottom: '20px',
         backgroundColor: `#4CAF50`
       }}>
-      <ButtonIcon use={'check'} /> Mark Task As Complete
+      Mark Task As Complete
     </Button>
   }
 
@@ -153,9 +153,11 @@ export default class Task extends Component {
       { this.props.task.help}
     </Typography>
 
-    return <Prompt>
+    return <Prompt
+      subtitle={this.props.challenge.title}>
       <Typography use='title' style={{
         textAlign: 'left',
+        padding: '20px',
         color: '#00bcd4'
       }}>
         <Avatar size='small' style={{
@@ -172,7 +174,7 @@ export default class Task extends Component {
       <Typography use='body1' style={{
         textAlign: 'left',
         color: '#78909C',
-        margin: '10px'
+        padding: '20px'
       }}>
         { this.props.task.instructions}
         <Popover placement='bottomRight' content={popup}>
@@ -202,21 +204,14 @@ export default class Task extends Component {
       <Typography use='title' tag='h2' style={{
         marginTop: '20px',
         flex: 1,
-        textAlign: 'left'
+        textAlign: 'center'
       }}>
-        <Button onClick={this._onShowChallenge}>
-          <ButtonIcon use='arrow_back' />
+        <Button onClick={this._onShowChallenge} style={{
+          color: '#81D4FA',
+          backgroundColor: '#ECEFF1'
+        }}>
+          <Icon type={'arrow-left'} style={{ marginRight: '5px' }} />
           Back to challenge
-        </Button>
-      </Typography>
-      <Typography use='title' tag='h2' style={{
-        marginTop: '20px',
-        flex: 1,
-        textAlign: 'right'
-      }}>
-        <Button onClick={this._onOpenFile}>
-          <ButtonIcon use='file_copy' />
-          Open Source Code
         </Button>
       </Typography>
     </div>

@@ -1,7 +1,6 @@
 import React from 'react'
 import { Component } from 'react-dom-chunky'
 import { Parallax } from 'react-spring'
-import Typist from 'react-typist'
 import { Button, ButtonIcon } from 'rmwc/Button'
 
 export default class Info extends Component {
@@ -88,7 +87,7 @@ export default class Info extends Component {
           style={{marginBottom: '40px'}}
           raised
           onClick={this._onContinue}>
-          <ButtonIcon use='done' />
+          <ButtonIcon icon='done' />
           { `Create your first website` }
         </Button>
       </div>

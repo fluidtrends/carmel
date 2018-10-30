@@ -12,7 +12,7 @@ import Recaptcha from 'react-recaptcha'
 const FormItem = Form.Item
 
 export default class RegisterScreen extends Screen {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { ...this.state }
     this._done = this.done.bind(this)
@@ -21,11 +21,11 @@ export default class RegisterScreen extends Screen {
     this.state = { ...super.state }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     super.componentDidMount()
   }
 
-  done() {
+  done () {
     if (!this.state.name) {
       this.setState({ error: errors.name, errorType: 'name', loading: false })
       return
@@ -83,7 +83,7 @@ export default class RegisterScreen extends Screen {
     }, 300)
   }
 
-  registerOk() {
+  registerOk () {
     try {
       window.location.reload(true)
     } catch (error) {
@@ -91,19 +91,19 @@ export default class RegisterScreen extends Screen {
     }
   }
 
-  registerError(error) {
+  registerError (error) {
     this.setState({ loading: false, password: '', password2: '', error: error.message })
   }
 
-  login() {
+  login () {
     this.triggerRedirect('/login')
   }
 
-  get error() {
+  get error () {
     return this.state.error ? this.state.error : this.props.error
   }
 
-  renderError() {
+  renderError () {
     if (!this.error) {
       return
     }
@@ -115,13 +115,13 @@ export default class RegisterScreen extends Screen {
     )
   }
 
-  onKeyPress(event) {
+  onKeyPress (event) {
     if (event.key === 'Enter') {
       this._done()
     }
   }
 
-  renderCaptcha() {
+  renderCaptcha () {
     if (this.props.desktop) {
       return <div />
     }
@@ -144,7 +144,7 @@ export default class RegisterScreen extends Screen {
     </div>
   }
 
-  renderFields() {
+  renderFields () {
     return <div>
       <FormItem>
         <Input
@@ -184,7 +184,11 @@ export default class RegisterScreen extends Screen {
     </div>
   }
 
-  renderFormContent(width, padding) {
+  renderMainContentFooter () {
+    return <div />
+  }
+
+  renderFormContent (width, padding) {
     if (this.state.loading) {
       return this.renderLoading()
     }
@@ -210,7 +214,7 @@ export default class RegisterScreen extends Screen {
             raised
             onClick={this._done}
             theme='secondary-bg text-primary-on-secondary'>
-            <ButtonIcon use='done' />
+            <ButtonIcon icon='done' />
             Register Now
           </Button>
         </CardActionButtons>
@@ -227,26 +231,39 @@ export default class RegisterScreen extends Screen {
     </Card>
   }
 
-  renderForm() {
-    const width = this.isSmallScreen ? '95vw' : '600px'
+  get containerStyle () {
     const margin = this.isSmallScreen ? '0' : '40px'
-    const padding = this.isSmallScreen ? '10px' : '30px'
+    return {
+      display: 'flex',
+      flex: 1,
+      margin,
+      justifyContent: 'center',
+      flexDirection: 'column',
+      alignItems: 'center'
+    }
+  }
+
+  get formWidth () {
+    return this.isSmallScreen ? '95vw' : '600px'
+  }
+
+  get formPadding () {
+    return this.isSmallScreen ? '10px' : '30px'
+  }
+
+  renderForm () {
+    const width = this.formWidth
+    const padding = this.formPadding
     return (
       <div
-        style={{
-          display: 'flex',
-          flex: 1,
-          margin,
-          justifyContent: 'center',
-          flexDirection: 'column',
-          alignItems: 'center'
-        }}>
+        style={this.containerStyle}>
         {this.renderFormContent(width, padding)}
+        { this.renderMainContentFooter() }
       </div>
     )
   }
 
-  components() {
+  components () {
     return [this.renderForm()]
   }
 }

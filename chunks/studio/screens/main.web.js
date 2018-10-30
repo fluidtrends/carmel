@@ -1,37 +1,37 @@
 import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
 import Platform from 'platform'
-import { Typography } from 'rmwc/Typography'
+import { Typography } from '@rmwc/typography'
 
 const OSVersions = ['MacOS', 'Windows', 'Linux']
-import { Button } from 'rmwc/Button'
-import { TabBar, Tab, TabIcon, TabIconText, TabBarScroller } from 'rmwc/Tabs';
+import { Button } from '@rmwc/button'
+import { TabBar, Tab } from '@rmwc/tabs'
 
 export default class MainStudioScreen extends Screen {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { ...this.state, activeTabIndex: 0 }
   }
 
-  changeOs(evt) {
-    this.setState({ 'activeTabIndex': evt.detail.activeTabIndex })
+  changeOs (evt) {
+    this.setState({ 'activeTabIndex': evt.detail.index })
   }
 
-  componentDidMount() {
+  componentDidMount () {
     super.componentDidMount()
   }
 
-  download(os) {
+  download (os) {
     const account = this.isLoggedIn ? 'member' : 'guest'
     window.open(`http://files.carmel.io/studio/carmel.dmg`, '_blank')
     this.triggerAnalyticsEvent({
       category: `Download ${os} ` + this.constructor.name,
       action: '' + this.props.location.pathname,
       label: account
-    });
+    })
   }
 
-  renderStudioVersions() {
+  renderStudioVersions () {
     const versions = Object.keys(OSVersions).map(key => {
       const os = OSVersions[key]
       let action = () => { }
@@ -44,12 +44,12 @@ export default class MainStudioScreen extends Screen {
     })
 
     return <div style={{ padding: '4rem 5rem', textAlign: 'center' }}>
-      <Typography use="display1" tag="h1">
+      <Typography use='display1' tag='h1'>
         Download the Carmel Studio for other platforms
         </Typography>
       <TabBar
         activeTabIndex={this.state.activeTabIndex}
-        onChange={this.changeOs.bind(this)}
+        onActivated={this.changeOs.bind(this)}
       >
         <Tab>MacOs</Tab>
         <Tab>Windows</Tab>
@@ -62,17 +62,17 @@ export default class MainStudioScreen extends Screen {
     </div>
   }
 
-  handleSystemEvent(event) {
+  handleSystemEvent (event) {
     if (event === '/download') {
       this.download('mac')
     }
   }
 
-  get features() {
+  get features () {
     return [this.renderStudioVersions()]
   }
 
-  components() {
+  components () {
     return super.components().concat(this.features)
   }
 }

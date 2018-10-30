@@ -2,10 +2,9 @@ import React from 'react'
 import { Component } from 'react-dom-chunky'
 import moment from 'moment'
 import validator from 'validator'
-import { LinearProgress } from 'rmwc/LinearProgress'
+import { LinearProgress } from '@rmwc/linear-progress'
 import base64 from 'base-64'
-import { Icon } from 'rmwc/Icon'
-import { TextField, TextFieldIcon, TextFieldHelperText } from 'rmwc/TextField'
+import { TextField, TextFieldIcon, TextFieldHelperText } from '@rmwc/textfield'
 import {
   Card,
   CardMedia,
@@ -19,10 +18,10 @@ import {
   CardSubtitle,
   CardSupportingText,
   CardHorizontalBlock
-} from 'rmwc/Card'
-import { Button, ButtonIcon } from 'rmwc/Button'
-import { Typography } from 'rmwc/Typography'
-import { FormField } from 'rmwc/FormField'
+} from '@rmwc/card'
+import { Button, ButtonIcon } from '@rmwc/button'
+import { Typography } from '@rmwc/typography'
+import { FormField } from '@rmwc/formfield'
 import mailchimp from 'mailchimp-v3'
 
 export default class NewsletterComponent extends Component {

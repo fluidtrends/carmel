@@ -3,16 +3,10 @@ import { Screen } from 'react-dom-chunky'
 import { Telegram } from '../components'
 import { BuyModal } from '../components'
 
-import { Parallax } from 'react-spring'
 import Intro from '../components/intro'
-import Studio from '../components/studio'
-import Tokens from '../components/tokens'
-import Team from '../components/team'
-import TeamAction from '../components/action'
-import Footer from '../components/footer'
 
 export default class MainIntroScreen extends Screen {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { ...this.state, showModal: false }
 
@@ -24,106 +18,73 @@ export default class MainIntroScreen extends Screen {
     this._showTeam = this.showTeam.bind(this)
   }
 
-  componentDidMount() {
+  componentDidMount () {
     super.componentDidMount()
   }
 
   onStart() {
-    this.scroller.scrollTo(1)
+    this.triggerRedirect('/tokens')
   }
 
-  meetChris() {
+  meetChris () {
     this.triggerRedirect('/whitepaper')
   }
 
-  showTeam() {
+  showTeam () {
     this.triggerRedirect('/team')
   }
 
-  onContinue(index) {
+  onContinue (index) {
     this.scroller.scrollTo(index)
   }
 
-  download() {
+  download () {
     this.triggerRedirect('/download')
   }
 
-
-  renderDefault() {
-    return <Parallax
-      ref={ref => (this.scroller = ref)}
-      scrolling={!this.state.creatingProduct}
-      pages={9}
-      style={{
-        backgroundColor: '#00bcd4'
-      }}>
+  renderDefault () {
+    // <Studio
+    //   session={this.props.session}
+    //   offset={1}
+    //   onContinue={this._download} /> */}
+    // <Tokens
+    //   session={this.props.session}
+    //   offset={1}
+    //   triggerRawRedirect={this.triggerRawRedirect}
+    //   newTransaction={this.props.newTransaction}
+    //   onCancel={this._onModalClose}
+    //   transaction={this.state.transaction}
+    //   account={this.props.account}
+    //   isSmallScreen={this.isSmallScreen}
+    // />
+    // <Team
+    //   session={this.props.session}
+    //   isSmallScreen={this.isSmallScreen}
+    //   offset={2}
+    // />
+    return <div>
       <Intro
-        session={this.props.session}
         offset={0}
         isSmallScreen={this.isSmallScreen}
         onStart={this._onStart}
-        onContinue={this._onContinue.bind(this, 2)} />
-      <Studio
-        session={this.props.session}
-        offset={1}
-        onContinue={this._download} />
-      <Tokens
-        session={this.props.session}
-        offset={2}
-        triggerRawRedirect={this.triggerRawRedirect}
-        newTransaction={this.props.newTransaction}
-        onCancel={this._onModalClose}
-        transaction={this.state.transaction}
-        account={this.props.account}
-        isSmallScreen={this.isSmallScreen}
+        onContinue={this._onContinue.bind(this, 1)}
       />
-      <Team
-        session={this.props.session}
-        isSmallScreen={this.isSmallScreen}
-        offset={3}
-      />
-      <TeamAction
-        session={this.props.session}
-        isSmallScreen={this.isSmallScreen}
-        showTeam={this._showTeam}
-        offset={this.isSmallScreen ? 5 : 6}
-      />
-      <Footer
-        session={this.props.session}
-        meetChris={this._meetChris}
-        offset={this.isSmallScreen ? 7 : 8}
-        isSmallScreen={this.isSmallScreen}
-      />
-    </Parallax>
-  }
-
-  get height() {
-    return '100vh'
-  }
-
-  get isSmallScreen() {
-    return this.state.width < 1224
-  }
-
-  renderNewScreen() {
-    return <div style={{
-      backgroundColor: '#ffffff',
-      display: 'flex',
-      flex: 1,
-      height: '100vh',
-      alignItems: 'center',
-      justifyContent: 'center'
-    }}>
-      {this.renderDefault()}
     </div>
   }
 
+  get height () {
+    return '100vh'
+  }
 
-  get telegram() {
+  get isSmallScreen () {
+    return this.state.width < 1224
+  }
+
+  get telegram () {
     return (<Telegram onAction={() => { this.triggerRawRedirect('https://t.me/carmelplatform') }} />)
   }
 
-  transactionOk(transaction) {
+  transactionOk (transaction) {
     if (transaction.error) {
       this.setState({ error: transaction.error })
       return
@@ -132,17 +93,17 @@ export default class MainIntroScreen extends Screen {
     this.setState({ transaction })
   }
 
-  transactionError(error) {
+  transactionError (error) {
     this.setState({ error: error.message })
   }
 
-  components() {
+  components () {
     const features = super.components()
-    return [...features, this.renderNewScreen(), this.telegram]
+    return [ this.renderDefault(), ...features, this.telegram]
 
   }
 
-  onModalClose() {
+  onModalClose () {
     this.setState({ showModal: false })
   }
 

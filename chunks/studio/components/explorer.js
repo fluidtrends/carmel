@@ -1,64 +1,46 @@
 import React from 'react'
 import { Component, Components } from 'react-dom-chunky'
-import { Tree, Icon, Modal, Button } from 'antd'
+import { Icon, Button, Tree } from 'antd'
 import path from 'path'
 
-const DirectoryTree = Tree.DirectoryTree
 const TreeNode = Tree.TreeNode
 
 export default class Explorer extends Component {
+
   constructor (props) {
     super(props)
 
     this.state = { }
-    this._onFileBrowserSelect = this.onFileBrowserSelect.bind(this)
-    this._onClose = this.onClose.bind(this)
+    this._onSelect = this.onSelect.bind(this)
   }
 
   componentDidMount () {
     super.componentDidMount()
   }
 
-  onClose () {
-    this.props.onClose && this.props.onClose()
-  }
-
-  onFileBrowserSelect (item) {
+  onSelect (item, info) {
     this.props.onFileOpen && this.props.onFileOpen(item[0])
   }
 
   buildFileBrowser (nodes, parent) {
-    var browser = []
-
-    Object.keys(nodes).map(node => {
+    const browser = Object.keys(nodes).map(node => {
       const key = path.resolve(parent, node)
 
       if (typeof nodes[node] !== 'object') {
-        const ext = path.extname(node).substring(1).toLowerCase()
-        var icon = 'file-text'
-        switch (ext) {
-          case 'md':
-            icon = 'file-markdown'
-            break
-          default:
-        }
-
-        browser.push(<TreeNode
+        return <TreeNode
           title={node}
           selectable
-          icon={<Icon type={icon} />}
-          key={key}
-          isLeaf
-          />)
-        return
+          icon={<Icon type={'file-text'} />}
+          key={key} />
       }
 
-      browser.push(<TreeNode
+      return <TreeNode
         title={node}
         selectable={false}
+        icon={<Icon type={'folder'} />}
         key={key}>
         { this.buildFileBrowser(nodes[node], key) }
-      </TreeNode>)
+      </TreeNode>
     })
 
     return browser
@@ -99,15 +81,15 @@ export default class Explorer extends Component {
     const nodes = this.sortNodes(this.props.files)
     const browser = this.buildFileBrowser(nodes, this.props.dir)
 
-    return <Modal
-      title='Select a file to open'
-      onCancel={this._onClose}
-      footer={[<Button key='back' onClick={this._onClose}>Cancel</Button>]}
-      visible>
-      <DirectoryTree
-        onSelect={this._onFileBrowserSelect}>
+    return <div style={{
+      textAlign: 'left'
+    }}>
+      <Tree
+        showIcon
+        defaultExpandAll
+        onSelect={this._onSelect}>
         { browser }
-      </DirectoryTree>
-    </Modal>
+      </Tree>
+    </div>
   }
 }

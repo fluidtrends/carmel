@@ -2,29 +2,29 @@ import React from 'react'
 import { Component, Components } from 'react-dom-chunky'
 import { Parallax } from 'react-spring'
 import Typist from 'react-typist'
-import { Button, ButtonIcon } from 'rmwc/Button'
+import { Button, ButtonIcon } from '@rmwc/button'
 
 export default class Welcome extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.state = { speaking: true }
     this._meetChris = this.meetChris.bind(this)
   }
 
-  componentDidMount() {
+  componentDidMount () {
     super.componentDidMount()
     setTimeout(() => this.setState({ speaking: false }), 13000)
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
   }
 
-  meetChris() {
+  meetChris () {
     this.props.meetChris && this.props.meetChris()
   }
 
-  stars(offset, speed) {
+  stars (offset, speed) {
     return [<Parallax.Layer key='stars' offset={offset} speed={speed} style={{ opacity: 0.3 }}>
       <img src={'../../../../assets/stars.png'} style={{
         display: 'block',
@@ -44,16 +44,16 @@ export default class Welcome extends Component {
     </Parallax.Layer>]
   }
 
-  clouds(offset, speed) {
+  clouds (offset, speed) {
     return [<Parallax.Layer key='clouds' offset={offset} speed={speed} style={{ opacity: 1 }}>
       <img src={'../../../../assets/clouds.png'} style={{ display: 'block', width: '10%', marginLeft: '10%' }} />
     </Parallax.Layer>,
-    <Parallax.Layer key='clouds2' offset={offset} speed={speed} style={{ opacity: 1.0 }}>
-      <img src={'../../../../assets/clouds.png'} style={{ display: 'block', width: '15%', marginLeft: '70%' }} />
-    </Parallax.Layer>]
+      <Parallax.Layer key='clouds2' offset={offset} speed={speed} style={{ opacity: 1.0 }}>
+        <img src={'../../../../assets/clouds.png'} style={{ display: 'block', width: '15%', marginLeft: '70%' }} />
+      </Parallax.Layer>]
   }
 
-  movingClouds(offset, speed) {
+  movingClouds (offset, speed) {
     return [<Parallax.Layer key='movingClouds' offset={offset} speed={speed} style={{ opacity: 1 }}>
       <img src={'../../../../assets/cloud1.png'} style={{
         display: 'block',
@@ -69,43 +69,43 @@ export default class Welcome extends Component {
     </Parallax.Layer>]
   }
 
-  mountains(offset, speed) {
+  mountains (offset, speed) {
     return [<Parallax.Layer key='mountains' offset={offset} speed={speed} style={{ opacity: 0.8 }}>
       <img src={'../../../../assets/mountains.png'} style={{ display: 'block', width: '100%', margin: '0' }} />
     </Parallax.Layer>]
   }
 
-  hills(offset, speed) {
+  hills (offset, speed) {
     return [<Parallax.Layer key='hills' offset={offset} speed={speed} style={{ opacity: 1 }}>
       <img src={'../../../../assets/hills.png'} style={{ display: 'block', width: '100%', margin: '0' }} />
     </Parallax.Layer>]
   }
 
-  ground(offset, speed) {
+  ground (offset, speed) {
     return [<Parallax.Layer key='ground' offset={offset} speed={speed} style={{ opacity: 1 }}>
       <img src={'../../../../assets/ground.png'} style={{ display: 'block', width: '100%', margin: '0' }} />
     </Parallax.Layer>]
   }
 
-  grass(offset, speed) {
+  grass (offset, speed) {
     return [<Parallax.Layer key='grass' offset={offset} speed={speed} style={{ opacity: 1 }}>
       <img src={'../../../../assets/grass.png'} style={{ display: 'block', width: '100%', margin: '0' }} />
     </Parallax.Layer>]
   }
 
-  front(offset, speed) {
+  front (offset, speed) {
     return [<Parallax.Layer key='front' offset={offset} speed={speed} style={{ opacity: 1 }}>
       <img src={'../../../../assets/front.png'} style={{ display: 'block', width: '100%', margin: '0' }} />
     </Parallax.Layer>]
   }
 
-  rocks(offset, speed) {
+  rocks (offset, speed) {
     return [<Parallax.Layer key='rocks' offset={offset} speed={speed} style={{ opacity: 1 }}>
       <img src={'../../../../assets/rocks.png'} style={{ display: 'block', width: '100%', margin: '0' }} />
     </Parallax.Layer>]
   }
 
-  title(offset, speed) {
+  title (offset, speed) {
     const fontSize = 18
     const textWidth = 420
     const color = '#FAFAFA'
@@ -123,7 +123,7 @@ export default class Welcome extends Component {
     </Parallax.Layer>]
   }
 
-  subtitle(offset, speed) {
+  subtitle (offset, speed) {
     const fontSize = 18
     const color = '#FAFAFA'
 
@@ -132,14 +132,14 @@ export default class Welcome extends Component {
         color,
         textAlign: 'center',
         textShadow: '2px 2px 5px #607D8B',
-        fontSize: `${fontSize + 10}px`,
+        fontSize: `${fontSize + 10}px`
       }}>
         {intro}
       </h3>
     </Parallax.Layer>]
   }
 
-  panel(offset, speed) {
+  panel (offset, speed) {
     const fontSize = 18
     const textWidth = 420
     const actionText = 'Meet Chris'
@@ -150,73 +150,73 @@ export default class Welcome extends Component {
     return [<Parallax.Layer key='panel' offset={offset} speed={speed} style={{ opacity: 0.8, display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
       <img src={`../../../../assets/panel.png`} style={{ display: 'block', width: '75%', height: '300px' }} />
     </Parallax.Layer>,
-    <Parallax.Layer
-      offset={offset}
-      key='panel2'
-      speed={speed}
-      style={{
-        opacity: 1,
-        display: 'flex',
-        alignItems: 'flex-end',
-        justifyContent: 'center',
-        paddingBottom: `${textPadding}px`
-      }}>
+      <Parallax.Layer
+        offset={offset}
+        key='panel2'
+        speed={speed}
+        style={{
+          opacity: 1,
+          display: 'flex',
+          alignItems: 'flex-end',
+          justifyContent: 'center',
+          paddingBottom: `${textPadding}px`
+        }}>
 
-      <Typist cursor={{ show: false }} style={{}}>
-        <h3 style={{
-          color,
-          textAlign: 'left',
-          fontSize: `${fontSize + 4}px`,
-          textShadow: '2px 2px 5px #ffffff',
-          fontFamily,
-          width: `${textWidth}px`
-        }}>
-          {speech[0]}
-        </h3>
-        <Typist.Delay ms={500} />
-        <h3 key='2' style={{
-          color,
-          textAlign: 'left',
-          fontSize: `${fontSize}px`,
-          fontFamily,
-          textShadow: '2px 2px 5px #ffffff'
-        }}>
-          {speech[1]}
-        </h3>
-        <h3 key='3' style={{
-          color,
-          fontSize: `${fontSize}px`,
-          textShadow: '2px 2px 5px #ffffff',
-          fontFamily,
-          textAlign: 'left'
-        }}>
-          {speech[2]}
-        </h3>
-        <h3 key='3' style={{
-          color,
-          fontSize: `${fontSize}px`,
-          textShadow: '2px 2px 5px #ffffff',
-          fontFamily,
-          textAlign: 'left'
-        }}>
-          {speech[3]}
-        </h3>
-        <Typist.Delay ms={500} />
-        <h3 key='4' style={{ color: '#602f15', textAlign: 'center', textShadow: '2px 2px 5px #ffffff' }}>
-          <Button
-            raised
-            theme='secondary-bg text-primary-on-secondary'
-            style={{ marginTop: '10px', width }}
-            onClick={this._meetChris}>
-            <ButtonIcon use='done' />
-            {actionText}
-          </Button>
-        </h3>
-      </Typist>
-    </Parallax.Layer>]
+        <Typist cursor={{ show: false }} style={{}}>
+          <h3 style={{
+            color,
+            textAlign: 'left',
+            fontSize: `${fontSize + 4}px`,
+            textShadow: '2px 2px 5px #ffffff',
+            fontFamily,
+            width: `${textWidth}px`
+          }}>
+            {speech[0]}
+          </h3>
+          <Typist.Delay ms={500} />
+          <h3 key='2' style={{
+            color,
+            textAlign: 'left',
+            fontSize: `${fontSize}px`,
+            fontFamily,
+            textShadow: '2px 2px 5px #ffffff'
+          }}>
+            {speech[1]}
+          </h3>
+          <h3 key='3' style={{
+            color,
+            fontSize: `${fontSize}px`,
+            textShadow: '2px 2px 5px #ffffff',
+            fontFamily,
+            textAlign: 'left'
+          }}>
+            {speech[2]}
+          </h3>
+          <h3 key='3' style={{
+            color,
+            fontSize: `${fontSize}px`,
+            textShadow: '2px 2px 5px #ffffff',
+            fontFamily,
+            textAlign: 'left'
+          }}>
+            {speech[3]}
+          </h3>
+          <Typist.Delay ms={500} />
+          <h3 key='4' style={{ color: '#602f15', textAlign: 'center', textShadow: '2px 2px 5px #ffffff' }}>
+            <Button
+              raised
+              theme='secondary-bg text-primary-on-secondary'
+              style={{ marginTop: '10px', width }}
+              onClick={this._meetChris}>
+              <ButtonIcon icon='done' />
+              {actionText}
+            </Button>
+          </h3>
+        </Typist>
+      </Parallax.Layer>]
   }
 
-  chunky(offset, speed) {
+  chunky (offset, speed) {
     return [<Parallax.Layer key='chunky' offset={offset} speed={speed} style={{
       opacity: 1, display: 'flex', width: '220px', alignItems: 'flex-end', justifyContent: 'flex-start'
     }}>
@@ -224,7 +224,7 @@ export default class Welcome extends Component {
     </Parallax.Layer>]
   }
 
-  render() {
+  render () {
     const smallScreenLayout = [
       ...this.stars(this.props.offset, 0.1),
       ...this.clouds(this.props.offset + 0.05, 0.3),
@@ -235,7 +235,6 @@ export default class Welcome extends Component {
       ...this.grass(this.props.offset + 0.7, 0.7),
       ...this.front(this.props.offset + 0.93, 0.8)
     ]
-
 
     return this.props.isSmallScreen ? smallScreenLayout : [
       ...this.stars(this.props.offset, 0.1),

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Component, Components } from 'react-dom-chunky'
-import { Elevation } from 'rmwc/Elevation'
-import { Typography } from 'rmwc/Typography'
+import { Elevation } from '@rmwc/elevation'
+import { Typography } from '@rmwc/typography'
 
 export default class Prompt extends Component {
   constructor (props) {
@@ -25,21 +25,17 @@ export default class Prompt extends Component {
   render () {
     return <Elevation z={2} style={{
       backgroundColor: '#ffffff',
-      marginTop: '40px',
-      marginBottom: '10px',
+      marginTop: '0px',
       alignItems: 'center',
-      padding: '10px',
       justifyContent: 'center',
       display: 'flex',
+      flex: 1,
       flexDirection: 'column'
     }}>
-      <Typography use='title' tag='h2' style={{ textAlign: 'center' }}>
-        <img src={'../../../../assets/chunky-logo.gif'} style={{ marginTop: '-60px', width: '100px', height: '100px' }} />
-      </Typography>
-      <Typography use='title' tag='h2' style={{ marginTop: '-20px', color: '#00bcd4', textAlign: 'center' }}>
+      <Typography use='title' tag='h2' style={{ margin: '10px', color: '#00bcd4', textAlign: 'center' }}>
         { this.props.title }
       </Typography>
-      <Typography use='body2 ' tag='h2' style={{ color: '#455A64', textAlign: 'center', marginBottom: '10px' }}>
+      <Typography use='body2 ' tag='h2' style={{ margin: '10px', color: '#455A64', textAlign: 'center', marginBottom: '10px' }}>
         { this.props.subtitle }
       </Typography>
       { this.renderChildren() }

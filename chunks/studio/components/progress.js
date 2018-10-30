@@ -1,9 +1,7 @@
 import React from 'react'
 import { Component, Components } from 'react-dom-chunky'
-import { Card } from 'rmwc/Card'
-import { Typography } from 'rmwc/Typography'
-import Typist from 'react-typist'
-import { Icon } from 'rmwc/Icon'
+import { Typography } from '@rmwc/typography'
+import { Icon } from 'antd'
 
 export default class Progress extends Component {
   constructor (props) {
@@ -18,34 +16,25 @@ export default class Progress extends Component {
 
   render () {
     return <div style={{
-      backgroundColor: '#f5f5f5',
       display: 'flex',
-      height: '100vh',
+      height: '100%',
       width: '100%',
-      padding: '50px',
       alignItems: 'center',
+      flexDirection: 'column',
       justifyContent: 'center',
       display: 'flex',
       flex: 1
     }}>
-      <Card key='progress' style={{
-        backgroundColor: '#ffffff',
-        justifyContent: 'center',
-        alignItems: 'center',
-        display: 'flex',
-        margin: '50px',
-        height: '300px',
-        flex: 1
-      }}>
-        <Icon style={{ color: '#00bcd4',
-          fontSize: '40px',
-          marginTop: '20px'
-        }}>build</Icon>
-        <Typography use='title' tag='h2' style={{ color: '#00bcd4', textAlign: 'center' }}>
-          { this.props.title }
-        </Typography>
-        <Components.Loading message={this.props.message} />
-      </Card>
+      <img src={'../../../../assets/chunky-logo.gif'} style={{
+        display: 'block',
+        alignSelf: 'center',
+        width: '200px',
+        height: '200px'
+      }} />
+      <Typography use='headline5' tag='h2' style={{ color: '#00bcd4', textAlign: 'center' }}>
+        <Icon type='hourglass' spin style={{ marginRight: '10px'}} />
+        { this.props.message }
+      </Typography>
     </div>
   }
 }

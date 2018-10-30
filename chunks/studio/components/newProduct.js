@@ -3,16 +3,14 @@ import { Component, Components } from 'react-dom-chunky'
 import { Parallax } from 'react-spring'
 import Typist from 'react-typist'
 import Spritesheet from 'react-responsive-spritesheet'
-import { Button, ButtonIcon } from 'rmwc/Button'
-import { Typography } from 'rmwc/Typography'
+import { Button, ButtonIcon } from '@rmwc/button'
+import { Typography } from '@rmwc/typography'
 import Slider from 'react-slick'
 import { Form, Input, Icon, Row, Col, Avatar, Tabs, notification } from 'antd'
-import { Card, CardActions, CardActionButtons } from 'rmwc/Card'
-import { Chip, ChipText, ChipIcon, ChipSet } from 'rmwc/Chip'
-import { Fab } from 'rmwc/Fab'
-import { ShapeContainer } from 'rmwc/Shape'
-import { Elevation } from 'rmwc/Elevation'
-import { IconButton } from 'rmwc/IconButton'
+import { Card, CardActions, CardActionButtons } from '@rmwc/card'
+import { Chip, ChipText, ChipIcon, ChipSet } from '@rmwc/chip'
+import { Fab } from '@rmwc/fab'
+import { Elevation } from '@rmwc/elevation'
 import Shell from './shell'
 import fs from 'fs-extra'
 import path from 'path'
@@ -337,9 +335,11 @@ export default class NewProduct extends Component {
             raised
             disabled={!this.state.title}
             onClick={this._createNewProduct}
-            style={{ opacity: `${this.state.title ? 1 : 0.5}` }}
-            theme='secondary-bg text-primary-on-secondary'>
-            <ButtonIcon use='done' />
+            style={{
+              opacity: `${this.state.title ? 1 : 0.5}`,
+              backgroundColor: '#00bcd4'
+            }}>
+            <ButtonIcon icon='done' />
             { `Ok, let's create it` }
           </Button>
         </CardActionButtons>
@@ -385,13 +385,18 @@ export default class NewProduct extends Component {
       return <div />
     }
 
-    return <Button
-      onClick={this._cancel}
-      style={{
-        marginTop: '20px'
-      }}>
-      { `Cancel` }
-    </Button>
+    return <Typography use='title' tag='h2' style={{ marginTop: '20px', textAlign: 'center' }}>
+      <Button
+        onClick={this._cancel}
+        style={{
+          marginTop: '20px',
+          color: '#81D4FA',
+          backgroundColor: '#ECEFF1'
+        }}>
+        <Icon type={'arrow-left'} style={{ marginRight: '5px' }} />
+        { 'Back To Workspace' }
+      </Button>
+    </Typography>
   }
 
   render () {

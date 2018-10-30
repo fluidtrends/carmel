@@ -1,6 +1,34 @@
 {
   "name": "wallet",
   "routes": {
+    "main": {
+      "title": "Wallet",
+      "icon": "account_balance_wallet",
+      "path": "/wallet",
+      "layoutBackground": "#f5f500",
+      "cover": {
+        "backgroundColor": "#00838F",
+        "navigation": true,
+        "type": "menu"
+      },
+      "startOperationsOnMount": false,
+      "operations": {
+        "sendTokens": [
+          "rest://create/wallet/send#sendTokens",
+          {
+            "onSuccess": "tokensSent",
+            "onError": "failedToSendTokens"
+          }
+        ],
+        "refreshWallet": [
+          "firebase://retrieve/users-wallets/:userId?latest=1&resolve=wallets#getWallet",
+          {
+            "onSuccess": "refreshedWallet",
+            "onError": "failedToRefreshWallet"
+          }
+        ]
+      }
+    },
     "checkout": {
       "title": "Account",
       "icon": "account_circle",
@@ -21,7 +49,8 @@
   },
   "service": {
     "functions": [
-      "post://update#updateProfile"
+      "post://send#sendTokens",
+      "post://achievements#newAchievement"
     ],
     "dependencies": {},
     "requiredFields": {},

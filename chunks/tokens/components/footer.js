@@ -1,19 +1,19 @@
 import React from 'react'
 import { Component } from 'react-dom-chunky'
-import { Typography } from 'rmwc/Typography'
-import { Chip, ChipText, ChipIcon, ChipSet } from 'rmwc/Chip'
+import { Typography } from '@rmwc/typography'
+import { Chip, ChipText, ChipIcon, ChipSet } from '@rmwc/chip'
 
 export default class BuyComponent extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { ...super.state, loading: false }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     super.componentDidMount()
   }
 
-  get bonus() {
+  get bonus () {
     const { amount } = this.props
 
     if (amount < 500) {
@@ -32,7 +32,7 @@ export default class BuyComponent extends Component {
     return 'Wow'
   }
 
-  render() {
+  render () {
     return (
       <div
         style={{
@@ -65,7 +65,7 @@ export default class BuyComponent extends Component {
               <ChipIcon
                 style={{ color: '#66BB6A', marginLeft: '2px' }}
                 leading
-                use={`done`}
+                icon={`done`}
               />
             </Chip>
           </ChipSet>

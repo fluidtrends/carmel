@@ -1,17 +1,17 @@
 import React from 'react'
 import { Component, Components } from 'react-dom-chunky'
-import { Card, CardActions, CardActionButtons } from 'rmwc/Card'
-import { Button, ButtonIcon } from 'rmwc/Button'
-import { Typography } from 'rmwc/Typography'
-import { Chip, ChipText, ChipIcon, ChipSet } from 'rmwc/Chip'
-import { Fab } from 'rmwc/Fab'
-import { Slider } from 'rmwc/Slider'
+import { Card, CardActions, CardActionButtons } from '@rmwc/card'
+import { Button, ButtonIcon } from '@rmwc/button'
+import { Typography } from '@rmwc/typography'
+import { Chip, ChipText, ChipIcon, ChipSet } from '@rmwc/chip'
+import { Fab } from '@rmwc/fab'
+import { Slider } from '@rmwc/slider'
 import { Footer, Steemit } from '.'
-import { Radio } from 'rmwc/Radio'
+import { Radio } from '@rmwc/radio'
 import { Ethereum } from 'react-blockchain-chunky/lib'
 import { Form, Input, Icon, Tooltip, Checkbox } from 'antd'
 import { Eos, Euro, Eth } from './index'
-import { S_IXUSR } from 'constants';
+import { S_IXUSR } from 'constants'
 
 const FormItem = Form.Item
 
@@ -37,7 +37,7 @@ const BonusMessage = <div>
   10.000 ++ Carmel -  private discussion</div>
 
 export default class CheckoutComponent extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { ...super.state, loading: true, payMethod: 'mew', paymentOption: 'crypto', currency: 'eth', loadingMessage: 'Loading, just a sec please ...' }
     this._incrementLevel = this.incrementLevel.bind(this)
@@ -50,22 +50,22 @@ export default class CheckoutComponent extends Component {
     this._status = this.status.bind(this)
   }
 
-  componentDidMount() {
+  componentDidMount () {
     super.componentDidMount()
     this.startTimer()
     this._loadPricing()
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.stopTimer()
   }
 
-  startTimer() {
+  startTimer () {
     const timer = setInterval(() => this.timerFired(), 1000)
     this.setState({ timer })
   }
 
-  timerFired() {
+  timerFired () {
     if (this.state.sending ||
       !this.isWaiting ||
       !this.props.transaction) {
@@ -107,18 +107,18 @@ export default class CheckoutComponent extends Component {
       })
   }
 
-  stopTimer() {
+  stopTimer () {
     if (!this.state.timer) {
       return
     }
     clearInterval(this.state.timer)
   }
 
-  fetchProviderAccount(ethereum) {
+  fetchProviderAccount (ethereum) {
     return ethereum.refreshAccounts().then(accounts => accounts[0])
   }
 
-  calculateGas(to, data) {
+  calculateGas (to, data) {
     return new Promise((resolve, reject) => {
       web3.eth.estimateGas({ to, data }, (error, gas) => {
         if (error) {
@@ -130,7 +130,7 @@ export default class CheckoutComponent extends Component {
     })
   }
 
-  sendEthereumTransaction(transaction) {
+  sendEthereumTransaction (transaction) {
     return new Promise((resolve, reject) => {
       web3.eth.sendTransaction(transaction, (error, result) => {
         if (error) {
@@ -142,17 +142,16 @@ export default class CheckoutComponent extends Component {
     })
   }
 
-  payWithFiat({ amount, currency, purchaseKey, email }) {
+  payWithFiat ({ amount, currency, purchaseKey, email }) {
     const url = `https://indacoin.com/gw/payment_form?partner=carmel&cur_from=${currency}&cur_to=ETH&amount=${amount}&address=${CarmelETHAddress}&user_id=${email}`
     window.open(url, '_blank')
-
   }
 
-  sendEtherWithMEW({ amount, purchaseKey }) {
+  sendEtherWithMEW ({ amount, purchaseKey }) {
     this.props.triggerRawRedirect(`${MyEtherWalletUrl}/?to=${CarmelETHAddress}&value=${amount}&data=${purchaseKey}#send-transaction`)
   }
 
-  sendEther({ ethereumAddress, amount, purchaseKey }) {
+  sendEther ({ ethereumAddress, amount, purchaseKey }) {
     const message = `${purchaseKey}`
     const data = web3.toHex(message)
     const from = ethereumAddress
@@ -165,18 +164,18 @@ export default class CheckoutComponent extends Component {
       .catch(error => this.couldNotSendEther(error))
   }
 
-  sendingEther(ethereumTransactionHash) {
+  sendingEther (ethereumTransactionHash) {
     return new Promise((resolve, reject) => {
       this.setState({ ethereumTransactionHash })
       resolve({ ethereumTransactionHash })
     })
   }
 
-  couldNotSendEther() {
+  couldNotSendEther () {
     this.setState({ sending: false, error: 'The transaction was not successful. Please try again.' })
   }
 
-  _loadPricing() {
+  _loadPricing () {
     const level = 0
     const tokens = 0
     const up = CarmelStart
@@ -215,17 +214,17 @@ export default class CheckoutComponent extends Component {
       })
   }
 
-  fetchPricing() {
+  fetchPricing () {
     return fetch(CoinMarketCapAPIUSD)
       .then(response => response.json())
       .then(rates => ({ ethereumRate: rates[0], tokenPrice: CarmelPrice }))
   }
 
-  get email() {
+  get email () {
     return (this.props.account ? this.props.account.user.email : this.state.email)
   }
 
-  send() {
+  send () {
     if (!this.email) {
       this.setState({ error: 'Please enter your email first' })
       return
@@ -261,22 +260,22 @@ export default class CheckoutComponent extends Component {
     })
   }
 
-  back() {
+  back () {
     // this.setState({ waiting: false, sending: false, error: '', ethereumTransactionHash: '', paymentOption: null })
     this.setState({ waiting: false, sending: false, error: '', ethereumTransactionHash: '' })
   }
 
-  updatePayMethod(evt) {
+  updatePayMethod (evt) {
     const value = evt.target.value
     const currency = (value != 'euro' || value != 'usd') ? 'eth' : value
     this.setState({ payMethod: value, currency: value == ('euro' || 'usd') ? value : 'eth' })
   }
 
-  get isWaiting() {
+  get isWaiting () {
     return (this.state.waiting && !this.error && this.props.transaction)
   }
 
-  renderDecrementButton() {
+  renderDecrementButton () {
     if (this.isWaiting) {
       return <div />
     }
@@ -289,7 +288,7 @@ export default class CheckoutComponent extends Component {
   </Fab>
   }
 
-  renderIncrementButton() {
+  renderIncrementButton () {
     if (this.isWaiting) {
       return <div />
     }
@@ -302,7 +301,7 @@ export default class CheckoutComponent extends Component {
     </Fab>
   }
 
-  renderFiatPayments() {
+  renderFiatPayments () {
     if (this.isWaiting) {
       return <div />
     }
@@ -325,7 +324,7 @@ export default class CheckoutComponent extends Component {
     </Typography>
   }
 
-  renderCryptoPayments() {
+  renderCryptoPayments () {
     if (this.isWaiting) {
       return <div />
     }
@@ -348,7 +347,7 @@ export default class CheckoutComponent extends Component {
     </Typography>
   }
 
-  renderPaymentOptions() {
+  renderPaymentOptions () {
     if (this.isWaiting) {
       return <div />
     }
@@ -364,7 +363,7 @@ export default class CheckoutComponent extends Component {
     </div>
   }
 
-  renderUSD() {
+  renderUSD () {
     const priceUSD = (this.state.nextTokens * this.state.tokenPrice).toLocaleString('en')
     const priceEUR = (this.state.nextLevelPrice * 1) * this.state.ethereumPriceEur
     const priceETH = this.state.nextLevelPrice * 1
@@ -379,7 +378,7 @@ export default class CheckoutComponent extends Component {
     </Typography>
   }
 
-  renderTokens() {
+  renderTokens () {
     if (this.isWaiting) {
       return <div />
     }
@@ -407,7 +406,7 @@ export default class CheckoutComponent extends Component {
     </Tooltip>
   }
 
-  renderPaymentMethods() {
+  renderPaymentMethods () {
     if (!this.state.paymentOption) {
       return
     }
@@ -415,7 +414,7 @@ export default class CheckoutComponent extends Component {
     return this.state.paymentOption == 'crypto' ? this.renderCryptoPayments() : this.renderFiatPayments()
   }
 
-  renderMainContent() {
+  renderMainContent () {
     return (
       <div>
         {this.renderError()}
@@ -438,7 +437,7 @@ export default class CheckoutComponent extends Component {
     )
   }
 
-  incrementLevel() {
+  incrementLevel () {
     if (this.state.up === this.state.max) {
       return
     }
@@ -454,7 +453,7 @@ export default class CheckoutComponent extends Component {
     this.setState({ up, nextLevel, nextLevelPrice, nextTokens })
   }
 
-  decrementLevel() {
+  decrementLevel () {
     if (this.state.up === 1) {
       return
     }
@@ -470,7 +469,7 @@ export default class CheckoutComponent extends Component {
     this.setState({ up, nextLevel, nextLevelPrice, nextTokens })
   }
 
-  updateLevel(event) {
+  updateLevel (event) {
     const up = event.detail.value
     const nextLevel = this.state.level + up
     const nextTokens = nextLevel * CarmelIncrement
@@ -482,7 +481,7 @@ export default class CheckoutComponent extends Component {
     this.setState({ up, nextLevel, nextLevelPrice, nextTokens })
   }
 
-  renderPaymentInfo() {
+  renderPaymentInfo () {
     const currency = this.state.currency == 'eth' ? 'Ethereum' : (this.state.currency == 'usd' ? 'USD' : 'EURO')
 
     return <Typography use='caption' tag='h1'>
@@ -490,7 +489,7 @@ export default class CheckoutComponent extends Component {
     </Typography>
   }
 
-  renderWaiting({ message }) {
+  renderWaiting ({ message }) {
     return <div style={{ padding: '4px', textAlign: 'center', marginBottom: '20px' }}>
       <Icon type='check-circle-o' style={{
         fontSize: '64px',
@@ -503,11 +502,11 @@ export default class CheckoutComponent extends Component {
     </div>
   }
 
-  status() {
+  status () {
     this.props.triggerRawRedirect(`https://etherscan.io/tx/${this.state.ethereumTransactionHash}`)
   }
 
-  renderPaymentStatus() {
+  renderPaymentStatus () {
     if (this.state.payMethod === 'metamask') {
       if (!this.state.ethereumAddress) {
         return <Components.Loading message='Please unlock your MetaMask to complete the transaction.' />
@@ -537,7 +536,7 @@ export default class CheckoutComponent extends Component {
     return <div />
   }
 
-  renderPaymentDetails() {
+  renderPaymentDetails () {
     return <div style={{
       padding: '20px',
       marginBottom: '20px',
@@ -549,8 +548,7 @@ export default class CheckoutComponent extends Component {
     </div>
   }
 
-  renderPrice() {
-
+  renderPrice () {
     if (!this.state.paymentOption) {
       return <div />
     }
@@ -632,7 +630,7 @@ export default class CheckoutComponent extends Component {
     )
   }
 
-  renderEmailField() {
+  renderEmailField () {
     if (this.isWaiting || this.props.account) {
       return <div />
     }
@@ -666,7 +664,7 @@ export default class CheckoutComponent extends Component {
     </CardActions>
   }
 
-  renderTerms() {
+  renderTerms () {
     if (this.isWaiting) {
       return <div />
     }
@@ -685,7 +683,7 @@ export default class CheckoutComponent extends Component {
         alignItems: 'flex-start'
       }}>
         <FormItem>
-          <Checkbox checked={this.state.terms} onChange={this.confirmTerm.bind(this, 'terms')}>I have read the <a href="/terms">Terms and Conditions</a></Checkbox>
+          <Checkbox checked={this.state.terms} onChange={this.confirmTerm.bind(this, 'terms')}>I have read the <a href='/terms'>Terms and Conditions</a></Checkbox>
         </FormItem>
         <FormItem>
           <Checkbox checked={this.state.country} onChange={this.confirmTerm.bind(this, 'country')}>I hereby declare, due to regulations uncertainties, that I am neither a resident in or citizen of the United States of America.</Checkbox>
@@ -697,11 +695,11 @@ export default class CheckoutComponent extends Component {
     </CardActions>
   }
 
-  confirmTerm(term, ev) {
+  confirmTerm (term, ev) {
     this.setState({ [term]: ev.target.checked })
   }
 
-  renderBack() {
+  renderBack () {
     // if (!this.isWaiting && !this.state.paymentOption) {
     if (!this.isWaiting) {
       return <div />
@@ -727,7 +725,7 @@ export default class CheckoutComponent extends Component {
     )
   }
 
-  renderSlider() {
+  renderSlider () {
     if (this.isWaiting) {
       return <div />
     }
@@ -745,11 +743,11 @@ export default class CheckoutComponent extends Component {
     />
   }
 
-  get error() {
+  get error () {
     return this.state.error || this.props.error
   }
 
-  renderError() {
+  renderError () {
     if (!this.error) {
       return <div />
     }
@@ -771,7 +769,7 @@ export default class CheckoutComponent extends Component {
     )
   }
 
-  renderFooter() {
+  renderFooter () {
     if (this.isWaiting) {
       return <div />
     }
@@ -783,7 +781,7 @@ export default class CheckoutComponent extends Component {
     />
   }
 
-  render() {
+  render () {
     const width = this.props.isSmallScreen ? '95vw' : '600px'
     if (this.state.loading) {
       return <Components.Loading message={this.state.loadingMessage} />

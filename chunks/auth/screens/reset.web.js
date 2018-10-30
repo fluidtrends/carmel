@@ -11,7 +11,7 @@ import { Form, Input, Icon } from 'antd'
 const FormItem = Form.Item
 
 export default class ResetScreen extends Screen {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { ...this.state, loading: false, loadingMessage: '' }
     this._done = this.done.bind(this)
@@ -20,7 +20,7 @@ export default class ResetScreen extends Screen {
     this.state = { ...super.state }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     super.componentDidMount()
 
     if (this.isLoggedIn) {
@@ -28,7 +28,7 @@ export default class ResetScreen extends Screen {
     }
   }
 
-  done() {
+  done () {
     if (!this.state.email) {
       this.setState({ error: errors.email, errorType: 'email', loading: false })
       return
@@ -43,23 +43,23 @@ export default class ResetScreen extends Screen {
     }, 300)
   }
 
-  login() {
+  login () {
     this.triggerRedirect('/login')
   }
 
-  resetOk(result) {
+  resetOk (result) {
     this.triggerRedirect('/login')
   }
 
-  resetError(error) {
+  resetError (error) {
     this.setState({ loading: false, error: error.message })
   }
 
-  get error() {
+  get error () {
     return this.state.error ? this.state.error : this.props.error
   }
 
-  renderError() {
+  renderError () {
     if (!this.error) {
       return
     }
@@ -71,13 +71,13 @@ export default class ResetScreen extends Screen {
     )
   }
 
-  onKeyPress(event) {
+  onKeyPress (event) {
     if (event.key === 'Enter') {
       this._done()
     }
   }
 
-  renderFields() {
+  renderFields () {
     return <div>
       <FormItem>
         <Input
@@ -91,7 +91,7 @@ export default class ResetScreen extends Screen {
     </div>
   }
 
-  renderFormContent(width, padding) {
+  renderFormContent (width, padding) {
     if (this.state.sent) {
       return <Card style={{ width, margin: '10px', padding }}>
         <div style={{ padding: '4px', textAlign: 'center', marginBottom: '20px' }}>
@@ -131,7 +131,7 @@ export default class ResetScreen extends Screen {
             raised
             onClick={this._done}
             theme='secondary-bg text-primary-on-secondary'>
-            <ButtonIcon use='done' />
+            <ButtonIcon icon='done' />
             Reset Now
           </Button>
         </CardActionButtons>
@@ -148,27 +148,46 @@ export default class ResetScreen extends Screen {
     </Card>
   }
 
-  renderForm() {
-    const width = this.isSmallScreen ? '95vw' : '600px'
-    const padding = this.isSmallScreen ? '10px' : '30px'
+  get containerStyle () {
+    const margin = this.isSmallScreen ? '0' : '40px'
+    return {
+      display: 'flex',
+      flex: 1,
+      margin: '40px',
+      justifyContent: 'center',
+      flexDirection: 'column',
+      alignItems: 'center'
+    }
+  }
+
+  renderMainContentFooter () {
+    return <div />
+  }
+
+  get formWidth () {
+    return this.isSmallScreen ? '95vw' : '600px'
+  }
+
+  get formPadding () {
+    return this.isSmallScreen ? '10px' : '30px'
+  }
+
+  renderForm () {
+    const width = this.formWidth
+    const padding = this.formPadding
 
     return (
       <div
-        style={{
-          display: 'flex',
-          flex: 1,
-          margin: '40px',
-          justifyContent: 'center',
-          flexDirection: 'column',
-          alignItems: 'center'
-        }}>
+        style={this.containerStyle}>
 
         {this.renderFormContent(width, padding)}
+        {this.renderMainContentFooter()}
+
       </div>
     )
   }
 
-  components() {
+  components () {
     return [this.renderForm()]
   }
 }

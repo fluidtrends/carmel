@@ -1,7 +1,6 @@
 import React from 'react'
 import { Component } from 'react-dom-chunky'
-import { Fab } from 'rmwc/Fab'
-import { Icon } from 'rmwc/Icon'
+import { Fab } from '@rmwc/fab'
 
 export default class TelegramComponent extends Component {
 
@@ -15,7 +14,7 @@ export default class TelegramComponent extends Component {
 
   render () {
     return (<div style={styles.fab} onClick={this.props.onAction}>
-      <img src="assets/telegram.png" style={styles.icon}/>
+      <img src='assets/telegram.png' style={styles.icon} />
     </div>)
   }
 }
@@ -32,6 +31,4 @@ const styles = {
     height: 60
   }
 }
-
-
 

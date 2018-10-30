@@ -6,8 +6,17 @@
       "desktopTitle": "Start",
       "icon": "home",
       "forceNavigation": true,
-      "noFooter": true,
       "skipExtendedMenuOnDesktop": true,
+      "xcover": {
+        "backgroundColor": "#00838F",
+        "align": "bottom",
+        "opacity": 0.5,
+        "image": "robots.r.png",
+        "navigation": true,
+        "title": "H > m",
+        "video": "https://www.youtube.com/watch?v=QBEnXQqbKUI",
+        "type": "default"
+      },
       "extendedMenu": [
         {
           "id": "team",
@@ -20,6 +29,96 @@
           "path": "/roadmap"
         }
       ],
+      "components": {
+        "intro": {
+          "source": "summary",
+          "text": "local://intro",
+          "image": "carmel.svg",
+          "textColor": "#37474F"
+        },
+        "video": {
+          "source": "presentation",
+          "text": "local://intro",
+          "url": "https://www.youtube.com/watch?v=qrHBVDbrOOY",
+          "image": "presentation.png",
+          "textColor": "#37474F"
+        },
+        "pillars": {
+          "source": "benefits",
+          "benefits": [
+            { "text": "local://tweak", "image": "tweak.svg" },
+            { "text": "local://reputation", "image": "reputation.svg" },
+            { "text": "local://market", "image": "market.svg" }
+          ],
+          "textColor": "#37474F",
+          "backgroundColor": "#fcfefe"
+        },
+        "features": [
+          {
+            "id": "chris",
+            "source": "feature",
+            "text": "github://fluidtrends/carmel/content/product/stakeholders/chris",
+            "image": "learning.png",
+            "actionTitle": "Learn more about Chris",
+            "backgroundColor": "#E1F5FE",
+            "textColor": "#0686d8",
+            "animation": true
+          },
+          {
+            "id": "stakeholders",
+            "source": "feature",
+            "text": "github://fluidtrends/carmel/content/product/stakeholders/all",
+            "image": "stakeholders.png",
+            "reversed": true,
+            "actionTitle": "Meet All The Carmel Stakeholders",
+            "backgroundColor": "#FFFFFF",
+            "textColor": "#0686d8",
+            "animation": true
+          },
+          {
+            "id": "challenges",
+            "source": "feature",
+            "text": "github://fluidtrends/carmel/content/whitepaper/challenges/summary",
+            "image": "challenges.png",
+            "actionTitle": "Learn More",
+            "backgroundColor": "#E1F5FE",
+            "textColor": "#0686d8",
+            "animation": true
+          },
+          {
+            "id": "economy",
+            "source": "feature",
+            "text": "github://fluidtrends/carmel/content/whitepaper/token-economy/summary",
+            "image": "economy.png",
+            "reversed": true,
+            "actionTitle": "Learn More",
+            "backgroundColor": "#FFFFFF",
+            "textColor": "#0686d8",
+            "animation": true
+          },
+          {
+            "id": "architecture",
+            "source": "feature",
+            "text": "github://fluidtrends/carmel/content/whitepaper/architecture/summary",
+            "image": "architecture.png",
+            "actionTitle": "Learn More",
+            "backgroundColor": "#E1F5FE",
+            "textColor": "#0686d8",
+            "animation": true
+          },
+          {
+            "id": "security",
+            "source": "feature",
+            "reversed": true,
+            "text": "github://fluidtrends/carmel/content/whitepaper/security/summary",
+            "image": "security.png",
+            "actionTitle": "Learn More",
+            "backgroundColor": "#FFFFFF",
+            "textColor": "#0686d8",
+            "animation": true
+          }
+        ]
+      },
       "path": "/",
       "events": {
         "cover": "system://buy",
@@ -60,11 +159,11 @@
       "cover": {
         "backgroundColor": "#00838F",
         "align": "bottom",
-        "opacity": 0.5,
-        "image": "background-default.r.png",
+        "opacity": 0.2,
+        "image": "team.r.png",
         "navigation": true,
         "title": "Meet the #CarmelTeam",
-        "type": "default"
+        "type": "simple"
       }
     },
     "roadmap": {
@@ -74,11 +173,11 @@
       "cover": {
         "backgroundColor": "#00838F",
         "align": "bottom",
-        "opacity": 0.5,
-        "image": "background-intro.r.png",
+        "opacity": 0.2,
+        "image": "roadmap.r.png",
         "navigation": true,
         "title": "Join us on the #RoadTo1B lives changed",
-        "type": "default"
+        "type": "simple"
       },
       "components": {
         "intro": {

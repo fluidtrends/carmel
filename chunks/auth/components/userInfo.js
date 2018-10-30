@@ -1,10 +1,10 @@
   import React from 'react'
   import { Component } from 'react-dom-chunky'
-  import { Typography } from 'rmwc/Typography'
-  import { Chip, ChipText, ChipIcon, ChipSet } from 'rmwc/Chip'
-  import { Icon } from 'rmwc/Icon'
-  import { Button } from 'rmwc/Button'
+  import { Typography } from '@rmwc/typography'
+  import { Chip, ChipText, ChipIcon, ChipSet } from '@rmwc/chip'
+  import { Button } from '@rmwc/button'
   import { notification, Tooltip } from 'antd'
+  import { Icon } from '@rmwc/icon'
 
   const ReservedMessage = `Congrats on your reserved CARMEL tokens! To transfer them to your Carmel Wallet, please complete the claiming process below.`
 
@@ -101,7 +101,7 @@
 
     renderVerification () {
       const title = (this.isVerified ? 'Verified Email' : 'Unverified Email')
-      const color = (this.isVerified ? '#43A047' : '#ef5350')
+      const color = (this.isVerified ? '#006A4E' : '#ef5350')
       const icon = (this.isVerified ? 'check_circle' : 'remove_circle')
 
       return <Typography use='caption' tag='h1' style={{
@@ -112,7 +112,7 @@
             <ChipText style={{ color }}>
               <strong> { title } </strong>
             </ChipText>
-            <ChipIcon style={{ color, marginLeft: '10px' }} use={icon} />
+            <ChipIcon style={{ color, marginLeft: '10px' }} icon={icon} />
           </Chip>
         </ChipSet>
       </Typography>
@@ -129,7 +129,6 @@
             <strong> {this.claimed.toLocaleString('en')} CARMEL </strong> (RESERVED)
         </ChipText>
         </Chip>
-        <ChipIcon style={{ color: '#B0BEC5', marginLeft: '5px', marginTop: '-5px' }} use={`help`} />
       </Tooltip>
     }
 
@@ -150,12 +149,13 @@
       }}>
         <Typography use='subheading1' tag='h1' style={{ textAlign: 'left' }}>
           <ChipSet>
-            <Chip style={{ backgroundColor: (this.tokens > 0 ? '#43A047' : '#CFD8DC') }}>
+            <Chip style={{ backgroundColor: (this.tokens > 0 ? '#006A4E' : '#CFD8DC') }}>
               <ChipText style={{ color: (this.tokens > 0 ? '#ffffff' : '#B0BEC5') }}>
                 <strong> {this.tokens.toLocaleString('en')} CARMEL </strong>
               </ChipText>
             </Chip>
             { this.renderClaimed() }
+            {/* <ChipIcon style={{ color: '#B0BEC5', marginLeft: '5px', marginTop: '-5px' }} icon={`help`} /> */}
           </ChipSet>
         </Typography>
       </div>
@@ -176,19 +176,7 @@
               paddingBottom: '00px',
               marginBottom: '00px'
             }}>
-            <Typography
-              use='headline'
-              tag='h1'
-              style={{
-                display: 'flex',
-                flex: 1,
-                marginBottom: '10px',
-                justifyContent: 'flex-start'
-              }}>
-              <Icon style={{ fontSize: '50px' }} strategy='ligature'>
-            account_circle
-          </Icon>
-            </Typography>
+
             <div style={{
               display: 'flex',
               flex: 10,
@@ -197,8 +185,9 @@
               flexDirection: 'column',
               alignItems: 'left'
             }}>
+
               <Typography
-                use='title'
+                use='headline5'
                 tag='h1'
                 style={{
                   display: 'flex',

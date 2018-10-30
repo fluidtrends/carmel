@@ -2,45 +2,45 @@ import React from 'react'
 import { Component } from 'react-dom-chunky'
 import { Parallax } from 'react-spring'
 import Typist from 'react-typist'
-import { Button, ButtonIcon } from 'rmwc/Button'
+import { Button, ButtonIcon } from '@rmwc/button'
 import Checkout from '../../tokens/components/checkout'
 
 export default class Challenges extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.state = { speaking: true }
     this._onContinue = this.onContinue.bind(this)
   }
 
-  componentDidMount() {
+  componentDidMount () {
     super.componentDidMount()
     setTimeout(() => this.setState({ speaking: false }), 13000)
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
   }
 
-  onContinue() {
+  onContinue () {
     this.props.onContinue && this.props.onContinue()
   }
 
-  sky(offset, speed) {
+  sky (offset, speed) {
     return [<Parallax.Layer key='sky' offset={offset} speed={speed} style={{ opacity: 1 }}>
       <img src={'../../../../assets/background-farm.r.png'} style={{ display: 'block', width: '100%', margin: '0', height: '100vh', overflow: 'hidden' }} />
     </Parallax.Layer>]
   }
 
-  clouds(offset, speed) {
+  clouds (offset, speed) {
     return [<Parallax.Layer key='clouds' offset={offset} speed={speed} style={{ opacity: 1 }}>
       <img src={'../../../../assets/clouds.png'} style={{ display: 'block', width: '10%', marginLeft: '10%' }} />
     </Parallax.Layer>,
-    <Parallax.Layer key='clouds2' offset={offset} speed={speed} style={{ opacity: 1.0 }}>
-      <img src={'../../../../assets/clouds.png'} style={{ display: 'block', width: '15%', marginLeft: '70%' }} />
-    </Parallax.Layer>]
+      <Parallax.Layer key='clouds2' offset={offset} speed={speed} style={{ opacity: 1.0 }}>
+        <img src={'../../../../assets/clouds.png'} style={{ display: 'block', width: '15%', marginLeft: '70%' }} />
+      </Parallax.Layer>]
   }
 
-  movingClouds(offset, speed) {
+  movingClouds (offset, speed) {
     return [<Parallax.Layer key='movingClouds' offset={offset} speed={speed} style={{ opacity: 1 }}>
       <img src={'../../../../assets/cloud1.png'} style={{
         display: 'block',
@@ -56,7 +56,7 @@ export default class Challenges extends Component {
     </Parallax.Layer>]
   }
 
-  title(offset, speed) {
+  title (offset, speed) {
     const fontSize = 18
     const width = 600
     const color = '#FAFAFA'
@@ -74,8 +74,7 @@ export default class Challenges extends Component {
     </Parallax.Layer>]
   }
 
-
-  panel(offset, speed) {
+  panel (offset, speed) {
     const fontSize = 18
     const textWidth = 420
     const actionText = 'Start Your Learning Journey'
@@ -93,7 +92,7 @@ export default class Challenges extends Component {
     </Parallax.Layer>]
   }
 
-  ico(offset, speed) {
+  ico (offset, speed) {
     return [<Parallax.Layer key='chunky' offset={offset} speed={speed} style={{
       opacity: 1, display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-start'
     }}>
@@ -101,12 +100,11 @@ export default class Challenges extends Component {
     </Parallax.Layer>]
   }
 
-  render() {
+  render () {
     return [
       ...this.title(this.props.offset + 0.1, 0.8),
-      ...this.clouds(this.props.offset + 0.05, 0.3),
-      ...this.movingClouds(this.props.offset + 0.25, 0.4),
-      ...this.panel(this.props.offset, 0.8)]
+      ...this.panel(this.props.offset, 0.8)
+    ]
   }
 }
 
