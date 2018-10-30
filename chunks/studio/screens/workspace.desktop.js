@@ -63,7 +63,7 @@ export default class Workspace extends Screen {
 
     this.props.sendTokens({
       amount: this.calculatePrice(level),
-      to: author.id,
+      to: author.email,
       type: 'challengePurchase',
       data: {
         challengeId: this.state.challengeId

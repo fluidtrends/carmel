@@ -12,6 +12,15 @@ const getUserItem = (userId, item) => {
   })
 }
 
+
+const getUserId = (email) => {
+  return new Promise((resolve, reject) => {
+      chunky.firebase.operation('retrieve', { key: `users`, orderBy: "email", equalTo: email })
+          .then((data) => ((!data || (Array.isArray(data) && data.length === 0)) ? resolve() : resolve(data)))
+          .catch(() => resolve())
+  })
+}
+
 const getWallet = (userId) => getUserItem(userId, 'wallets')
 const getSession = (userId) => getUserItem(userId, 'sessions')
 
@@ -81,14 +90,16 @@ const createTransfer = (from, to, amount, type, data) => {
 function executor ({ event, chunk, config, account }) {
   const amount = event.body.amount
   const userId = account.user.uid
-  const to = event.body.to
+  const email = event.body.to
   const type = event.body.type || 'transfer'
   const data = event.body.data || ''
 
-  return updateWalletTokens(userId, -amount, true)
+
+  return getUserId(email).then((to) =>
+                updateWalletTokens(userId, -amount, true)
                 .then(() => updateWalletTokens(to, amount))
                 .then(() => createTransfer(userId, to, amount, type, data))
-                .then((result) => createPostTransfer(userId, to, amount, result, type, data))
+                .then((result) => createPostTransfer(userId, to, amount, result, type, data)))
 }
 
 module.exports.main = chunky.handler({ executor, filename, auth })
