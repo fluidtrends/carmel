@@ -1,8 +1,0 @@
-{
-	"id": "changeButtonColor",
-	"index": 2,
-	"title": "Change the color of your button",
-	"instructions": "In order to do that you will need to open the chunky.json file. This is located in your root folder.",
-	"help": "Tap the 'Open Source Code' button and open the chunky.json file. Look for secondaryColor under the theme key.",
-	"files": ["chunky.json"]
-}

@@ -1,8 +1,0 @@
-{
-	"id": "changeContent",
-	"index": 3,
-	"title": "Let's change the text from your webpage",
-	"instructions": "You will need to navigate into the assets folder, text and open intro.md file. Change it as you like it.",
-	"help": "The intro.md file is a markdown one, meaning you will need to edit it in the markdown way (you can lookup for a markdown cheatsheet)",
-	"files": ["assets/text/intro.md"]
-}
