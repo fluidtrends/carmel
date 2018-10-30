@@ -58,7 +58,7 @@ So for example, let's take a look at the following scenario, with Chris our hero
 5. Chris confirms the purchase, and 5 Carmel Tokens are transferred from Chris' Carmel Wallet to Bob's Carmel Wallet.
 6. Chris can complete the challenge now and upon successful completion, he will be awarded 15 XP.
 
-Another important note about Challenge Authoring is that we although more difficult Challenges are worth more, want Challenge Authors to create a lot more challenges for beginners, like Chris.
+Another important note about Challenge Authoring is that although more difficult Challenges are worth more, want Challenge Authors to create a lot more challenges for beginners, like Chris.
 
 In order to incentivise Authors to create Beginner & Junior challenges, authors will have to **unlock the right to create challenges for higher levels**, only after creating a set number of challenges for lower levels.
 
