@@ -6,7 +6,7 @@ const data = [
   { name: 'Community', value: 6, id: '0', percent: '60%' },
   { name: 'Founders Fund', value: 2, id: '1', percent: '20%' },
   { name: 'Business Partnerships', value: 1, id: '2', percent: '10%' },
-  { name: 'Carnel Fund', value: 1, id: '3', percent: '10%' }
+  { name: 'Carmel Fund', value: 1, id: '3', percent: '10%' }
 ]
 
 const COLORS = ['#66BB6A', '#00796B', '#1976D2', '#1A237E', '#0D47A1']
