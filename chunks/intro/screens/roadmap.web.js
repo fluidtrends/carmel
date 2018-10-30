@@ -48,7 +48,7 @@ export default class RoadmapScreen extends Screen {
     const description = <div style={{
       marginRight: '30px'
     }}>
-      <Typography use='subheading2' tag='h1' style={{
+      <Typography use='headline5' tag='h1' style={{
         color: '#90A4AE',
         marginBottom: '10px',
         textAlign: 'left'

@@ -19,7 +19,7 @@ export default class ChartComponent extends Component {
     const y = cy + radius * Math.sin(-midAngle * RADIAN)
 
     return (
-      <text x={x} y={y} fill='black' textAnchor={x > cx ? 'start' : 'end'} dominantBaseline='central'>
+      <text x={x} y={y} fill='#90A4AE' style={{fontSize: 22}} textAnchor={x > cx ? 'start' : 'end'} dominantBaseline='central'>
         { data[index].name }
       </text>
     )
