@@ -41,6 +41,10 @@ export default class ProfileScreen extends Screen {
       id: 'email',
       title: 'Email Address',
       value: this.account.user.email
+    }, {
+      id: 'id',
+      title: 'Carmel ID',
+      value: this.account.user.uid
     },
     {
       id: 'wallet',
