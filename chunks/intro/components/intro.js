@@ -80,8 +80,8 @@ export default class Intro extends Component {
   main() {
     return <div className="wharever" style={styles.colorful}>
       <div style={{ display: 'flex', flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-        {this.title()}
-        {this.subtitle()}
+      {this.title()}
+      {this.subtitle()}
       </div>
       {this.icons()}
       {}
@@ -93,15 +93,15 @@ export default class Intro extends Component {
     const fontSize = this.props.isSmallScreen? 25: 55
 
     return [<div >
-      <h1 
+      <h1
         key="title"
-        id="title" 
+        id="title"
         style={{
           color,
           fontSize: `${fontSize + fontSize}px`
         }}
       >
-        Welcome to Carmel
+        Helping Non-Technical Natural Learners
       </h1>
     </div>]
   }
@@ -111,6 +111,7 @@ export default class Intro extends Component {
     const fontSize = this.props.isSmallScreen? 15: 26
 
     return <Typist cursor={{ show: false }} style={{}}>
+
         <Typist.Delay ms={5000} />
         <h2 key='subtitle' id="bleah" style={{
           color,
@@ -119,25 +120,23 @@ export default class Intro extends Component {
         }}>
           {intro}
         </h2>
-        <Typist.Delay ms={500} />
+        <Typist.Delay ms={1000} />
+        <h3 key='4' style={{ color: '#602f15', marginTop: "20px", textAlign: 'center' }}>
+          <Button
+            raised
+            style={{ marginTop: '10px', backgroundColor: "#00bcd4" }}
+            onClick={this._onStart}>
+            <ButtonIcon icon='done' />
+              Own A Piece Of Carmel
+          </Button>
+        </h3>
         <h3 key='2' style={{
           color,
           textAlign: 'center',
           fontSize: `${fontSize}px`,
           marginRight: 10,
         }}>
-          100% Owned by the Community. Accesible to Everyone. Unique Educational Model.
-        </h3>
-        <Typist.Delay ms={500} />
-        <h3 key='4' style={{ color: '#602f15', textAlign: 'center' }}>
-          <Button
-            raised
-            theme='secondary-bg text-primary-on-secondary'
-            style={{ marginTop: '10px' }}
-            onClick={this._onStart}>
-            <ButtonIcon icon='done' />
-              Start Your Journey Now
-          </Button>
+          Join Us On The #RoadTo1B Lives Changed
         </h3>
     </Typist>
   }
@@ -155,7 +154,7 @@ export default class Intro extends Component {
   }
 }
 
-const intro = 'The First EOS Based Tech Education Platform'
+const intro = 'Provide A Better Future For Their Family - The #CarmelWay'
 
 const styles = {
   colorful: {
