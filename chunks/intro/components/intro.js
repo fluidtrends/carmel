@@ -23,10 +23,6 @@ const socialMediaLinks = {
 export default class Intro extends Component {
   constructor(props) {
     super(props)
-
-    this.state = { speaking: true }
-    this._onStart = this.onStart.bind(this)
-    this._onContinue = this.onContinue.bind(this)
   }
 
   componentDidMount () {
@@ -35,48 +31,11 @@ export default class Intro extends Component {
     let b = baffle('.title', {
       characters: `<<▒ █▓▓▓▓ █<░█░ ▒<█ >▓░<▓ █▓█▓ ▓█▓ >░█< /▓▒/>>||\\`,
       speed: 75
-  })
+    })
 
     b.reveal(5000)
-
-
   }
 
-  componentWillUnmount () {
-  }
-
-  onContinue () {
-    this.props.onContinue && this.props.onContinue()
-  }
-
-  onStart () {
-    this.props.onStart && this.props.onStart()
-  }
-
-  timer() {
-    const periods = [
-      {
-        until: '22 October 2018 00:00:00 PDT',
-        text: 'Pre Sale Live Now!',
-        info: 'Bonus For Every Purchase',
-        actionTitle: 'Join the Presale',
-        onAction: this._onContinue
-      }
-    ]
-
-    if( this.props.isSmallScreen ) {
-      return <div />
-    }
-
-    return [<div key='timer' style={{ marginTop: 150 }}>
-      <Components.Timer periods={periods} simple={true} />
-    </div>]
-  }
-
-  sky() {
-    return [<div key='sky' style={styles.colorful}>
-    </div>]
-  }
 
   main() {
     return <div className="wharever" style={styles.colorful}>
@@ -85,7 +44,6 @@ export default class Intro extends Component {
       {this.subtitle()}
       </div>
       {this.icons()}
-      {}
     </div>
   }
 
