@@ -7,6 +7,7 @@ import { Button } from '@rmwc/button'
 import { Chart } from '../components'
 import Periods from '../data/periods'
 import Milestones from '../data/milestones'
+import TimelineComponent from '../components/timeline'
 
 const Step = Steps.Step
 
@@ -24,58 +25,13 @@ export default class RoadmapScreen extends Screen {
     super.componentDidMount()
   }
 
-  renderPeriod (period) {
-    const align = this.isSmallScreen ? 'left' : 'center'
-    const description = <Typography use='subheading2' tag='h1' style={{
-      color: '#90A4AE',
-      marginBottom: '30px',
-      textAlign: align
-    }}>
-      {period.summary}
-    </Typography>
-    return <div />
-    return <Step
-      key={period.id}
-      title={period.title}
-      description={description} />
-  }
 
   details (milestone) {
     this.triggerRawRedirect(`https://github.com/fluidtrends/carmel/milestone/${milestone.id}`)
   }
 
-  renderMilestone (milestone) {
-    const description = <div style={{
-      marginRight: '30px'
-    }}>
-      <Typography use='headline5' tag='h1' style={{
-        color: '#90A4AE',
-        marginBottom: '10px',
-        textAlign: 'left'
-      }}>
-        {milestone.description}
-      </Typography>
-      <Typography use='subheading2' tag='h1' style={{
-        textAlign: 'left'
-      }}>
-        <Button onClick={this._details(milestone)} style={{ border: '1px solid #4FC3F7' }}>
-          See Milestone Details
-     </Button>
-      </Typography>
-    </div>
-
-    return <Step
-      key={milestone.id}
-      description={description} />
-  }
-
-  renderPeriods () {
-    return Periods.map(period => this.renderPeriod(period))
-  }
-
   renderMilestones () {
-    return <Components.Timeline milestones={Milestones.milestones} doneColor={Milestones.doneColor} progressColor={Milestones.progressColor} todoColor={Milestones.todoColor} doneIcon={Milestones.doneIcon} progressIcon={Milestones.progressIcon} todoIcon={Milestones.todoIcon} />
-    // return Milestones.map(milestone => this.renderMilestone(milestone))
+    return <TimelineComponent milestones={Milestones.milestones} doneColor={Milestones.doneColor} progressColor={Milestones.progressColor} todoColor={Milestones.todoColor} doneIcon={Milestones.doneIcon} progressIcon={Milestones.progressIcon} todoIcon={Milestones.todoIcon} />
   }
 
   renderChart () {

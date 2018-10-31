@@ -84,7 +84,7 @@ export default class ChartComponent extends Component {
     const cy = this.props.isSmallScreen ? 120 : 230
 
     return (
-      <PieChart width={width} height={height} onMouseEnter={this.onPieEnter}>
+      <PieChart width={width} height={height} onMouseEnter={this.onPieEnter} style={{margin: 'auto'}}>
         <Pie
           dataKey='value'
           data={data}
