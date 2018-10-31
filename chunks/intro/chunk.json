@@ -51,7 +51,7 @@
             { "text": "local://market", "image": "market.svg" }
           ],
           "textColor": "#37474F",
-          "backgroundColor": "#fcfefe"
+          "backgroundColor": "#ffffff"
         },
         "features": [
           {
@@ -60,7 +60,7 @@
             "text": "github://fluidtrends/carmel/content/product/stakeholders/chris",
             "image": "learning.png",
             "actionTitle": "Learn more about Chris",
-            "backgroundColor": "#E1F5FE",
+            "backgroundColor": "#ffffff",
             "textColor": "#0686d8",
             "animation": true
           },
@@ -71,7 +71,7 @@
             "image": "stakeholders.png",
             "reversed": true,
             "actionTitle": "Meet All The Carmel Stakeholders",
-            "backgroundColor": "#FFFFFF",
+            "backgroundColor": "#ffffff",
             "textColor": "#0686d8",
             "animation": true
           },
@@ -81,7 +81,7 @@
             "text": "github://fluidtrends/carmel/content/whitepaper/challenges/summary",
             "image": "challenges.png",
             "actionTitle": "Learn More",
-            "backgroundColor": "#E1F5FE",
+            "backgroundColor": "#ffffff",
             "textColor": "#0686d8",
             "animation": true
           },
@@ -92,7 +92,7 @@
             "image": "economy.png",
             "reversed": true,
             "actionTitle": "Learn More",
-            "backgroundColor": "#FFFFFF",
+            "backgroundColor": "#ffffff",
             "textColor": "#0686d8",
             "animation": true
           },
@@ -102,7 +102,7 @@
             "text": "github://fluidtrends/carmel/content/whitepaper/architecture/summary",
             "image": "architecture.png",
             "actionTitle": "Learn More",
-            "backgroundColor": "#E1F5FE",
+            "backgroundColor": "#ffffff",
             "textColor": "#0686d8",
             "animation": true
           },
@@ -113,7 +113,7 @@
             "text": "github://fluidtrends/carmel/content/whitepaper/security/summary",
             "image": "security.png",
             "actionTitle": "Learn More",
-            "backgroundColor": "#FFFFFF",
+            "backgroundColor": "#ffffff",
             "textColor": "#0686d8",
             "animation": true
           }

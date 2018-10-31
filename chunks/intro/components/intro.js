@@ -3,6 +3,7 @@ import { Component, Components } from 'react-dom-chunky'
 import Typist from 'react-typist'
 import { Button, ButtonIcon } from 'rmwc/Button'
 import { Icon } from "antd"
+import { Typography } from '@rmwc/typography'
 import 'antd/dist/antd.css';
 
 import baffle from 'baffle'
@@ -31,7 +32,7 @@ export default class Intro extends Component {
   componentDidMount () {
     super.componentDidMount()
 
-    let b = baffle('h1', {
+    let b = baffle('.title', {
       characters: `<<▒ █▓▓▓▓ █<░█░ ▒<█ >▓░<▓ █▓█▓ ▓█▓ >░█< /▓▒/>>||\\`,
       speed: 75
   })
@@ -89,21 +90,14 @@ export default class Intro extends Component {
   }
 
   title() {
-    const color = '#FAFAFA'
-    const fontSize = this.props.isSmallScreen? 25: 55
+    return <Typography use='headline3' className="title" style={{
+      textAlign: 'center',
+      color: '#fafafa',
+      padding: '20px'
+    }}>
+      Teaching Natural Learners To Code
+    </Typography>
 
-    return [<div >
-      <h1
-        key="title"
-        id="title"
-        style={{
-          color,
-          fontSize: `${fontSize + fontSize}px`
-        }}
-      >
-        Helping Non-Technical Natural Learners
-      </h1>
-    </div>]
   }
 
   subtitle() {
@@ -113,13 +107,14 @@ export default class Intro extends Component {
     return <Typist cursor={{ show: false }} style={{}}>
 
         <Typist.Delay ms={5000} />
-        <h2 key='subtitle' id="bleah" style={{
-          color,
+        <Typography use='headline4' className="title" style={{
           textAlign: 'center',
-          fontSize: `${fontSize + 10}px`
+          color: '#fafafa',
+          padding: '20px'
         }}>
-          {intro}
-        </h2>
+            And Helping Them Provide A Better Future For Their Family
+      </Typography>
+
         <Typist.Delay ms={1000} />
         <h3 key='4' style={{ color: '#602f15', marginTop: "20px", textAlign: 'center' }}>
           <Button
@@ -127,16 +122,8 @@ export default class Intro extends Component {
             style={{ marginTop: '10px', backgroundColor: "#00bcd4" }}
             onClick={this._onStart}>
             <ButtonIcon icon='done' />
-              Own A Piece Of Carmel
+             Join The Mission
           </Button>
-        </h3>
-        <h3 key='2' style={{
-          color,
-          textAlign: 'center',
-          fontSize: `${fontSize}px`,
-          marginRight: 10,
-        }}>
-          Join Us On The #RoadTo1B Lives Changed
         </h3>
     </Typist>
   }
@@ -153,8 +140,6 @@ export default class Intro extends Component {
     ]
   }
 }
-
-const intro = 'Provide A Better Future For Their Family - The #CarmelWay'
 
 const styles = {
   colorful: {

@@ -1,3 +1,3 @@
-# Welcome to Carmel
+# Computer Programming The #CarmelWay
 
-## The **Decentralized Open Source Tech Education Platform** that helps aspiring and seasoned Software Developers **grow their skill set** and **track their growth** through tokenized peer challenges.
+## Carmel is a Decentralized Tech Education Platform that introduces a unique hands-on, microlearning, self-directed, peer-driven and story-based Educational Model as a new way of learning computer programming. Zero experience required. The platform is Open Source, owned by the community and accessible to everyone.
