@@ -91,6 +91,7 @@ export default class MainWhitepaperScreen extends Screen {
     return <div style={{ display: 'flex', flex: 1, padding: 10 }}>
       <Button onClick={this.download.bind(this, 'en')} style={{ marginRight: 10 }} >Download whitepaper</Button>
       <Button onClick={this.download.bind(this, 'ch')}>下载</Button>
+      <Button onClick={this.download.bind(this, 'sp')}>Descargar</Button>
     </div>
   }
 
