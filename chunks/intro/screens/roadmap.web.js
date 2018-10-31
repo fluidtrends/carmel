@@ -1,5 +1,5 @@
 import React from 'react'
-import { Screen } from 'react-dom-chunky'
+import { Screen, Components } from 'react-dom-chunky'
 import { Steps } from 'antd'
 import { Typography } from '@rmwc/typography'
 import { Card, CardActions, CardActionButtons } from '@rmwc/card'
@@ -74,7 +74,8 @@ export default class RoadmapScreen extends Screen {
   }
 
   renderMilestones () {
-    return Milestones.map(milestone => this.renderMilestone(milestone))
+    return <Components.Timeline milestones={Milestones.milestones} doneColor={Milestones.doneColor} progressColor={Milestones.progressColor} todoColor={Milestones.todoColor} doneIcon={Milestones.doneIcon} progressIcon={Milestones.progressIcon} todoIcon={Milestones.todoIcon} />
+    // return Milestones.map(milestone => this.renderMilestone(milestone))
   }
 
   renderChart () {
@@ -101,35 +102,15 @@ export default class RoadmapScreen extends Screen {
         <Typography use='display1' tag='h1' style={{ color: '#90A4AE', marginBottom: '30px', marginTop: '20px' }}>
           Token Distribution
         </Typography>
-
         {this.renderChart()}
-
-        <Steps
-          progressDot
-          direction={direction}
-          style={{ margin: `${stepsPad}px` }}
-          current={CurrentPeriodId}>
-
-          {this.renderPeriods()}
-
-        </Steps>
       </Card>
 
       <Card style={{ width, margin: '10px', padding }}>
         <Typography use='display1' tag='h1' style={{ color: '#90A4AE', marginBottom: '30px', marginTop: '20px' }}>
           Key Milestones
         </Typography>
-
-        <Steps
-          direction={'vertical'}
-          style={{ margin: `${stepsPad}px` }}
-          current={CurrentMilestoneId}>
-
-          {this.renderMilestones()}
-
-        </Steps>
+        {this.renderMilestones()}
       </Card>
-
     </div>)
   }
 

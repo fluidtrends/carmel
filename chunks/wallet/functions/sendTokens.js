@@ -85,6 +85,7 @@ function executor ({ event, chunk, config, account }) {
   const type = event.body.type || 'transfer'
   const data = event.body.data || ''
 
+
   return updateWalletTokens(userId, -amount, true)
                 .then(() => updateWalletTokens(to, amount))
                 .then(() => createTransfer(userId, to, amount, type, data))

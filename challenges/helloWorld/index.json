@@ -1,13 +1,11 @@
 {
   "title": "Hello World",
   "summary": "Start creating your personal brand in minutes",
-  "authors": [{
-    "name": "Robert Pop Daniel",
-    "email": "poprobertdaniel22@gmail.com"
-  }, {
-    "name": "Chris",
-    "email": ""
-  }],
+  "author": {
+    "name": "I. Dan Calinescu",
+    "email": "idancalinescu@gmail.com",
+    "id": "o5L9RMtUojPjWX04Rm7eIwigQFv1"
+  },
   "level": 0,
   "skills": ["json", "web", "copywriting", "branding"],
   "taskIds": [

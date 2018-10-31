@@ -1,5 +1,5 @@
 module.exports = ({ chai, utils, original, done }) => {
-  const originalIntroChunkCoverSubtitle = original.chunks.intro.routes.main.cover.title
+  const originalIntroChunkCoverSubtitle = original.chunks.intro.routes.main.cover.subtitle
 
   const introChunkConfig = utils.readFile('chunks/intro/chunk.json')
   const introChunkCoverSubtitle = introChunkConfig.routes.main.cover.subtitle
