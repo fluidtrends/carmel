@@ -43,6 +43,12 @@
           "image": "presentation.png",
           "textColor": "#37474F"
         },
+        "preview": {
+          "source": "preview",
+          "text": "local://preview",
+          "image": "studio-workspace.png",
+          "textColor": "#37474F"
+        },
         "pillars": {
           "source": "benefits",
           "benefits": [
