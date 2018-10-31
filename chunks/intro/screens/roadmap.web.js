@@ -1,18 +1,11 @@
 import React from 'react'
-import { Screen, Components } from 'react-dom-chunky'
-import { Steps } from 'antd'
+import { Screen } from 'react-dom-chunky'
 import { Typography } from '@rmwc/typography'
-import { Card, CardActions, CardActionButtons } from '@rmwc/card'
-import { Button } from '@rmwc/button'
+import { Card } from '@rmwc/card'
 import { Chart } from '../components'
-import Periods from '../data/periods'
 import Milestones from '../data/milestones'
 import TimelineComponent from '../components/timeline'
 
-const Step = Steps.Step
-
-const CurrentMilestoneId = 7
-const CurrentPeriodId = 1
 
 export default class RoadmapScreen extends Screen {
   constructor (props) {
@@ -41,8 +34,6 @@ export default class RoadmapScreen extends Screen {
   renderMainContent () {
     const width = this.isSmallScreen ? '95vw' : '800px'
     const padding = this.isSmallScreen ? '2px' : '30px'
-    const direction = this.isSmallScreen ? 'vertical' : 'horizontal'
-    const stepsPad = this.isSmallScreen ? 30 : 0
 
     return (<div
       style={{

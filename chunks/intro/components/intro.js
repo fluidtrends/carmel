@@ -2,13 +2,10 @@ import React from 'react'
 import { Component, Components } from 'react-dom-chunky'
 import Typist from 'react-typist'
 import { Button, ButtonIcon } from 'rmwc/Button'
-import { Icon } from "antd"
 import { Typography } from '@rmwc/typography'
 import 'antd/dist/antd.css';
 
 import baffle from 'baffle'
-
-const introVideo = 'https://www.youtube.com/watch?v=qrHBVDbrOOY'
 
 const socialMediaLinks = {
   facebook: 'https://www.facebook.com/carmelio-347131802460343/',

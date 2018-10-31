@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import { Timeline, Icon, Button } from 'antd'
 import { Typography } from '@rmwc/typography'
-import { Card } from 'rmwc/Card'
 
 export default class TimelineComponent extends PureComponent {
   constructor (props) {
