@@ -1,15 +1,16 @@
 {
   "doneColor": "#00796B",
-  "doneIcon": "done",
-  "progressColor": "#AFB42B",
-  "progressIcon": "play_arrow",
+  "doneIcon": "check-circle",
+  "progressColor": "#00ACC1",
+  "progressIcon": "code",
   "todoColor": "#d32f2f",
-  "todoIcon": "schedule",
+  "todoIcon": "clock-circle",
   "milestones": [
     {
       "id": "1",
       "title": "Create branding idea",
-      "status": "done"
+      "status": "done",
+      "link": "google.com"
     },
     {
       "id": "2",

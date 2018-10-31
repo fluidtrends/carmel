@@ -426,3 +426,7 @@
 .mdc-text-field--upgraded:not(.mdc-text-field--fullwidth):not(.mdc-text-field--box) {
   align-items: center
 }
+
+.ant-timeline-item-content {
+  top: -11px;
+}
