@@ -65,6 +65,11 @@
           "marketTitle": "Huge market",
           "data": "https://raw.githubusercontent.com/fluidtrends/carmel/master/chunks/intro/data/tokenInfo.json"
         },
+        "testimonials": {
+          "source": "carousel",
+          "text": "local://testimonials",
+          "data": "https://raw.githubusercontent.com/fluidtrends/carmel/master/chunks/intro/data/tokenInfo.json"
+        },
         "features": [
           {
             "id": "chris",
