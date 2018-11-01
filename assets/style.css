@@ -430,3 +430,22 @@
 .ant-timeline-item-content {
   top: -11px;
 }
+
+.ant-carousel {
+  height: 300px;
+  width: 90vw;
+  margin: 15px 50px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 20px 0px;
+}
+
+.ant-carousel .slick-slide {
+  height: 300px;
+}
+
+.ant-carousel .slick-dots li button {
+  background-color: #4DD0E1;
+}
+
+.ant-carousel .slick-dots li.slick-active button {
+  background-color: #00838F;
+}
