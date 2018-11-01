@@ -68,7 +68,10 @@
         "testimonials": {
           "source": "carousel",
           "text": "local://testimonials",
-          "data": "https://raw.githubusercontent.com/fluidtrends/carmel/master/chunks/intro/data/tokenInfo.json"
+          "data": "https://raw.githubusercontent.com/fluidtrends/carmel/master/chunks/intro/data/testimonials.json",
+          "textColor": "#00bcd4",
+          "personNameColor": "#00bcd4",
+          "descriptionColor": "#00bcd4"
         },
         "features": [
           {
