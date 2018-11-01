@@ -59,7 +59,9 @@
     "footerTintColor": "#CFD8DC",
     "footerHeaderColor": "#90A4AE",
     "footerColor": "#546E7A",
-    "footerBottomColor": "#37474F"
+    "footerBottomColor": "#37474F",
+    "footerSocialIconsColor": "#CFD8DC",
+    "footerSocialIconsColorHover": "#0097A7"
   },
   "socialMediaLinks": {
     "facebook": "https://www.facebook.com/carmelio-347131802460343/",
