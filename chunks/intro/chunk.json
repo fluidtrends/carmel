@@ -7,14 +7,14 @@
       "icon": "home",
       "forceNavigation": true,
       "skipExtendedMenuOnDesktop": true,
-      "xcover": {
+      "2cover": {
         "backgroundColor": "#00838F",
         "align": "bottom",
-        "opacity": 0.5,
-        "image": "robots.r.png",
+        "opacity": 1,
+        "image": "background-stars.r.png",
         "navigation": true,
         "title": "H > m",
-        "video": "https://www.youtube.com/watch?v=QBEnXQqbKUI",
+        "v3ideo": "https://www.youtube.com/watch?v=QBEnXQqbKUI",
         "type": "default"
       },
       "extendedMenu": [
@@ -36,6 +36,16 @@
           "image": "carmel.svg",
           "textColor": "#37474F"
         },
+        "pillars": {
+          "source": "benefits",
+          "benefits": [
+            { "text": "local://tweak", "image": "tweak.svg" },
+            { "text": "local://reputation", "image": "reputation.svg" },
+            { "text": "local://market", "image": "market.svg" }
+          ],
+          "textColor": "#37474F",
+          "backgroundColor": "#ffffff"
+        },
         "video": {
           "source": "presentation",
           "text": "local://intro",
@@ -46,18 +56,8 @@
         "preview": {
           "source": "preview",
           "text": "local://preview",
-          "image": "studio-workspace.png",
+          "image": "carmel-studio.gif",
           "textColor": "#37474F"
-        },
-        "pillars": {
-          "source": "benefits",
-          "benefits": [
-            { "text": "local://tweak", "image": "tweak.svg" },
-            { "text": "local://reputation", "image": "reputation.svg" },
-            { "text": "local://market", "image": "market.svg" }
-          ],
-          "textColor": "#37474F",
-          "backgroundColor": "#ffffff"
         },
         "features": [
           {

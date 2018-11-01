@@ -36,11 +36,18 @@ export default class Intro extends Component {
 
   main() {
     return <div className="wharever" style={styles.colorful}>
-      <div style={{ display: 'flex', flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-      {this.title()}
-      {this.subtitle()}
-      </div>
-      {this.icons()}
+      <div style={{
+        display: 'flex',
+        flex: 1,
+        maxWidth: "70vw",
+        alignSelf: "center",
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center' }}>
+        {this.title()}
+        {this.subtitle()}
+        </div>
+        {this.icons()}
     </div>
   }
 
@@ -50,7 +57,7 @@ export default class Intro extends Component {
       color: '#fafafa',
       padding: '20px'
     }}>
-      Teaching Natural Learners To Code
+    The Natural Way To Learn Coding.
     </Typography>
 
   }
@@ -60,16 +67,14 @@ export default class Intro extends Component {
     const fontSize = this.props.isSmallScreen? 15: 26
 
     return <Typist cursor={{ show: false }} style={{}}>
-
         <Typist.Delay ms={5000} />
-        <Typography use='headline4' className="title" style={{
+        <Typography use='headline5' style={{
           textAlign: 'center',
-          color: '#fafafa',
-          padding: '20px'
+          color: '#fafafa'
         }}>
-            And Helping Them Provide A Better Future For Their Family
+        Carmel is the leading Tech Education Blockchain Platform.
+        Built on the EOS Protocol, with a powerful working product and a growing community of 50,000+ early adopters.
       </Typography>
-
         <Typist.Delay ms={1000} />
         <h3 key='4' style={{ color: '#602f15', marginTop: "20px", textAlign: 'center' }}>
           <Button
@@ -77,7 +82,7 @@ export default class Intro extends Component {
             style={{ marginTop: '10px', backgroundColor: "#00bcd4" }}
             onClick={this._onStart}>
             <ButtonIcon icon='done' />
-             Join The Mission
+              Get Your Carmel Tokens Now
           </Button>
         </h3>
     </Typist>
