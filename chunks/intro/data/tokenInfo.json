@@ -5,17 +5,17 @@
 				{
 					"title": "Learning",
 					"subtitle": "Take Challenges And Build Real Experience",
-					"icon": "done"
+					"icon": "school"
 				},
 				{
 					"title": "Developing",
 					"subtitle": "Develop Programming Challenges And Earn Tokens",
-					"icon": "face"
+					"icon": "code"
 				},
 				{
 					"title": "Teaching",
 					"subtitle": "Use Challenges To Complement Classroom Curriculum",
-					"icon": "extension"
+					"icon": "cast_for_education"
 				}
 			]
 		},
@@ -34,7 +34,7 @@
 				{
 					"title": "Quoting",
 					"subtitle": "Create Requests For Quotes For Real Projects",
-					"icon": "extension"
+					"icon": "format_quote"
 				}
 			]
 		}
