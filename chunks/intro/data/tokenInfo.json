@@ -5,7 +5,7 @@
 				{
 					"title": "Learning",
 					"subtitle": "Take Challenges And Build Real Experience",
-					"icon": "school"
+					"icon": "local_library"
 				},
 				{
 					"title": "Developing",
@@ -15,7 +15,7 @@
 				{
 					"title": "Teaching",
 					"subtitle": "Use Challenges To Complement Classroom Curriculum",
-					"icon": "cast_for_education"
+					"icon": "school"
 				}
 			]
 		},
