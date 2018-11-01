@@ -62,7 +62,8 @@
         "tokens": {
           "source": "columns",
           "text": "local://tokens",
-          "marketTitle": "Huge market"
+          "marketTitle": "Huge market",
+          "data": "https://raw.githubusercontent.com/fluidtrends/carmel/master/chunks/intro/data/tokenInfo.json"
         },
         "features": [
           {
