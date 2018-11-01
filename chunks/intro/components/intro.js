@@ -52,12 +52,12 @@ export default class Intro extends Component {
   }
 
   title() {
-    return <Typography use='headline3' className="title" style={{
+    return <Typography use='headline4' className="title" style={{
       textAlign: 'center',
       color: '#fafafa',
       padding: '20px'
     }}>
-    The Natural Way To Learn Coding.
+    The Fastest Way To Become A Coder.
     </Typography>
 
   }
@@ -73,7 +73,8 @@ export default class Intro extends Component {
           color: '#fafafa'
         }}>
         Carmel is the leading Tech Education Blockchain Platform.
-        Built on the EOS Protocol, with a powerful working product and a growing community of 50,000+ early adopters.
+        Built on EOS, with a powerful working product, a unique Educational Model and
+        a growing community of 50,000+ early adopters. Accessible to everyone. No experience required. Pure awesomeness.
       </Typography>
         <Typist.Delay ms={1000} />
         <h3 key='4' style={{ color: '#602f15', marginTop: "20px", textAlign: 'center' }}>
@@ -82,7 +83,7 @@ export default class Intro extends Component {
             style={{ marginTop: '10px', backgroundColor: "#00bcd4" }}
             onClick={this._onStart}>
             <ButtonIcon icon='done' />
-              Get Your Carmel Tokens Now
+              Participate In The Token Sale
           </Button>
         </h3>
     </Typist>
