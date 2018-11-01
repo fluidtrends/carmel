@@ -3,6 +3,8 @@ import { Component, Components } from 'react-dom-chunky'
 import Typist from 'react-typist'
 import { Button, ButtonIcon } from 'rmwc/Button'
 import { Typography } from '@rmwc/typography'
+import { Icon } from '@rmwc/icon';
+
 import 'antd/dist/antd.css';
 
 import baffle from 'baffle'
@@ -35,7 +37,13 @@ export default class Intro extends Component {
 
 
   main() {
-    return <div className="wharever" style={styles.colorful}>
+    const img = require(`../../../assets/intro.gif`)
+    return <div className="wharever" style={Object.assign({}, styles.colorful, {
+      backgroundImage: `url(${img})`,
+      backgroundPosition: 'center',
+      backgroundSize: 'cover',
+      backgroundRepeat: 'noRepeat'
+    })}>
       <div style={{
         display: 'flex',
         flex: 1,
@@ -72,9 +80,9 @@ export default class Intro extends Component {
           textAlign: 'center',
           color: '#fafafa'
         }}>
-        Carmel is the leading Tech Education Blockchain Platform.
-        Built on EOS, with a powerful working product, a unique Educational Model and
-        a growing community of 50,000+ early adopters. Accessible to everyone. No experience required. Pure awesomeness.
+        Carmel is the leading <strong> Tech Education Blockchain Platform </strong>,
+        with a powerful <strong> Working Product</strong>, a unique <strong> Educational Model </strong>
+        and a growing <strong> User Community </strong> of <strong> 50,000+ </strong>
       </Typography>
         <Typist.Delay ms={1000} />
         <h3 key='4' style={{ color: '#602f15', marginTop: "20px", textAlign: 'center' }}>
