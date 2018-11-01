@@ -24,7 +24,7 @@ export default class RoadmapScreen extends Screen {
   }
 
   renderMilestones () {
-    return <TimelineComponent milestones={Milestones.milestones} doneColor={Milestones.doneColor} progressColor={Milestones.progressColor} todoColor={Milestones.todoColor} doneIcon={Milestones.doneIcon} progressIcon={Milestones.progressIcon} todoIcon={Milestones.todoIcon} />
+    return <TimelineComponent isSmallScreen={this.isSmallScreen} milestones={Milestones.milestones} doneColor={Milestones.doneColor} progressColor={Milestones.progressColor} todoColor={Milestones.todoColor} doneIcon={Milestones.doneIcon} progressIcon={Milestones.progressIcon} todoIcon={Milestones.todoIcon} />
   }
 
   renderChart () {
