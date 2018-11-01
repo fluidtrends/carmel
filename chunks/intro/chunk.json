@@ -62,7 +62,6 @@
         "tokens": {
           "source": "columns",
           "text": "local://tokens",
-          "marketTitle": "Huge market",
           "data": "https://raw.githubusercontent.com/fluidtrends/carmel/master/chunks/intro/data/tokenInfo.json"
         },
         "testimonials": {
@@ -72,6 +71,12 @@
           "textColor": "#00bcd4",
           "personNameColor": "#00bcd4",
           "descriptionColor": "#00bcd4"
+        },
+        "getTokens": {
+          "source": "buy",
+          "text": "local://buy",
+          "buttonColor": "#0097A7",
+          "hoveredButtonColor": "#00838F"
         },
         "features": [
           {
