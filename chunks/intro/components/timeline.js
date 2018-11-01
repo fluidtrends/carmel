@@ -5,6 +5,9 @@ import { Typography } from '@rmwc/typography'
 export default class TimelineComponent extends PureComponent {
   constructor (props) {
     super(props)
+    this.state = {
+      hovered: false
+    }
   }
 	
   renderMilestone (item) {
@@ -69,8 +72,8 @@ export default class TimelineComponent extends PureComponent {
         }}>
         {this.renderTimeline()}
          <div style={{ display: 'flex', flex: 1, justifyContent: 'center' }}>
-            <Button style={{backgroundColor: '#009688', borderColor: '#009688', width: '50%'}} type="primary" href={'https://github.com/fluidtrends/carmel/projects/1?fullscreen=true'} target={'_blank'}>
-              Our progress so far<Icon type="setting" spin={true} />
+            <Button style={{backgroundColor: '#009688', borderColor: '#009688', width: '40%'}} type="primary" href={'https://github.com/fluidtrends/carmel/projects/1?fullscreen=true'} target={'_blank'} onMouseEnter={() => {this.setState({hovered: true})}}  onMouseLeave={() => {this.setState({hovered: false})}}>
+              Our progress so far<Icon type="setting" spin={true} style={{marginLeft: this.state.hovered ? '30px' : '5px'}} />
             </Button>
           </div>
       </div>
