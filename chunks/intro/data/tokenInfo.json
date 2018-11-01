@@ -3,18 +3,18 @@
 		{
 			"columns": [
 				{
-					"title": "ccc",
-					"subtitle": "bbb2",
+					"title": "Learning",
+					"subtitle": "Take Challenges And Build Real Experience",
 					"icon": "done"
 				},
 				{
-					"title": "ccc2",
-					"subtitle": "bbb2",
+					"title": "Developing",
+					"subtitle": "Develop Programming Challenges And Earn Tokens",
 					"icon": "face"
 				},
 				{
-					"title": "cccc3",
-					"subtitle": "bbb2",
+					"title": "Teaching",
+					"subtitle": "Use Challenges To Complement Classroom Curriculum",
 					"icon": "extension"
 				}
 			]
@@ -22,18 +22,18 @@
 		{
 			"columns": [
 				{
-					"title": "aaa",
-					"subtitle": "bbb2",
+					"title": "Recruiting",
+					"subtitle": "Create Skills-Based Campaigns To Find Candidates",
 					"icon": "done"
 				},
 				{
-					"title": "aaa2",
-					"subtitle": "bbb2",
+					"title": "Training",
+					"subtitle": "Create Training Campaigns For Their Developers",
 					"icon": "face"
 				},
 				{
-					"title": "aaa3",
-					"subtitle": "bbb2",
+					"title": "Quoting",
+					"subtitle": "Create Requests For Quotes For Real Projects",
 					"icon": "extension"
 				}
 			]
