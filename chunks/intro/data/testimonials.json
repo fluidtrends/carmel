@@ -1,26 +1,8 @@
 [
 	{
-		"imageUrl": "https://www.randomlists.com/img/people/tom_hanks.jpg",
-		"text": "awesome app",
-		"person": "Me Mario",
-		"description": "Luigi's brother"	
-	},
-	{
-		"imageUrl": "https://www.randomlists.com/img/people/tom_hanks.jpg",
-		"text": "awesome app",
-		"person": "Me Mario",
-		"description": "Luigi's brother"	
-	},
-	{
-		"imageUrl": "https://www.randomlists.com/img/people/tom_hanks.jpg",
-		"text": "awesome app",
-		"person": "Me Mario",
-		"description": "Luigi's brother"	
-	},
-	{
-		"imageUrl": "https://www.randomlists.com/img/people/tom_hanks.jpg",
-		"text": "awesome app",
-		"person": "Me Mario",
-		"description": "Luigi's brother"	
+		"imageUrl": "http://files.carmel.io/team/robert/profile.png",
+		"text": "Amazingly easy for people to dive into coding",
+		"person": "Robert Pop",
+		"description": "Web & Mobile developer"	
 	}
 ]
