@@ -99,7 +99,7 @@ export default class Intro extends Component {
 
   icons() {
     return [<div style={{ opacity: 1.2, display: 'flex', justifyContent: 'flex-end', paddingRight: 100, paddingBottom: 30 }}>
-      <Components.SocialIcons isSmallScreen={this.props.isSmallScreen} socialMediaLinks={socialMediaLinks}/>
+      <Components.SocialIcons iconColor={'#B2EBF2'} iconColorHover={'#00ACC1'} isSmallScreen={this.props.isSmallScreen} socialMediaLinks={socialMediaLinks}/>
     </div>]
   }
 
