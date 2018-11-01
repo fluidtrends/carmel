@@ -59,6 +59,11 @@
           "image": "carmel-studio.gif",
           "textColor": "#37474F"
         },
+        "tokens": {
+          "source": "columns",
+          "text": "local://tokens",
+          "marketTitle": "Huge market"
+        },
         "features": [
           {
             "id": "chris",
