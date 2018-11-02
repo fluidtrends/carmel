@@ -4,6 +4,7 @@ import Typist from 'react-typist'
 import { Button, ButtonIcon } from 'rmwc/Button'
 import { Typography } from '@rmwc/typography'
 import { Icon } from '@rmwc/icon';
+import ReactPlayer from 'react-player'
 
 import 'antd/dist/antd.css';
 
@@ -35,27 +36,53 @@ export default class Intro extends Component {
     b.reveal(5000)
   }
 
-
   main() {
-    const img = require(`../../../assets/intro.gif`)
-    return <div className="wharever" style={Object.assign({}, styles.colorful, {
-      backgroundImage: `url(${img})`,
-      backgroundPosition: 'center',
-      backgroundSize: 'cover',
-      backgroundRepeat: 'noRepeat'
-    })}>
+    const video = `assets/background.mp4`
+
+    return <div style={{
+      height: "100vh",
+      width: "100vw",
+      position: "relative",
+      display: "flex",
+      alignItems: "center",
+      flexDirection: "column",
+      justifyContent: "center"
+    }}>
+      <video loop="true" autoplay="autoplay" muted
+      style={{
+        objectFit: "cover",
+        height: "100vh",
+        width: "100vw",
+        overflow: "hidden"
+      }}>
+      <source src={video} type="video/mp4" />
+      </video>
       <div style={{
-        display: 'flex',
+        background: "rgba(0,0,0,0.7)",
+       position: "absolute",
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+         display: "flex",
+         alignItems: "center",
+         flexDirection: "column",
+         justifyContent: "center"
+      }}>
+      <div style={{
+        width: "80vw",
         flex: 1,
-        maxWidth: "70vw",
-        alignSelf: "center",
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center' }}>
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        flexDirection: "column",
+        justifyContent: "center",
+        textAlign: "center"
+      }}>
         {this.title()}
         {this.subtitle()}
         </div>
-        {this.icons()}
+      </div>
     </div>
   }
 
@@ -63,7 +90,7 @@ export default class Intro extends Component {
     return <Typography use='headline4' className="title" style={{
       textAlign: 'center',
       color: '#fafafa',
-      padding: '20px'
+      padding: "20px"
     }}>
     The Fastest Way To Become A Coder.
     </Typography>
@@ -74,7 +101,9 @@ export default class Intro extends Component {
     const color = '#FAFAFA'
     const fontSize = this.props.isSmallScreen? 15: 26
 
-    return <Typist cursor={{ show: false }} style={{}}>
+    return <Typist cursor={{ show: false }} style={{
+      padding: "20px",
+    }}>
         <Typist.Delay ms={5000} />
         <Typography use='headline5' style={{
           textAlign: 'center',
@@ -90,8 +119,8 @@ export default class Intro extends Component {
             raised
             style={{ marginTop: '10px', backgroundColor: "#00bcd4" }}
             onClick={this._onStart}>
-            <ButtonIcon icon='done' />
-              Participate In The Token Sale
+            <ButtonIcon icon='check_circle' />
+              Early Token Sale
           </Button>
         </h3>
     </Typist>

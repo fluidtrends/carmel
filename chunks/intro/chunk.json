@@ -7,16 +7,6 @@
       "icon": "home",
       "forceNavigation": true,
       "skipExtendedMenuOnDesktop": true,
-      "2cover": {
-        "backgroundColor": "#00838F",
-        "align": "bottom",
-        "opacity": 1,
-        "image": "background-stars.r.png",
-        "navigation": true,
-        "title": "H > m",
-        "v3ideo": "https://www.youtube.com/watch?v=QBEnXQqbKUI",
-        "type": "default"
-      },
       "extendedMenu": [
         {
           "id": "team",
