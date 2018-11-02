@@ -4,5 +4,11 @@
 		"text": "Amazingly easy for people to dive into coding",
 		"person": "Robert Pop",
 		"description": "Web & Mobile developer"	
+	},
+	{
+		"imageUrl": "http://files.carmel.io/team/orchid/orchid.jpg",
+		"text": "Carmel is a new way of revolutionizing education, in a decentralized manner. Now we will see each different engagement getting incentivized, in a way that benefits the whole community.",
+		"person": "Orchid Kim",
+		"description": "Chain Partners, EOSYS"	
 	}
 ]
