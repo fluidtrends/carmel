@@ -152,6 +152,14 @@
             "title": "Board of Advisors",
             "members": [
                 {
+                    "name": "Bluejays",
+                    "username": "bluejays",
+                    "title": "Blockchain Advisor",
+                    "image": "https://raw.githubusercontent.com/fluidtrends/carmel/content/team/bluejays/profile.jpg",
+                    "linkedIn": "https://www.linkedin.com/in/yohanncalpu/",
+                    "text": "github://fluidtrends/carmel/content/team/bluejays/README"
+                },
+                {
                     "name": "Paul Brie",
                     "username": "paul-brie",
                     "title": "Startup Advisor",
@@ -267,6 +275,22 @@
                     "image": "http://files.carmel.io/team/eostalks/profile.png",
                     "website": "https://eostalk.io",
                     "text": "github://fluidtrends/carmel/content/team/eostalks/README"
+                },
+                {
+                    "name": "EOSYS",
+                    "username": "eosys",
+                    "title": "EOS Community Partner",
+                    "image": "https://raw.githubusercontent.com/fluidtrends/carmel/content/team/eosys/profile.png",
+                    "website": "https://eosys.io",
+                    "text": "github://fluidtrends/carmel/content/team/eosys/README"
+                },
+                {
+                    "name": "IFWHENTHEN",
+                    "username": "ifwhen",
+                    "title": "EOS Community Partner",
+                    "image": "https://raw.githubusercontent.com/fluidtrends/carmel/content/team/ifthen/profile.png",
+                    "website": "https://ifwhenthen.com",
+                    "text": "github://fluidtrends/carmel/content/team/ifthen/README"
                 },
                 {
                     "name": "KOREOS",
