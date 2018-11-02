@@ -1,2 +1,2 @@
-## Reason to purchase tokens
-# We are restructuring the way people learn to code, offering them endless learning oportunities.
+## The Carmel Ecosystem
+# One Platform For All Tech Education Needs
