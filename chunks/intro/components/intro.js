@@ -5,6 +5,7 @@ import { Button, ButtonIcon } from 'rmwc/Button'
 import { Typography } from '@rmwc/typography'
 import { Icon } from '@rmwc/icon';
 import ReactPlayer from 'react-player'
+import moment from 'moment'
 
 import 'antd/dist/antd.css';
 
@@ -100,6 +101,7 @@ export default class Intro extends Component {
   subtitle() {
     const color = '#FAFAFA'
     const fontSize = this.props.isSmallScreen? 15: 26
+    const days = moment('17 Dec 2018').diff(moment(), 'days')
 
     return <Typist cursor={{ show: false }} style={{
       padding: "20px",
@@ -109,7 +111,7 @@ export default class Intro extends Component {
           textAlign: 'center',
           color: '#fafafa'
         }}>
-        Carmel is the leading <strong> Tech Education Blockchain Platform </strong>,
+        Carmel is the leading <strong> Tech Education Blockchain Platform</strong>,
         with a powerful <strong> Working Product</strong>, a unique <strong> Educational Model </strong>
         and a growing <strong> User Community </strong> of <strong> 50,000+ </strong>
       </Typography>
@@ -117,13 +119,20 @@ export default class Intro extends Component {
         <h3 key='4' style={{ color: '#602f15', marginTop: "20px", textAlign: 'center' }}>
           <Button
             raised
-            style={{ marginTop: '10px', backgroundColor: "#00bcd4" }}
+            theme='secondary-bg text-primary-on-secondary'
+            style={{ marginTop: '30px' }}
             onClick={this._onStart}>
             <ButtonIcon icon='check_circle' />
-              Early Token Sale
+              Get Your Carmel Tokens Now
           </Button>
         </h3>
-    </Typist>
+        <Typography use='headline7' style={{
+          textAlign: 'center',
+          color: '#fafafa'
+        }}>
+        <strong> Last Chance</strong> - The Pre-Listing Token Sale ends on <strong> Dec. 17 </strong>
+      </Typography>
+      </Typist>
   }
 
   icons() {
