@@ -1,0 +1,6 @@
+.DS_Store
+.chunky.json
+.chunky/
+assets/
+node_modules/
+package-lock.json
