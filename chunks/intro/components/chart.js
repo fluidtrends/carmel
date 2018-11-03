@@ -3,10 +3,11 @@ import { Component } from 'react-dom-chunky'
 import { PieChart, LabelList, Pie, Sector, Cell, Label, Legend } from 'recharts'
 
 const data = [
-  { name: 'Community', value: 6, id: '0', percent: '60%' },
-  { name: 'Founders Fund', value: 2, id: '1', percent: '20%' },
-  { name: 'Business Partnerships', value: 1, id: '2', percent: '10%' },
-  { name: 'Carmel Fund', value: 1, id: '3', percent: '10%' }
+  { name: 'EOS ShareDrop', value: 5, id: '0', percent: '50%' },
+  { name: 'Private Distribution', value: 1, id: '1', percent: '10%' },
+  { name: 'Founders Fund', value: 2, id: '2', percent: '20%' },
+  { name: 'Partners Fund', value: 1, id: '3', percent: '10%' },
+  { name: 'Fluid Fund', value: 1, id: '4', percent: '10%' }
 ]
 
 const COLORS = ['#66BB6A', '#00796B', '#1976D2', '#1A237E', '#0D47A1']

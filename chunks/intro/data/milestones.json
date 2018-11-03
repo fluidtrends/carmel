@@ -8,98 +8,72 @@
   "milestones": [
     {
       "id": "1",
-      "title": "Create branding idea",
-      "status": "done",
-      "link": "google.com"
+      "title": "Completed Carmel Studio Private Beta Demos",
+      "status": "done"
     },
     {
       "id": "2",
-      "title": "Setup the initial website",
+      "title": "Launched Beta Website",
       "status": "done"
     },
     {
       "id": "3",
-      "title": "Develop the Whitepaper",
+      "title": "Launched the Beta Whitepaper",
       "status": "done"
     },
     {
       "id": "4",
-      "title": "Create and develop the Carmel Core Team",
+      "title": "Created and the Carmel Core Team",
       "status": "done"
     },
     {
       "id": "5",
-      "title": "Find and meet the initial platform stakeholders",
+      "title": "Added GDPR compliance",
       "status": "done"
     },
     {
       "id": "6",
-      "title": "Develop the Tokenomics",
-      "status": "done"
-    },
-    {
-      "id": "7",
-      "title": "Create first Blog Post on website",
-      "status": "done"
-    },
-    {
-      "id": "8",
-      "title": "Add GDPR compliance",
-      "status": "done"
-    },
-    {
-      "id": "9",
       "title": "Round 1 of Airdrop distributed",
       "status": "done"
     },
     {
-      "id": "10",
-      "title": "Kickstart the Carmel Internship",
+      "id": "7",
+      "title": "Start the Carmel Internship",
       "status": "done"
+    },
+    {
+      "id": "8",
+      "title": "Launch the Carmel Studio Beta",
+      "status": "progress"
+    },
+    {
+      "id": "9",
+      "title": "Start the Carmel Beta Bounty campaign",
+      "status": "progress"
+    },
+    {
+      "id": "10",
+      "title": "Launch the Carmel Cafe video podcast",
+      "status": "progress"
     },
     {
       "id": "11",
-      "title": "Create starter virtual image for the Carmel learning environment",
-      "status": "done"
+      "title": "Launch the Carmel Private Testnet",
+      "status": "todo"
     },
     {
       "id": "12",
-      "title": "Release initial Version of the Carmel Studio",
-      "status": "done"
+      "title": "Launch the Carmel Token EOS Contract on the Mainnet",
+      "status": "todo"
     },
     {
       "id": "13",
-      "title": "Add the ability to create a new Carmel Product from a template, in the Studio",
-      "status": "done"
+      "title": "List on the first token exchange",
+      "status": "todo"
     },
     {
       "id": "14",
-      "title": "Integrate Atom editor to Carmel Studio",
-      "status": "done"
-    },
-    {
-      "id": "15",
-      "title": "V2 of the Desktop",
-      "status": "progress"
-    },
-    {
-      "id": "16",
-      "title": "Website redesign",
-      "status": "progress"
-    },
-    {
-      "id": "17",
-      "title": "Eos smart contract",
-      "status": "todo"
-    },
-    {
-      "id": "18",
-      "title": "Carmel blockchain",
-      "status": "todo"
-    },
-    {
-      "id": "19",
-      "title": "Mobile app",
+      "title": "Complete the EOS ShareDrop",
       "status": "todo"
     }
   ]

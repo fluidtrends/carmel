@@ -46,15 +46,15 @@ export default class RoadmapScreen extends Screen {
       }}>
 
       <Card style={{ width, margin: '10px', padding }}>
-        <Typography use='display1' tag='h1' style={{ color: '#90A4AE', marginBottom: '30px', marginTop: '20px' }}>
+        <Typography use='headline4' tag='h1' style={{ color: this.props.theme.primaryColor, marginBottom: '30px', marginTop: '20px' }}>
           Token Distribution
         </Typography>
         {this.renderChart()}
       </Card>
 
       <Card style={{ width, margin: '10px', padding }}>
-        <Typography use='display1' tag='h1' style={{ color: '#90A4AE', marginBottom: '30px', marginTop: '20px' }}>
-          Key Milestones
+        <Typography use='headline4' tag='h1' style={{ color: this.props.theme.primaryColor, marginBottom: '30px', marginTop: '20px' }}>
+          Major Milestones
         </Typography>
         {this.renderMilestones()}
       </Card>
