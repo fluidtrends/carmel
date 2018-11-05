@@ -390,7 +390,7 @@ export default class BaseStudioScreen extends Screen {
       alignItems: 'center',
       textAlign: 'center',
       margin: '0px',
-      padding: '20px'
+      padding: '0px'
     }}>
       { children }
     </Elevation>

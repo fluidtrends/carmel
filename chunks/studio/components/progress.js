@@ -26,7 +26,7 @@ export default class Progress extends Component {
       flexDirection: "column",
       justifyContent: "center"
     }}>
-      <video loop="true" autoplay="autoplay" muted
+      <video loop autoPlay="autoplay" muted
       style={{
         objectFit: "cover",
         height: "100vh",

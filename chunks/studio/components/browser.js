@@ -57,31 +57,22 @@
      })
 
      this.webview.addEventListener('did-navigate-in-page', (page) => {
-       console.log('did-navigate-in-page', page)
      })
 
      this.webview.addEventListener('did-navigate', (page) => {
-       console.log('did-navigate', page)
        if (page.url.startsWith("http://localhost")) {
          self.setState({ url: '' })
        }
      })
 
-     this.webview.addEventListener('will-navigate', (page) => {
-       console.log('will-navigate', page)
+     this.webview.addEventListener('new-window', (e) => {
+       self.setState({ url: e.url })
      })
 
      this.webview.addEventListener('did-start-loading', () => {
-       console.log('did-start-loading')
-     })
-
-     this.webview.addEventListener('new-window', (e) => {
-       self.setState({ url: e.url })
-       console.log(e.url)
      })
 
      this.webview.addEventListener('did-stop-loading', () => {
-       console.log('did-stop-loading')
      })
    }
 
@@ -382,7 +373,7 @@
      return <div key='browserContainer' style={style}>
     { this.renderToolbar() }
      <webview
-     allowpopups
+     allowpopups="true"
        key='webview'
        ref={this._loaded}
        src={this.url} style={{
