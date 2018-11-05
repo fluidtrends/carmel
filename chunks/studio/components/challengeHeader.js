@@ -56,7 +56,6 @@ export default class ChallengeHeader extends Component {
   }
 
   renderAuthor () {
-    console.log(this.props.challenge)
     return <div style={{
       flex: 1,
       flexDirection: 'column',

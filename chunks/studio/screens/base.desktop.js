@@ -84,7 +84,7 @@ export default class BaseStudioScreen extends Screen {
   }
 
   sessionSynced (response) {
-    console.log(response)
+    // console.log(response)
     if (!response || !response.data) {
       return
     }
