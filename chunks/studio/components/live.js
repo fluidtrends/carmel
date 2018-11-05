@@ -102,7 +102,6 @@ export default class Live extends Component {
   }
 
   get liveUrl() {
-    const domain =
     return `http://www.${this.domain}.s3-website-us-east-1.amazonaws.com`
   }
 
