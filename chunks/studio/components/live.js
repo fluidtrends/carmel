@@ -1,11 +1,12 @@
 import React from 'react'
 import { Component, Components } from 'react-dom-chunky'
 import { Typography } from '@rmwc/typography'
-import { Icon } from 'antd'
+import { Icon, notification } from 'antd'
 import { Button, ButtonIcon } from '@rmwc/button'
 import SetupCloud from './setupCloud'
 import Shell from './shell'
 import Progress from './progress'
+import { shell } from 'electron'
 
 export default class Live extends Component {
   constructor (props) {
@@ -14,10 +15,15 @@ export default class Live extends Component {
     this.state = { }
     this._shell = new Shell()
     this._deploy = this.deploy.bind(this)
+    this._external = this.external.bind(this)
   }
 
   componentDidMount () {
     super.componentDidMount()
+  }
+
+  external() {
+    shell.openExternal(this.liveUrl)
   }
 
   get shell () {
@@ -38,9 +44,17 @@ export default class Live extends Component {
       this.setState({ progressMessage: status })
     })
     .then((data) => {
+      notification.open({
+        icon: <Icon type='smile' style={{ color: '#4CAF50' }} />,
+        message: "Awesome! Your new site is now live!"
+      })
       this.setState({ deploying: false, deployed: true, deployTimpestamp: `${Date.now()}` })
     })
     .catch((error) => {
+      notification.open({
+        icon: <Icon type='smile' style={{ color: '#4CAF50' }} />,
+        message: "Sorry, something went wrong"
+      })
       this.setState({ deploying: false, deployed: false, error })
     })
   }
@@ -143,6 +157,13 @@ export default class Live extends Component {
           {`Publish Now`}
           <ButtonIcon icon="arrow_forward" />
         </Button>
+        <Typography use='title' tag='h2' style={{ marginTop: '40px', textAlign: 'center' }}>
+          <Button onClick={this._external} style={{
+            color: '#81D4FA'
+          }}>
+            See {this.domain} live
+          </Button>
+        </Typography>
         </div>
   }
 }

@@ -66,7 +66,7 @@ export default class Progress extends Component {
       <Typography use='headline5' tag='h2' style={{ color: '#ffffff', textAlign: 'center' }}>
         <Icon type='hourglass' spin style={{ marginRight: '10px'}} />
         { this.props.message }
-      </Typography>``
+      </Typography>
         </div>
       </div>
     </div>
