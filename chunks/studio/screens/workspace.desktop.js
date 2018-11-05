@@ -267,7 +267,9 @@ export default class Workspace extends Screen {
         top: '74px',
         zIndex: hide ? -10 : 15
       }}>
-        { this.renderScreenContentsContainer(<Live settings={this.props.session.settings}/>) }
+        { this.renderScreenContentsContainer(<Live
+          productId={this.product.id}
+          settings={this.props.session.settings}/>) }
     </div>
   }
 

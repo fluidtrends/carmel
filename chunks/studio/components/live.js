@@ -34,7 +34,7 @@ export default class Live extends Component {
 
   deploy() {
     this.setState({ deploying: true, progressMessage: "Getting ready to package" })
-    this.shell.exec('publishProduct', { id: "danspersonalbrand", domain: 'idancali.com' }, ({ status }) => {
+    this.shell.exec('publishProduct', { id: this.productId, domain: this.domain }, ({ status }) => {
       this.setState({ progressMessage: status })
     })
     .then((data) => {
@@ -80,9 +80,31 @@ export default class Live extends Component {
 
 
   renderDeploying() {
-    return <Progress message={this.state.progressMessage}/>
+    return <div style={{
+          display: "flex",
+          flex: 1,
+          width: "100%",
+          height: "100%",
+          alignItems: "center",
+          flexDirection: "column",
+          justifyContent: "center"
+        }}>
+        <Progress message={this.state.progressMessage}/>
+    </div>
   }
 
+  get productId() {
+    return this.props.productId
+  }
+
+  get domain() {
+    return "idancali.com"
+  }
+
+  get liveUrl() {
+    const domain =
+    return `http://www.${this.domain}.s3-website-us-east-1.amazonaws.com`
+  }
 
   render() {
     if (!this.isCloudSetup) {
@@ -119,7 +141,7 @@ export default class Live extends Component {
             margin: "20px",
             backgroundColor: '#00bcd4'
           }}>
-          {`Go Live Now`}
+          {`Publish Now`}
           <ButtonIcon icon="arrow_forward" />
         </Button>
         </div>
