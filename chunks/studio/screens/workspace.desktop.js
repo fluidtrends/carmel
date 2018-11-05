@@ -308,7 +308,7 @@ export default class Workspace extends Screen {
     return <div style={{
       marginRight: '10px',
       flex: 1,
-      maxWidth: '40vw'
+      maxWidth: '35vw'
     }}>
       <Editor
         onFileClose={this._onFileClose}
