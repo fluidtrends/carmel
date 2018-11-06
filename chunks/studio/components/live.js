@@ -1,12 +1,15 @@
 import React from 'react'
 import { Component, Components } from 'react-dom-chunky'
 import { Typography } from '@rmwc/typography'
-import { Icon, notification } from 'antd'
+import { Icon, notification, Input, Select } from 'antd'
 import { Button, ButtonIcon } from '@rmwc/button'
 import SetupCloud from './setupCloud'
 import Shell from './shell'
 import Progress from './progress'
 import { shell } from 'electron'
+import { TextField, TextFieldIcon, TextFieldHelperText } from '@rmwc/textfield'
+
+const Option = Select.Option
 
 export default class Live extends Component {
   constructor (props) {
@@ -15,6 +18,8 @@ export default class Live extends Component {
     this.state = { }
     this._shell = new Shell()
     this._deploy = this.deploy.bind(this)
+    this._setup = this.setup.bind(this)
+    this._save = this.save.bind(this)
     this._external = this.external.bind(this)
   }
 
@@ -36,6 +41,15 @@ export default class Live extends Component {
 
   get isCloudSetup () {
     return this.settings.cloud ? true : false
+  }
+
+  save() {
+
+    // const settings = Object.assign({}, settings, {
+    //
+    // })
+    this.setState({ domain: this.state.domainTemp, setup: false })
+    // self.shell.cache('settings', settings)
   }
 
   deploy() {
@@ -92,7 +106,6 @@ export default class Live extends Component {
         </div>
   }
 
-
   renderDeploying() {
     return <div style={{
           display: "flex",
@@ -112,11 +125,63 @@ export default class Live extends Component {
   }
 
   get domain() {
-    return "idancali.com"
+    return this.state.domain || (this.props.settings && this.props.settings.domains ? this.props.settings.domains[this.productId] : undefined)
   }
 
   get liveUrl() {
     return `http://www.${this.domain}.s3-website-us-east-1.amazonaws.com`
+  }
+
+  setup() {
+    this.setState({ setup: true })
+  }
+
+  renderEditDomain() {
+    return <div style={{ marginTop: '60px', textAlign: 'center' }}>
+      <Input
+        onChange={(e) => this.setState({ domainTemp: e.target.value })}
+        addonBefore="http://"
+        defaultValue={this.domain}
+        addonAfter={<Button onClick={this._save} style={{ color: '#00bcd4', height: "20px" }}> SAVE </Button>}/>
+    </div>
+  }
+
+  renderDomain(current) {
+    if (!current || this.state.setup) {
+      return this.renderEditDomain()
+   }
+
+   return <Typography use='title' tag='h2' style={{ marginTop: '60px', textAlign: 'center' }}>
+     <Button key="edit" onClick={this._setup} style={{
+       color: '#81D4FA',
+       margin: "20px"
+     }}>
+     <ButtonIcon icon="create" />
+       Edit domain
+     </Button>
+      <Button onClick={this._external} style={{
+        color: '#81D4FA',
+        margin: "20px"
+      }}>
+       <ButtonIcon icon="launch" />
+        Open {`${this.domain}`}
+      </Button>
+    </Typography>
+  }
+
+  renderAction() {
+    return <Button
+      key="main"
+      onClick={this._deploy}
+      disabled={!this.state.domain}
+      style={{
+        color: '#ffffff',
+        margin: "20px",
+        backgroundColor: '#00bcd4'
+      }}>
+      {`Publish Now`}
+      <ButtonIcon icon="arrow_forward" />
+    </Button>
   }
 
   render() {
@@ -126,6 +191,14 @@ export default class Live extends Component {
 
     if (this.state.deploying) {
       return this.renderDeploying()
+    }
+
+    const domain = this.domain
+
+    var title = `Let's publish your website for the whole world to see`
+
+    if (!domain) {
+      title = `Choose a domain for your website`
     }
 
     return <div style={{
@@ -145,25 +218,10 @@ export default class Live extends Component {
           marginBottom: "30px"
         }} />
         <Typography use='headline5' tag='div' style={{ color: '#263238', textAlign: 'center' }}>
-          {`Let's publish your website for the whole world to see`}
+          { title }
         </Typography>
-        <Button
-          onClick={this._deploy}
-          style={{
-            color: '#ffffff',
-            margin: "20px",
-            backgroundColor: '#00bcd4'
-          }}>
-          {`Publish Now`}
-          <ButtonIcon icon="arrow_forward" />
-        </Button>
-        <Typography use='title' tag='h2' style={{ marginTop: '40px', textAlign: 'center' }}>
-          <Button onClick={this._external} style={{
-            color: '#81D4FA'
-          }}>
-            See {this.domain} live
-          </Button>
-        </Typography>
+        { domain && this.renderAction() }
+        { this.renderDomain(domain) }
         </div>
   }
 }
