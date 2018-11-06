@@ -103,7 +103,7 @@ export default class Intro extends Component {
     const fontSize = this.props.isSmallScreen? 15: 26
     const days = moment('17 Dec 2018').diff(moment(), 'days')
 
-    return <Typist cursor={{ show: false }} style={{
+    return <Typist cursor={{ show: false }} avgTypingDelay={25} style={{
       padding: "20px",
     }}>
         <Typist.Delay ms={5000} />
