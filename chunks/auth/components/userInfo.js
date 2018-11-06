@@ -88,10 +88,10 @@
       }
 
       return <div>
-        <Typography use='subheading2' tag='h1' style={{ color: '#90A4AE' }}>
+        <Typography use='subheading2' tag='h2' style={{ color: '#90A4AE' }}>
           Please check your email for the verification link
         </Typography>
-        <Typography use='subheading2' tag='h1' style={{ color: '#90A4AE' }}>
+        <Typography use='subheading2' tag='h2' style={{ color: '#90A4AE' }}>
           <Button onClick={this._verify}>
           Resend Verification Email
         </Button>
@@ -104,7 +104,7 @@
       const color = (this.isVerified ? '#006A4E' : '#ef5350')
       const icon = (this.isVerified ? 'check_circle' : 'remove_circle')
 
-      return <Typography use='caption' tag='h1' style={{
+      return <Typography use='caption' tag='h2' style={{
         textAlign: 'left'
       }}>
         <ChipSet>
@@ -147,7 +147,7 @@
         paddingBottom: '20px',
         borderBottom: '1px solid #EEEEEE'
       }}>
-        <Typography use='subheading1' tag='h1' style={{ textAlign: 'left' }}>
+        <Typography use='subheading1' tag='h2' style={{ textAlign: 'left' }}>
           <ChipSet>
             <Chip style={{ backgroundColor: (this.tokens > 0 ? '#006A4E' : '#CFD8DC') }}>
               <ChipText style={{ color: (this.tokens > 0 ? '#ffffff' : '#B0BEC5') }}>
@@ -188,7 +188,7 @@
 
               <Typography
                 use='headline5'
-                tag='h1'
+                tag='h2'
                 style={{
                   display: 'flex',
                   flex: 6,

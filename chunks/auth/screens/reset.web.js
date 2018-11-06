@@ -99,7 +99,7 @@ export default class ResetScreen extends Screen {
             fontSize: '64px',
             padding: '10px'
           }} />
-          <Typography use='title' tag='h2'>
+          <Typography use='headline' tag='h3'>
             {messages.sent}
           </Typography>
         </div>

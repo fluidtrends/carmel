@@ -199,7 +199,7 @@ export default class RegisterScreen extends Screen {
           fontSize: '64px',
           padding: '10px'
         }} />
-        <Typography use='title' tag='h2'>
+        <Typography use='headline' tag='h3'>
           Create Your Carmel Account
         </Typography>
       </div>

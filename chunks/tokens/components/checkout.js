@@ -22,7 +22,7 @@ const CoinMarketCapAPIEUR = `https://api.coinmarketcap.com/v1/ticker/ethereum/?c
 const CarmelPaymentMethods = { metamask: 'MetaMask', mew: 'MyEtherWallet' }
 const CarmelIncrement = 100
 const CarmelMax = 10000
-const CarmelStart = 500
+const CarmelStart = 5000
 const CarmelPrice = 0.01
 
 const BonusMessage = <div>
@@ -762,7 +762,7 @@ export default class CheckoutComponent extends Component {
           flexDirection: 'column',
           alignItems: 'center'
         }}>
-        <Typography use='title' style={{ color: '#ef5350' }} tag='h1'>
+        <Typography use='headline' style={{ color: '#ef5350' }} tag='h3'>
           {this.error}
         </Typography>
       </div>
