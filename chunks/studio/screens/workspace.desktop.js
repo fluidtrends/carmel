@@ -61,7 +61,7 @@ export default class Workspace extends Screen {
 
     const { level, author } = this.challenge
     this.setState({ inProgress: true, progressMessage: 'Transferring Tokens ...' })
-    console.log(author)
+
     this.props.sendTokens({
       amount: this.calculatePrice(level),
       to: author.id,
@@ -160,7 +160,6 @@ export default class Workspace extends Screen {
   }
 
   tokensSent (response) {
-    console.log(response)
     if (response && response.data && response.data.error) {
       notification.error({ message: response.data.error })
       this.setState({ inProgress: false })
@@ -272,7 +271,6 @@ export default class Workspace extends Screen {
           settings={this.props.session.settings}/>) }
     </div>
   }
-
 
   renderChallenges () {
     if (this.state.challengeId) {
