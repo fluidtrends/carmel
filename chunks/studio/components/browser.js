@@ -13,6 +13,16 @@
  import RubberBand from 'react-reveal/RubberBand'
  import Zoom from 'react-reveal/Zoom'
  import Pulse from 'react-reveal/Bounce'
+ import { IconButton } from '@rmwc/icon-button'
+ import {
+   Toolbar,
+   ToolbarRow,
+   ToolbarSection,
+   ToolbarTitle,
+   ToolbarMenuIcon,
+   ToolbarIcon
+ } from '@rmwc/toolbar'
+ import { shell } from 'electron'
 
  const PROGRESS_CACHE = '_cacheProgressVideo'
 
@@ -25,7 +35,9 @@
      this._prev = this.prev.bind(this)
      this._reload = this.reload.bind(this)
      this._loaded = this.loaded.bind(this)
+     this._external = this.external.bind(this)
      this._onVideoPlayerEvent = this.onVideoPlayerEvent.bind(this)
+     this._toggleView = this.toggleView.bind(this)
    }
 
    componentDidMount () {
@@ -41,23 +53,26 @@
 
      const self = this
      this.webview.addEventListener('dom-ready', () => {
-       self.setState({ ready: true })
+       // self.webview.openDevTools()
      })
 
-     this.webview.addEventListener('did-navigate-in-page', (e, page) => {
-       // console.log('did-navigate-in-page', page)
+     this.webview.addEventListener('did-navigate-in-page', (page) => {
      })
 
-     this.webview.addEventListener('will-navigate', (e, page) => {
-       // console.log('will-navigate', page)
+     this.webview.addEventListener('did-navigate', (page) => {
+       if (page.url.startsWith("http://localhost")) {
+         self.setState({ url: '' })
+       }
+     })
+
+     this.webview.addEventListener('new-window', (e) => {
+       self.setState({ url: e.url })
      })
 
      this.webview.addEventListener('did-start-loading', () => {
-       // console.log('did-start-loading')
      })
 
      this.webview.addEventListener('did-stop-loading', () => {
-       // console.log('did-stop-loading')
      })
    }
 
@@ -75,7 +90,6 @@
        top: '0px',
        left: '0px',
        height: '100vh',
-       backgroundColor: '#00ff00',
        opacity: 0.5,
        width: '60px'
      })
@@ -84,11 +98,14 @@
    }
 
    get url () {
-     if (!this.props.port) {
-       return 'http://localhost'
+     if (!this.state.url) {
+       return `http://localhost:${this.props.port}`
      }
+     return this.state.url
+   }
 
-     return `http://localhost:${this.props.port}`
+   toggleView() {
+     this.setState({ mobile: !this.state.mobile })
    }
 
    prev () {
@@ -103,9 +120,13 @@
      this.webview && this.webview.reload()
    }
 
+   external() {
+     shell.openExternal(this.url)
+   }
+
    renderToolbar () {
      return <div key='toolbar' style={{
-       width: '100%',
+       width: this.state.mobile ? '600px' : "100%",
        height: '60px',
        backgroundColor: '#78909C',
        display: 'flex',
@@ -113,61 +134,72 @@
        alignItems: 'center',
        justifyContent: 'center'
      }}>
-       <Icon
-         onClick={this._prev}
-         style={{
-           color: '#CFD8DC',
-           display: 'flex',
-           fontSize: '18px',
-           marginLeft: '10px',
-           lineHeight: '64px',
-           padding: '0 10px',
-           cursor: 'pointer',
-           width: '40px',
-           transition: 'color .3s'
-         }}
-         type='arrow-left' />
-       <Icon
-         onClick={this._next}
-         style={{
-           color: '#CFD8DC',
-           display: 'flex',
-           fontSize: '18px',
-           marginLeft: '10px',
-           lineHeight: '64px',
-           padding: '0 10px',
-           cursor: 'pointer',
-           width: '40px',
-           transition: 'color .3s'
-         }}
-         type='arrow-right' />
-       <Icon
-         onClick={this._reload}
-         style={{
-           color: '#CFD8DC',
-           display: 'flex',
-           fontSize: '18px',
-           marginLeft: '10px',
-           lineHeight: '64px',
-           padding: '0 10px',
-           cursor: 'pointer',
-           width: '40px',
-           transition: 'color .3s'
-         }}
-         type='reload' />
+      <IconButton
+      onClick={this._prev}
+      icon="arrow_back"
+      style={{
+        margin: 0,
+        padding: 0,
+        fontSize: "30px",
+        marginLeft: "10px",
+        color: '#ffffff'
+      }}
+      />
+      <IconButton
+      onClick={this._next}
+      icon="arrow_forward"
+      style={{
+        color: '#ffffff',
+        margin: 0,
+        padding: 0,
+        fontSize: "30px"
+      }}
+      />
+      <IconButton
+      onClick={this._reload}
+      icon="refresh"
+      style={{
+        color: '#ffffff',
+        margin: 0,
+        padding: 0,
+        fontSize: "30px"
+      }}
+      />
        <Input
          type='text'
          disabled
-         defaultValue={this.url}
+         value={this.url}
          style={{
-           color: '#37474F',
-           height: '30px',
-           backgroundColor: '#FAFAFA',
+           color: '#90A4AE',
+           height: '40px',
+           backgroundColor: '#ffffff',
            display: 'flex',
            padding: '10px',
            margin: '10px',
            flex: 1
          }} />
+         <IconButton
+         onClick={this._external}
+         icon="launch"
+         style={{
+           color: '#ffffff',
+           margin: 0,
+           marginRight: "10px",
+           padding: 0,
+           fontSize: "30px"
+        }}
+         />
+         <IconButton
+         onClick={this._toggleView}
+         icon={this.state.mobile ? 'laptop_mac' : 'mobile_friendly'}
+         style={{
+           color: '#ffffff',
+           margin: 0,
+           marginRight: "10px",
+           padding: 0,
+           fontSize: "30px"
+        }}
+         />
      </div>
    }
 
@@ -326,78 +358,30 @@
      return <LinearProgress key='divider' progress={percentage} />
    }
 
-   renderWebview () {
-     return <webview
-       key='webview'
-       ref={this._loaded}
-       src={this.url} style={{
-         display: 'flex',
-         width: '100%',
-         backgroundColor: '#ffffff',
-         flex: 1
-       }} />
-   }
-
-   renderMainBrowserContent () {
-     // console.log(this.webview)
-     // if (this.webview) {
-       // console.log(this.webview.isLoading(),
-       // this.webview.isWaitingForResponse(),
-       // this.webview.getURL(),
-       // this.webview.getTitle())
-     // }
-
-     // console.log(this.state.ready)
-
-     // if (!this.state.ready) {
-     //   return <div style={{
-     //     backgroundColor: '#ffff00',
-     //     display: 'flex',
-     //     flexDirection: 'column',
-     //     justifyContent: 'center',
-     //     alignItems: 'center'
-     //   }}>
-     //    hey
-     //   </div>
-     // }
-
-     // if (!this.isLongRunning) {
-       // if (this.state.progressVideoTime) {
-         // Data.Cache.cacheItem(PROGRESS_CACHE, { video: this.longProcessVideo, time: this.state.progressVideoTime })
-       // }
-     return this.renderWebview()
-     // }
-
-     // return this.renderProgressVideo()
-   }
-
    render () {
      const style = Object.assign({}, {
        height: '100%',
        display: 'flex',
        flex: 1,
-       width: '100%',
+       width: "100%",
        justifyContent: 'center',
        alignItems: 'center',
-       padding: 0,
+       alignSelf: "center",
        flexDirection: 'column'
      })
 
-     //   <Card key='browserContainerCard' style={{
-     //     width: '100%',
-     //     display: 'flex',
-     //     flex: 1,
-     //     justifyContent: 'center',
-     //     alignItems: 'center',
-     //     flexDirection: 'column'
-     //   }}>
-     //     { this.renderMainBrowserContent() }
-     //   </Card>
-     //   { this.renderProgressBar() }
-     // </div>
-
      return <div key='browserContainer' style={style}>
-       { this.renderWebview() }
-     </div>
+    { this.renderToolbar() }
+     <webview
+     allowpopups="true"
+       key='webview'
+       ref={this._loaded}
+       src={this.url} style={{
+         display: 'flex',
+         width: this.state.mobile ? '600px' : "100%",
+         backgroundColor: '#ECEFF1',
+         flex: 1
+       }} />
+    </div>
    }
 }

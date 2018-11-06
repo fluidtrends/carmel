@@ -10,6 +10,7 @@ import Challenge from '../components/challenge'
 import Explorer from '../components/explorer'
 import Challenges from '../components/challenges'
 import Editor from '../components/editor'
+import Live from '../components/live'
 import Wobble from 'react-reveal/Wobble'
 import Bounce from 'react-reveal/Bounce'
 import Fade from 'react-reveal/Fade'
@@ -254,10 +255,24 @@ export default class Workspace extends Screen {
   }
 
   renderLivePrimaryView () {
-    return this.renderScreenContentsContainer(this.renderScreenMainMessage({
-      message: 'Not published yet.'
-    }))
+    const hide = (this.state.primaryView !== "live")
+
+    return <div
+      key='overlayLive'
+      style={{
+        position: 'absolute',
+        right: '10px',
+        bottom: '10px',
+        left: this.state.sideMenuExpanded ? '230px' : '90px',
+        top: '74px',
+        zIndex: hide ? -10 : 15
+      }}>
+        { this.renderScreenContentsContainer(<Live
+          productId={this.product.id}
+          settings={this.props.session.settings}/>) }
+    </div>
   }
+
 
   renderChallenges () {
     if (this.state.challengeId) {
@@ -308,7 +323,7 @@ export default class Workspace extends Screen {
     return <div style={{
       marginRight: '10px',
       flex: 1,
-      maxWidth: '40vw'
+      maxWidth: '35vw'
     }}>
       <Editor
         onFileClose={this._onFileClose}
@@ -324,8 +339,6 @@ export default class Workspace extends Screen {
         return this.renderFilesPrimaryView()
       case 'settings':
         return this.renderSettingsPrimaryView()
-      case 'live':
-        return this.renderLivePrimaryView()
       case 'challenges':
         return this.renderChallenges()
       default:
@@ -333,6 +346,7 @@ export default class Workspace extends Screen {
 
     return <div />
   }
+
 
   renderScreenContents () {
     return [<div
@@ -356,13 +370,14 @@ export default class Workspace extends Screen {
           position: 'absolute',
           right: '10px',
           bottom: '10px',
-          left: '90px',
+          left: this.state.sideMenuExpanded ? '230px' : '90px',
           top: '74px',
           zIndex: 10
         }}>
         {
-      this.renderOverlay()
-    }
-      </div>]
+          this.renderOverlay()
+        }
+      </div>,
+      this.renderLivePrimaryView()]
   }
 }
