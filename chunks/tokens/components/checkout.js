@@ -21,9 +21,9 @@ const CoinMarketCapAPIUSD = `https://api.coinmarketcap.com/v1/ticker/ethereum/?c
 const CoinMarketCapAPIEUR = `https://api.coinmarketcap.com/v1/ticker/ethereum/?convert=EUR`
 const CarmelPaymentMethods = { metamask: 'MetaMask', mew: 'MyEtherWallet' }
 const CarmelIncrement = 100
-const CarmelMax = 100
-const CarmelStart = 50
-const CarmelPrice = 1
+const CarmelMax = 10000
+const CarmelStart = 500
+const CarmelPrice = 0.01
 
 const BonusMessage = <div>
   100 - 500 Carmel - 10% bonus
@@ -736,7 +736,7 @@ export default class CheckoutComponent extends Component {
       onChange={this._updateLevel}
       onInput={this._updateLevel}
       discrete
-      min={1}
+      min={50}
       max={this.state.max}
       displayMarkers
       step={1}
