@@ -21,7 +21,7 @@ import Fade from 'react-reveal/Fade'
 import { Spring } from 'react-spring'
 import * as Stages from '../functions/stages'
 
-const { remote } = require('electron')
+const { remote, ipcRenderer } = require('electron')
 
 const HOME = process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME']
 const CARMEL_HOME = path.resolve(HOME, '.carmel')
@@ -38,6 +38,11 @@ export default class BaseStudioScreen extends Screen {
 
   componentDidMount () {
     super.componentDidMount()
+    console.log("BASE", this.constructor.name, this.props.session.settings.cloud)
+  }
+
+  refreshGlobal() {
+    remote.getCurrentWindow().reload()
   }
 
   /***********************************************************/
@@ -378,8 +383,8 @@ export default class BaseStudioScreen extends Screen {
     </Tooltip>))
   }
 
-  renderScreenContentsContainer (children) {
-    return <Elevation z={10} style={{
+  renderScreenContentsContainer (children, styles) {
+    return <Elevation z={10} style={ Object.assign({}, {
       width: '100%',
       overflow: 'scroll',
       justifyContent: 'center',
@@ -390,8 +395,8 @@ export default class BaseStudioScreen extends Screen {
       alignItems: 'center',
       textAlign: 'center',
       margin: '0px',
-      padding: '0px'
-    }}>
+      padding: '20px'
+    }, styles)}>
       { children }
     </Elevation>
   }

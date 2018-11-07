@@ -21,6 +21,7 @@ export default class Live extends Component {
     this._setup = this.setup.bind(this)
     this._save = this.save.bind(this)
     this._cancelSetup = this.cancelSetup.bind(this)
+    this._cloudSetupDone = this.cloudSetupDone.bind(this)
     this._external = this.external.bind(this)
   }
 
@@ -42,6 +43,10 @@ export default class Live extends Component {
 
   get isCloudSetup () {
     return this.settings.cloud ? true : false
+  }
+
+  cloudSetupDone() {
+    console.log("DONE SETUP")
   }
 
   save() {

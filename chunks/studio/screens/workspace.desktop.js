@@ -249,7 +249,7 @@ export default class Workspace extends Screen {
 
   renderSettingsPrimaryView () {
     return this.renderScreenContentsContainer(this.renderScreenMainMessage({
-      message: 'No settings yet.'
+      message: 'Product settings coming soon.'
     }))
   }
 
@@ -268,7 +268,7 @@ export default class Workspace extends Screen {
       }}>
         { this.renderScreenContentsContainer(<Live
           productId={this.product.id}
-          settings={this.props.session.settings}/>) }
+          settings={this.props.session.settings}/>, { padding: "0px" }) }
     </div>
   }
 

@@ -61,28 +61,29 @@ export default class SetupCloud extends Component {
   }
 
   onBrowserLogout (data) {
-  const self = this
-  const session = this.browserSession
+    const self = this
+    const session = this.browserSession
 
-  session.clearStorageData({
-      storages: ['cookies']
-    }, (done) => {
-      const settings = Object.assign({}, this.settings, {
-        cloud: {
-          provider: 'aws',
-          summary: 'Connected to your Amazon account',
-          username: self.state.awsUsername,
-          accessKeyId: data.awsAccessKeyId,
-          secretAccessKey: data.awsSecretAccessKey
-        }
+    session.clearStorageData({
+        storages: ['cookies']
+      }, (done) => {
+        const settings = Object.assign({}, this.settings, {
+          cloud: {
+            provider: 'aws',
+            summary: 'Connected to your Amazon account',
+            username: self.state.awsUsername,
+            accessKeyId: data.awsAccessKeyId,
+            secretAccessKey: data.awsSecretAccessKey
+          }
+        })
+        self.shell.cache('settings', settings)
+        self.setState(Object.assign({}, { settings, browse: false }, data))
+        self.props.onDone && self.props.onDone()
       })
-      self.shell.cache('settings', settings)
-      self.setState(Object.assign({}, { settings, browse: false }, data))
-    })
   }
 
   renderSetupPrompt() {
-    return  <div style={{
+    return <div style={{
           display: "flex",
           flex: 1,
           width: "100%",
@@ -99,7 +100,7 @@ export default class SetupCloud extends Component {
           marginBottom: "30px"
         }} />
         <Typography use='headline5' tag='div' style={{ color: '#263238', textAlign: 'center' }}>
-          {`Before going live, let's setup your Private Cloud`}
+          {`Let's setup your Private Cloud`}
         </Typography>
         <Button
           onClick={this._setup}
@@ -111,7 +112,7 @@ export default class SetupCloud extends Component {
           {`Continue`}
           <ButtonIcon icon="arrow_forward" />
         </Button>
-        </div>
+    </div>
   }
 
 
@@ -125,7 +126,7 @@ export default class SetupCloud extends Component {
     const self = this
 
     this.browser.addEventListener('dom-ready', () => {
-      self.browser.openDevTools()
+      // self.browser.openDevTools()
     })
 
     this.browser.addEventListener('did-navigate-in-page', (page) => {
