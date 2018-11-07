@@ -75,6 +75,18 @@ const deploy = (product, session, domain) => {
 
     const bucket = new awsome.Bucket({ name: `www.${domain}`, site: true, dir })
 
+    const publish = () => {
+      process.send({ status: 'Publishing your product files ...' })
+      bucket.update()
+            .then(() => process.send({ status: 'Your product was successfully published', done: true }))
+            .catch((error) => process.send({ status: 'Your product could not be published', done: true, error }))
+    }
+
+    bucket.retrieve()
+          .then((bucket) => publish())
+          .catch((error) => bucket.create().then(() => publish()))
+
+
     bucket.retrieve()
           .then((bucket) => {
             process.send({ status: 'Publishing your product files ...' })

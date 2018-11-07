@@ -20,6 +20,7 @@ export default class Live extends Component {
     this._deploy = this.deploy.bind(this)
     this._setup = this.setup.bind(this)
     this._save = this.save.bind(this)
+    this._cancelSetup = this.cancelSetup.bind(this)
     this._external = this.external.bind(this)
   }
 
@@ -136,6 +137,23 @@ export default class Live extends Component {
     this.setState({ setup: true })
   }
 
+  cancelSetup() {
+    this.setState({ setup: false })
+  }
+
+  renderCancelEdit() {
+    if (!this.domain) {
+      return <div/>
+    }
+
+    return <Button key="cancel" onClick={this._cancelSetup} style={{
+      color: '#81D4FA',
+      margin: "20px"
+    }}>
+      Cancel
+    </Button>
+  }
+
   renderEditDomain() {
     return <div style={{ marginTop: '60px', textAlign: 'center' }}>
       <Input
@@ -143,6 +161,7 @@ export default class Live extends Component {
         addonBefore="http://"
         defaultValue={this.domain}
         addonAfter={<Button onClick={this._save} style={{ color: '#00bcd4', height: "20px" }}> SAVE </Button>}/>
+        { this.renderCancelEdit() }
     </div>
   }
 
@@ -164,7 +183,7 @@ export default class Live extends Component {
         margin: "20px"
       }}>
        <ButtonIcon icon="launch" />
-        Open {`${this.domain}`}
+        See it live
       </Button>
     </Typography>
   }
@@ -195,10 +214,10 @@ export default class Live extends Component {
 
     const domain = this.domain
 
-    var title = `Let's publish your website for the whole world to see`
+    var title = `Choose a domain for your website`
 
-    if (!domain) {
-      title = `Choose a domain for your website`
+    if (domain) {
+      title = `Let's publish your website to ${domain}`
     }
 
     return <div style={{
