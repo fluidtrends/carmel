@@ -26,7 +26,7 @@ export default class AchivementsScreen extends Screen {
         account={this.account} />
       {
         this.renderScreenMainMessage({
-          message: 'No achievements yet.'
+          message: 'Achievements coming soon'
         })
       }
     </div>)

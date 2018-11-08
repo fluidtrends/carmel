@@ -8,6 +8,10 @@ import Shell from './shell'
 import Progress from './progress'
 import { shell } from 'electron'
 import { TextField, TextFieldIcon, TextFieldHelperText } from '@rmwc/textfield'
+import { Chip, ChipText, ChipIcon, ChipSet } from '@rmwc/chip'
+const {clipboard} = require('electron')
+import { Snackbar } from '@rmwc/snackbar'
+import merge from 'deepmerge'
 
 const Option = Select.Option
 
@@ -20,7 +24,10 @@ export default class Live extends Component {
     this._deploy = this.deploy.bind(this)
     this._setup = this.setup.bind(this)
     this._save = this.save.bind(this)
+    this._cancelSetup = this.cancelSetup.bind(this)
+    this._cloudSetupDone = this.cloudSetupDone.bind(this)
     this._external = this.external.bind(this)
+    this._nsRecordSelected = (record) => this.nsRecordSelected.bind(this, record)
   }
 
   componentDidMount () {
@@ -28,6 +35,7 @@ export default class Live extends Component {
   }
 
   external() {
+    console.log(this.liveUrl)
     shell.openExternal(this.liveUrl)
   }
 
@@ -43,19 +51,55 @@ export default class Live extends Component {
     return this.settings.cloud ? true : false
   }
 
-  save() {
+  cloudSetupDone() {
+    this.props.onCloudSetupDone && this.props.onCloudSetupDone()
+  }
 
-    // const settings = Object.assign({}, settings, {
-    //
-    // })
-    this.setState({ domain: this.state.domainTemp, setup: false })
-    // self.shell.cache('settings', settings)
+  nsRecordSelected(record) {
+    clipboard.writeText(record)
+    this.setState({ snack: `Copied ${record} to your clipboard`})
+  }
+
+  save() {
+    const settings = merge.all([this.settings, {
+      cloud: {
+        products: {
+          [this.props.productId]: {
+            domain: this.state.domainTemp,
+            nsRecords: false,
+            timestamp: `${Date.now()}`
+          }
+        }
+      }
+    }])
+
+    this.setState({ domain: this.state.domainTemp, setup: false, nsRecords: [] })
+    this.shell.cache('settings', settings)
+  }
+
+  saveNsRecords(records) {
+    const settings = merge.all([this.settings, {
+      cloud: {
+        products: {
+          [this.props.productId]: {
+            domain: this.domain,
+            nsRecords: records,
+            timestamp: `${Date.now()}`
+          }
+        }
+      }
+    }])
+
+    this.shell.cache('settings', settings)
   }
 
   deploy() {
     this.setState({ deploying: true, progressMessage: "Getting ready to package" })
-    this.shell.exec('publishProduct', { id: this.productId, domain: this.domain }, ({ status }) => {
-      this.setState({ progressMessage: status })
+    this.shell.exec('publishProduct', { id: this.productId, domain: this.domain }, ({ status, data }) => {
+      if (data && data.records) {
+        this.saveNsRecords(data.records)
+      }
+      this.setState({ progressMessage: status, nsRecords: (data ? data.records : undefined) })
     })
     .then((data) => {
       notification.open({
@@ -65,9 +109,10 @@ export default class Live extends Component {
       this.setState({ deploying: false, deployed: true, deployTimpestamp: `${Date.now()}` })
     })
     .catch((error) => {
+      console.log(error.message)
       notification.open({
-        icon: <Icon type='smile' style={{ color: '#4CAF50' }} />,
-        message: "Sorry, something went wrong"
+        icon: <Icon type='frown' style={{ color: '#e53935' }} />,
+        message: "Sorry, something went wrong, try again"
       })
       this.setState({ deploying: false, deployed: false, error })
     })
@@ -125,25 +170,86 @@ export default class Live extends Component {
   }
 
   get domain() {
-    return this.state.domain || (this.props.settings && this.props.settings.domains ? this.props.settings.domains[this.productId] : undefined)
+    return this.state.domain || (this.productCloudSettings ? this.productCloudSettings.domain : '')
+  }
+
+  get nsRecords() {
+    return this.state.nsRecords || (this.productCloudSettings ? this.productCloudSettings.nsRecords : false)
   }
 
   get liveUrl() {
-    return `http://www.${this.domain}.s3-website-us-east-1.amazonaws.com`
+    return `http://${this.domain}.s3-website-us-east-1.amazonaws.com`
+  }
+
+  get productCloudSettings() {
+    return (this.settings.cloud && this.settings.cloud.products ? this.settings.cloud.products[this.productId] : {})
   }
 
   setup() {
     this.setState({ setup: true })
   }
 
+  cancelSetup() {
+    this.setState({ setup: false })
+  }
+
+  renderCancelEdit() {
+    if (!this.domain) {
+      return <div/>
+    }
+
+    return <Button key="cancel" onClick={this._cancelSetup} style={{
+      color: '#81D4FA',
+      margin: "20px"
+    }}>
+      Cancel
+    </Button>
+  }
+
   renderEditDomain() {
     return <div style={{ marginTop: '60px', textAlign: 'center' }}>
       <Input
+        ref={(ref) => this._domainInput = ref }
         onChange={(e) => this.setState({ domainTemp: e.target.value })}
         addonBefore="http://"
         defaultValue={this.domain}
         addonAfter={<Button onClick={this._save} style={{ color: '#00bcd4', height: "20px" }}> SAVE </Button>}/>
+        { this.renderCancelEdit() }
     </div>
+  }
+
+  renderNsRecords() {
+    if (!this.nsRecords || this.nsRecords.length === 0) {
+      return <div/>
+    }
+
+    return [<Typography key="prompt" use='headline7' tag='div' style={{
+      color: '#B0BEC5',
+      textAlign: 'center',
+      margin: "30px 0px 10px 0px",
+      borderTop: "1px #F5F5F5 solid",
+      padding: '20px 0px 0px 0px'
+    }}>
+    <Icon type='check-circle' key="icon" style={{ marginRight: "10px", fontSize: "20px", color: '#B0BEC5' }}/>
+    Your website is live but in order to see it at <strong>{ this.domain }</strong>,
+    copy these <strong> NS Records </strong> below to your <strong> Domain Registrar </strong>.
+    </Typography>,
+    <Typography key="records" use='headline5' tag='div' style={{
+      color: '#90A4AE',
+      textAlign: 'center',
+      padding: 0
+    }}>
+      <ChipSet style={{ margin: '0px' }}>
+        {
+          this.nsRecords.map(record => <Chip
+            onClick={this._nsRecordSelected(record)}
+            style={{ backgroundColor: '#F5F5F5', color: '#B0BEC5'}}
+            key={record}>
+            <ChipText> { record } </ChipText>
+          </Chip>)
+        }
+      </ChipSet>
+    </Typography>]
   }
 
   renderDomain(current) {
@@ -151,11 +257,11 @@ export default class Live extends Component {
       return this.renderEditDomain()
    }
 
-   return <Typography use='title' tag='h2' style={{ marginTop: '60px', textAlign: 'center' }}>
+   return <Typography use='title' tag='h2' style={{ marginTop: '10px', textAlign: 'center' }}>
      <Button key="edit" onClick={this._setup} style={{
        color: '#81D4FA',
-       margin: "20px"
-     }}>
+       margin: "20px",
+    }}>
      <ButtonIcon icon="create" />
        Edit domain
      </Button>
@@ -164,7 +270,7 @@ export default class Live extends Component {
         margin: "20px"
       }}>
        <ButtonIcon icon="launch" />
-        Open {`${this.domain}`}
+        See it live
       </Button>
     </Typography>
   }
@@ -173,7 +279,7 @@ export default class Live extends Component {
     return <Button
       key="main"
       onClick={this._deploy}
-      disabled={!this.state.domain}
+      disabled={!this.domain}
       style={{
         color: '#ffffff',
         margin: "20px",
@@ -184,9 +290,23 @@ export default class Live extends Component {
     </Button>
   }
 
+  renderSnack () {
+    if (!this.state.snack) {
+      return <div />
+    }
+
+    return <Snackbar
+      key='alert'
+      show
+      message={this.state.snack}
+      onHide={() => this.setState({ snack: false })} / >
+  }
+
   render() {
     if (!this.isCloudSetup) {
-      return <SetupCloud settings={this.props.settings}/>
+      return <SetupCloud
+      settings={this.props.settings}
+      onDone={this._cloudSetupDone}/>
     }
 
     if (this.state.deploying) {
@@ -195,10 +315,10 @@ export default class Live extends Component {
 
     const domain = this.domain
 
-    var title = `Let's publish your website for the whole world to see`
+    var title = `Choose a domain for your website`
 
-    if (!domain) {
-      title = `Choose a domain for your website`
+    if (domain) {
+      title = `Let's publish your website to ${domain}`
     }
 
     return <div style={{
@@ -222,6 +342,8 @@ export default class Live extends Component {
         </Typography>
         { domain && this.renderAction() }
         { this.renderDomain(domain) }
+        { this.renderNsRecords() }
+        { this.renderSnack() }
         </div>
   }
 }

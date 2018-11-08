@@ -71,20 +71,46 @@ const deploy = (product, session, domain) => {
     process.env.AWS_ACCESS_KEY_ID = session.settings.cloud.accessKeyId
     process.env.AWS_SECRET_ACCESS_KEY = session.settings.cloud.secretAccessKey
 
-    process.send({ status: `Looking up your hosting for www.${domain} ...` })
+    process.send({ status: `Looking up ${domain} ...` })
 
-    const bucket = new awsome.Bucket({ name: `www.${domain}`, site: true, dir })
+    const bucket = new awsome.Bucket({ name: `${domain}`, site: true, dir })
+    const redirectBucket = new awsome.Bucket({ name: `www.${domain}`, site: { redirectTo: `${domain}` }, dir })
+    const bucketDomain = new awsome.Domain({ name: domain })
 
-    bucket.retrieve()
-          .then((bucket) => {
-            process.send({ status: 'Publishing your product files ...' })
-            return bucket.update()
-          })
-          .then((data) => {
-            process.send({ status: 'Your product was successfully published', done: true })
-          })
-          .catch((error) => {
-            process.send({ status: 'Your product could not be published' })
+    const host = () => {
+      return new Promise((resolve, reject) => {
+        bucketDomain.isHosted()
+                    .then(() => bucketDomain.records({ type: "NS" }))
+                    .then((records) => resolve(records[0].ResourceRecords.map(r => r.Value)))
+                    .catch(() => {
+                      bucketDomain.host()
+                      .then(() => bucketDomain.linkBucket())
+                      .then(() => bucketDomain.records({ type: "NS" }))
+                      .then((records) => resolve(records[0].ResourceRecords.map(r => r.Value)))
+                    })
+      })
+    }
+
+    const publish = (hosting) => {
+      host().then((records) => {
+        process.send({ status: 'Publishing your product files ...', data: { records } })
+        bucket.update()
+            .then(() => {
+              process.send({ status: 'Your product was successfully published', done: true })
+            })
+            .catch((error) => {
+              process.send({ status: 'Publishing failed, please try again', error })
+            })
+        })
+    }
+
+    bucket.exists().then(() => publish())
+          .catch((e) => {
+            bucket.create().then(() => publish(true))
+            .catch((error) => {
+              console.log(error)
+              process.send({ status: 'Publishing failed, please try again', error })
+            })
           })
   })
 }

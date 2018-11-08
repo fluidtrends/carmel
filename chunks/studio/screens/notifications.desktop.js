@@ -19,7 +19,7 @@ export default class NotificationsScreen extends Screen {
 
   renderScreenContents () {
     return this.renderScreenContentsContainer(this.renderScreenMainMessage({
-      message: 'No new notifications'
+      message: 'Notifications coming soon'
     }))
   }
 }

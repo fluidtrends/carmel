@@ -19,7 +19,7 @@ export default class SupportScreen extends Screen {
 
   renderScreenContents () {
     return this.renderScreenContentsContainer(this.renderScreenMainMessage({
-      message: 'Support'
+      message: 'Support coming soon'
     }))
   }
 }

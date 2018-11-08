@@ -460,7 +460,7 @@ class Session {
                this.sessionVault.write('productId', id)
                this.loadProducts()
                this.mainWindow.webContents.send('refresh', { session: this.data })
-               this.mainWindow.webContents.send(client, { product, done: true })
+               this.mainWindow.webContents.send(client, { productId: product.id, done: true })
              })
              .catch((error) => {
                this.mainWindow.webContents.send(client, { error })

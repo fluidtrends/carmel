@@ -47,8 +47,9 @@ const startWebserver = ({ port, product }, cb) => {
       process.noDeprecation = true
 
       const dir = path.resolve(product.dir, '.chunky', 'web')
-      fs.existsSync(dir) && fs.removeSync(dir)
-      fs.mkdirsSync(dir)
+      // fs.existsSync(dir) && fs.removeSync(dir)
+      // fs.mkdirsSync(dir)
+      fs.existsSync(dir) || fs.mkdirsSync(dir)
 
       const manifest = loadManifest(product)
       const chunks = loadChunks(product)
