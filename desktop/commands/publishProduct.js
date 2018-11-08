@@ -19,34 +19,34 @@ const build = (product) => {
   return new Promise((resolve, reject) => {
     process.send({ status: 'Packaging your product for publishing ...' })
 
-    // const dir = path.resolve(product.dir, '.chunky', 'web')
-    // const assetsDir = path.resolve(product.dir, 'assets')
-    // fs.existsSync(dir) && fs.removeSync(dir)
-    // fs.mkdirsSync(dir)
-    //
-    // const manifest = loadManifest(product)
-    // const chunks = loadChunks(product)
-    //
-    // const root = product.root
-    // const configFile = path.resolve(root, 'node_modules', 'react-dom-chunky', 'packager', 'config.js')
-    // const config = require(configFile)
-    // const setup = config({ dir: product.dir, chunks, config: manifest, root })
-    //
-    // process.noDeprecation = true
-    // process.env.NODE_ENV = 'production'
-    //
-    // webpack(setup, (error, stats) => {
-    //   if (error || (stats.errors && stats.errors.length > 0)) {
-    //     // Looks like webpack failed
-    //     process.send({ status: 'Failed to package' })
-    //     reject(error || stats.errors[0])
-    //     return
-    //   }
-    //
-    //   process.send({ status: 'Your product was successfully packaged' })
-    //   fs.copySync(path.resolve(product.dir, 'assets'), path.resolve(dir, 'assets'))
+    const dir = path.resolve(product.dir, '.chunky', 'web')
+    const assetsDir = path.resolve(product.dir, 'assets')
+    fs.existsSync(dir) && fs.removeSync(dir)
+    fs.mkdirsSync(dir)
+
+    const manifest = loadManifest(product)
+    const chunks = loadChunks(product)
+
+    const root = product.root
+    const configFile = path.resolve(root, 'node_modules', 'react-dom-chunky', 'packager', 'config.js')
+    const config = require(configFile)
+    const setup = config({ dir: product.dir, chunks, config: manifest, root })
+
+    process.noDeprecation = true
+    process.env.NODE_ENV = 'production'
+
+    webpack(setup, (error, stats) => {
+      if (error || (stats.errors && stats.errors.length > 0)) {
+        // Looks like webpack failed
+        process.send({ status: 'Failed to package' })
+        reject(error || stats.errors[0])
+        return
+      }
+
+      process.send({ status: 'Your product was successfully packaged' })
+      fs.copySync(path.resolve(product.dir, 'assets'), path.resolve(dir, 'assets'))
       resolve()
-    // })
+    })
   })
 }
 
@@ -99,16 +99,17 @@ const deploy = (product, session, domain) => {
               process.send({ status: 'Your product was successfully published', done: true })
             })
             .catch((error) => {
-              process.send({ status: 'Your product could not be published', error })
+              process.send({ status: 'Publishing failed, please try again', error })
             })
         })
     }
 
     bucket.exists().then(() => publish())
           .catch((e) => {
-            bucket.create().then(() => {
-              console.log("created.....")
-              setTimeout(() => publish(true), 2000)
+            bucket.create().then(() => publish(true))
+            .catch((error) => {
+              console.log(error)
+              process.send({ status: 'Publishing failed, please try again', error })
             })
           })
   })

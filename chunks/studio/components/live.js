@@ -35,6 +35,7 @@ export default class Live extends Component {
   }
 
   external() {
+    console.log(this.liveUrl)
     shell.openExternal(this.liveUrl)
   }
 
@@ -72,7 +73,7 @@ export default class Live extends Component {
       }
     }])
 
-    this.setState({ domain: this.state.domainTemp, setup: false, nsRecords: false })
+    this.setState({ domain: this.state.domainTemp, setup: false, nsRecords: [] })
     this.shell.cache('settings', settings)
   }
 
@@ -108,9 +109,10 @@ export default class Live extends Component {
       this.setState({ deploying: false, deployed: true, deployTimpestamp: `${Date.now()}` })
     })
     .catch((error) => {
+      console.log(error.message)
       notification.open({
-        icon: <Icon type='smile' style={{ color: '#4CAF50' }} />,
-        message: "Sorry, something went wrong"
+        icon: <Icon type='frown' style={{ color: '#e53935' }} />,
+        message: "Sorry, something went wrong, try again"
       })
       this.setState({ deploying: false, deployed: false, error })
     })
@@ -176,7 +178,7 @@ export default class Live extends Component {
   }
 
   get liveUrl() {
-    return `http://www.${this.domain}.s3-website-us-east-1.amazonaws.com`
+    return `http://${this.domain}.s3-website-us-east-1.amazonaws.com`
   }
 
   get productCloudSettings() {
@@ -217,7 +219,7 @@ export default class Live extends Component {
   }
 
   renderNsRecords() {
-    if (!this.nsRecords) {
+    if (!this.nsRecords || this.nsRecords.length === 0) {
       return <div/>
     }
 
@@ -248,8 +250,6 @@ export default class Live extends Component {
         }
       </ChipSet>
     </Typography>]
-
-
   }
 
   renderDomain(current) {

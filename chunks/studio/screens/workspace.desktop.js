@@ -45,7 +45,7 @@ export default class Workspace extends Screen {
     })
 
     Data.Cache.retrieveCachedItem('product')
-              .then((data) => { console.log(data); this.changeProduct(data.id, true) })
+              .then((data) => { this.changeProduct(data.id, true) })
               .catch(() => { this.changeProduct(this.product.id, true) })
   }
 
@@ -122,7 +122,6 @@ export default class Workspace extends Screen {
   }
 
   changeProduct (productId, refresh) {
-    console.log(productId, refresh)
     if (refresh) {
       this.setState({
         productId,
