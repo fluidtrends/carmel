@@ -7,6 +7,7 @@ import Welcome from '../components/welcome'
 import Info from '../components/info'
 import NewProduct from '../../studio/components/newProduct'
 import Shell from '../../studio/components/shell'
+import { Data } from 'react-chunky'
 
 export default class Main extends Screen {
   constructor (props) {
@@ -23,10 +24,12 @@ export default class Main extends Screen {
     super.componentDidMount()
 
     if (this.props.session.product) {
-      this.shell.analytics('newSession', 'firstTime')
-      this.triggerRedirect('/workspace')
-    } else {
       this.shell.analytics('newSession', 'returning')
+      Data.Cache.clearCachedItem('product').then(() => {
+        this.triggerRedirect('/workspace')
+      })
+    } else {
+      this.shell.analytics('newSession', 'firstTime')
     }
   }
 
