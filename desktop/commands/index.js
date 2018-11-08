@@ -6,6 +6,7 @@ const eventHandler = (type, options) => (event, mainWindow, session, props) => {
   const runningCommand = session.runningCommand(type)
 
   if (runningCommand) {
+    console.log(props.command.id, runningCommand.args.command.id)
     if ((options && options.once) || (props.command.id !== runningCommand.args.command.id)) {
       console.log(`Command [${type}] is already running. Stopping first ...`)
       runningCommand.exec.kill('SIGINT')

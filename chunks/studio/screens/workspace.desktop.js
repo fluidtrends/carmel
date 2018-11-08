@@ -128,17 +128,21 @@ export default class Workspace extends Screen {
 
   changeProduct (productId, refresh) {
     if (refresh) {
-      this.setState({
-        productId,
-        primaryView: 'workspace',
-        productStarting: true,
-        productStarted: false,
-        primaryView: "workspace",
-        inProgress: true,
-        progressMessage: 'Preparing Your Product Workspace. Just a sec, please ...'
+      Data.Cache.clearCachedItem('openFiles')
+      .then(() => {
+        this.setState({
+          productId,
+          openFiles: {},
+          primaryView: 'workspace',
+          productStarting: true,
+          productStarted: false,
+          primaryView: "workspace",
+          inProgress: true,
+          progressMessage: 'Preparing Your Product Workspace. Just a sec, please ...'
+        })
+        this.startProduct(productId)
+        this.syncSession()
       })
-      this.startProduct(productId)
-      this.syncSession()
       return
     }
 
@@ -152,7 +156,7 @@ export default class Workspace extends Screen {
         primaryView: "workspace",
         productStarted: false,
         inProgress: true,
-        progressMessage: 'Preparing Your Product Workspace. Just a sec, please ...'
+        progressMessage: 'Switching Your Product Workspace. Just a sec, please ...'
       })
       this.startProduct(productId)
     }))
@@ -189,6 +193,7 @@ export default class Workspace extends Screen {
   startProduct (productId) {
     this.shell.exec('startProduct', { id: productId }, (compilation) => {
       if (compilation.compiled && !this.state.productStarted) {
+        console.log("!!!!")
         this.setState({ compilation, productStarted: true, inProgress: false, productStarting: false })
         return
       }

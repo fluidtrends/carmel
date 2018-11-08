@@ -91,8 +91,8 @@ const deploy = (product, session, domain) => {
       })
     }
 
-    const publish = (hosting) => {
-      host().then((records) => {
+    const publish = () => {
+      return host().then((records) => {
         process.send({ status: 'Publishing your product files ...', data: { records } })
         bucket.update()
             .then(() => {
@@ -104,14 +104,20 @@ const deploy = (product, session, domain) => {
         })
     }
 
-    bucket.exists().then(() => publish())
-          .catch((e) => {
-            bucket.create().then(() => publish(true))
-            .catch((error) => {
-              console.log(error)
-              process.send({ status: 'Publishing failed, please try again', error })
+    const go = () => {
+      bucket.exists().then(() => publish())
+            .catch((e) => {
+              bucket.create()
+              .then(() => {
+                return publish()
+              })
+              .catch((error) => {
+                process.send({ status: 'Publishing failed, please try again', error })
+              })
             })
-          })
+    }
+
+    go()
   })
 }
 
