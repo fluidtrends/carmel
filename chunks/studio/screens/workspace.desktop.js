@@ -189,7 +189,6 @@ export default class Workspace extends Screen {
   startProduct (productId) {
     this.shell.exec('startProduct', { id: productId }, (compilation) => {
       if (compilation.compiled && !this.state.productStarted) {
-        console.log(">>>>>>> started")
         this.setState({ compilation, productStarted: true, inProgress: false, productStarting: false })
         return
       }
