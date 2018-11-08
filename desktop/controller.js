@@ -19,7 +19,9 @@ const saveCache = (key, data, options) => {
 
   if (options && options.push) {
     const old = session.sessionVault.read(key) || []
-    if (old && Array.isArray(old)) {
+    console.log(old)
+    console.log(data)
+    if (old && Array.isArray(old) && !old.includes(data)) {
       console.log(`[${_name}] cache ${key}=${data} push`)
       session.sessionVault.write(key, old.concat(data))
       return

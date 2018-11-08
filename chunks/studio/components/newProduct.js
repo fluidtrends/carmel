@@ -14,6 +14,7 @@ import { Elevation } from '@rmwc/elevation'
 import Shell from './shell'
 import fs from 'fs-extra'
 import path from 'path'
+import { Data } from 'react-chunky'
 
 const FormItem = Form.Item
 const HOME = process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME']
@@ -143,8 +144,10 @@ export default class NewProduct extends Component {
 
     setTimeout(() => {
       this.shell.exec('createProduct', { title, template })
-      .then((product) => {
-        this.props.onCreate && this.props.onCreate({ title, template, product })
+      .then(({ productId }) => {
+        Data.Cache.cacheItem('product', { id: productId }).then(() => {
+          this.props.onCreate && this.props.onCreate({ productId })
+        })
       })
       .catch((error) => {
         this.setState({ creatingProduct: false })

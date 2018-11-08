@@ -19,34 +19,34 @@ const build = (product) => {
   return new Promise((resolve, reject) => {
     process.send({ status: 'Packaging your product for publishing ...' })
 
-    const dir = path.resolve(product.dir, '.chunky', 'web')
-    const assetsDir = path.resolve(product.dir, 'assets')
-    fs.existsSync(dir) && fs.removeSync(dir)
-    fs.mkdirsSync(dir)
-
-    const manifest = loadManifest(product)
-    const chunks = loadChunks(product)
-
-    const root = product.root
-    const configFile = path.resolve(root, 'node_modules', 'react-dom-chunky', 'packager', 'config.js')
-    const config = require(configFile)
-    const setup = config({ dir: product.dir, chunks, config: manifest, root })
-
-    process.noDeprecation = true
-    process.env.NODE_ENV = 'production'
-
-    webpack(setup, (error, stats) => {
-      if (error || (stats.errors && stats.errors.length > 0)) {
-        // Looks like webpack failed
-        process.send({ status: 'Failed to package' })
-        reject(error || stats.errors[0])
-        return
-      }
-
-      process.send({ status: 'Your product was successfully packaged' })
-      fs.copySync(path.resolve(product.dir, 'assets'), path.resolve(dir, 'assets'))
+    // const dir = path.resolve(product.dir, '.chunky', 'web')
+    // const assetsDir = path.resolve(product.dir, 'assets')
+    // fs.existsSync(dir) && fs.removeSync(dir)
+    // fs.mkdirsSync(dir)
+    //
+    // const manifest = loadManifest(product)
+    // const chunks = loadChunks(product)
+    //
+    // const root = product.root
+    // const configFile = path.resolve(root, 'node_modules', 'react-dom-chunky', 'packager', 'config.js')
+    // const config = require(configFile)
+    // const setup = config({ dir: product.dir, chunks, config: manifest, root })
+    //
+    // process.noDeprecation = true
+    // process.env.NODE_ENV = 'production'
+    //
+    // webpack(setup, (error, stats) => {
+    //   if (error || (stats.errors && stats.errors.length > 0)) {
+    //     // Looks like webpack failed
+    //     process.send({ status: 'Failed to package' })
+    //     reject(error || stats.errors[0])
+    //     return
+    //   }
+    //
+    //   process.send({ status: 'Your product was successfully packaged' })
+    //   fs.copySync(path.resolve(product.dir, 'assets'), path.resolve(dir, 'assets'))
       resolve()
-    })
+    // })
   })
 }
 
@@ -71,32 +71,45 @@ const deploy = (product, session, domain) => {
     process.env.AWS_ACCESS_KEY_ID = session.settings.cloud.accessKeyId
     process.env.AWS_SECRET_ACCESS_KEY = session.settings.cloud.secretAccessKey
 
-    process.send({ status: `Looking up your hosting for www.${domain} ...` })
+    process.send({ status: `Looking up ${domain} ...` })
 
-    const bucket = new awsome.Bucket({ name: `www.${domain}`, site: true, dir })
+    const bucket = new awsome.Bucket({ name: `${domain}`, site: true, dir })
+    const redirectBucket = new awsome.Bucket({ name: `www.${domain}`, site: { redirectTo: `${domain}` }, dir })
+    const bucketDomain = new awsome.Domain({ name: domain })
 
-    const publish = () => {
-      process.send({ status: 'Publishing your product files ...' })
-      bucket.update()
-            .then(() => process.send({ status: 'Your product was successfully published', done: true }))
-            .catch((error) => process.send({ status: 'Your product could not be published', done: true, error }))
+    const host = () => {
+      return new Promise((resolve, reject) => {
+        bucketDomain.isHosted()
+                    .then(() => bucketDomain.records({ type: "NS" }))
+                    .then((records) => resolve(records[0].ResourceRecords.map(r => r.Value)))
+                    .catch(() => {
+                      bucketDomain.host()
+                      .then(() => bucketDomain.linkBucket())
+                      .then(() => bucketDomain.records({ type: "NS" }))
+                      .then((records) => resolve(records[0].ResourceRecords.map(r => r.Value)))
+                    })
+      })
     }
 
-    bucket.retrieve()
-          .then((bucket) => publish())
-          .catch((error) => bucket.create().then(() => publish()))
+    const publish = (hosting) => {
+      host().then((records) => {
+        process.send({ status: 'Publishing your product files ...', data: { records } })
+        bucket.update()
+            .then(() => {
+              process.send({ status: 'Your product was successfully published', done: true })
+            })
+            .catch((error) => {
+              process.send({ status: 'Your product could not be published', error })
+            })
+        })
+    }
 
-
-    bucket.retrieve()
-          .then((bucket) => {
-            process.send({ status: 'Publishing your product files ...' })
-            return bucket.update()
-          })
-          .then((data) => {
-            process.send({ status: 'Your product was successfully published', done: true })
-          })
-          .catch((error) => {
-            process.send({ status: 'Your product could not be published' })
+    bucket.exists().then(() => publish())
+          .catch((e) => {
+            bucket.create().then(() => {
+              console.log("created.....")
+              setTimeout(() => publish(true), 2000)
+            })
           })
   })
 }

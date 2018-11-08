@@ -38,7 +38,6 @@ export default class BaseStudioScreen extends Screen {
 
   componentDidMount () {
     super.componentDidMount()
-    console.log("BASE", this.constructor.name, this.props.session.settings.cloud)
   }
 
   refreshGlobal() {
