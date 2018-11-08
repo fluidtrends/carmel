@@ -170,11 +170,11 @@ export default class Live extends Component {
   }
 
   get domain() {
-    return this.state.domain || this.productCloudSettings.domain
+    return this.state.domain || (this.productCloudSettings ? this.productCloudSettings.domain : '')
   }
 
   get nsRecords() {
-    return this.state.nsRecords || this.productCloudSettings.nsRecords
+    return this.state.nsRecords || (this.productCloudSettings ? this.productCloudSettings.nsRecords : false)
   }
 
   get liveUrl() {
@@ -182,7 +182,7 @@ export default class Live extends Component {
   }
 
   get productCloudSettings() {
-    return (this.settings.cloud.products ? this.settings.cloud.products[this.productId] : {})
+    return (this.settings.cloud && this.settings.cloud.products ? this.settings.cloud.products[this.productId] : {})
   }
 
   setup() {

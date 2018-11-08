@@ -133,6 +133,7 @@ export default class Workspace extends Screen {
         primaryView: 'workspace',
         productStarting: true,
         productStarted: false,
+        primaryView: "workspace",
         inProgress: true,
         progressMessage: 'Preparing Your Product Workspace. Just a sec, please ...'
       })
@@ -148,6 +149,7 @@ export default class Workspace extends Screen {
         productId,
         openFiles: {},
         productStarting: true,
+        primaryView: "workspace",
         productStarted: false,
         inProgress: true,
         progressMessage: 'Preparing Your Product Workspace. Just a sec, please ...'
@@ -187,6 +189,7 @@ export default class Workspace extends Screen {
   startProduct (productId) {
     this.shell.exec('startProduct', { id: productId }, (compilation) => {
       if (compilation.compiled && !this.state.productStarted) {
+        console.log(">>>>>>> started")
         this.setState({ compilation, productStarted: true, inProgress: false, productStarting: false })
         return
       }
@@ -202,6 +205,7 @@ export default class Workspace extends Screen {
         compiling: false,
         errors: [error.message]
       }
+      console.log(error)
       this.setState({ compilation, productStarted: true, inProgress: false, productStarting: false })
     })
   }
