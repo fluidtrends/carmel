@@ -35,7 +35,6 @@ export default class Live extends Component {
   }
 
   external() {
-    console.log(this.liveUrl)
     shell.openExternal(this.liveUrl)
   }
 
@@ -109,7 +108,6 @@ export default class Live extends Component {
       this.setState({ deploying: false, deployed: true, deployTimpestamp: `${Date.now()}` })
     })
     .catch((error) => {
-      console.log(error.message)
       notification.open({
         icon: <Icon type='frown' style={{ color: '#e53935' }} />,
         message: "Sorry, something went wrong, try again"

@@ -2,13 +2,10 @@
   "side": [
     { "id": "workspace", "title": "Workspace", "icon": "dashboard" },
     { "id": "files", "title": "File Browser", "icon": "description" },
-    { "id": "live", "title": "Go Live", "icon": "important_devices" },
-    { "id": "settings", "title": "Settings", "icon": "build" }
+    { "id": "live", "title": "Go Live", "icon": "important_devices" }
   ],
   "main": [
-    { "id": "notifications", "title": "Notifications", "icon": "notifications", "route": "/notifications" },
-    { "id": "resources", "title": "Resources", "icon": "library_books", "route": "/resources"},
-    { "id": "help", "title": "Help", "icon": "help", "route": "/support"}
+    { "id": "feedback", "title": "Feedback", "icon": "chat", "route": "/feedback"}
   ],
   "account": [
     { "id": "bounties", "title": "Bounties", "icon": "monetization_on", "route": "/bounties" },

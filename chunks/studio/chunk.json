@@ -62,6 +62,12 @@
       "path": "/support",
       "startOperationsOnMount": false
     },
+    "feedback": {
+      "title": "Feedback",
+      "icon": "feedback",
+      "path": "/feedback",
+      "startOperationsOnMount": false
+    },
     "resources": {
       "title": "Resources",
       "icon": "library_books",

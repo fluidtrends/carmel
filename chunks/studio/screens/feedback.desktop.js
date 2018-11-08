@@ -3,7 +3,7 @@ import { Typography } from '@rmwc/typography'
 import Screen from './base.desktop'
 import { Button, ButtonIcon } from '@rmwc/button'
 
-export default class SupportScreen extends Screen {
+export default class FeedbackScreen extends Screen {
   constructor (props) {
     super(props)
     this.state = { ...super.state }
@@ -20,7 +20,7 @@ export default class SupportScreen extends Screen {
 
   renderScreenContents () {
     return this.renderScreenContentsContainer(this.renderScreenMainMessage({
-      message: 'Support coming soon'
+      message: 'Please leave your feedback in the @carmelbeta Telegram channel'
     }))
   }
 }

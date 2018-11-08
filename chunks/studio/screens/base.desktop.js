@@ -20,6 +20,7 @@ import Bounce from 'react-reveal/Bounce'
 import Fade from 'react-reveal/Fade'
 import { Spring } from 'react-spring'
 import * as Stages from '../functions/stages'
+import { shell } from 'electron'
 
 const { remote, ipcRenderer } = require('electron')
 
@@ -42,6 +43,10 @@ export default class BaseStudioScreen extends Screen {
 
   refreshGlobal() {
     remote.getCurrentWindow().reload()
+  }
+
+  openExternal(url) {
+    shell.openExternal(url)
   }
 
   /***********************************************************/
