@@ -52,7 +52,7 @@ export default class Live extends Component {
   }
 
   cloudSetupDone() {
-    console.log("DONE SETUP")
+    this.props.onCloudSetupDone && this.props.onCloudSetupDone()
   }
 
   nsRecordSelected(record) {
@@ -304,7 +304,9 @@ export default class Live extends Component {
 
   render() {
     if (!this.isCloudSetup) {
-      return <SetupCloud settings={this.props.settings}/>
+      return <SetupCloud
+      settings={this.props.settings}
+      onDone={this._cloudSetupDone}/>
     }
 
     if (this.state.deploying) {

@@ -35,6 +35,7 @@ export default class Workspace extends Screen {
     this._onUnselectChallenge = this.onUnselectChallenge.bind(this)
     this._onFileOpen = this.onFileOpen.bind(this)
     this._onFileClose = this.onFileClose.bind(this)
+    this._cloudSetupDone = this.cloudSetupDone.bind(this)
   }
 
   componentDidMount () {
@@ -47,6 +48,10 @@ export default class Workspace extends Screen {
     Data.Cache.retrieveCachedItem('product')
               .then((data) => { this.changeProduct(data.id, true) })
               .catch(() => { this.changeProduct(this.product.id, true) })
+  }
+
+  cloudSetupDone() {
+    this.refreshGlobal()
   }
 
   onSelectChallenge ({ challengeId }) {
@@ -267,6 +272,7 @@ export default class Workspace extends Screen {
         zIndex: hide ? -10 : 15
       }}>
         { this.renderScreenContentsContainer(<Live
+          onCloudSetupDone={this._cloudSetupDone}
           productId={this.product.id}
           settings={this.props.session.settings}/>, { padding: "0px" }) }
     </div>
