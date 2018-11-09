@@ -24,6 +24,12 @@ const socialMediaLinks = {
 export default class Intro extends Component {
   constructor(props) {
     super(props)
+
+    this._onStart = this.onStart.bind(this)
+  }
+
+  onStart() {
+    this.props.onStart()
   }
 
   componentDidMount () {
@@ -121,16 +127,15 @@ export default class Intro extends Component {
             raised
             theme='secondary-bg text-primary-on-secondary'
             style={{ marginTop: '30px' }}
-            onClick={this._onStart}>
+            onClick={this.props.onStart}>
             <ButtonIcon icon='check_circle' />
-              Get Your Carmel Tokens Now
+              Become An Early Adopter
           </Button>
         </h3>
         <Typography use='headline7' style={{
           textAlign: 'center',
           color: '#fafafa'
         }}>
-        <strong> Last Chance</strong> - The Pre-Listing Token Sale ends on <strong> Dec. 17 </strong>
       </Typography>
       </Typist>
   }

@@ -9,6 +9,11 @@
       "skipExtendedMenuOnDesktop": true,
       "extendedMenu": [
         {
+          "id": "beta",
+          "title": "Beta",
+          "path": "/beta"
+        },
+        {
           "id": "team",
           "title": "Team",
           "path": "/team"
@@ -51,14 +56,16 @@
           "iconColor": "#00bcd4",
           "data": "https://raw.githubusercontent.com/fluidtrends/carmel/master/chunks/intro/data/tokenInfo.json"
         },
-        "preview": {
-          "source": "xpreview",
-          "text": "local://preview",
-          "image": "carmel-studio.gif",
-          "textColor": "#37474F"
+        "getAccess": {
+          "source": "buy",
+          "text": "local://access",
+          "buttonColor": "#00BFA5",
+          "action": "Get Early Access",
+          "path": "beta",
+          "hoveredButtonColor": "#00838F"
         },
         "testimonials": {
-          "source": "xcarousel",
+          "source": "carousel",
           "text": "local://testimonials",
           "data": "https://raw.githubusercontent.com/fluidtrends/carmel/master/chunks/intro/data/testimonials.json",
           "textColor": "#00bcd4",
@@ -66,9 +73,11 @@
           "descriptionColor": "#00bcd4"
         },
         "getTokens": {
-          "source": "xbuy",
+          "source": "buy",
           "text": "local://buy",
-          "buttonColor": "#0097A7",
+          "buttonColor": "#00BFA5",
+          "action": "Get Carmel Tokens",
+          "path": "tokens",
           "hoveredButtonColor": "#00838F"
         }
       },
@@ -133,6 +142,32 @@
         "type": "presentation",
         "image": "https://raw.githubusercontent.com/fluidtrends/carmel/master/assets/distribution.png",
         "imageSmall": "https://raw.githubusercontent.com/fluidtrends/carmel/master/assets/distribution.png"
+      }
+    },
+    "beta": {
+      "title": "Beta",
+      "icon": "supervisor_account",
+      "path": "/beta",
+      "cover": {
+        "backgroundColor": "#61AFE1",
+        "align": "bottom",
+        "opacity": 0.6,
+        "navigation": true,
+        "title": "Become An Early Adopter",
+        "primaryActionTitle": "Get Early Access",
+        "link": "https://t.me/joinchat/F08ppkxljcL6hE4iGFKAlg",
+        "type": "default",
+        "image": "beta.r.png"
+      },
+      "components": {
+        "getAccess": {
+          "source": "buy",
+          "text": "local://access",
+          "buttonColor": "#00BFA5",
+          "action": "Join the Beta",
+          "path": "beta",
+          "hoveredButtonColor": "#00838F"
+        }
       }
     },
     "terms": {
