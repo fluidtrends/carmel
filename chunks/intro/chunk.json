@@ -164,8 +164,8 @@
           "source": "buy",
           "text": "local://access",
           "buttonColor": "#00BFA5",
-          "action": "Join the Beta",
-          "path": "beta",
+          "action": "Get the Carmel Studio Beta",
+          "link": "http://files.carmel.io/studio/Carmel-Beta01.dmg",
           "hoveredButtonColor": "#00838F"
         }
       }

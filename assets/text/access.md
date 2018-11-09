@@ -1,1 +1,1 @@
-## We're Officially in Beta
+## Download the Beta
