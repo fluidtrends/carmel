@@ -1,6 +1,7 @@
 import React from 'react'
 import Screen from './login.web'
 import { Button, ButtonIcon } from 'rmwc/Button'
+const { remote } = require('electron')
 
 export default class LoginScreen extends Screen {
   constructor (props) {
@@ -15,6 +16,10 @@ export default class LoginScreen extends Screen {
 
   componentDidMount () {
     super.componentDidMount()
+  }
+
+  profileOk (profile) {
+    remote.getCurrentWindow().reload()
   }
 
   get formWidth () {

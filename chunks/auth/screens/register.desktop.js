@@ -38,6 +38,11 @@ export default class RegisterScreen extends Screen {
     }
   }
 
+  registerOk (profile) {
+    remote.getCurrentWindow().reload()
+  }
+
+
   renderMainContentFooter () {
     return <div style={{
       display: 'flex',
