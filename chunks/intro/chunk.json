@@ -55,31 +55,7 @@
           "backgroundColor": "#F3FFFF",
           "iconColor": "#00bcd4",
           "data": "https://raw.githubusercontent.com/fluidtrends/carmel/master/chunks/intro/data/tokenInfo.json"
-        },
-        "getAccess": {
-          "source": "buy",
-          "text": "local://access",
-          "buttonColor": "#00BFA5",
-          "action": "Get Early Access",
-          "path": "beta",
-          "hoveredButtonColor": "#00838F"
-        },
-        "testimonials": {
-          "source": "carousel",
-          "text": "local://testimonials",
-          "data": "https://raw.githubusercontent.com/fluidtrends/carmel/master/chunks/intro/data/testimonials.json",
-          "textColor": "#00bcd4",
-          "personNameColor": "#00bcd4",
-          "descriptionColor": "#00bcd4"
-        },
-        "getTokens": {
-          "source": "buy",
-          "text": "local://buy",
-          "buttonColor": "#00BFA5",
-          "action": "Get Carmel Tokens",
-          "path": "tokens",
-          "hoveredButtonColor": "#00838F"
-        }
+        }      
       },
       "path": "/",
       "events": {
@@ -148,6 +124,9 @@
       "title": "Beta",
       "icon": "supervisor_account",
       "path": "/beta",
+      "events": {
+        "cover": "https://t.me/carmelbeta"
+      },
       "cover": {
         "backgroundColor": "#61AFE1",
         "align": "bottom",
@@ -155,19 +134,9 @@
         "navigation": true,
         "title": "Become An Early Adopter",
         "primaryActionTitle": "Get Early Access",
-        "link": "https://t.me/joinchat/F08ppkxljcL6hE4iGFKAlg",
+        "link": "https://t.me/carmelbeta",
         "type": "default",
         "image": "beta.r.png"
-      },
-      "components": {
-        "getAccess": {
-          "source": "buy",
-          "text": "local://access",
-          "buttonColor": "#00BFA5",
-          "action": "Get the Carmel Studio Beta",
-          "link": "http://files.carmel.io/studio/Carmel-Beta01.dmg",
-          "hoveredButtonColor": "#00838F"
-        }
       }
     },
     "terms": {
