@@ -1,9 +1,12 @@
 import React from 'react'
-import { Screen } from 'react-dom-chunky'
+import { Screen, Components } from 'react-dom-chunky'
 import { Telegram } from '../components'
 import { BuyModal } from '../components'
-
+import Bounce from 'react-reveal/Bounce'
+import Fade from 'react-reveal/Fade'
 import Intro from '../components/intro'
+import { Button, ButtonIcon } from 'rmwc/Button'
+import { Typography } from '@rmwc/typography'
 
 export default class MainIntroScreen extends Screen {
   constructor (props) {
@@ -43,25 +46,6 @@ export default class MainIntroScreen extends Screen {
   }
 
   renderDefault () {
-    // <Studio
-    //   session={this.props.session}
-    //   offset={1}
-    //   onContinue={this._download} /> */}
-    // <Tokens
-    //   session={this.props.session}
-    //   offset={1}
-    //   triggerRawRedirect={this.triggerRawRedirect}
-    //   newTransaction={this.props.newTransaction}
-    //   onCancel={this._onModalClose}
-    //   transaction={this.state.transaction}
-    //   account={this.props.account}
-    //   isSmallScreen={this.isSmallScreen}
-    // />
-    // <Team
-    //   session={this.props.session}
-    //   isSmallScreen={this.isSmallScreen}
-    //   offset={2}
-    // />
     return <div>
       <Intro
         offset={0}
@@ -97,9 +81,54 @@ export default class MainIntroScreen extends Screen {
     this.setState({ error: error.message })
   }
 
+  renderStakeholders() {
+    return <div style={{
+      width: "100%",
+      margin: "50px 0px 50px 0px"
+    }}>
+      <Fade>
+        <img src="assets/stakeholders.png"/>
+      </Fade>
+    </div>
+  }
+
+  renderMainAction() {
+    return <div style={{
+      width: "100vw",
+      display: "flex",
+      flex: 1,
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: "#f3ffff",
+      color: this.props.theme.primaryColor,
+      margin: "50px 0px 50px 0px",
+      padding: "50px 0px 50px 0px"
+    }}>
+    <Typography use='headline4' style={{
+      textAlign: 'center'
+    }}>
+    Wanna see the Carmel Studio in action?
+    </Typography>
+    <Typography use='headline4' style={{
+      textAlign: 'center',
+      color: '#fafafa'
+    }}>
+      <Button
+        raised
+        theme='secondary-bg text-primary-on-secondary'
+        style={{ marginTop: '30px' }}
+        onClick={() => this.triggerRedirect("/beta")}>
+        <ButtonIcon icon='check_circle' />
+          Become An Early Adopter
+      </Button>
+      </Typography>
+      </div>
+  }
+
   components () {
     const features = super.components()
-    return [ this.renderDefault(), ...features, this.telegram]
+    return [ this.renderDefault(), ...features, this.telegram, this.renderStakeholders(), this.renderMainAction()]
 
   }
 

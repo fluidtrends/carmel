@@ -55,7 +55,7 @@
           "backgroundColor": "#F3FFFF",
           "iconColor": "#00bcd4",
           "data": "https://raw.githubusercontent.com/fluidtrends/carmel/master/chunks/intro/data/tokenInfo.json"
-        }      
+        }
       },
       "path": "/",
       "events": {
