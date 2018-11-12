@@ -13,6 +13,7 @@
         "download",
         "wallet",
         "beta",
+        "services",
         "tokens",
         "auth",
         "studio"
@@ -77,7 +78,7 @@
     "copyright": "© 2018",
     "title": "Carmel",
     "summary": "The Decentralized Tech Education Platform",
-    "watermark": "Created with Chunky.",
+    "watermark": "Created with Carmel.",
     "cover": "chris.r.png",
     "analytics": {
       "type": "google",

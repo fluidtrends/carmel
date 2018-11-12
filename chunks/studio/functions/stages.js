@@ -11,31 +11,31 @@ const Achievements = {
     type: 'bonus',
     once: true,
     reason: "Just because you're awesome.",
-    tokens: 5
+    tokens: 500
   },
   [CHALLENGE_STARTED]: {
     type: 'bonus',
     once: true,
     reason: 'Amazing job on starting your first challenge.',
-    tokens: 5
+    tokens: 500
   },
   [CHALLENGE_COMPLETED]: {
     type: 'bonus',
     once: true,
     reason: 'You deserve this for completing your first challenge.',
-    tokens: 10
+    tokens: 1000
   },
   [CHALLENGE_RATED]: {
     type: 'bonus',
     once: true,
     reason: 'Thanks for rating your first challenge.',
-    tokens: 5
+    tokens: 500
   },
   [TASK_COMPLETED]: {
     type: 'bonus',
     once: true,
     reason: "You're even more awesome for completing your first task.",
-    tokens: 5
+    tokens: 500
   }
 }
 

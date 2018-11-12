@@ -195,7 +195,7 @@ export default class Challenge extends Component {
   }
 
   get price () {
-    return ((this.props.challenge.level + 1) * 5 / this.rate).toFixed(2)
+    return ((this.props.challenge.level + 1) * 500 / this.rate).toFixed(2)
   }
 
   renderMainAction () {

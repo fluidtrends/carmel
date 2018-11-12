@@ -87,7 +87,9 @@ export default class MainIntroScreen extends Screen {
       margin: "50px 0px 50px 0px"
     }}>
       <Fade>
-        <img src="assets/stakeholders.png"/>
+        <img src="assets/stakeholders.png" style={{
+          width: "100%"
+        }}/>
       </Fade>
     </div>
   }
