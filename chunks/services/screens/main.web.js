@@ -77,7 +77,7 @@ export default class MainServicesScreen extends Screen {
         Tell us a bit about your project
       </Typography>
       <FormItem>
-        <TextArea style={{margin: "20px"}}
+        <TextArea style={{margin: "20px", maxWidth: '80vw'}}
         onChange={val => this.setState({ description: val.target.value, error: '' })}
         placeholder={placeholders.description}  autosize />
       </FormItem>
@@ -95,15 +95,15 @@ export default class MainServicesScreen extends Screen {
 
     const budget = this.state.budget ? `$${this.state.budget[0]}K - $${this.state.budget[1]}K` : ''
 
-    return <div style={{ padding: '4px', textAlign: 'center' }}>
+    return <div style={{ padding: '4px', textAlign: 'center', maxWidth: '85vw' }}>
       <Typography use='headline5' tag='div' style={{textAlign: "center"}}>
         What's your budget (USD)?
       </Typography>
       <Slider marks={marks} range
-      defaultValue={[40, 60]}
-      onChange={val => this.setState({ budget: val, error: '' })}/>
+        defaultValue={[40, 60]}
+        onChange={val => this.setState({ budget: val, error: '' })}/>
       <Typography use='headline5' tag='div' style={{textAlign: "center"}}>
-      { budget }
+        { budget }
       </Typography>
     </div>
   }
