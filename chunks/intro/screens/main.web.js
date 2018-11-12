@@ -94,6 +94,40 @@ export default class MainIntroScreen extends Screen {
     </div>
   }
 
+  renderServicesAction() {
+    return <div style={{
+      width: "100vw",
+      display: "flex",
+      flex: 1,
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: "#f3ffff",
+      color: this.props.theme.primaryColor,
+      margin: "50px 0px 50px 0px",
+      padding: "50px 0px 50px 0px"
+    }}>
+    <Typography use='headline4' style={{
+      textAlign: 'center'
+    }}>
+    Need help with your Website or Mobile App?
+    </Typography>
+    <Typography use='headline4' style={{
+      textAlign: 'center',
+      color: '#fafafa'
+    }}>
+      <Button
+        raised
+        theme='secondary-bg text-primary-on-secondary'
+        style={{ marginTop: '30px' }}
+        onClick={() => this.triggerRedirect("/services")}>
+        <ButtonIcon icon='check' />
+         Get A FREE Quote Now
+      </Button>
+      </Typography>
+      </div>
+  }
+
   renderMainAction() {
     return <div style={{
       width: "100vw",
@@ -130,7 +164,7 @@ export default class MainIntroScreen extends Screen {
 
   components () {
     const features = super.components()
-    return [ this.renderDefault(), ...features, this.telegram, this.renderStakeholders(), this.renderMainAction()]
+    return [ this.renderDefault(), ...features, this.telegram, this.renderMainAction(), this.renderStakeholders(), this.renderServicesAction()]
 
   }
 

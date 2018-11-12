@@ -137,6 +137,14 @@
         "link": "https://t.me/carmelbeta",
         "type": "default",
         "image": "beta.r.png"
+      },
+      "components": {
+        "intro": {
+          "source": "summary",
+          "text": "local://beta",
+          "image": "carmel.svg",
+          "textColor": "#37474F"
+        }
       }
     },
     "terms": {
