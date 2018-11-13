@@ -230,27 +230,7 @@ export default class PrivateTokensScreen extends Screen {
       return
     }
 
-    const socialNetworks = [
-      'telegram',
-      'twitter',
-      'youtube',
-      'facebook',
-      'medium',
-      'steemit',
-      'linkedin',
-      'instagram',
-      'github'
-    ]
-
-    let socialNetworkIndex = 0
-
-    socialNetworks.forEach(sn => {
-      if (this.state.account[sn]) {
-        socialNetworkIndex++
-      }
-    })
-
-    return socialNetworkIndex >= 5
+    return this.state.account.socialNetworksValid
   }
 
   renderClaim () {
