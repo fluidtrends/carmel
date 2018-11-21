@@ -271,6 +271,22 @@ export default class ClaimContinue extends Component {
       return <Components.Loading message={this.state.loadingMessage} />
     }
 
+    if (this.props.isSocialMediaComplete) {
+      return <Card style={{ width, margin: '10px', marginTop: '30px', padding, textAlign: 'center' }}>
+        <Icon type='check-circle-o' style={{
+        fontSize: '64px',
+        color: '#00bcd4',
+        padding: '10px'
+      }} />
+        <Typography use='title' tag='h2'>
+          Congrats! Your account was validated!
+        </Typography>
+      </Card>
+      
+    }
+
+    return <div />
+
     return (
       <Card style={{ width, margin: '10px', marginTop: '30px', padding, textAlign: 'center' }}>
         <Icon

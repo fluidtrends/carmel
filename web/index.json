@@ -13,6 +13,15 @@
     }
   },
   "footer": {
+    "socialMediaLinks": {
+      "facebook": "https://www.facebook.com/carmelio-347131802460343/",
+      "medium": "http://medium.com/carmelplatform",
+      "instagram": "https://www.instagram.com/carmel.io/",
+      "github": "https://github.com/fluidtrends/carmel",
+      "youtube": "https://www.youtube.com/channel/UCjiQXohOk0pBmJ6PFElQL-g",
+      "twitter": "https://twitter.com/carmelplatform",
+      "linkedin": "https://www.linkedin.com/company/carmel-platform/"
+    },
     "sections": [
       {
         "title": "Platform",
