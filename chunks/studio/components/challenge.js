@@ -223,7 +223,7 @@ export default class Challenge extends Component {
     }
 
     const xp = (this.props.challenge.level + 1) * 5
-    const tokens = parseFloat(xp * 1.00).toFixed(2)
+    const tokens = parseFloat(xp * 100)
 
     return <div style={{
       display: 'flex',
