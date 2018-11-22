@@ -3,18 +3,18 @@
 		{
 			"columns": [
 				{
-					"title": "Learning",
-					"subtitle": "Take Challenges And Build Real Experience",
+					"title": "For Learners",
+					"subtitle": "Take Challenges And Build Real-World Experience",
 					"icon": "local_library"
 				},
 				{
-					"title": "Developing",
-					"subtitle": "Develop Programming Challenges And Earn Tokens",
+					"title": "For Developers",
+					"subtitle": "Write Challenges And Earn An Income",
 					"icon": "code"
 				},
 				{
-					"title": "Teaching",
-					"subtitle": "Use Challenges To Complement Classroom Curriculum",
+					"title": "For Teachers",
+					"subtitle": "Use Challenges To Complement Courses",
 					"icon": "school"
 				}
 			]
@@ -22,19 +22,19 @@
 		{
 			"columns": [
 				{
-					"title": "Recruiting",
-					"subtitle": "Create Skills-Based Campaigns To Find Candidates",
-					"icon": "contact_phone"
+					"title": "For Entrepreneurs",
+					"subtitle": "Request Challenges To Turn Ideas Into Products",
+					"icon": "attach_money"
 				},
 				{
-					"title": "Training",
-					"subtitle": "Create Training Campaigns For Their Developers",
+					"title": "For Managers",
+					"subtitle": "Design Challenges To Improve Team Productivity",
 					"icon": "fitness_center"
 				},
 				{
-					"title": "Quoting",
-					"subtitle": "Create Requests For Quotes For Real Projects",
-					"icon": "attach_money"
+					"title": "For Recruiters",
+					"subtitle": "Monitor Challenges And To Find More Candidates",
+					"icon": "contact_phone"
 				}
 			]
 		}
