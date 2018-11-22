@@ -1,0 +1,84 @@
+[{
+  "title": "Get 10,000 CARMEL",
+  "tokens": 10000,
+  "weight": 1,
+  "bonus": 0.01,
+  "image": "assets/level-1.png"
+},
+{
+  "title": "Level 2",
+  "tokens": 25000,
+  "weight": 2,
+  "bonus": 0.02,
+  "image": "assets/level-2.png"
+},
+{
+  "title": "Level 3",
+  "weight": 3,
+  "bonus": 0.03,
+  "tokens": 50000,
+  "image": "assets/level-3.png"
+},
+{
+  "title": "Level 4",
+  "weight": 4,
+  "bonus": 0.04,
+  "tokens": 75000,
+  "image": "assets/level-4.png"
+},
+{
+  "title": "Level 5",
+  "weight": 5,
+  "bonus": 0.05,
+  "tokens": 100000,
+  "image": "assets/level-5.png"
+},
+{
+  "title": "Level 6",
+  "weight": 6,
+  "bonus": 0.06,
+  "tokens": 125000,
+  "image": "assets/level-6.png"
+},
+{
+  "title": "Level 7",
+  "weight": 7,
+  "bonus": 0.07,
+  "tokens": 150000,
+  "image": "assets/level-7.png"
+},
+{
+  "title": "Level 8",
+  "weight": 8,
+  "bonus": 0.08,
+  "tokens": 275000,
+  "image": "assets/level-8.png"
+},
+{
+  "title": "Level 9",
+  "weight": 9,
+  "bonus": 0.09,
+  "tokens": 200000,
+  "image": "assets/level-9.png"
+},
+{
+  "title": "Level 10",
+  "weight": 10,
+  "bonus": 0.10,
+  "tokens": 225000,
+  "image": "assets/level-10.png"
+},
+{
+  "title": "Level 11",
+  "weight": 11,
+  "bonus": 0.11,
+  "tokens": 250000,
+  "image": "assets/level-11.png"
+},
+{
+  "title": "Level 12",
+  "weight": 12,
+  "bonus": 0.12,
+  "tokens": 300000,
+  "image": "assets/level-12.png"
+}]

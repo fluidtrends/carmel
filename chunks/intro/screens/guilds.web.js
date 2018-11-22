@@ -1,12 +1,19 @@
 import React from 'react'
 import { Screen } from 'react-dom-chunky'
-import Investors from '../components/investors'
+import { Parallax } from 'react-spring'
+import Guilds from '../components/guilds'
+import { Data } from 'react-chunky'
+import { Button, ButtonIcon } from '@rmwc/button'
+import { Typography } from '@rmwc/typography'
+import Bounce from 'react-reveal/Bounce'
+import Pulse from 'react-reveal/Pulse'
+import RubberBand from 'react-reveal/RubberBand'
 
-export default class TokensScreen extends Screen {
+export default class Main extends Screen {
   constructor (props) {
     super(props)
 
-    this.state = { ...this.state }
+    this.state = {}
     this._onAction = this.onAction.bind(this)
   }
 
@@ -28,7 +35,7 @@ export default class TokensScreen extends Screen {
           flexDirection: 'column',
           alignItems: 'center'
         }}>
-        <Investors
+        <Guilds
         onAction={this._onAction}
         redirect={this.triggerRedirect}
         compact={this.isSmallScreen}/>

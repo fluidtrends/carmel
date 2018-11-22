@@ -2,8 +2,9 @@
   "name": "auth",
   "routes": {
     "register": {
-      "title": "Account",
+      "title": "Join Now",
       "icon": "account_circle",
+      "action": true,
       "alwaysShowIcon": true,
       "guestOnly": true,
       "path": "/register",

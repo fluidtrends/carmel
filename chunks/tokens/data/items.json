@@ -1,0 +1,48 @@
+[{
+  "title": "Become a Carmel Learner",
+  "subtitle": "Take Challenges And Build Real-World Programming Experience",
+  "image": "assets/cover-learner.png",
+  "prompt": "And Join The Carmel #LearnersGuild",
+  "path": "/learners",
+  "color": "#00BCD4"
+},
+{
+  "title": "Become a Carmel Developer",
+  "subtitle": "Develop Programming Challenges For Learners And Earn A Passive Income",
+  "prompt": "And Join The Carmel #DevelopersGuild",
+  "image": "assets/cover-developer.png",
+  "path": "/developers",
+  "color": "#0686D8"
+},
+{
+  "title": "Become a Carmel Entrepreneur",
+  "subtitle": "Find The Right Developers For Your Software Development Projects",
+  "prompt": "And Join The Carmel #EntrepreneursGuild",
+  "image": "assets/cover-entrepreneur.png",
+  "path": "/entrepreneurs",
+  "color": "#F57C00"
+},
+{
+  "title": "Become a Carmel Teacher",
+  "subtitle": "Use Challenges To Complement Your Existing Course Curriculum",
+  "prompt": "And Join The Carmel #TeachersGuild",
+  "image": "assets/cover-teacher.png",
+  "path": "/teachers",
+  "color": "#5E35B1"
+},
+{
+  "title": "Become a Carmel Manager",
+  "subtitle": "Create Training Campaigns For Your Software Development Teams",
+  "image": "assets/cover-manager.png",
+  "prompt": "And Join The Carmel #ManagersGuild",
+  "path": "/managers",
+  "color": "#C2185B"
+},
+{
+  "title": "Become a Carmel Recruiter",
+  "subtitle": "Create Skills-Based Campaigns To Find The Right Candidates",
+  "image": "assets/cover-recruiter.png",
+  "prompt": "And Join The Carmel #RecruitersGuild",
+  "path": "/recruiters",
+  "color": "#4CAF50"
+}]
