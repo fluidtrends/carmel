@@ -71,6 +71,7 @@ export default class Transfer extends Component {
             <Icon type='hourglass' spin style={{ marginRight: '10px'}} />
             Transferring tokens ...
           </Typography>
+        </div>
     }
     const { title, level, author, id } = this.props.challenge
     const price = this.calculatePrice(level)
