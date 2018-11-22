@@ -1,0 +1,48 @@
+[{
+  "title": "Become a Carmel Learner",
+  "subtitle": "Take Challenges And Build Real-World Programming Experience",
+  "image": "assets/learners-logo.png",
+  "action": "Join The Learners Guild",
+  "path": "/learners",
+  "color": "#00BCD4"
+},
+{
+  "title": "Become a Carmel Developer",
+  "subtitle": "Write Programming Challenges And Earn A Passive Income",
+  "action": "Join The Developers Guild",
+  "image": "assets/developers-logo.png",
+  "path": "/developers",
+  "color": "#0686D8"
+},
+{
+  "title": "Become a Carmel Teacher",
+  "subtitle": "Use Challenges To Complement Your Existing Course Curriculum",
+  "action": "Join The Teachers Guild",
+  "image": "assets/teachers-logo.png",
+  "path": "/teachers",
+  "color": "#5E35B1"
+},
+{
+  "title": "Become a Carmel Entrepreneur",
+  "subtitle": "Request Challenges To Turn Your Idea Into A Real Software Product",
+  "action": "Join The Entrepreneurs Guild",
+  "image": "assets/entrepreneurs-logo.png",
+  "path": "/entrepreneurs",
+  "color": "#F57C00"
+},
+{
+  "title": "Become a Carmel Manager",
+  "subtitle": "Design Challenges To Improve Your Team Productivity",
+  "image": "assets/managers-logo.png",
+  "action": "Join The Managers Guild",
+  "path": "/managers",
+  "color": "#C2185B"
+},
+{
+  "title": "Become a Carmel Recruiter",
+  "subtitle": "Monitor Challenges To Find The Right Skills-Based Candidates",
+  "image": "assets/recruiters-logo.png",
+  "action": "Join The Recruiters Guild",
+  "path": "/recruiters",
+  "color": "#4CAF50"
+}]

@@ -1,0 +1,1 @@
+## He is a **motivated father** who wants to provide a better future for his family. Carmel exists primarily to **help Learners** like Chris *acquire the right Technical Skills* required to thrive in today's Digital Economy, using our original educational model, that we call **Tweak-N-Learn**.

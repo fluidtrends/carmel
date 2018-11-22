@@ -1,21 +1,14 @@
 import React from 'react'
 import { Screen } from 'react-dom-chunky'
-import Investors from '../components/investors'
 
-export default class TokensScreen extends Screen {
+export default class LearnersScreen extends Screen {
   constructor (props) {
     super(props)
-
     this.state = { ...this.state }
-    this._onAction = this.onAction.bind(this)
   }
 
   componentDidMount () {
     super.componentDidMount()
-  }
-
-  onAction(item) {
-    this.triggerRedirect(item.path)
   }
 
   renderMainContent() {
@@ -28,10 +21,7 @@ export default class TokensScreen extends Screen {
           flexDirection: 'column',
           alignItems: 'center'
         }}>
-        <Investors
-        onAction={this._onAction}
-        redirect={this.triggerRedirect}
-        compact={this.isSmallScreen}/>
+        
       </div>)
   }
 

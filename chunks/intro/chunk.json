@@ -9,6 +9,16 @@
       "skipExtendedMenuOnDesktop": true,
       "extendedMenu": [
         {
+          "id": "tour",
+          "title": "Tour",
+          "path": "/tour"
+        },
+        {
+          "id": "guilds",
+          "title": "Guilds",
+          "path": "/guilds"
+        },
+        {
           "id": "beta",
           "title": "Beta",
           "path": "/beta"
@@ -145,6 +155,118 @@
           "image": "carmel.svg",
           "textColor": "#37474F"
         }
+      }
+    },
+    "tour": {
+      "title": "Tour",
+      "icon": "supervisor_account",
+      "path": "/tour",
+      "forceNavigation": false
+    },
+    "guilds": {
+      "title": "Guilds",
+      "action": true,
+      "icon": "supervisor_account",
+      "path": "/guilds",
+      "cover": {
+        "backgroundColor": "#00838F",
+        "align": "bottom",
+        "opacity": 0.5,
+        "image": "guilds.r.png",
+        "navigation": true,
+        "title": "Join a Carmel Guild",
+        "subtitle": "The Carmel Community is organized in Guilds, each with its own unique personality",
+        "type": "default"
+      }
+    },
+    "learners": {
+      "title": "Learners",
+      "icon": "supervisor_account",
+      "path": "/learners",
+      "cover": {
+        "backgroundColor": "#00838F",
+        "align": "bottom",
+        "opacity": 0,
+        "image": "learners.r.png",
+        "navigation": true,
+        "title": "Become a Carmel Learner",
+        "subtitle": "Join the Carmel Learners Guild and start your learning journey",
+        "type": "default"
+      }
+    },
+    "developers": {
+      "title": "Developers",
+      "icon": "supervisor_account",
+      "path": "/developers",
+      "cover": {
+        "backgroundColor": "#00838F",
+        "align": "bottom",
+        "opacity": 0,
+        "image": "developers.r.png",
+        "navigation": true,
+        "title": "Become a Carmel Developer",
+        "subtitle": "Join the Carmel Developers Guild and start sharing your knowledge",
+        "type": "default"
+      }
+    },
+    "teachers": {
+      "title": "Teachers",
+      "icon": "supervisor_account",
+      "path": "/teachers",
+      "cover": {
+        "backgroundColor": "#00838F",
+        "align": "bottom",
+        "opacity": 0,
+        "image": "teachers.r.png",
+        "navigation": true,
+        "title": "Become a Carmel Teacher",
+        "subtitle": "Join the Carmel Teachers Guild and start enhancing your courses",
+        "type": "default"
+      }
+    },
+    "entrepreneurs": {
+      "title": "Entrepreneurs",
+      "icon": "supervisor_account",
+      "path": "/entrepreneurs",
+      "cover": {
+        "backgroundColor": "#00838F",
+        "align": "bottom",
+        "opacity": 0,
+        "image": "entrepreneurs.r.png",
+        "navigation": true,
+        "title": "Become a Carmel Entrepreneur",
+        "subtitle": "Join the Carmel Entrepreneurs Guild and start building your next product",
+        "type": "default"
+      }
+    },
+    "managers": {
+      "title": "Managers",
+      "icon": "supervisor_account",
+      "path": "/managers",
+      "cover": {
+        "backgroundColor": "#00838F",
+        "align": "bottom",
+        "opacity": 0,
+        "image": "managers.r.png",
+        "navigation": true,
+        "title": "Become a Carmel Manager",
+        "subtitle": "Join the Carmel Managers Guild and accelerate your team's productivity",
+        "type": "default"
+      }
+    },
+    "recruiters": {
+      "title": "Recruiters",
+      "icon": "supervisor_account",
+      "path": "/recruiters",
+      "cover": {
+        "backgroundColor": "#00838F",
+        "align": "bottom",
+        "opacity": 0,
+        "image": "recruiters.r.png",
+        "navigation": true,
+        "title": "Become a Carmel Recruiter",
+        "subtitle": "Join the Carmel Recruiters Guild and find more suitable candidates",
+        "type": "default"
       }
     },
     "terms": {

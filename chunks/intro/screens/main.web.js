@@ -5,6 +5,7 @@ import { BuyModal } from '../components'
 import Bounce from 'react-reveal/Bounce'
 import Fade from 'react-reveal/Fade'
 import Intro from '../components/intro'
+import About from '../components/about'
 import { Button, ButtonIcon } from 'rmwc/Button'
 import { Typography } from '@rmwc/typography'
 
@@ -19,6 +20,10 @@ export default class MainIntroScreen extends Screen {
     this._onContinue = this.onContinue.bind(this)
     this._download = this.download.bind(this)
     this._showTeam = this.showTeam.bind(this)
+  }
+
+  renderStakeholders() {
+    return <About compact={this.isSmallScreen}/>
   }
 
   componentDidMount () {
@@ -79,19 +84,6 @@ export default class MainIntroScreen extends Screen {
 
   transactionError (error) {
     this.setState({ error: error.message })
-  }
-
-  renderStakeholders() {
-    return <div style={{
-      width: "100%",
-      margin: "50px 0px 50px 0px"
-    }}>
-      <Fade>
-        <img src="assets/stakeholders.png" style={{
-          width: "100%"
-        }}/>
-      </Fade>
-    </div>
   }
 
   renderServicesAction() {
@@ -164,8 +156,7 @@ export default class MainIntroScreen extends Screen {
 
   components () {
     const features = super.components()
-    return [ this.renderDefault(), ...features, this.telegram, this.renderMainAction(), this.renderStakeholders(), this.renderServicesAction()]
-
+    return [ this.renderDefault(), ...features,  this.telegram, this.renderMainAction()]
   }
 
   onModalClose () {

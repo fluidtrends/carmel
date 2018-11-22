@@ -50,11 +50,16 @@
   "service": {
     "functions": [
       "post://send#sendTokens",
-      "post://achievements#newAchievement"
+      "post://achievements#newAchievement",
+      "post://topup#newTopup"
     ],
     "dependencies": {},
     "requiredFields": {},
-    "permissions": {},
+    "permissions": {
+      "newTopup": [
+        "ses:SendEmail"
+      ]
+    },
     "schedule": {}
   }
 }
