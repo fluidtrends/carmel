@@ -99,7 +99,7 @@ export default class Intro extends Component {
       color: '#fafafa',
       padding: "20px"
     }}>
-    The Fastest Way To Become A Coder.
+    Disrupting The Industry That Is Disrupting The World
     </Typography>
 
   }
@@ -117,9 +117,10 @@ export default class Intro extends Component {
           textAlign: 'center',
           color: '#fafafa'
         }}>
-        Carmel is the leading <strong> Tech Education Blockchain Platform</strong>,
-        with a powerful <strong> Working Product</strong>, a unique <strong> Educational Model </strong>
-        and a growing <strong> User Community </strong> of <strong> 50,000+ </strong>
+        Carmel is an Education-Driven Tech Marketplace that is redefining the entire Software Development lifecycle
+        and brings together <strong> Learners</strong>,
+        <strong> Developers</strong>, <strong> Teachers</strong>, <strong> Entrepreneurs</strong>,
+        <strong> Managers</strong> and <strong> Recruiters</strong>
       </Typography>
         <Typist.Delay ms={1000} />
         <h3 key='4' style={{ color: '#602f15', marginTop: "20px", textAlign: 'center' }}>
