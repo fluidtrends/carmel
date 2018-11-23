@@ -14,7 +14,6 @@ export default class PostScreen extends Screen {
 
   components () {
     return [
-      <Components.Article {...this.variant.content} />
     ]
   }
 }
