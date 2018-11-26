@@ -5,27 +5,10 @@
       "title": "Story",
       "icon": "home",
       "path": "/story",
-      "index": "https://raw.githubusercontent.com/fluidtrends/carmel/content/story/index.json",
-      "cover": {
-        "backgroundColor": "#00838F",
-        "opacity": 0.6,
-        "navigation": true,
-        "image": "writer.jpg",
-        "title": "Follow The #CarmelStory",
-        "type": "simple"
-      }
-    },
-    "post": {
-      "icon": "home",
-      "path": "/story",
-      "skipRootVariant": true,
-      "variants": "https://raw.githubusercontent.com/fluidtrends/carmel/content/story/index.json",
-      "cover": {
-        "backgroundColor": "#00838F",
-        "opacity": 0.4,
-        "navigation": true,
-        "type": "default"
-      }
+      "stories": [{
+        "source": "https://raw.githubusercontent.com/idancali/cellar/master/stories/carmel/story.json"
+      }],
+      "variants": true
     }
   }
 }

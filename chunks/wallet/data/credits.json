@@ -1,0 +1,45 @@
+[{
+  "title": "100 Credits",
+  "subtitle": "No Bonus",
+  "paymentId": "FHKZDT2QLXH9S",
+  "image": "assets/tokens.png",
+  "action": "Pay $100",
+  "path": "/learners",
+  "color": "#00BCD4"
+},
+{
+  "title": "500 Credits",
+  "paymentId": "EL8AR2GXRK7HU",
+  "subtitle": "No Bonus",
+  "action": "Pay $500",
+  "image": "assets/tokens.png",
+  "path": "/developers",
+  "color": "#00BCD4"
+},
+{
+  "title": "1,000 Credits",
+  "paymentId": "GVGQJJ8NBRYKQ",
+  "subtitle": "50 Credits Bonus (5%)",
+  "action": "Pay $1,000",
+  "image": "assets/tokens.png",
+  "path": "/teachers",
+  "color": "#00BCD4"
+},
+{
+  "title": "2,500 Credits",
+  "subtitle": "150 Credits Bonus (8%)",
+  "paymentId": "H5EVN4FXXDTHY",
+  "action": "Pay $2,500",
+  "image": "assets/tokens.png",
+  "path": "/entrepreneurs",
+  "color": "#00BCD4"
+},
+{
+  "title": "5,000 Credits",
+  "paymentId": "D88AW26SPEJD8",
+  "subtitle": "500 Credits Bonus (10%)",
+  "image": "assets/tokens.png",
+  "action": "Pay $5,000",
+  "path": "/managers",
+  "color": "#00BCD4"
+}]
