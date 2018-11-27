@@ -2,9 +2,9 @@
   "name": "wallet",
   "routes": {
     "main": {
-      "title": "Wallet",
+      "title": "Credits",
       "icon": "account_balance_wallet",
-      "path": "/wallet",
+      "path": "/credits",
       "layoutBackground": "#f5f500",
       "cover": {
         "backgroundColor": "#00838F",
@@ -28,23 +28,6 @@
           }
         ]
       }
-    },
-    "checkout": {
-      "title": "Account",
-      "icon": "account_circle",
-      "alwaysShowIcon": true,
-      "guestOnly": true,
-      "path": "/checkout",
-      "cover": {
-        "backgroundColor": "#00838F",
-        "opacity": 0.6,
-        "navigation": true,
-        "image": "chris.r.png",
-        "title": "checkout",
-        "type": "simple"
-      },
-      "startOperationsOnMount": false,
-      "operations": {}
     }
   },
   "service": {

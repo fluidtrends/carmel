@@ -50,40 +50,46 @@ import {
   WorkplaceIcon,
   EmailIcon,
 } from 'react-share'
+import Fade from 'react-reveal/Fade'
+
+import Story from '../components/Story'
 
 export default class MainStoryScreen extends Screen {
   constructor (props) {
     super(props)
-    this.state = { ...this.state, loading: true }
+    this.state = { ...this.state }
   }
 
   componentDidMount () {
     super.componentDidMount()
-    this.importRemoteData(this.props.index).then(posts => {
-      this.setState({ posts, loading: false })
-    })
+        Promise.all(this.props.stories.map(story => this.importRemoteData(story.source)))
+          .then(stories => {
+            var index = 0
+            return stories.map(story => Object.assign({}, story, this.props.stories[index++])).map(s => new Story(s))
+          })
+          .then(stories => this.setState({ stories }))
   }
 
-  renderPostSocialIcons(post) {
-    return <CardActionIcons style={{ }}>
-      <TwitterShareButton url={post.url} title={post.quote} hashtags={post.hashtags}  style={{ marginRight: "10px" }}>
+  renderPostSocialIcons(chapter) {
+    return <CardActionIcons style={{ justifyContent: this.isSmallScreen ? "center" : "flex-end" }}>
+      <TwitterShareButton url={chapter.url} title={chapter.quote} hashtags={chapter.hashtags}  style={{ marginRight: "10px" }}>
         <TwitterIcon size={32} round={true}/>
       </TwitterShareButton>
-      <LinkedinShareButton url={post.url}  description={post.quote} style={{ marginRight: "10px" }}>
+      <LinkedinShareButton url={chapter.url}  description={chapter.quote} style={{ marginRight: "10px" }}>
         <LinkedinIcon size={32} round={true}   />
       </LinkedinShareButton>
-      <FacebookShareButton url={post.url}  hashtag={`#${post.hashtags[0]}`} quote={post.quote}  style={{ marginRight: "10px" }}>
+      <FacebookShareButton url={chapter.url}  hashtag={`#${chapter.hashtags[0]}`} quote={chapter.quote}  style={{ marginRight: "10px" }}>
         <FacebookIcon size={32} round={true} />
       </FacebookShareButton>
-      <TelegramShareButton url={post.url} title={post.quote}  style={{ marginRight: "0px" }}>
+      <TelegramShareButton url={chapter.url} title={chapter.quote}  style={{ marginRight: "0px" }}>
         <TelegramIcon size={32} round={true} />
       </TelegramShareButton>
     </CardActionIcons>
   }
 
-  renderPostHeader(post) {
+  renderPostHeader(chapter) {
     if (this.isSmallScreen) {
-      return   <div style={{
+      return <div style={{
           display: "flex",
           padding: "10px",
           margin: "10px",
@@ -106,20 +112,20 @@ export default class MainStoryScreen extends Screen {
             color: "#607D8B",
             textAlign: "center"
           }}>
-            { post.author }
+            { chapter.author }
           </Typography>
           <Typography use="caption" tag="div" style={{
             color: "#B0BEC5",
             textAlign: "center"
           }}>
-            { post.date }
+            { chapter.date }
           </Typography>
         </div>
-        { this.renderPostSocialIcons(post)}
+        { this.renderPostCategories(chapter)}
         </div>
     }
 
-    return   <div style={{
+    return <div style={{
         display: "flex",
         padding: "10px",
         margin: "10px",
@@ -139,28 +145,28 @@ export default class MainStoryScreen extends Screen {
           <Typography use="caption" tag="div" style={{
             color: "#607D8B"
           }}>
-            { post.author }
+            { chapter.author }
           </Typography>
           <Typography use="caption" tag="div" style={{
             color: "#B0BEC5"
           }}>
-            { post.date }
+            { chapter.date }
           </Typography>
         </div>
-        { this.renderPostSocialIcons(post)}
+        { this.renderPostCategories(chapter)}
       </div>
   }
 
-  renderPostCategories(post) {
+  renderPostCategories(chapter) {
     return <ChipSet>
-        { post.categories.map(c => <Chip  style={{backgroundColor: "#F5F5F5", color:"#546E7A" }}><ChipText>{c}</ChipText></Chip>)}
+        { chapter.tags.map(t => <Chip  style={{backgroundColor: "#F5F5F5", color:"#546E7A" }}><ChipText>{t}</ChipText></Chip>)}
       </ChipSet>
   }
 
-  renderPostActions(post) {
+  renderPostActions(chapter) {
     if (this.isSmallScreen) {
       return [<CardActions key="first" style={{ margin: "10px",  justifyContent: "center", display: "flex", flex: 1 }}>
-      { this.renderPostCategories(post)}
+      { this.renderPostSocialIcons(chapter)}
       </CardActions>,
       <CardActions key="second">
       <CardActionButtons style={{justifyContent: "center", display: "flex", flex: 1, marginBottom: "20px" }}>
@@ -170,25 +176,26 @@ export default class MainStoryScreen extends Screen {
     }
 
     return <CardActions style={{ margin: "10px" }}>
-        { this.renderPostCategories(post)}
-      <CardActionButtons style={{justifyContent: "flex-end", display: "flex", flex: 1 }}>
+      <CardActionButtons style={{justifyContent: "flex-start", display: "flex", flex: 1 }}>
         <CardAction onClick={() => console.log("D")}>Continue Reading</CardAction>
       </CardActionButtons>
+      { this.renderPostSocialIcons(chapter)}
     </CardActions>
   }
 
-  renderPost(post) {
+  renderChapterPreview(chapter) {
     const width = this.isSmallScreen ? "90vw" : "700px"
-    const summary = post.summary.length > 250 ? `${post.summary.substring(0, 250)}...` : post.summary
+    const summary = chapter.summary.length > 250 ? `${chapter.summary.substring(0, 250)}...` : chapter.summary
 
-    return <Card style={{ margin: "20px", width }} onClick={() => {}}>
-        { this.renderPostHeader(post)}
+    return <Fade>
+      <Card style={{ margin: "20px", width }} onClick={() => {}}>
+        { this.renderPostHeader(chapter)}
         <CardPrimaryAction style={{ justifyContent: "center", display: "flex", flexDirection: "column", alignItems: "center" }}>
           <CardMedia
             sixteenByNine
             style={{
               width: "100%",
-              backgroundImage:`url(${post.image})`
+              backgroundImage:`url(${chapter.image})`
             }}
           />
           <div style={{ padding: '20px' }}>
@@ -196,7 +203,7 @@ export default class MainStoryScreen extends Screen {
               color: '#263238',
               margin: "0px 0px 10px 0px"
             }}>
-                { post.title }
+              { chapter.title }
             </Typography>
             <Typography
               use="body1"
@@ -206,27 +213,14 @@ export default class MainStoryScreen extends Screen {
             </Typography>
           </div>
         </CardPrimaryAction>
-
-        { this.renderPostActions(post) }
+        { this.renderPostActions(chapter) }
       </Card>
+    </Fade>
   }
 
-  get posts() {
-    return [{
-      image: "https://github.com/fluidtrends/carmel/raw/master/assets/guilds.r.png",
-      author: "I. Dan Calinescu",
-      categories: ["The Story", "Insights", "Education"],
-      url: "https://carmel.io/story",
-      hashtags: ["CarmelStory", "RoadTo1B"],
-      quote: "This is the Carmel Story",
-      authorImage: 'https://github.com/fluidtrends/carmel/raw/master/assets/chunky-logo.gif',
-      date: "Nov 19, 2018",
-      title: "I Could Have Ended Up A Street Hustler",
-      summary: "We had settled in Toronto, Canada for about five years at that point - the year was 1999. This was our first trip back to Romania since we had left and it was an emotional one to say the least. My parents, my brother and I. We had travelled back to where we grew up, in Bucharest, and even reconnected with some of the people we grew up with. One of those people was my best friend growing up in Bucharest when we were kids. We used to do everything together, even fight together get in trouble together, be scared together and just literally spend hours of our day roaming the streets of Bucharest in the 80s and do what kids used to do back then - nothing and everything."
-    }]
-  }
+  renderStories() {
+    const story = this.state.stories[0]
 
-  renderPosts() {
     return <div
       style={{
         display: 'flex',
@@ -235,11 +229,28 @@ export default class MainStoryScreen extends Screen {
         flexDirection: 'column',
         alignItems: 'center'
       }}>
-        { this.posts.map(post => this.renderPost(post))}
+      { story.chapters.map(chapter => this.renderChapterPreview(chapter)) }
+      </div>
+  }
+
+  renderLoading() {
+    return <div
+      style={{
+        display: 'flex',
+        flex: 1,
+        justifyContent: 'center',
+        flexDirection: 'column',
+        alignItems: 'center'
+      }}>
+        <Components.Loading message="One sec please..."/>
       </div>
   }
 
   components () {
-    return [this.renderPosts()]
+    if (!this.state.stories) {
+      return [this.renderLoading()]
+    }
+
+    return [this.renderStories()]
   }
 }
