@@ -22,6 +22,11 @@
           "id": "beta",
           "title": "Beta",
           "path": "/beta"
+        },
+        {
+          "id": "learn",
+          "title": "Learn",
+          "path": "/learn"
         }
       ],
       "components": {

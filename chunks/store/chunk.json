@@ -2,9 +2,15 @@
   "name": "store",
   "routes": {
     "main": {
-      "title": "Store",
+      "title": "Create",
       "icon": "account_balance_wallet",
-      "path": "/store",
+      "path": "/create",
+      "startOperationsOnMount": false
+    },
+    "learn": {
+      "title": "Learn",
+      "icon": "account_balance_wallet",
+      "path": "/learn",
       "startOperationsOnMount": false
     }
   },

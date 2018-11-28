@@ -13,9 +13,9 @@ import {
 import { Row, Col, Badge } from 'antd'
 import { Button, ButtonIcon } from '@rmwc/button'
 import { Icon } from '@rmwc/icon'
-import TemplatePreview from '../components/templatePreview'
-import PlanPreview from '../components/planPreview'
-import ChunkPreview from '../components/chunkPreview'
+import BountyPreview from '../components/bountyPreview'
+import QuestPreview from '../components/questPreview'
+import ChallengePreview from '../components/challengePreview'
 import { Tabs } from 'antd'
 const TabPane = Tabs.TabPane
 import {
@@ -27,85 +27,78 @@ import {
   ToolbarIcon
 } from '@rmwc/toolbar'
 
-const Templates = [{
+
+const Challenges = [{
   categoryTitle: "New",
   categoryId: "0",
-  templates: [{
+  challenges: [{
     id: "0",
-    title: "Bike Shop",
-    imageSmall: 'http://files.carmel.io/covers/bike-preview.png'
+    title: "My First Website",
+    imageSmall: 'http://files.carmel.io/covers/hello-preview.png'
   },
   {
     id: "1",
-    title: "Family Album",
-    imageSmall: 'http://files.carmel.io/covers/brothers-preview.png'
+    title: "Create A New Web Page",
+    imageSmall: 'http://files.carmel.io/covers/blog-preview.png'
   },
   {
     id: "2",
-    title: "School",
-    imageSmall: 'http://files.carmel.io/covers/child-preview.png'
+    title: "Add A Blog",
+    imageSmall: 'http://files.carmel.io/covers/book-preview.png'
   }]
 }, {
   categoryTitle: "Popular",
   categoryId: "1",
-  templates: [{
+  challenges: [{
     id: "0",
-    title: "Personal Blog",
-    imageSmall: 'http://files.carmel.io/covers/coffee-preview.png'
+    title: "Blog",
+    imageSmall: 'http://files.carmel.io/covers/blog-preview.png'
   }, {
     id: "1",
-    title: "Hiking Journal",
-    imageSmall: 'http://files.carmel.io/covers/cycling-preview.png'
+    title: "Add A Twitter Feed",
+    imageSmall: 'http://files.carmel.io/covers/twitter-preview.png'
   }]
 }, {
-  categoryTitle: "Personal",
+  categoryTitle: "Getting Started",
   categoryId: "2",
-  templates: [{
+  challenges: [{
     id: "0",
-    title: "Fatherhood Journal",
-    imageSmall: 'http://files.carmel.io/covers/dad-preview.png'
-  }, {
+    title: "My First Website",
+    imageSmall: 'http://files.carmel.io/covers/hello-preview.png'
+  },
+  {
     id: "1",
-    title: "Personal Blog",
-    imageSmall: 'http://files.carmel.io/covers/girl-preview.png'
+    title: "Create A New Web Page",
+    imageSmall: 'http://files.carmel.io/covers/blog-preview.png'
   },
   {
     id: "2",
-    title: "Family Album",
-    imageSmall: 'http://files.carmel.io/covers/brothers-preview.png'
+    title: "Add A Blog",
+    imageSmall: 'http://files.carmel.io/covers/book-preview.png'
   },
   {
     id: "3",
-    title: "Hiking Journal",
-    imageSmall: 'http://files.carmel.io/covers/cycling-preview.png'
-  },
-  {
-    id: "4",
-    title: "Random Thoughts",
-    imageSmall: 'http://files.carmel.io/covers/coffee-preview.png'
+    title: "Add A Twitter Feed",
+    imageSmall: 'http://files.carmel.io/covers/twitter-preview.png'
   }]
 }, {
-  categoryTitle: "Business",
+  categoryTitle: "Intermediate",
   categoryId: "3",
-  templates: [{
+  challenges: [{
     id: "0",
-    title: "Real Estate",
-    imageSmall: 'http://files.carmel.io/covers/hong-kong-preview.png'
+    title: "Add Authentication",
+    imageSmall: 'http://files.carmel.io/covers/laptop-preview.png'
   }, {
     id: "1",
-    title: "Bike Shop",
-    imageSmall: 'http://files.carmel.io/covers/bike-preview.png'
-  }, {
-    id: "2",
-    title: "School",
-    imageSmall: 'http://files.carmel.io/covers/child-preview.png'
+    title: "Add Email Integration",
+    imageSmall: 'http://files.carmel.io/covers/email-preview.png'
   }]
 }]
 
-const Chunks = [{
+const Bounties = [{
   categoryTitle: "New",
   categoryId: "0",
-  chunks: [{
+  bounties: [{
     id: "0",
     title: "Twitter Feed",
     imageSmall: 'http://files.carmel.io/covers/twitter-preview.png'
@@ -123,7 +116,7 @@ const Chunks = [{
 }, {
   categoryTitle: "Popular",
   categoryId: "1",
-  chunks: [{
+  bounties: [{
     id: "0",
     title: "Blog",
     imageSmall: 'http://files.carmel.io/covers/desk-preview.png'
@@ -135,7 +128,7 @@ const Chunks = [{
 }, {
   categoryTitle: "Marketing",
   categoryId: "2",
-  chunks: [{
+  bounties: [{
     id: "0",
     title: "Blog",
     imageSmall: 'http://files.carmel.io/covers/desk-preview.png'
@@ -158,7 +151,7 @@ const Chunks = [{
 }, {
   categoryTitle: "Functional",
   categoryId: "3",
-  chunks: [{
+  bounties: [{
     id: "0",
     title: "Authentication",
     imageSmall: 'http://files.carmel.io/covers/laptop-preview.png'
@@ -169,64 +162,33 @@ const Chunks = [{
   }]
 }]
 
-const Plans = [{
+const Quests = [{
   categoryTitle: "New",
   categoryId: "0",
-  plans: [{
+  quests: [{
     id: "0",
-    title: "Landing Page Setup",
+    title: "Build Your Personal Website",
     imageSmall: 'http://files.carmel.io/covers/hello-preview.png'
-  },
-  {
-    id: "1",
-    title: "Product Promotion",
-    imageSmall: 'http://files.carmel.io/covers/blog-preview.png'
-  },
-  {
-    id: "2",
-    title: "Book Promotion",
-    imageSmall: 'http://files.carmel.io/covers/book-preview.png'
   }]
 }, {
   categoryTitle: "Popular",
   categoryId: "1",
-  plans: [{
+  quests: [{
     id: "0",
-    title: "Blog",
+    title: "Publish Your Own Blog",
     imageSmall: 'http://files.carmel.io/covers/blog-preview.png'
-  }, {
-    id: "1",
-    title: "Twitter Integration Setup",
-    imageSmall: 'http://files.carmel.io/covers/twitter-preview.png'
   }]
 }, {
-  categoryTitle: "Landing Pages",
+  categoryTitle: "Web Development",
   categoryId: "2",
-  plans: [{
+  quests: [{
     id: "0",
-    title: "Landing Page Setup",
+    title: "Build Your Personal Website",
     imageSmall: 'http://files.carmel.io/covers/hello-preview.png'
-  },
-  {
-    id: "1",
-    title: "Brand New Landing Page",
-    imageSmall: 'http://files.carmel.io/covers/blog-preview.png'
-  }]
-}, {
-  categoryTitle: "Cloud",
-  categoryId: "3",
-  plans: [{
-    id: "0",
-    title: "Private Cloud Setup",
-    imageSmall: 'http://files.carmel.io/covers/laptop-preview.png'
-  }, {
-    id: "1",
-    title: "Email Configuration",
-    imageSmall: 'http://files.carmel.io/covers/email-preview.png'
   }]
 }]
 
-export default class CreateScreen extends Screen {
+export default class LearnScreen extends Screen {
 
   constructor (props) {
     super(props)
@@ -241,24 +203,24 @@ export default class CreateScreen extends Screen {
   get categories() {
     switch (this.state.typeId) {
       case 1:
-        return Chunks.map(c => ({ id: c.categoryId, title: c.categoryTitle }))
+        return Quests.map(c => ({ id: c.categoryId, title: c.categoryTitle }))
       case 2:
-        return Plans.map(c => ({ id: c.categoryId, title: c.categoryTitle }))
+        return Bounties.map(c => ({ id: c.categoryId, title: c.categoryTitle }))
       default:
     }
-    return Templates.map(c => ({ id: c.categoryId, title: c.categoryTitle }))
+    return Challenges.map(c => ({ id: c.categoryId, title: c.categoryTitle }))
   }
 
-  get templates() {
-    return Templates[this.state.categoryId || 0].templates
+  get challenges() {
+    return Challenges[this.state.categoryId || 0].challenges
   }
 
-  get chunks() {
-    return Chunks[this.state.categoryId || 0].chunks
+  get bounties() {
+    return Bounties[this.state.categoryId || 0].bounties
   }
 
-  get plans() {
-    return Plans[this.state.categoryId || 0].plans
+  get quests() {
+    return Quests[this.state.categoryId || 0].quests
   }
 
   changeCategory(categoryId) {
@@ -290,17 +252,17 @@ export default class CreateScreen extends Screen {
       }}>
         <Badge count={0} style={{ margin: "10px 5px 0px -10px", fontSize: "10px"}}>
           <Button style={{ color: (this.state.typeId || 0) === 0 ? '#039BE5' : '#B0BEC5', margin: "10px" }} onClick={() => this.setState({ typeId: 0, categoryId: 0 })} outlined={(this.state.typeId || 0) === 0}>
-            Templates
+            Challenges
           </Button>
         </Badge>
         <Badge count={0} style={{ margin: "10px 5px 0px -10px"}}>
           <Button style={{ color: (this.state.typeId || 0) === 1 ? '#039BE5' : '#B0BEC5', margin: "10px" }} onClick={() => this.setState({ typeId: 1, categoryId: 0 })} outlined={(this.state.typeId || 0) === 1}>
-            Chunks
+            Quests
           </Button>
         </Badge>
         <Badge count={0} style={{ margin: "10px 5px 0px -10px"}}>
           <Button style={{ color: (this.state.typeId || 0) === 2 ? '#039BE5' : '#B0BEC5', margin: "10px" }} onClick={() => this.setState({ typeId: 2, categoryId: 0 })} outlined={(this.state.typeId || 0) === 2}>
-            Custom
+            Bounties
           </Button>
         </Badge>
       </div>
@@ -314,29 +276,29 @@ export default class CreateScreen extends Screen {
     switch (this.state.typeId) {
       case 1:
         return <div style={{  }}>
-            { this.chunks.map(c => <ChunkPreview key={c.id} chunk={c} compact={this.isSmallScreen}/> )}
+            { this.quests.map(c => <QuestPreview key={c.id} quest={c} compact={this.isSmallScreen}/> )}
         </div>
       case 2:
       return <div style={{  }}>
-          { this.plans.map(p => <PlanPreview key={p.id} plan={p} compact={this.isSmallScreen}/> )}
+          { this.bounties.map(p => <BountyPreview key={p.id} bounty={p} compact={this.isSmallScreen}/> )}
       </div>
       default:
     }
 
     return <div style={{  }}>
-        { this.templates.map(t => <TemplatePreview key={t.id} template={t} compact={this.isSmallScreen}/> )}
+        { this.challenges.map(t => <ChallengePreview key={t.id} challenge={t} compact={this.isSmallScreen}/> )}
     </div>
   }
 
   renderTypePrompt() {
-    var prompt = "Choose a Product Template to get started"
+    var prompt = "Take a Challenge to acquire new skills"
 
     switch (this.state.typeId) {
       case 1:
-        prompt = "Add a Chunk of functionality to your Product"
+        prompt = "Go on a Quest with a series of related Challenges"
         break
       case 2:
-        prompt = "Choose a Custom Plan to build brand new functionality"
+        prompt = "Put your skills to the test"
         break
       default:
     }
