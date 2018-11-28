@@ -22,16 +22,6 @@
           "id": "beta",
           "title": "Beta",
           "path": "/beta"
-        },
-        {
-          "id": "team",
-          "title": "Team",
-          "path": "/team"
-        },
-        {
-          "id": "roadmap",
-          "title": "Roadmap",
-          "path": "/roadmap"
         }
       ],
       "components": {

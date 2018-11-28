@@ -1,0 +1,29 @@
+{
+  "name": "store",
+  "routes": {
+    "main": {
+      "title": "Store",
+      "icon": "account_balance_wallet",
+      "path": "/store",
+      "startOperationsOnMount": false
+    }
+  },
+  "service": {
+    "functions": [
+      "post://checkout#checkout"
+    ],
+    "dependencies": {
+      "braintree": "latest"
+    },
+    "requiredFields": {},
+    "permissions": {
+      "newTopup": [
+        "ses:SendEmail"
+      ],
+      "checkout": [
+        "ses:SendEmail"
+      ]
+    },
+    "schedule": {}
+  }
+}
