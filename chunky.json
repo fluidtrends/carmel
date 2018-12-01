@@ -8,13 +8,10 @@
     "start": {
       "stack": [
         "intro",
-        "roadmap",
-        "whitepaper",
-        "download",
-        "wallet",
+        "store",
         "beta",
         "story",
-        "services",
+        "tokens",
         "auth",
         "studio"
       ]
@@ -24,7 +21,6 @@
       "layout": "sidebar",
       "stack": [
         "tokens",
-        "wallet",
         "auth"
       ]
     }

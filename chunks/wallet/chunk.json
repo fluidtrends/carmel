@@ -13,6 +13,13 @@
       },
       "startOperationsOnMount": false,
       "operations": {
+        "checkout": [
+          "rest://create/wallet/checkout#checkout",
+          {
+            "onSuccess": "checkoutOk",
+            "onError": "checkoutError"
+          }
+        ],
         "sendTokens": [
           "rest://create/wallet/send#sendTokens",
           {
@@ -34,12 +41,18 @@
     "functions": [
       "post://send#sendTokens",
       "post://achievements#newAchievement",
-      "post://topup#newTopup"
+      "post://topup#newTopup",
+      "post://checkout#checkout"
     ],
-    "dependencies": {},
+    "dependencies": {
+      "braintree": "latest"
+    },
     "requiredFields": {},
     "permissions": {
       "newTopup": [
+        "ses:SendEmail"
+      ],
+      "checkout": [
         "ses:SendEmail"
       ]
     },

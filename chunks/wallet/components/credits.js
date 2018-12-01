@@ -15,6 +15,9 @@ import { Row, Col } from 'antd'
 import { Button, ButtonIcon } from '@rmwc/button'
 import { Icon } from '@rmwc/icon';
 import Items from '../data/credits.json'
+import braintree from 'braintree-web/client'
+import hostedFields from 'braintree-web/hosted-fields'
+
 
 export default class Credits extends Component {
   constructor (props) {

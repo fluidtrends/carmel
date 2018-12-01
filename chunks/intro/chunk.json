@@ -24,14 +24,9 @@
           "path": "/beta"
         },
         {
-          "id": "team",
-          "title": "Team",
-          "path": "/team"
-        },
-        {
-          "id": "roadmap",
-          "title": "Roadmap",
-          "path": "/roadmap"
+          "id": "learn",
+          "title": "Learn",
+          "path": "/learn"
         }
       ],
       "components": {
