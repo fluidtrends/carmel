@@ -51,7 +51,7 @@
       }
     }
   },
-  "images": ["logo.png", "logo-white.png", "cover.r.png", "loader,svg"],
+  "images": ["logo.png", "logo-white.png", "cover.r.png", "loader.svg"],
   "text": ["intro.md"],
   "web": {
     "layout": {
