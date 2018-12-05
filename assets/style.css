@@ -1,3 +1,7 @@
+body {
+  overflow-x: hidden;
+}
+
 .container {
   max-width: 24rem;
   margin: 1rem auto;
