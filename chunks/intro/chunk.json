@@ -30,6 +30,9 @@
         }
       ],
       "components": {
+        "chat": {
+          "source": "chat"
+        },
         "intro": {
           "source": "summary",
           "text": "local://intro",
