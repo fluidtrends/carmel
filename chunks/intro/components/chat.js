@@ -6,10 +6,12 @@ import {
   addLinkSnippet,
   addUserMessage
 } from 'react-chat-widget'
+import Wobble from 'react-reveal/Wobble'
+
 export default class Chat extends Component {
   constructor(props) {
     super(props)
-    this.state = { chatOpen: false }
+    this.state = { chatOpen: false, hover: false }
   }
   componentDidMount() {
     super.componentDidMount()
@@ -22,12 +24,17 @@ export default class Chat extends Component {
 
   renderLauncher(handleToggle) {
     return (
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <img
-          onClick={handleToggle}
-          src="assets/chunky-logo.gif"
-          style={{ cursor: 'pointer', width: 100, height: 100 }}
-        />
+      <div
+        onMouseEnter={() => this.setState({ hover: !this.state.hover })}
+        style={{ display: 'flex', justifyContent: 'flex-end' }}
+      >
+        <Wobble spy={this.state.hover}>
+          <img
+            onClick={handleToggle}
+            src="assets/chunky-logo.gif"
+            style={{ cursor: 'pointer', width: 100, height: 100 }}
+          />
+        </Wobble>
       </div>
     )
   }
