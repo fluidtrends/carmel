@@ -124,15 +124,15 @@ export default class Challenge extends Component {
       return
     }
 
-    if (this.isPurchased) {
+    // if (this.isPurchased) {
       const taskIndex = 1
       const task = this.props.challenge.tasks[taskIndex - 1]
       this.props.onStartChallenge && this.props.onStartChallenge({ challengeId: this.props.challenge.id })
       this.setState({ started: true, showTask: true, task, taskIndex })
       return
-    }
+    // }
 
-    this.props.onBuyChallenge && this.props.onBuyChallenge()
+    // this.props.onBuyChallenge && this.props.onBuyChallenge()
   }
 
   isTaskComplete (task) {
@@ -239,7 +239,7 @@ export default class Challenge extends Component {
           backgroundColor: `${this.isStarted || this.isPurchased ? '#03A9F4' : '#00bcd4'}`
         }}
         onClick={this.isStarted ? this._continueChallenge : this._toggleStarted}>
-        { this.isStarted ? 'Keep Going' : (this.isPurchased ? 'Start Challenge' : `Send ${tokens} CARMEL to start`) }
+        { this.isStarted ? 'Keep Going' : 'Start Challenge'}
       </Button>
     </div>
   }
