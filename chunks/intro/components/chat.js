@@ -20,6 +20,12 @@ export default class Chat extends Component {
 
   handleNewUserMessage = newMessage => {
     console.log(`New message incoming! ${newMessage}`)
+    // resp message
+    // if (respMessage.includes('https://'))
+    //   addLinkSnippet({
+    //     title: 'telegram',
+    //     link: 'https://t.me/carmelplatform'
+    //   })
   }
 
   renderLauncher(handleToggle) {
