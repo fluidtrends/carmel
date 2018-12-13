@@ -317,6 +317,7 @@ export default class Workspace extends Screen {
 
     return this.renderScreenContentsContainer(<Challenges
       challenges={this.challenges}
+      account={this.account}
       onSelectChallenge={this._onSelectChallenge} />)
   }
 

@@ -32,6 +32,10 @@ export default class Challenges extends Component {
       return <div />
     }
 
+    if (!this.props.account) {
+      return <div />
+    }
+
     var since = moment(parseFloat(item.history.purchaseTimestamp)).fromNow()
     var header = `You got this challenge ${since}`
 
