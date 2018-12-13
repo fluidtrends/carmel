@@ -124,15 +124,15 @@ export default class Challenge extends Component {
       return
     }
 
-    // if (this.isPurchased) {
+    if (this.props.account) {
       const taskIndex = 1
       const task = this.props.challenge.tasks[taskIndex - 1]
       this.props.onStartChallenge && this.props.onStartChallenge({ challengeId: this.props.challenge.id })
       this.setState({ started: true, showTask: true, task, taskIndex })
       return
-    // }
-
-    // this.props.onBuyChallenge && this.props.onBuyChallenge()
+    }
+    
+    this.props.onTakeChallenge && this.props.onTakeChallenge()
   }
 
   isTaskComplete (task) {

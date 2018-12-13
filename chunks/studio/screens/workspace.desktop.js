@@ -27,6 +27,7 @@ export default class Workspace extends Screen {
     this.state = { ...super.state }
     this._onSelectChallenge = this.onSelectChallenge.bind(this)
     this._onBuyChallenge = this.onBuyChallenge.bind(this)
+    this._onTakeChallenge = this.onTakeChallenge.bind(this)
     this._onStartChallenge = this.onStartChallenge.bind(this)
     this._onTaskCompleted = this.onTaskCompleted.bind(this)
     this._onChallengeCompleted = this.onChallengeCompleted.bind(this)
@@ -75,6 +76,18 @@ export default class Workspace extends Screen {
         challengeId: this.state.challengeId
       }
     })
+  }
+
+  onTakeChallenge () {
+    // TODO: more rules will be applied here, once the subscription model will be online
+
+    if (!this.isLoggedIn) {
+      this.triggerRedirect('/login')
+      return
+    }
+
+    this.setState({ inProgress: false })
+    this.syncSession()
   }
 
   onStartChallenge ({ challengeId }) {
@@ -290,6 +303,7 @@ export default class Workspace extends Screen {
       return this.renderScreenContentsContainer(<Challenge
         onSelectChallenge={this._onSelectChallenge}
         onBuyChallenge={this._onBuyChallenge}
+        onTakeChallenge={this._onTakeChallenge}
         onStartChallenge={this._onStartChallenge}
         onTaskCompleted={this._onTaskCompleted}
         onChallengeCompleted={this._onChallengeCompleted}
