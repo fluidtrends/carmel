@@ -1,7 +1,7 @@
 {
   "side": [
     { "id": "workspace", "title": "Workspace", "icon": "dashboard" },
-    { "id": "files", "title": "File Browser", "icon": "description" },
+    { "id": "files", "title": "Source Code", "icon": "description" },
     { "id": "live", "title": "Go Live", "icon": "important_devices" }
   ],
   "main": [
