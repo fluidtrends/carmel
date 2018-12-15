@@ -8,10 +8,9 @@
     "start": {
       "stack": [
         "intro",
-        "store",
         "beta",
         "story",
-        "tokens",
+        "payments",
         "auth",
         "studio"
       ]
@@ -20,7 +19,7 @@
       "private": true,
       "layout": "sidebar",
       "stack": [
-        "tokens",
+        "payments",
         "auth"
       ]
     }

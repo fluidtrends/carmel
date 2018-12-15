@@ -1,0 +1,38 @@
+{
+  "name": "payments",
+  "routes": {
+    "main": {
+      "title": "Pre-Order Now",
+      "icon": "account_balance_wallet",
+      "path": "/order",
+      "action": "true",
+      "startOperationsOnMount": false,
+      "components": {
+        "intro": {
+          "source": "summary",
+          "text": "local://preorder",
+          "image": "carmel.svg",
+          "textColor": "#37474F"
+        }
+      }
+    }
+  },
+  "service": {
+    "functions": [
+      "post://checkout#checkout"
+    ],
+    "dependencies": {
+      "braintree": "latest"
+    },
+    "requiredFields": {},
+    "permissions": {
+      "newTopup": [
+        "ses:SendEmail"
+      ],
+      "checkout": [
+        "ses:SendEmail"
+      ]
+    },
+    "schedule": {}
+  }
+}

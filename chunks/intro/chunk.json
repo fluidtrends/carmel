@@ -9,24 +9,9 @@
       "skipExtendedMenuOnDesktop": true,
       "extendedMenu": [
         {
-          "id": "tour",
-          "title": "Tour",
-          "path": "/tour"
-        },
-        {
-          "id": "guilds",
-          "title": "Guilds",
-          "path": "/guilds"
-        },
-        {
           "id": "beta",
           "title": "Beta",
           "path": "/beta"
-        },
-        {
-          "id": "learn",
-          "title": "Learn",
-          "path": "/learn"
         }
       ],
       "components": {
@@ -56,79 +41,6 @@
           "url": "https://www.youtube.com/watch?v=qrHBVDbrOOY",
           "image": "presentation.png",
           "textColor": "#37474F"
-        },
-        "features": [
-          {
-            "id": "feature-chris",
-            "source": "feature",
-            "text": "local://tour/chris-small",
-            "image": "chris.png",
-            "backgroundColor": "#f3ffff",
-            "actionTitle": "Join the Learners Guild",
-            "event": "beta",
-            "textColor": "#4e626c",
-            "animation": true
-          },
-          {
-            "id": "feature-bob",
-            "source": "feature",
-            "text": "local://tour/bob-small",
-            "image": "bob.png",
-            "backgroundColor": "#fff",
-            "actionTitle": "Join the Developers Guild",
-            "textColor": "#4e626c",
-            "reversed": "true",
-            "animation": true
-          },
-          {
-            "id": "feature-fred",
-            "source": "feature",
-            "text": "local://tour/fred-small",
-            "image": "fred.png",
-            "backgroundColor": "#f3ffff",
-            "actionTitle": "Join the Entrepreneurs Guild",
-            "textColor": "#4e626c",
-            "animation": true
-          },
-          {
-            "id": "feature-alice",
-            "source": "feature",
-            "text": "local://tour/alice-small",
-            "image": "alice.png",
-            "backgroundColor": "#fff",
-            "actionTitle": "Join the Teachers Guild",
-            "reversed": "true",
-            "textColor": "#4e626c",
-            "animation": true
-          },
-          {
-            "id": "feature-emma",
-            "source": "feature",
-            "text": "local://tour/emma-small",
-            "image": "emma.png",
-            "backgroundColor": "#f3ffff",
-            "actionTitle": "Join the Managers Guild",
-            "textColor": "#4e626c",
-            "animation": true
-          },
-          {
-            "id": "feature-diane",
-            "source": "feature",
-            "text": "local://tour/diane-small",
-            "image": "diane.png",
-            "backgroundColor": "#fff",
-            "actionTitle": "Join the Recruiters Guild",
-            "reversed": "true",
-            "textColor": "#4e626c",
-            "animation": true
-          }
-        ],
-        "reasons": {
-          "source": "columns",
-          "text": "local://tokens",
-          "backgroundColor": "#F3FFFF",
-          "iconColor": "#00bcd4",
-          "data": "https://raw.githubusercontent.com/fluidtrends/carmel/master/chunks/intro/data/tokenInfo.json"
         }
       },
       "path": "/",

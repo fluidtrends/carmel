@@ -1,3 +1,3 @@
-## Build Reputation
+## 2. Take Challenges
 
-Every completed challenge earns learners **experience points** and **badges** that they can proudly display on their **profile**.
+The more challenges you complete, the more achievements you unlock and the more **experience points** and **badges** you can proudly display on your **profile**.

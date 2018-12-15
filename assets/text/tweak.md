@@ -1,3 +1,3 @@
-## Tweak-N-Learn™
+## 1. Choose a Template
 
-Learners start with a real-world product and they learn by **tweaking** the product, challenge by challenge.
+Start with a real-world product and learn by **tweaking** the product, challenge by challenge, acquiring more and more skills in the process.

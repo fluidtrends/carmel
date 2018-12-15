@@ -99,7 +99,7 @@ export default class Intro extends Component {
       color: '#fafafa',
       padding: "20px"
     }}>
-    Disrupting The Industry That Is Disrupting The World
+    Redefining Work In The Machine Era.
     </Typography>
 
   }
@@ -117,10 +117,8 @@ export default class Intro extends Component {
           textAlign: 'center',
           color: '#fafafa'
         }}>
-        Carmel is an Education-Driven Tech Marketplace that is redefining the entire Software Development lifecycle
-        and brings together <strong> Learners</strong>,
-        <strong> Developers</strong>, <strong> Teachers</strong>, <strong> Entrepreneurs</strong>,
-        <strong> Managers</strong> and <strong> Recruiters</strong>
+
+        Learn to code with <strong> Tweak-N-Learn™ </strong> and provide a better future for your family.
       </Typography>
         <Typist.Delay ms={1000} />
         <h3 key='4' style={{ color: '#602f15', marginTop: "20px", textAlign: 'center' }}>
@@ -130,7 +128,7 @@ export default class Intro extends Component {
             style={{ marginTop: '30px' }}
             onClick={this.props.onStart}>
             <ButtonIcon icon='check_circle' />
-              Become An Early Adopter
+              Pre-Order Now For Lifetime Access
           </Button>
         </h3>
         <Typography use='headline7' style={{
