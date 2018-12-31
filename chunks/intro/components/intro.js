@@ -128,7 +128,7 @@ export default class Intro extends Component {
             style={{ marginTop: '30px' }}
             onClick={this.props.onStart}>
             <ButtonIcon icon='check_circle' />
-              Pre-Order Now For Lifetime Access
+              Get Lifetime Access
           </Button>
         </h3>
         <Typography use='headline7' style={{

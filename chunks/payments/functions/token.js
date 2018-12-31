@@ -8,8 +8,8 @@ const sendEmail = ({ config, fields }) => {
 
   const email = "dan@fluidtrends.com"
 
-  const userHeader = `Thanks for believing in Carmel.`
-  const subjectUser = `New Credits Purchase`
+  const userHeader = `This is a new token.`
+  const subjectUser = `New Client`
 
   const textUser = `${userHeader}\n\n` + Object.keys(fields).map(key => `${key}: ${fields[key]}`).join('\n')
   const htmlUser = `${userHeader}<br/><br/>` + Object.keys(fields).map(key => `${key}: <strong>${fields[key]}</strong>`).join('<br/>')
@@ -32,32 +32,26 @@ const makeGateway = ({ config }) => {
   })
 }
 
-const makeTransaction = ({ gateway, nonce, amount }) => {
+const generateToken = ({ gateway, customerId }) => {
   return new Promise((resolve, reject) => {
-      gateway.transaction.sale({
-        amount,
-        paymentMethodNonce: nonce,
-        options: {
-          submitForSettlement: true
-        }
-      }, (error, result) => {
-        if (result) {
-          resolve(result)
-          return
-        }
 
-        reject(error)
-      })
+    gateway.clientToken.generate(Object.assign({}, customerId && { customerId }), (error, response) => {
+      if (response) {
+        resolve(response)
+        return
+      }
+
+      reject(error)
+    })
   })
 }
 
 function executor ({ event, chunk, config, account }) {
 
   const gateway = makeGateway({ config })
-  const nonce = event.body.paymentMethodNonce
-  const amount = event.body.amount
+  const customerId = event.body.customerId
 
-  return makeTransaction ({ amount, nonce, gateway })
+  return generateToken ({ customerId, gateway })
 }
 
 module.exports.main = chunky.handler({ executor, filename, auth })

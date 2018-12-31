@@ -2,12 +2,28 @@
   "name": "payments",
   "routes": {
     "main": {
-      "title": "Pre-Order Now",
+      "title": "Early Access",
       "icon": "account_balance_wallet",
-      "path": "/order",
+      "path": "/pricing",
       "action": "true",
       "startOperationsOnMount": false,
-      "components": {
+      "operations": {
+        "getToken": [
+          "rest://create/payments/token#getToken",
+          {
+            "onSuccess": "gotToken",
+            "onError": "tokenError"
+          }
+        ],
+        "pay": [
+          "rest://create/payments/pay#pay",
+          {
+            "onSuccess": "paymentOk",
+            "onError": "paymentError"
+          }
+        ]
+      },
+      "components3": {
         "intro": {
           "source": "summary",
           "text": "local://preorder",
@@ -15,21 +31,44 @@
           "textColor": "#37474F"
         }
       }
+    },
+    "checkout": {
+      "title": "Checkout",
+      "icon": "account_balance_wallet",
+      "path": "/checkout",
+      "startOperationsOnMount": false,
+      "operations": {
+        "getToken": [
+          "rest://create/payments/token#getToken",
+          {
+            "onSuccess": "gotToken",
+            "onError": "tokenError"
+          }
+        ],
+        "pay": [
+          "rest://create/payments/pay#pay",
+          {
+            "onSuccess": "paymentOk",
+            "onError": "paymentError"
+          }
+        ]
+      }
     }
   },
   "service": {
     "functions": [
-      "post://checkout#checkout"
+      "post://pay#pay",
+      "post://token#token"
     ],
     "dependencies": {
       "braintree": "latest"
     },
     "requiredFields": {},
     "permissions": {
-      "newTopup": [
+      "pay": [
         "ses:SendEmail"
       ],
-      "checkout": [
+      "token": [
         "ses:SendEmail"
       ]
     },

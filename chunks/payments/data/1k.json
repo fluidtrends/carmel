@@ -1,0 +1,26 @@
+{
+  "item": {
+    "id": "lifetimeSubscription",
+    "name": "Lifetime Subscription",
+    "price": 395,
+    "prompt": "Get more Lifetime Subscriptions to sponsor those who can't afford it and become one of our #CarmelAngels",
+    "description": "Become one of the first 1,000 Carmel Customers"
+  },
+  "benefits": [{
+        "title": "And Get A Lifetime Subscription"
+      }, {
+        "title": "Unlimited Access To All Premium Challenges"
+      }, {
+        "title": "Qualify For Monthly Token Rewards"
+      }, {
+        "title": "Get Early Access To Future New Features"
+      }, {
+        "title": "Get A Limited-Edition \"H>m\" Carmel T-Shirt"
+      }, {
+        "title": "Reserve Your Carmel Username Before Everyone Else"
+      }, {
+        "title": "Receive A #Carmel1K Badge Next To Your Username"
+      }, {
+        "title": "Oh - And You Get To Brag Forever That You're a #Carmel1K-er"
+      }]
+}
