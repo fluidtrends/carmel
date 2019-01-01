@@ -32,7 +32,7 @@ export default class MainIntroScreen extends Screen {
   }
 
   onStart() {
-    this.triggerRedirect('/order')
+    this.triggerRedirect('/pricing')
   }
 
   meetChris() {
