@@ -4,8 +4,6 @@ const braintree = require('braintree')
 const filename = __filename
 const auth = { limit: 1 }
 
-const Carmel1K = require('./data/1k.json')
-
 const sendEmail = ({ config, total }) => {
 
   const email = "dan@fluidtrends.com"
@@ -42,6 +40,7 @@ const createPayment = ({ account, config, data }) => {
     userIsMember
   }, data, userIsMember && {
     userId: account.user.uid,
+    userEmail: account.user.email,
     join: {
       users: {
         id: account.user.uid
@@ -53,7 +52,8 @@ const createPayment = ({ account, config, data }) => {
 }
 
 const makeTransaction = ({ gateway, cart, total, payment, email }) => {
-  const fields = {}
+  const fields = {
+  }
 
   return new Promise((resolve, reject) => {
       gateway.transaction.sale(Object.assign({}, {
@@ -82,22 +82,23 @@ function executor ({ event, chunk, config, account }) {
   const email = event.body.email
   const name = event.body.name
 
-  const firstName = name.split()[0]
-  const lastName = name.split().length > 1 ? name.split()[0] : ""
+  const firstName = name.split(" ")[0]
+  const lastName = name.split(" ").length > 1 ? name.split(" ")[0] : ""
+  const customer = { email, firstName, lastName }
 
   return makeTransaction ({ cart, total, payment, gateway, email })
-         .then((result) => createPayment({ account, config, data: {
+         .then((result) => createPayment({ account, config, data: Object.assign({}, {
            total,
-           customer: {
-             email,
-             firstName,
-             lastName
-           },
+           email,
+           name,
+           result,
+         }, result.transaction && {
+           success: result.success,
+           status: result.transaction.status,
            transactionId: result.transaction.id,
-           networkTransactionId: result.transaction.networkTransactionId,
            transactionGlobalId: result.transaction.globalId
-         }}))
-         .then(() => sendEmail({ total, config }))
+         })}))
+         // .then(() => sendEmail({ total, config }))
 }
 
 module.exports.main = chunky.handler({ executor, filename, auth })

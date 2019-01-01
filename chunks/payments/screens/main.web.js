@@ -17,7 +17,7 @@ import {
   List,
   SimpleListItem
 } from '@rmwc/list'
-import Carmel1K from '../data/1k.json'
+import Carmel1K from '../functions/1k.json'
 import { Data } from 'react-chunky'
 
 export default class EarlyAccessScreen extends Screen {

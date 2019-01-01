@@ -23,8 +23,9 @@ import { IconButton } from '@rmwc/icon-button'
 import { Data } from 'react-chunky'
 import { TextField, TextFieldIcon, TextFieldHelperText } from '@rmwc/textfield'
 import { Form, Input } from 'antd'
-const FormItem = Form.Item
 import * as EmailValidator from 'email-validator'
+import Carmel1K from '../functions/1k.json'
+const FormItem = Form.Item
 
 export default class CreateScreen extends Screen {
 
@@ -66,7 +67,7 @@ export default class CreateScreen extends Screen {
   }
 
   goToAccount() {
-    this.triggerRedirect(this.isLoggedIn ? "/me" : "/register")
+    this.triggerRedirect(this.state.paymentSuccess ? (this.isLoggedIn ? "/me" : "/register") : "/pricing")
   }
 
   makePayment() {
@@ -74,7 +75,7 @@ export default class CreateScreen extends Screen {
 
     this.state.clientService.requestPaymentMethod((error, response) =>  {
       if (error || !response || !response.nonce) {
-        this.makePayment()
+
         return
       }
 
@@ -89,7 +90,18 @@ export default class CreateScreen extends Screen {
   }
 
   paymentOk(response) {
-    this.setState({ paying: false, paid: true })
+    console.log(response)
+
+    if (!response.ok) {
+      this.makePayment()
+      return
+    }
+    console.log(response)
+
+    const paymentSuccess = response.data.success
+    const paymentStatus = response.data.status
+
+    this.setState({ paying: false, paid: true, paymentSuccess, paymentStatus })
   }
 
   paymentError(error) {
@@ -105,6 +117,13 @@ export default class CreateScreen extends Screen {
     }
 
     const clientToken = response.data.clientToken
+    const carmel1K = response.data.Carmel1K
+
+    if (carmel1K.item.id !== Carmel1K.item.id ||
+       carmel1K.item.price !== Carmel1K.item.price) {
+       this.triggerRedirect("/pricing")
+       return
+    }
 
     braintree.dropin.create({
       authorization: clientToken,
@@ -171,7 +190,8 @@ export default class CreateScreen extends Screen {
 
   renderPaymentForm() {
     if (this.state.paid) {
-      const action = this.isLoggedIn ? "Go To Your Account" : "Get A Carmel Account"
+      const action = this.state.paymentSuccess ? (this.isLoggedIn ? "Go To Your Account" : "Get A Carmel Account") : "Try again"
+
       return <div>
        <Button
           onClick={this._goToAccount}
@@ -180,7 +200,7 @@ export default class CreateScreen extends Screen {
             height: "50px",
             width: "100%"
           }}>
-          <ButtonIcon icon="account_circle"/> { action }
+          { action }
       </Button>
       </div>
     }
@@ -262,8 +282,8 @@ export default class CreateScreen extends Screen {
   renderPayment() {
     const width = this.isSmallScreen ? "90vw" : "750px"
     const heading = this.isSmallScreen ? "headline5" : "headline4"
-    const title = this.state.paid ? "Welcome to the #Carmel1K Club" : "Finish Your Purchase"
-    const subtitle = this.state.paid ? "Thanks for joining the Carmel Mission" : "Oh you're so close - almost there"
+    const title = this.state.paid ? (this.state.paymentSuccess ? "Welcome to the #Carmel1K Club" : "Your payment did not go through :(") : "Finish Your Purchase"
+    const subtitle = this.state.paid ? (this.state.paymentSuccess ? "Thanks for joining the Carmel Mission" : this.state.paymentStatus) : "Oh you're so close - almost there"
 
     return <Card style={{ margin: "10px", width }}>
         <div style={{ padding: '30px', marginTop: "20px" }}>

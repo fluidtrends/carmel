@@ -4,6 +4,8 @@ const braintree = require('braintree')
 const filename = __filename
 const auth = { limit: 1 }
 
+const Carmel1K = require('./1k.json')
+
 const sendEmail = ({ config, fields }) => {
 
   const email = "dan@fluidtrends.com"
@@ -37,7 +39,7 @@ const generateToken = ({ gateway, customerId }) => {
 
     gateway.clientToken.generate(Object.assign({}, customerId && { customerId }), (error, response) => {
       if (response) {
-        resolve(response)
+        resolve(Object.assign({}, { Carmel1K }, response))
         return
       }
 
