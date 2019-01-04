@@ -4,6 +4,19 @@ body {
   overflow-x: hidden;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: inherit;
+}
+
+strong {
+  font-weight: bold;
+}
+
 .container {
   max-width: 24rem;
   margin: 1rem auto;
