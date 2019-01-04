@@ -1,18 +1,25 @@
 import React from 'react'
 import { Screen } from 'react-dom-chunky'
-import challengesData from '../../../challenges/index'
-import ChallengeCard from '../components/challengeCard'
-import ChallengePlayground from '../components/challengePlayground'
 import { Row, Col } from 'antd'
+import ChallengePlayground from '../components/challengePlayground'
+import ChallengeCard from '../components/challengeCard'
 
 export default class ChallengesScreen extends Screen {
   constructor(props) {
     super(props)
-    this.state = { ...this.state, selectedChallenge: null }
+    this.state = { ...this.state, selectedChallenge: null, defaults: null }
   }
 
   componentDidMount() {
     super.componentDidMount()
+    this._examples = this.importData('defaults')
+    this.setState({
+      defaults: this.examples
+    })
+  }
+
+  get examples() {
+    return this._examples || {}
   }
 
   selectChallenge = selectedChallenge => {
@@ -20,8 +27,15 @@ export default class ChallengesScreen extends Screen {
   }
 
   renderChallenges() {
+    const challengesData = require('challenges/index.json')
+
     if (this.state.selectedChallenge) {
-      return <ChallengePlayground challenge={this.state.selectedChallenge} />
+      return (
+        <ChallengePlayground
+          challenge={this.state.selectedChallenge}
+          defaults={this.state.defaults && this.state.defaults.coverDefaults}
+        />
+      )
     }
     return (
       <Row gutter={26} style={{ padding: '20px' }}>

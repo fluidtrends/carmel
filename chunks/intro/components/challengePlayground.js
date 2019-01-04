@@ -12,17 +12,12 @@ export default class ChallengePlayground extends Component {
 
     this.state = {
       startedTask: false,
-      selectedTask: null,
-      defaults: null,
-      newValues: null
+      selectedTask: null
     }
   }
 
   componentDidMount() {
     super.componentDidMount()
-    this.setState({
-      defaults: require('../data/coverDefaults.json').coverDefaults
-    })
   }
 
   selectTask = selectedTask => {
@@ -40,9 +35,9 @@ export default class ChallengePlayground extends Component {
   }
 
   render() {
-    const { challenge } = this.props
+    const { challenge, defaults } = this.props
     const { taskIds, id } = challenge
-    const { defaults, newValues } = this.state
+    const { newValues } = this.state
 
     const columnStyle = {}
     return (
@@ -71,9 +66,7 @@ export default class ChallengePlayground extends Component {
             {this.state.startedTask ? (
               <Editor
                 value={JSON.stringify(
-                  this.state.newValues
-                    ? this.state.newValues
-                    : this.state.defaults,
+                  this.state.newValues ? this.state.newValues : defaults,
                   null,
                   '\t'
                 )}
@@ -87,7 +80,7 @@ export default class ChallengePlayground extends Component {
         <Row>
           <Col style={columnStyle} span={12}>
             <div>CHUNKY PRODUCT</div>
-            {this.state.defaults && (
+            {defaults && (
               <ChunkyProduct
                 source={(newValues && newValues.source) || defaults.source}
                 image={(newValues && newValues.image) || defaults.image}
