@@ -1,4 +1,5 @@
 {
+  "id": "helloWorld",
   "title": "Hello World",
   "summary": "Start creating your personal brand in minutes",
   "author": {
@@ -8,9 +9,5 @@
   },
   "level": 0,
   "skills": ["json", "web", "copywriting", "branding"],
-  "taskIds": [
-    "changeMenuTitle",
-		"changeIntroTitle",
-		"changeIntroSubtitle"
-  ]
+  "taskIds": ["changeMenuTitle", "changeIntroTitle", "changeIntroSubtitle"]
 }
