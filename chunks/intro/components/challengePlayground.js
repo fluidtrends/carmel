@@ -71,6 +71,18 @@ export default class ChallengePlayground extends Component {
                   '\t'
                 )}
                 onChange={val => this.handleEditorChange(val)}
+                mode="json"
+                theme="monokai"
+                name="editor"
+                fontSize={14}
+                style={{ width: '100%' }}
+                showPrintMargin={true}
+                showGutter={true}
+                highlightActiveLine={true}
+                setOptions={{
+                  showLineNumbers: true,
+                  tabSize: 2
+                }}
               />
             ) : (
               <div>Start a task in order to use the editor</div>
