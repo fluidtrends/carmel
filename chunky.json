@@ -52,7 +52,8 @@
     "footerColor": "#546E7A",
     "footerBottomColor": "#37474F",
     "footerSocialIconsColor": "#CFD8DC",
-    "footerSocialIconsColorHover": "#0097A7"
+    "footerSocialIconsColorHover": "#0097A7",
+    "notFoundPageText": "local://404"
   },
   "info": {
     "copyright": "© 2019",
