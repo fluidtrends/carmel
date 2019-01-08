@@ -1,0 +1,15 @@
+{
+  "image": "https://github.com/fluidtrends/carmel/blob/master/assets/cover-developer.png?raw=true",
+  "opacity": 0.5,
+  "title": "Cover Example",
+  "subtitle": "Subtitle",
+  "type": "default",
+  "titleStyle": {
+    "margin": 20,
+    "color": "#fff"
+  },
+  "subtitleStyle": {
+    "margin": 20,
+    "color": "#ff0000"
+  }
+}

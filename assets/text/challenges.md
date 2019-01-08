@@ -1,5 +1,9 @@
-# Carmel goal is to teach **you** to **code** real **products**
+# Carmel tries to **disrupt** traditional tech education by introducing **tweak-n-learn** concept. Where you will start **coding** like a **real developer**.
 
-## In order to do that we setup up **challenges** that will help you **micro-learn** in order for you to be able to land a tech job.
+## By using our services you will be able to create products such as: [eosnation.io](https://eosnation.io), [robipop.io](https://robipop.io) and even [carmel.io](https://carmel.io) was built using **Carmel**.
 
-## Bellow you can find a list of challenges (more to come)
+# With Carmel **everyone** can be a **developer**.
+
+## You aren't convinced 🤷‍♂️?
+
+## Take up the initial **challenge** 💪 to see how simple is to develop **Real Life Products** with the help of **Carmel**

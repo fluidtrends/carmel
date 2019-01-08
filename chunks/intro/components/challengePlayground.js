@@ -35,24 +35,89 @@ export default class ChallengePlayground extends Component {
   }
 
   render() {
-    const { challenge, defaults } = this.props
+    const { challenge, defaults, initial } = this.props
     const { taskIds, id } = challenge
     const { newValues } = this.state
 
-    const columnStyle = {}
+    const columnStyle = { padding: '20px' }
+    if (initial) {
+      return (
+        <React.Fragment>
+          <Row style={{ margin: '10px 20px' }}>
+            <Col style={columnStyle} span={10}>
+              <Task
+                goBack={() => this.props.giveUp()}
+                verify={() =>
+                  this.props.verify(taskIds[0], this.state.newValues)
+                }
+                task={require(`../../../challenges/${id}/${
+                  taskIds[0]
+                }/index.json`)}
+              />
+            </Col>
+            <Col style={columnStyle} span={14}>
+              <Editor
+                value={JSON.stringify(
+                  this.state.newValues ? this.state.newValues : defaults,
+                  null,
+                  '\t'
+                )}
+                onChange={val => this.handleEditorChange(val)}
+                mode="json"
+                theme="monokai"
+                name="editor"
+                fontSize={14}
+                style={{ width: '100%' }}
+                showPrintMargin={true}
+                showGutter={true}
+                highlightActiveLine={true}
+                setOptions={{
+                  showLineNumbers: true,
+                  tabSize: 2
+                }}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col style={columnStyle} span={12}>
+              {defaults && (
+                <ChunkyProduct
+                  source={(newValues && newValues.source) || defaults.source}
+                  image={(newValues && newValues.image) || defaults.image}
+                  opacity={(newValues && newValues.opacity) || defaults.opacity}
+                  title={(newValues && newValues.title) || defaults.title}
+                  type={(newValues && newValues.type) || defaults.type}
+                  subtitle={
+                    (newValues && newValues.subtitle) || defaults.subtitle
+                  }
+                  titleStyle={
+                    (newValues && newValues.titleStyle) || defaults.titleStyle
+                  }
+                  subtitleStyle={
+                    (newValues && newValues.subtitleStyle) ||
+                    defaults.subtitleStyle
+                  }
+                />
+              )}
+            </Col>
+          </Row>
+        </React.Fragment>
+      )
+    }
     return (
       <React.Fragment>
         <Row style={{ margin: '10px 20px' }}>
           <Col style={columnStyle} span={8}>
-            <div>TASKS</div>
             {this.state.startedTask ? (
               <Task
                 goBack={() => this.resetTask()}
+                verify={() => this.props.verify(this.state.selectedTask.id)}
                 task={require(`../../../challenges/${id}/${
                   this.state.selectedTask.id
                 }/index.json`)}
               />
             ) : (
+              taskIds &&
               taskIds.map(task => (
                 <TaskCard
                   task={require(`../../../challenges/${id}/${task}/index.json`)}
@@ -62,7 +127,6 @@ export default class ChallengePlayground extends Component {
             )}
           </Col>
           <Col style={columnStyle} span={16}>
-            <div>EDITOR</div>
             {this.state.startedTask ? (
               <Editor
                 value={JSON.stringify(
@@ -91,10 +155,8 @@ export default class ChallengePlayground extends Component {
         </Row>
         <Row>
           <Col style={columnStyle} span={12}>
-            <div>CHUNKY PRODUCT</div>
             {defaults && (
               <ChunkyProduct
-                source={(newValues && newValues.source) || defaults.source}
                 image={(newValues && newValues.image) || defaults.image}
                 opacity={(newValues && newValues.opacity) || defaults.opacity}
                 title={(newValues && newValues.title) || defaults.title}

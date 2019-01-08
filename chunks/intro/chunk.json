@@ -278,7 +278,7 @@
       "icon": "favorite",
       "path": "/challenges",
       "action": true,
-      "variants": "defaults",
+      "variants": "initial",
       "events": {
         "cover": "system://challenges"
       },
