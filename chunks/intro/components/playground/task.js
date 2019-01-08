@@ -9,21 +9,38 @@ const Task = props => (
   >
     <p>{props.task.instructions}</p>
     <p>{props.task.help}</p>
-    <Button
-      onClick={() => props.goBack()}
-      style={{
-        display: 'flex',
-        color: '#ffffff',
-        backgroundColor: '#006064',
-        border: 'none',
-        margin: '10px auto 0',
-        height: '35px',
-        lineHeight: '15px'
-      }}
-    >
-      <Icon type="arrow-left" />
-      Go back
-    </Button>
+    <div style={{ display: 'flex', flexDirection: 'row' }}>
+      <Button
+        onClick={() => props.goBack()}
+        style={{
+          display: 'flex',
+          color: '#ffffff',
+          backgroundColor: '#006064',
+          border: 'none',
+          margin: '10px auto 0',
+          height: '35px',
+          lineHeight: '15px'
+        }}
+      >
+        <Icon type="arrow-left" />
+        Go back
+      </Button>
+      <Button
+        onClick={() => props.verify()}
+        style={{
+          display: 'flex',
+          color: '#ffffff',
+          backgroundColor: `#4CAF50`,
+          border: 'none',
+          margin: '10px auto 0',
+          height: '35px',
+          lineHeight: '15px'
+        }}
+      >
+        <Icon type="check-circle" />
+        Verify Task
+      </Button>
+    </div>
   </Card>
 )
 
