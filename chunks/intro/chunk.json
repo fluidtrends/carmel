@@ -89,12 +89,11 @@
       "cover": {
         "backgroundColor": "#61AFE1",
         "align": "bottom",
-        "opacity": 0.9,
+        "opacity": 0.3,
         "navigation": true,
         "title": "Meet The Team",
-        "type": "presentation",
-        "image": "https://raw.githubusercontent.com/fluidtrends/carmel/master/assets/people.png",
-        "imageSmall": "https://raw.githubusercontent.com/fluidtrends/carmel/master/assets/people.png"
+        "type": "default",
+        "image": "services.r.png"
       }
     },
     "roadmap": {

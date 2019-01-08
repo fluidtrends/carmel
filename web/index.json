@@ -38,6 +38,11 @@
             "link": "http://github.com/fluidtrends/carmel"
           },
           {
+            "id": "team",
+            "title": "Team",
+            "link": "https://carmel.io/team"
+          },
+          {
             "id": "channel",
             "title": "Discussions",
             "link": "http://t.me/carmelplatform"
