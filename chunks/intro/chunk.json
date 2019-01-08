@@ -271,26 +271,6 @@
           "textColor": "#37474F"
         }
       }
-    },
-    "challenges": {
-      "title": "Challenges",
-      "icon": "favorite",
-      "path": "/challenges",
-      "action": true,
-      "variants": "initial",
-      "events": {
-        "cover": "system://challenges"
-      },
-      "components": {
-        "intro": {
-          "source": "summary",
-          "text": "local://challenges",
-          "textColor": "#00ACC1",
-          "animation": true,
-          "animationType": "zoom",
-          "animationOptions": ["top"]
-        }
-      }
     }
   }
 }

@@ -10,6 +10,7 @@
         "intro",
         "beta",
         "story",
+        "challenges",
         "payments",
         "auth",
         "studio"
@@ -18,24 +19,17 @@
     "dashboard": {
       "private": true,
       "layout": "sidebar",
-      "stack": [
-        "payments",
-        "auth"
-      ]
+      "stack": ["payments", "auth"]
     }
   },
-  "transitions": [
-    "replace://start"
-  ],
+  "transitions": ["replace://start"],
   "provisioning": {
     "rest": {
       "url": "https://api.carmel.io"
     }
   },
   "build": {
-    "platforms": [
-      "darwin/x64"
-    ]
+    "platforms": ["darwin/x64"]
   },
   "theme": {
     "logoImage": "carmel-logo-white.png",

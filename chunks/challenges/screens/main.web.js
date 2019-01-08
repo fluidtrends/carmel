@@ -13,7 +13,7 @@ const confettiConfig = {
   elementCount: 50,
   decay: 0.9
 }
-export default class ChallengesScreen extends Screen {
+export default class MainChallengesScreen extends Screen {
   constructor(props) {
     super(props)
     this.state = {
