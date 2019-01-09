@@ -19,16 +19,6 @@
         "link": "https://t.me/carmelbeta",
         "type": "default",
         "image": "beta.r.png"
-      },
-      "components": {
-        "intro": {
-          "source": "summary",
-          "text": "local://challenges",
-          "textColor": "#00ACC1",
-          "animation": true,
-          "animationType": "zoom",
-          "animationOptions": ["top"]
-        }
       }
     }
   }
