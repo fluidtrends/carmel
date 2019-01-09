@@ -38,13 +38,14 @@ export default class MainChallengesScreen extends Screen {
   }
 
   selectChallenge = selectedChallenge => {
-    this.setState({ selectedChallenge })
+    this.props.history.push(`challenge/${selectedChallenge.id}`)
   }
 
   verifyTask = (task, editorValue) => {
     if (!this.state.initialChallengeCompleted) {
       // no changes has been made to the editor
       if (!editorValue) {
+        // randomize this with an array
         message.error('I know you can do it!')
         return
       }
