@@ -8,7 +8,7 @@
     "start": {
       "stack": [
         "intro",
-        "beta",
+        "download",
         "story",
         "challenges",
         "payments",

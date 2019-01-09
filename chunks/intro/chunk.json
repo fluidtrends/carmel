@@ -9,9 +9,9 @@
       "skipExtendedMenuOnDesktop": true,
       "extendedMenu": [
         {
-          "id": "beta",
-          "title": "Beta",
-          "path": "/beta"
+          "id": "download",
+          "title": "Download",
+          "path": "/download"
         }
       ],
       "components": {
@@ -111,10 +111,10 @@
         "imageSmall": "https://raw.githubusercontent.com/fluidtrends/carmel/master/assets/distribution.png"
       }
     },
-    "beta": {
-      "title": "Beta",
+    "download": {
+      "title": "Download",
       "icon": "supervisor_account",
-      "path": "/beta",
+      "path": "/download",
       "events": {
         "cover": "https://t.me/carmelbeta"
       },

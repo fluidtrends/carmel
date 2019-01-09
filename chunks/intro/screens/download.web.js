@@ -15,7 +15,7 @@ const StudioVersions = {
   "Linux": "http://files.carmel.io/studio/Carmel.7z"
 }
 
-export default class MainPersonScreen extends Screen {
+export default class DownloadScreen extends Screen {
   constructor (props) {
     super(props)
     this.state = { ...this.state }
