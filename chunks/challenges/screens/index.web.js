@@ -1,2 +1,6 @@
 export { default as main } from './main.web'
-export { default as initialChallenge } from './challenges/initial.web'
+export { default as initialChallenge1 } from './challenges/challenge.web'
+export { default as initialChallenge2 } from './challenges/challenge.web'
+export { default as initialChallenge3 } from './challenges/challenge.web'
+export { default as initialChallenge4 } from './challenges/challenge.web'
+export { default as initialChallenge5 } from './challenges/challenge.web'
