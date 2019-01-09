@@ -12,13 +12,13 @@ export default class MainStudioScreen extends Screen {
     super(props)
     this.state = { ...this.state, activeTabIndex: 0 }
   }
-
-  changeOs (evt) {
-    this.setState({ 'activeTabIndex': evt.detail.index })
-  }
-
+  
   componentDidMount () {
     super.componentDidMount()
+  }
+  
+  changeOs (evt) {
+    this.setState({ 'activeTabIndex': evt.detail.index })
   }
 
   download (os) {
