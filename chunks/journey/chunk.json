@@ -15,8 +15,6 @@
         "opacity": 0.6,
         "navigation": true,
         "title": "Become An Early Adopter",
-        "primaryActionTitle": "Download the Studio",
-        "link": "https://t.me/carmelbeta",
         "type": "default",
         "image": "beta.r.png"
       }
