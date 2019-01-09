@@ -38,7 +38,7 @@ export default class MainChallengesScreen extends Screen {
   }
 
   selectChallenge = selectedChallenge => {
-    this.props.history.push(`challenge/${selectedChallenge.id}`)
+    this.props.history.push(`challenges/${selectedChallenge.id}`)
   }
 
   verifyTask = (task, editorValue) => {
