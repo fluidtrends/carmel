@@ -4,7 +4,6 @@ import { Row, Col, message } from 'antd'
 import ChallengePlayground from '../components/challengePlayground'
 import ChallengeCard from '../components/challengeCard'
 import InitialChallenge from '../components/initialChallenge'
-import Confetti from 'react-dom-confetti'
 
 const confettiConfig = {
   angle: 50,
@@ -83,12 +82,7 @@ export default class MainChallengesScreen extends Screen {
 
     return (
       <Row gutter={26} style={{ padding: '20px' }}>
-        <div style={{ position: 'absolute', height: '100%', width: '100%' }}>
-          <Confetti
-            active={this.state.initialTaskSucceeded}
-            config={confettiConfig}
-          />
-        </div>
+        <div style={{ position: 'absolute', height: '100%', width: '100%' }} />
         {this.state.initialTaskSucceeded && (
           <Components.Text source={'local://initial-success'} />
         )}
