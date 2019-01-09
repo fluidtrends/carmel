@@ -1,0 +1,35 @@
+{
+  "name": "journey",
+  "routes": {
+    "main": {
+      "title": "journey",
+      "icon": "favorite",
+      "path": "/@",
+      "variants": "initial",
+      "events": {
+        "cover": "system://journey"
+      },
+      "cover": {
+        "backgroundColor": "#61AFE1",
+        "align": "bottom",
+        "opacity": 0.6,
+        "navigation": true,
+        "title": "Become An Early Adopter",
+        "primaryActionTitle": "Download the Studio",
+        "link": "https://t.me/carmelbeta",
+        "type": "default",
+        "image": "beta.r.png"
+      },
+      "components": {
+        "intro": {
+          "source": "summary",
+          "text": "local://challenges",
+          "textColor": "#00ACC1",
+          "animation": true,
+          "animationType": "zoom",
+          "animationOptions": ["top"]
+        }
+      }
+    }
+  }
+}
