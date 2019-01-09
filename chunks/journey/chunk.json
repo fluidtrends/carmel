@@ -1,0 +1,23 @@
+{
+  "name": "journey",
+  "routes": {
+    "main": {
+      "title": "journey",
+      "icon": "favorite",
+      "path": "/@",
+      "variants": "initial",
+      "events": {
+        "cover": "system://journey"
+      },
+      "cover": {
+        "backgroundColor": "#61AFE1",
+        "align": "bottom",
+        "opacity": 0.6,
+        "navigation": true,
+        "title": "Become An Early Adopter",
+        "type": "default",
+        "image": "beta.r.png"
+      }
+    }
+  }
+}
