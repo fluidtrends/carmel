@@ -468,3 +468,7 @@ strong {
 .ant-carousel .slick-dots li.slick-active button {
   background-color: #00838f;
 }
+
+.anticon svg {
+  display: none;
+}
