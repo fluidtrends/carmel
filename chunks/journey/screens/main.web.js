@@ -18,7 +18,7 @@ export default class MainChallengesScreen extends Screen {
 
   get cover () {
     return Object.assign({}, this.props.cover, {
-      title: `${this.username}'s #CarmelStory`
+      title: this.username? `${this.username}'s #CarmelJourney` : 'Carmel Journeys'
     })
   }
 
