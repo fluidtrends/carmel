@@ -11,11 +11,11 @@ for (let i = 0; i < challenges.length; i++) {
     })
     .replace(/^_/, '')
 
-  initialObj.routes[`initialChallenge${i + 1}`] = {}
-  initialObj.routes[`initialChallenge${i + 1}`]['title'] = challenges[i]
-  initialObj.routes[`initialChallenge${i + 1}`]['icon'] = 'favorite'
-  initialObj.routes[`initialChallenge${i + 1}`]['path'] = `/challenge/${path}`
-  initialObj.routes[`initialChallenge${i + 1}`].components = {}
+  initialObj.routes[`challenge${i + 1}`] = {}
+  initialObj.routes[`challenge${i + 1}`]['title'] = challenges[i]
+  initialObj.routes[`challenge${i + 1}`]['icon'] = 'favorite'
+  initialObj.routes[`challenge${i + 1}`]['path'] = `/challenge/${path}`
+  initialObj.routes[`challenge${i + 1}`].components = {}
 }
 additionalConfig = { ...initialObj }
 
