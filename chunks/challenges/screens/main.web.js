@@ -5,16 +5,14 @@ import ChallengePlayground from '../components/challengePlayground'
 import ChallengeCard from '../components/challengeCard'
 import InitialChallenge from '../components/initialChallenge'
 import Challenge from '../components/Challenge'
+import { Data } from 'react-chunky'
 
 export default class MainChallengesScreen extends Screen {
   constructor(props) {
     super(props)
     this.state = {
       ...this.state,
-      selectedChallenge: null,
-      initial: null,
-      initialChallengeCompleted: false,
-      initialTaskSucceeded: false
+      initialChallengeCompleted: false
     }
   }
 
@@ -25,6 +23,13 @@ export default class MainChallengesScreen extends Screen {
       initial: this.examples
     })
     this._challenge = this.props.location.pathname.split('/')[2]
+    Data.Cache.retrieveCachedItem('initialChallengeCompleted')
+      .then(() => {
+        this.setState({ initialChallengeCompleted: true })
+      })
+      .catch(error => {
+        this.setState({ initialChallengeCompleted: false })
+      })
   }
 
   get examples() {
@@ -39,45 +44,8 @@ export default class MainChallengesScreen extends Screen {
     this.props.history.push(`challenges/${selectedChallenge.id}`)
   }
 
-  verifyTask = (task, editorValue) => {
-    if (!this.state.initialChallengeCompleted) {
-      // no changes has been made to the editor
-      if (!editorValue) {
-        // randomize this with an array
-        message.error('I know you can do it!')
-        return
-      }
-      if (JSON.stringify(editorValue) === JSON.stringify(this.state.initial)) {
-        message.error('Come on, I believe in you!')
-        return
-      } else {
-        this.setState({
-          initialChallengeCompleted: true,
-          selectedChallenge: null,
-          initialTaskSucceeded: true
-        })
-      }
-    } else {
-      // call api for verifying other tasks
-    }
-  }
-
   renderChallenges() {
     const challengesData = require('challenges/index.json')
-
-    if (this.state.selectedChallenge) {
-      return (
-        <ChallengePlayground
-          challenge={this.state.selectedChallenge}
-          defaults={this.state.initial}
-          initial={!this.state.initialChallengeCompleted}
-          giveUp={() => {
-            this.setState({ selectedChallenge: null })
-          }}
-          verify={(task, editorValue) => this.verifyTask(task, editorValue)}
-        />
-      )
-    }
 
     return (
       <Row gutter={26} style={{ padding: '20px' }}>
@@ -121,6 +89,7 @@ export default class MainChallengesScreen extends Screen {
             challenge={require(`../../../challenges/${
               this.challenge
             }/index.json`)}
+            showChallenges={() => this.props.history.goBack()}
           />
         ) : (
           <React.Fragment>

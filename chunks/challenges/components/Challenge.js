@@ -1,9 +1,8 @@
 import React from 'react'
 import { Component, Components } from 'react-dom-chunky'
-import { Row, Col } from 'antd'
+import { Row, Col, message, Button, Icon } from 'antd'
 import ChallengePlayground from './challengePlayground'
-import ChallengeCard from './challengeCard'
-import InitialChallenge from './initialChallenge'
+import { Data } from 'react-chunky'
 
 const challengesData = require('challenges/index.json')
 
@@ -12,7 +11,10 @@ export default class Challenge extends Component {
     super(props)
 
     this.state = {
-      tasksStarted: false
+      tasksStarted: false,
+      selectedTask: null,
+      challengeCompleted: false,
+      editorValue: null
     }
   }
 
@@ -53,10 +55,7 @@ export default class Challenge extends Component {
         <ChallengePlayground
           challenge={challenge}
           defaults={require(`../data/${challengeId}.json`)}
-          giveUp={() => {
-            this.props.history.goBack()
-          }}
-          verify={(task, editorValue) => this.verifyTask(task, editorValue)}
+          updateValue={editorValue => this.setState({ editorValue })}
         />
       )
     }
@@ -69,16 +68,14 @@ export default class Challenge extends Component {
         challenge={initialChallenge}
         defaults={require('../data/initial.json')}
         initial
-        giveUp={() => {
-          this.props.history.goBack()
-        }}
-        verify={(task, editorValue) => this.verifyTask(task, editorValue)}
+        updateValue={editorValue => this.setState({ editorValue })}
       />
     )
   }
 
-  verifyTask = (task, editorValue) => {
+  verifyTask = () => {
     const { challengeId } = this.props
+    const { editorValue } = this.state
 
     if (challengeId === 'initial') {
       // no changes has been made to the editor
@@ -91,28 +88,142 @@ export default class Challenge extends Component {
         message.error('Come on, I believe in you!')
         return
       } else {
-        this.setState({
-          initialChallengeCompleted: true,
-          selectedChallenge: null,
-          initialTaskSucceeded: true
+        Data.Cache.cacheItem('initialChallengeCompleted', true).then(() => {
+          this.setState({
+            challengeCompleted: true,
+            selectedTask: null
+          })
         })
       }
     } else {
+      console.log(editorValue)
       // call api for verifying other tasks
     }
   }
 
+  renderButtons() {
+    return (
+      <Row style={{ margin: '10px 20px' }}>
+        <Col style={{ padding: '20px' }} span={12} offset={6}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              height: '100px',
+              alignItems: 'center'
+            }}
+          >
+            {this.state.tasksStarted ? (
+              <Button
+                onClick={() =>
+                  this.setState({ tasksStarted: false, selectedTask: null })
+                }
+                style={{
+                  display: 'flex',
+                  color: '#ffffff',
+                  backgroundColor: '#006064',
+                  border: 'none',
+                  margin: '10px auto 0',
+                  height: '35px',
+                  lineHeight: '15px'
+                }}
+              >
+                <Icon type="pause-circle" />
+                Stop task
+              </Button>
+            ) : (
+              <Button
+                onClick={() => this.props.showChallenges()}
+                style={{
+                  display: 'flex',
+                  color: '#ffffff',
+                  backgroundColor: '#006064',
+                  border: 'none',
+                  margin: '10px auto 0',
+                  height: '35px',
+                  lineHeight: '15px'
+                }}
+              >
+                <Icon type="arrow-left" />
+                Go to challenges
+              </Button>
+            )}
+            <Button
+              onClick={this.verifyTask}
+              style={{
+                display: 'flex',
+                color: '#ffffff',
+                backgroundColor: `#4CAF50`,
+                border: 'none',
+                margin: '10px auto 0',
+                height: '35px',
+                lineHeight: '15px'
+              }}
+            >
+              <Icon type="check-circle" />
+              Verify Task
+            </Button>
+          </div>
+        </Col>
+      </Row>
+    )
+  }
+
+  showSuccess() {
+    // maybe generate random success msgs
+    const { challengeId } = this.props
+
+    return (
+      <div>
+        {challengeId === 'initial' ? (
+          <React.Fragment>
+            <h1>Congrats!</h1>
+            <h2>Is that easy to be a developer with the help of Carmel</h2>
+            <h2>Now let's do more challenges</h2>
+            <Button
+              onClick={() => this.props.showChallenges()}
+              style={{
+                display: 'flex',
+                color: '#ffffff',
+                backgroundColor: '#006064',
+                border: 'none',
+                margin: '10px auto 0',
+                height: '35px',
+                lineHeight: '15px'
+              }}
+            >
+              <Icon type="arrow-left" />
+              Go to challenges
+            </Button>
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <h1>Congrats!</h1>
+            <h2>You completed the {challengeId} challenge !</h2>
+            <h2>More challenges are waiting to be completed</h2>
+          </React.Fragment>
+        )}
+      </div>
+    )
+  }
+
   render() {
     const { challengeId } = this.props
-    const matchedChallenge = challengesData.filter(c => c === challengeId)
-    console.log(matchedChallenge)
+    if (this.state.challengeCompleted) {
+      return this.showSuccess()
+    }
     if (challengeId === 'initial') {
-      return [this.renderIntro(challengeId), this.renderInitialChallenge()]
+      return [
+        this.renderIntro(challengeId),
+        this.renderInitialChallenge(),
+        this.renderButtons()
+      ]
     } else {
       return [
         this.renderIntro(challengeId),
         this.renderTasks(),
-        this.renderChallenge()
+        this.renderChallenge(),
+        this.renderButtons()
       ]
     }
   }
