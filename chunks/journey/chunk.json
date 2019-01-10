@@ -4,7 +4,7 @@
     "main": {
       "title": "journey",
       "icon": "favorite",
-      "path": "/@",
+      "path": "/journey",
       "variants": "initial",
       "events": {
         "cover": "system://journey"
@@ -14,7 +14,7 @@
         "align": "bottom",
         "opacity": 0.6,
         "navigation": true,
-        "title": "Become An Early Adopter",
+        "title": "Carmel Journeys",
         "type": "default",
         "image": "beta.r.png"
       }

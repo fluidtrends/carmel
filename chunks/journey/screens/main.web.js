@@ -103,9 +103,14 @@ export default class MainChallengesScreen extends Screen {
   }
 
   get cover () {
-    return Object.assign({}, this.props.cover, {
-      title: this.username? `${this.username}'s #CarmelJourney` : 'Carmel Journeys'
-    })
+    if (this.username) {
+      return Object.assign({}, this.props.cover, {
+        title: `${this.username}'s #CarmelJourney`,
+        type: 'simple',
+        image: null
+      })
+    }
+    return this.props.cover
   }
 
   get username () {
@@ -117,28 +122,28 @@ export default class MainChallengesScreen extends Screen {
       // return
     }
 
-    return <span style={{marginTop: 5}}><Tag color={badge.color}>{badge.name}</Tag></span>
+    return <Components.AnimatedWrapper animation animationType="fade"><span style={{marginTop: 5}}><Tag color={badge.color}>{badge.name}</Tag></span></Components.AnimatedWrapper>
   }
+
+//   const title = <div style={{display: 'flex', flexDirection: this.isSmallScreen? 'column' : 'row', flex: 2}}>
+//   <Meta
+//     title={event.name}
+//     description={event.timestamp}
+//     style={{flex: 1}}
+//   />
+//   
+// </div>
 
   renderEvent(event) {
 
     const description = <div style={{fontSize: 12}}>
-      {mockJourney.description}
-      <br />
       {event.timestamp}
     </div>
 
-    const title = <div style={{display: 'flex', flexDirection: this.isSmallScreen? 'column' : 'row', flex: 2}}>
-      <Meta
-        avatar={<Avatar src={mockJourney.img}/>}
-        title={mockJourney.name}
+    const title = <Meta
+        title={event.name}
         description={description}
-        style={{flex: 1}}
       />
-      <div style={{display: 'flex', flex: 1, paddingLeft: 20, flexWrap: 'wrap'}}>
-        {mockJourney.badges.map(this._renderBadge)}
-      </div>
-    </div>
 
     const width = this.isSmallScreen? '90vw' : 700
 
@@ -149,9 +154,39 @@ export default class MainChallengesScreen extends Screen {
         title={title}
         actions={[<Icon type="like" style={{fontSize: 20, color: '#00bfa5'}} />, <Icon type="message" style={{fontSize: 20, color: '#00bfa5'}} />, <Icon type="share-alt" style={{fontSize: 20, color: '#00bfa5'}} />]}
       >
-        <p>{event.name}</p>
-        <div style={{textAlign: 'center'}}>
-          <img src={`assets/awards/trophy-${event.award}.svg`} style={{height: 100}}/>
+        <Components.AnimatedWrapper animation animationType="zoom">
+          <div style={{textAlign: 'center'}}>
+            <img src={`assets/awards/trophy-${event.award}.svg`} style={{height: 100}}/>
+          </div>
+        </Components.AnimatedWrapper>
+      </Card>
+    </div>
+  }
+
+  renderDetails() {
+    const description = <div style={{fontSize: 12}}>
+      {mockJourney.description}
+      <br />
+      On the platform since 14 March 2018
+    </div>
+
+    const title = <Meta
+      avatar={<Avatar src={mockJourney.img}/>}
+      title={mockJourney.name}
+      description={description}
+      style={{flex: 1}}
+    />
+
+    const width = this.isSmallScreen? '90vw' : 700
+
+    return <div style={{padding: '20px', textAlign: 'left'}}>
+      <Card
+        size="small"
+        style={{width}}
+        title={title}
+      >
+        <div style={{display: 'flex', flex: 1, paddingLeft: 20, flexWrap: 'wrap'}}>
+          {mockJourney.badges.map(this._renderBadge)}
         </div>
       </Card>
     </div>
@@ -159,6 +194,7 @@ export default class MainChallengesScreen extends Screen {
 
   renderJourney() {
     return <div style={{textAlign: 'center'}}>
+      {this.renderDetails()}
       {mockJourney.events.slice(0).reverse().map(this._renderEvent)}
       <Icon type="loading" style={{fontSize: 40, color: '#00bfa5', padding: '20px 0'}} />
     </div>
