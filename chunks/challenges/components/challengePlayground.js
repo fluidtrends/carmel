@@ -1,6 +1,6 @@
 import React from 'react'
 import { Component, Components } from 'react-dom-chunky'
-import { Row, Col } from 'antd'
+import { Row, Col, Button, Icon } from 'antd'
 import Task from './playground/task'
 import TaskCard from './playground/taskCard'
 import Editor from './playground/editor'
@@ -34,6 +34,122 @@ export default class ChallengePlayground extends Component {
     }
   }
 
+  renderButtons() {
+    const { challenge } = this.props
+    const { taskIds } = challenge
+    return (
+      <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <Button
+          onClick={() => this.props.pauseTask()}
+          style={{
+            display: 'flex',
+            color: '#ffffff',
+            backgroundColor: '#006064',
+            border: 'none',
+            margin: '10px auto 0',
+            height: '35px',
+            lineHeight: '15px'
+          }}
+        >
+          <Icon type="arrow-left" />
+          Go back
+        </Button>
+        <Button
+          onClick={() => this.props.verify(taskIds[0], this.state.newValues)}
+          style={{
+            display: 'flex',
+            color: '#ffffff',
+            backgroundColor: `#4CAF50`,
+            border: 'none',
+            margin: '10px auto 0',
+            height: '35px',
+            lineHeight: '15px'
+          }}
+        >
+          <Icon type="check-circle" />
+          Verify Task
+        </Button>
+      </div>
+    )
+  }
+
+  renderInitial() {
+    const { challenge, defaults, initial } = this.props
+    const { taskIds, id } = challenge
+    const { newValues } = this.state
+
+    const columnStyle = { padding: '20px' }
+    return (
+      <React.Fragment>
+        <Row style={{ margin: '10px 20px' }}>
+          <Col style={columnStyle} span={12} offset={6}>
+            <Task
+              task={require(`../../../challenges/${id}/${
+                taskIds[0]
+              }/index.json`)}
+            />
+          </Col>
+        </Row>
+        <Row
+          style={{
+            margin: '10px 20px',
+            display: 'flex',
+            alignItems: 'center'
+          }}
+        >
+          <Col style={columnStyle} span={10}>
+            <Editor
+              value={JSON.stringify(
+                this.state.newValues ? this.state.newValues : defaults,
+                null,
+                '\t'
+              )}
+              onChange={val => this.handleEditorChange(val)}
+              mode="json"
+              theme="monokai"
+              name="editor"
+              fontSize={14}
+              style={{ width: '100%' }}
+              showPrintMargin={true}
+              showGutter={true}
+              highlightActiveLine={true}
+              setOptions={{
+                showLineNumbers: true,
+                tabSize: 2
+              }}
+            />
+          </Col>
+          <Col style={columnStyle} span={14}>
+            {defaults && (
+              <ChunkyProduct
+                source={(newValues && newValues.source) || defaults.source}
+                image={(newValues && newValues.image) || defaults.image}
+                opacity={(newValues && newValues.opacity) || defaults.opacity}
+                title={(newValues && newValues.title) || defaults.title}
+                type={(newValues && newValues.type) || defaults.type}
+                subtitle={
+                  (newValues && newValues.subtitle) || defaults.subtitle
+                }
+                titleStyle={
+                  (newValues && newValues.titleStyle) || defaults.titleStyle
+                }
+                subtitleStyle={
+                  (newValues && newValues.subtitleStyle) ||
+                  defaults.subtitleStyle
+                }
+              />
+            )}
+          </Col>
+        </Row>
+        <Row style={{ margin: '10px 20px' }}>
+          <Col style={columnStyle} span={12} offset={6}>
+            {this.renderButtons()}
+          </Col>
+        </Row>
+      </React.Fragment>
+    )
+  }
+
   render() {
     const { challenge, defaults, initial } = this.props
     const { taskIds, id } = challenge
@@ -44,43 +160,49 @@ export default class ChallengePlayground extends Component {
       return (
         <React.Fragment>
           <Row style={{ margin: '10px 20px' }}>
-            <Col style={columnStyle} span={10}>
+            <Col style={columnStyle} span={12} offset={6}>
               <Task
-                goBack={() => this.props.giveUp()}
-                verify={() =>
-                  this.props.verify(taskIds[0], this.state.newValues)
+                task={
+                  initial
+                    ? require(`../../../challenges/${id}/${
+                        taskIds[0]
+                      }/index.json`)
+                    : require(`../../../challenges/${id}/${task}/index.json`)
                 }
-                task={require(`../../../challenges/${id}/${
-                  taskIds[0]
-                }/index.json`)}
-              />
-            </Col>
-            <Col style={columnStyle} span={14}>
-              <Editor
-                value={JSON.stringify(
-                  this.state.newValues ? this.state.newValues : defaults,
-                  null,
-                  '\t'
-                )}
-                onChange={val => this.handleEditorChange(val)}
-                mode="json"
-                theme="monokai"
-                name="editor"
-                fontSize={14}
-                style={{ width: '100%' }}
-                showPrintMargin={true}
-                showGutter={true}
-                highlightActiveLine={true}
-                setOptions={{
-                  showLineNumbers: true,
-                  tabSize: 2
-                }}
               />
             </Col>
           </Row>
-          <Row>
-            <Col style={columnStyle} span={12}>
-              {defaults && (
+          {defaults && (
+            <Row
+              style={{
+                margin: '10px 20px',
+                display: 'flex',
+                alignItems: 'center'
+              }}
+            >
+              <Col style={columnStyle} span={10}>
+                <Editor
+                  value={JSON.stringify(
+                    this.state.newValues ? this.state.newValues : defaults,
+                    null,
+                    '\t'
+                  )}
+                  onChange={val => this.handleEditorChange(val)}
+                  mode="json"
+                  theme="monokai"
+                  name="editor"
+                  fontSize={14}
+                  style={{ width: '100%' }}
+                  showPrintMargin={true}
+                  showGutter={true}
+                  highlightActiveLine={true}
+                  setOptions={{
+                    showLineNumbers: true,
+                    tabSize: 2
+                  }}
+                />
+              </Col>
+              <Col style={columnStyle} span={14}>
                 <ChunkyProduct
                   source={(newValues && newValues.source) || defaults.source}
                   image={(newValues && newValues.image) || defaults.image}
@@ -98,7 +220,13 @@ export default class ChallengePlayground extends Component {
                     defaults.subtitleStyle
                   }
                 />
-              )}
+              </Col>
+            </Row>
+          )}
+
+          <Row style={{ margin: '10px 20px' }}>
+            <Col style={columnStyle} span={12} offset={6}>
+              {this.renderButtons()}
             </Col>
           </Row>
         </React.Fragment>
@@ -110,8 +238,6 @@ export default class ChallengePlayground extends Component {
           <Col style={columnStyle} span={8}>
             {this.state.startedTask ? (
               <Task
-                goBack={() => this.resetTask()}
-                verify={() => this.props.verify(this.state.selectedTask.id)}
                 task={require(`../../../challenges/${id}/${
                   this.state.selectedTask.id
                 }/index.json`)}

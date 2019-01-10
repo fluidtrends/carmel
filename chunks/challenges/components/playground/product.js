@@ -5,6 +5,7 @@ const ChunkyProduct = props => (
   <Components.Cover
     image={props.image || props.defaults.image}
     opacity={props.opacity || props.defaults.opacity}
+    width={'100%'}
     title={
       props.title || props.title === ''
         ? props.title

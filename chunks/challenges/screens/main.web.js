@@ -4,14 +4,8 @@ import { Row, Col, message } from 'antd'
 import ChallengePlayground from '../components/challengePlayground'
 import ChallengeCard from '../components/challengeCard'
 import InitialChallenge from '../components/initialChallenge'
+import Challenge from '../components/Challenge'
 
-const confettiConfig = {
-  angle: 50,
-  spread: 175,
-  startVelocity: 51,
-  elementCount: 50,
-  decay: 0.9
-}
 export default class MainChallengesScreen extends Screen {
   constructor(props) {
     super(props)
@@ -30,10 +24,15 @@ export default class MainChallengesScreen extends Screen {
     this.setState({
       initial: this.examples
     })
+    this._challenge = this.props.location.pathname.split('/')[2]
   }
 
   get examples() {
     return this._examples || {}
+  }
+
+  get challenge() {
+    return this._challenge
   }
 
   selectChallenge = selectedChallenge => {
@@ -114,6 +113,22 @@ export default class MainChallengesScreen extends Screen {
   }
 
   components() {
-    return super.components().concat([this.renderChallenges()])
+    return super.components().concat([
+      <div>
+        {this.challenge ? (
+          <Challenge challengeId={this.challenge} />
+        ) : (
+          <React.Fragment>
+            <Components.Summary
+              text={'local://challenges'}
+              animation
+              animationType={'zoom'}
+              animationOptions={['top']}
+            />
+            {this.renderChallenges()}
+          </React.Fragment>
+        )}
+      </div>
+    ])
   }
 }
