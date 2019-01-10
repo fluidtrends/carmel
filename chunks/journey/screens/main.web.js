@@ -1,7 +1,6 @@
 import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
 import { Card, Icon, Avatar, Tag } from 'antd';
-
 const { Meta } = Card;
 
 const mockJourney = {
@@ -44,35 +43,43 @@ const mockJourney = {
   events: [
     {
       timestamp: '2h',
-      name: 'Started Intro challenge'
+      name: 'Started Intro challenge',
+      award: 1
     },
     {
       timestamp: '1.5h',
-      name: 'Stopped Intro challenge'
+      name: 'Stopped Intro challenge',
+      award: 2
     },
     {
       timestamp: '1h',
-      name: 'Finished Intro challenge'
+      name: 'Finished Intro challenge',
+      award: 3
     },
     {
       timestamp: '5 min ago',
-      name: 'Started Chunky challenge'
+      name: 'Started Chunky challenge',
+      award: 4
     },
     {
       timestamp: '4 min ago',
-      name: 'Stopped Chunky challenge'
+      name: 'Stopped Chunky challenge',
+      award: 5
     },
     {
       timestamp: '2 min ago',
-      name: 'Failed Chunky challenge'
+      name: 'Failed Chunky challenge',
+      award: 6
     },
     {
       timestamp: '10 seconds ago',
-      name: 'Finished Chunky challenge'
+      name: 'Finished Chunky challenge',
+      award: 7
     },
     {
       timestamp: '5 seconds ago',
-      name: 'Received the Resilient Learner Award'
+      name: 'Received the Resilient Learner Award',
+      award: 8
     }
   ]
 }
@@ -143,6 +150,9 @@ export default class MainChallengesScreen extends Screen {
         actions={[<Icon type="like" style={{fontSize: 20, color: '#00bfa5'}} />, <Icon type="message" style={{fontSize: 20, color: '#00bfa5'}} />, <Icon type="share-alt" style={{fontSize: 20, color: '#00bfa5'}} />]}
       >
         <p>{event.name}</p>
+        <div style={{textAlign: 'center'}}>
+          <img src={`assets/awards/trophy-${event.award}.svg`} style={{height: 100}}/>
+        </div>
       </Card>
     </div>
   }
