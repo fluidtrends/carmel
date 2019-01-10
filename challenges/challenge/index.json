@@ -1,7 +1,8 @@
 {
   "id": "initial",
   "title": "Random Challenge with long text here?",
-  "type": "Pro",
+  "pricePlan": "pro",
+  "type": ["cli"],
   "summary": "Let'see how easy or hard is to create a Product with Carmel",
   "author": {
     "name": "Robert Pop",
@@ -9,6 +10,6 @@
     "id": "3"
   },
   "level": 0,
-  "skills": ["starter", "web", "copywriting", "initial"],
+  "category": ["javascript", "json", "web"],
   "taskIds": ["tweakCover"]
 }

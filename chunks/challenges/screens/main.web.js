@@ -45,13 +45,20 @@ export default class MainChallengesScreen extends Screen {
     return (
       <div>
         {this.state.initialChallengeCompleted && (
-          <Components.Text source={'local://initial-success'} />
+          <Components.Text
+            source={'local://challenges-intro'}
+            style={{
+              maxWidth: '100%',
+              display: 'flex',
+              justifyContent: 'center'
+            }}
+          />
         )}
         <Row gutter={26} style={{ padding: '20px' }}>
           {this.state.initialChallengeCompleted ? (
             <React.Fragment>
               {challengesData.map(challenge => (
-                <Col span={8} style={{ padding: '20px' }}>
+                <Col span={8} style={{ padding: '20px', height: '475px' }}>
                   <ChallengeCard
                     challenge={require(`../../../challenges/${challenge}/index.json`)}
                     onSelectChallenge={selectedChallenge =>

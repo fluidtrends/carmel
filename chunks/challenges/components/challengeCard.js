@@ -1,7 +1,7 @@
 import React from 'react'
-import { Component, Components } from 'react-dom-chunky'
-import { Card, Icon, Button } from 'antd'
-import { Chip, ChipText, ChipIcon, ChipSet } from '@rmwc/chip'
+import { Component } from 'react-dom-chunky'
+import { Card, Icon, Button, Popover } from 'antd'
+import { Chip, ChipText, ChipSet } from '@rmwc/chip'
 import { Typography } from '@rmwc/typography'
 import { Ribbon } from './styledComponents'
 
@@ -30,12 +30,12 @@ export default class ChallengeCard extends Component {
         }}
       >
         <ChipSet style={{ margin: '0px' }}>
-          {this.props.challenge.skills.map(skill => (
+          {this.props.challenge.category.map(cat => (
             <Chip
               style={{ backgroundColor: '#ECEFF1', color: '#00bcd4' }}
-              key={skill}
+              key={`${cat}-${this.props.challenge.id}`}
             >
-              <ChipText> {skill} </ChipText>
+              <ChipText> {cat} </ChipText>
             </Chip>
           ))}
         </ChipSet>
@@ -164,15 +164,86 @@ export default class ChallengeCard extends Component {
         </Typography>
         <Ribbon
           backgroundColor={
-            this.props.challenge.type === 'Free'
-              ? '#00BCD4'
-              : this.props.challenge.type === 'Pro'
-              ? '#00695C'
-              : '#03A9F4'
+            this.props.challenge.pricePlan === 'free' ? '#00BCD4' : '#00695C'
           }
         >
-          {this.props.challenge.type}
+          {this.props.challenge.pricePlan.toUpperCase()}
         </Ribbon>
+        {this.renderEnv()}
+      </div>
+    )
+  }
+
+  renderEnv() {
+    return (
+      <div
+        style={{
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'flex-start'
+        }}
+      >
+        {this.props.challenge.type.map(t => {
+          let content = (
+            <p style={{ fontSize: '12px', margin: 0 }}>
+              You can do it without installing anything.
+            </p>
+          )
+          let title = 'This is a Playground Challenge.'
+          title =
+            t === 'playground'
+              ? title
+              : t === 'cli'
+              ? 'This is a Cli Challenge.'
+              : 'This is a Studio Challenge.'
+          content =
+            t === 'playground' ? (
+              content
+            ) : t === 'cli' ? (
+              <p style={{ fontSize: '12px', margin: 0 }}>
+                By getting Chunky Cli you will have a real development
+                environment setup.
+              </p>
+            ) : (
+              <p style={{ fontSize: '12px', margin: 0 }}>
+                For doing this you just need to install the Carmel Studio.
+              </p>
+            )
+
+          let icon = 'global'
+          icon = t === 'playground' ? icon : t === 'cli' ? 'code' : 'desktop'
+
+          return (
+            <div
+              style={{
+                cursor: 'pointer',
+                background: '#0288D1',
+                borderRadius: '20px',
+                height: '35px',
+                width: '120px',
+                lineHeight: '35px',
+                textAlign: 'center',
+                margin: '5px'
+              }}
+            >
+              <Popover content={content} title={title} placement={'right'}>
+                <span
+                  style={{
+                    fontSize: '12px',
+                    fontWeight: 'bold',
+                    padding: '5px',
+                    color: '#fff'
+                  }}
+                >
+                  {t.toUpperCase()}
+                </span>
+                <Icon type={icon} style={{ color: '#fff', fontSize: '12px' }} />
+              </Popover>
+            </div>
+          )
+        })}
       </div>
     )
   }
@@ -189,6 +260,7 @@ export default class ChallengeCard extends Component {
         {this.renderSummary()}
         {this.renderDetails()}
         {this.renderSkills()}
+
         <Button
           onClick={() => this.props.onSelectChallenge(challenge)}
           style={{

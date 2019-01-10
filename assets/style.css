@@ -473,6 +473,10 @@ strong {
   display: none;
 }
 
+.challenge-card {
+  height: 100%;
+}
+
 .challenge-card .ant-card-head {
   padding-right: 0;
 }
