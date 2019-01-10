@@ -1,6 +1,6 @@
 import React from 'react'
 import { Component, Components } from 'react-dom-chunky'
-import { Card, Icon, Button } from 'antd'
+import { Card, Icon, Button, Avatar } from 'antd'
 import { Chip, ChipText, ChipIcon, ChipSet } from '@rmwc/chip'
 import { Typography } from '@rmwc/typography'
 
@@ -152,12 +152,10 @@ export default class ChallengeCard extends Component {
         use="headline5"
         tag="div"
         style={{
-          color: '#ffffff',
-          backgroundColor: '#00bcd4',
-          padding: '10px'
+          color: '#455A64'
         }}
       >
-        {this.props.challenge.title}
+        {this.props.challenge.title} <Avatar>PRO</Avatar>
       </Typography>
     )
   }

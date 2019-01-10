@@ -2,9 +2,8 @@ import React from 'react'
 import { Component, Components } from 'react-dom-chunky'
 import { Row, Col, message, Button, Icon } from 'antd'
 import ChallengePlayground from './challengePlayground'
+import Task from './playground/task'
 import { Data } from 'react-chunky'
-
-const challengesData = require('challenges/index.json')
 
 export default class Challenge extends Component {
   constructor(props) {
@@ -37,13 +36,17 @@ export default class Challenge extends Component {
   renderTasks() {
     const { challengeId, challenge } = this.props
     const { taskIds } = challenge
+    const columnStyle = { padding: '20px' }
+
     return (
       <Row style={{ margin: '10px 20px' }}>
-        <Col style={columnStyle} span={12} offset={6}>
-          <Task
-            task={require(`../../../challenges/${challengeId}/${taskIds}/index.json`)}
-          />
-        </Col>
+        {taskIds.map(task => (
+          <Col style={columnStyle} span={12} offset={6}>
+            <Task
+              task={require(`../../../challenges/${challengeId}/${task}/index.json`)}
+            />
+          </Col>
+        ))}
       </Row>
     )
   }
@@ -174,7 +177,7 @@ export default class Challenge extends Component {
     const { challengeId } = this.props
 
     return (
-      <div>
+      <div style={{ marginTop: '30px' }}>
         {challengeId === 'initial' ? (
           <React.Fragment>
             <h1>Congrats!</h1>

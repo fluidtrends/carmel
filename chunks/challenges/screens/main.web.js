@@ -1,7 +1,6 @@
 import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
-import { Row, Col, message } from 'antd'
-import ChallengePlayground from '../components/challengePlayground'
+import { Row, Col } from 'antd'
 import ChallengeCard from '../components/challengeCard'
 import InitialChallenge from '../components/initialChallenge'
 import Challenge from '../components/Challenge'
@@ -48,35 +47,38 @@ export default class MainChallengesScreen extends Screen {
     const challengesData = require('challenges/index.json')
 
     return (
-      <Row gutter={26} style={{ padding: '20px' }}>
-        <div style={{ position: 'absolute', height: '100%', width: '100%' }} />
-        {this.state.initialTaskSucceeded && (
+      <div>
+        {this.state.initialChallengeCompleted && (
           <Components.Text source={'local://initial-success'} />
         )}
-        {this.state.initialChallengeCompleted ? (
-          <Col span={8}>
-            {challengesData.map(challenge => (
-              <ChallengeCard
-                challenge={require(`../../../challenges/${challenge}/index.json`)}
-                onSelectChallenge={selectedChallenge =>
-                  this.selectChallenge(selectedChallenge)
+        <Row gutter={26} style={{ padding: '20px' }}>
+          {this.state.initialChallengeCompleted ? (
+            <React.Fragment>
+              {challengesData.map(challenge => (
+                <Col span={8} style={{ padding: '20px' }}>
+                  <ChallengeCard
+                    challenge={require(`../../../challenges/${challenge}/index.json`)}
+                    onSelectChallenge={selectedChallenge =>
+                      this.selectChallenge(selectedChallenge)
+                    }
+                  />
+                </Col>
+              ))}
+            </React.Fragment>
+          ) : (
+            <Col span={16} offset={4}>
+              <InitialChallenge
+                challenge={require(`../../../challenges/initial/index.json`)}
+                onSelectChallenge={() =>
+                  this.selectChallenge(
+                    require(`../../../challenges/initial/index.json`)
+                  )
                 }
               />
-            ))}
-          </Col>
-        ) : (
-          <Col span={16} offset={4}>
-            <InitialChallenge
-              challenge={require(`../../../challenges/initial/index.json`)}
-              onSelectChallenge={() =>
-                this.selectChallenge(
-                  require(`../../../challenges/initial/index.json`)
-                )
-              }
-            />
-          </Col>
-        )}
-      </Row>
+            </Col>
+          )}
+        </Row>
+      </div>
     )
   }
 
@@ -93,12 +95,14 @@ export default class MainChallengesScreen extends Screen {
           />
         ) : (
           <React.Fragment>
-            <Components.Summary
-              text={'local://challenges'}
-              animation
-              animationType={'zoom'}
-              animationOptions={['top']}
-            />
+            {!this.state.initialChallengeCompleted && (
+              <Components.Summary
+                text={'local://challenges'}
+                animation
+                animationType={'zoom'}
+                animationOptions={['top']}
+              />
+            )}
             {this.renderChallenges()}
           </React.Fragment>
         )}
