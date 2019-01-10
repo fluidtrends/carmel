@@ -116,7 +116,12 @@ export default class MainChallengesScreen extends Screen {
     return super.components().concat([
       <div>
         {this.challenge ? (
-          <Challenge challengeId={this.challenge} />
+          <Challenge
+            challengeId={this.challenge}
+            challenge={require(`../../../challenges/${
+              this.challenge
+            }/index.json`)}
+          />
         ) : (
           <React.Fragment>
             <Components.Summary

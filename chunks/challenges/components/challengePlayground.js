@@ -232,76 +232,76 @@ export default class ChallengePlayground extends Component {
         </React.Fragment>
       )
     }
-    return (
-      <React.Fragment>
-        <Row style={{ margin: '10px 20px' }}>
-          <Col style={columnStyle} span={8}>
-            {this.state.startedTask ? (
-              <Task
-                task={require(`../../../challenges/${id}/${
-                  this.state.selectedTask.id
-                }/index.json`)}
-              />
-            ) : (
-              taskIds &&
-              taskIds.map(task => (
-                <TaskCard
-                  task={require(`../../../challenges/${id}/${task}/index.json`)}
-                  onSelectTask={selectedTask => this.selectTask(selectedTask)}
-                />
-              ))
-            )}
-          </Col>
-          <Col style={columnStyle} span={16}>
-            {this.state.startedTask ? (
-              <Editor
-                value={JSON.stringify(
-                  this.state.newValues ? this.state.newValues : defaults,
-                  null,
-                  '\t'
-                )}
-                onChange={val => this.handleEditorChange(val)}
-                mode="json"
-                theme="monokai"
-                name="editor"
-                fontSize={14}
-                style={{ width: '100%' }}
-                showPrintMargin={true}
-                showGutter={true}
-                highlightActiveLine={true}
-                setOptions={{
-                  showLineNumbers: true,
-                  tabSize: 2
-                }}
-              />
-            ) : (
-              <div>Start a task in order to use the editor</div>
-            )}
-          </Col>
-        </Row>
-        <Row>
-          <Col style={columnStyle} span={12}>
-            {defaults && (
-              <ChunkyProduct
-                image={(newValues && newValues.image) || defaults.image}
-                opacity={(newValues && newValues.opacity) || defaults.opacity}
-                title={(newValues && newValues.title) || defaults.title}
-                type={(newValues && newValues.type) || defaults.type}
-                subtitle={
-                  (newValues && newValues.subtitle) || defaults.subtitle
-                }
-                titleStyle={
-                  (newValues && newValues.titleStyle) || defaults.titleStyle
-                }
-                subtitleStyle={
-                  (newValues && newValues.subtitleStyle) ||
-                  defaults.subtitleStyle
-                }
-              />
-            )}
-          </Col>
-        </Row>
-      </React.Fragment>
-    )
+    // return (
+    //   <React.Fragment>
+    //     <Row style={{ margin: '10px 20px' }}>
+    //       <Col style={columnStyle} span={8}>
+    //         {this.state.startedTask ? (
+    //           <Task
+    //             task={require(`../../../challenges/${id}/${
+    //               this.state.selectedTask.id
+    //             }/index.json`)}
+    //           />
+    //         ) : (
+    //           taskIds &&
+    //           taskIds.map(task => (
+    //             <TaskCard
+    //               task={require(`../../../challenges/${id}/${task}/index.json`)}
+    //               onSelectTask={selectedTask => this.selectTask(selectedTask)}
+    //             />
+    //           ))
+    //         )}
+    //       </Col>
+    //       <Col style={columnStyle} span={16}>
+    //         {this.state.startedTask ? (
+    //           <Editor
+    //             value={JSON.stringify(
+    //               this.state.newValues ? this.state.newValues : defaults,
+    //               null,
+    //               '\t'
+    //             )}
+    //             onChange={val => this.handleEditorChange(val)}
+    //             mode="json"
+    //             theme="monokai"
+    //             name="editor"
+    //             fontSize={14}
+    //             style={{ width: '100%' }}
+    //             showPrintMargin={true}
+    //             showGutter={true}
+    //             highlightActiveLine={true}
+    //             setOptions={{
+    //               showLineNumbers: true,
+    //               tabSize: 2
+    //             }}
+    //           />
+    //         ) : (
+    //           <div>Start a task in order to use the editor</div>
+    //         )}
+    //       </Col>
+    //     </Row>
+    //     <Row>
+    //       <Col style={columnStyle} span={12}>
+    //         {defaults && (
+    //           <ChunkyProduct
+    //             image={(newValues && newValues.image) || defaults.image}
+    //             opacity={(newValues && newValues.opacity) || defaults.opacity}
+    //             title={(newValues && newValues.title) || defaults.title}
+    //             type={(newValues && newValues.type) || defaults.type}
+    //             subtitle={
+    //               (newValues && newValues.subtitle) || defaults.subtitle
+    //             }
+    //             titleStyle={
+    //               (newValues && newValues.titleStyle) || defaults.titleStyle
+    //             }
+    //             subtitleStyle={
+    //               (newValues && newValues.subtitleStyle) ||
+    //               defaults.subtitleStyle
+    //             }
+    //           />
+    //         )}
+    //       </Col>
+    //     </Row>
+    //   </React.Fragment>
+    // )
   }
 }
