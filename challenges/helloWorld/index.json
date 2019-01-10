@@ -1,6 +1,7 @@
 {
   "id": "helloWorld",
   "title": "Hello World",
+  "type": "Free",
   "summary": "Start creating your personal brand in minutes",
   "author": {
     "name": "I. Dan Calinescu",

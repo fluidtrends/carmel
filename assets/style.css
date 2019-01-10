@@ -472,3 +472,7 @@ strong {
 .anticon svg {
   display: none;
 }
+
+.challenge-card .ant-card-head {
+  padding-right: 0;
+}

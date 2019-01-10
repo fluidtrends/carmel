@@ -1,12 +1,12 @@
 {
   "id": "initial",
-  "title": "Up for a challenge?",
-  "type": "Playground",
+  "title": "Random Challenge with long text here?",
+  "type": "Pro",
   "summary": "Let'see how easy or hard is to create a Product with Carmel",
   "author": {
     "name": "Robert Pop",
     "email": "poprobertdaniel22@gmail.com",
-    "id": "3213213"
+    "id": "3"
   },
   "level": 0,
   "skills": ["starter", "web", "copywriting", "initial"],

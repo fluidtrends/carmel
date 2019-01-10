@@ -1,8 +1,9 @@
 import React from 'react'
 import { Component, Components } from 'react-dom-chunky'
-import { Card, Icon, Button, Avatar } from 'antd'
+import { Card, Icon, Button } from 'antd'
 import { Chip, ChipText, ChipIcon, ChipSet } from '@rmwc/chip'
 import { Typography } from '@rmwc/typography'
+import { Ribbon } from './styledComponents'
 
 const LEVELS = ['Beginner', 'Entry', 'Intermediate', 'Advanced', 'Expert']
 
@@ -148,15 +149,18 @@ export default class ChallengeCard extends Component {
 
   renderTitle() {
     return (
-      <Typography
-        use="headline5"
-        tag="div"
-        style={{
-          color: '#455A64'
-        }}
-      >
-        {this.props.challenge.title} <Avatar>PRO</Avatar>
-      </Typography>
+      <div style={{ position: 'relative' }}>
+        <Typography
+          use="headline5"
+          tag="div"
+          style={{
+            color: '#455A64'
+          }}
+        >
+          {this.props.challenge.title}
+        </Typography>
+        <Ribbon>{this.props.challenge.type}</Ribbon>
+      </div>
     )
   }
 
@@ -168,7 +172,7 @@ export default class ChallengeCard extends Component {
       prompt = `Rate Challenge`
     }
     return (
-      <Card title={this.renderTitle()}>
+      <Card title={this.renderTitle()} className={'challenge-card'}>
         {this.renderSummary()}
         {this.renderDetails()}
         {this.renderSkills()}
