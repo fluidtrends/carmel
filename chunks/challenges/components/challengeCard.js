@@ -154,12 +154,25 @@ export default class ChallengeCard extends Component {
           use="headline5"
           tag="div"
           style={{
-            color: '#455A64'
+            color: '#455A64',
+            maxWidth: '80%',
+            textOverflow: 'ellipsis',
+            overflow: 'hidden'
           }}
         >
           {this.props.challenge.title}
         </Typography>
-        <Ribbon>{this.props.challenge.type}</Ribbon>
+        <Ribbon
+          backgroundColor={
+            this.props.challenge.type === 'Free'
+              ? '#00BCD4'
+              : this.props.challenge.type === 'Pro'
+              ? '#00695C'
+              : '#03A9F4'
+          }
+        >
+          {this.props.challenge.type}
+        </Ribbon>
       </div>
     )
   }
