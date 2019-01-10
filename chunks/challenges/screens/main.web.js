@@ -39,10 +39,6 @@ export default class MainChallengesScreen extends Screen {
     return this._challenge
   }
 
-  selectChallenge = selectedChallenge => {
-    this.props.history.push(`challenges/${selectedChallenge.id}`)
-  }
-
   renderChallenges() {
     const challengesData = require('challenges/index.json')
 
@@ -59,7 +55,9 @@ export default class MainChallengesScreen extends Screen {
                   <ChallengeCard
                     challenge={require(`../../../challenges/${challenge}/index.json`)}
                     onSelectChallenge={selectedChallenge =>
-                      this.selectChallenge(selectedChallenge)
+                      this.props.history.push(
+                        `challenges/${selectedChallenge.id}`
+                      )
                     }
                   />
                 </Col>
@@ -71,7 +69,7 @@ export default class MainChallengesScreen extends Screen {
                 challenge={require(`../../../challenges/initial/index.json`)}
                 onSelectChallenge={() =>
                   this.selectChallenge(
-                    require(`../../../challenges/initial/index.json`)
+                    this.props.history.push(`challenges/initial`)
                   )
                 }
               />
