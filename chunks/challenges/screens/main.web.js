@@ -51,11 +51,16 @@ export default class MainChallengesScreen extends Screen {
   }
 
   addCategory = category => {
+    let { selectedCategories } = this.state
+    if (category && selectedCategories.indexOf(category) === -1) {
+      selectedCategories = [...selectedCategories, category]
+    }
     if (this.state.selectedCategories.find(c => c === category)) {
       return
     }
+
     this.setState({
-      selectedCategories: [...this.state.selectedCategories, category]
+      selectedCategories
     })
   }
 
@@ -86,7 +91,11 @@ export default class MainChallengesScreen extends Screen {
     return (
       <div style={{ padding: '5px 30px' }}>
         {this.state.selectedCategories.map(category => (
-          <Tag closable afterClose={() => this.removeCategory(category)}>
+          <Tag
+            key={category}
+            closable
+            afterClose={() => this.removeCategory(category)}
+          >
             {category}
           </Tag>
         ))}
