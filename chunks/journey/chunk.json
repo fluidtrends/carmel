@@ -6,6 +6,9 @@
       "icon": "favorite",
       "path": "/journey",
       "variants": "initial",
+      "stories": [{
+        "source": "https://raw.githubusercontent.com/idancali/cellar/master/stories/carmel/story.json"
+      }],
       "events": {
         "cover": "system://journey"
       },

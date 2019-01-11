@@ -1,7 +1,12 @@
 import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
-import { Card, Icon, Avatar, Tag } from 'antd';
-const { Meta } = Card;
+import { Icon, Tag, Tabs } from 'antd';
+import Activity from '../components/activityCard'
+import Meta from '../components/meta'
+import Story from '../components/Story'
+import StoryCard from '../components/storyCard'
+
+const { TabPane } = Tabs;
 
 const mockJourney = {
   name: '@clowwwn',
@@ -84,7 +89,7 @@ const mockJourney = {
   ]
 }
 
-export default class MainChallengesScreen extends Screen {
+export default class MainJourneyScreen extends Screen {
   constructor(props) {
     super(props)
     this.state = {
@@ -92,23 +97,27 @@ export default class MainChallengesScreen extends Screen {
     }
 
     this._renderEvent = this.renderEvent.bind(this)
+    this._renderEvents = this.renderEvents.bind(this)
     this._renderBadge = this.renderBadge.bind(this)
+    this._renderTabs = this.renderTabs.bind(this)
+    this._renderMeta = this.renderMeta.bind(this)
   }
 
   componentDidMount() {
     super.componentDidMount()
     this._username = this.props.location.pathname.split('/')[2]
-    this.setState({
-    })
+    
+    Promise.all(this.props.stories.map(story => this.importRemoteData(story.source)))
+      .then(stories => {
+        var index = 0
+        return stories.map(story => Object.assign({}, story, this.props.stories[index++])).map(s => new Story(s))
+      })
+      .then(stories => this.setState({ stories }))
   }
 
   get cover () {
     if (this.username) {
-      return Object.assign({}, this.props.cover, {
-        title: `${this.username}'s #CarmelJourney`,
-        type: 'simple',
-        image: null
-      })
+      return
     }
     return this.props.cover
   }
@@ -125,80 +134,72 @@ export default class MainChallengesScreen extends Screen {
     return <Components.AnimatedWrapper animation animationType="fade"><span style={{marginTop: 5}}><Tag color={badge.color}>{badge.name}</Tag></span></Components.AnimatedWrapper>
   }
 
-//   const title = <div style={{display: 'flex', flexDirection: this.isSmallScreen? 'column' : 'row', flex: 2}}>
-//   <Meta
-//     title={event.name}
-//     description={event.timestamp}
-//     style={{flex: 1}}
-//   />
-//   
-// </div>
-
   renderEvent(event) {
-
-    const description = <div style={{fontSize: 12}}>
-      {event.timestamp}
-    </div>
-
-    const title = <Meta
-        title={event.name}
-        description={description}
-      />
-
-    const width = this.isSmallScreen? '90vw' : 700
-
-    return <div style={{padding: '20px', textAlign: 'left'}}>
-      <Card
-        size="small"
-        style={{width}}
-        title={title}
-        actions={[<Icon type="like" style={{fontSize: 20, color: '#00bfa5'}} />, <Icon type="message" style={{fontSize: 20, color: '#00bfa5'}} />, <Icon type="share-alt" style={{fontSize: 20, color: '#00bfa5'}} />]}
-      >
-        <Components.AnimatedWrapper animation animationType="zoom">
-          <div style={{textAlign: 'center'}}>
-            <img src={`assets/awards/trophy-${event.award}.svg`} style={{height: 100}}/>
-          </div>
-        </Components.AnimatedWrapper>
-      </Card>
-    </div>
+    return <Activity event={event} isSmallScreen={this.isSmallScreen}/>
   }
 
-  renderDetails() {
-    const description = <div style={{fontSize: 12}}>
-      {mockJourney.description}
-      <br />
-      On the platform since 14 March 2018
-    </div>
+  renderMeta() {
+    return <Meta name={mockJourney.name} description={mockJourney.description} img={mockJourney.img} />
+  }
 
-    const title = <Meta
-      avatar={<Avatar src={mockJourney.img}/>}
-      title={mockJourney.name}
-      description={description}
-      style={{flex: 1}}
-    />
+  renderTabs() {
+    return <Tabs defaultActiveKey="1" onChange={() => {}} style={{color: '#00bfa5'}}>
+      <TabPane tab="Activity" key="1">
+        {this._renderEvents()}
+        <Icon type="loading" style={{fontSize: 40, color: '#00bfa5', padding: '20px 0'}} />
+      </TabPane>
+      <TabPane tab="Stories" key="2">
+        {this.state.stories? this.renderStories() : this.renderLoading()}
+      </TabPane>
+      <TabPane tab="Achievments" key="3">{this._renderEvents()}</TabPane>
+      <TabPane tab="Code" key="4">{this._renderEvents()}</TabPane>
+    </Tabs>
+  }
 
-    const width = this.isSmallScreen? '90vw' : 700
+  renderEvents() {
+      return mockJourney.events.slice(0).reverse().map(this._renderEvent) 
+  }
 
-    return <div style={{padding: '20px', textAlign: 'left'}}>
-      <Card
-        size="small"
-        style={{width}}
-        title={title}
-      >
-        <div style={{display: 'flex', flex: 1, paddingLeft: 20, flexWrap: 'wrap'}}>
-          {mockJourney.badges.map(this._renderBadge)}
-        </div>
-      </Card>
-    </div>
+  renderStories() {
+    const story = this.state.stories[0]
+    if (!story || !story.chapters) {
+      return
+    }
+
+    return <div
+      style={{
+        display: 'flex',
+        flex: 1,
+        justifyContent: 'center',
+        flexDirection: 'column',
+        alignItems: 'center'
+      }}>
+      { story.chapters.map(chapter => <StoryCard chapter={chapter} />) }
+      </div>
+  }
+
+  renderLoading() {
+    return <div
+      style={{
+        display: 'flex',
+        flex: 1,
+        justifyContent: 'center',
+        flexDirection: 'column',
+        alignItems: 'center'
+      }}>
+        <Components.Loading message="One sec please..."/>
+      </div>
   }
 
   renderJourney() {
-    return <div style={{textAlign: 'center'}}>
-      {this.renderDetails()}
-      {mockJourney.events.slice(0).reverse().map(this._renderEvent)}
-      <Icon type="loading" style={{fontSize: 40, color: '#00bfa5', padding: '20px 0'}} />
+    return <div style={{maxWidth: 700}}>
+      {this._renderMeta()}
+      {this._renderTabs()}
     </div>
   }
+
+
+
 
   get features() {
     return this.renderJourney()
