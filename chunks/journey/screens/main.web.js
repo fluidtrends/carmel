@@ -138,7 +138,7 @@ export default class MainJourneyScreen extends Screen {
       // return
     }
 
-    return <Components.AnimatedWrapper animation animationType="fade"><span style={{marginTop: 5}}><Tag color={badge.color}>{`${badge.name} ${badge.level}`}</Tag></span></Components.AnimatedWrapper>
+    return <Components.AnimatedWrapper animation animationType="fade"><span><Tag style={{marginBottom: 10}} color={badge.color}>{`${badge.name} ${badge.level}`}</Tag></span></Components.AnimatedWrapper>
   }
 
   renderEvent(event) {
