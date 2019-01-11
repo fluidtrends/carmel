@@ -153,7 +153,9 @@ export default class MainJourneyScreen extends Screen {
     return <Tabs defaultActiveKey="1" onChange={() => {}} style={{color: '#00bfa5', marginTop: 75}}>
       <TabPane tab="Activity" key="1">
         {this._renderEvents()}
-        <Icon type="loading" style={{fontSize: 40, color: '#00bfa5', padding: '20px 0'}} />
+        <div style={{textAlign: 'center'}}>
+          <Icon type="loading" style={{fontSize: 40, color: '#00bfa5', padding: '20px 0'}} />
+        </div>
       </TabPane>
       <TabPane tab="Stories" key="2">
         {this.state.stories? this.renderStories() : this.renderLoading()}
@@ -185,7 +187,7 @@ export default class MainJourneyScreen extends Screen {
         flexDirection: 'column',
         alignItems: 'center'
       }}>
-      { story.chapters.map(chapter => <StoryCard chapter={chapter} />) }
+        { story.chapters.map(chapter => <StoryCard chapter={chapter} isSmallScreen={this.isSmallScreen} />) }
       </div>
   }
 
