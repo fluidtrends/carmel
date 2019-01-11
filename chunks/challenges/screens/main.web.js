@@ -180,7 +180,7 @@ export default class MainChallengesScreen extends Screen {
 
   components() {
     return super.components().concat([
-      <div>
+      <div style={{ width: '100vw' }}>
         {this.challenge ? (
           <Challenge
             challengeId={this.challenge}
