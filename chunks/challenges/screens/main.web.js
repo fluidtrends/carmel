@@ -66,7 +66,7 @@ export default class MainChallengesScreen extends Screen {
   }
 
   renderChallenges() {
-    const challengesData = require('challenges/challenges.json')
+    const challengesData = require('challenges/index.json')
     const filteredChallenges =
       this.state.selectedPricePlan === 'all'
         ? challengesData
