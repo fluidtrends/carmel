@@ -1,1 +1,17 @@
-["helloWorld"]
+[
+  {
+    "id": "helloWorld",
+    "pricePlan": "free",
+    "category": ["javascript", "json", "web"]
+  },
+  {
+    "id": "initial",
+    "pricePlan": "free",
+    "category": ["javascript", "json", "web"]
+  },
+  {
+    "id": "challenge",
+    "pricePlan": "pro",
+    "category": ["javascript", "cloud", "devops"]
+  }
+]

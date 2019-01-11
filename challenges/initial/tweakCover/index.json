@@ -1,0 +1,8 @@
+{
+  "id": "tweakCover",
+  "index": 1,
+  "title": "Tweak the Cover as much as you like",
+  "instructions": "Edit the JSON correctly in order to edit the cover",
+  "help": "The JSON file should be formated correctly",
+  "files": ["chunks/intro/data/initial.json"]
+}

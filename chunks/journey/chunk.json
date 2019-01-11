@@ -1,5 +1,28 @@
 {
   "name": "journey",
+  "routes": {
+    "main": {
+      "title": "journey",
+      "icon": "favorite",
+      "path": "/journey",
+      "variants": "initial",
+      "stories": [{
+        "source": "https://raw.githubusercontent.com/idancali/cellar/master/stories/carmel/story.json"
+      }],
+      "events": {
+        "cover": "system://journey"
+      },
+      "cover": {
+        "backgroundColor": "#61AFE1",
+        "align": "bottom",
+        "opacity": 0.6,
+        "navigation": true,
+        "title": "Carmel Journeys",
+        "type": "default",
+        "image": "beta.r.png"
+      }
+    }
+  },
   "service": {
     "functions": [
       "post://activities#newActivity"
@@ -12,7 +35,6 @@
       "setup": [
         "ses:SendEmail"
       ]
-    },
-    "schedule": {}
+    }
   }
 }

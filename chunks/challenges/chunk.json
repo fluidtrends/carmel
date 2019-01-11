@@ -1,0 +1,11 @@
+{
+  "name": "challenges",
+  "routes": {
+    "main": {
+      "title": "Challenges",
+      "icon": "favorite",
+      "path": "/challenges",
+      "variants": "initial"
+    }
+  }
+}

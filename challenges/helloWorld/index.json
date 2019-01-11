@@ -1,6 +1,8 @@
 {
   "id": "helloWorld",
   "title": "Hello World",
+  "pricePlan": "free",
+  "type": ["studio", "cli"],
   "summary": "Start creating your personal brand in minutes",
   "author": {
     "name": "I. Dan Calinescu",
@@ -8,6 +10,6 @@
     "id": "o5L9RMtUojPjWX04Rm7eIwigQFv1"
   },
   "level": 0,
-  "skills": ["json", "web", "copywriting", "branding"],
+  "category": ["javascript", "json", "web"],
   "taskIds": ["changeMenuTitle", "changeIntroTitle", "changeIntroSubtitle"]
 }

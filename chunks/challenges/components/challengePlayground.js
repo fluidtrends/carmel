@@ -1,8 +1,8 @@
 import React from 'react'
-import { Component, Components } from 'react-dom-chunky'
+import { Component } from 'react-dom-chunky'
 import { Row, Col } from 'antd'
 import Task from './playground/task'
-import TaskCard from './playground/taskCard'
+
 import Editor from './playground/editor'
 import ChunkyProduct from './playground/product'
 
@@ -10,60 +10,50 @@ export default class ChallengePlayground extends Component {
   constructor(props) {
     super(props)
 
-    this.state = {
-      startedTask: false,
-      selectedTask: null
-    }
+    this.state = {}
   }
 
   componentDidMount() {
     super.componentDidMount()
   }
 
-  selectTask = selectedTask => {
-    this.setState({ selectedTask, startedTask: true })
-  }
-
-  resetTask = () => {
-    this.setState({ startedTask: false, selectTask: null })
-  }
-
   handleEditorChange = val => {
     if (JSON.parse(val)) {
       this.setState({ newValues: JSON.parse(val) })
+      this.props.updateValue(val)
     }
   }
 
   render() {
-    const { challenge, defaults } = this.props
+    const { challenge, defaults, initial } = this.props
     const { taskIds, id } = challenge
     const { newValues } = this.state
 
-    const columnStyle = {}
+    const columnStyle = { padding: '20px' }
     return (
       <React.Fragment>
         <Row style={{ margin: '10px 20px' }}>
-          <Col style={columnStyle} span={8}>
-            <div>TASKS</div>
-            {this.state.startedTask ? (
-              <Task
-                goBack={() => this.resetTask()}
-                task={require(`../../../challenges/${id}/${
-                  this.state.selectedTask.id
-                }/index.json`)}
-              />
-            ) : (
-              taskIds.map(task => (
-                <TaskCard
-                  task={require(`../../../challenges/${id}/${task}/index.json`)}
-                  onSelectTask={selectedTask => this.selectTask(selectedTask)}
-                />
-              ))
-            )}
+          <Col style={columnStyle} span={12} offset={6}>
+            <Task
+              task={
+                initial
+                  ? require(`../../../challenges/${id}/${
+                      taskIds[0]
+                    }/index.json`)
+                  : require(`../../../challenges/${id}/${task}/index.json`)
+              }
+            />
           </Col>
-          <Col style={columnStyle} span={16}>
-            <div>EDITOR</div>
-            {this.state.startedTask ? (
+        </Row>
+        {defaults && (
+          <Row
+            style={{
+              margin: '10px 20px',
+              display: 'flex',
+              alignItems: 'center'
+            }}
+          >
+            <Col style={columnStyle} span={10}>
               <Editor
                 value={JSON.stringify(
                   this.state.newValues ? this.state.newValues : defaults,
@@ -84,15 +74,8 @@ export default class ChallengePlayground extends Component {
                   tabSize: 2
                 }}
               />
-            ) : (
-              <div>Start a task in order to use the editor</div>
-            )}
-          </Col>
-        </Row>
-        <Row>
-          <Col style={columnStyle} span={12}>
-            <div>CHUNKY PRODUCT</div>
-            {defaults && (
+            </Col>
+            <Col style={columnStyle} span={14}>
               <ChunkyProduct
                 source={(newValues && newValues.source) || defaults.source}
                 image={(newValues && newValues.image) || defaults.image}
@@ -110,9 +93,9 @@ export default class ChallengePlayground extends Component {
                   defaults.subtitleStyle
                 }
               />
-            )}
-          </Col>
-        </Row>
+            </Col>
+          </Row>
+        )}
       </React.Fragment>
     )
   }

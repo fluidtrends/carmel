@@ -9,9 +9,9 @@
       "skipExtendedMenuOnDesktop": true,
       "extendedMenu": [
         {
-          "id": "beta",
-          "title": "Beta",
-          "path": "/beta"
+          "id": "download",
+          "title": "Download",
+          "path": "/download"
         }
       ],
       "components": {
@@ -89,12 +89,11 @@
       "cover": {
         "backgroundColor": "#61AFE1",
         "align": "bottom",
-        "opacity": 0.9,
+        "opacity": 0.3,
         "navigation": true,
         "title": "Meet The Team",
-        "type": "presentation",
-        "image": "https://raw.githubusercontent.com/fluidtrends/carmel/master/assets/people.png",
-        "imageSmall": "https://raw.githubusercontent.com/fluidtrends/carmel/master/assets/people.png"
+        "type": "default",
+        "image": "services.r.png"
       }
     },
     "roadmap": {
@@ -112,10 +111,10 @@
         "imageSmall": "https://raw.githubusercontent.com/fluidtrends/carmel/master/assets/distribution.png"
       }
     },
-    "beta": {
-      "title": "Beta",
+    "download": {
+      "title": "Download",
       "icon": "supervisor_account",
-      "path": "/beta",
+      "path": "/download",
       "events": {
         "cover": "https://t.me/carmelbeta"
       },
@@ -125,7 +124,7 @@
         "opacity": 0.6,
         "navigation": true,
         "title": "Become An Early Adopter",
-        "primaryActionTitle": "Get Early Access",
+        "primaryActionTitle": "Download the Studio",
         "link": "https://t.me/carmelbeta",
         "type": "default",
         "image": "beta.r.png"
@@ -270,26 +269,6 @@
           "text": "local://terms",
           "image": "carmel-logo.png",
           "textColor": "#37474F"
-        }
-      }
-    },
-    "challenges": {
-      "title": "Challenges",
-      "icon": "favorite",
-      "path": "/challenges",
-      "action": true,
-      "variants": "defaults",
-      "events": {
-        "cover": "system://challenges"
-      },
-      "components": {
-        "intro": {
-          "source": "summary",
-          "text": "local://challenges",
-          "textColor": "#00ACC1",
-          "animation": true,
-          "animationType": "zoom",
-          "animationOptions": ["top"]
         }
       }
     }

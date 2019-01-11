@@ -1,0 +1,15 @@
+{
+  "id": "initial",
+  "title": "Up for a challenge?",
+  "type": ["playground"],
+  "pricePlan": "free",
+  "summary": "Let'see how easy or hard is to create a Product with Carmel",
+  "author": {
+    "name": "Robert Pop",
+    "email": "poprobertdaniel22@gmail.com",
+    "id": "3213213"
+  },
+  "level": 0,
+  "category": ["javascript", "json", "web"],
+  "taskIds": ["tweakCover"]
+}
