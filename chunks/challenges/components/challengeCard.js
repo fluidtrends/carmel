@@ -32,6 +32,10 @@ export default class ChallengeCard extends Component {
         <ChipSet style={{ margin: '0px' }}>
           {this.props.challenge.category.map(cat => (
             <Chip
+              id={cat}
+              onInteraction={evt =>
+                this.props.onCategoryClick(evt.detail.chipId)
+              }
               style={{ backgroundColor: '#ECEFF1', color: '#00bcd4' }}
               key={`${cat}-${this.props.challenge.id}`}
             >

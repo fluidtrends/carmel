@@ -1,14 +1,17 @@
 [
   {
     "id": "helloWorld",
-    "pricePlan": "free"
+    "pricePlan": "free",
+    "category": ["javascript", "json", "web"]
   },
   {
     "id": "initial",
-    "pricePlan": "free"
+    "pricePlan": "free",
+    "category": ["javascript", "json", "web"]
   },
   {
     "id": "challenge",
-    "pricePlan": "pro"
+    "pricePlan": "pro",
+    "category": ["javascript", "cloud", "devops"]
   }
 ]

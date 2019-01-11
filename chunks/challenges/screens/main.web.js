@@ -1,6 +1,6 @@
 import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
-import { Row, Col, Radio } from 'antd'
+import { Row, Col, Radio, Tag } from 'antd'
 import ChallengeCard from '../components/challengeCard'
 import InitialChallenge from '../components/initialChallenge'
 import Challenge from '../components/Challenge'
@@ -12,7 +12,8 @@ export default class MainChallengesScreen extends Screen {
     this.state = {
       ...this.state,
       initialChallengeCompleted: false,
-      selectedPricePlan: 'all'
+      selectedPricePlan: 'all',
+      selectedCategories: []
     }
   }
 
@@ -49,9 +50,25 @@ export default class MainChallengesScreen extends Screen {
     this.setState({ selectedPricePlan: ev.target.value })
   }
 
+  addCategory = category => {
+    if (this.state.selectedCategories.find(c => c === category)) {
+      return
+    }
+    this.setState({
+      selectedCategories: [...this.state.selectedCategories, category]
+    })
+  }
+
+  removeCategory = removedCategory => {
+    const selectedCategories = this.state.selectedCategories.filter(
+      category => category !== removedCategory
+    )
+    this.setState({ selectedCategories })
+  }
+
   renderSelection() {
     return (
-      <div style={{ padding: '5px 30px' }}>
+      <div style={{ padding: '10px 30px' }}>
         <Radio.Group
           defaultValue="all"
           buttonStyle="solid"
@@ -65,14 +82,44 @@ export default class MainChallengesScreen extends Screen {
     )
   }
 
+  renderTags() {
+    return (
+      <div style={{ padding: '5px 30px' }}>
+        {this.state.selectedCategories.map(category => (
+          <Tag closable afterClose={() => this.removeCategory(category)}>
+            {category}
+          </Tag>
+        ))}
+      </div>
+    )
+  }
+
   renderChallenges() {
     const challengesData = require('challenges/index.json')
-    const filteredChallenges =
-      this.state.selectedPricePlan === 'all'
+    const { selectedCategories, selectedPricePlan } = this.state
+    const filter = {}
+
+    for (let i = 0; i < selectedCategories.length; i++) {
+      filter[selectedCategories[i]] = selectedCategories[i]
+    }
+    let filteredChallenges =
+      selectedPricePlan === 'all'
         ? challengesData
         : challengesData.filter(
             challenge => challenge.pricePlan === this.state.selectedPricePlan
           )
+
+    if (Object.keys(filter).length > 0) {
+      filteredChallenges = filteredChallenges.filter(challenge => {
+        for (var key in filter) {
+          if (challenge.category.find(c => c === filter[key])) {
+            return true
+          }
+        }
+        return false
+      })
+    }
+
     return (
       <div>
         {this.state.initialChallengeCompleted && (
@@ -86,6 +133,7 @@ export default class MainChallengesScreen extends Screen {
           />
         )}
         {this.renderSelection()}
+        {this.renderTags()}
         <Row gutter={26} style={{ padding: '20px' }}>
           {this.state.initialChallengeCompleted ? (
             <React.Fragment>
@@ -100,6 +148,7 @@ export default class MainChallengesScreen extends Screen {
                         `/challenges/${selectedChallenge.id}`
                       )
                     }
+                    onCategoryClick={category => this.addCategory(category)}
                   />
                 </Col>
               ))}
@@ -111,6 +160,7 @@ export default class MainChallengesScreen extends Screen {
                 onSelectChallenge={() =>
                   this.props.history.push(`/challenges/initial`)
                 }
+                onCategoryClick={category => this.addCategory(category)}
               />
             </Col>
           )}
