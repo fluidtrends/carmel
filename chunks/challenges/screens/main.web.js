@@ -106,12 +106,10 @@ export default class MainChallengesScreen extends Screen {
             </React.Fragment>
           ) : (
             <Col span={16} offset={4}>
-              <InitialChallenge
+              <ChallengeCard
                 challenge={require(`../../../challenges/initial/index.json`)}
                 onSelectChallenge={() =>
-                  this.selectChallenge(
-                    this.props.history.push(`/challenges/initial`)
-                  )
+                  this.props.history.push(`/challenges/initial`)
                 }
               />
             </Col>

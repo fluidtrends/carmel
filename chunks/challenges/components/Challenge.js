@@ -79,15 +79,17 @@ export default class Challenge extends Component {
   verifyTask = () => {
     const { challengeId } = this.props
     const { editorValue } = this.state
-
+    message.loading('Verifying your task ...')
     if (challengeId === 'initial') {
       // no changes has been made to the editor
       if (!editorValue) {
         // randomize this with an array
-        message.error('I know you can do it!')
+        message.destroy()
+        message.error('I know you can!')
         return
       }
       if (JSON.stringify(editorValue) === JSON.stringify(this.state.initial)) {
+        message.destroy()
         message.error('Come on, I believe in you!')
         return
       } else {
