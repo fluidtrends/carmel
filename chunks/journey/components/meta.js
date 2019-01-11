@@ -33,7 +33,7 @@ export default class ActivityCard extends Component {
 
     const title = <div style={{fontSize: 32, display: 'flex', alignItems: 'center'}}>
       {name}
-      <Button type="primary" small ghost style={{marginLeft: 30, marginTop: 5, color: '#00bfa5', borderColor: '#00bfa5'}}>Follow</Button>
+      <Button type="primary" small ghost style={{marginLeft: 40, marginTop: 5, color: '#00bfa5', borderColor: '#00bfa5'}}>Follow</Button>
     </div>
 
     const meta = <Meta
@@ -42,9 +42,9 @@ export default class ActivityCard extends Component {
       style={{flex: 1}}
     />
 
-    const width = this.isSmallScreen? '90vw' : 700
+    const width = this.props.isSmallScreen? '90vw' : 700
 
-    return <div style={{ margin: '50px 0', display: 'flex', textAlign: 'left'}}>
+    return <div style={{ display: 'flex', flexWrap: 'wrap-reverse', justifyContent: 'center', textAlign: 'left', width}}>
       {meta}
       <Avatar style={{height: 120, width: 120}} src={img}/>
     </div>

@@ -13,37 +13,43 @@ const mockJourney = {
   description: 'Developer. Teacher. Clown. Carmel.io co-founder.',
   xp: 25,
   img: 'http://files.carmel.io/team/andi/profile.png',
-  badges: [
+  skills: [
     {
-      name: 'Best Fisher',
-      color: '#9C27B0',
-      type: 'tag'
+      name: 'React',
+      level: '46',
+      color: '#212121',
     },
     {
-      name: 'Fish Memory',
-      color: '#F06292',
-      type: 'tag'
-    },
-    {
-      name: 'Slacker',
+      name: 'JSON',
+      level: '99',
       color: '#795548',
-      type: 'tag'
     },
     {
-      name: 'Challenger',
-      color: '#03A9F4',
-      type: 'tag'
+      name: 'Firebase',
+      level: '73',
+      color: '#303F9F',
     },
     {
-      name: 'Champion',
-      color: '#00BCD4',
-      type: 'tag'
+      name: 'Node',
+      level: '90',
+      color: '#388E3C',
     },
     {
-      name: 'Nerd',
-      color: '#FFC107',
-      type: 'tag'
+      name: 'HTML',
+      level: '42',
+      color: '#F57C00',
     },
+    {
+      name: 'CSS',
+      level: '13',
+      color: '#FFEB3B',
+    },
+    {
+      name: 'Copywriting',
+      level: '67',
+      color: '#90A4AE',
+    },
+  
   ], 
   events: [
     {
@@ -101,6 +107,7 @@ export default class MainJourneyScreen extends Screen {
     this._renderBadge = this.renderBadge.bind(this)
     this._renderTabs = this.renderTabs.bind(this)
     this._renderMeta = this.renderMeta.bind(this)
+    this._renderSkills = this.renderSkills.bind(this)
   }
 
   componentDidMount() {
@@ -131,7 +138,7 @@ export default class MainJourneyScreen extends Screen {
       // return
     }
 
-    return <Components.AnimatedWrapper animation animationType="fade"><span style={{marginTop: 5}}><Tag color={badge.color}>{badge.name}</Tag></span></Components.AnimatedWrapper>
+    return <Components.AnimatedWrapper animation animationType="fade"><span><Tag style={{marginBottom: 10}} color={badge.color}>{`${badge.name} ${badge.level}`}</Tag></span></Components.AnimatedWrapper>
   }
 
   renderEvent(event) {
@@ -139,14 +146,16 @@ export default class MainJourneyScreen extends Screen {
   }
 
   renderMeta() {
-    return <Meta name={mockJourney.name} description={mockJourney.description} img={mockJourney.img} />
+    return <Meta name={mockJourney.name} description={mockJourney.description} img={mockJourney.img} isSmallScreen={this.isSmallScreen} />
   }
 
   renderTabs() {
-    return <Tabs defaultActiveKey="1" onChange={() => {}} style={{color: '#00bfa5'}}>
+    return <Tabs defaultActiveKey="1" onChange={() => {}} style={{color: '#00bfa5', marginTop: 75}}>
       <TabPane tab="Activity" key="1">
         {this._renderEvents()}
-        <Icon type="loading" style={{fontSize: 40, color: '#00bfa5', padding: '20px 0'}} />
+        <div style={{textAlign: 'center'}}>
+          <Icon type="loading" style={{fontSize: 40, color: '#00bfa5', padding: '20px 0'}} />
+        </div>
       </TabPane>
       <TabPane tab="Stories" key="2">
         {this.state.stories? this.renderStories() : this.renderLoading()}
@@ -158,6 +167,10 @@ export default class MainJourneyScreen extends Screen {
 
   renderEvents() {
       return mockJourney.events.slice(0).reverse().map(this._renderEvent) 
+  }
+
+  renderSkills() {
+    return mockJourney.skills.map(this._renderBadge)
   }
 
   renderStories() {
@@ -174,7 +187,7 @@ export default class MainJourneyScreen extends Screen {
         flexDirection: 'column',
         alignItems: 'center'
       }}>
-      { story.chapters.map(chapter => <StoryCard chapter={chapter} />) }
+        { story.chapters.map(chapter => <StoryCard chapter={chapter} isSmallScreen={this.isSmallScreen} />) }
       </div>
   }
 
@@ -192,16 +205,21 @@ export default class MainJourneyScreen extends Screen {
   }
 
   renderJourney() {
-    return <div style={{maxWidth: 700}}>
+    const width = this.isSmallScreen? '90vw' : 700
+    const distancer = <div style={{ marginTop: 25 }} />
+    return <div style={{width, padding: '50px 0'}}>
       {this._renderMeta()}
+      {distancer}
+      {this._renderSkills()}
       {this._renderTabs()}
     </div>
   }
 
-
-
-
   get features() {
+    if (!this.username) {
+      return []
+    }
+
     return this.renderJourney()
   }
 
