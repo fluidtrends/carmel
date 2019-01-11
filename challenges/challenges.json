@@ -1,0 +1,14 @@
+[
+  {
+    "id": "helloWorld",
+    "pricePlan": "free"
+  },
+  {
+    "id": "initial",
+    "pricePlan": "free"
+  },
+  {
+    "id": "challenge",
+    "pricePlan": "pro"
+  }
+]

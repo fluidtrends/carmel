@@ -1,6 +1,6 @@
 import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
-import { Row, Col } from 'antd'
+import { Row, Col, Radio } from 'antd'
 import ChallengeCard from '../components/challengeCard'
 import InitialChallenge from '../components/initialChallenge'
 import Challenge from '../components/Challenge'
@@ -11,13 +11,15 @@ export default class MainChallengesScreen extends Screen {
     super(props)
     this.state = {
       ...this.state,
-      initialChallengeCompleted: false
+      initialChallengeCompleted: false,
+      selectedPricePlan: 'all'
     }
   }
 
   componentDidMount() {
     super.componentDidMount()
     this._examples = this.importData('initial')
+    this._plans = this.importData('pricePlans')
     this.setState({
       initial: this.examples
     })
@@ -35,13 +37,42 @@ export default class MainChallengesScreen extends Screen {
     return this._examples || {}
   }
 
+  get pricePlans() {
+    return this._plans || []
+  }
+
   get challenge() {
     return this._challenge
   }
 
-  renderChallenges() {
-    const challengesData = require('challenges/index.json')
+  handlePriceChange = ev => {
+    this.setState({ selectedPricePlan: ev.target.value })
+  }
 
+  renderSelection() {
+    return (
+      <div style={{ padding: '5px 30px' }}>
+        <Radio.Group
+          defaultValue="all"
+          buttonStyle="solid"
+          onChange={this.handlePriceChange}
+        >
+          {this.pricePlans.map(plan => (
+            <Radio.Button value={plan}>{plan.toUpperCase()}</Radio.Button>
+          ))}
+        </Radio.Group>
+      </div>
+    )
+  }
+
+  renderChallenges() {
+    const challengesData = require('challenges/challenges.json')
+    const filteredChallenges =
+      this.state.selectedPricePlan === 'all'
+        ? challengesData
+        : challengesData.filter(
+            challenge => challenge.pricePlan === this.state.selectedPricePlan
+          )
     return (
       <div>
         {this.state.initialChallengeCompleted && (
@@ -54,13 +85,16 @@ export default class MainChallengesScreen extends Screen {
             }}
           />
         )}
+        {this.renderSelection()}
         <Row gutter={26} style={{ padding: '20px' }}>
           {this.state.initialChallengeCompleted ? (
             <React.Fragment>
-              {challengesData.map(challenge => (
+              {filteredChallenges.map(challenge => (
                 <Col span={8} style={{ padding: '20px', height: '475px' }}>
                   <ChallengeCard
-                    challenge={require(`../../../challenges/${challenge}/index.json`)}
+                    challenge={require(`../../../challenges/${
+                      challenge.id
+                    }/index.json`)}
                     onSelectChallenge={selectedChallenge =>
                       this.props.history.push(
                         `/challenges/${selectedChallenge.id}`
