@@ -1,0 +1,18 @@
+{
+  "name": "journey",
+  "service": {
+    "functions": [
+      "post://activities#newActivity"
+    ],
+    "dependencies": {
+    },
+    "requiredFields": {
+    },
+    "permissions": {
+      "setup": [
+        "ses:SendEmail"
+      ]
+    },
+    "schedule": {}
+  }
+}
