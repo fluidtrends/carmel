@@ -1,0 +1,31 @@
+{
+  "name": "bounties",
+  "routes": {
+    "main": {
+      "title": "Bounties",
+      "icon": "favorite",
+      "path": "/bounties",
+      "variants": "initial",
+      "stories": [{
+        "source": "https://raw.githubusercontent.com/idancali/cellar/master/stories/carmel/story.json"
+      }],
+      "events": {
+        "cover": "system://bounties"
+      }
+    }
+  },
+  "service": {
+    "functions": [
+      "post://activities#newActivity"
+    ],
+    "dependencies": {
+    },
+    "requiredFields": {
+    },
+    "permissions": {
+      "setup": [
+        "ses:SendEmail"
+      ]
+    }
+  }
+}
