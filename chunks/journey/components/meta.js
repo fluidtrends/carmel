@@ -15,7 +15,7 @@ export default class ActivityCard extends Component {
   }
 
   render () {
-    const { name, description, img } = this.props
+    const { name, username, description, img, since, followers } = this.props.user
 
 		const about = <div>
       <span style={{fontSize: 16}}>
@@ -23,17 +23,20 @@ export default class ActivityCard extends Component {
       </span>
       <br />
       <span style={{fontSize: 16}}>
-        On the platform since 14 March 2018
+        {since}
       </span>
       <br />
       <span style={{fontSize: 12}}>
-        15k followers
+        {followers} followers
       </span>
     </div>
 
-    const title = <div style={{fontSize: 32, display: 'flex', alignItems: 'center'}}>
+    const title = <div style={{fontSize: 32}}> 
       {name}
-      <Button type="primary" small ghost style={{marginLeft: 40, marginTop: 5, color: '#00bfa5', borderColor: '#00bfa5'}}>Follow</Button>
+      <div style={{fontSize: 28, display: 'flex', alignItems: 'center'}}>
+        {username}
+        <Button type="primary" small ghost style={{marginLeft: 40, marginTop: 5, color: '#00bfa5', borderColor: '#00bfa5'}}>Follow</Button>
+      </div>
     </div>
 
     const meta = <Meta
