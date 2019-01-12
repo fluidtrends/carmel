@@ -153,15 +153,24 @@ export default class ChallengeCard extends Component {
 
   renderTitle() {
     return (
-      <div style={{ position: 'relative' }}>
+      <div
+        style={{
+          position: 'relative',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-start'
+        }}
+      >
+        {this.renderEnv()}
         <Typography
           use="headline5"
           tag="div"
           style={{
             color: '#455A64',
-            maxWidth: '80%',
+            maxWidth: '90%',
             textOverflow: 'ellipsis',
-            overflow: 'hidden'
+            overflow: 'hidden',
+            display: 'inline-block'
           }}
         >
           {this.props.challenge.title}
@@ -173,22 +182,22 @@ export default class ChallengeCard extends Component {
         >
           {this.props.challenge.pricePlan.toUpperCase()}
         </Ribbon>
-        {this.renderEnv()}
       </div>
     )
   }
 
   renderEnv() {
     return (
-      <div
-        style={{
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'flex-start'
-        }}
-      >
+      // <div
+      //   style={{
+      //     flex: 1,
+      //     display: 'flex',
+      //     flexDirection: 'row',
+      //     alignItems: 'center',
+      //     justifyContent: 'flex-start'
+      //   }}
+      // >
+      <React.Fragment>
         {this.props.challenge.type.map(t => {
           let content = (
             <p style={{ fontSize: '12px', margin: 0 }}>
@@ -223,32 +232,37 @@ export default class ChallengeCard extends Component {
             <div
               style={{
                 cursor: 'pointer',
-                background: '#0288D1',
+                background: '#fff',
                 borderRadius: '20px',
+                borderColor: '#00bcd4',
                 height: '35px',
-                width: '120px',
                 lineHeight: '35px',
                 textAlign: 'center',
-                margin: '5px'
+                margin: '5px',
+                display: 'inline-block'
               }}
             >
               <Popover content={content} title={title} placement={'right'}>
-                <span
+                {/* <span
                   style={{
                     fontSize: '12px',
                     fontWeight: 'bold',
                     padding: '5px',
-                    color: '#fff'
+                    color: '#00bcd4'
                   }}
                 >
                   {t.toUpperCase()}
-                </span>
-                <Icon type={icon} style={{ color: '#fff', fontSize: '12px' }} />
+                </span> */}
+                <Icon
+                  type={icon}
+                  style={{ color: '#00bcd4', fontSize: '12px' }}
+                />
               </Popover>
             </div>
           )
         })}
-      </div>
+      </React.Fragment>
+      // </div>
     )
   }
 
