@@ -73,7 +73,13 @@ export default class MainChallengesScreen extends Screen {
 
   renderSelection() {
     return (
-      <div style={{ padding: '10px 30px' }}>
+      <div
+        style={{
+          padding: '10px 30px',
+          display: 'flex',
+          justifyContent: 'center'
+        }}
+      >
         <Radio.Group
           defaultValue="all"
           buttonStyle="solid"
@@ -89,7 +95,13 @@ export default class MainChallengesScreen extends Screen {
 
   renderTags() {
     return (
-      <div style={{ padding: '5px 30px' }}>
+      <div
+        style={{
+          padding: '5px 30px',
+          display: 'flex',
+          justifyContent: 'center'
+        }}
+      >
         {this.state.selectedCategories.map(category => (
           <Tag
             key={category}
@@ -146,21 +158,31 @@ export default class MainChallengesScreen extends Screen {
         <Row gutter={26} style={{ padding: '20px' }}>
           {this.state.initialChallengeCompleted ? (
             <React.Fragment>
-              {filteredChallenges.map(challenge => (
-                <Col span={8} style={{ padding: '20px', height: '475px' }}>
-                  <ChallengeCard
-                    challenge={require(`../../../challenges/${
-                      challenge.id
-                    }/index.json`)}
-                    onSelectChallenge={selectedChallenge =>
-                      this.props.history.push(
-                        `/challenges/${selectedChallenge.id}`
-                      )
-                    }
-                    onCategoryClick={category => this.addCategory(category)}
-                  />
+              {filteredChallenges.length ? (
+                filteredChallenges.map(challenge => (
+                  <Col span={16} offset={4} style={{ padding: '20px' }}>
+                    <ChallengeCard
+                      challenge={require(`../../../challenges/${
+                        challenge.id
+                      }/index.json`)}
+                      onSelectChallenge={selectedChallenge =>
+                        this.props.history.push(
+                          `/challenges/${selectedChallenge.id}`
+                        )
+                      }
+                      onCategoryClick={category => this.addCategory(category)}
+                    />
+                  </Col>
+                ))
+              ) : (
+                <Col
+                  span={16}
+                  offset={4}
+                  style={{ padding: '20px', height: '475px' }}
+                >
+                  <p>Sorry we can't find the challenges you are looking for.</p>
                 </Col>
-              ))}
+              )}
             </React.Fragment>
           ) : (
             <Col span={16} offset={4}>
