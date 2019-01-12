@@ -10,3 +10,6 @@ package-lock.json
 \.idea/
 .assets
 screenshots
+.eosio
+carmeltokens.wasm
+eosio.token.wasm
