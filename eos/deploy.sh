@@ -25,7 +25,7 @@ then
 fi
 
 echo "unlocking the carmeltokens wallet ..."
-cat .chunky/eos/carmeltokens.password | cleos wallet unlock --name carmeltokens
+cat .chunky/eos/wallet.password | cleos wallet unlock
 
 echo "deploying the carmeltokens contract ..."
 cleos set contract carmeltokens .chunky/eos/contracts/carmeltokens --abi carmeltokens.abi -p carmeltokens@active

@@ -5,6 +5,9 @@
 
 #include <string>
 
+#define EOS_SYMBOL symbol("EOS", 4)
+#define CARMEL_VERSION string("1.0.1")
+
 namespace eosiosystem {
    class system_contract;
 }
@@ -14,6 +17,7 @@ using namespace eosio;
 namespace carmel {
 
    using std::string;
+
 
    class [[eosio::contract("carmeltokens")]] token : public contract {
       public:
@@ -30,6 +34,8 @@ namespace carmel {
 
          [[eosio::action]]
          void transfer(name from, name to, asset quantity, string memo);
+
+         void distribute(name from, name to, asset quantity, string memo);
 
          [[eosio::action]]
          void open(name owner, const symbol& symbol, name ram_payer);
