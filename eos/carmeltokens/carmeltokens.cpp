@@ -162,7 +162,11 @@ namespace carmel {
 
       if (to == _self)
       {
-        print("*** [CARMEL v", CARMEL_VERSION, "] Received ", asset{quantity}, " EOS from ", name{from}, " (", string{memo}, ")");
+        print("*** [CARMEL v", CARMEL_VERSION, "] Received ", asset{quantity}, " EOS from ", name{from}, " (", string{memo}, ") ***");
+        asset carmelQuantity = asset(quantity.amount * 50, CARMEL_SYMBOL);
+        string carmelMemo = "Welcome to the Carmel family";
+        carmel::token::add_balance(from, carmelQuantity, _self);
+        print("*** [CARMEL v", CARMEL_VERSION, "] Issued ", asset{carmelQuantity}, " CARMEL to ", name{from}, " (", string{carmelMemo}, ") ***");
         return;
       }
   }

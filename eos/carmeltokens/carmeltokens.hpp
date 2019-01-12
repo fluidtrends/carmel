@@ -6,6 +6,7 @@
 #include <string>
 
 #define EOS_SYMBOL symbol("EOS", 4)
+#define CARMEL_SYMBOL symbol("CARMEL", 4)
 #define CARMEL_VERSION string("1.0.1")
 
 namespace eosiosystem {
