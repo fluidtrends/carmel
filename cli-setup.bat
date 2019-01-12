@@ -8,7 +8,7 @@ IF %ERRORLEVEL% NEQ 0 (
 )
 
 set NODE_VER=null
-set NODE_EXEC=node-v0.8.11-x86.msi
+set NODE_EXEC=node-v8.12.0-x86.msi
 set SETUP_DIR=%CD%
 node -v >tmp.txt
 set /p NODE_VER=<tmp.txt
@@ -19,7 +19,7 @@ IF %NODE_VER% == null (
 	IF NOT EXIST tmp/%NODE_EXEC% (
 		echo Node setup file does not exist. Downloading ...
 		cd ../bin
-		START /WAIT wget http://nodejs.org/dist/v0.8.11/%NODE_EXEC%
+		START /WAIT wget http://nodejs.org/dist/v8.12.0/%NODE_EXEC%
 		move %NODE_EXEC% %SETUP_DIR%/tmp
 	)
 	cd %SETUP_DIR%/tmp
