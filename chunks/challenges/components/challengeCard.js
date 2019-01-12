@@ -188,15 +188,6 @@ export default class ChallengeCard extends Component {
 
   renderEnv() {
     return (
-      // <div
-      //   style={{
-      //     flex: 1,
-      //     display: 'flex',
-      //     flexDirection: 'row',
-      //     alignItems: 'center',
-      //     justifyContent: 'flex-start'
-      //   }}
-      // >
       <React.Fragment>
         {this.props.challenge.type.map(t => {
           let content = (
@@ -243,16 +234,6 @@ export default class ChallengeCard extends Component {
               }}
             >
               <Popover content={content} title={title} placement={'right'}>
-                {/* <span
-                  style={{
-                    fontSize: '12px',
-                    fontWeight: 'bold',
-                    padding: '5px',
-                    color: '#00bcd4'
-                  }}
-                >
-                  {t.toUpperCase()}
-                </span> */}
                 <Icon
                   type={icon}
                   style={{ color: '#00bcd4', fontSize: '12px' }}
@@ -262,7 +243,6 @@ export default class ChallengeCard extends Component {
           )
         })}
       </React.Fragment>
-      // </div>
     )
   }
 
