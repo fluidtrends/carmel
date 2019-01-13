@@ -7,7 +7,7 @@
 
 #define EOS_SYMBOL symbol("EOS", 4)
 #define CARMEL_SYMBOL symbol("CARMEL", 4)
-#define CARMEL_VERSION string("1.0.1")
+#define CARMEL_VERSION string("1.0.0")
 
 namespace eosiosystem {
    class system_contract;
@@ -19,8 +19,7 @@ namespace carmel {
 
    using std::string;
 
-
-   class [[eosio::contract("carmeltokens")]] token : public contract {
+   class [[eosio::contract("carmel.token")]] token : public contract {
       public:
          using contract::contract;
 

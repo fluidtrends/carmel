@@ -7,5 +7,5 @@ coverage
 packer_boxes
 packer_cache
 .eosio
-carmeltokens.wasm
+carmel.token.wasm
 eosio.token.wasm

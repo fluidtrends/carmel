@@ -11,5 +11,5 @@ package-lock.json
 .assets
 screenshots
 .eosio
-carmeltokens.wasm
+carmel.token.wasm
 eosio.token.wasm
