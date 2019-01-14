@@ -6,3 +6,6 @@ coverage
 .vagrant
 packer_boxes
 packer_cache
+.eosio
+carmel.token.wasm
+eosio.token.wasm
