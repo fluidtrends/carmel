@@ -32,7 +32,7 @@ if [ -z "$CMD" ]; then
 fi
 
 echo "unlocking the carmeltokens wallet ..."
-cat .chunky/eos/carmeltokens.password | cleos wallet unlock --name carmeltokens &> /dev/null
+cat .chunky/eos/wallet.password | cleos wallet unlock &> /dev/null
 
 case $CMD in
   "create")
