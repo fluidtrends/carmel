@@ -2,6 +2,7 @@ import React from 'react'
 import { Component, Components } from 'react-dom-chunky'
 import { Row, Col, message, Button, Icon } from 'antd'
 import ChallengePlayground from './challengePlayground'
+import ChallengeCard from './challengeCard'
 import Task from './playground/task'
 import { Data } from 'react-chunky'
 
@@ -25,12 +26,30 @@ export default class Challenge extends Component {
     const text = require(`assets/text/challenges/${challengeId}.md`)
 
     return (
-      text && (
-        <Components.Text
-          source={`local://challenges/${challengeId}`}
-          style={{ maxWidth: '100%' }}
-        />
-      )
+      <div
+        style={{
+          display: 'flex',
+          maxWidth: '100%',
+          justifyContent: 'center',
+          marginTop: '50px',
+          flexDirection: 'column'
+        }}
+      >
+        <Col span={18} offset={3}>
+          <ChallengeCard
+            hideButton
+            challenge={require(`../../../challenges/${challengeId}/index.json`)}
+          />
+          ,
+        </Col>
+
+        {text && (
+          <Components.Text
+            source={`local://challenges/${challengeId}`}
+            style={{ maxWidth: '100%' }}
+          />
+        )}
+      </div>
     )
   }
   renderTasks() {

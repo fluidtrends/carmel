@@ -34,7 +34,9 @@ export default class ChallengeCard extends Component {
             <Chip
               id={cat}
               onInteraction={evt =>
-                this.props.onCategoryClick(evt.detail.chipId)
+                this.props.onCategoryClick
+                  ? this.props.onCategoryClick(evt.detail.chipId)
+                  : false
               }
               style={{ backgroundColor: '#ECEFF1', color: '#00bcd4' }}
               key={`${cat}-${this.props.challenge.id}`}
@@ -233,7 +235,7 @@ export default class ChallengeCard extends Component {
                 display: 'inline-block'
               }}
             >
-              <Popover content={content} title={title} placement={'right'}>
+              <Popover content={content} title={title} placement={'top'}>
                 <Icon
                   type={icon}
                   style={{ color: '#00bcd4', fontSize: '12px' }}
@@ -258,21 +260,22 @@ export default class ChallengeCard extends Component {
         {this.renderSummary()}
         {this.renderDetails()}
         {this.renderSkills()}
-
-        <Button
-          onClick={() => this.props.onSelectChallenge(challenge)}
-          style={{
-            display: 'flex',
-            color: '#ffffff',
-            backgroundColor: challenge.history ? '#03A9F4' : '#00bcd4',
-            border: 'none',
-            margin: '10px auto 0',
-            height: '35px',
-            lineHeight: '15px'
-          }}
-        >
-          {prompt} <Icon type="caret-right" />
-        </Button>
+        {!this.props.hideButton && (
+          <Button
+            onClick={() => this.props.onSelectChallenge(challenge)}
+            style={{
+              display: 'flex',
+              color: '#ffffff',
+              backgroundColor: challenge.history ? '#03A9F4' : '#00bcd4',
+              border: 'none',
+              margin: '10px auto 0',
+              height: '35px',
+              lineHeight: '15px'
+            }}
+          >
+            {prompt} <Icon type="caret-right" />
+          </Button>
+        )}
       </Card>
     )
   }
