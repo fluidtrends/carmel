@@ -4,6 +4,7 @@ import { Row, Col, message, Button, Icon } from 'antd'
 import ChallengePlayground from './challengePlayground'
 import ChallengeCard from './challengeCard'
 import Task from './playground/task'
+import Timeline from './challengeTimeline'
 import { Data } from 'react-chunky'
 
 export default class Challenge extends Component {
@@ -35,14 +36,18 @@ export default class Challenge extends Component {
           flexDirection: 'column'
         }}
       >
-        <Col span={18} offset={3}>
-          <ChallengeCard
-            hideButton
-            challenge={require(`../../../challenges/${challengeId}/index.json`)}
-          />
-          ,
-        </Col>
-
+        <Row gutter={16} style={{ display: 'flex', alignItems: 'center' }}>
+          <Col span={12} offset={1}>
+            <ChallengeCard
+              hideButton
+              challenge={require(`../../../challenges/${challengeId}/index.json`)}
+            />
+            ,
+          </Col>
+          <Col span={4} offset={3}>
+            <Timeline />
+          </Col>
+        </Row>
         {text && (
           <Components.Text
             source={`local://challenges/${challengeId}`}
