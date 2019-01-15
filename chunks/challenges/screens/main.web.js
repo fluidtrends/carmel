@@ -143,7 +143,6 @@ export default class MainChallengesScreen extends Screen {
 
     return (
       <div>
-        {this.state.initialChallengeCompleted && (
           <Components.Text
             source={'local://challenges-intro'}
             style={{
@@ -152,11 +151,10 @@ export default class MainChallengesScreen extends Screen {
               justifyContent: 'center'
             }}
           />
-        )}
         {this.renderSelection()}
         {this.renderTags()}
         <Row gutter={26} style={{ padding: '20px' }}>
-          {this.state.initialChallengeCompleted ? (
+          {true ? (
             <React.Fragment>
               {filteredChallenges.length ? (
                 filteredChallenges.map(challenge => (
@@ -202,7 +200,7 @@ export default class MainChallengesScreen extends Screen {
 
   components() {
     return super.components().concat([
-      <div style={{ width: '100vw' }}>
+      <div style={{ width: '100vw', marginTop: '50px' }}>
         {this.challenge ? (
           <Challenge
             challengeId={this.challenge}
@@ -211,19 +209,9 @@ export default class MainChallengesScreen extends Screen {
             }/index.json`)}
             showChallenges={() => this.props.history.goBack()}
           />
-        ) : (
-          <React.Fragment>
-            {!this.state.initialChallengeCompleted && (
-              <Components.Summary
-                text={'local://challenges'}
-                animation
-                animationType={'zoom'}
-                animationOptions={['top']}
-              />
-            )}
-            {this.renderChallenges()}
-          </React.Fragment>
-        )}
+        ) : 
+            this.renderChallenges()
+        }
       </div>
     ])
   }

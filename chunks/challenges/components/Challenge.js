@@ -43,7 +43,7 @@ export default class Challenge extends Component {
   }
 
   renderIntro(challengeId) {
-    const text = require(`assets/text/challenges/${challengeId}.md`)
+    // const text = require(`assets/text/challenges/${challengeId}.md`)
 
     return (
       <div
@@ -65,12 +65,12 @@ export default class Challenge extends Component {
         <Col span={6} offset={9}>
           <Timeline />
         </Col>
-        {text && (
+        {/* {text && (
           <Components.Text
             source={`local://challenges/${challengeId}`}
             style={{ maxWidth: '100%' }}
           />
-        )}
+        )} */}
       </div>
     )
   }
