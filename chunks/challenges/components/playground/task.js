@@ -2,7 +2,6 @@ import React from 'react'
 import { Component, Components } from 'react-dom-chunky'
 import { Avatar, Icon, Popover } from 'antd'
 import { Typography } from '@rmwc/typography'
-import Prompt from './prompt'
 
 export default class Task extends Component {
   constructor(props) {
@@ -82,7 +81,13 @@ export default class Task extends Component {
     )
 
     return (
-      <Prompt subtitle={this.props.title}>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-start'
+        }}
+      >
         <Typography
           use="title"
           style={{
@@ -114,7 +119,7 @@ export default class Task extends Component {
           }}
         >
           {this.props.task.instructions}
-          <Popover placement="bottomRight" content={popup}>
+          <Popover placement="bottom" content={popup}>
             <Icon
               type="question-circle"
               style={{
@@ -125,7 +130,7 @@ export default class Task extends Component {
           </Popover>
           {this.renderTip()}
         </Typography>
-      </Prompt>
+      </div>
     )
   }
 }
