@@ -1,9 +1,12 @@
 import React from 'react'
 import { Component, Components } from 'react-dom-chunky'
-import { Row, Col, message, Button, Icon } from 'antd'
+import { Row, Col, message, Button, Icon, Card, List, Avatar } from 'antd'
 import ChallengePlayground from './challengePlayground'
+import ChallengeCard from './challengeCard'
 import Task from './playground/task'
+import Timeline from './challengeTimeline'
 import { Data } from 'react-chunky'
+import { Typography } from '@rmwc/typography'
 
 export default class Challenge extends Component {
   constructor(props) {
@@ -13,7 +16,8 @@ export default class Challenge extends Component {
       tasksStarted: false,
       selectedTask: null,
       challengeCompleted: false,
-      editorValue: null
+      editorValue: null,
+      taskIndex: 1
     }
   }
 
@@ -21,33 +25,178 @@ export default class Challenge extends Component {
     super.componentDidMount()
   }
 
+  isTaskComplete(task) {
+    return task.index < this.state.taskIndex
+  }
+
+  isCurrentTask(task) {
+    return task.index === this.state.taskIndex
+  }
+
+  continueChallenge = () => {
+    const task = this.props.challenge.tasks[this.state.taskIndex - 1]
+    this.setState({ tasksStarted: true, selectedTask: task })
+  }
+
+  toggleStarted = () => {
+    this.setState({ tasksStarted: true, selectedTask: this.state.taskIndex })
+  }
+
   renderIntro(challengeId) {
     const text = require(`assets/text/challenges/${challengeId}.md`)
 
     return (
-      text && (
-        <Components.Text
-          source={`local://challenges/${challengeId}`}
-          style={{ maxWidth: '100%' }}
-        />
-      )
+      <div
+        style={{
+          display: 'flex',
+          maxWidth: '100%',
+          justifyContent: 'center',
+          marginTop: '50px',
+          flexDirection: 'column'
+        }}
+      >
+        <Col span={12} offset={6}>
+          <ChallengeCard
+            hideButton
+            challenge={require(`../../../challenges/${challengeId}/index.json`)}
+          />
+          ,
+        </Col>
+        <Col span={6} offset={9}>
+          <Timeline />
+        </Col>
+        {text && (
+          <Components.Text
+            source={`local://challenges/${challengeId}`}
+            style={{ maxWidth: '100%' }}
+          />
+        )}
+      </div>
+    )
+  }
+  renderTaskTitle(task) {
+    const textDecoration = this.isTaskComplete(task) ? 'line-through' : 'none'
+    const color = this.isTaskComplete(task)
+      ? '#78909C'
+      : this.isCurrentTask(task)
+      ? '#00bcd4'
+      : '#CFD8DC'
+
+    return (
+      <Typography
+        use="body1"
+        style={{
+          textAlign: 'left',
+          textDecoration,
+          color
+        }}
+      >
+        {task.title}
+      </Typography>
+    )
+  }
+
+  renderTaskIcon(task) {
+    const backgroundColor = this.isTaskComplete(task)
+      ? '#78909C'
+      : this.isCurrentTask(task)
+      ? '#00bcd4'
+      : '#F5F5F5'
+    const color = this.isTaskComplete(task)
+      ? '#fafafa'
+      : this.isCurrentTask(task)
+      ? '#ffffff'
+      : '#CFD8DC'
+
+    return (
+      <Avatar
+        size="small"
+        style={{
+          backgroundColor,
+          color
+        }}
+      >
+        {task.index}
+      </Avatar>
+    )
+  }
+  renderMainAction() {
+    // if (this.isCompleted) {
+    //   return <div style={{
+    //     display: 'flex',
+    //     flex: 1,
+    //     flexDirection: 'column',
+    //     backgroundColor: '#FAFAFA',
+    //     justifyContent: 'center',
+    //     padding: '20px'
+    //   }}>
+    //     <Typography use='caption' style={{
+    //       textAlign: 'center',
+    //       color: '#B0BEC5',
+    //       paddingBottom: '10px'
+    //     }}>
+    //     How did you like this challenge?
+    //   </Typography>
+    //     <Typography use='caption' style={{
+    //       textAlign: 'center'}}>
+    //       <Rate onChange={this._onChallengeRated} />
+    //     </Typography>
+    //   </div>
+    // }
+
+    return (
+      <div
+        style={{
+          display: 'flex',
+          flex: 1,
+          flexDirection: 'row',
+          backgroundColor: '#FAFAFA',
+          justifyContent: 'center',
+          padding: '20px'
+        }}
+      >
+        <Button
+          style={{
+            color: '#ffffff',
+            backgroundColor: `${
+              this.state.tasksStarted ? '#03A9F4' : '#00bcd4'
+            }`
+          }}
+          onClick={() =>
+            this.state.tasksStarted
+              ? this.continueChallenge()
+              : this.toggleStarted()
+          }
+        >
+          {this.state.tasksStarted ? 'Keep Going' : 'Start Challenge'}
+        </Button>
+      </div>
     )
   }
   renderTasks() {
-    const { challengeId, challenge } = this.props
+    const { challenge } = this.props
     const { taskIds } = challenge
-    const columnStyle = { padding: '20px' }
 
     return (
-      <Row style={{ margin: '10px 20px' }}>
-        {taskIds.map(task => (
-          <Col style={columnStyle} span={12} offset={6}>
-            <Task
-              task={require(`../../../challenges/${challengeId}/${task}/index.json`)}
-            />
-          </Col>
-        ))}
-      </Row>
+      <Col span={12} offset={6} style={{ marginTop: '20px' }}>
+        <Card title={'Tasks'}>
+          {taskIds.map(task => this.renderTaskSummary(task))}
+          {this.renderMainAction()}
+        </Card>
+      </Col>
+    )
+  }
+  renderTaskSummary(task) {
+    const taskData = require(`challenges/${
+      this.props.challengeId
+    }/${task}/index.json`)
+    return (
+      <List.Item>
+        <List.Item.Meta
+          avatar={this.renderTaskIcon(taskData)}
+          title={this.renderTaskTitle(taskData)}
+        />
+      </List.Item>
     )
   }
   renderChallenge() {
@@ -150,24 +299,9 @@ export default class Challenge extends Component {
                 }}
               >
                 <Icon type="arrow-left" />
-                Go to challenges
+                Choose another challenge
               </Button>
             )}
-            <Button
-              onClick={this.verifyTask}
-              style={{
-                display: 'flex',
-                color: '#ffffff',
-                backgroundColor: `#4CAF50`,
-                border: 'none',
-                margin: '10px auto 0',
-                height: '35px',
-                lineHeight: '15px'
-              }}
-            >
-              <Icon type="check-circle" />
-              Verify Task
-            </Button>
           </div>
         </Col>
       </Row>
