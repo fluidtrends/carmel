@@ -34,11 +34,31 @@ export default class Challenge extends Component {
   }
 
   toggleStarted = () => {
+    const task = require(`challenges/${this.props.challengeId}/index.json`)
+      .taskIds[
+      this.state.selectedTask
+        ? this.state.selectedTask
+        : this.state.taskIndex - 1
+    ]
+    if (!this.state.tasksStarted) {
+      this.props.pushActivity({
+        type: 'task',
+        event: 'started',
+        taskId: task,
+        challengeId: this.props.challengeId
+      })
+    } else {
+      this.props.pushActivity({
+        type: 'task',
+        event: 'paused',
+        taskId: task,
+        challengeId: this.props.challengeId
+      })
+    }
     this.setState({
       tasksStarted: !this.state.tasksStarted,
       selectedTask: !this.state.tasksStarted ? this.state.taskIndex : null
     })
-    this.props.pushActivity(this.state.selectedTask)
   }
 
   renderIntro(challengeId) {
@@ -160,7 +180,7 @@ export default class Challenge extends Component {
           color: '#ffffff',
           backgroundColor: `${this.state.tasksStarted ? '#03A9F4' : '#00bcd4'}`
         }}
-        onClick={() => this.toggleStarted()}
+        onClick={this.toggleStarted}
       >
         {this.state.tasksStarted ? 'Keep Going' : 'Start Challenge'}
       </Button>

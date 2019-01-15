@@ -6,8 +6,4 @@
 <img src='/assets/challenges/web-hosting.svg' style='width: 100px; padding: 20px'>
 </div>
 
-## By **completing challenges** you will be able to **become** a **product developer**.
-
-## **Carmel** is here for you on **any platform**, including **web**, **mobile**, **cloud** and **devops**.
-
-## Now let's do some challenges and build awesome products!
+## By completing **Carmel challenges** you will be able to develop **products** for **all platforms**.

@@ -25,13 +25,18 @@ export default class MainChallengesScreen extends Screen {
       initial: this.examples
     })
     this._challenge = this.props.location.pathname.split('/')[2]
-    Data.Cache.retrieveCachedItem('initialChallengeCompleted')
-      .then(() => {
-        this.setState({ initialChallengeCompleted: true })
-      })
-      .catch(error => {
-        this.setState({ initialChallengeCompleted: false })
-      })
+    this.props.getUserProfile()
+    // Data.Cache.retrieveCachedItem('initialChallengeCompleted')
+    //   .then(() => {
+    //     this.setState({ initialChallengeCompleted: true })
+    //   })
+    //   .catch(error => {
+    //     this.setState({ initialChallengeCompleted: false })
+    //   })
+  }
+
+  profileOk(profile) {
+    console.log('profile', profile)
   }
 
   get examples() {
@@ -198,14 +203,9 @@ export default class MainChallengesScreen extends Screen {
     )
   }
 
-  pushActivity() {
-    console.log(this.props)
-    this.props.newActivity({
-      type: 'task',
-      event: 'started',
-      taskId: 'ddddd',
-      challengeId: 'ddddd'
-    })
+  pushActivity(activity) {
+    console.log(activity)
+    this.props.newActivity(activity)
   }
 
   components() {
@@ -220,7 +220,7 @@ export default class MainChallengesScreen extends Screen {
                 this.challenge
               }/index.json`)}
               showChallenges={() => this.props.history.goBack()}
-              pushActivity={() => this.pushActivity()}
+              pushActivity={activity => this.pushActivity(activity)}
             />
           ) : (
             this.renderChallenges()

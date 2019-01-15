@@ -5,6 +5,7 @@
       "title": "Challenges",
       "icon": "favorite",
       "path": "/challenges",
+      "startOperationsOnMount": false,
       "variants": "initial",
       "operations": {
         "newActivity": [
@@ -12,6 +13,13 @@
           {
             "onSuccess": "activityAdded",
             "onError": "activityError"
+          }
+        ],
+        "getUserProfile": [
+          "firebase://retrieve/users-profiles/:userId?latest=1&resolve=profiles#getProfile",
+          {
+            "onSuccess": "profileOk",
+            "onError": "profileError"
           }
         ]
       }
