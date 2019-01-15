@@ -38,6 +38,7 @@ export default class Challenge extends Component {
       tasksStarted: !this.state.tasksStarted,
       selectedTask: !this.state.tasksStarted ? this.state.taskIndex : null
     })
+    this.props.pushActivity(this.state.selectedTask)
   }
 
   renderIntro(challengeId) {

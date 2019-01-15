@@ -143,14 +143,14 @@ export default class MainChallengesScreen extends Screen {
 
     return (
       <div>
-          <Components.Text
-            source={'local://challenges-intro'}
-            style={{
-              maxWidth: '100%',
-              display: 'flex',
-              justifyContent: 'center'
-            }}
-          />
+        <Components.Text
+          source={'local://challenges-intro'}
+          style={{
+            maxWidth: '100%',
+            display: 'flex',
+            justifyContent: 'center'
+          }}
+        />
         {this.renderSelection()}
         {this.renderTags()}
         <Row gutter={26} style={{ padding: '20px' }}>
@@ -198,21 +198,34 @@ export default class MainChallengesScreen extends Screen {
     )
   }
 
+  pushActivity() {
+    console.log(this.props)
+    this.props.newActivity({
+      type: 'task',
+      event: 'started',
+      taskId: 'ddddd',
+      challengeId: 'ddddd'
+    })
+  }
+
   components() {
-    return super.components().concat([
-      <div style={{ width: '100vw', marginTop: '50px' }}>
-        {this.challenge ? (
-          <Challenge
-            challengeId={this.challenge}
-            challenge={require(`../../../challenges/${
-              this.challenge
-            }/index.json`)}
-            showChallenges={() => this.props.history.goBack()}
-          />
-        ) : 
+    return super
+      .components()
+      .concat([
+        <div style={{ width: '100vw', marginTop: '50px' }}>
+          {this.challenge ? (
+            <Challenge
+              challengeId={this.challenge}
+              challenge={require(`../../../challenges/${
+                this.challenge
+              }/index.json`)}
+              showChallenges={() => this.props.history.goBack()}
+              pushActivity={() => this.pushActivity()}
+            />
+          ) : (
             this.renderChallenges()
-        }
-      </div>
-    ])
+          )}
+        </div>
+      ])
   }
 }

@@ -5,7 +5,16 @@
       "title": "Challenges",
       "icon": "favorite",
       "path": "/challenges",
-      "variants": "initial"
+      "variants": "initial",
+      "operations": {
+        "newActivity": [
+          "rest://create/journey/activities#newActivity",
+          {
+            "onSuccess": "activityAdded",
+            "onError": "activityError"
+          }
+        ]
+      }
     }
   }
 }
