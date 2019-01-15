@@ -31,6 +31,11 @@ export default class RegisterScreen extends Screen {
       return
     }
 
+    if (!this.state.username) {
+      this.setState({ error: errors.username, errorType: 'username', loading: false })
+      return
+    }
+
     if (!this.state.email) {
       this.setState({ error: errors.email, errorType: 'email', loading: false })
       return
@@ -63,20 +68,21 @@ export default class RegisterScreen extends Screen {
       return
     }
 
-    if (!this.props.desktop && !this.state.verifiedCaptcha) {
-      this.setState({
-        error: errors.captcha,
-        errorType: 'captcha',
-        loading: false
-      })
-      return
-    }
+    // if (!this.props.desktop && !this.state.verifiedCaptcha) {
+    //   this.setState({
+    //     error: errors.captcha,
+    //     errorType: 'captcha',
+    //     loading: false
+    //   })
+    //   return
+    // }
 
     this.setState({ loading: true, loadingMessage: messages.loading })
 
     setTimeout(() => {
       this.props.register({
         name: this.state.name,
+        username: this.state.username,
         email: this.state.email,
         password: this.state.password
       })
@@ -154,6 +160,15 @@ export default class RegisterScreen extends Screen {
           onKeyPress={this.onKeyPress}
           prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
           placeholder={placeholders.name} />
+      </FormItem>
+      <FormItem>
+        <Input
+          value={this.state.username}
+          style={{ height: '48px' }}
+          onChange={val => this.setState({ username: val.target.value, error: '' })}
+          onKeyPress={this.onKeyPress}
+          prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
+          placeholder={placeholders.username} />
       </FormItem>
       <FormItem>
         <Input
@@ -270,6 +285,7 @@ export default class RegisterScreen extends Screen {
 
 const placeholders = {
   name: 'Please enter your full name',
+  username: 'Please enter your username',
   email: 'Please enter your email address',
   password: 'Please choose a password',
   password2: 'Please confirm your password'
@@ -277,6 +293,7 @@ const placeholders = {
 
 const errors = {
   name: "Don't forget your name",
+  username: "Don't forget your username",
   email: "Don't forget your email address",
   password: 'Please choose a password',
   password2: 'Please confirm your password',

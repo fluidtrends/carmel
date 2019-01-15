@@ -2,7 +2,7 @@ import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
 import { Card, CardActions, CardActionButtons } from 'rmwc/Card'
 import { Button } from 'rmwc/Button'
-import { List, notification } from 'antd'
+import { List, notification, Icon, Input } from 'antd'
 
 import UserInfo from '../components/userInfo'
 
@@ -88,19 +88,56 @@ export default class AccountScreen extends Screen {
   }
 
   renderProfileItem (item) {
+    const description = <div style={{height: 32}}>{item.value || ''}</div>
+
+    const content = this.state.editId == item.id ? <Input placeholder={item.title} value={item.value || ''} /> : description
+
+    const icon = this.state.editId == item.id ? 
+                                        <Icon type="close" onClick={() => {this.setState({editId: null})}} style={{cursor: 'pointer', paddingTop: 35, paddingLeft: 20}} /> : 
+                                        <Icon type="edit" onClick={() => {this.setState({editId: item.id})}} style={{cursor: 'pointer', paddingTop: 35, paddingLeft: 20}} />
+
     return <List.Item actions={this.renderProfileItemActions(item)}>
       <List.Item.Meta
-        description={item.value || 'Not verified yet'}
-        title={item.title} />
+        title={item.title} 
+        description={content}
+      />
+      {icon}
     </List.Item>
   }
 
   get profileData () {
-    return [{
-      id: 'email',
-      title: 'Email Address',
-      value: this.account.user.email
-    }]
+    return [
+      {
+        id: 'email',
+        title: 'Email Address',
+        value: this.account.user.email
+      },
+      {
+        id: 'name',
+        title: 'Name',
+        value: this.account.user.name
+      },
+      {
+        id: 'username',
+        title: 'Username',
+        value: this.account.user.username
+      },
+      {
+        id: 'eosAddress',
+        title: 'EOS Address',
+        value: this.account.user.eosAddress
+      },
+      {
+        id: 'bio',
+        title: 'Bio',
+        value: this.account.user.bio
+      },
+      {
+        id: 'image',
+        title: 'Profile pic link',
+        value: this.account.user.image
+      }
+    ]
   }
 
   twitterOk (twitter) {
@@ -200,7 +237,7 @@ export default class AccountScreen extends Screen {
   get cardStyle () {
     const width = this.formWidth
     const padding = this.formPadding
-    const margin = this.isSmallScreen ? '50px 0px' : '0'
+    const margin = this.isSmallScreen ? '50px 0px' : '50px 0'
 
     return { width, padding, margin }
   }
@@ -208,18 +245,18 @@ export default class AccountScreen extends Screen {
   renderMainContent () {
     if (this.state.inProgress) {
       return (<div style={this.containerStyle}>
-        <Card style={this.cardStyle}>
+        <div style={this.cardStyle}>
           { this.renderUserInfo() }
           <Components.Loading message='Just a minute, please ...' />
-        </Card>
+        </div>
       </div>)
     }
 
     return (<div style={this.containerStyle}>
-      <Card style={this.cardStyle}>
+      <div style={this.cardStyle}>
         { this.renderUserInfo() }
         { this.renderActiveContent() }
-      </Card>
+      </div>
       { this.renderMainContentFooter() }
     </div>)
   }
