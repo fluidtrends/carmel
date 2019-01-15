@@ -28,6 +28,12 @@ const mockBounties = [
     available: 26
   },
   {
+    type: 'video',
+    title: 'Watch this video!',
+    url: 'https://www.youtube.com/watch?v=qrHBVDbrOOY',
+    available: 26
+  },
+  {
     type: 'share',
     title: 'Carmel is Launching!!!',
     content: `To the mooooooon! When lambo?????
@@ -37,6 +43,36 @@ const mockBounties = [
       Or Andrei will fire us!
       Pleaseeeee!
     `,
+    available: 26
+  },
+  {
+    type: 'share',
+    title: 'Carmel is Launching!!!',
+    content: `To the mooooooon! When lambo?????
+      Share this with your friends to get something in return!
+      Do it now!
+      Don't miss!
+      Or Andrei will fire us!
+      Pleaseeeee!
+    `,
+    available: 26
+  },
+  {
+    type: 'share',
+    title: 'Carmel is Launching!!!',
+    content: `To the mooooooon! When lambo?????
+      Share this with your friends to get something in return!
+      Do it now!
+      Don't miss!
+      Or Andrei will fire us!
+      Pleaseeeee!
+    `,
+    available: 26
+  },
+  {
+    type: 'video',
+    title: 'Watch this video!',
+    url: 'https://www.youtube.com/watch?v=qrHBVDbrOOY',
     available: 26
   },
   {
@@ -104,12 +140,22 @@ export default class MainJourneyScreen extends Screen {
     
   }
 
+  renderContent(bounty) {
+    let content = <div style={{fontSize: 16}}>
+      {bounty.content}
+    </div>
+
+    const width = 300
+
+    if (bounty.type == 'video') {
+      content = <Components.Presentation style={{}} url={bounty.url} />
+    }
+
+    return content
+  }
+
   renderBounty(bounty) {
     const { isSmallScreen } = this
-
-    const content = <div style={{fontSize: 12}}>
-        {bounty.content}
-    </div>
 
     const available = <div style={{fontSize: 12}}>
         Available bounties: {bounty.available} 
@@ -118,10 +164,10 @@ export default class MainJourneyScreen extends Screen {
     const hashtags = ['carmelrocks', 'awesomeness', 'tothe🌙', 'roadto1B']
 
     const shareContent = <div style={{display: 'flex'}}>
-      <TwitterShareButton url={'https://carmel.io'} title={'CArmel LAunch'} hashtags={hashtags}  style={{ marginRight: "10px", cursor: 'pointer' }}>
+      <TwitterShareButton url={'https://carmel.io'} title={'Carmel aAunch'} hashtags={hashtags}  style={{ marginRight: "10px", cursor: 'pointer' }}>
         <TwitterIcon size={32} round={true}/>
       </TwitterShareButton>
-      <LinkedinShareButton url={'https://carmel.io'}  description={'whate'} style={{ marginRight: "10px", cursor: 'pointer' }}>
+      <LinkedinShareButton url={'https://carmel.io'} title="Carmel is Launched" description={bounty.content} style={{ marginRight: "10px", cursor: 'pointer' }}>
         <LinkedinIcon size={32} round={true}   />
       </LinkedinShareButton>
       <FacebookShareButton url={'https://carmel.io'}  hashtag={hashtags[3]} quote={'Carmel is now live!'}  style={{ marginRight: "10px", cursor: 'pointer' }}>
@@ -153,7 +199,7 @@ export default class MainJourneyScreen extends Screen {
         ]}
 			>
 					<Components.AnimatedWrapper animation animationType="zoom">
-							{content}
+							{this.renderContent(bounty)}
 					</Components.AnimatedWrapper>
 			</Card>
     </div>
