@@ -26,6 +26,8 @@ const createProfile = (account) => {
   }, {
     userId: account.user.uid,
     email: account.user.email,
+    username: account.user.username,
+    name: account.user.name,
     join: {
       users: {
         id: account.user.uid

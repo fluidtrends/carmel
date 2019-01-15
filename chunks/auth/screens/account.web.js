@@ -1,8 +1,7 @@
 import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
 import { Card, CardActions, CardActionButtons } from 'rmwc/Card'
-import { Button } from 'rmwc/Button'
-import { List, notification } from 'antd'
+import { List, notification, Icon, Input, Button } from 'antd'
 
 import UserInfo from '../components/userInfo'
 
@@ -13,6 +12,13 @@ export default class AccountScreen extends Screen {
     this._renderProfileItem = this.renderProfileItem.bind(this)
     this._onProfileItemEdit = (item) => this.onProfileItemEdit.bind(this, item)
     this._logout = this.logout.bind(this)
+  }
+
+  componentWillMount () {
+    if (!this.isLoggedIn) {
+      this.triggerRedirect('/login')
+    }
+
   }
 
   componentDidMount () {
@@ -88,19 +94,75 @@ export default class AccountScreen extends Screen {
   }
 
   renderProfileItem (item) {
+    const description = <div style={{height: 32, padding: '5px 12px'}}>{item.value || ''}</div>
+
+    let value = item.value || ''
+    
+    if (item.id == this.state.editId) {
+      value = this.state.editValue || ''
+    }
+
+    const content = this.state.editId == item.id ? <Input placeholder={item.title} value={value} style={{width: '100%'}} onChange={val => this.setState({editValue: val.target.value})} /> : description
+
+    const icon = this.state.editId == item.id ? 
+                                      <div style={{display: 'flex'}}>
+                                        <Icon className="icon" type="check" onClick={() => {this.setState({editId: null})}} style={{cursor: 'pointer', fontSize: 20, paddingTop: 33, paddingLeft: 20}} />
+                                        <Icon className="icon" type="close" onClick={() => {this.setState({editId: null})}} style={{cursor: 'pointer', fontSize: 20, paddingTop: 33, paddingLeft: 10}} />
+                                        </div>
+                                        :
+                                        <Icon className="icon" type="edit" onClick={() => {this.setState({editId: item.id})}} style={{cursor: 'pointer', fontSize: 20, paddingTop: 33, paddingLeft: 20}} />
+
     return <List.Item actions={this.renderProfileItemActions(item)}>
       <List.Item.Meta
-        description={item.value || 'Not verified yet'}
-        title={item.title} />
+        title={item.title} 
+        description={content}
+      />
+      <style jsx>{`
+              div :global(.icon) {
+                color: ${'#546E7A'}
+              }
+              div :global(.icon):hover {
+                color: ${'#00bcd4'}
+              }
+            `}
+          </style>
+      {item.id != 'email' && icon}
     </List.Item>
   }
 
   get profileData () {
-    return [{
-      id: 'email',
-      title: 'Email Address',
-      value: this.account.user.email
-    }]
+    return [
+      {
+        id: 'email',
+        title: 'Email Address',
+        value: this.account.user.email
+      },
+      {
+        id: 'name',
+        title: 'Name',
+        value: this.account.user.name
+      },
+      {
+        id: 'username',
+        title: 'Username',
+        value: this.account.user.username
+      },
+      {
+        id: 'eosAddress',
+        title: 'EOS Address',
+        value: this.account.user.eosAddress
+      },
+      {
+        id: 'bio',
+        title: 'Bio',
+        value: this.account.user.bio
+      },
+      {
+        id: 'image',
+        title: 'Profile pic link',
+        value: this.account.user.image
+      }
+    ]
   }
 
   twitterOk (twitter) {
@@ -189,9 +251,9 @@ export default class AccountScreen extends Screen {
       <CardActions style={{ justifyContent: 'center', marginTop: '20px' }} key='active-actions'>
         <CardActionButtons style={{ marginLeft: '10px' }}>
           <Button
-            style={{backgroundColor: '#f44336', color: '#ffffff'}}
+            style={{ color: '#f44336', borderColor: '#f44336' }}
             onClick={this._logout}>
-          Sign Out
+              Sign Out
           </Button>
         </CardActionButtons>
       </CardActions>]
@@ -200,7 +262,7 @@ export default class AccountScreen extends Screen {
   get cardStyle () {
     const width = this.formWidth
     const padding = this.formPadding
-    const margin = this.isSmallScreen ? '50px 0px' : '0'
+    const margin = this.isSmallScreen ? '50px 0px' : '50px 0'
 
     return { width, padding, margin }
   }
@@ -208,18 +270,18 @@ export default class AccountScreen extends Screen {
   renderMainContent () {
     if (this.state.inProgress) {
       return (<div style={this.containerStyle}>
-        <Card style={this.cardStyle}>
+        <div style={this.cardStyle}>
           { this.renderUserInfo() }
           <Components.Loading message='Just a minute, please ...' />
-        </Card>
+        </div>
       </div>)
     }
 
     return (<div style={this.containerStyle}>
-      <Card style={this.cardStyle}>
+      <div style={this.cardStyle}>
         { this.renderUserInfo() }
         { this.renderActiveContent() }
-      </Card>
+      </div>
       { this.renderMainContentFooter() }
     </div>)
   }
