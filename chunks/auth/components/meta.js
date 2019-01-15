@@ -26,7 +26,7 @@ export default class ActivityCard extends Component {
 
     const title = <div style={{fontSize: 32}}> 
       {name}
-      <div style={{fontSize: 28, display: 'flex', alignItems: 'center'}}>
+      <div style={{fontSize: 28, display: 'flex', alignItems: 'center', color: '#455A64'}}>
         {username}
       </div>
     </div>
