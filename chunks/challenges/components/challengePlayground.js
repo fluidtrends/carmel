@@ -1,7 +1,6 @@
 import React from 'react'
 import { Component } from 'react-dom-chunky'
 import { Row, Col } from 'antd'
-import Task from './playground/task'
 
 import Editor from './playground/editor'
 import ChunkyProduct from './playground/product'
@@ -25,34 +24,20 @@ export default class ChallengePlayground extends Component {
   }
 
   render() {
-    const { challenge, defaults, initial } = this.props
-    const { taskIds, id } = challenge
+    const { defaults } = this.props
     const { newValues } = this.state
 
     const columnStyle = { padding: '20px' }
     return (
-      <React.Fragment>
-        <Row style={{ margin: '10px 20px' }}>
-          <Col style={columnStyle} span={12} offset={6}>
-            <Task
-              task={
-                initial
-                  ? require(`../../../challenges/${id}/${
-                      taskIds[0]
-                    }/index.json`)
-                  : require(`../../../challenges/${id}/${task}/index.json`)
-              }
-            />
-          </Col>
-        </Row>
+      <Row
+        style={{
+          margin: '10px 20px',
+          display: 'flex',
+          alignItems: 'center'
+        }}
+      >
         {defaults && (
-          <Row
-            style={{
-              margin: '10px 20px',
-              display: 'flex',
-              alignItems: 'center'
-            }}
-          >
+          <React.Fragment>
             <Col style={columnStyle} span={10}>
               <Editor
                 value={JSON.stringify(
@@ -94,9 +79,9 @@ export default class ChallengePlayground extends Component {
                 }
               />
             </Col>
-          </Row>
+          </React.Fragment>
         )}
-      </React.Fragment>
+      </Row>
     )
   }
 }

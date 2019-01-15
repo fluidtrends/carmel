@@ -37,9 +37,10 @@ export default class Challenge extends Component {
     const task = require(`challenges/${this.props.challengeId}/index.json`)
       .taskIds[
       this.state.selectedTask
-        ? this.state.selectedTask
+        ? this.state.selectedTask - 1
         : this.state.taskIndex - 1
     ]
+
     if (!this.state.tasksStarted) {
       this.props.pushActivity({
         type: 'task',
@@ -251,13 +252,14 @@ export default class Challenge extends Component {
   renderChallenge() {
     const { challengeId, challenge } = this.props
     const { type } = challenge
-    if (type === 'playground') {
+    if (type[0] === 'playground') {
       return (
-        <ChallengePlayground
-          challenge={challenge}
-          defaults={require(`../data/${challengeId}.json`)}
-          updateValue={editorValue => this.setState({ editorValue })}
-        />
+        <div />
+        // <ChallengePlayground
+        //   challenge={challenge}
+        //   defaults={require(`../data/${challengeId}.json`)}
+        //   updateValue={editorValue => this.setState({ editorValue })}
+        // />
       )
     }
   }

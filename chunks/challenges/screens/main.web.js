@@ -204,7 +204,6 @@ export default class MainChallengesScreen extends Screen {
   }
 
   pushActivity(activity) {
-    console.log(activity)
     this.props.newActivity(activity)
   }
 
