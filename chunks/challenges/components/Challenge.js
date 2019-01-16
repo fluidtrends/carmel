@@ -1,6 +1,6 @@
 import React from 'react'
 import { Component, Components } from 'react-dom-chunky'
-import { Row, Col, message, Button, Icon, Card, List, Avatar } from 'antd'
+import { Row, Col, message, Button, Icon, Card, List, Avatar, Tag } from 'antd'
 import ChallengePlayground from './challengePlayground'
 import ChallengeCard from './challengeCard'
 import Task from './playground/task'
@@ -136,7 +136,7 @@ export default class Challenge extends Component {
       ? '#00bcd4'
       : '#CFD8DC'
 
-    return (
+    return [
       <Typography
         use="body1"
         style={{
@@ -146,8 +146,13 @@ export default class Challenge extends Component {
         }}
       >
         {data.title}
-      </Typography>
-    )
+      </Typography>,
+      this.isTaskComplete(task) && (
+        <Tag style={{ position: 'absolute', right: 0 }} color="#03A9F4">
+          500s
+        </Tag>
+      )
+    ]
   }
 
   renderTaskIcon(data, task) {
