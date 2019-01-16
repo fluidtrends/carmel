@@ -2,4 +2,4 @@
 <img src='/assets/chunky-logo.gif' style='width: 200px;'>
 </div>
 
-## Take a **challenge** and and level up your **tech skill**.
+## Take a **challenge** and level up your **tech skills**.
