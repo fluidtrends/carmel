@@ -6,15 +6,6 @@ import { Typography } from '@rmwc/typography'
 export default class Task extends Component {
   constructor(props) {
     super(props)
-
-    this.state = {
-      ...this.state,
-      taskIndex: 1,
-      loading: true,
-      started: false,
-      verifyInProgress: false,
-      showTaskDetails: false
-    }
   }
 
   componentDidMount() {
@@ -22,7 +13,7 @@ export default class Task extends Component {
   }
 
   renderTip() {
-    if (!this.state.tip) {
+    if (!this.props.tip) {
       return <div />
     }
 
@@ -42,12 +33,12 @@ export default class Task extends Component {
             padding: '10px'
           }}
         />
-        {this.state.tip}
+        {this.props.tip}
       </Typography>
     )
 
     return (
-      <Popover placement="bottomRight" content={tip}>
+      <Popover placement="bottom" content={tip}>
         <Icon
           type="warning"
           style={{

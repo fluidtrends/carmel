@@ -25,7 +25,6 @@ export default class MainChallengesScreen extends Screen {
       initial: this.examples
     })
     this._challenge = this.props.location.pathname.split('/')[2]
-    this.props.getUserProfile()
     // Data.Cache.retrieveCachedItem('initialChallengeCompleted')
     //   .then(() => {
     //     this.setState({ initialChallengeCompleted: true })
@@ -33,10 +32,6 @@ export default class MainChallengesScreen extends Screen {
     //   .catch(error => {
     //     this.setState({ initialChallengeCompleted: false })
     //   })
-  }
-
-  profileOk(profile) {
-    console.log('profile', profile)
   }
 
   get examples() {

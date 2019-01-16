@@ -8,16 +8,45 @@ import Timeline from './challengeTimeline'
 import { Data } from 'react-chunky'
 import { Typography } from '@rmwc/typography'
 
+const workspaces = {
+  activeChallenge: {
+    id: 'helloWorld',
+    lastUpdatedTimestamp: 33333333,
+    verifying: true,
+    currentTaskFails: [
+      {
+        timestamp: 3903903939393,
+        reason: 'ddddddd',
+        consumedSeconds: 24
+      }
+    ],
+    completedTasks: [
+      {
+        completedTimestamp: 22222222,
+        consumedSeconds: 500
+      }
+    ]
+  },
+  pausedChallenges: [
+    {
+      id: 'helloWorld',
+      completedTasks: []
+    },
+    {
+      id: 'blog',
+      completedTasks: []
+    }
+  ]
+}
 export default class Challenge extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
       tasksStarted: false,
-      selectedTask: null,
       challengeCompleted: false,
       editorValue: null,
-      taskIndex: 1
+      taskIndex: workspaces.activeChallenge.completedTasks.length
     }
   }
 
@@ -26,20 +55,21 @@ export default class Challenge extends Component {
   }
 
   isTaskComplete(task) {
-    return task.index < this.state.taskIndex
+    return (
+      this.props.challenge.taskIds.findIndex(t => t === task) <
+      this.state.taskIndex
+    )
   }
 
   isCurrentTask(task) {
-    return task.index === this.state.taskIndex
+    return (
+      this.props.challenge.taskIds.findIndex(t => t === task) ===
+      this.state.taskIndex
+    )
   }
 
   toggleStarted = () => {
-    const task = require(`challenges/${this.props.challengeId}/index.json`)
-      .taskIds[
-      this.state.selectedTask
-        ? this.state.selectedTask - 1
-        : this.state.taskIndex - 1
-    ]
+    const task = this.props.challenge.taskIds[this.state.taskIndex - 1]
 
     if (!this.state.tasksStarted) {
       this.props.pushActivity({
@@ -57,8 +87,7 @@ export default class Challenge extends Component {
       })
     }
     this.setState({
-      tasksStarted: !this.state.tasksStarted,
-      selectedTask: !this.state.tasksStarted ? this.state.taskIndex : null
+      tasksStarted: !this.state.tasksStarted
     })
   }
 
@@ -97,7 +126,7 @@ export default class Challenge extends Component {
       </div>
     )
   }
-  renderTaskTitle(task) {
+  renderTaskTitle(data, task) {
     const textDecoration = this.isTaskComplete(task) ? 'line-through' : 'none'
     const color = this.isTaskComplete(task)
       ? '#78909C'
@@ -114,12 +143,12 @@ export default class Challenge extends Component {
           color
         }}
       >
-        {task.title}
+        {data.title}
       </Typography>
     )
   }
 
-  renderTaskIcon(task) {
+  renderTaskIcon(data, task) {
     const backgroundColor = this.isTaskComplete(task)
       ? '#78909C'
       : this.isCurrentTask(task)
@@ -139,43 +168,12 @@ export default class Challenge extends Component {
           color
         }}
       >
-        {task.index}
+        {data.index}
       </Avatar>
     )
   }
   renderMainAction() {
-    // if (this.isCompleted) {
-    //   return <div style={{
-    //     display: 'flex',
-    //     flex: 1,
-    //     flexDirection: 'column',
-    //     backgroundColor: '#FAFAFA',
-    //     justifyContent: 'center',
-    //     padding: '20px'
-    //   }}>
-    //     <Typography use='caption' style={{
-    //       textAlign: 'center',
-    //       color: '#B0BEC5',
-    //       paddingBottom: '10px'
-    //     }}>
-    //     How did you like this challenge?
-    //   </Typography>
-    //     <Typography use='caption' style={{
-    //       textAlign: 'center'}}>
-    //       <Rate onChange={this._onChallengeRated} />
-    //     </Typography>
-    //   </div>
-    // }
     return (
-      // <div
-      //   style={{
-      //     display: 'flex',
-      //     flex: 1,
-      //     flexDirection: 'row',
-      //     justifyContent: 'center',
-      //     padding: '20px'
-      //   }}
-      // >
       <Button
         style={{
           color: '#ffffff',
@@ -185,17 +183,17 @@ export default class Challenge extends Component {
       >
         {this.state.tasksStarted ? 'Keep Going' : 'Start Challenge'}
       </Button>
-      // </div>
     )
   }
   renderTasks() {
     const { challenge } = this.props
+
     const { taskIds } = challenge
 
     return (
       <Col span={12} offset={6}>
         <Card title={'Tasks'}>
-          {this.state.selectedTask
+          {this.state.tasksStarted
             ? this.showTask()
             : taskIds.map(task => this.renderTaskSummary(task))}
           <Button
@@ -227,7 +225,8 @@ export default class Challenge extends Component {
   showTask() {
     // -1 because array and index
     const task = require(`challenges/${this.props.challengeId}/index.json`)
-      .taskIds[this.state.selectedTask - 1]
+      .taskIds[this.state.taskIndex]
+
     return (
       <Task
         task={require(`challenges/${
@@ -243,8 +242,8 @@ export default class Challenge extends Component {
     return (
       <List.Item>
         <List.Item.Meta
-          avatar={this.renderTaskIcon(taskData)}
-          title={this.renderTaskTitle(taskData)}
+          avatar={this.renderTaskIcon(taskData, task)}
+          title={this.renderTaskTitle(taskData, task)}
         />
       </List.Item>
     )
