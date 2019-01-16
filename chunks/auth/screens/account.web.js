@@ -99,7 +99,7 @@ export default class AccountScreen extends Screen {
     let value = item.value || ''
     
     if (item.id == this.state.editId) {
-      value = this.state.editValue || ''
+      value = this.state.editValue || value
     }
 
     const content = this.state.editId == item.id ? <Input placeholder={item.title} value={value} style={{width: '100%'}} onChange={val => this.setState({editValue: val.target.value})} /> : description
@@ -122,7 +122,7 @@ export default class AccountScreen extends Screen {
                 color: ${'#546E7A'}
               }
               div :global(.icon):hover {
-                color: ${'#00bcd4'}
+                color: ${'#00bfa5'}
               }
             `}
           </style>
