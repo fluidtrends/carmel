@@ -292,23 +292,41 @@ export default class Challenge extends Component {
         // randomize this with an array
         message.destroy()
         message.error('I know you can!')
+        this.props.newActivity({
+          type: 'taskVerification',
+          source: 'web/playground',
+          error: 'editor not updated'
+        })
         return
       }
       if (JSON.stringify(editorValue) === JSON.stringify(this.state.initial)) {
         message.destroy()
         message.error('Come on, I believe in you!')
+        this.props.newActivity({
+          type: 'taskVerification',
+          source: 'web/playground',
+          error: 'editor not different from the initial values'
+        })
         return
       } else {
-        Data.Cache.cacheItem('initialChallengeCompleted', true).then(() => {
-          this.setState({
-            challengeCompleted: true,
-            selectedTask: null
-          })
+        this.setState({
+          challengeCompleted: true
+        })
+        this.props.newActivity({
+          type: 'taskVerification',
+          source: 'web/playground',
+          success: true
         })
       }
     } else {
       console.log(editorValue)
       // call api for verifying other tasks
+      // this.props.newActivity({
+      // 	type: "taskVerification",
+      // 	source: "cli",
+      // 	status: "failed",
+      // 	reason: "dkdkdkdkd error stack"
+      // })
     }
   }
 
