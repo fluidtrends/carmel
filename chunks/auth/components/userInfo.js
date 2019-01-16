@@ -162,13 +162,7 @@
 
     render () {
 
-      const user = {
-        name: 'Andi Coman',
-        username: 'aclowwwn',
-        bio: 'Carmel.io co-founder. Developer. Teacher. Clown.',
-        img: 'http://files.carmel.io/team/andi/profile.png'
-      }
-  
+      const user = this.props.account.user
 
       return (
         <div>

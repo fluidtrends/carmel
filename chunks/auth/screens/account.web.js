@@ -158,9 +158,9 @@ export default class AccountScreen extends Screen {
         value: this.account.user.bio
       },
       {
-        id: 'image',
+        id: 'pic',
         title: 'Profile pic link',
-        value: this.account.user.image
+        value: this.account.user.pic
       }
     ]
   }

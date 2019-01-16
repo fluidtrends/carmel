@@ -15,7 +15,7 @@ export default class ActivityCard extends Component {
   }
 
   render () {
-    const { name, username, bio, img } = this.props.user
+    const { name, username, bio, pic } = this.props.user
 
 	const about = <div>
       <span style={{fontSize: 16}}>
@@ -40,7 +40,7 @@ export default class ActivityCard extends Component {
 
     return <div style={{ display: 'flex', flexWrap: 'wrap-reverse', justifyContent: 'center', textAlign: 'left'}}>
       {meta}
-      <Avatar style={{height: 120, width: 120}} src={img}/>
+      <Avatar style={{height: 120, width: 120}} src={pic}/>
     </div>
   }
 }
