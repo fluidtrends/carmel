@@ -1,6 +1,6 @@
 import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
-import { Row, Col, Radio, Tag } from 'antd'
+import { Row, Col, Radio, Tag, Alert } from 'antd'
 import ChallengeCard from '../components/challengeCard'
 import InitialChallenge from '../components/initialChallenge'
 import Challenge from '../components/Challenge'
@@ -12,7 +12,7 @@ export default class MainChallengesScreen extends Screen {
     this.state = {
       ...this.state,
       initialChallengeCompleted: false,
-      selectedPricePlan: 'all',
+      selectedPricePlan: 'free',
       selectedCategories: []
     }
   }
@@ -156,6 +156,15 @@ export default class MainChallengesScreen extends Screen {
             justifyContent: 'center'
           }}
         />
+        {!this.props.account && (
+          <div style={{ margin: '20px' }}>
+            <Alert
+              message="We can't track your progress if you don't log in!"
+              banner
+              closable
+            />
+          </div>
+        )}
         {this.renderSelection()}
         {this.renderTags()}
         <Row gutter={26} style={{ padding: '20px' }}>
