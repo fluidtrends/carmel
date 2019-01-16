@@ -93,24 +93,55 @@ export default class AccountScreen extends Screen {
     </Button>])
   }
 
+  updateUser () {
+    const data = { [this.state.editId]: this.state.editValue }
+
+    setTimeout(() => {
+      this.props.updateUser(data)
+    }, 300)
+
+    this.setState({editId: null})
+  }
+
+  showInput (item) {
+    this.setState({editId: item.id, editValue: item.value})
+
+    setTimeout(() => {
+      this.input.focus()
+    }, 100);
+  }
+
+  onValueChanged (item, event) {
+    const value = event.target.value
+    if (item.id == 'eosAddress' && value.length > 12) {
+      return
+    }
+    this.setState({editValue: value}) 
+  }
+
   renderProfileItem (item) {
     const description = <div style={{height: 32, padding: '5px 12px'}}>{item.value || ''}</div>
-
     let value = item.value || ''
     
     if (item.id == this.state.editId) {
-      value = this.state.editValue || value
+      value = this.state.editValue
     }
 
-    const content = this.state.editId == item.id ? <Input placeholder={item.title} value={value} style={{width: '100%'}} onChange={val => this.setState({editValue: val.target.value})} /> : description
+    const content = this.state.editId == item.id ? <Input
+                                                      ref={(input) => { this.input = input }} 
+                                                      placeholder={item.title}
+                                                      value={ value }
+                                                      style={{ width: '100%' }}
+                                                      onChange={this.onValueChanged.bind(this, item)} 
+                                                    /> : description
 
     const icon = this.state.editId == item.id ? 
                                       <div style={{display: 'flex'}}>
-                                        <Icon className="icon" type="check" onClick={() => {this.setState({editId: null})}} style={{cursor: 'pointer', fontSize: 20, paddingTop: 33, paddingLeft: 20}} />
+                                        <Icon className="icon" type="check" onClick={this.updateUser.bind(this)} style={{cursor: 'pointer', fontSize: 20, paddingTop: 33, paddingLeft: 20}} />
                                         <Icon className="icon" type="close" onClick={() => {this.setState({editId: null})}} style={{cursor: 'pointer', fontSize: 20, paddingTop: 33, paddingLeft: 10}} />
                                         </div>
                                         :
-                                        <Icon className="icon" type="edit" onClick={() => {this.setState({editId: item.id})}} style={{cursor: 'pointer', fontSize: 20, paddingTop: 33, paddingLeft: 20}} />
+                                        <Icon className="icon" type="edit" onClick={this.showInput.bind(this, item)} style={{cursor: 'pointer', fontSize: 20, paddingTop: 33, paddingLeft: 20}} />
 
     return <List.Item actions={this.renderProfileItemActions(item)}>
       <List.Item.Meta
@@ -149,7 +180,7 @@ export default class AccountScreen extends Screen {
       },
       {
         id: 'eosAddress',
-        title: 'EOS Address',
+        title: 'PUBLIC EOS Address',
         value: this.account.user.eosAddress
       },
       {

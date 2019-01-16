@@ -142,6 +142,13 @@
             "onError": "profileError"
           }
         ],
+        "updateUser": [
+          "rest://create/auth/update#updateUser",
+          {
+            "onSuccess": "updateUserOk",
+            "onError": "updateUserError"
+          }
+        ],
         "reset": [
           "firebase://reset",
           {
