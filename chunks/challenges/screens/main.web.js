@@ -25,13 +25,18 @@ export default class MainChallengesScreen extends Screen {
       initial: this.examples
     })
     this._challenge = this.props.location.pathname.split('/')[2]
-    Data.Cache.retrieveCachedItem('initialChallengeCompleted')
-      .then(() => {
-        this.setState({ initialChallengeCompleted: true })
-      })
-      .catch(error => {
-        this.setState({ initialChallengeCompleted: false })
-      })
+    this.props.getUserProfile()
+    // Data.Cache.retrieveCachedItem('initialChallengeCompleted')
+    //   .then(() => {
+    //     this.setState({ initialChallengeCompleted: true })
+    //   })
+    //   .catch(error => {
+    //     this.setState({ initialChallengeCompleted: false })
+    //   })
+  }
+
+  profileOk(profile) {
+    console.log('profile', profile)
   }
 
   get examples() {
@@ -143,20 +148,18 @@ export default class MainChallengesScreen extends Screen {
 
     return (
       <div>
-        {this.state.initialChallengeCompleted && (
-          <Components.Text
-            source={'local://challenges-intro'}
-            style={{
-              maxWidth: '100%',
-              display: 'flex',
-              justifyContent: 'center'
-            }}
-          />
-        )}
+        <Components.Text
+          source={'local://challenges-intro'}
+          style={{
+            maxWidth: '100%',
+            display: 'flex',
+            justifyContent: 'center'
+          }}
+        />
         {this.renderSelection()}
         {this.renderTags()}
         <Row gutter={26} style={{ padding: '20px' }}>
-          {this.state.initialChallengeCompleted ? (
+          {true ? (
             <React.Fragment>
               {filteredChallenges.length ? (
                 filteredChallenges.map(challenge => (
@@ -200,31 +203,28 @@ export default class MainChallengesScreen extends Screen {
     )
   }
 
+  pushActivity(activity) {
+    this.props.newActivity(activity)
+  }
+
   components() {
-    return super.components().concat([
-      <div style={{ width: '100vw' }}>
-        {this.challenge ? (
-          <Challenge
-            challengeId={this.challenge}
-            challenge={require(`../../../challenges/${
-              this.challenge
-            }/index.json`)}
-            showChallenges={() => this.props.history.goBack()}
-          />
-        ) : (
-          <React.Fragment>
-            {!this.state.initialChallengeCompleted && (
-              <Components.Summary
-                text={'local://challenges'}
-                animation
-                animationType={'zoom'}
-                animationOptions={['top']}
-              />
-            )}
-            {this.renderChallenges()}
-          </React.Fragment>
-        )}
-      </div>
-    ])
+    return super
+      .components()
+      .concat([
+        <div style={{ width: '100vw', marginTop: '50px' }}>
+          {this.challenge ? (
+            <Challenge
+              challengeId={this.challenge}
+              challenge={require(`../../../challenges/${
+                this.challenge
+              }/index.json`)}
+              showChallenges={() => this.props.history.goBack()}
+              pushActivity={activity => this.pushActivity(activity)}
+            />
+          ) : (
+            this.renderChallenges()
+          )}
+        </div>
+      ])
   }
 }

@@ -33,17 +33,37 @@ export default class Challenge extends Component {
     return task.index === this.state.taskIndex
   }
 
-  continueChallenge = () => {
-    const task = this.props.challenge.tasks[this.state.taskIndex - 1]
-    this.setState({ tasksStarted: true, selectedTask: task })
-  }
-
   toggleStarted = () => {
-    this.setState({ tasksStarted: true, selectedTask: this.state.taskIndex })
+    const task = require(`challenges/${this.props.challengeId}/index.json`)
+      .taskIds[
+      this.state.selectedTask
+        ? this.state.selectedTask - 1
+        : this.state.taskIndex - 1
+    ]
+
+    if (!this.state.tasksStarted) {
+      this.props.pushActivity({
+        type: 'task',
+        event: 'started',
+        taskId: task,
+        challengeId: this.props.challengeId
+      })
+    } else {
+      this.props.pushActivity({
+        type: 'task',
+        event: 'paused',
+        taskId: task,
+        challengeId: this.props.challengeId
+      })
+    }
+    this.setState({
+      tasksStarted: !this.state.tasksStarted,
+      selectedTask: !this.state.tasksStarted ? this.state.taskIndex : null
+    })
   }
 
   renderIntro(challengeId) {
-    const text = require(`assets/text/challenges/${challengeId}.md`)
+    // const text = require(`assets/text/challenges/${challengeId}.md`)
 
     return (
       <div
@@ -60,17 +80,20 @@ export default class Challenge extends Component {
             hideButton
             challenge={require(`../../../challenges/${challengeId}/index.json`)}
           />
-          ,
         </Col>
-        <Col span={6} offset={9}>
+        <Col
+          span={6}
+          offset={9}
+          style={{ marginTop: '20px', marginBottom: '20px' }}
+        >
           <Timeline />
         </Col>
-        {text && (
+        {/* {text && (
           <Components.Text
             source={`local://challenges/${challengeId}`}
             style={{ maxWidth: '100%' }}
           />
-        )}
+        )} */}
       </div>
     )
   }
@@ -143,34 +166,26 @@ export default class Challenge extends Component {
     //     </Typography>
     //   </div>
     // }
-
     return (
-      <div
+      // <div
+      //   style={{
+      //     display: 'flex',
+      //     flex: 1,
+      //     flexDirection: 'row',
+      //     justifyContent: 'center',
+      //     padding: '20px'
+      //   }}
+      // >
+      <Button
         style={{
-          display: 'flex',
-          flex: 1,
-          flexDirection: 'row',
-          backgroundColor: '#FAFAFA',
-          justifyContent: 'center',
-          padding: '20px'
+          color: '#ffffff',
+          backgroundColor: `${this.state.tasksStarted ? '#03A9F4' : '#00bcd4'}`
         }}
+        onClick={this.toggleStarted}
       >
-        <Button
-          style={{
-            color: '#ffffff',
-            backgroundColor: `${
-              this.state.tasksStarted ? '#03A9F4' : '#00bcd4'
-            }`
-          }}
-          onClick={() =>
-            this.state.tasksStarted
-              ? this.continueChallenge()
-              : this.toggleStarted()
-          }
-        >
-          {this.state.tasksStarted ? 'Keep Going' : 'Start Challenge'}
-        </Button>
-      </div>
+        {this.state.tasksStarted ? 'Keep Going' : 'Start Challenge'}
+      </Button>
+      // </div>
     )
   }
   renderTasks() {
@@ -178,12 +193,47 @@ export default class Challenge extends Component {
     const { taskIds } = challenge
 
     return (
-      <Col span={12} offset={6} style={{ marginTop: '20px' }}>
+      <Col span={12} offset={6}>
         <Card title={'Tasks'}>
-          {taskIds.map(task => this.renderTaskSummary(task))}
-          {this.renderMainAction()}
+          {this.state.selectedTask
+            ? this.showTask()
+            : taskIds.map(task => this.renderTaskSummary(task))}
+          <Button
+            style={{
+              color: '#ffffff',
+              lineHeight: '15px',
+              display: 'flex',
+              margin: '20px auto 0',
+              lineHeight: '28px',
+              alignItems: 'center',
+              backgroundColor: `${
+                this.state.tasksStarted ? '#03A9F4' : '#00bcd4'
+              }`,
+              border: 'none'
+            }}
+            onClick={() => this.toggleStarted()}
+          >
+            {this.state.tasksStarted ? 'Pause Challenge' : 'Start Challenge'}
+            {this.state.tasksStarted ? (
+              <Icon type="pause" />
+            ) : (
+              <Icon type="step-forward" />
+            )}
+          </Button>
         </Card>
       </Col>
+    )
+  }
+  showTask() {
+    // -1 because array and index
+    const task = require(`challenges/${this.props.challengeId}/index.json`)
+      .taskIds[this.state.selectedTask - 1]
+    return (
+      <Task
+        task={require(`challenges/${
+          this.props.challengeId
+        }/${task}/index.json`)}
+      />
     )
   }
   renderTaskSummary(task) {
@@ -202,13 +252,14 @@ export default class Challenge extends Component {
   renderChallenge() {
     const { challengeId, challenge } = this.props
     const { type } = challenge
-    if (type === 'playground') {
+    if (type[0] === 'playground') {
       return (
-        <ChallengePlayground
-          challenge={challenge}
-          defaults={require(`../data/${challengeId}.json`)}
-          updateValue={editorValue => this.setState({ editorValue })}
-        />
+        <div />
+        // <ChallengePlayground
+        //   challenge={challenge}
+        //   defaults={require(`../data/${challengeId}.json`)}
+        //   updateValue={editorValue => this.setState({ editorValue })}
+        // />
       )
     }
   }
@@ -257,54 +308,32 @@ export default class Challenge extends Component {
 
   renderButtons() {
     return (
-      <Row style={{ margin: '10px 20px' }}>
-        <Col style={{ padding: '20px' }} span={12} offset={6}>
-          <div
+      <Col style={{ padding: '20px' }} span={12} offset={6}>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            height: '100px',
+            alignItems: 'center'
+          }}
+        >
+          <Button
+            onClick={() => this.props.showChallenges()}
             style={{
               display: 'flex',
-              flexDirection: 'row',
-              height: '100px',
-              alignItems: 'center'
+              color: '#ffffff',
+              backgroundColor: '#006064',
+              border: 'none',
+              margin: '10px auto 0',
+              height: '35px',
+              lineHeight: '15px'
             }}
           >
-            {this.state.tasksStarted ? (
-              <Button
-                onClick={() =>
-                  this.setState({ tasksStarted: false, selectedTask: null })
-                }
-                style={{
-                  display: 'flex',
-                  color: '#ffffff',
-                  backgroundColor: '#006064',
-                  border: 'none',
-                  margin: '10px auto 0',
-                  height: '35px',
-                  lineHeight: '15px'
-                }}
-              >
-                <Icon type="pause-circle" />
-                Stop task
-              </Button>
-            ) : (
-              <Button
-                onClick={() => this.props.showChallenges()}
-                style={{
-                  display: 'flex',
-                  color: '#ffffff',
-                  backgroundColor: '#006064',
-                  border: 'none',
-                  margin: '10px auto 0',
-                  height: '35px',
-                  lineHeight: '15px'
-                }}
-              >
-                <Icon type="arrow-left" />
-                Choose another challenge
-              </Button>
-            )}
-          </div>
-        </Col>
-      </Row>
+            <Icon type="arrow-left" />
+            Choose another challenge
+          </Button>
+        </div>
+      </Col>
     )
   }
 
@@ -351,19 +380,11 @@ export default class Challenge extends Component {
     if (this.state.challengeCompleted) {
       return this.showSuccess()
     }
-    if (challengeId === 'initial') {
-      return [
-        this.renderIntro(challengeId),
-        this.renderInitialChallenge(),
-        this.renderButtons()
-      ]
-    } else {
-      return [
-        this.renderIntro(challengeId),
-        this.renderTasks(),
-        this.renderChallenge(),
-        this.renderButtons()
-      ]
-    }
+    return [
+      this.renderIntro(challengeId),
+      this.renderTasks(),
+      this.renderChallenge(),
+      this.renderButtons()
+    ]
   }
 }

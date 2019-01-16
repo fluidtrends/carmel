@@ -5,7 +5,24 @@
       "title": "Challenges",
       "icon": "favorite",
       "path": "/challenges",
-      "variants": "initial"
+      "startOperationsOnMount": false,
+      "variants": "initial",
+      "operations": {
+        "newActivity": [
+          "rest://create/journey/activities#newActivity",
+          {
+            "onSuccess": "activityAdded",
+            "onError": "activityError"
+          }
+        ],
+        "getUserProfile": [
+          "firebase://retrieve/users-profiles/:userId?latest=1&resolve=profiles#getProfile",
+          {
+            "onSuccess": "profileOk",
+            "onError": "profileError"
+          }
+        ]
+      }
     }
   }
 }
