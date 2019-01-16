@@ -120,7 +120,10 @@ export default class AccountScreen extends Screen {
   }
 
   renderProfileItem (item) {
-    const description = <div style={{height: 32, padding: '5px 12px', maxWidth: 500, width: '100%', overflow: 'hidden',  whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}>{item.value || ''}</div>
+
+    const width = this.isSmallScreen? '75vw' : 500
+
+    const description = <div style={{height: 32, padding: '5px 12px', width, overflow: 'hidden',  whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}>{item.value || ''}</div>
     let value = item.value || ''
     
     if (item.id == this.state.editId) {
