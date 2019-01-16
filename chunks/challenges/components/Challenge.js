@@ -93,7 +93,6 @@ export default class Challenge extends Component {
 
   renderIntro(challengeId) {
     // const text = require(`assets/text/challenges/${challengeId}.md`)
-
     return (
       <div
         style={{
@@ -115,7 +114,10 @@ export default class Challenge extends Component {
           offset={9}
           style={{ marginTop: '20px', marginBottom: '20px' }}
         >
-          <Timeline />
+          <Timeline
+            completedTasks={this.state.taskIndex}
+            taskNr={this.props.challenge.taskIds.length}
+          />
         </Col>
         {/* {text && (
           <Components.Text

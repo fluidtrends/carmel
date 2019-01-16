@@ -10,16 +10,10 @@ export default class Timeline extends PureComponent {
   }
 
   render() {
-    const dummyData = [
-      { taskId: 'tweak', completed: true },
-      { taskId: 'tweak2', completed: true },
-      { taskId: 'tweak3', completed: false }
-    ]
+    const { taskNr, completedTasks } = this.props
 
-    const taskNr = dummyData.length
-    const completedTask = dummyData.filter(task => task.completed).length
-    const currentTask = 2
-    const percent = ((completedTask * 100) / taskNr).toFixed(0)
+    const percent = ((completedTasks * 100) / taskNr).toFixed(0)
+
     return (
       <div
         style={{ fontSize: '14px', textAlign: 'center' }}
