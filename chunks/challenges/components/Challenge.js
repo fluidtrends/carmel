@@ -260,12 +260,13 @@ export default class Challenge extends Component {
     const { type } = challenge
     if (type[0] === 'playground') {
       return (
-        <div />
-        // <ChallengePlayground
-        //   challenge={challenge}
-        //   defaults={require(`../data/${challengeId}.json`)}
-        //   updateValue={editorValue => this.setState({ editorValue })}
-        // />
+        <Col span={24} style={{ margin: '20px 0' }}>
+          <ChallengePlayground
+            challenge={challenge}
+            defaults={require(`../data/${challengeId}.json`)}
+            updateValue={editorValue => this.setState({ editorValue })}
+          />
+        </Col>
       )
     }
   }

@@ -53,6 +53,7 @@ export default class ChallengePlayground extends Component {
                 style={{ width: '100%' }}
                 showPrintMargin={true}
                 showGutter={true}
+                height={'600px'}
                 highlightActiveLine={true}
                 setOptions={{
                   showLineNumbers: true,
