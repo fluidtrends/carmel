@@ -63,6 +63,15 @@ export default class RegisterScreen extends Screen {
       return
     }
 
+    if (this.state.eos.length !== 12) {
+      this.setState({
+        error: errors.eosIncorrect,
+        errorType: 'eosIncorrect',
+        loading: false
+      })
+      return
+    }
+
     if (!this.props.desktop && !this.state.verifiedCaptcha) {
       this.setState({
         error: errors.captcha,
@@ -78,7 +87,8 @@ export default class RegisterScreen extends Screen {
       this.props.register({
         name: this.state.name,
         email: this.state.email,
-        password: this.state.password
+        password: this.state.password,
+        eos: this.state.eos
       })
     }, 300)
   }
@@ -180,6 +190,15 @@ export default class RegisterScreen extends Screen {
           type='password'
           placeholder={placeholders.password2} />
       </FormItem>
+      <FormItem>
+        <Input 
+          value={this.state.eos}
+          style={{ height: '48px' }}
+          onChange={val => this.setState({ eos: val.target.value, error: '' })}
+          onKeyPress={this.onKeyPress}
+          prefix={<Icon type='wallet' style={{ color: 'rgba(0,0,0,.25)' }} />}
+          placeholder={placeholders.eos} />
+      </FormItem>
       {this.renderCaptcha()}
     </div>
   }
@@ -254,6 +273,7 @@ export default class RegisterScreen extends Screen {
   renderForm () {
     const width = this.formWidth
     const padding = this.formPadding
+    
     return (
       <div
         style={this.containerStyle}>
@@ -272,7 +292,8 @@ const placeholders = {
   name: 'Please enter your full name',
   email: 'Please enter your email address',
   password: 'Please choose a password',
-  password2: 'Please confirm your password'
+  password2: 'Please confirm your password',
+  eos: 'Please enter your EOS account'
 }
 
 const errors = {
@@ -281,7 +302,8 @@ const errors = {
   password: 'Please choose a password',
   password2: 'Please confirm your password',
   passwordMismatch: 'Please make sure your passwords match',
-  captcha: 'Please fill out the captcha'
+  captcha: 'Please fill out the captcha',
+  eosIncorrect: "EOS account name should have 12 characters, letters and numbers only"
 }
 
 const messages = {
