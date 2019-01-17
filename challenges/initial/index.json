@@ -11,5 +11,6 @@
   },
   "level": 0,
   "category": ["javascript", "json", "web"],
-  "taskIds": ["tweakCover"]
+  "taskIds": ["tweakCover"],
+  "components": ["text"]
 }

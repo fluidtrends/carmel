@@ -28,6 +28,8 @@ export default class ChallengePlayground extends Component {
     const { newValues } = this.state
 
     const columnStyle = { padding: '20px' }
+    const chunkyComponentValues = newValues ? { ...newValues } : { ...defaults }
+
     return (
       <Row
         style={{
@@ -62,23 +64,7 @@ export default class ChallengePlayground extends Component {
               />
             </Col>
             <Col style={columnStyle} span={14}>
-              <ChunkyProduct
-                source={(newValues && newValues.source) || defaults.source}
-                image={(newValues && newValues.image) || defaults.image}
-                opacity={(newValues && newValues.opacity) || defaults.opacity}
-                title={(newValues && newValues.title) || defaults.title}
-                type={(newValues && newValues.type) || defaults.type}
-                subtitle={
-                  (newValues && newValues.subtitle) || defaults.subtitle
-                }
-                titleStyle={
-                  (newValues && newValues.titleStyle) || defaults.titleStyle
-                }
-                subtitleStyle={
-                  (newValues && newValues.subtitleStyle) ||
-                  defaults.subtitleStyle
-                }
-              />
+              <ChunkyProduct {...chunkyComponentValues} />
             </Col>
           </React.Fragment>
         )}
