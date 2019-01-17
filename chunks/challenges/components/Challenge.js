@@ -20,12 +20,7 @@ const workspaces = {
         consumedSeconds: 24
       }
     ],
-    completedTasks: [
-      {
-        completedTimestamp: 22222222,
-        consumedSeconds: 500
-      }
-    ]
+    completedTasks: []
   },
   pausedChallenges: [
     {
@@ -257,13 +252,16 @@ export default class Challenge extends Component {
   }
   renderChallenge() {
     const { challengeId, challenge } = this.props
-    const { type } = challenge
-    if (type[0] === 'playground') {
+    const { type, components } = challenge
+    if (type[0] !== 'playground') return null
+    let defaultData = require(`../data/${challengeId}.json`)
+    defaultData = defaultData.filter(d => d.source === components[0])
+
+    if (this.state.tasksStarted) {
       return (
         <Col span={24} style={{ margin: '20px 0' }}>
           <ChallengePlayground
-            challenge={challenge}
-            defaults={require(`../data/${challengeId}.json`)}
+            defaults={defaultData[0]}
             updateValue={editorValue => this.setState({ editorValue })}
           />
         </Col>

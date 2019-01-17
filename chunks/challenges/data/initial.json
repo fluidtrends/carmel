@@ -1,15 +1,26 @@
-{
-  "image": "https://github.com/fluidtrends/carmel/blob/master/assets/cover-developer.png?raw=true",
-  "opacity": 0.5,
-  "title": "Cover Example",
-  "subtitle": "Subtitle",
-  "type": "default",
-  "titleStyle": {
-    "margin": 20,
-    "color": "#fff"
+[
+  {
+    "source": "cover",
+    "image": "https://github.com/fluidtrends/carmel/blob/master/assets/cover-developer.png?raw=true",
+    "opacity": 0.5,
+    "title": "Cover Example",
+    "subtitle": "Subtitle",
+    "type": "default",
+    "titleStyle": {
+      "margin": 20,
+      "color": "#fff"
+    },
+    "subtitleStyle": {
+      "margin": 20,
+      "color": "#ff0000"
+    }
   },
-  "subtitleStyle": {
-    "margin": 20,
-    "color": "#ff0000"
+  {
+    "source": "text",
+    "textSource": "github://fluidtrends/chunky/master/product/assets/text/defaults/components/text",
+    "style": {
+      "color": "red",
+      "margin": "30px"
+    }
   }
-}
+]

@@ -8,10 +8,11 @@ import UserInfo from '../components/userInfo'
 export default class AccountScreen extends Screen {
   constructor (props) {
     super(props)
-    this.state = { ...this.state, inProgress: true }
+    this.state = { ...this.state, inProgress: true, data: null, updatingUser: false }
     this._renderProfileItem = this.renderProfileItem.bind(this)
     this._onProfileItemEdit = (item) => this.onProfileItemEdit.bind(this, item)
     this._logout = this.logout.bind(this)
+    this._submitUpdateUser = this.submitUpdateUser.bind(this)
   }
 
   componentWillMount () {
@@ -25,6 +26,7 @@ export default class AccountScreen extends Screen {
     super.componentDidMount()
 
     this.verifyTwitterCallback()
+    this.setState({profileData: this.profileData, initialData: this.profileData})
   }
 
   refreshWallet () {
@@ -34,6 +36,10 @@ export default class AccountScreen extends Screen {
 
   failedToRefreshWallet (error) {
     this.refreshWallet()
+  }
+
+  updateUserOk(data) {
+    this.setState({updatingUser: false})
   }
 
   refreshedWallet (wallets) {
@@ -94,13 +100,32 @@ export default class AccountScreen extends Screen {
   }
 
   updateUser () {
-    const data = { [this.state.editId]: this.state.editValue }
+    const updatedData = this.state.profileData
+    for(let i =0; i<updatedData.length; i++) {
+      if (updatedData[i].id === this.state.editId && this.state.editValue !== updatedData[i].value) {
+        updatedData[i].value = this.state.editValue
+      }
+    }
+
+    this.setState({editId: null, profileData: updatedData})
+  }
+
+  submitUpdateUser() {
+    this.setState({updatingUser: true})
+    if(JSON.stringify(this.state.profileData) === JSON.stringify(this.state.initialData)) {
+      this.setState({updatingUser: false})
+      return false
+    }
+    const data = {}
+    for (let key in this.state.initialData) {
+      if (this.state.initialData[key].value !== this.state.profileData[key].value) {
+        data[this.state.initialData[key].id] = this.state.profileData[key].value
+      }
+    }
 
     setTimeout(() => {
       this.props.updateUser(data)
     }, 300)
-
-    this.setState({editId: null})
   }
 
   showInput (item) {
@@ -280,12 +305,18 @@ export default class AccountScreen extends Screen {
       key='active-list'
       style={{ marginTop: '20px' }}
       itemLayout='horizontal'
-      dataSource={this.profileData}
+      dataSource={this.state.profileData}
       renderItem={this._renderProfileItem} />,
       <CardActions style={{ justifyContent: 'center', marginTop: '20px' }} key='active-actions'>
-        <CardActionButtons style={{ marginLeft: '10px' }}>
+        <CardActionButtons style={{ marginLeft: '10px', flexDirection: 'column' }}>
+        <Button
+            style={{ color: '#00bcd4', borderColor: '#00bcd4', margin: '20px' }}
+            onClick={this._submitUpdateUser}>
+              Update Profile
+              {this.state.updatingUser ? <Icon type="loading" /> : null}
+          </Button>
           <Button
-            style={{ color: '#f44336', borderColor: '#f44336' }}
+            style={{ color: '#f44336', borderColor: '#f44336', bottom: -50 }}
             onClick={this._logout}>
               Sign Out
           </Button>
