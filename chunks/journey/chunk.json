@@ -25,16 +25,16 @@
   },
   "service": {
     "functions": [
-      "post://activities#newActivity"
+      "post://activities#newActivity",
+      "post://challenges#newChallenge",
+      "post://journeys#updateJourney"
     ],
     "dependencies": {
+      "slugify": "latest"
     },
     "requiredFields": {
     },
     "permissions": {
-      "setup": [
-        "ses:SendEmail"
-      ]
     }
   }
 }
