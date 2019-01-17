@@ -19,3 +19,5 @@ cd ../../../../
 echo "*** updating the mainnet carmeltokens contract ..."
 cp -r eos/contracts/carmel/carmeltokens .chunky/eos/mainnet
 rm -rf eos/contracts/carmel/carmeltokens/carmeltokens.wasm
+
+echo "*** done."
