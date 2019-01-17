@@ -9,8 +9,6 @@
       "stack": [
         "intro",
         "download",
-        "bounties",
-        "journey",
         "challenges",
         "payments",
         "auth",
