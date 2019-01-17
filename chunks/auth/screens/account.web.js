@@ -13,6 +13,7 @@ export default class AccountScreen extends Screen {
     this._onProfileItemEdit = (item) => this.onProfileItemEdit.bind(this, item)
     this._logout = this.logout.bind(this)
     this._submitUpdateUser = this.submitUpdateUser.bind(this)
+    this._dataChanged = this.dataChanged.bind(this)
   }
 
   componentWillMount () {
@@ -85,7 +86,6 @@ export default class AccountScreen extends Screen {
   }
 
   onProfileItemEdit (item) {
-    console.log(item)
   }
 
   renderProfileItemActions (item) {
@@ -110,9 +110,14 @@ export default class AccountScreen extends Screen {
     this.setState({editId: null, profileData: updatedData})
   }
 
+  dataChanged () {
+    return JSON.stringify(this.state.profileData) === JSON.stringify(this.state.initialData)
+  }
+
   submitUpdateUser() {
+
     this.setState({updatingUser: true})
-    if(JSON.stringify(this.state.profileData) === JSON.stringify(this.state.initialData)) {
+    if( this._dataChanged() ) {
       this.setState({updatingUser: false})
       return false
     }
@@ -126,6 +131,8 @@ export default class AccountScreen extends Screen {
     setTimeout(() => {
       this.props.updateUser(data)
     }, 300)
+
+    this.setState({initialData: this.state.profileData})
   }
 
   showInput (item) {
@@ -301,6 +308,9 @@ export default class AccountScreen extends Screen {
   }
 
   renderActiveContent () {
+
+    const editColor = !this._dataChanged() ? '#00bcd4' : '#546E7A'
+
     return [<List
       key='active-list'
       style={{ marginTop: '20px' }}
@@ -310,7 +320,7 @@ export default class AccountScreen extends Screen {
       <CardActions style={{ justifyContent: 'center', marginTop: '20px' }} key='active-actions'>
         <CardActionButtons style={{ marginLeft: '10px', flexDirection: 'column' }}>
         <Button
-            style={{ color: '#00bcd4', borderColor: '#00bcd4', margin: '20px' }}
+            style={{ color: editColor, borderColor: editColor, margin: '20px' }}
             onClick={this._submitUpdateUser}>
               Update Profile
               {this.state.updatingUser ? <Icon type="loading" /> : null}
