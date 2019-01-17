@@ -12,7 +12,6 @@ const getUser = (userId) => {
 }
 
 const updateUser = (data, userId) => {
-  debugger
   return getUser(userId).then((user) => {
     return chunky.firebase.operation('update', Object.assign({}, { key: `user/${user._id}` }, data))
   })

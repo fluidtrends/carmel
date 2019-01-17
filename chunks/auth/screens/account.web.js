@@ -17,6 +17,7 @@ export default class AccountScreen extends Screen {
   }
 
   componentWillMount () {
+
     if (!this.isLoggedIn) {
       this.triggerRedirect('/login')
     }
@@ -128,11 +129,11 @@ export default class AccountScreen extends Screen {
       }
     }
 
+    data['userData'] = true
+
     setTimeout(() => {
       this.props.updateUser(data)
     }, 300)
-
-    this.setState({initialData: this.state.profileData})
   }
 
   showInput (item) {
