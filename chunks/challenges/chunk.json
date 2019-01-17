@@ -14,13 +14,6 @@
             "onSuccess": "activityAdded",
             "onError": "activityError"
           }
-        ],
-        "getUserProfile": [
-          "firebase://retrieve/users-profiles/:userId?latest=1&resolve=profiles#getProfile",
-          {
-            "onSuccess": "profileOk",
-            "onError": "profileError"
-          }
         ]
       }
     }

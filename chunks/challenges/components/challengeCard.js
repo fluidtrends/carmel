@@ -82,8 +82,10 @@ export default class ChallengeCard extends Component {
           tag="div"
           style={{
             color: '#B0BEC5',
-            textAlign: 'left'
+            textAlign: 'left',
+            cursor: 'pointer'
           }}
+          onClick={() => window.open(this.props.challenge.author.link)}
         >
           <Icon type="user" style={{ marginRight: '5px' }} />
           {this.props.challenge.author.name}
@@ -177,12 +179,8 @@ export default class ChallengeCard extends Component {
         >
           {this.props.challenge.title}
         </Typography>
-        <Ribbon
-          backgroundColor={
-            this.props.challenge.pricePlan === 'free' ? '#00BCD4' : '#00695C'
-          }
-        >
-          {this.props.challenge.pricePlan.toUpperCase()}
+        <Ribbon backgroundColor={'#00BCD4'}>
+          {this.props.challenge.type[0].toUpperCase()}
         </Ribbon>
       </div>
     )

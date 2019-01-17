@@ -1,6 +1,6 @@
 import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
-import { Row, Col, Radio, Tag } from 'antd'
+import { Row, Col, Radio, Tag, Alert } from 'antd'
 import ChallengeCard from '../components/challengeCard'
 import InitialChallenge from '../components/initialChallenge'
 import Challenge from '../components/Challenge'
@@ -12,7 +12,6 @@ export default class MainChallengesScreen extends Screen {
     this.state = {
       ...this.state,
       initialChallengeCompleted: false,
-      selectedPricePlan: 'all',
       selectedCategories: []
     }
   }
@@ -20,12 +19,10 @@ export default class MainChallengesScreen extends Screen {
   componentDidMount() {
     super.componentDidMount()
     this._examples = this.importData('initial')
-    this._plans = this.importData('pricePlans')
     this.setState({
       initial: this.examples
     })
     this._challenge = this.props.location.pathname.split('/')[2]
-    this.props.getUserProfile()
     // Data.Cache.retrieveCachedItem('initialChallengeCompleted')
     //   .then(() => {
     //     this.setState({ initialChallengeCompleted: true })
@@ -35,24 +32,12 @@ export default class MainChallengesScreen extends Screen {
     //   })
   }
 
-  profileOk(profile) {
-    console.log('profile', profile)
-  }
-
   get examples() {
     return this._examples || {}
   }
 
-  get pricePlans() {
-    return this._plans || []
-  }
-
   get challenge() {
     return this._challenge
-  }
-
-  handlePriceChange = ev => {
-    this.setState({ selectedPricePlan: ev.target.value })
   }
 
   addCategory = category => {
@@ -74,28 +59,6 @@ export default class MainChallengesScreen extends Screen {
       category => category !== removedCategory
     )
     this.setState({ selectedCategories })
-  }
-
-  renderSelection() {
-    return (
-      <div
-        style={{
-          padding: '10px 30px',
-          display: 'flex',
-          justifyContent: 'center'
-        }}
-      >
-        <Radio.Group
-          defaultValue="all"
-          buttonStyle="solid"
-          onChange={this.handlePriceChange}
-        >
-          {this.pricePlans.map(plan => (
-            <Radio.Button value={plan}>{plan.toUpperCase()}</Radio.Button>
-          ))}
-        </Radio.Group>
-      </div>
-    )
   }
 
   renderTags() {
@@ -122,19 +85,13 @@ export default class MainChallengesScreen extends Screen {
 
   renderChallenges() {
     const challengesData = require('challenges/index.json')
-    const { selectedCategories, selectedPricePlan } = this.state
+    const { selectedCategories } = this.state
     const filter = {}
 
     for (let i = 0; i < selectedCategories.length; i++) {
       filter[selectedCategories[i]] = selectedCategories[i]
     }
-    let filteredChallenges =
-      selectedPricePlan === 'all'
-        ? challengesData
-        : challengesData.filter(
-            challenge => challenge.pricePlan === this.state.selectedPricePlan
-          )
-
+    let filteredChallenges = challengesData
     if (Object.keys(filter).length > 0) {
       filteredChallenges = filteredChallenges.filter(challenge => {
         for (var key in filter) {
@@ -156,14 +113,28 @@ export default class MainChallengesScreen extends Screen {
             justifyContent: 'center'
           }}
         />
-        {this.renderSelection()}
+        {!this.props.account && (
+          <div style={{ margin: '20px' }}>
+            <Alert
+              message="We can't track your progress if you don't log in!"
+              banner
+              closable
+            />
+          </div>
+        )}
         {this.renderTags()}
         <Row gutter={26} style={{ padding: '20px' }}>
           {true ? (
             <React.Fragment>
               {filteredChallenges.length ? (
                 filteredChallenges.map(challenge => (
-                  <Col span={16} offset={4} style={{ padding: '20px' }}>
+                  <div
+                    style={{
+                      padding: '20px',
+                      maxWidth: '700px',
+                      margin: '0 auto'
+                    }}
+                  >
                     <ChallengeCard
                       challenge={require(`../../../challenges/${
                         challenge.id
@@ -175,7 +146,7 @@ export default class MainChallengesScreen extends Screen {
                       }
                       onCategoryClick={category => this.addCategory(category)}
                     />
-                  </Col>
+                  </div>
                 ))
               ) : (
                 <Col
