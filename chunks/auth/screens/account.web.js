@@ -183,7 +183,7 @@ export default class AccountScreen extends Screen {
       },
       {
         id: 'eosAddress',
-        title: 'PUBLIC EOS Address',
+        title: 'EOS username',
         value: this.account.user.eosAddress
       },
       {

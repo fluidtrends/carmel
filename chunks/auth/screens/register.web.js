@@ -79,14 +79,24 @@ export default class RegisterScreen extends Screen {
 
     this.setState({ loading: true, loadingMessage: messages.loading })
 
+    const bios = ['Amazing human being', 'Awesome Carmel supporter', 'Fast learner', 'Tech savy and future entrepreneur', 'Developer in development', 'The family champion']
+    const pics = ['https://github.com/fluidtrends/carmel/blob/master/assets/avatars/avatar1.png?raw=true', 'https://github.com/fluidtrends/carmel/blob/master/assets/avatars/avatar2.png?raw=true', 'https://github.com/fluidtrends/carmel/blob/master/assets/avatars/avatar3.png?raw=true', 'https://github.com/fluidtrends/carmel/blob/master/assets/avatars/avatar4.png?raw=true', 'https://github.com/fluidtrends/carmel/blob/master/assets/avatars/avatar5.png?raw=true', 'https://github.com/fluidtrends/carmel/blob/master/assets/avatars/avatar6.png?raw=true']
+    const rand = this.random(1, 6)
+
     setTimeout(() => {
       this.props.register({
         name: this.state.name,
         username: this.state.username,
         email: this.state.email,
+        pic: pics[rand],
+        bio: bios[rand],
         password: this.state.password
       })
     }, 300)
+  }
+
+  random(min , max) {
+      return Math.floor(Math.random() * (max - min) + min) ;
   }
 
   registerOk () {
