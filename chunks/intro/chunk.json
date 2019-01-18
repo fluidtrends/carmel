@@ -7,13 +7,6 @@
       "icon": "home",
       "forceNavigation": true,
       "skipExtendedMenuOnDesktop": true,
-      "extendedMenu": [
-        {
-          "id": "download",
-          "title": "Download",
-          "path": "/download"
-        }
-      ],
       "components": {
         "chat": {
           "source": "chat"

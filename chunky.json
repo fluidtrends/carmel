@@ -8,11 +8,8 @@
     "start": {
       "stack": [
         "intro",
-        "download",
         "challenges",
-        "payments",
-        "auth",
-        "studio"
+        "auth"
       ]
     },
     "dashboard": {

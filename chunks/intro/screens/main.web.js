@@ -32,7 +32,7 @@ export default class MainIntroScreen extends Screen {
   }
 
   onStart() {
-    this.triggerRedirect('/pricing')
+    this.triggerRedirect('/challenges')
   }
 
   meetChris() {
@@ -166,7 +166,7 @@ export default class MainIntroScreen extends Screen {
             textAlign: 'center'
           }}
         >
-          Wanna see the Carmel Studio in action?
+          Start your learning journey
         </Typography>
         <Typography
           use="headline4"
@@ -179,10 +179,10 @@ export default class MainIntroScreen extends Screen {
             raised
             theme="secondary-bg text-primary-on-secondary"
             style={{ marginTop: '30px' }}
-            onClick={() => this.triggerRedirect('/beta')}
+            onClick={() => this.triggerRedirect('/challenges')}
           >
             <ButtonIcon icon="check_circle" />
-            Become An Early Adopter
+            Take a challenge
           </Button>
         </Typography>
       </div>
