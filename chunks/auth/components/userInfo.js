@@ -171,8 +171,8 @@
       }}>
         <Typography use='subheading1' tag='h2' style={{ textAlign: 'left' }}>
           <ChipSet>
-            <Chip style={{ backgroundColor: '#607D8B'), marginLeft: 0 }}>
-              <ChipText style={{ color: '#ffffff') }}>
+            <Chip style={{ backgroundColor: '#607D8B', marginLeft: 0 }}>
+              <ChipText style={{ color: '#ffffff' }}>
                 <strong> {this.tokens.toLocaleString('en')} unclaimed </strong>
               </ChipText>
             </Chip>
