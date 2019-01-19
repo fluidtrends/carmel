@@ -5,14 +5,6 @@ import { List, notification, Icon, Input, Button } from 'antd'
 
 import UserInfo from '../components/userInfo'
 
-import { Api, JsonRpc, RpcError } from 'eosjs'
-import ScatterJS from 'scatterjs-core'
-import ScatterEOS from 'scatterjs-plugin-eosjs'
-
-ScatterJS.plugins(new ScatterEOS())
-const ENDPOINT="https://nodes.get-scatter.com:443"
-const eos = new JsonRpc(ENDPOINT, { fetch })
-
 export default class AccountScreen extends Screen {
   constructor (props) {
     super(props)
@@ -41,22 +33,6 @@ export default class AccountScreen extends Screen {
     this.setState({profileData: this.profileData, initialData: this.profileData})
   }
 
-  refreshTokenBalances() {
-    if (!this.account.user.eosAddress) {
-      return Promise.resolve()
-    }
-
-    return Promise.all([
-      eos.get_currency_balance('eosio.token', this.account.user.eosAddress, 'EOS'),
-      eos.get_currency_balance('carmeltokens', this.account.user.eosAddress, 'CARMEL')])
-      .then((balances) => {
-        if (!balances[0] && !balances[1]) {
-          return
-        }
-        return Object.assign({}, balances[0] && { eos: balances[0][0] }, balances[1] && { carmel: balances[1][0] })
-      })
-  }
-
   refreshWallet () {
     const userId = this.account.user.uid
     this.props.refreshWallet({ userId })
@@ -71,8 +47,7 @@ export default class AccountScreen extends Screen {
   }
 
   refreshedWallet (wallets) {
-    this.refreshTokenBalances()
-        .then((tokens) => this.setState({ wallet: wallets[0], inProgress: false, tokens }))
+    this.setState({ wallet: wallets[0], inProgress: false })
   }
 
   verifyTwitterCallback () {
@@ -326,7 +301,6 @@ export default class AccountScreen extends Screen {
       skipWallet={this.skipWallet}
       twitterOAuth={this.state.twitterOAuth}
       twitterUrl={this.twitterUrl}
-      tokens={this.state.tokens}
       twitter={this.state.twitter}
       twitterError={this.state.twitterError}
       twitterVerify={this.props.twitterVerify}

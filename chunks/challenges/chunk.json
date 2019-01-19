@@ -4,8 +4,7 @@
     "main": {
       "title": "Challenges",
       "icon": "favorite",
-      "title": "Take a challenge",
-      "action": "true",
+      "title": "Challenges",
       "path": "/challenges",
       "startOperationsOnMount": false,
       "variants": "initial",

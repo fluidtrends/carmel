@@ -6,6 +6,14 @@
   import { notification, Tooltip } from 'antd'
   import Meta from './meta'
 
+  import { Api, JsonRpc, RpcError } from 'eosjs'
+  import ScatterJS from 'scatterjs-core'
+  import ScatterEOS from 'scatterjs-plugin-eosjs'
+
+  ScatterJS.plugins(new ScatterEOS())
+  const ENDPOINT="https://nodes.get-scatter.com:443"
+  const eos = new JsonRpc(ENDPOINT, { fetch })
+
   const ReservedMessage = `Congrats on your reserved CARMEL tokens! To transfer them to your Carmel Wallet, please complete the claiming process below.`
 
   export default class UserInfoComponent extends Component {
@@ -17,8 +25,24 @@
 
     componentDidMount () {
       super.componentDidMount()
-
+      this.refreshTokenBalances()
       this.checkVerificationState()
+    }
+
+    refreshTokenBalances() {
+      if (!this.props.account.user.eosAddress) {
+        return Promise.resolve()
+      }
+
+      return Promise.all([
+        eos.get_currency_balance('eosio.token', this.props.account.user.eosAddress, 'EOS'),
+        eos.get_currency_balance('carmeltokens', this.props.account.user.eosAddress, 'CARMEL')])
+        .then((balances) => {
+          if (!balances[0] && !balances[1]) {
+            return
+          }
+          this.setState({ tokens: Object.assign({}, balances[0] && { eos: balances[0][0] }, balances[1] && { carmel: balances[1][0] }) })
+        })
     }
 
     checkVerificationState () {
@@ -133,7 +157,7 @@
     }
 
     renderLiveTokens () {
-      if (!this.props.tokens || !this.props.tokens.carmel) {
+      if (!this.state.tokens || !this.state.tokens.carmel) {
         return <div/>
       }
 
@@ -146,7 +170,7 @@
           <ChipSet>
             <Chip style={{ backgroundColor: (this.tokens > 0 ? '#006A4E' : '#CFD8DC'), marginLeft: 0 }}>
               <ChipText style={{ color: (this.tokens > 0 ? '#ffffff' : '#B0BEC5') }}>
-                <strong> {this.props.tokens.carmel.toLocaleString('en')} </strong>
+                <strong> {this.state.tokens.carmel.toLocaleString('en')} </strong>
               </ChipText>
             </Chip>
             { this.renderClaimed() }

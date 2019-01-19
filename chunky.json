@@ -6,16 +6,12 @@
   "androidSdkDir": "~/Library/Android/sdk",
   "sections": {
     "start": {
-      "stack": [
-        "intro",
-        "challenges",
-        "auth"
-      ]
+      "stack": ["intro", "challenges", "payments", "tokens", "auth"]
     },
     "dashboard": {
       "private": true,
       "layout": "sidebar",
-      "stack": ["payments", "auth"]
+      "stack": ["payments", "tokens", "auth"]
     }
   },
   "transitions": ["replace://start"],
