@@ -7,8 +7,6 @@
       "icon": "home",
       "forceNavigation": true,
       "skipExtendedMenuOnDesktop": true,
-      "extendedMenu": [
-      ],
       "components": {
         "chat": {
           "source": "chat"

@@ -479,4 +479,17 @@ strong {
 
 .challenge-card .ant-card-head {
   padding-right: 0;
+  padding-left: 10px;
+}
+
+.timeline-wrapper .ant-progress-bg {
+  background-color: #4dd0e1;
+}
+
+.timeline-wrapper .ant-progress-status-success .ant-progress-bg {
+  background-color: #00796b;
+}
+
+.timeline-wrapper .anticon-check-circle {
+  color: #00796b;
 }

@@ -34,7 +34,9 @@ export default class ChallengeCard extends Component {
             <Chip
               id={cat}
               onInteraction={evt =>
-                this.props.onCategoryClick(evt.detail.chipId)
+                this.props.onCategoryClick
+                  ? this.props.onCategoryClick(evt.detail.chipId)
+                  : false
               }
               style={{ backgroundColor: '#ECEFF1', color: '#00bcd4' }}
               key={`${cat}-${this.props.challenge.id}`}
@@ -80,8 +82,10 @@ export default class ChallengeCard extends Component {
           tag="div"
           style={{
             color: '#B0BEC5',
-            textAlign: 'left'
+            textAlign: 'left',
+            cursor: 'pointer'
           }}
+          onClick={() => window.open(this.props.challenge.author.link)}
         >
           <Icon type="user" style={{ marginRight: '5px' }} />
           {this.props.challenge.author.name}
@@ -153,42 +157,38 @@ export default class ChallengeCard extends Component {
 
   renderTitle() {
     return (
-      <div style={{ position: 'relative' }}>
+      <div
+        style={{
+          position: 'relative',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-start'
+        }}
+      >
+        {this.renderEnv()}
         <Typography
           use="headline5"
           tag="div"
           style={{
             color: '#455A64',
-            maxWidth: '80%',
+            maxWidth: '90%',
             textOverflow: 'ellipsis',
-            overflow: 'hidden'
+            overflow: 'hidden',
+            display: 'inline-block'
           }}
         >
           {this.props.challenge.title}
         </Typography>
-        <Ribbon
-          backgroundColor={
-            this.props.challenge.pricePlan === 'free' ? '#00BCD4' : '#00695C'
-          }
-        >
-          {this.props.challenge.pricePlan.toUpperCase()}
+        <Ribbon backgroundColor={'#00BCD4'}>
+          {this.props.challenge.type[0].toUpperCase()}
         </Ribbon>
-        {this.renderEnv()}
       </div>
     )
   }
 
   renderEnv() {
     return (
-      <div
-        style={{
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'flex-start'
-        }}
-      >
+      <React.Fragment>
         {this.props.challenge.type.map(t => {
           let content = (
             <p style={{ fontSize: '12px', margin: 0 }}>
@@ -223,32 +223,26 @@ export default class ChallengeCard extends Component {
             <div
               style={{
                 cursor: 'pointer',
-                background: '#0288D1',
+                background: '#fff',
                 borderRadius: '20px',
+                borderColor: '#00bcd4',
                 height: '35px',
-                width: '120px',
                 lineHeight: '35px',
                 textAlign: 'center',
-                margin: '5px'
+                margin: '5px',
+                display: 'inline-block'
               }}
             >
-              <Popover content={content} title={title} placement={'right'}>
-                <span
-                  style={{
-                    fontSize: '12px',
-                    fontWeight: 'bold',
-                    padding: '5px',
-                    color: '#fff'
-                  }}
-                >
-                  {t.toUpperCase()}
-                </span>
-                <Icon type={icon} style={{ color: '#fff', fontSize: '12px' }} />
+              <Popover content={content} title={title} placement={'top'}>
+                <Icon
+                  type={icon}
+                  style={{ color: '#00bcd4', fontSize: '12px' }}
+                />
               </Popover>
             </div>
           )
         })}
-      </div>
+      </React.Fragment>
     )
   }
 
@@ -264,21 +258,22 @@ export default class ChallengeCard extends Component {
         {this.renderSummary()}
         {this.renderDetails()}
         {this.renderSkills()}
-
-        <Button
-          onClick={() => this.props.onSelectChallenge(challenge)}
-          style={{
-            display: 'flex',
-            color: '#ffffff',
-            backgroundColor: challenge.history ? '#03A9F4' : '#00bcd4',
-            border: 'none',
-            margin: '10px auto 0',
-            height: '35px',
-            lineHeight: '15px'
-          }}
-        >
-          {prompt} <Icon type="caret-right" />
-        </Button>
+        {!this.props.hideButton && (
+          <Button
+            onClick={() => this.props.onSelectChallenge(challenge)}
+            style={{
+              display: 'flex',
+              color: '#ffffff',
+              backgroundColor: challenge.history ? '#03A9F4' : '#00bcd4',
+              border: 'none',
+              margin: '10px auto 0',
+              height: '35px',
+              lineHeight: '15px'
+            }}
+          >
+            {prompt} <Icon type="caret-right" />
+          </Button>
+        )}
       </Card>
     )
   }

@@ -1,7 +1,6 @@
 import React from 'react'
 import { Component } from 'react-dom-chunky'
 import { Row, Col } from 'antd'
-import Task from './playground/task'
 
 import Editor from './playground/editor'
 import ChunkyProduct from './playground/product'
@@ -25,34 +24,22 @@ export default class ChallengePlayground extends Component {
   }
 
   render() {
-    const { challenge, defaults, initial } = this.props
-    const { taskIds, id } = challenge
+    const { defaults } = this.props
     const { newValues } = this.state
 
     const columnStyle = { padding: '20px' }
+    const chunkyComponentValues = newValues ? { ...newValues } : { ...defaults }
+
     return (
-      <React.Fragment>
-        <Row style={{ margin: '10px 20px' }}>
-          <Col style={columnStyle} span={12} offset={6}>
-            <Task
-              task={
-                initial
-                  ? require(`../../../challenges/${id}/${
-                      taskIds[0]
-                    }/index.json`)
-                  : require(`../../../challenges/${id}/${task}/index.json`)
-              }
-            />
-          </Col>
-        </Row>
+      <Row
+        style={{
+          margin: '10px 20px',
+          display: 'flex',
+          alignItems: 'center'
+        }}
+      >
         {defaults && (
-          <Row
-            style={{
-              margin: '10px 20px',
-              display: 'flex',
-              alignItems: 'center'
-            }}
-          >
+          <React.Fragment>
             <Col style={columnStyle} span={10}>
               <Editor
                 value={JSON.stringify(
@@ -68,6 +55,7 @@ export default class ChallengePlayground extends Component {
                 style={{ width: '100%' }}
                 showPrintMargin={true}
                 showGutter={true}
+                height={'600px'}
                 highlightActiveLine={true}
                 setOptions={{
                   showLineNumbers: true,
@@ -76,27 +64,11 @@ export default class ChallengePlayground extends Component {
               />
             </Col>
             <Col style={columnStyle} span={14}>
-              <ChunkyProduct
-                source={(newValues && newValues.source) || defaults.source}
-                image={(newValues && newValues.image) || defaults.image}
-                opacity={(newValues && newValues.opacity) || defaults.opacity}
-                title={(newValues && newValues.title) || defaults.title}
-                type={(newValues && newValues.type) || defaults.type}
-                subtitle={
-                  (newValues && newValues.subtitle) || defaults.subtitle
-                }
-                titleStyle={
-                  (newValues && newValues.titleStyle) || defaults.titleStyle
-                }
-                subtitleStyle={
-                  (newValues && newValues.subtitleStyle) ||
-                  defaults.subtitleStyle
-                }
-              />
+              <ChunkyProduct {...chunkyComponentValues} />
             </Col>
-          </Row>
+          </React.Fragment>
         )}
-      </React.Fragment>
+      </Row>
     )
   }
 }

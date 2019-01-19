@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const Ribbon = styled.div`
   width: 120px;
-  font-size: 12px;
+  font-size: 10px;
   font-weight: bold;
   background: ${props =>
     props.backgroundColor ? props.backgroundColor : '#03A9F4'};

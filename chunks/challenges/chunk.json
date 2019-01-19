@@ -4,8 +4,20 @@
     "main": {
       "title": "Challenges",
       "icon": "favorite",
+      "title": "Take a challenge",
+      "action": "true",
       "path": "/challenges",
-      "variants": "initial"
+      "startOperationsOnMount": false,
+      "variants": "initial",
+      "operations": {
+        "newActivity": [
+          "rest://create/journey/activities#newActivity",
+          {
+            "onSuccess": "activityAdded",
+            "onError": "activityError"
+          }
+        ]
+      }
     }
   }
 }

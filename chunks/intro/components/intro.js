@@ -118,7 +118,7 @@ export default class Intro extends Component {
           color: '#fafafa'
         }}>
 
-        Learn to code with <strong> Tweak-N-Learn™ </strong> and provide a better future for your family.
+        Take your tech skillset to the next level with <strong>Tweak-N-Learn™</strong>
       </Typography>
         <Typist.Delay ms={1000} />
         <h3 key='4' style={{ color: '#602f15', marginTop: "20px", textAlign: 'center' }}>
@@ -128,7 +128,7 @@ export default class Intro extends Component {
             style={{ marginTop: '30px' }}
             onClick={this.props.onStart}>
             <ButtonIcon icon='check_circle' />
-              Join The #Carmel1K Club
+              Start your learning journey
           </Button>
         </h3>
         <Typography use='headline7' style={{

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
-import { Row, Col, Radio, Tag } from 'antd'
+import { Row, Col, Radio, Tag, Alert } from 'antd'
 import ChallengeCard from '../components/challengeCard'
 import InitialChallenge from '../components/initialChallenge'
 import Challenge from '../components/Challenge'
@@ -12,7 +12,6 @@ export default class MainChallengesScreen extends Screen {
     this.state = {
       ...this.state,
       initialChallengeCompleted: false,
-      selectedPricePlan: 'all',
       selectedCategories: []
     }
   }
@@ -20,34 +19,25 @@ export default class MainChallengesScreen extends Screen {
   componentDidMount() {
     super.componentDidMount()
     this._examples = this.importData('initial')
-    this._plans = this.importData('pricePlans')
     this.setState({
       initial: this.examples
     })
     this._challenge = this.props.location.pathname.split('/')[2]
-    Data.Cache.retrieveCachedItem('initialChallengeCompleted')
-      .then(() => {
-        this.setState({ initialChallengeCompleted: true })
-      })
-      .catch(error => {
-        this.setState({ initialChallengeCompleted: false })
-      })
+    // Data.Cache.retrieveCachedItem('initialChallengeCompleted')
+    //   .then(() => {
+    //     this.setState({ initialChallengeCompleted: true })
+    //   })
+    //   .catch(error => {
+    //     this.setState({ initialChallengeCompleted: false })
+    //   })
   }
 
   get examples() {
     return this._examples || {}
   }
 
-  get pricePlans() {
-    return this._plans || []
-  }
-
   get challenge() {
     return this._challenge
-  }
-
-  handlePriceChange = ev => {
-    this.setState({ selectedPricePlan: ev.target.value })
   }
 
   addCategory = category => {
@@ -71,25 +61,15 @@ export default class MainChallengesScreen extends Screen {
     this.setState({ selectedCategories })
   }
 
-  renderSelection() {
-    return (
-      <div style={{ padding: '10px 30px' }}>
-        <Radio.Group
-          defaultValue="all"
-          buttonStyle="solid"
-          onChange={this.handlePriceChange}
-        >
-          {this.pricePlans.map(plan => (
-            <Radio.Button value={plan}>{plan.toUpperCase()}</Radio.Button>
-          ))}
-        </Radio.Group>
-      </div>
-    )
-  }
-
   renderTags() {
     return (
-      <div style={{ padding: '5px 30px' }}>
+      <div
+        style={{
+          padding: '5px 30px',
+          display: 'flex',
+          justifyContent: 'center'
+        }}
+      >
         {this.state.selectedCategories.map(category => (
           <Tag
             key={category}
@@ -105,19 +85,13 @@ export default class MainChallengesScreen extends Screen {
 
   renderChallenges() {
     const challengesData = require('challenges/index.json')
-    const { selectedCategories, selectedPricePlan } = this.state
+    const { selectedCategories } = this.state
     const filter = {}
 
     for (let i = 0; i < selectedCategories.length; i++) {
       filter[selectedCategories[i]] = selectedCategories[i]
     }
-    let filteredChallenges =
-      selectedPricePlan === 'all'
-        ? challengesData
-        : challengesData.filter(
-            challenge => challenge.pricePlan === this.state.selectedPricePlan
-          )
-
+    let filteredChallenges = challengesData
     if (Object.keys(filter).length > 0) {
       filteredChallenges = filteredChallenges.filter(challenge => {
         for (var key in filter) {
@@ -131,36 +105,58 @@ export default class MainChallengesScreen extends Screen {
 
     return (
       <div>
-        {this.state.initialChallengeCompleted && (
-          <Components.Text
-            source={'local://challenges-intro'}
-            style={{
-              maxWidth: '100%',
-              display: 'flex',
-              justifyContent: 'center'
-            }}
-          />
+        <Components.Text
+          source={'local://challenges-intro'}
+          style={{
+            maxWidth: '100%',
+            display: 'flex',
+            justifyContent: 'center'
+          }}
+        />
+        {!this.props.account && (
+          <div style={{ margin: '20px' }}>
+            <Alert
+              message="We can't track your progress if you don't log in!"
+              banner
+              closable
+            />
+          </div>
         )}
-        {this.renderSelection()}
         {this.renderTags()}
         <Row gutter={26} style={{ padding: '20px' }}>
-          {this.state.initialChallengeCompleted ? (
+          {true ? (
             <React.Fragment>
-              {filteredChallenges.map(challenge => (
-                <Col span={8} style={{ padding: '20px', height: '475px' }}>
-                  <ChallengeCard
-                    challenge={require(`../../../challenges/${
-                      challenge.id
-                    }/index.json`)}
-                    onSelectChallenge={selectedChallenge =>
-                      this.props.history.push(
-                        `/challenges/${selectedChallenge.id}`
-                      )
-                    }
-                    onCategoryClick={category => this.addCategory(category)}
-                  />
+              {filteredChallenges.length ? (
+                filteredChallenges.map(challenge => (
+                  <div
+                    style={{
+                      padding: '20px',
+                      maxWidth: '700px',
+                      margin: '0 auto'
+                    }}
+                  >
+                    <ChallengeCard
+                      challenge={require(`../../../challenges/${
+                        challenge.id
+                      }/index.json`)}
+                      onSelectChallenge={selectedChallenge =>
+                        this.props.history.push(
+                          `/challenges/${selectedChallenge.id}`
+                        )
+                      }
+                      onCategoryClick={category => this.addCategory(category)}
+                    />
+                  </div>
+                ))
+              ) : (
+                <Col
+                  span={16}
+                  offset={4}
+                  style={{ padding: '20px', height: '475px' }}
+                >
+                  <p>Sorry we can't find the challenges you are looking for.</p>
                 </Col>
-              ))}
+              )}
             </React.Fragment>
           ) : (
             <Col span={16} offset={4}>
@@ -178,31 +174,28 @@ export default class MainChallengesScreen extends Screen {
     )
   }
 
+  pushActivity(activity) {
+    this.props.newActivity(activity)
+  }
+
   components() {
-    return super.components().concat([
-      <div style={{ width: '100vw' }}>
-        {this.challenge ? (
-          <Challenge
-            challengeId={this.challenge}
-            challenge={require(`../../../challenges/${
-              this.challenge
-            }/index.json`)}
-            showChallenges={() => this.props.history.goBack()}
-          />
-        ) : (
-          <React.Fragment>
-            {!this.state.initialChallengeCompleted && (
-              <Components.Summary
-                text={'local://challenges'}
-                animation
-                animationType={'zoom'}
-                animationOptions={['top']}
-              />
-            )}
-            {this.renderChallenges()}
-          </React.Fragment>
-        )}
-      </div>
-    ])
+    return super
+      .components()
+      .concat([
+        <div style={{ width: '100vw', marginTop: '50px' }}>
+          {this.challenge ? (
+            <Challenge
+              challengeId={this.challenge}
+              challenge={require(`../../../challenges/${
+                this.challenge
+              }/index.json`)}
+              showChallenges={() => this.props.history.goBack()}
+              pushActivity={activity => this.pushActivity(activity)}
+            />
+          ) : (
+            this.renderChallenges()
+          )}
+        </div>
+      ])
   }
 }

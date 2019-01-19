@@ -8,10 +8,8 @@
     "start": {
       "stack": [
         "intro",
-        "journey",
         "challenges",
-        "auth",
-        "studio"
+        "auth"
       ]
     },
     "dashboard": {

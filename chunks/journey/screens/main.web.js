@@ -1,6 +1,6 @@
 import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
-import { Icon, Tag, Tabs } from 'antd';
+import { Icon, Tag, Tabs, Badge } from 'antd';
 import Activity from '../components/activityCard'
 import Meta from '../components/meta'
 import Story from '../components/Story'
@@ -9,8 +9,11 @@ import StoryCard from '../components/storyCard'
 const { TabPane } = Tabs;
 
 const mockJourney = {
-  name: '@clowwwn',
+  name: 'Andi Coman',
+  username: '@clowwwn',
   description: 'Developer. Teacher. Clown. Carmel.io co-founder.',
+  since: 'On the platform since 14 March 2018',
+  followers: '15k',
   xp: 25,
   img: 'http://files.carmel.io/team/andi/profile.png',
   skills: [
@@ -110,10 +113,14 @@ export default class MainJourneyScreen extends Screen {
     this._renderSkills = this.renderSkills.bind(this)
   }
 
+  componentWillMount() {
+    this._username = this.props.location.pathname.split('/')[2]
+  }
+
   componentDidMount() {
     super.componentDidMount()
-    this._username = this.props.location.pathname.split('/')[2]
     
+
     Promise.all(this.props.stories.map(story => this.importRemoteData(story.source)))
       .then(stories => {
         var index = 0
@@ -138,7 +145,16 @@ export default class MainJourneyScreen extends Screen {
       // return
     }
 
-    return <Components.AnimatedWrapper animation animationType="fade"><span><Tag style={{marginBottom: 10}} color={badge.color}>{`${badge.name} ${badge.level}`}</Tag></span></Components.AnimatedWrapper>
+    const Badge = <span style={{width: 25, height: 25, borderRadius: '50%', background: '#00bcd4', position: 'absolute', bottom: 7, right: -10, color: '#fff',textAlign: 'center', padding: 3}}>{badge.level}</span>
+
+    return <Components.AnimatedWrapper animation animationType="fade">
+      <span style={{position: 'relative', marginRight: 20}}>  
+        <Tag style={{marginBottom: 10, borderColor: '#00bcd4', color: '#546E7A'}}>
+          {String(badge.name).toLowerCase()} 
+        </Tag>
+        {Badge}
+      </span>
+    </Components.AnimatedWrapper>
   }
 
   renderEvent(event) {
@@ -146,11 +162,11 @@ export default class MainJourneyScreen extends Screen {
   }
 
   renderMeta() {
-    return <Meta name={mockJourney.name} description={mockJourney.description} img={mockJourney.img} isSmallScreen={this.isSmallScreen} />
+    return <Meta user={mockJourney} isSmallScreen={this.isSmallScreen} />
   }
 
   renderTabs() {
-    return <Tabs defaultActiveKey="1" onChange={() => {}} style={{color: '#00bfa5', marginTop: 75}}>
+    return <Tabs defaultActiveKey="1" onChange={() => {}} style={{color: '#546E7A', marginTop: 75}}>
       <TabPane tab="Activity" key="1">
         {this._renderEvents()}
         <div style={{textAlign: 'center'}}>

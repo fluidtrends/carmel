@@ -28,12 +28,21 @@
                 },
                 {
                     "name": "Andi Coman",
-                    "username": "andi",
+                    "username": "aclowwwn",
                     "title": "Product Developer",
                     "image": "http://files.carmel.io/team/andi/profile.png",
                     "linkedIn": "https://www.linkedin.com/in/andi-coman/",
                     "github": "https://github.com/AndyComan",
                     "text": "github://fluidtrends/carmel/content/team/andi/README"
+                },
+                {
+                    "name": "Robert Pop",
+                    "username": "robert",
+                    "title": "Product Developer",
+                    "image": "http://files.carmel.io/team/robert/profile.png",
+                    "github": "https://github.com/poprobertdaniel",
+                    "linkedIn": "https://www.linkedin.com/in/robert-pop-90a512b6/",
+                    "text": "github://fluidtrends/carmel/content/team/robert/README"
                 },
                 {
                     "name": "Chunky",
@@ -63,15 +72,6 @@
                     "image": "http://files.carmel.io/team/mariana/mariana.jpg",
                     "linkedIn": "https://www.linkedin.com/in/mariana-mi%C5%9Fca-58a0ba154/",
                     "text": "github://fluidtrends/carmel/content/team/mariana/README"
-                },
-                {
-                    "name": "Robert Pop",
-                    "username": "robert",
-                    "title": "Web & Mobile Developer",
-                    "image": "http://files.carmel.io/team/robert/profile.png",
-                    "github": "https://github.com/poprobertdaniel",
-                    "linkedIn": "https://www.linkedin.com/in/robert-pop-90a512b6/",
-                    "text": "github://fluidtrends/carmel/content/team/robert/README"
                 },
                 {
                     "name": "Christian Poputea",

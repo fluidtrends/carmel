@@ -1,24 +1,34 @@
 import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
 import { Card, CardActions, CardActionButtons } from 'rmwc/Card'
-import { Button } from 'rmwc/Button'
-import { List, notification } from 'antd'
+import { List, notification, Icon, Input, Button } from 'antd'
 
 import UserInfo from '../components/userInfo'
 
 export default class AccountScreen extends Screen {
   constructor (props) {
     super(props)
-    this.state = { ...this.state, inProgress: true }
+    this.state = { ...this.state, inProgress: true, data: null, updatingUser: false }
     this._renderProfileItem = this.renderProfileItem.bind(this)
     this._onProfileItemEdit = (item) => this.onProfileItemEdit.bind(this, item)
     this._logout = this.logout.bind(this)
+    this._submitUpdateUser = this.submitUpdateUser.bind(this)
+    this._dataChanged = this.dataChanged.bind(this)
+  }
+
+  componentWillMount () {
+
+    if (!this.isLoggedIn) {
+      this.triggerRedirect('/login')
+    }
+
   }
 
   componentDidMount () {
     super.componentDidMount()
 
     this.verifyTwitterCallback()
+    this.setState({profileData: this.profileData, initialData: this.profileData})
   }
 
   refreshWallet () {
@@ -28,6 +38,10 @@ export default class AccountScreen extends Screen {
 
   failedToRefreshWallet (error) {
     this.refreshWallet()
+  }
+
+  updateUserOk(data) {
+    this.setState({updatingUser: false})
   }
 
   refreshedWallet (wallets) {
@@ -73,7 +87,6 @@ export default class AccountScreen extends Screen {
   }
 
   onProfileItemEdit (item) {
-    console.log(item)
   }
 
   renderProfileItemActions (item) {
@@ -87,20 +100,136 @@ export default class AccountScreen extends Screen {
     </Button>])
   }
 
+  updateUser () {
+    const updatedData = this.state.profileData
+    for(let i =0; i<updatedData.length; i++) {
+      if (updatedData[i].id === this.state.editId && this.state.editValue !== updatedData[i].value) {
+        updatedData[i].value = this.state.editValue
+      }
+    }
+
+    this.setState({editId: null, profileData: updatedData})
+  }
+
+  dataChanged () {
+    return JSON.stringify(this.state.profileData) === JSON.stringify(this.state.initialData)
+  }
+
+  submitUpdateUser() {
+
+    this.setState({updatingUser: true})
+    if( this._dataChanged() ) {
+      this.setState({updatingUser: false})
+      return false
+    }
+    const data = {}
+    for (let key in this.state.initialData) {
+      if (this.state.initialData[key].value !== this.state.profileData[key].value) {
+        data[this.state.initialData[key].id] = this.state.profileData[key].value
+      }
+    }
+
+    data['userData'] = true
+
+    setTimeout(() => {
+      this.props.updateUser(data)
+    }, 300)
+  }
+
+  showInput (item) {
+    this.setState({editId: item.id, editValue: item.value})
+
+    setTimeout(() => {
+      this.input.focus()
+    }, 100);
+  }
+
+  onValueChanged (item, event) {
+    const value = event.target.value
+    if (item.id == 'eosAddress' && value.length > 12) {
+      return
+    }
+    this.setState({editValue: value}) 
+  }
+
   renderProfileItem (item) {
+
+    const width = this.isSmallScreen? '75vw' : 500
+
+    const description = <div style={{height: 32, padding: '5px 12px', width, overflow: 'hidden',  whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}>{item.value || ''}</div>
+    let value = item.value || ''
+    
+    if (item.id == this.state.editId) {
+      value = this.state.editValue
+    }
+
+    const content = this.state.editId == item.id ? <Input
+                                                      ref={(input) => { this.input = input }} 
+                                                      placeholder={item.title}
+                                                      value={ value }
+                                                      style={{ width: '100%' }}
+                                                      onChange={this.onValueChanged.bind(this, item)} 
+                                                    /> : description
+
+    const icon = this.state.editId == item.id ? 
+                                      <div style={{display: 'flex'}}>
+                                        <Icon className="icon" type="check" onClick={this.updateUser.bind(this)} style={{cursor: 'pointer', fontSize: 20, paddingTop: 33, paddingLeft: 20}} />
+                                        <Icon className="icon" type="close" onClick={() => {this.setState({editId: null})}} style={{cursor: 'pointer', fontSize: 20, paddingTop: 33, paddingLeft: 10}} />
+                                        </div>
+                                        :
+                                        <Icon className="icon" type="edit" onClick={this.showInput.bind(this, item)} style={{cursor: 'pointer', fontSize: 20, paddingTop: 33, paddingLeft: 20}} />
+
     return <List.Item actions={this.renderProfileItemActions(item)}>
       <List.Item.Meta
-        description={item.value || 'Not verified yet'}
-        title={item.title} />
+        title={item.title} 
+        description={content}
+      />
+      <style jsx>{`
+              div :global(.icon) {
+                color: ${'#546E7A'}
+              }
+              div :global(.icon):hover {
+                color: ${'#00bfa5'}
+              }
+            `}
+          </style>
+      {item.id != 'email' && icon}
     </List.Item>
   }
 
   get profileData () {
-    return [{
-      id: 'email',
-      title: 'Email Address',
-      value: this.account.user.email
-    }]
+    return [
+      {
+        id: 'email',
+        title: 'Email Address',
+        value: this.account.user.email
+      },
+      {
+        id: 'name',
+        title: 'Name',
+        value: this.account.user.name
+      },
+      {
+        id: 'username',
+        title: 'Username',
+        value: this.account.user.username
+      },
+      {
+        id: 'eosAddress',
+        title: 'EOS username',
+        value: this.account.user.eosAddress
+      },
+      {
+        id: 'bio',
+        title: 'Bio',
+        value: this.account.user.bio
+      },
+      {
+        id: 'pic',
+        title: 'Profile pic link',
+        value: this.account.user.pic
+      }
+    ]
   }
 
   twitterOk (twitter) {
@@ -180,18 +309,27 @@ export default class AccountScreen extends Screen {
   }
 
   renderActiveContent () {
+
+    const editColor = !this._dataChanged() ? '#00bcd4' : '#546E7A'
+
     return [<List
       key='active-list'
       style={{ marginTop: '20px' }}
       itemLayout='horizontal'
-      dataSource={this.profileData}
+      dataSource={this.state.profileData}
       renderItem={this._renderProfileItem} />,
       <CardActions style={{ justifyContent: 'center', marginTop: '20px' }} key='active-actions'>
-        <CardActionButtons style={{ marginLeft: '10px' }}>
+        <CardActionButtons style={{ marginLeft: '10px', flexDirection: 'column' }}>
+        <Button
+            style={{ color: editColor, borderColor: editColor, margin: '20px' }}
+            onClick={this._submitUpdateUser}>
+              Update Profile
+              {this.state.updatingUser ? <Icon type="loading" /> : null}
+          </Button>
           <Button
-            style={{backgroundColor: '#f44336', color: '#ffffff'}}
+            style={{ color: '#f44336', borderColor: '#f44336', bottom: -50 }}
             onClick={this._logout}>
-          Sign Out
+              Sign Out
           </Button>
         </CardActionButtons>
       </CardActions>]
@@ -200,7 +338,7 @@ export default class AccountScreen extends Screen {
   get cardStyle () {
     const width = this.formWidth
     const padding = this.formPadding
-    const margin = this.isSmallScreen ? '50px 0px' : '0'
+    const margin = this.isSmallScreen ? '50px 0px' : '50px 0'
 
     return { width, padding, margin }
   }
@@ -208,18 +346,18 @@ export default class AccountScreen extends Screen {
   renderMainContent () {
     if (this.state.inProgress) {
       return (<div style={this.containerStyle}>
-        <Card style={this.cardStyle}>
+        <div style={this.cardStyle}>
           { this.renderUserInfo() }
           <Components.Loading message='Just a minute, please ...' />
-        </Card>
+        </div>
       </div>)
     }
 
     return (<div style={this.containerStyle}>
-      <Card style={this.cardStyle}>
+      <div style={this.cardStyle}>
         { this.renderUserInfo() }
         { this.renderActiveContent() }
-      </Card>
+      </div>
       { this.renderMainContentFooter() }
     </div>)
   }
