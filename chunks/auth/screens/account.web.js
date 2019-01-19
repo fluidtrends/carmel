@@ -5,6 +5,14 @@ import { List, notification, Icon, Input, Button } from 'antd'
 
 import UserInfo from '../components/userInfo'
 
+import { Api, JsonRpc, RpcError } from 'eosjs'
+import ScatterJS from 'scatterjs-core'
+import ScatterEOS from 'scatterjs-plugin-eosjs'
+
+ScatterJS.plugins(new ScatterEOS())
+const ENDPOINT="https://nodes.get-scatter.com:443"
+const eos = new JsonRpc(ENDPOINT, { fetch })
+
 export default class AccountScreen extends Screen {
   constructor (props) {
     super(props)
@@ -17,11 +25,13 @@ export default class AccountScreen extends Screen {
   }
 
   componentWillMount () {
-
     if (!this.isLoggedIn) {
       this.triggerRedirect('/login')
     }
+  }
 
+  componentWillUnmount() {
+    window.ScatterJS = null
   }
 
   componentDidMount () {
@@ -29,6 +39,22 @@ export default class AccountScreen extends Screen {
 
     this.verifyTwitterCallback()
     this.setState({profileData: this.profileData, initialData: this.profileData})
+  }
+
+  refreshTokenBalances() {
+    if (!this.account.user.eosAddress) {
+      return Promise.resolve()
+    }
+
+    return Promise.all([
+      eos.get_currency_balance('eosio.token', this.account.user.eosAddress, 'EOS'),
+      eos.get_currency_balance('carmeltokens', this.account.user.eosAddress, 'CARMEL')])
+      .then((balances) => {
+        if (!balances[0] && !balances[1]) {
+          return
+        }
+        return Object.assign({}, balances[0] && { eos: balances[0][0] }, balances[1] && { carmel: balances[1][0] })
+      })
   }
 
   refreshWallet () {
@@ -45,7 +71,8 @@ export default class AccountScreen extends Screen {
   }
 
   refreshedWallet (wallets) {
-    this.setState({ wallet: wallets[0], inProgress: false })
+    this.refreshTokenBalances()
+        .then((tokens) => this.setState({ wallet: wallets[0], inProgress: false, tokens }))
   }
 
   verifyTwitterCallback () {
@@ -149,7 +176,7 @@ export default class AccountScreen extends Screen {
     if (item.id == 'eosAddress' && value.length > 12) {
       return
     }
-    this.setState({editValue: value}) 
+    this.setState({editValue: value})
   }
 
   renderProfileItem (item) {
@@ -158,20 +185,20 @@ export default class AccountScreen extends Screen {
 
     const description = <div style={{height: 32, padding: '5px 12px', width, overflow: 'hidden',  whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}>{item.value || ''}</div>
     let value = item.value || ''
-    
+
     if (item.id == this.state.editId) {
       value = this.state.editValue
     }
 
     const content = this.state.editId == item.id ? <Input
-                                                      ref={(input) => { this.input = input }} 
+                                                      ref={(input) => { this.input = input }}
                                                       placeholder={item.title}
                                                       value={ value }
                                                       style={{ width: '100%' }}
-                                                      onChange={this.onValueChanged.bind(this, item)} 
+                                                      onChange={this.onValueChanged.bind(this, item)}
                                                     /> : description
 
-    const icon = this.state.editId == item.id ? 
+    const icon = this.state.editId == item.id ?
                                       <div style={{display: 'flex'}}>
                                         <Icon className="icon" type="check" onClick={this.updateUser.bind(this)} style={{cursor: 'pointer', fontSize: 20, paddingTop: 33, paddingLeft: 20}} />
                                         <Icon className="icon" type="close" onClick={() => {this.setState({editId: null})}} style={{cursor: 'pointer', fontSize: 20, paddingTop: 33, paddingLeft: 10}} />
@@ -181,7 +208,7 @@ export default class AccountScreen extends Screen {
 
     return <List.Item actions={this.renderProfileItemActions(item)}>
       <List.Item.Meta
-        title={item.title} 
+        title={item.title}
         description={content}
       />
       <style jsx>{`
@@ -299,6 +326,7 @@ export default class AccountScreen extends Screen {
       skipWallet={this.skipWallet}
       twitterOAuth={this.state.twitterOAuth}
       twitterUrl={this.twitterUrl}
+      tokens={this.state.tokens}
       twitter={this.state.twitter}
       twitterError={this.state.twitterError}
       twitterVerify={this.props.twitterVerify}
