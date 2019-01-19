@@ -4,6 +4,7 @@
     "main": {
       "title": "journey",
       "icon": "favorite",
+      "skipMenu": true,
       "path": "/journey",
       "variants": "initial",
       "stories": [{
@@ -30,7 +31,8 @@
       "post://journeys#updateJourney"
     ],
     "dependencies": {
-      "slugify": "latest"
+      "slugify": "latest",
+      "deepmerge": "latest"
     },
     "requiredFields": {
     },

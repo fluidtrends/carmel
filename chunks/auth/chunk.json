@@ -195,6 +195,7 @@
   },
   "service": {
     "functions": [
+      "post://users#getUser",
       "post://setup#setup",
       "post://twitter#twitter",
       "post://twitter-reverse#twitterReverse",
