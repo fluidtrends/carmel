@@ -156,7 +156,7 @@
     }
 
     renderTokens () {
-      if (this.props.skipWallet) {
+      if (this.props.skipWallet || !this.tokens || this.tokens <= 0) {
         return <div style={{
           marginBottom: '20px',
           paddingBottom: '20px',
@@ -171,8 +171,8 @@
       }}>
         <Typography use='subheading1' tag='h2' style={{ textAlign: 'left' }}>
           <ChipSet>
-            <Chip style={{ backgroundColor: (this.tokens > 0 ? '#607D8B' : '#CFD8DC'), marginLeft: 0 }}>
-              <ChipText style={{ color: (this.tokens > 0 ? '#ffffff' : '#B0BEC5') }}>
+            <Chip style={{ backgroundColor: '#607D8B'), marginLeft: 0 }}>
+              <ChipText style={{ color: '#ffffff') }}>
                 <strong> {this.tokens.toLocaleString('en')} unclaimed </strong>
               </ChipText>
             </Chip>
