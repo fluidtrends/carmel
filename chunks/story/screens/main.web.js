@@ -62,6 +62,7 @@ export default class MainStoryScreen extends Screen {
 
   componentDidMount () {
     super.componentDidMount()
+    this._chapter = this.props.location.pathname.split('/')[2]
         Promise.all(this.props.stories.map(story => this.importRemoteData(story.source)))
           .then(stories => {
             var index = 0
@@ -70,8 +71,12 @@ export default class MainStoryScreen extends Screen {
           .then(stories => this.setState({ stories }))
   }
 
-  renderPostSocialIcons(chapter) {
-    return <CardActionIcons style={{ justifyContent: this.isSmallScreen ? "center" : "flex-end" }}>
+  get chapter() {
+    return this._chapter
+  }
+
+  renderPostSocialIcons(chapter, justifyContent) {
+    return <CardActionIcons style={{ justifyContent: this.isSmallScreen ? "center" : justifyContent ? justifyContent : "flex-end" }}>
       <TwitterShareButton url={chapter.url} title={chapter.quote} hashtags={chapter.hashtags}  style={{ marginRight: "10px" }}>
         <TwitterIcon size={32} round={true}/>
       </TwitterShareButton>
@@ -170,27 +175,28 @@ export default class MainStoryScreen extends Screen {
       </CardActions>,
       <CardActions key="second">
       <CardActionButtons style={{justifyContent: "center", display: "flex", flex: 1, marginBottom: "20px" }}>
-        <CardAction onClick={() => console.log("D")}>Continue Reading</CardAction>
+        <CardAction onClick={() => this.props.history.push(`/story/${chapter.variants[0].url}`)}>Continue Reading</CardAction>
       </CardActionButtons>
       </CardActions>]
     }
 
     return <CardActions style={{ margin: "10px" }}>
       <CardActionButtons style={{justifyContent: "flex-start", display: "flex", flex: 1 }}>
-        <CardAction onClick={() => console.log("D")}>Continue Reading</CardAction>
+        <CardAction onClick={() => this.props.history.push(`/story/${chapter.variants[0].url}`)}>Continue Reading</CardAction>
       </CardActionButtons>
       { this.renderPostSocialIcons(chapter)}
     </CardActions>
   }
 
   renderChapterPreview(chapter) {
+
     const width = this.isSmallScreen ? "90vw" : "700px"
     const summary = chapter.summary.length > 250 ? `${chapter.summary.substring(0, 250)}...` : chapter.summary
 
     return <Fade>
       <Card style={{ margin: "20px", width }} onClick={() => {}}>
         { this.renderPostHeader(chapter)}
-        <CardPrimaryAction style={{ justifyContent: "center", display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <div style={{ justifyContent: "center", display: "flex", flexDirection: "column", alignItems: "center" }}>
           <CardMedia
             sixteenByNine
             style={{
@@ -212,10 +218,24 @@ export default class MainStoryScreen extends Screen {
               { summary }
             </Typography>
           </div>
-        </CardPrimaryAction>
+        </div>
         { this.renderPostActions(chapter) }
       </Card>
     </Fade>
+  }
+
+  renderChapter(chapter) {
+    return <div style={{width: '80vw', justifyContent: 'center', marginTop: '50px'}}>
+      <h2>
+        {chapter.title}
+      </h2>
+      <Components.Text
+        source={chapter.source}
+      />
+      <div style={{margin: '20px'}}>
+        {this.renderPostSocialIcons(chapter, 'center')}
+      </div>
+    </div>
   }
 
   renderStories() {
@@ -249,6 +269,11 @@ export default class MainStoryScreen extends Screen {
   components () {
     if (!this.state.stories) {
       return [this.renderLoading()]
+    }
+
+    if (this.chapter) {
+      const filteredChapter = this.state.stories[0].chapters.filter(chapter => chapter.variants[0].url === this.chapter)
+      return [this.renderChapter(filteredChapter[0])]
     }
 
     return [this.renderStories()]
