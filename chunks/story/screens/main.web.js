@@ -344,13 +344,14 @@ export default class MainStoryScreen extends Screen {
   }
 
   renderChapter(chapter) {
-    console.log(chapter.url)
     return (
       <div
         style={{ width: '80vw', justifyContent: 'center', marginTop: '50px' }}
       >
         <h2>{chapter.title}</h2>
-        <Components.Text source={`stories/${chapter.url}`} />
+        <Components.Text
+          source={`local://stories/${chapter.variants[0].source}`}
+        />
         <div style={{ margin: '20px' }}>
           {this.renderPostSocialIcons(chapter, 'center')}
         </div>
