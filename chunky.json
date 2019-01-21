@@ -16,7 +16,7 @@
     "dashboard": {
       "private": true,
       "layout": "sidebar",
-      "stack": ["payments", "auth"]
+      "stack": ["payments", "tokens", "auth"]
     }
   },
   "transitions": ["replace://start"],

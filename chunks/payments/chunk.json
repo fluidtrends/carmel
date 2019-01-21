@@ -2,10 +2,9 @@
   "name": "payments",
   "routes": {
     "main": {
-      "title": "Early Access",
+      "title": "Pricing",
       "icon": "account_balance_wallet",
       "path": "/pricing",
-      "action": "true",
       "startOperationsOnMount": false,
       "operations": {
         "getToken": [
