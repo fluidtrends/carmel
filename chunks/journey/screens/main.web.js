@@ -115,6 +115,8 @@ export default class MainJourneyScreen extends Screen {
 
   componentWillMount() {
     this._username = this.props.location.pathname.split('/')[2]
+
+    this.props.getUser({username: 'aclowwwn'})
   }
 
   componentDidMount() {
@@ -127,6 +129,15 @@ export default class MainJourneyScreen extends Screen {
         return stories.map(story => Object.assign({}, story, this.props.stories[index++])).map(s => new Story(s))
       })
       .then(stories => this.setState({ stories }))
+  }
+
+  getUserOk(data) {
+    debugger
+    console.log(data)
+  }
+
+  getUserError(data) {
+    console.log(data, 'error')
   }
 
   get cover () {

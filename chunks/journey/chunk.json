@@ -21,6 +21,15 @@
         "title": "Carmel Journeys",
         "type": "default",
         "image": "beta.r.png"
+      },
+      "operations": {
+        "getUser": [
+          "rest://create/auth/users#getUser",
+          {
+            "onSuccess": "getUserOk",
+            "onError": "getUserError"
+          }
+        ]
       }
     }
   },
