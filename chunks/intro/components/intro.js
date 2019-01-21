@@ -99,7 +99,7 @@ export default class Intro extends Component {
       color: '#fafafa',
       padding: "20px"
     }}>
-    Redefining Work In The Machine Era.
+      Redefining Work In The Machine Era.
     </Typography>
 
   }
@@ -128,7 +128,7 @@ export default class Intro extends Component {
             style={{ marginTop: '30px' }}
             onClick={this.props.onStart}>
             <ButtonIcon icon='check_circle' />
-              Start your learning journey
+              Join the #Carmel1K club
           </Button>
         </h3>
         <Typography use='headline7' style={{

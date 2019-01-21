@@ -32,7 +32,7 @@ export default class MainIntroScreen extends Screen {
   }
 
   onStart() {
-    this.triggerRedirect('/challenges')
+    this.triggerRedirect('/pricing')
   }
 
   meetChris() {
@@ -194,7 +194,7 @@ export default class MainIntroScreen extends Screen {
     return [
       this.renderDefault(),
       ...features,
-      this.renderMainAction(),
+      // this.renderMainAction(),
       this.chat
     ]
   }

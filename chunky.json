@@ -8,7 +8,8 @@
     "start": {
       "stack": [
         "intro",
-        "challenges",
+        "story",
+        "payments",
         "auth"
       ]
     },
