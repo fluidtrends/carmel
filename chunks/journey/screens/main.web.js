@@ -132,7 +132,6 @@ export default class MainJourneyScreen extends Screen {
   }
 
   getUserOk(data) {
-    debugger
     console.log(data)
   }
 
