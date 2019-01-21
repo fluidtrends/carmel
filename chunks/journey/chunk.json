@@ -37,6 +37,7 @@
     "functions": [
       "post://activities#newActivity",
       "post://challenges#newChallenge",
+      "post://listings#getListings",
       "post://journeys#updateJourney"
     ],
     "dependencies": {

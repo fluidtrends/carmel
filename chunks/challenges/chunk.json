@@ -18,5 +18,18 @@
         ]
       }
     }
+  },
+  "service": {
+    "functions": [
+      "post://challenges#getChallenges"
+    ],
+    "dependencies": {
+    },
+    "requiredFields": {
+    },
+    "permissions": {
+    },
+    "schedule": {
+    }
   }
 }
