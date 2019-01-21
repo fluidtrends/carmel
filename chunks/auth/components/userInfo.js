@@ -5,14 +5,7 @@
   import { Button } from '@rmwc/button'
   import { notification, Tooltip } from 'antd'
   import Meta from './meta'
-
-  import { Api, JsonRpc, RpcError } from 'eosjs'
-  import ScatterJS from 'scatterjs-core'
-  import ScatterEOS from 'scatterjs-plugin-eosjs'
-
-  ScatterJS.plugins(new ScatterEOS())
-  const ENDPOINT="https://nodes.get-scatter.com:443"
-  const eos = new JsonRpc(ENDPOINT, { fetch })
+  import EOS from './eos'
 
   const ReservedMessage = `Congrats on your reserved CARMEL tokens! To transfer them to your Carmel Wallet, please complete the claiming process below.`
 
@@ -21,6 +14,11 @@
       super(props)
       this.state = { ...super.state }
       this._verify = this.verify.bind(this)
+      this._eos = new EOS()
+    }
+
+    get eos() {
+      return this._eos
     }
 
     componentDidMount () {
@@ -35,8 +33,8 @@
       }
 
       return Promise.all([
-        eos.get_currency_balance('eosio.token', this.props.account.user.eosAddress, 'EOS'),
-        eos.get_currency_balance('carmeltokens', this.props.account.user.eosAddress, 'CARMEL')])
+        this.eos.getEOSBalance(this.props.account.user.eosAddress),
+        this.eos.getCARMELBalance(this.props.account.user.eosAddress)])
         .then((balances) => {
           if (!balances[0] && !balances[1]) {
             return

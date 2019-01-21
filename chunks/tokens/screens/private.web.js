@@ -233,6 +233,30 @@ export default class PrivateTokensScreen extends Screen {
     return this.state.account.socialNetworksValid
   }
 
+  renderDistribution(width, padding) {
+      return <Card style={{ width, margin: '10px', padding }}>
+      <Typography use='subheading2' tag='h3' style={{ textAlign:"center", color: '#333333' }}>
+        1 CARMEL = 0.005 EOS
+      </Typography>
+     <Typography use='subheading2' tag='h3' style={{ textAlign:"center", color: '#90A4AE' }}>
+        Get more CARMEL by sending EOS to the
+      </Typography>
+      <Typography use='subheading2' tag='h3' style={{ textAlign:"center", color: '#90A4AE' }}>
+       <strong> carmeltokens </strong> smart contract
+      </Typography>
+      <Typography
+        use="caption"
+        tag="div"
+        style={{
+          textAlign: "center",
+          color: `#546E7A`,
+          padding: "5px",
+          backgroundColor: "#FFF9C4"}}>
+          Token Distribution ends on March 7, 2019
+      </Typography>
+      </Card>
+  }
+
   renderClaim () {
     if (!this.state.period || !this.state.account) {
       return <Components.Loading message='Loading claim period details ...' />
@@ -309,16 +333,7 @@ export default class PrivateTokensScreen extends Screen {
           />
         </Card>
 
-        <Checkout
-          isSmallScreen={this.isSmallScreen}
-          account={this.account}
-          newTransaction={this.props.newTransaction}
-          transaction={this.state.transaction}
-          triggerRawRedirect={this.triggerRawRedirect}
-        />
-
-        {this.renderClaim(width, padding)}
-        {this.renderTransactionHistory(width, padding)}
+        { this.renderDistribution(width, padding) }
       </div>
     )
   }
