@@ -10,7 +10,7 @@ import {
   CardActionButtons,
   CardActionIcons
 } from '@rmwc/card'
-import { Row, Col, Badge } from 'antd'
+import { Row, Col, Badge, Switch } from 'antd'
 import { Button, ButtonIcon } from '@rmwc/button'
 import { Icon } from '@rmwc/icon'
 import { List, SimpleListItem } from '@rmwc/list'
@@ -25,7 +25,13 @@ export default class EarlyAccessScreen extends Screen {
   }
 
   componentDidMount() {
+    this._plans = this.importData('plans')
+    this.setState({ plans: this.plans })
     super.componentDidMount()
+  }
+
+  get plans() {
+    return this._plans || []
   }
 
   addToCart(cart) {
@@ -128,7 +134,55 @@ export default class EarlyAccessScreen extends Screen {
   }
 
   renderPrices() {
-    return <div>aaa</div>
+    const padding = this.isSmallScreen ? '5px' : '40px'
+    const heading = this.isSmallScreen ? 'headline5' : 'headline4'
+
+    return (
+      <div>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            fontSize: '18px',
+            justifyContent: 'center',
+            margin: '20px'
+          }}
+        >
+          <span>Billet Monthly</span>
+          <Switch style={{ margin: '0 10px' }} />
+          <span>Billet Annually</span>
+        </div>
+        <Row gutter={16}>
+          <Col span={12}>
+            <Card style={{ margin: '10px' }}>
+              <div style={{ padding: '30px', marginTop: '20px' }}>
+                <Typography use={heading} tag="h1">
+                  FREE
+                </Typography>
+                <Typography
+                  use="headline6"
+                  tag="h2"
+                  theme="text-secondary-on-background"
+                  style={{ margin: '1rem', textAlign: 'center' }}
+                >
+                  Free of use
+                </Typography>
+              </div>
+              <List
+                twoLine
+                style={{
+                  padding,
+                  borderTop: '1px solid #eeeeee',
+                  borderBottom: '1px solid #eeeeee'
+                }}
+              >
+                <SimpleListItem graphic="check_circle" text={'30 mins'} />
+              </List>
+            </Card>
+          </Col>
+        </Row>
+      </div>
+    )
   }
 
   renderMainContent() {
@@ -142,7 +196,7 @@ export default class EarlyAccessScreen extends Screen {
           alignItems: 'center'
         }}
       >
-        {this.renderPrices()}
+        {/* {this.renderPrices()} */}
         {this.renderForm()}
         <Typography
           use="caption"
