@@ -12,8 +12,8 @@ import {
   CardActionButtons,
   CardActionIcons
 } from '@rmwc/card'
-import { Row, Col, Avatar } from 'antd'
-import { Button, ButtonIcon } from '@rmwc/button'
+import { Row, Col, Avatar, Button} from 'antd'
+import  { Icon as AntdIcon } from 'antd'
 import { Icon } from '@rmwc/icon'
 import { Grid, GridCell, GridInner } from '@rmwc/grid'
 import {
@@ -234,6 +234,23 @@ export default class MainStoryScreen extends Screen {
       />
       <div style={{margin: '20px'}}>
         {this.renderPostSocialIcons(chapter, 'center')}
+      </div>
+      <div style={{margin: '20px'}}>
+        <Button
+          onClick={() => this.props.history.goBack()}
+          style={{
+            display: 'flex',
+            color: '#ffffff',
+            backgroundColor: '#006064',
+            border: 'none',
+            margin: '10px auto 0',
+            height: '35px',
+            lineHeight: '15px'
+          }}
+        >
+          <AntdIcon type="arrow-left"/>
+          Read Another Story
+        </Button>
       </div>
     </div>
   }
