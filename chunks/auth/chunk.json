@@ -101,6 +101,11 @@
         ]
       }
     },
+    "logout": {
+      "title": "Account",
+      "path": "/logout",
+      "startOperationsOnMount": false
+    },
     "account": {
       "title": "Account",
       "icon": "user",

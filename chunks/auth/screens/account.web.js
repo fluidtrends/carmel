@@ -104,13 +104,19 @@ export default class AccountScreen extends Screen {
 
   updateUser () {
     const updatedData = this.state.profileData
+
+    if (this.state.editId == 'eosAddress' && this.state.editValue.length !== 12) {
+      this.setState({error: 'EOS username has to be 12 characters long!'})      
+      return
+    } 
+
     for(let i =0; i<updatedData.length; i++) {
       if (updatedData[i].id === this.state.editId && this.state.editValue !== updatedData[i].value) {
         updatedData[i].value = this.state.editValue
       }
     }
 
-    this.setState({editId: null, profileData: updatedData})
+    this.setState({editId: null, profileData: updatedData, error: null})
   }
 
   dataChanged () {
@@ -165,13 +171,18 @@ export default class AccountScreen extends Screen {
       value = this.state.editValue
     }
 
-    const content = this.state.editId == item.id ? <Input
-                                                      ref={(input) => { this.input = input }}
-                                                      placeholder={item.title}
-                                                      value={ value }
-                                                      style={{ width: '100%' }}
-                                                      onChange={this.onValueChanged.bind(this, item)}
-                                                    /> : description
+    const error = <span style={{color: 'red'}}>{this.state.error}</span>
+    
+    const content = this.state.editId == item.id ? <div>
+                                                      <Input
+                                                        ref={(input) => { this.input = input }}
+                                                        placeholder={item.title}
+                                                        value={ value }
+                                                        style={{ width: '100%' }}
+                                                        onChange={this.onValueChanged.bind(this, item)}
+                                                      />
+                                                      {this.state.error && error}
+                                                    </div> : description
 
     const icon = this.state.editId == item.id ?
                                       <div style={{display: 'flex'}}>
