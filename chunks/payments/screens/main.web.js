@@ -10,7 +10,7 @@ import {
   CardActionButtons,
   CardActionIcons
 } from '@rmwc/card'
-import { Row, Col, Badge, Switch } from 'antd'
+import { Row, Col, Badge, Switch, Progress } from 'antd'
 import { Button, ButtonIcon } from '@rmwc/button'
 import { Icon } from '@rmwc/icon'
 import { List, SimpleListItem } from '@rmwc/list'
@@ -28,12 +28,20 @@ export default class EarlyAccessScreen extends Screen {
 
   componentDidMount() {
     this._plans = this.importData('plans')
-    this.setState({ plans: this.plans })
+    this._subscriptionBought = this.importData('subscriptionBought')
+    this.setState({
+      plans: this.plans,
+      subscriptionBought: this.subscriptionBought
+    })
     super.componentDidMount()
   }
 
   get plans() {
     return this._plans || []
+  }
+
+  get subscriptionBought() {
+    return this._subscriptionBought.subscriptionBought || 20
   }
 
   addToCart(cart) {
@@ -63,7 +71,7 @@ export default class EarlyAccessScreen extends Screen {
     const width = this.isSmallScreen ? '90vw' : '700px'
     const padding = this.isSmallScreen ? '5px' : '40px'
     const heading = this.isSmallScreen ? 'headline5' : 'headline4'
-
+    const percentage = (this.state.subscriptionBought / 10).toFixed(0)
     return (
       <Card style={{ margin: '10px', width }}>
         <div style={{ padding: '30px', marginTop: '20px' }}>
@@ -78,6 +86,13 @@ export default class EarlyAccessScreen extends Screen {
           >
             Become one of the first 1,000 Carmel Customers
           </Typography>
+          <Progress
+            style={{ display: 'flex', justifyContent: 'center' }}
+            type="circle"
+            width={80}
+            percent={percentage}
+            format={percent => `${this.state.subscriptionBought}/1000`}
+          />
         </div>
         <List
           twoLine
