@@ -43,7 +43,7 @@ export default class AccountScreen extends Screen {
   }
 
   updateUserOk(data) {
-    this.setState({updatingUser: false})
+    this.setState({updatingUser: false, initialData: this.profileData, profileData: this.profileData})
   }
 
   refreshedWallet (wallets) {
@@ -115,7 +115,6 @@ export default class AccountScreen extends Screen {
         updatedData[i].value = this.state.editValue
       }
     }
-
     this.setState({editId: null, profileData: updatedData, error: null})
   }
 
@@ -142,6 +141,7 @@ export default class AccountScreen extends Screen {
     setTimeout(() => {
       this.props.updateUser(data)
     }, 300)
+
   }
 
   showInput (item) {
@@ -161,7 +161,6 @@ export default class AccountScreen extends Screen {
   }
 
   renderProfileItem (item) {
-
     const width = this.isSmallScreen? '75vw' : 500
 
     const description = <div style={{height: 32, padding: '5px 12px', width, overflow: 'hidden',  whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}>{item.value || ''}</div>
