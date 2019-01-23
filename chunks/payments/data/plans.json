@@ -1,0 +1,126 @@
+[
+  {
+    "id": "free",
+    "title": "FREE",
+    "description": "Enjoy the Carmel Experience for Free.",
+    "discount": "",
+    "monthlyPrice": "Free",
+    "yearlyPrice": "Free",
+    "benefits": [
+      {
+        "text": "Free minutes: ",
+        "value": "30"
+      }
+    ],
+    "button": {
+      "text": "Get Started",
+      "backgroundColor": "#546E7A",
+      "color": "#fff"
+    }
+  },
+  {
+    "id": "starter",
+    "title": "STARTER",
+    "description": "Try the Starter edition and get into coding.",
+    "discount": "",
+    "monthlyPrice": "25",
+    "yearlyPrice": "200",
+    "benefits": [
+      {
+        "text": "Free minutes: ",
+        "value": "100"
+      },
+      {
+        "text": "Extra minutes: ",
+        "value": "600"
+      }
+    ],
+    "button": {
+      "text": "Get Started",
+      "backgroundColor": "#546E7A",
+      "color": "#fff"
+    }
+  },
+  {
+    "id": "pro",
+    "title": "PRO",
+    "description": "Level up your tech skill by diving deep into Carmel.",
+    "popular": true,
+    "discount": "",
+    "monthlyPrice": "50",
+    "yearlyPrice": "500",
+    "benefits": [
+      {
+        "text": "Free minutes: ",
+        "value": "200"
+      },
+      {
+        "text": "Extra minutes: ",
+        "value": "1200"
+      },
+      {
+        "text": "Mentoring: ",
+        "value": "Online Chat"
+      }
+    ],
+    "button": {
+      "text": "Get Started",
+      "backgroundColor": "#546E7A",
+      "color": "#fff"
+    }
+  },
+  {
+    "id": "degree",
+    "title": "DEGREE",
+    "description": "Get a Carmel Degree using this program.",
+    "discount": "",
+    "monthlyPrice": "125",
+    "yearlyPrice": "1200",
+    "benefits": [
+      {
+        "text": "Free minutes: ",
+        "value": "∞"
+      },
+      {
+        "text": "Extra minutes: ",
+        "value": "∞"
+      },
+      {
+        "text": "Mentoring: ",
+        "value": "Online Chat"
+      }
+    ],
+    "button": {
+      "text": "Get Started",
+      "backgroundColor": "#546E7A",
+      "color": "#fff"
+    }
+  },
+  {
+    "id": "team",
+    "title": "TEAM",
+    "description": "This package is perfect for the teams.",
+    "discount": "",
+    "monthlyPrice": "500",
+    "yearlyPrice": "5000",
+    "benefits": [
+      {
+        "text": "Free minutes: ",
+        "value": "∞"
+      },
+      {
+        "text": "Extra minutes: ",
+        "value": "∞"
+      },
+      {
+        "text": "Mentoring: ",
+        "value": "Online Chat"
+      }
+    ],
+    "button": {
+      "text": "Get Started",
+      "backgroundColor": "#546E7A",
+      "color": "#fff"
+    }
+  }
+]
