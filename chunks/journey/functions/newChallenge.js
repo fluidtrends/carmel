@@ -11,6 +11,14 @@ const findChallenge = (id) => {
   })
 }
 
+const update = (account, data) => {
+  const updates = Object.assign({}, data)
+  const id = updates.id
+
+  return chunky.firebase.operation('update', Object.assign({}, { key: `challenges/${id}` }, updates))
+               .then(() => chunky.firebase.operation('update', Object.assign({}, { key: `users-challenges/${account.user.uid}/${id}`, timestamp: `${Date.now()}` })))
+}
+
 const create = (account, data, suffix) => {
     if (!data.name) {
       return Promise.reject(new Error("Please provide a name"))
@@ -35,7 +43,12 @@ const create = (account, data, suffix) => {
 }
 
 function executor ({ event, chunk, config, account }) {
-  return create(account, event.body)
+  const args = Object.assign({}, event.body)
+  if (args.id) {
+    return update(account, args)
+  }
+
+  return create(account, args)
 }
 
 module.exports.main = chunky.handler({ executor, filename, auth })

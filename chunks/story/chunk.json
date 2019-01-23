@@ -5,9 +5,11 @@
       "title": "Story",
       "icon": "home",
       "path": "/story",
-      "stories": [{
-        "source": "https://raw.githubusercontent.com/idancali/cellar/master/stories/carmel/story.json"
-      }],
+      "stories": [
+        {
+          "source": "https://raw.githubusercontent.com/fluidtrends/carmel/master/chunks/story/data/stories.json"
+        }
+      ],
       "variants": true
     }
   }
