@@ -1,19 +1,57 @@
 const chunky = require('react-cloud-chunky')
 const merge = require('deepmerge')
+const casual = require('casual')
 
 const filename = __filename
 const auth = { limit: 1, private: true }
 
-const eventData = (args, oldJourney) => {
-  if (!oldJourney) {
-    return Object.assign({}, args)
+const generateExpected = (expected) => {
+  if (!expected) {
+    return {}
   }
 
-  return Object.assign({}, args)
+  var result = {}
+  Object.keys(expected).map(e => {
+    try {
+      result[e] = casual.populate(`{{${expected[e]}}}`)
+    } catch (e) {
+    }
+  })
+
+  return result
 }
 
-const createJourney = ({ account, type, machineId, platform, args }) => {
-  var journey = {
+
+const requireMachine = (journey, args) => {
+  if (!journey || !journey.machines || !journey.machines[args.machineId]) {
+    throw new Error("Sorry, this machine is not recognized yet")
+  }
+}
+
+const requireChallenge = (journey, args) => {
+  if (!journey.challenge) {
+    throw new Error("A challenge is not yet in progress")
+  }
+}
+
+const journeyUpdate = ({ type, args, journey, timestamp, config }) => {
+  switch (type) {
+    case 'next':
+      requireChallenge(journey, args)
+    case 'start':
+    case 'pause':
+      requireMachine(journey, args)
+      break
+    default:
+  }
+
+  return require(`./event.${type}`)({ args, journey, timestamp, config })
+}
+
+const createJourney = ({ account, type, args, timestamp, config }) => {
+  const { update, response } = journeyUpdate({ type, config, args, timestamp })
+
+  const journey = Object.assign({}, {
     node: `journeys`,
     userId: account.user.uid,
     email: account.user.email,
@@ -22,23 +60,16 @@ const createJourney = ({ account, type, machineId, platform, args }) => {
         id: account.user.uid
       }
     }
-  }
+  }, update)
 
-  const timestamp = `${Date.now()}`
-
-  journey[machineId] = {
-    [type]: Object.assign({}, eventData(args), { timestamp }),
-    platform,
-    timestamp
-  }
-
-  return chunky.firebase.operation('add', journey)
+  return chunky.firebase.operation('add', journey).then(() => response)
 }
 
 const getJourney = (userId) => {
   return new Promise((resolve, reject) => {
-    chunky.firebase.operation('retrieve', { key: `users-journeys/${userId}` })
-          .then((journey) => ((!journey || (Array.isArray(journey) && journey.length === 0)) ? resolve() : resolve(journey)))
+        chunky.firebase.operation('retrieve', { key: `users-journeys/${userId}` })
+          .then((journey) => ((!journey || (Array.isArray(journey) && journey.length === 0)) ? resolve() :
+                              chunky.firebase.operation('retrieve', { key: `journeys/${journey._id}` }).then((j) => resolve(j))))
           .catch((error) => resolve())
   })
 }
@@ -61,25 +92,21 @@ function executor ({ event, chunk, config, account }) {
   const type = args.type
   const platform = args.platform
 
-  delete args.machineId
   delete args.type
-  delete args.platform
 
   const timestamp = `${Date.now()}`
 
-  return getJourney(account.user.uid).then((journey) => {
-    if (!journey) {
-      return createJourney({ account, type, platform, machineId, args })
-             .then((j) => chunky.firebase.operation('update', { key: `users-journeys/${account.user.uid}/${j._id}`, timestamp }))
-    }
+  return getJourney(account.user.uid)
+         .then((journey) => {
+            if (!journey) {
+              return createJourney({ account, type, timestamp, args, config })
+            }
 
-    const updates = {
-      [type]: Object.assign({}, eventData(args, journey), { timestamp })
-    }
-
-    return chunky.firebase.operation('update', Object.assign({}, { key: `journeys/${journey._id}/${machineId}`, timestamp }, updates))
-           .then((j) => chunky.firebase.operation('update', { key: `users-journeys/${account.user.uid}/${journey._id}`, timestamp }))
- })
+            const { update, response } = journeyUpdate({ type, config, args, journey, timestamp })
+            return chunky.firebase.operation('update', Object.assign({}, { key: `journeys/${journey._id}`, timestamp }, update))
+                         .then(() => chunky.firebase.operation('update', { key: `users-journeys/${account.user.uid}/${journey._id}`, timestamp }))
+                         .then(() => response)
+        })
 }
 
 module.exports.main = chunky.handler({ executor, filename, auth })

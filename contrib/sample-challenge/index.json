@@ -1,11 +1,15 @@
 {
-  "summary": "Start learning how to manipulate simple text",
-  "category": ["json", "web"],
+  "title": "Learn to manipulate simple text",
+  "summary": "Changing simple text is fundamental to coding. In this challenge, learn to manipulate simple text with ease.",
+  "category": ["json", "web", "text", "strings"],
   "tasks": [{
-    "title": "Define your page and add a title for the menu"
+    "title": "Change a page title",
+    "expected": { "title": "color_name" }
    }, {
-     "title": "Change into page title"
+     "title": "Change a cover title",
+     "expected": { "title": "short_description" }
    }, {
-     "title": "Change into page subtitle"
+     "title": "Change a cover subtitle",
+     "expected": { "subtitle" : "sentence" }
    }]
 }
