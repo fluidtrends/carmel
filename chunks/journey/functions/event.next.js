@@ -20,7 +20,7 @@ module.exports = ({ args, journey, timestamp }) => {
   var update = Object.assign({}, journey)
   var response = { message: "ok" }
 
-  update.challenge = Object.assign({}, { timestamp, taskIndex: 0, totalTime: 0 }, args, journey.challenge)
+  update.challenge = Object.assign({}, { timestamp, taskTotalTime: 0, taskIndex: 0, totalTime: 0 }, args, journey.challenge)
 
   if (!journey.challenge.taskActive) {
     // We're about to start the next task now
@@ -34,6 +34,9 @@ module.exports = ({ args, journey, timestamp }) => {
     update.challenge.expected && delete update.challenge.expected
     return { update, response }
   }
+
+  update.challenge.taskTotalTime = journey.challenge.taskTotalTime + (timestamp - journey.challenge.taskStartTime)
+  update.challenge.totalTime = journey.challenge.totalTime + (timestamp - journey.challenge.taskStartTime)
 
   if (args.result.error) {
     // Looks like the task failed
@@ -50,16 +53,17 @@ module.exports = ({ args, journey, timestamp }) => {
   response.expected = Object.assign({}, update.challenge.expectedTaskData)
   delete update.challenge.expectedTaskData
   update.challenge.taskActive = false
-  update.challenge.totalTime = journey.challenge.totalTime + (timestamp - journey.challenge.taskStartTime)
-  update.challenge.elapsedTime = update.challenge.elapsedTime || []
-  update.challenge.elapsedTime.push((timestamp - journey.challenge.taskStartTime))
   update.challenge.result && delete update.challenge.result
+
+  update.challenge.tasksTime = update.challenge.tasksTime || []
+  update.challenge.tasksTime[update.challenge.taskIndex] = update.challenge.taskTotalTime
+  update.challenge.taskTotalTime = 0
 
   if ((journey.challenge.taskIndex + 1) >= journey.challenge.totalTasks) {
     // This was the last task
     response.completed = true
-    response.elapsedTime = (timestamp - journey.challenge.taskStartTime)
-    response.totalTime = update.challenge.totalTime
+    // response.elapsedTime = (timestamp - journey.challenge.taskStartTime)
+    // response.totalTime = update.challenge.totalTime
 
     update.skills = update.skills || {}
     Object.keys(journey.challenge.skills).map(skill => {
