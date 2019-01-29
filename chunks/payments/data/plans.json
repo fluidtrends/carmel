@@ -6,6 +6,7 @@
     "discount": "",
     "monthlyPrice": "Free",
     "yearlyPrice": "Free",
+    "color": "#37474F",
     "benefits": [
       {
         "text": "Free minutes: ",
@@ -25,6 +26,7 @@
     "discount": "",
     "monthlyPrice": "25",
     "yearlyPrice": "200",
+    "color": "#039BE5",
     "benefits": [
       {
         "text": "Free minutes: ",
@@ -37,7 +39,7 @@
     ],
     "button": {
       "text": "Get Started",
-      "backgroundColor": "#546E7A",
+      "backgroundColor": "#039BE5",
       "color": "#fff"
     }
   },
@@ -49,6 +51,7 @@
     "discount": "",
     "monthlyPrice": "50",
     "yearlyPrice": "500",
+    "color": "#00838F",
     "benefits": [
       {
         "text": "Free minutes: ",
@@ -65,7 +68,7 @@
     ],
     "button": {
       "text": "Get Started",
-      "backgroundColor": "#546E7A",
+      "backgroundColor": "#00838F",
       "color": "#fff"
     }
   },
@@ -76,6 +79,7 @@
     "discount": "",
     "monthlyPrice": "125",
     "yearlyPrice": "1200",
+    "color": "#00695C",
     "benefits": [
       {
         "text": "Free minutes: ",
@@ -92,7 +96,7 @@
     ],
     "button": {
       "text": "Get Started",
-      "backgroundColor": "#546E7A",
+      "backgroundColor": "#00695C",
       "color": "#fff"
     }
   },
@@ -103,6 +107,7 @@
     "discount": "",
     "monthlyPrice": "500",
     "yearlyPrice": "5000",
+    "color": "#2E7D32",
     "benefits": [
       {
         "text": "Free minutes: ",
@@ -119,7 +124,7 @@
     ],
     "button": {
       "text": "Get Started",
-      "backgroundColor": "#546E7A",
+      "backgroundColor": "#2E7D32",
       "color": "#fff"
     }
   }

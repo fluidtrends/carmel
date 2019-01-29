@@ -10,9 +10,8 @@ import {
   CardActionButtons,
   CardActionIcons
 } from '@rmwc/card'
-import { Row, Col, Badge, Switch, Progress } from 'antd'
+import { Row, Col, Switch, Progress } from 'antd'
 import { Button, ButtonIcon } from '@rmwc/button'
-import { Icon } from '@rmwc/icon'
 import { List, SimpleListItem } from '@rmwc/list'
 import Carmel1K from '../functions/1k.json'
 import { Data } from 'react-chunky'
@@ -192,23 +191,31 @@ export default class EarlyAccessScreen extends Screen {
       yearlyPrice,
       mentoring,
       benefits,
-      button
+      button,
+      color
     } = plan
 
     const pricePerMonth = parseInt(yearlyPrice / 12).toFixed(0)
 
     return (
-      <Col span={6}>
+      <Col xl={8} sm={12} xs={24}>
         <Card
           style={{
             margin: '10px',
             position: 'relative',
             overflow: 'hidden',
             minWidth: '325px',
-            height: '450px'
+            height: '450px',
+            color
           }}
         >
-          <div style={{ padding: '30px 30px 0', marginTop: '20px' }}>
+          <div
+            style={{
+              padding: '30px 30px 0',
+              marginTop: '20px',
+              height: '200px'
+            }}
+          >
             <Typography use={heading} tag="h1">
               {title}
             </Typography>
@@ -229,18 +236,18 @@ export default class EarlyAccessScreen extends Screen {
             </p>
             {description && <p style={{ margin: 0 }}>{description}</p>}
           </div>
-          <List twoLine style={{}}>
+          <List twoLine style={{}} className={'plans-list-wrapper'}>
             {benefits.map(benefit => (
               <SimpleListItem
                 style={{ height: '35px', cursor: 'not-allowed' }}
-                graphic="check_circle"
+                graphic="done"
                 text={`${benefit.text} ${benefit.value}`}
               />
             ))}
             {mentoring && (
               <SimpleListItem
                 style={{ height: '35px', cursor: 'not-allowed' }}
-                graphic="check_circle"
+                graphic="done"
                 text={`Mentoring: ${mentoring}`}
               />
             )}
