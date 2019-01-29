@@ -1,7 +1,7 @@
 {
   "title": "Learn to manipulate simple text",
   "summary": "Changing simple text is fundamental to coding. In this challenge, learn to manipulate simple text with ease.",
-  "category": ["json", "web", "text", "strings"],
+  "skills": {"json": 1, "web": 1, "text": 1, "strings": 1},
   "tasks": [{
     "title": "Change a page title",
     "expected": { "title": "color_name" }
