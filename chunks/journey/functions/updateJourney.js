@@ -1,26 +1,8 @@
 const chunky = require('react-cloud-chunky')
 const merge = require('deepmerge')
-const casual = require('casual')
 
 const filename = __filename
 const auth = { limit: 1, private: true }
-
-const generateExpected = (expected) => {
-  if (!expected) {
-    return {}
-  }
-
-  var result = {}
-  Object.keys(expected).map(e => {
-    try {
-      result[e] = casual.populate(`{{${expected[e]}}}`)
-    } catch (e) {
-    }
-  })
-
-  return result
-}
-
 
 const requireMachine = (journey, args) => {
   if (!journey || !journey.machines || !journey.machines[args.machineId]) {
