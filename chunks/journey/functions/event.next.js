@@ -21,6 +21,7 @@ module.exports = ({ args, journey, timestamp }) => {
   var response = { message: "ok" }
 
   update.challenge = Object.assign({}, { timestamp, taskTotalTime: 0, taskIndex: 0, totalTime: 0 }, args, journey.challenge)
+  update.consumedTime = update.consumedTime || 0
 
   if (!journey.challenge.taskActive) {
     // We're about to start the next task now
@@ -35,7 +36,7 @@ module.exports = ({ args, journey, timestamp }) => {
     return { update, response }
   }
 
-  update.challenge.taskTotalTime = journey.challenge.taskTotalTime + (timestamp - journey.challenge.taskStartTime)
+  update.challenge.taskTotalTime = (timestamp - journey.challenge.taskStartTime)
   update.challenge.totalTime = journey.challenge.totalTime + (timestamp - journey.challenge.taskStartTime)
 
   if (args.result.error) {
@@ -62,8 +63,6 @@ module.exports = ({ args, journey, timestamp }) => {
   if ((journey.challenge.taskIndex + 1) >= journey.challenge.totalTasks) {
     // This was the last task
     response.completed = true
-    // response.elapsedTime = (timestamp - journey.challenge.taskStartTime)
-    // response.totalTime = update.challenge.totalTime
 
     update.skills = update.skills || {}
     Object.keys(journey.challenge.skills).map(skill => {
@@ -73,7 +72,7 @@ module.exports = ({ args, journey, timestamp }) => {
 
     update.completedChallenges = update.completedChallenges || []
     update.completedChallenges.push(Object.assign({}, journey.challenge, { timestamp }))
-    update.challenge = false
+    update.consumedTime = update.consumedTime + update.challenge.totalTime
   } else {
     update.challenge.taskIndex = update.challenge.taskIndex + 1
   }

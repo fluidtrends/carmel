@@ -8,7 +8,9 @@ module.exports = ({ args, journey, timestamp }) => {
 
   if (journey.pausedChallenges && journey.pausedChallenges[args.challengeId]) {
     update.challenge = Object.assign({}, journey.pausedChallenges[args.challengeId], { timestamp })
-    update.pausedChallenges[args.challengeId] = false
+    if (update.pausedChallenges && update.pausedChallenges[args.challengeId]) {
+      delete update.pausedChallenges[args.challengeId]
+    }
   } else {
     update.challenge = Object.assign({}, { timestamp, taskIndex: 0 }, args)
   }
