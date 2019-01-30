@@ -37,7 +37,6 @@ module.exports = ({ args, journey, timestamp }) => {
   }
 
   update.challenge.taskTotalTime = (timestamp - journey.challenge.taskStartTime)
-  update.challenge.totalTime = journey.challenge.totalTime + (timestamp - journey.challenge.taskStartTime)
 
   if (args.result.error) {
     // Looks like the task failed
@@ -59,6 +58,7 @@ module.exports = ({ args, journey, timestamp }) => {
   update.challenge.tasksTime = update.challenge.tasksTime || []
   update.challenge.tasksTime[update.challenge.taskIndex] = update.challenge.taskTotalTime
   update.challenge.taskTotalTime = 0
+  update.challenge.totalTime = journey.challenge.totalTime + (timestamp - journey.challenge.taskStartTime)
 
   if ((journey.challenge.taskIndex + 1) >= journey.challenge.totalTasks) {
     // This was the last task
