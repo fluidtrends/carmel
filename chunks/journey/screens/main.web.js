@@ -119,7 +119,7 @@ export default class MainJourneyScreen extends Screen {
     this._username = this.props.location.pathname.split('/')[2]
 
     setTimeout(() => {
-      this.props.getUserProfile({ username: 'aclowwwn' })
+      this.props.getUserProfile({ username: this._username })
     }, 300)
 
     Promise.all(this.props.stories.map(story => this.importRemoteData(story.source)))
@@ -252,8 +252,8 @@ export default class MainJourneyScreen extends Screen {
   }
 
   get features() {
-    if (!this.username) {
-      return []
+    if (!this.username || !this.state.user || !this.state.journey) {
+      return this.renderLoading()
     }
 
     return this.renderJourney()
