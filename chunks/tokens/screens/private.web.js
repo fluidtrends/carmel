@@ -15,6 +15,13 @@ import moment from 'moment'
 
 const ClaimPeriod = 'AirDrop'
 
+const periods = [
+  {
+    until: '2 March 2019',
+    text: ' Token Distribution ends in:'
+  }
+]
+
 export default class PrivateTokensScreen extends Screen {
   constructor (props) {
     super(props)
@@ -245,15 +252,15 @@ export default class PrivateTokensScreen extends Screen {
        <strong> carmeltokens </strong> smart contract
       </Typography>
       <Typography
-        use="caption"
-        tag="div"
-        style={{
-          textAlign: "center",
-          color: `#546E7A`,
-          padding: "5px",
-          backgroundColor: "#FFF9C4"}}>
-          Token Distribution ends on March 7, 2019
-      </Typography>
+          use="caption"
+          tag="div"
+          style={{
+            textAlign: "center",
+            color: `#546E7A`,
+            padding: "5px"
+          }}>
+          <Components.Timer periods={periods} textColor="#00bfa5" />
+        </Typography>
       </Card>
   }
 
