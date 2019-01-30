@@ -52,8 +52,8 @@ const mockJourney = {
       level: '67',
       color: '#90A4AE',
     },
-  
-  ], 
+
+  ],
   events: [
     {
       timestamp: '2h',
@@ -113,15 +113,14 @@ export default class MainJourneyScreen extends Screen {
     this._renderSkills = this.renderSkills.bind(this)
   }
 
-  componentWillMount() {
-    this._username = this.props.location.pathname.split('/')[2]
-
-    this.props.getUser({username: 'aclowwwn'})
-  }
-
   componentDidMount() {
     super.componentDidMount()
-    
+
+    this._username = this.props.location.pathname.split('/')[2]
+
+    setTimeout(() => {
+      this.props.getUserProfile({ username: 'aclowwwn' })
+    }, 300)
 
     Promise.all(this.props.stories.map(story => this.importRemoteData(story.source)))
       .then(stories => {
@@ -158,9 +157,9 @@ export default class MainJourneyScreen extends Screen {
     const Badge = <span style={{width: 25, height: 25, borderRadius: '50%', background: '#00bcd4', position: 'absolute', bottom: 7, right: -10, color: '#fff',textAlign: 'center', padding: 3}}>{badge.level}</span>
 
     return <Components.AnimatedWrapper animation animationType="fade">
-      <span style={{position: 'relative', marginRight: 20}}>  
+      <span style={{position: 'relative', marginRight: 20}}>
         <Tag style={{marginBottom: 10, borderColor: '#00bcd4', color: '#546E7A'}}>
-          {String(badge.name).toLowerCase()} 
+          {String(badge.name).toLowerCase()}
         </Tag>
         {Badge}
       </span>
@@ -192,7 +191,7 @@ export default class MainJourneyScreen extends Screen {
   }
 
   renderEvents() {
-      return mockJourney.events.slice(0).reverse().map(this._renderEvent) 
+      return mockJourney.events.slice(0).reverse().map(this._renderEvent)
   }
 
   renderSkills() {

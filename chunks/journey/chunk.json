@@ -22,9 +22,10 @@
         "type": "default",
         "image": "beta.r.png"
       },
+      "startOperationsOnMount": false,
       "operations": {
-        "getUser": [
-          "rest://create/auth/users#getUser",
+        "getUserProfile": [
+          "rest://create/auth/profiles#profile",
           {
             "onSuccess": "getUserOk",
             "onError": "getUserError"
