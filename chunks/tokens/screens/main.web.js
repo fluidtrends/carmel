@@ -1,8 +1,15 @@
 import React from 'react'
-import { Screen } from 'react-dom-chunky'
+import { Screen, Components } from 'react-dom-chunky'
 import Investors from '../components/investors'
 import { Card } from '@rmwc/card'
 import { Typography } from '@rmwc/typography'
+
+const periods = [
+  {
+    until: '2 March 2019',
+    text: ' Token Distribution ends in:'
+  }
+]
 
 export default class TokensScreen extends Screen {
   constructor (props) {
@@ -49,9 +56,9 @@ export default class TokensScreen extends Screen {
           style={{
             textAlign: "center",
             color: `#546E7A`,
-            padding: "5px",
-            backgroundColor: "#FFF9C4"}}>
-          Token Distribution ends on March 7, 2019
+            padding: "5px"
+          }}>
+          <Components.Timer periods={periods} textColor="#00bfa5" />
         </Typography>
         </Card>
       </div>)

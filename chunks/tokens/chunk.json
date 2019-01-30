@@ -14,8 +14,8 @@
       "cover": {
         "backgroundColor": "#00838F",
         "align": "bottom",
-        "opacity": 0.5,
-        "image": "background-stars.r.png",
+        "opacity": 0.3,
+        "image": "roadmap.r.png",
         "navigation": true,
         "title": "Participate in the Token Distribution",
         "type": "simple"
