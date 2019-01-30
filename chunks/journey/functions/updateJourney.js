@@ -22,6 +22,8 @@ const journeyUpdate = ({ type, args, journey, timestamp, config }) => {
       requireChallenge(journey, args)
     case 'start':
     case 'pause':
+    case 'init':
+    case 'install':
       requireMachine(journey, args)
       break
     default:
