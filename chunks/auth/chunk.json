@@ -202,10 +202,8 @@
   },
   "service": {
     "functions": [
-      "post://users#getUser",
+      "post://profiles#getProfile",
       "post://setup#setup",
-      "post://twitter#twitter",
-      "post://twitter-reverse#twitterReverse",
       "post://update#updateProfile"
     ],
     "dependencies": {

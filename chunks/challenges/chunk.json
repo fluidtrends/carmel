@@ -8,12 +8,13 @@
       "path": "/challenges",
       "startOperationsOnMount": false,
       "variants": "initial",
+      "startOperationsOnMount": false,
       "operations": {
         "getListings": [
           "rest://create/journey/listings#getListings",
           {
             "onSuccess": "getListings",
-            "onError": "getNotGetListings"
+            "onError": "couldNotGetListings"
           }
         ]
       }

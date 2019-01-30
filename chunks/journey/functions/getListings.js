@@ -35,7 +35,7 @@ function executor ({ event, chunk, config, account }) {
     return getChallenge(event.body.challengeId).then((challenge) => ({ challenge }))
   }
 
-  const userId = event.body.userId || (account ? account.uset.uid)
+  const userId = event.body.userId || (account ? account.user.uid :false)
 
   if (event.body.all || !userId) {
     return getAllChallenges().then((challenges) => ({ challenges }))

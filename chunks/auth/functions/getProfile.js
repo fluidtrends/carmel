@@ -16,8 +16,12 @@ const getUser = (userId) => {
 }
 
 function executor ({ event, chunk, config, account }) {
-  if (!event.body.username) {
-    return Promise.reject(new Error("Please specify a username"))
+  if (!event.body.username && !event.body.userId) {
+    return Promise.reject(new Error("Please specify a username or a userId"))
+  }
+
+  if (event.body.userId) {
+    return getUser(event.body.userId)
   }
 
   return new Promise((resolve, reject) => {

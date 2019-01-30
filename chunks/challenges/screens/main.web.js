@@ -23,6 +23,13 @@ export default class MainChallengesScreen extends Screen {
       initial: this.examples
     })
     this._challenge = this.props.location.pathname.split('/')[2]
+
+    if (!this.challenge) {
+      // Get all challenges
+      this.props.getListings({ all: true })
+    }
+
+
     // Data.Cache.retrieveCachedItem('initialChallengeCompleted')
     //   .then(() => {
     //     this.setState({ initialChallengeCompleted: true })
@@ -30,6 +37,21 @@ export default class MainChallengesScreen extends Screen {
     //   .catch(error => {
     //     this.setState({ initialChallengeCompleted: false })
     //   })
+  }
+
+  getListings(listings) {
+    if (!listings.ok && !listings.data) {
+      // Try again
+      this.props.getListings({ all: true })
+      return
+    }
+
+    this.setState({ listings: listings.data })
+  }
+
+  couldNotGetListings(error) {
+    // Keep trying
+    this.props.getListings({ all: true })
   }
 
   get examples() {
@@ -84,6 +106,13 @@ export default class MainChallengesScreen extends Screen {
   }
 
   renderChallenges() {
+    if (!this.state.listings) {
+      return <Components.Loading />
+    }
+
+    //TODO display from this.state.listings
+    console.log(this.state.listings.challenges)
+
     const challengesData = require('challenges/index.json')
     const { selectedCategories } = this.state
     const filter = {}
