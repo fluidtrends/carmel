@@ -9,11 +9,11 @@
       "startOperationsOnMount": false,
       "variants": "initial",
       "operations": {
-        "newActivity": [
-          "rest://create/journey/activities#newActivity",
+        "getListings": [
+          "rest://create/journey/listings#getListings",
           {
-            "onSuccess": "activityAdded",
-            "onError": "activityError"
+            "onSuccess": "getListings",
+            "onError": "getNotGetListings"
           }
         ]
       }
