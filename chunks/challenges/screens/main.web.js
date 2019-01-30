@@ -46,7 +46,28 @@ export default class MainChallengesScreen extends Screen {
       return
     }
 
-    this.setState({ listings: listings.data })
+    if (!listings.data.challenges) {
+      this.setState({ challenges: [] })
+      return
+    }
+
+    // Only look for published challenges
+    const publishedChallenges = listings.data.challenges.filter(c => c.status === 'published')
+
+    //TODO get the challenges source content from github
+
+    // publishedChallenges.map(c => {
+    //   const sourceUrl = `https://raw.githubusercontent.com/${c.repo}/${c.hash}${c.path ? c.path : '/'}`
+    //   console.log(sourceUrl)
+    //   fetch(`${sourceUrl}/index.json`, {
+    //     method: 'get',
+    //     mode: "no-cors",
+    //     headers: { 'Content-Type': 'application/json' }
+    //   })
+    //   .then(res => res.json())
+    //   .then(json => console.log(json))
+    //   .catch((error) => console.log(error))
+    // })
   }
 
   couldNotGetListings(error) {
@@ -106,12 +127,12 @@ export default class MainChallengesScreen extends Screen {
   }
 
   renderChallenges() {
-    if (!this.state.listings) {
+    if (!this.state.challenges) {
       return <Components.Loading />
     }
 
-    //TODO display from this.state.listings
-    console.log(this.state.listings.challenges)
+    //TODO display from this.state
+    console.log(this.state.challenges)
 
     const challengesData = require('challenges/index.json')
     const { selectedCategories } = this.state
