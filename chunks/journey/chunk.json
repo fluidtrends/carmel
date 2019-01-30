@@ -42,7 +42,9 @@
     ],
     "dependencies": {
       "slugify": "latest",
-      "deepmerge": "latest"
+      "deepmerge": "latest",
+      "casual": "latest",
+      "node-wit": "latest"
     },
     "requiredFields": {
     },
