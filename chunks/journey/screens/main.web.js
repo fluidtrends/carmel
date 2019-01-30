@@ -130,12 +130,23 @@ export default class MainJourneyScreen extends Screen {
       .then(stories => this.setState({ stories }))
   }
 
-  getUserOk(data) {
-    console.log(data)
+  gotListings(listings) {
+    console.log(listings)
+    this.setState({ journey: listings.data })
   }
 
-  getUserError(data) {
-    console.log(data, 'error')
+  couldNotGetListings(error) {
+    console.log(error)
+  }
+
+  getUserOk(user) {
+    console.log(user)
+    this.setState({ user: user.data })
+    this.props.getListings({ userId: user.data._id })
+  }
+
+  getUserError(error) {
+    console.log(error)
   }
 
   get cover () {

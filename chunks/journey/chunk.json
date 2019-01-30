@@ -30,6 +30,13 @@
             "onSuccess": "getUserOk",
             "onError": "getUserError"
           }
+        ],
+        "getListings": [
+          "rest://create/journey/listings#getListings",
+          {
+            "onSuccess": "gotListings",
+            "onError": "couldNotGetListings"
+          }
         ]
       }
     }
