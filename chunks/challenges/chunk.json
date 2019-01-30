@@ -13,7 +13,7 @@
         "getListings": [
           "rest://create/journey/listings#getListings",
           {
-            "onSuccess": "getListings",
+            "onSuccess": "gotListings",
             "onError": "couldNotGetListings"
           }
         ]

@@ -39,7 +39,7 @@ export default class MainChallengesScreen extends Screen {
     //   })
   }
 
-  getListings(listings) {
+  gotListings(listings) {
     if (!listings.ok && !listings.data) {
       // Try again
       this.props.getListings({ all: true })
