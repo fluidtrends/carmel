@@ -91,21 +91,21 @@ export default class CreateScreen extends Screen {
 
   paymentOk(response) {
     console.log(response)
-
-    if (!response.ok) {
-      this.makePayment()
-      return
-    }
-    console.log(response)
-
-    const paymentSuccess = response.data.success
-    const paymentStatus = response.data.status
-
-    this.setState({ paying: false, paid: true, paymentSuccess, paymentStatus })
+    //
+    // if (!response.ok) {
+    //   // this.makePayment()
+    //   return
+    // }
+    // console.log(response)
+    //
+    // const paymentSuccess = response.data.success
+    // const paymentStatus = response.data.status
+    //
+    // this.setState({ paying: false, paid: true, paymentSuccess, paymentStatus })
   }
 
   paymentError(error) {
-    this.makePayment()
+    // this.makePayment()
   }
 
   gotToken(response) {
@@ -125,7 +125,7 @@ export default class CreateScreen extends Screen {
        return
     }
 
-    braintree.dropin.create({
+    dropin.create({
       authorization: clientToken,
       container: '#dropin-container'
     }, (createErr, clientService)  => {
@@ -134,7 +134,8 @@ export default class CreateScreen extends Screen {
   }
 
   tokenError(error) {
-    this.props.getToken()
+    console.log(error)
+    // this.props.getToken()
   }
 
   get totalEuro() {
