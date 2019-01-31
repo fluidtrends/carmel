@@ -16,78 +16,211 @@ import { Row, Col, Avatar, Button } from 'antd'
 import { Icon as AntdIcon } from 'antd'
 import { Icon } from '@rmwc/icon'
 import { Grid, GridCell, GridInner } from '@rmwc/grid'
-import {
-  FacebookShareButton,
-  GooglePlusShareButton,
-  LinkedinShareButton,
-  TwitterShareButton,
-  TelegramShareButton,
-  WhatsappShareButton,
-  PinterestShareButton,
-  VKShareButton,
-  OKShareButton,
-  RedditShareButton,
-  TumblrShareButton,
-  LivejournalShareButton,
-  MailruShareButton,
-  ViberShareButton,
-  WorkplaceShareButton,
-  EmailShareButton,
-  FacebookIcon,
-  TwitterIcon,
-  TelegramIcon,
-  WhatsappIcon,
-  GooglePlusIcon,
-  LinkedinIcon,
-  PinterestIcon,
-  VKIcon,
-  OKIcon,
-  RedditIcon,
-  TumblrIcon,
-  LivejournalIcon,
-  MailruIcon,
-  ViberIcon,
-  WorkplaceIcon,
-  EmailIcon
-} from 'react-share'
 import Fade from 'react-reveal/Fade'
+import SocialIcons from './socialIcons'
 
 export default class ChapterPreview extends Component {
   constructor (props) {
     super(props)
     this.state = { ...super.state }
+    this._onSelected = this.onSelected.bind(this)
   }
 
   componentDidMount () {
     super.componentDidMount()
   }
 
-  renderCompact() {
+  onSelected() {
+    this.props.onSelected && this.props.onSelected(this.props.chapter)
+  }
+
+  get authorImage() {
+    if (this.props.chapter.author && this.props.chapter.author.pic) {
+      return this.props.chapter.author.pic
+    }
+
+    return "https://github.com/fluidtrends/carmel/raw/master/assets/chunky-logo.gif"
+  }
+
+  get authorName() {
+    if (this.props.chapter.author && this.props.chapter.author.name) {
+      return this.props.chapter.author.name
+    }
+
+    return ""
+  }
+
+  renderSocialIcons() {
+    return <SocialIcons compact={this.props.compact} chapter={this.props.chapter}/>
+  }
+
+  renderCategories() {
+    return <ChipSet>
+        {this.props.chapter.tags.map(t => (
+          <Chip style={{ backgroundColor: '#F5F5F5', color: '#546E7A' }}>
+            <ChipText>{t}</ChipText>
+          </Chip>
+        ))}
+      </ChipSet>
+  }
+
+  renderDefaultActions() {
+      return (
+        <CardActions style={{ margin: '10px' }}>
+          <CardActionButtons
+            style={{ justifyContent: 'flex-start', display: 'flex', flex: 1 }}
+          >
+            <CardAction
+              onClick={this._onSelected}
+            >
+              Continue Reading
+            </CardAction>
+          </CardActionButtons>
+          {this.renderSocialIcons()}
+        </CardActions>
+      )
+  }
+
+  renderCompactActions() {
+    return [
+      <CardActions
+        key="first"
+        style={{
+          margin: '10px',
+          justifyContent: 'center',
+          display: 'flex',
+          flex: 1
+        }}
+      >
+        {this.renderSocialIcons()}
+      </CardActions>,
+      <CardActions key="second">
+        <CardActionButtons
+          style={{
+            justifyContent: 'center',
+            display: 'flex',
+            flex: 1,
+            marginBottom: '20px'
+          }}
+        >
+          <CardAction
+            onClick={this._onSelected}
+          >
+            Continue Reading
+          </CardAction>
+        </CardActionButtons>
+      </CardActions>
+    ]
+  }
+
+  renderActions() {
+    return this.props.compact ? this.renderCompactActions() : this.renderDefaultActions()
+  }
+
+  renderCompactHeader() {
+      return <div
+          style={{
+            display: 'flex',
+            padding: '10px',
+            margin: '10px',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'column'
+          }}
+        >
+          <Avatar
+            src={this.authorImage}
+            size="large"
+            style={{
+              border: '1px solid #B0BEC5'
+            }}
+          />
+          <div
+            style={{
+              display: 'flex',
+              flex: 1,
+              padding: '10px',
+              flexDirection: 'column'
+            }}
+          >
+            <Typography
+              use="caption"
+              tag="div"
+              style={{
+                color: '#607D8B',
+                textAlign: 'center'
+              }}
+            >
+              {this.authorName}
+            </Typography>
+            <Typography
+              use="caption"
+              tag="div"
+              style={{
+                color: '#B0BEC5',
+                textAlign: 'center'
+              }}
+            >
+              {this.props.chapter.date}
+            </Typography>
+          </div>
+          {this.renderCategories()}
+        </div>
+    }
+
+  renderDefaultHeader() {
     return <div
-      style={{
-        display: 'flex',
-        flex: 1,
-        justifyContent: 'center',
-        flexDirection: 'column',
-        alignItems: 'center'
-      }}>
+        style={{
+          display: 'flex',
+          padding: '10px',
+          margin: '10px',
+          flexDirection: 'row'
+        }}
+      >
+        <Avatar
+          src={this.authorImage}
+          size="large"
+          style={{
+            border: '1px solid #B0BEC5'
+          }}
+        />
+        <div
+          style={{
+            display: 'flex',
+            flex: 1,
+            paddingLeft: '20px',
+            flexDirection: 'column'
+          }}
+        >
+          <Typography
+            use="caption"
+            tag="div"
+            style={{
+              color: '#607D8B'
+            }}
+          >
+            {this.authorName}
+          </Typography>
+          <Typography
+            use="caption"
+            tag="div"
+            style={{
+              color: '#B0BEC5'
+            }}
+          >
+            {this.props.chapter.date}
+          </Typography>
+        </div>
+        {this.renderCategories()}
       </div>
   }
 
-  renderDefault() {
-    return <div
-      style={{
-        display: 'flex',
-        flex: 1,
-        justifyContent: 'center',
-        flexDirection: 'column',
-        alignItems: 'center'
-      }}>
-    </div>
+  renderHeader() {
+    return this.props.compact ? this.renderCompactHeader() : this.renderDefaultHeader()
   }
 
-  renderChapterPreview() {
-    const width = this.props.isSmallScreen ? '90vw' : '700px'
+  render() {
+    const width = this.props.compact? '90vw' : '700px'
     const summary =
       this.props.chapter.summary.length > 250
         ? `${this.props.chapter.summary.substring(0, 250)}...`
@@ -96,7 +229,7 @@ export default class ChapterPreview extends Component {
     return (
       <Fade>
         <Card style={{ margin: '20px', width }} onClick={() => {}}>
-          {this.renderPostHeader(chapter)}
+          {this.renderHeader()}
           <div
             style={{
               justifyContent: 'center',
@@ -132,13 +265,9 @@ export default class ChapterPreview extends Component {
               </Typography>
             </div>
           </div>
-          {this.renderPostActions(chapter)}
+          {this.renderActions()}
         </Card>
       </Fade>
     )
-  }
-
-  render () {
-    return this.props.compact ? this.renderCompact() : this.renderDefault()
   }
 }
