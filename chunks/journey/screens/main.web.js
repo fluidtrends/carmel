@@ -2,6 +2,7 @@ import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
 import { Icon, Tag, Tabs, Badge } from 'antd';
 import Activity from '../components/activityCard'
+import Challenge from '../components/challengeCard'
 import Meta from '../components/meta'
 import Story from '../components/Story'
 import StoryCard from '../components/storyCard'
@@ -107,7 +108,7 @@ export default class MainJourneyScreen extends Screen {
 
     this._renderEvent = this.renderEvent.bind(this)
     this._renderEvents = this.renderEvents.bind(this)
-    this._renderBadge = this.renderBadge.bind(this)
+    this._renderChallenges = this.renderChallenges.bind(this)
     this._renderTabs = this.renderTabs.bind(this)
     this._renderMeta = this.renderMeta.bind(this)
     this._renderSkills = this.renderSkills.bind(this)
@@ -160,17 +161,17 @@ export default class MainJourneyScreen extends Screen {
     return this._username
   }
 
-  renderBadge(badge, index) {
+  renderBadge(name, value) {
     if (this.isSmallScreen) {
       // return
     }
 
-    const Badge = <span style={{width: 25, height: 25, borderRadius: '50%', background: '#00bcd4', position: 'absolute', bottom: 7, right: -10, color: '#fff',textAlign: 'center', padding: 3}}>{badge.level}</span>
+    const Badge = <span style={{width: 25, height: 25, borderRadius: '50%', background: '#00bcd4', position: 'absolute', bottom: 7, right: -10, color: '#fff',textAlign: 'center', padding: 3}}>{value}</span>
 
     return <Components.AnimatedWrapper animation animationType="fade">
       <span style={{position: 'relative', marginRight: 20}}>
         <Tag style={{marginBottom: 10, borderColor: '#00bcd4', color: '#546E7A'}}>
-          {String(badge.name).toLowerCase()}
+          {String(name).toLowerCase()}
         </Tag>
         {Badge}
       </span>
@@ -182,22 +183,22 @@ export default class MainJourneyScreen extends Screen {
   }
 
   renderMeta() {
-    return <Meta user={mockJourney} isSmallScreen={this.isSmallScreen} />
+    return <Meta user={this.state.user} isSmallScreen={this.isSmallScreen} />
   }
 
   renderTabs() {
-    return <Tabs defaultActiveKey="1" onChange={() => {}} style={{color: '#546E7A', marginTop: 75}}>
-      <TabPane tab="Activity" key="1">
+    return <Tabs defaultActiveKey="3" onChange={() => {}} style={{color: '#546E7A', marginTop: 75, minHeight: '30vh'}}>
+      <TabPane tab="Activity" disabled key="1">
         {this._renderEvents()}
         <div style={{textAlign: 'center'}}>
           <Icon type="loading" style={{fontSize: 40, color: '#00bfa5', padding: '20px 0'}} />
         </div>
       </TabPane>
-      <TabPane tab="Stories" key="2">
+      <TabPane tab="Stories" disabled key="2">
         {this.state.stories? this.renderStories() : this.renderLoading()}
       </TabPane>
-      <TabPane tab="Achievments" key="3">{this._renderEvents()}</TabPane>
-      <TabPane tab="Code" key="4">{this._renderEvents()}</TabPane>
+      <TabPane tab="Challenges" key="3">{this._renderChallenges()}</TabPane>
+      <TabPane tab="Code" disabled key="4">{this._renderEvents()}</TabPane>
     </Tabs>
   }
 
@@ -205,8 +206,35 @@ export default class MainJourneyScreen extends Screen {
       return mockJourney.events.slice(0).reverse().map(this._renderEvent)
   }
 
+  renderCompletedChallenges(challenges) {
+    return challenges.slice(0).reverse().map(challenge => <Challenge challenge={challenge} isSmallScreen={this.isSmallScreen} />)
+  }
+
+  renderCurrentChallenge() {
+    // return <Challenge event={event} isSmallScreen={this.isSmallScreen}/>
+  }
+
+  renderChallenges() {
+      const {journey} = this.state.journey
+
+      const {completedChallenges, challenge} = journey
+
+      // const completedChallengesReversed = completedChallenges.reverse()
+
+      return [
+        completedChallenges && this.renderCompletedChallenges(completedChallenges),
+        this.renderCurrentChallenge(challenge)
+      ]
+  }
+
   renderSkills() {
-    return mockJourney.skills.map(this._renderBadge)
+    const { skills } = this.state.journey.journey
+
+    if (!skills) {
+      return
+    }
+
+    return Object.keys(skills).map(key => this.renderBadge(key, skills[key]))
   }
 
   renderStories() {
@@ -234,6 +262,7 @@ export default class MainJourneyScreen extends Screen {
         flex: 1,
         justifyContent: 'center',
         flexDirection: 'column',
+        height: '70vh',
         alignItems: 'center'
       }}>
         <Components.Loading message="One sec please..."/>

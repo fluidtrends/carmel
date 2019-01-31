@@ -15,11 +15,11 @@ export default class ActivityCard extends Component {
   }
 
   render () {
-    const { name, username, description, img, since, followers } = this.props.user
+    const { name, username, bio, pic, since, followers } = this.props.user
 
 		const about = <div>
       <span style={{fontSize: 16}}>
-        {description}
+        {bio}
       </span>
       <br />
       <span style={{fontSize: 16}}>
@@ -27,15 +27,15 @@ export default class ActivityCard extends Component {
       </span>
       <br />
       <span style={{fontSize: 12}}>
-        {followers} followers
+        {followers &&`${followers} followers`}
       </span>
     </div>
 
     const title = <div style={{fontSize: 32}}> 
       {name}
       <div style={{fontSize: 28, display: 'flex', alignItems: 'center'}}>
-        {username}
-        <Button type="primary" small ghost style={{marginLeft: 40, marginTop: 5, color: '#00bfa5', borderColor: '#00bfa5'}}>Follow</Button>
+        @{username}
+        {/* <Button type="primary" small ghost style={{marginLeft: 40, marginTop: 5, color: '#00bfa5', borderColor: '#00bfa5'}}>Follow</Button> */}
       </div>
     </div>
 
@@ -49,7 +49,7 @@ export default class ActivityCard extends Component {
 
     return <div style={{ display: 'flex', flexWrap: 'wrap-reverse', justifyContent: 'center', textAlign: 'left', width}}>
       {meta}
-      <Avatar style={{height: 120, width: 120}} src={img}/>
+      <Avatar style={{height: 120, width: 120}} src={pic}/>
     </div>
   }
 }
