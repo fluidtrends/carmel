@@ -116,10 +116,8 @@ export default class MainJourneyScreen extends Screen {
   componentDidMount() {
     super.componentDidMount()
 
-    this._username = this.props.location.pathname.split('/')[2]
-
     setTimeout(() => {
-      this.props.getUserProfile({ username: this._username })
+      this.props.getUserProfile({ username: this.dynamicVariant })
     }, 300)
 
     Promise.all(this.props.stories.map(story => this.importRemoteData(story.source)))
