@@ -117,6 +117,7 @@ export default class MainJourneyScreen extends Screen {
     super.componentDidMount()
 
     setTimeout(() => {
+      console.log(this.dynamicVariant)
       this.props.getUserProfile({ username: this.dynamicVariant })
     }, 300)
 
@@ -138,7 +139,12 @@ export default class MainJourneyScreen extends Screen {
   }
 
   getUserOk(user) {
-    console.log(user)
+    if (user.data.error) {
+      // This username does not exist
+      this.triggerRedirect('/')
+      return
+    }
+
     this.setState({ user: user.data })
     this.props.getListings({ userId: user.data._id })
   }
