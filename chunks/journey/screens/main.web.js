@@ -117,10 +117,9 @@ export default class MainJourneyScreen extends Screen {
   componentDidMount() {
     super.componentDidMount()
 
-    this._username = this.props.location.pathname.split('/')[2]
-
     setTimeout(() => {
-      this.props.getUserProfile({ username: this._username })
+      console.log(this.dynamicVariant)
+      this.props.getUserProfile({ username: this.dynamicVariant })
     }, 300)
 
     Promise.all(this.props.stories.map(story => this.importRemoteData(story.source)))
@@ -141,7 +140,12 @@ export default class MainJourneyScreen extends Screen {
   }
 
   getUserOk(user) {
-    console.log(user)
+    if (user.data.error) {
+      // This username does not exist
+      this.triggerRedirect('/')
+      return
+    }
+
     this.setState({ user: user.data })
     this.props.getListings({ userId: user.data._id })
   }

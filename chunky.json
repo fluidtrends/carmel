@@ -78,15 +78,11 @@
     "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js",
     "https://cdnjs.cloudflare.com/ajax/libs/markdown-it/8.3.1/markdown-it.min.js",
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/TweenMax.min.js",
-    "https://www.gstatic.com/firebasejs/4.4.0/firebase.js",
     "https://unpkg.com/material-components-web@0.40.1/dist/material-components-web.min.js",
     "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js",
     "https://unpkg.com/react-progressive-image@0.1.0/umd/react-progressive-image.min.js",
     "https://www.google.com/recaptcha/api.js",
-    "https://js.braintreegateway.com/web/dropin/1.14.1/js/dropin.min.js",
-    "https://cdnjs.cloudflare.com/ajax/libs/antd/3.4.5/antd.min.js",
-    "https://cdn.scattercdn.com/file/scatter-cdn/js/latest/scatterjs-core.min.js",
-    "https://cdn.scattercdn.com/file/scatter-cdn/js/latest/scatterjs-plugin-eosjs2.min.js"
+    "https://cdnjs.cloudflare.com/ajax/libs/antd/3.4.5/antd.min.js"
   ],
   "info": {
     "copyright": "© 2019",

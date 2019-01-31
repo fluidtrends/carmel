@@ -100,7 +100,7 @@
     "body-parser": "^1.18.3",
     "brace": "^0.11.1",
     "braintree-dropin-react": "^0.1.1",
-    "braintree-web": "^3.39.0",
+    "braintree-web": "^3.42.0",
     "braintree-web-drop-in": "^1.14.1",
     "browser-sync": "^2.24.5",
     "cassi": "^0.2.3",

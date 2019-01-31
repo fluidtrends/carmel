@@ -5,8 +5,8 @@
       "title": "journey",
       "icon": "favorite",
       "skipMenu": true,
-      "path": "/journey",
-      "variants": "initial",
+      "path": "/",
+      "variants": true,
       "stories": [{
         "source": "https://raw.githubusercontent.com/idancali/cellar/master/stories/carmel/story.json"
       }],
