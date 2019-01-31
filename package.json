@@ -93,6 +93,7 @@
     }
   },
   "dependencies": {
+    "@octokit/rest": "^16.13.4",
     "app-module-path": "^2.2.0",
     "async": "^2.6.1",
     "awsome": "^0.4.2",
