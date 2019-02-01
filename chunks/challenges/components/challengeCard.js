@@ -5,8 +5,6 @@ import { Chip, ChipText, ChipSet } from '@rmwc/chip'
 import { Typography } from '@rmwc/typography'
 import { Ribbon } from './styledComponents'
 
-const LEVELS = ['Beginner', 'Entry', 'Intermediate', 'Advanced', 'Expert']
-
 export default class ChallengeCard extends Component {
   constructor(props) {
     super(props)
@@ -19,6 +17,8 @@ export default class ChallengeCard extends Component {
   }
 
   renderSkills() {
+    const category = Object.keys(this.props.challenge.skills)
+
     return (
       <Typography
         use="headline5"
@@ -30,7 +30,7 @@ export default class ChallengeCard extends Component {
         }}
       >
         <ChipSet style={{ margin: '0px' }}>
-          {this.props.challenge.category.map(cat => (
+          {category.map(cat => (
             <Chip
               id={cat}
               onInteraction={evt =>
@@ -88,15 +88,19 @@ export default class ChallengeCard extends Component {
           onClick={() => window.open(this.props.challenge.author.link)}
         >
           <Icon type="user" style={{ marginRight: '5px' }} />
-          {this.props.challenge.author.name}
+          {this.props.challenge.authorName}
         </Typography>
       </div>
     )
   }
 
   renderDifficulty() {
-    const xp = (this.props.challenge.level + 1) * 5
-    const level = LEVELS[this.props.challenge.level]
+    let s = 0
+    for (let key in this.props.challenge.skills) {
+      s += this.props.challenge.skills[key]
+    }
+    const xp = s * 5
+    const level = this.props.challenge.level
 
     return (
       <Typography
@@ -180,69 +184,41 @@ export default class ChallengeCard extends Component {
           {this.props.challenge.title}
         </Typography>
         <Ribbon backgroundColor={'#00BCD4'}>
-          {this.props.challenge.type[0].toUpperCase()}
+          {this.props.challenge.type.toUpperCase()}
         </Ribbon>
       </div>
     )
   }
 
   renderEnv() {
+    const content =
+      this.props.challenge.type === 'Professional'
+        ? 'By getting Chunky Cli you will have a real development environment setup.'
+        : 'You can do it without installing anything.'
+    const title =
+      this.props.challenge.type === 'Professional'
+        ? 'This is a Cli Challenge.'
+        : 'This is a Playground Challenge.'
+    const icon =
+      this.props.challenge.type === 'Professional' ? 'code' : 'global'
     return (
-      <React.Fragment>
-        {this.props.challenge.type.map(t => {
-          let content = (
-            <p style={{ fontSize: '12px', margin: 0 }}>
-              You can do it without installing anything.
-            </p>
-          )
-          let title = 'This is a Playground Challenge.'
-          title =
-            t === 'playground'
-              ? title
-              : t === 'cli'
-              ? 'This is a Cli Challenge.'
-              : 'This is a Studio Challenge.'
-          content =
-            t === 'playground' ? (
-              content
-            ) : t === 'cli' ? (
-              <p style={{ fontSize: '12px', margin: 0 }}>
-                By getting Chunky Cli you will have a real development
-                environment setup.
-              </p>
-            ) : (
-              <p style={{ fontSize: '12px', margin: 0 }}>
-                For doing this you just need to install the Carmel Studio.
-              </p>
-            )
-
-          let icon = 'global'
-          icon = t === 'playground' ? icon : t === 'cli' ? 'code' : 'desktop'
-
-          return (
-            <div
-              style={{
-                cursor: 'pointer',
-                background: '#fff',
-                borderRadius: '20px',
-                borderColor: '#00bcd4',
-                height: '35px',
-                lineHeight: '35px',
-                textAlign: 'center',
-                margin: '5px',
-                display: 'inline-block'
-              }}
-            >
-              <Popover content={content} title={title} placement={'top'}>
-                <Icon
-                  type={icon}
-                  style={{ color: '#00bcd4', fontSize: '12px' }}
-                />
-              </Popover>
-            </div>
-          )
-        })}
-      </React.Fragment>
+      <div
+        style={{
+          cursor: 'pointer',
+          background: '#fff',
+          borderRadius: '20px',
+          borderColor: '#00bcd4',
+          height: '35px',
+          lineHeight: '35px',
+          textAlign: 'center',
+          margin: '5px',
+          display: 'inline-block'
+        }}
+      >
+        <Popover content={content} title={title} placement={'top'}>
+          <Icon type={icon} style={{ color: '#00bcd4', fontSize: '12px' }} />
+        </Popover>
+      </div>
     )
   }
 
