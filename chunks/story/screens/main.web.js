@@ -1,326 +1,119 @@
 import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
 import ChapterPreview from '../components/chapterPreview'
-
+import merge from 'deepmerge'
+import Fade from 'react-reveal/Fade'
+import { Card } from '@rmwc/card'
 export default class MainStoryScreen extends Screen {
   constructor(props) {
     super(props)
     this.state = { ...this.state }
+    this._onChapterSelected = this.onChapterSelected.bind(this)
   }
 
   componentDidMount() {
     super.componentDidMount()
 
     this._loadStoryContent()
-
-    // this._chapter = this.props.location.pathname.split('/')[2]
-    // Promise.all(
-    //   this.props.stories.map(story => this.importRemoteData(story.source))
-    // )
-    //   .then(stories => {
-    //     var index = 0
-    //     return stories
-    //       .map(story => Object.assign({}, story, this.props.stories[index++]))
-    //       .map(s => new Story(s))
-    //   })
-    //   .then(stories => this.setState({ stories }))
   }
 
   _loadStoryContent() {
-    this.importRemoteData(`${this.props.source}/story.json`).then((story) => {
-      console.log(story)
-      // this.setState({ story })
-    })
-    .catch((error) => console.log(error))
+    const self = this
+
+    this.importRemoteData(`${this.props.source}/story.json`)
+        .then((storyData) => {
+          self.setState({ storyData })
+          self.props.getUsers({ usernames: storyData.authors })
+        })
+        .catch((error) => console.log(error))
   }
 
-  // get chapter() {
-  //   return this._chapter
-  // }
+  onChapterSelected(chapter) {
+    this.triggerRedirect(`${this.props.path}/${chapter.slug}`)
+  }
 
-  // renderPostSocialIcons(chapter, justifyContent) {
-  //   return (
-  //     <CardActionIcons
-  //       style={{
-  //         justifyContent: this.isSmallScreen
-  //           ? 'center'
-  //           : justifyContent
-  //           ? justifyContent
-  //           : 'flex-end'
-  //       }}
-  //     >
-  //       <TwitterShareButton
-  //         url={chapter.url}
-  //         title={chapter.quote}
-  //         hashtags={chapter.hashtags}
-  //         style={{ marginRight: '10px' }}
-  //       >
-  //         <TwitterIcon size={32} round={true} />
-  //       </TwitterShareButton>
-  //       <LinkedinShareButton
-  //         url={chapter.url}
-  //         description={chapter.quote}
-  //         style={{ marginRight: '10px' }}
-  //       >
-  //         <LinkedinIcon size={32} round={true} />
-  //       </LinkedinShareButton>
-  //       <FacebookShareButton
-  //         url={chapter.url}
-  //         hashtag={`#${chapter.hashtags[0]}`}
-  //         quote={chapter.quote}
-  //         style={{ marginRight: '10px' }}
-  //       >
-  //         <FacebookIcon size={32} round={true} />
-  //       </FacebookShareButton>
-  //       <TelegramShareButton
-  //         url={chapter.url}
-  //         title={chapter.quote}
-  //         style={{ marginRight: '0px' }}
-  //       >
-  //         <TelegramIcon size={32} round={true} />
-  //       </TelegramShareButton>
-  //     </CardActionIcons>
-  //   )
-  // }
+  getUsersOk(users) {
+    if (!users.ok || !users.data || users.data.length === 0) {
+      this.setState({ story: this.state.storyData, authors: {} })
+      return
+    }
 
-  // renderPostHeader(chapter) {
-  //   if (this.isSmallScreen) {
-  //     return (
-  //       <div
-  //         style={{
-  //           display: 'flex',
-  //           padding: '10px',
-  //           margin: '10px',
-  //           justifyContent: 'center',
-  //           alignItems: 'center',
-  //           flexDirection: 'column'
-  //         }}
-  //       >
-  //         <Avatar
-  //           src="https://github.com/fluidtrends/carmel/raw/master/assets/chunky-logo.gif"
-  //           size="large"
-  //           style={{
-  //             border: '1px solid #B0BEC5'
-  //           }}
-  //         />
-  //         <div
-  //           style={{
-  //             display: 'flex',
-  //             flex: 1,
-  //             padding: '10px',
-  //             flexDirection: 'column'
-  //           }}
-  //         >
-  //           <Typography
-  //             use="caption"
-  //             tag="div"
-  //             style={{
-  //               color: '#607D8B',
-  //               textAlign: 'center'
-  //             }}
-  //           >
-  //             {chapter.author}
-  //           </Typography>
-  //           <Typography
-  //             use="caption"
-  //             tag="div"
-  //             style={{
-  //               color: '#B0BEC5',
-  //               textAlign: 'center'
-  //             }}
-  //           >
-  //             {chapter.date}
-  //           </Typography>
-  //         </div>
-  //         {this.renderPostCategories(chapter)}
-  //       </div>
-  //     )
-  //   }
-  //
-  //   return (
-  //     <div
-  //       style={{
-  //         display: 'flex',
-  //         padding: '10px',
-  //         margin: '10px',
-  //         flexDirection: 'row'
-  //       }}
-  //     >
-  //       <Avatar
-  //         src="https://github.com/fluidtrends/carmel/raw/master/assets/chunky-logo.gif"
-  //         size="large"
-  //         style={{
-  //           border: '1px solid #B0BEC5'
-  //         }}
-  //       />
-  //       <div
-  //         style={{
-  //           display: 'flex',
-  //           flex: 1,
-  //           paddingLeft: '20px',
-  //           flexDirection: 'column'
-  //         }}
-  //       >
-  //         <Typography
-  //           use="caption"
-  //           tag="div"
-  //           style={{
-  //             color: '#607D8B'
-  //           }}
-  //         >
-  //           {chapter.author}
-  //         </Typography>
-  //         <Typography
-  //           use="caption"
-  //           tag="div"
-  //           style={{
-  //             color: '#B0BEC5'
-  //           }}
-  //         >
-  //           {chapter.date}
-  //         </Typography>
-  //       </div>
-  //       {this.renderPostCategories(chapter)}
-  //     </div>
-  //   )
-  // }
+    var authors = {}
+    users.data.map(u => authors[u.username] = Object.assign({}, u))
+    this.setState({ story: this.state.storyData, authors })
+  }
 
-  // renderPostCategories(chapter) {
-  //   return (
-  //     <ChipSet>
-  //       {chapter.tags.map(t => (
-  //         <Chip style={{ backgroundColor: '#F5F5F5', color: '#546E7A' }}>
-  //           <ChipText>{t}</ChipText>
-  //         </Chip>
-  //       ))}
-  //     </ChipSet>
-  //   )
-  // }
-  //
-  // renderPostActions(chapter) {
-  //   if (this.isSmallScreen) {
-  //     return [
-  //       <CardActions
-  //         key="first"
-  //         style={{
-  //           margin: '10px',
-  //           justifyContent: 'center',
-  //           display: 'flex',
-  //           flex: 1
-  //         }}
-  //       >
-  //         {this.renderPostSocialIcons(chapter)}
-  //       </CardActions>,
-  //       <CardActions key="second">
-  //         <CardActionButtons
-  //           style={{
-  //             justifyContent: 'center',
-  //             display: 'flex',
-  //             flex: 1,
-  //             marginBottom: '20px'
-  //           }}
-  //         >
-  //           <CardAction
-  //             onClick={() =>
-  //               this.props.history.push(`/stories/${chapter.variants[0].url}`)
-  //             }
-  //           >
-  //             Continue Reading
-  //           </CardAction>
-  //         </CardActionButtons>
-  //       </CardActions>
-  //     ]
-  //   }
-  //
-  //   return (
-  //     <CardActions style={{ margin: '10px' }}>
-  //       <CardActionButtons
-  //         style={{ justifyContent: 'flex-start', display: 'flex', flex: 1 }}
-  //       >
-  //         <CardAction
-  //           onClick={() =>
-  //             this.props.history.push(`/story/${chapter.variants[0].url}`)
-  //           }
-  //         >
-  //           Continue Reading
-  //         </CardAction>
-  //       </CardActionButtons>
-  //       {this.renderPostSocialIcons(chapter)}
-  //     </CardActions>
-  //   )
-  // }
+  getUsersError(error) {
+    this.setState({ story: this.state.storyData, authors: {} })
+  }
 
+  chapterData(chapter) {
+    const storyFragment = Object.assign({}, this.state.story)
+    delete storyFragment.chapters
+    var data = Object.assign({}, merge.all([storyFragment, this.state.story.chapters[chapter]]))
 
+    data.author = Object.assign({}, this.state.authors[data.author || data.authors[0]])
 
-  // renderChapter(chapter) {
-  //   return (
-  //     <div
-  //       style={{
-  //         width: '80vw',
-  //         justifyContent: 'center',
-  //         marginTop: '50px',
-  //         maxWidth: '750px'
-  //       }}
-  //     >
-  //       <h2>{chapter.title}</h2>
-  //       <Components.Text
-  //         source={`https://raw.githubusercontent.com/fluidtrends/carmel/master/chunks/story/data/chapters/${chapter.variants[0].source}/README.md`}
-  //       />
-  //       <div style={{ margin: '20px' }}>
-  //         {this.renderPostSocialIcons(chapter, 'center')}
-  //       </div>
-  //       <div style={{ margin: '20px' }}>
-  //         <Button
-  //           onClick={() => this.props.history.goBack()}
-  //           style={{
-  //             display: 'flex',
-  //             color: '#ffffff',
-  //             backgroundColor: '#006064',
-  //             border: 'none',
-  //             margin: '10px auto 0',
-  //             height: '35px',
-  //             lineHeight: '15px'
-  //           }}
-  //         >
-  //           <AntdIcon type="arrow-left" />
-  //           Read Another Story
-  //         </Button>
-  //       </div>
-  //     </div>
-  //   )
-  // }
+    return data
+  }
 
-  // renderStories() {
-  //   const story = this.state.stories[0]
-  //
-  //   return (
-  //     <div
-  //       style={{
-  //         display: 'flex',
-  //         flex: 1,
-  //         justifyContent: 'center',
-  //         flexDirection: 'column',
-  //         alignItems: 'center'
-  //       }}
-  //     >
-  //       {story.chapters.map(chapter => this.renderChapterPreview(chapter))}
-  //     </div>
-  //   )
-  // }
+  renderChapterPreview(chapter) {
+    const data = this.chapterData(chapter)
+
+    return <ChapterPreview
+            onSelected={this._onChapterSelected}
+            compact={this.isSmallScreen}
+            source={this.props.source}
+            chapter={data}
+            chapterId={chapter}/>
+  }
 
   renderStoryChapters() {
-    console.log(this.state.story)
-    return <div/>
-    //   return <div
-    //       style={{
-    //         display: 'flex',
-    //         flex: 1,
-    //         justifyContent: 'center',
-    //         flexDirection: 'column',
-    //         alignItems: 'center'
-    //       }}>
-    //     hello
-    // </div>
+    return <div
+        style={{
+          display: 'flex',
+          flex: 1,
+          justifyContent: 'center',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }}>
+      {Object.keys(this.state.story.chapters).map(chapter => this.renderChapterPreview(chapter))}
+    </div>
+  }
+
+  renderChapter() {
+    const chapterId = Object.keys(this.state.story.chapters).find(c => this.state.story.chapters[c].slug === this.dynamicVariant)
+
+    if (!chapterId) {
+      return this.renderStoryChapters()
+    }
+
+    const chapter = this.state.story.chapters[chapterId]
+
+    if (!chapter) {
+      return this.renderStoryChapters()
+    }
+
+    const width = this.props.compact? '90vw' : '700px'
+
+    return <div
+      style={{
+        display: 'flex',
+        flex: 1,
+        marginTop: "40px",
+        justifyContent: 'center',
+        flexDirection: 'column',
+        alignItems: 'center'
+      }}>
+
+      <Fade>
+        <Card style={{ margin: '20px', width, padding: '20px' }} onClick={() => {}}>
+          <Components.Text
+            source={`${this.props.source}/chapters/${chapterId}/README.md`}
+          />
+        </Card>
+      </Fade>
+    </div>
   }
 
   renderLoading() {
@@ -344,15 +137,10 @@ export default class MainStoryScreen extends Screen {
       return [this.renderLoading()]
     }
 
-    return [this.renderStoryChapters()]
+    if (this.dynamicVariant) {
+      return [this.renderChapter()]
+    }
 
-    // if (this.chapter) {
-    //   const filteredChapter = this.state.stories[0].chapters.filter(
-    //     chapter => chapter.variants[0].url === this.chapter
-    //   )
-    //   return [this.renderChapter(filteredChapter[0])]
-    // }
-    //
-    // return [this.renderStories()]
+    return [this.renderStoryChapters()]
   }
 }

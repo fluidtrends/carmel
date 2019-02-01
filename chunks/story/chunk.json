@@ -6,7 +6,17 @@
       "icon": "home",
       "path": "/story",
       "variants": true,
-      "source": "https://raw.githubusercontent.com/fluidtrends/carmel/master/chunks/story/data"
+      "source": "https://raw.githubusercontent.com/fluidtrends/carmel/master/chunks/story/data",
+      "startOperationsOnMount": false,
+      "operations": {
+        "getUsers": [
+          "rest://create/auth/profiles#profiles",
+          {
+            "onSuccess": "getUsersOk",
+            "onError": "getUsersError"
+          }
+        ]
+      }
     }
   }
 }
