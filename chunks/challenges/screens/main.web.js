@@ -54,20 +54,19 @@ export default class MainChallengesScreen extends Screen {
     // Only look for published challenges
     const publishedChallenges = listings.data.challenges.filter(c => c.status === 'published')
 
-    //TODO get the challenges source content from github
-
     // publishedChallenges.map(c => {
-    //   const sourceUrl = `https://raw.githubusercontent.com/${c.repo}/${c.hash}${c.path ? c.path : '/'}`
-    //   console.log(sourceUrl)
+    //   const sourceUrl = `https://raw.githubusercontent.com/${c.repo}/${c.hash}/${c.path ? c.path : '/'}`
+    //   console.log('source',sourceUrl)
     //   fetch(`${sourceUrl}/index.json`, {
     //     method: 'get',
-    //     mode: "no-cors",
     //     headers: { 'Content-Type': 'application/json' }
     //   })
-    //   .then(res => res.json())
+    //   .then(res => console.log('res', res.json()) || res.json())
     //   .then(json => console.log(json))
     //   .catch((error) => console.log(error))
     // })
+
+    this.setState({ challenges: publishedChallenges })
   }
 
   couldNotGetListings(error) {
@@ -135,23 +134,25 @@ export default class MainChallengesScreen extends Screen {
     console.log(this.state.challenges)
 
     const challengesData = require('challenges/index.json')
-    const { selectedCategories } = this.state
-    const filter = {}
+    // const { selectedCategories } = this.state
+    // const filter = {}
 
-    for (let i = 0; i < selectedCategories.length; i++) {
-      filter[selectedCategories[i]] = selectedCategories[i]
-    }
-    let filteredChallenges = challengesData
-    if (Object.keys(filter).length > 0) {
-      filteredChallenges = filteredChallenges.filter(challenge => {
-        for (var key in filter) {
-          if (challenge.category.find(c => c === filter[key])) {
-            return true
-          }
-        }
-        return false
-      })
-    }
+    console.log('DATA MOCK', challengesData)
+
+    // for (let i = 0; i < selectedCategories.length; i++) {
+    //   filter[selectedCategories[i]] = selectedCategories[i]
+    // }
+    let filteredChallenges = this.state.challenges
+    // if (Object.keys(filter).length > 0) {
+    //   filteredChallenges = filteredChallenges.filter(challenge => {
+    //     for (var key in filter) {
+    //       if (challenge.category.find(c => c === filter[key])) {
+    //         return true
+    //       }
+    //     }
+    //     return false
+    //   })
+    // }
 
     return (
       <div>
@@ -186,9 +187,7 @@ export default class MainChallengesScreen extends Screen {
                     }}
                   >
                     <ChallengeCard
-                      challenge={require(`../../../challenges/${
-                        challenge.id
-                      }/index.json`)}
+                      challenge={challenge}
                       onSelectChallenge={selectedChallenge =>
                         this.props.history.push(
                           `/challenges/${selectedChallenge.id}`

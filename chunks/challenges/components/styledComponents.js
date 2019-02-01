@@ -9,7 +9,6 @@ export const Ribbon = styled.div`
   position: absolute;
   text-align: center;
   line-height: 30px;
-  letter-spacing: 1px;
   color: #f0f0f0;
   top: 1px;
   right: -30px;

@@ -15,23 +15,31 @@ const getUser = (userId) => {
              .catch((error) => resolve()))
 }
 
-function executor ({ event, chunk, config, account }) {
-  if (!event.body.username && !event.body.userId) {
-    return Promise.reject(new Error("Please specify a username or a userId"))
-  }
-
-  if (event.body.userId) {
-    return getUser(event.body.userId)
-  }
-
+const getUserByUsername = (u) => {
   return new Promise((resolve, reject) => {
-    findUsername(event.body.username)
+    findUsername(u)
         .then((username) => username ?
           getUser(username.userId)
           .then((user) => resolve(user))
           .catch((err) => reject(err))
         : reject(new Error("Username does not exist")))
   })
+}
+
+function executor ({ event, chunk, config, account }) {
+  if (!event.body.username && !event.body.userId && !event.body.usernames) {
+    return Promise.reject(new Error("Please specify one or more usernames or a userId"))
+  }
+
+  if (event.body.userId) {
+    return getUser(event.body.userId)
+  }
+
+  if (event.body.username) {
+    return getUserByUsername(event.body.username)
+  }
+
+  return Promise.all(event.body.usernames.map(u => getUserByUsername(u)))
 }
 
 module.exports.main = chunky.handler({ executor, filename, auth })
