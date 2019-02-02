@@ -42,6 +42,18 @@ export default class ChallengeCard extends Component {
     let item, i
     for (i = 0; i < tasks; i++) {
       let error = errors[i]
+      
+      if( error ) {
+        let errorsCount = Object.keys(error).length
+        let errorsText = errorsCount === 1 ? 'failure' : 'failures'
+        let errorItem = <Timeline.Item color="red">
+          <div style={{paddingTop: 6}}>
+            {`Task ${i + 1} - ${errorsCount} ${errorsText}`}
+          </div>
+        </Timeline.Item>          
+
+        items.push(errorItem)
+      }
      
       //check if task was completed
       if (i < index) {
@@ -62,17 +74,6 @@ export default class ChallengeCard extends Component {
       
       items.push(item)
 
-      if( error ) {
-        let errorsCount = Object.keys(error).length
-        let errorsText = errorsCount === 1 ? 'failure' : 'failures'
-        let errorItem = <Timeline.Item color="red">
-          <div style={{paddingTop: 6}}>
-            {`${errorsCount} ${errorsText}`}
-          </div>
-        </Timeline.Item>          
-
-        items.push(errorItem)
-      }
     }
 
     return <Timeline>
