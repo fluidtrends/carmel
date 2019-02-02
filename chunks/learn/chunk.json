@@ -1,0 +1,36 @@
+{
+  "name": "learn",
+  "routes": {
+    "main": {
+      "title": "Learn",
+      "icon": "supervisor_account",
+      "path": "/learn",
+      "cover": {
+        "backgroundColor": "#00838F",
+        "align": "bottom",
+        "opacity": 0,
+        "image": "learners.r.png",
+        "navigation": true,
+        "title": "Become a Carmel Learner",
+        "subtitle": "Join the Carmel Learners Guild and start your learning journey",
+        "type": "default"
+      }
+    },
+    "challenges": {
+      "icon": "favorite",
+      "title": "Challenges",
+      "path": "/challenges",
+      "variants": true,
+      "startOperationsOnMount": false,
+      "operations": {
+        "getListings": [
+          "rest://create/journey/listings#getListings",
+          {
+            "onSuccess": "gotListings",
+            "onError": "couldNotGetListings"
+          }
+        ]
+      }
+    }
+  }
+}

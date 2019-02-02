@@ -8,12 +8,13 @@
     "start": {
       "stack": [
         "intro",
-        "story",
-        "payments",
-        "challenges",
-        "journey",
+        "learn",
         "tokens",
-        "auth"
+        "story",
+        "entrepreneurs",
+        "auth",
+        "journey",
+        "payments"
       ]
     },
     "dashboard": {

@@ -5,6 +5,7 @@
       "title": "Pricing",
       "icon": "account_balance_wallet",
       "path": "/pricing",
+      "skipMenu": true,
       "startOperationsOnMount": false,
       "operations": {
         "getToken": [

@@ -35,17 +35,17 @@
           {
             "id": "team",
             "title": "Team",
-            "link": "https://carmel.io/team"
+            "link": "/team"
           },
           {
-            "id": "download",
-            "title": "Download",
-            "link": "https://carmel.io/download"
+            "id": "challenges",
+            "title": "Challenges",
+            "link": "/challenges"
           },
           {
-            "id": "channel",
-            "title": "Discussions",
-            "link": "http://t.me/carmelplatform"
+            "id": "guilds",
+            "title": "Guilds",
+            "link": "/guilds"
           }
         ]
       },
