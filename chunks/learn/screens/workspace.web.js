@@ -17,6 +17,7 @@ import Setup from '../components/setup'
 import marked from 'marked'
 const Step = Steps.Step
 import SetupData from '../data/setup.json'
+import platform from 'platform'
 
 export default class Workspace extends Screen {
   constructor (props) {
@@ -27,6 +28,7 @@ export default class Workspace extends Screen {
 
     this._setup = this.setup.bind(this)
     this._start = this.start.bind(this)
+    this._restartSetup = this.restartSetup.bind(this)
   }
 
   componentDidMount () {
@@ -37,11 +39,30 @@ export default class Workspace extends Screen {
     super.componentWillMount()
   }
 
+  updateJourneyOk(response) {
+    console.log(response)
+  }
+
+  updateJourneyError(error) {
+    console.log(error)
+  }
+
   getJourneySuccess (journey) {
     // notification.info({
     //    message: "Journey update",
     //    description: 'Keep going',
     // })
+
+    if (!journey || !journey[0]) {
+      return
+    }
+
+    if (journey[0].setup) {
+      console.log(journey[0].setup)
+      this.setState({ journey: journey[0], setup: journey[0].setup.step })
+      return
+    }
+
     this.setState({ journey: journey[0] })
   }
 
@@ -59,7 +80,6 @@ export default class Workspace extends Screen {
   }
 
   subscriptionArgs (subscription) {
-    console.log(subscription)
     if (!subscription || !this.account) {
       return {}
     }
@@ -67,11 +87,27 @@ export default class Workspace extends Screen {
     return { userId: this.account.user.uid }
   }
 
+  updateLearningJourney(args) {
+    setTimeout(() => {
+        this.props.updateJourney(Object.assign({}, { platform: platform.os, machineId: this.platformType }, args))
+    }, 300)
+  }
+
+  get setupProgress() {
+    return this.state.setup
+  }
+
+  restartSetup() {
+    this.updateLearningJourney({ type: "setup", step: parseInt(0) })
+    this.setState({ setup: parseInt(0)})
+  }
+
   setup() {
-    const { setup } = this.state
+    const setup = this.setupProgress
     const step = setup ? SetupData.steps[setup-1] : null
     const link = setup ? SetupData.steps[setup-1].link : null
 
+    this.updateLearningJourney({ type: "setup", step: parseInt((setup || 0) + 1) })
 
     if (setup === SetupData.steps.length) {
       this.setState({ setup: false, setupDone: true })
@@ -86,22 +122,39 @@ export default class Workspace extends Screen {
   }
 
   start() {
-    console.log("SSSSS")
     this.triggerRedirect("/challenges")
   }
 
   renderSetupSteps() {
-    if (!this.state.setup) {
+    if (!this.setupProgress) {
       return <div/>
     }
 
-   const percent = ((this.state.setup-1)/SetupData.steps.length)*100
+   const percent = ((this.setupProgress-1)/SetupData.steps.length)*100
 
-   return  <Progress style={{ margin: "10px" }} percent={parseFloat(percent).toFixed(0)} status="active" />
+   return <Typography use='headline5' tag='div' style={{ textAlign:"center", color: '#333333' }}>
+     Setup your development environment
+     <Progress style={{ margin: "10px" }} percent={parseFloat(percent).toFixed(0)} status="active" />
+   </Typography>
+  }
+
+  renderRestartSetup() {
+    if (!this.setupProgress) {
+      return <div/>
+    }
+
+    return <CardActions style={{ justifyContent: 'center', margin: '20px' }}>
+      <CardActionButtons>
+        <Button
+          onClick={this._restartSetup}>
+            Wanna start again?
+        </Button>
+      </CardActionButtons>
+    </CardActions>
   }
 
   renderSetupButton() {
-    if (!this.state.setup && this.state.setupDone) {
+    if (!this.setupProgress && this.state.setupDone) {
       return <CardActions style={{ justifyContent: 'center', margin: '20px' }}>
         <CardActionButtons>
           <Button
@@ -123,10 +176,15 @@ export default class Workspace extends Screen {
       />
     }
 
-    const { setup } = this.state
+    const setup = this.setupProgress
     const step = setup ? SetupData.steps[setup-1] : null
 
     const icon = setup ? 'done' : 'play_circle_filled'
+
+    if (step && !step.action) {
+      return <div/>
+    }
+
     const action = setup ? step.action : 'Get Started'
 
     return <CardActions style={{ justifyContent: 'center', margin: '20px' }}>
@@ -143,15 +201,17 @@ export default class Workspace extends Screen {
   }
 
   renderSetupTitle() {
-    if (!this.state.setup && this.state.setupDone) {
+    if (!this.setupProgress && this.state.setupDone) {
       return <Typography use='headline5' tag='div' style={{margin: "20px", color: this.props.theme.primaryColor }}>
         Woohoo, you did it!
       </Typography>
     }
 
-    const { setup } = this.state
+    const setup = this.setupProgress
     const step = setup ? SetupData.steps[setup-1] : null
     const title = setup ? step.title : SetupData.intro.title
+
+    console.log(setup, step)
 
     return <Typography use='headline5' tag='div' style={{margin: "20px", color: this.props.theme.primaryColor }}>
       { title }
@@ -159,11 +219,11 @@ export default class Workspace extends Screen {
   }
 
   renderSetupMessage() {
-    if (!this.state.setup && this.state.setupDone) {
+    if (!this.setupProgress && this.state.setupDone) {
       return <div/>
     }
 
-    const { setup } = this.state
+    const setup = this.setupProgress
     const step = setup ? SetupData.steps[setup-1] : null
     const text = step ? ("object" === typeof step.text ? step.text[this.platformType] : step.text) : null
     const message = marked(text ? `${text}` : SetupData.intro.text)
@@ -180,27 +240,31 @@ export default class Workspace extends Screen {
                   height: "180px", width: "180px"
                 }} />
               </Bounce>
-
               { this.renderSetupSteps() }
               { this.renderSetupTitle() }
               { this.renderSetupMessage() }
             </div>
 
             { this.renderSetupButton() }
+            { this.renderRestartSetup() }
           </Card>
           </Fade>
   }
 
+  renderExistingJourney(width, padding) {
+    return <Card style={{ width, margin: '10px', padding }}>
+      <Typography use='headline6' tag='div' style={{ textAlign:"center", color: '#333333' }}>
+        Keep going
+      </Typography>
+      </Card>
+  }
+
   renderWorkspaceArea(width, padding) {
-    if (!this.state.journey) {
+    if (!this.state.journey || this.state.journey.setup) {
       return this.renderNewJourney(width, padding)
     }
 
-    return <Card style={{ width, margin: '10px', padding }}>
-    <Typography use='headline6' tag='div' style={{ textAlign:"center", color: '#333333' }}>
-      Keep going
-    </Typography>
-    </Card>
+    return this.renderExistingJourney(width, padding)
   }
 
   renderMainContent () {
@@ -222,8 +286,7 @@ export default class Workspace extends Screen {
           overflow: 'hidden',
           flexDirection: 'column',
           alignItems: 'center'
-        }}
-      >
+        }}>
         <Card style={{ width, margin: '10px', padding }}>
           <UserInfo
             redirect={this.triggerRawRedirect}
@@ -237,7 +300,6 @@ export default class Workspace extends Screen {
       </div>
     )
   }
-
 
   components () {
     return [this.renderMainContent()]

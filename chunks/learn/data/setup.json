@@ -30,5 +30,8 @@
       "windows": "You're now ready to install me on your machine. Yaay! Just type: <br/><br/>```npm i -g windows-build-tools --production && npm i -g chunky-cli```"
     },
     "action": "Continue"
+  }, {
+    "title": "Step 5. Say Hello",
+    "text": "Congrats, you made it! Just type: <br/><br/>```chunky carmel say hello```"
   }]
 }

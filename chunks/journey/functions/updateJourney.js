@@ -74,7 +74,6 @@ function executor ({ event, chunk, config, account }) {
   const args = Object.assign({}, event.body)
   const machineId = args.machineId
   const type = args.type
-  const platform = args.platform
 
   delete args.type
 
