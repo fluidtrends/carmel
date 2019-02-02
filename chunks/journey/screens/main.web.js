@@ -9,96 +9,6 @@ import StoryCard from '../components/storyCard'
 
 const { TabPane } = Tabs;
 
-const mockJourney = {
-  name: 'Andi Coman',
-  username: '@clowwwn',
-  description: 'Developer. Teacher. Clown. Carmel.io co-founder.',
-  since: 'On the platform since 14 March 2018',
-  followers: '15k',
-  xp: 25,
-  img: 'http://files.carmel.io/team/andi/profile.png',
-  skills: [
-    {
-      name: 'React',
-      level: '46',
-      color: '#212121',
-    },
-    {
-      name: 'JSON',
-      level: '99',
-      color: '#795548',
-    },
-    {
-      name: 'Firebase',
-      level: '73',
-      color: '#303F9F',
-    },
-    {
-      name: 'Node',
-      level: '90',
-      color: '#388E3C',
-    },
-    {
-      name: 'HTML',
-      level: '42',
-      color: '#F57C00',
-    },
-    {
-      name: 'CSS',
-      level: '13',
-      color: '#FFEB3B',
-    },
-    {
-      name: 'Copywriting',
-      level: '67',
-      color: '#90A4AE',
-    },
-
-  ],
-  events: [
-    {
-      timestamp: '2h',
-      name: 'Started Intro challenge',
-      award: 1
-    },
-    {
-      timestamp: '1.5h',
-      name: 'Stopped Intro challenge',
-      award: 2
-    },
-    {
-      timestamp: '1h',
-      name: 'Finished Intro challenge',
-      award: 3
-    },
-    {
-      timestamp: '5 min ago',
-      name: 'Started Chunky challenge',
-      award: 4
-    },
-    {
-      timestamp: '4 min ago',
-      name: 'Stopped Chunky challenge',
-      award: 5
-    },
-    {
-      timestamp: '2 min ago',
-      name: 'Failed Chunky challenge',
-      award: 6
-    },
-    {
-      timestamp: '10 seconds ago',
-      name: 'Finished Chunky challenge',
-      award: 7
-    },
-    {
-      timestamp: '5 seconds ago',
-      name: 'Received the Resilient Learner Award',
-      award: 8
-    }
-  ]
-}
-
 export default class MainJourneyScreen extends Screen {
   constructor(props) {
     super(props)
@@ -106,8 +16,6 @@ export default class MainJourneyScreen extends Screen {
       ...this.state
     }
 
-    this._renderEvent = this.renderEvent.bind(this)
-    this._renderEvents = this.renderEvents.bind(this)
     this._renderChallenges = this.renderChallenges.bind(this)
     this._renderTabs = this.renderTabs.bind(this)
     this._renderMeta = this.renderMeta.bind(this)
@@ -118,7 +26,6 @@ export default class MainJourneyScreen extends Screen {
     super.componentDidMount()
 
     setTimeout(() => {
-      console.log(this.dynamicVariant)
       this.props.getUserProfile({ username: this.dynamicVariant })
     }, 300)
 
@@ -131,7 +38,6 @@ export default class MainJourneyScreen extends Screen {
   }
 
   gotListings(listings) {
-    console.log(listings)
     this.setState({ journey: listings.data })
   }
 
@@ -162,7 +68,7 @@ export default class MainJourneyScreen extends Screen {
   }
 
   get username () {
-    return this._username
+    return this.dynamicVariant
   }
 
   renderBadge(name, value) {
@@ -182,10 +88,6 @@ export default class MainJourneyScreen extends Screen {
     </Components.AnimatedWrapper>
   }
 
-  renderEvent(event) {
-    return <Activity event={event} isSmallScreen={this.isSmallScreen}/>
-  }
-
   renderMeta() {
     return <Meta user={this.state.user} isSmallScreen={this.isSmallScreen} />
   }
@@ -193,7 +95,6 @@ export default class MainJourneyScreen extends Screen {
   renderTabs() {
     return <Tabs defaultActiveKey="3" onChange={() => {}} style={{color: '#546E7A', marginTop: 75, minHeight: '30vh'}}>
       <TabPane tab="Activity" disabled key="1">
-        {this._renderEvents()}
         <div style={{textAlign: 'center'}}>
           <Icon type="loading" style={{fontSize: 40, color: '#00bfa5', padding: '20px 0'}} />
         </div>
@@ -202,32 +103,29 @@ export default class MainJourneyScreen extends Screen {
         {this.state.stories? this.renderStories() : this.renderLoading()}
       </TabPane>
       <TabPane tab="Challenges" key="3">{this._renderChallenges()}</TabPane>
-      <TabPane tab="Code" disabled key="4">{this._renderEvents()}</TabPane>
+      <TabPane tab="Code" disabled key="4"></TabPane>
     </Tabs>
   }
 
-  renderEvents() {
-      return mockJourney.events.slice(0).reverse().map(this._renderEvent)
-  }
-
   renderCompletedChallenges(challenges) {
-    return challenges.slice(0).reverse().map(challenge => <Challenge challenge={challenge} isSmallScreen={this.isSmallScreen} />)
+    return challenges.slice(0).reverse().map(challenge => <Challenge challenge={challenge} isSmallScreen={this.isSmallScreen} completed />)
   }
 
-  renderCurrentChallenge() {
-    // return <Challenge event={event} isSmallScreen={this.isSmallScreen}/>
+  renderCurrentChallenge(challenge) {
+    return <Challenge challenge={challenge} isSmallScreen={this.isSmallScreen} active />
   }
 
   renderChallenges() {
       const {journey} = this.state.journey
 
       const {completedChallenges, challenge} = journey
+      console.log(challenge)
 
-      // const completedChallengesReversed = completedChallenges.reverse()
+      const completedChallengesCards = completedChallenges && this.renderCompletedChallenges(completedChallenges)
 
       return [
-        completedChallenges && this.renderCompletedChallenges(completedChallenges),
-        this.renderCurrentChallenge(challenge)
+        this.renderCurrentChallenge(challenge),
+        ...completedChallengesCards
       ]
   }
 

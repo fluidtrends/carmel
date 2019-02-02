@@ -22,14 +22,20 @@ export default class ChallengeCard extends Component {
 
   completedIn (timestamp) {
     let minutes = moment.duration(timestamp).minutes()
-    let minutesText = minutes === 1? 'minute' : 'minutes'
+    let minutesText
+    if (minutes > 0) {
+      minutesText = minutes === 1? 'minute' : 'minutes'
+    } else {
+      minutes = moment.duration(timestamp).seconds()
+      minutesText = minutes === 1? 'second' : 'seconds'
+    }
 
     return `in ${minutes} ${minutesText}`
   }
 
   renderTasks (challenge) {
-
     const tasks = challenge.totalTasks
+    const index = challenge.tasksTime.length
     const errors = challenge.failures
 
     const items = []
@@ -37,13 +43,23 @@ export default class ChallengeCard extends Component {
     for (i = 0; i < tasks; i++) {
       let error = errors[i]
      
+      //check if task was completed
+      if (i < index) {
+        item = <Timeline.Item color="green">
+          <div style={{paddingTop: 6}}>
+            {`Task ${i + 1} - completed ${this.completedIn(challenge.tasksTime[i])}`}
+          </div>
+        </Timeline.Item>
+      } else {
+        item = <Timeline.Item color="#FFA000">
+          <div style={{paddingTop: 6}}>
+            {`Task ${i + 1} - not started`}
+          </div>
+        </Timeline.Item>
 
-      item = <Timeline.Item color="green">
-        <div style={{paddingTop: 6}}>
-          {`Task ${i + 1} - completed ${this.completedIn(challenge.tasksTime[i])}`}
-        </div>
-      </Timeline.Item>
+      }
 
+      
       items.push(item)
 
       if( error ) {
@@ -65,8 +81,8 @@ export default class ChallengeCard extends Component {
   }
 
   render () {
-    const { challenge, isSmallScreen } = this.props
-    
+    const { challenge, isSmallScreen, completed, active } = this.props
+
     if (!challenge) {
       return
     }
@@ -79,13 +95,15 @@ export default class ChallengeCard extends Component {
       {date}
     </div>
 
+    const tagColor = completed? '#87d068' : '#FFA000'
+    const tagText= completed? 'Completed' : 'On going'
 
     const title = <div style={{display: 'flex', justifyContent: 'space-between'}}>
       <Meta
         title={name}
         description={description}
       />  
-      <Tag color="#87d068">Completed</Tag>
+      <Tag color={tagColor}>{tagText}</Tag>
     </div>
 
     const width = isSmallScreen? '90vw' : 700
