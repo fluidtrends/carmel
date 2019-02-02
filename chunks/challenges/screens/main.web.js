@@ -2,7 +2,6 @@ import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
 import { Row, Col, Radio, Tag, Alert } from 'antd'
 import ChallengeCard from '../components/challengeCard'
-import InitialChallenge from '../components/initialChallenge'
 import Challenge from '../components/Challenge'
 import { Data } from 'react-chunky'
 
@@ -11,75 +10,50 @@ export default class MainChallengesScreen extends Screen {
     super(props)
     this.state = {
       ...this.state,
-      initialChallengeCompleted: false,
       selectedCategories: []
     }
+    this._startChallenge = this.startChallenge.bind(this)
   }
 
   componentDidMount() {
     super.componentDidMount()
-    this._examples = this.importData('initial')
-    this.setState({
-      initial: this.examples
-    })
-    this._challenge = this.props.location.pathname.split('/')[2]
 
-    if (!this.challenge) {
-      // Get all challenges
-      this.props.getListings({ all: true })
-    }
-
-
-    // Data.Cache.retrieveCachedItem('initialChallengeCompleted')
-    //   .then(() => {
-    //     this.setState({ initialChallengeCompleted: true })
-    //   })
-    //   .catch(error => {
-    //     this.setState({ initialChallengeCompleted: false })
-    //   })
+    this.refreshContent()
   }
 
-  gotListings(listings) {
-    if (!listings.ok && !listings.data) {
+  refreshContent() {
+    this.props.getListings(this.dynamicVariant ? { challengeId: this.dynamicVariant } : { all: true })
+  }
+
+  gotListings(content) {
+    console.log(content)
+
+    if (!content.ok && !content.data) {
       // Try again
-      this.props.getListings({ all: true })
+      this.refreshContent()
       return
     }
 
-    if (!listings.data.challenges) {
+
+    if (this.dynamicVariant && content.data.challenge) {
+      this.setState({ challenge: content.data.challenge })
+      return
+    }
+
+
+    if (!content.data.challenges) {
       this.setState({ challenges: [] })
       return
     }
 
     // Only look for published challenges
-    const publishedChallenges = listings.data.challenges.filter(c => c.status === 'published')
-
-    // publishedChallenges.map(c => {
-    //   const sourceUrl = `https://raw.githubusercontent.com/${c.repo}/${c.hash}/${c.path ? c.path : '/'}`
-    //   console.log('source',sourceUrl)
-    //   fetch(`${sourceUrl}/index.json`, {
-    //     method: 'get',
-    //     headers: { 'Content-Type': 'application/json' }
-    //   })
-    //   .then(res => console.log('res', res.json()) || res.json())
-    //   .then(json => console.log(json))
-    //   .catch((error) => console.log(error))
-    // })
-
-    this.setState({ challenges: publishedChallenges })
+    const challenges = content.data.challenges.filter(c => c.status === 'published')
+    this.setState({ challenges })
   }
 
   couldNotGetListings(error) {
     // Keep trying
-    this.props.getListings({ all: true })
-  }
-
-  get examples() {
-    return this._examples || {}
-  }
-
-  get challenge() {
-    return this._challenge
+    this.refreshContent()
   }
 
   addCategory = category => {
@@ -127,35 +101,30 @@ export default class MainChallengesScreen extends Screen {
 
   renderChallenges() {
     if (!this.state.challenges) {
-      return <Components.Loading />
+      return [<Components.Loading />]
     }
 
-    //TODO display from this.state
-    console.log(this.state.challenges)
+    const { selectedCategories } = this.state
+    const filter = {}
 
-    const challengesData = require('challenges/index.json')
-    // const { selectedCategories } = this.state
-    // const filter = {}
+    for (let i = 0; i < selectedCategories.length; i++) {
+      filter[selectedCategories[i]] = selectedCategories[i]
+    }
 
-    console.log('DATA MOCK', challengesData)
-
-    // for (let i = 0; i < selectedCategories.length; i++) {
-    //   filter[selectedCategories[i]] = selectedCategories[i]
-    // }
     let filteredChallenges = this.state.challenges
-    // if (Object.keys(filter).length > 0) {
-    //   filteredChallenges = filteredChallenges.filter(challenge => {
-    //     for (var key in filter) {
-    //       if (challenge.category.find(c => c === filter[key])) {
-    //         return true
-    //       }
-    //     }
-    //     return false
-    //   })
-    // }
 
-    return (
-      <div>
+    if (Object.keys(filter).length > 0) {
+      filteredChallenges = filteredChallenges.filter(challenge => {
+        for (var key in filter) {
+          if (challenge.category.find(c => c === filter[key])) {
+            return true
+          }
+        }
+        return false
+      })
+    }
+
+    return [<div>
         <Components.Text
           source={'local://challenges-intro'}
           style={{
@@ -164,10 +133,10 @@ export default class MainChallengesScreen extends Screen {
             justifyContent: 'center'
           }}
         />
-        {!this.props.account && (
+        {!this.isLoggedIn && (
           <div style={{ margin: '20px' }}>
             <Alert
-              message="We can't track your progress if you don't log in!"
+              message="Login to to keep track of your progress"
               banner
               closable
             />
@@ -175,7 +144,6 @@ export default class MainChallengesScreen extends Screen {
         )}
         {this.renderTags()}
         <Row gutter={26} style={{ padding: '20px' }}>
-          {true ? (
             <React.Fragment>
               {filteredChallenges.length ? (
                 filteredChallenges.map(challenge => (
@@ -207,44 +175,26 @@ export default class MainChallengesScreen extends Screen {
                 </Col>
               )}
             </React.Fragment>
-          ) : (
-            <Col span={16} offset={4}>
-              <ChallengeCard
-                challenge={require(`../../../challenges/initial/index.json`)}
-                onSelectChallenge={() =>
-                  this.props.history.push(`/challenges/initial`)
-                }
-                onCategoryClick={category => this.addCategory(category)}
-              />
-            </Col>
-          )}
         </Row>
-      </div>
-    )
+      </div>]
   }
 
-  pushActivity(activity) {
-    this.props.newActivity(activity)
+  startChallenge (challenge) {
+    console.log(challenge)
+  }
+
+  renderChallenge() {
+    return [<Challenge
+        challenge={this.state.challenge}
+      onSelectChallenge={this._startChallenge}
+     />]
   }
 
   components() {
-    return super
-      .components()
-      .concat([
-        <div style={{ width: '100vw', marginTop: '50px' }}>
-          {this.challenge ? (
-            <Challenge
-              challengeId={this.challenge}
-              challenge={require(`../../../challenges/${
-                this.challenge
-              }/index.json`)}
-              showChallenges={() => this.props.history.goBack()}
-              pushActivity={activity => this.pushActivity(activity)}
-            />
-          ) : (
-            this.renderChallenges()
-          )}
-        </div>
-      ])
+    if (!this.state.challenges && !this.state.challenge) {
+      return [<Components.Loading message="Just a sec, please"/>]
+    }
+
+    return (this.state.challenge ? this.renderChallenge() : this.renderChallenges())
   }
 }

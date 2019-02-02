@@ -7,7 +7,7 @@
       "title": "Challenges",
       "path": "/challenges",
       "startOperationsOnMount": false,
-      "variants": "initial",
+      "variants": true,
       "startOperationsOnMount": false,
       "operations": {
         "getListings": [
@@ -18,19 +18,6 @@
           }
         ]
       }
-    }
-  },
-  "service": {
-    "functions": [
-      "post://challenges#getChallenges"
-    ],
-    "dependencies": {
-    },
-    "requiredFields": {
-    },
-    "permissions": {
-    },
-    "schedule": {
     }
   }
 }
