@@ -1,15 +1,17 @@
 import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
-import { Row, Col, Radio, Tag, Alert } from 'antd'
+import { Row, Col, Radio, Tag, Avatar, Alert } from 'antd'
 import ChallengeCard from '../components/challengeCard'
 import Challenge from '../components/Challenge'
 import { Data } from 'react-chunky'
+import merge from 'deepmerge'
 
 export default class MainChallengesScreen extends Screen {
   constructor(props) {
     super(props)
     this.state = {
       ...this.state,
+      inProgress: false,
       selectedCategories: []
     }
     this._startChallenge = this.startChallenge.bind(this)
@@ -26,8 +28,6 @@ export default class MainChallengesScreen extends Screen {
   }
 
   gotListings(content) {
-    console.log(content)
-
     if (!content.ok && !content.data) {
       // Try again
       this.refreshContent()
@@ -36,6 +36,11 @@ export default class MainChallengesScreen extends Screen {
 
 
     if (this.dynamicVariant && content.data.challenge) {
+      if (this.isLoggedIn) {
+        this.updateWorkspace({ challenge: content.data.challenge, event: "startChallenge" })
+        return
+      }
+
       this.setState({ challenge: content.data.challenge })
       return
     }
@@ -195,24 +200,40 @@ export default class MainChallengesScreen extends Screen {
               .catch((e) => this.joinNow())
   }
 
+  _doUpdateWorkspace(data) {
+    Data.Cache.cacheItem("workspace", data)
+              .then(() => this.triggerRedirect('/me/workspace'))
+              .catch((e) => this.triggerRedirect('/me/workspace'))
+  }
+
+  updateWorkspace(data) {
+    Data.Cache.retrieveCachedItem("workspace")
+              .then((workspace) => this._doUpdateWorkspace(merge.all([workspace, data])))
+              .catch((e) => this._doUpdateWorkspace(data))
+  }
+
   startChallenge () {
     if (!this.isLoggedIn && this.state.challenge.type === "Professional") {
       this.join()
       return
     }
 
-    console.log(challenge)
+    this.updateWorkspace({ challenge: this.state.challenge, event: "startChallenge" })
   }
 
   renderChallenge() {
-    return [<Challenge
+    return [<div style={{flex: 1, display: "flex", alignItems: "center"}}>
+            <Avatar src="/assets/chunky-logo.gif" style={{
+              height: "180px", width: "180px"
+            }} /></div>,
+        <Challenge
         challenge={this.state.challenge}
         onSelectChallenge={this._startChallenge}
      />]
   }
 
   components() {
-    if (!this.state.challenges && !this.state.challenge) {
+    if (this.state.inProgress || (!this.state.challenges && !this.state.challenge)) {
       return [<Components.Loading message="Just a sec, please"/>]
     }
 

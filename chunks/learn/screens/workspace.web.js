@@ -18,17 +18,22 @@ import marked from 'marked'
 const Step = Steps.Step
 import SetupData from '../data/setup.json'
 import platform from 'platform'
+import { Data } from 'react-chunky'
+import Task from '../components/Task'
+import Challenge from '../components/Challenge'
 
 export default class Workspace extends Screen {
   constructor (props) {
     super(props)
     this.state = {
+      inProgress: true,
       ...this.state
     }
 
     this._setup = this.setup.bind(this)
-    this._start = this.start.bind(this)
     this._restartSetup = this.restartSetup.bind(this)
+    this._chooseChallenge = this.chooseChallenge.bind(this)
+    this._startChallenge = this.startChallenge.bind(this)
   }
 
   componentDidMount () {
@@ -47,23 +52,46 @@ export default class Workspace extends Screen {
     console.log(error)
   }
 
-  getJourneySuccess (journey) {
-    // notification.info({
-    //    message: "Journey update",
-    //    description: 'Keep going',
-    // })
+  cachedWorkspace() {
+    return new Promise((resolve, reject) => {
+        Data.Cache.retrieveCachedItem("workspace")
+                  .then((workspace) => resolve(workspace))
+                  .catch((e) => resolve())
+    })
+  }
 
+  updateWorkspace(journey, workspace) {
+    if (!journey.challenge && workspace.event && workspace.event === "startChallenge" && workspace.challenge && journey.machines) {
+      const machineId = Object.keys(journey.machines)[0]
+      workspace.event = "doChallenge"
+      Data.Cache.cacheItem("workspace", workspace).then(() => {
+        this.updateLearningJourney({ type: "start", challengeId: workspace.challenge._id, machineId })
+        this.setState({ journey, workspace })
+      })
+      return
+    }
+
+    if (journey.challenge) {
+      this.setState({ journey, workspace, inProgress: true })
+      this.refreshCurrentChallenge()
+      return
+    }
+
+    this.setState({ journey, workspace, inProgress: false })
+  }
+
+  getJourneySuccess (journey) {
     if (!journey || !journey[0]) {
+      this.setState({ inProgress: false })
       return
     }
 
     if (journey[0].setup) {
-      console.log(journey[0].setup)
-      this.setState({ journey: journey[0], setup: journey[0].setup.step })
+      this.setState({inProgress: false, journey: journey[0], setup: journey[0].setup.step })
       return
     }
 
-    this.setState({ journey: journey[0] })
+    this.cachedWorkspace().then((workspace) => this.updateWorkspace(journey[0], workspace))
   }
 
   getJourneyError(error) {
@@ -88,8 +116,9 @@ export default class Workspace extends Screen {
   }
 
   updateLearningJourney(args) {
+    const machineId = (this.state.journey && this.state.journey.machines) ? Object.keys(this.state.journey.machines)[0] : this.platformType
     setTimeout(() => {
-        this.props.updateJourney(Object.assign({}, { platform: platform.os, machineId: this.platformType }, args))
+        this.props.updateJourney(Object.assign({}, { platform: platform.os, machineId }, args))
     }, 300)
   }
 
@@ -100,6 +129,30 @@ export default class Workspace extends Screen {
   restartSetup() {
     this.updateLearningJourney({ type: "setup", step: parseInt(0) })
     this.setState({ setup: parseInt(0)})
+  }
+
+  refreshCurrentChallenge() {
+    if (!this.state.journey || !this.state.journey.challenge) {
+      return
+    }
+
+    this.props.getListings({ challengeId: this.state.journey.challenge.challengeId })
+  }
+
+  gotListings(content) {
+    if (!content.ok || !content.data || !content.data.challenge) {
+      // Try again
+      console.log(content)
+      // this.refreshCurrentChallenge()
+      return
+    }
+
+    this.setState({ challenge: content.data.challenge, inProgress: false })
+  }
+
+  couldNotGetListings(error) {
+    // Keep trying
+    this.refreshCurrentChallenge()
   }
 
   setup() {
@@ -121,7 +174,7 @@ export default class Workspace extends Screen {
     this.setState({ setup: parseInt((setup || 0) + 1)})
   }
 
-  start() {
+  chooseChallenge() {
     this.triggerRedirect("/challenges")
   }
 
@@ -155,17 +208,7 @@ export default class Workspace extends Screen {
 
   renderSetupButton() {
     if (!this.setupProgress && this.state.setupDone) {
-      return <CardActions style={{ justifyContent: 'center', margin: '20px' }}>
-        <CardActionButtons>
-          <Button
-            raised
-            onClick={this._start}
-            theme='secondary-bg text-primary-on-secondary'>
-            <ButtonIcon icon='play_circle_filled' />
-              Take a challenge
-          </Button>
-        </CardActionButtons>
-      </CardActions>
+      return <div/>
     }
 
     if (this.isMobile) {
@@ -211,8 +254,6 @@ export default class Workspace extends Screen {
     const step = setup ? SetupData.steps[setup-1] : null
     const title = setup ? step.title : SetupData.intro.title
 
-    console.log(setup, step)
-
     return <Typography use='headline5' tag='div' style={{margin: "20px", color: this.props.theme.primaryColor }}>
       { title }
     </Typography>
@@ -251,12 +292,77 @@ export default class Workspace extends Screen {
           </Fade>
   }
 
+  renderCurrentChallenge(width, padding) {
+    if (this.state.journey.challenge.taskActive) {
+      return <Fade>
+          <div style={{ width, margin: '10px', padding }}>
+              <div style={{ padding: '4px', textAlign: 'center', marginBottom: '20px' }}>
+                <Bounce>
+                  <Avatar src="/assets/chunky-logo.gif" style={{
+                    height: "180px", width: "180px"
+                  }} />
+                </Bounce>
+              </div>
+              <Task
+                  journey={this.state.journey}
+                  challenge={this.state.challenge}/>
+              </div>
+      </Fade>
+    }
+
+    return <Fade>
+        <div style={{ width, margin: '10px', padding }}>
+            <div style={{ padding: '4px', textAlign: 'center', marginBottom: '20px' }}>
+              <Bounce>
+                <Avatar src="/assets/chunky-logo.gif" style={{
+                  height: "180px", width: "180px"
+                }} />
+              </Bounce>
+            </div>
+            <Challenge
+                journey={this.state.journey}
+                challenge={this.state.challenge}
+                onSelectChallenge={this._startChallenge}/>
+            </div>
+    </Fade>
+  }
+
+  startChallenge() {
+    this.setState({ inProgress: true })
+    this.updateLearningJourney({ type: "next"  })
+  }
+
   renderExistingJourney(width, padding) {
-    return <Card style={{ width, margin: '10px', padding }}>
-      <Typography use='headline6' tag='div' style={{ textAlign:"center", color: '#333333' }}>
-        Keep going
-      </Typography>
-      </Card>
+
+    if (this.state.challenge) {
+      return this.renderCurrentChallenge(width, padding)
+    }
+
+    return <Fade>
+        <Card style={{ width, margin: '10px', padding }}>
+            <div style={{ padding: '4px', textAlign: 'center', marginBottom: '20px' }}>
+              <Bounce>
+                <Avatar src="/assets/chunky-logo.gif" style={{
+                  height: "180px", width: "180px"
+                }} />
+              </Bounce>
+            </div>
+            <Typography use='headline5' tag='div' style={{margin: "10px", textAlign: "center", color: this.props.theme.primaryColor }}>
+              Ready to level up your tech skills?
+           </Typography>
+            <CardActions style={{ justifyContent: 'center', margin: '20px' }}>
+              <CardActionButtons>
+                <Button
+                  raised
+                  onClick={this._chooseChallenge}
+                  theme='secondary-bg text-primary-on-secondary'>
+                  <ButtonIcon icon='play_circle_filled' />
+                    Take a challenge
+                </Button>
+              </CardActionButtons>
+            </CardActions>
+          </Card>
+          </Fade>
   }
 
   renderWorkspaceArea(width, padding) {
@@ -267,14 +373,25 @@ export default class Workspace extends Screen {
     return this.renderExistingJourney(width, padding)
   }
 
+  renderHeader(width, padding) {
+    return <Card style={{ width, margin: '10px', padding }}>
+          <UserInfo
+            redirect={this.triggerRawRedirect}
+            claimed={this.state.totalClaimed}
+            wallet={this.state.wallet}
+            account={this.account}
+          />
+      </Card>
+ }
+
   renderMainContent () {
-    if (!this.state.wallet && !this.state.account) {
+    if (this.state.inProgress || !this.state.wallet && !this.state.account) {
       return (
         <Components.Loading  />
       )
     }
 
-    const width = this.isSmallScreen ? '95vw' : '600px'
+    const width = this.isSmallScreen ? '95vw' : '700px'
     const padding = this.isSmallScreen ? '5px' : '30px'
 
     return (
@@ -287,15 +404,7 @@ export default class Workspace extends Screen {
           flexDirection: 'column',
           alignItems: 'center'
         }}>
-        <Card style={{ width, margin: '10px', padding }}>
-          <UserInfo
-            redirect={this.triggerRawRedirect}
-            claimed={this.state.totalClaimed}
-            wallet={this.state.wallet}
-            account={this.account}
-          />
-        </Card>
-
+        { this.renderHeader(width, padding) }
         { this.renderWorkspaceArea(width, padding) }
       </div>
     )

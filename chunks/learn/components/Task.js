@@ -7,13 +7,16 @@ import Task from './playground/task'
 import Timeline from './challengeTimeline'
 import { Data } from 'react-chunky'
 import { Typography } from '@rmwc/typography'
+import moment from 'moment'
 
-export default class Challenge extends Component {
+export default class TaskScreen extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
       tasksStarted: false,
+      time: 0,
+      prettyTime: "00:00:00",
       challengeCompleted: false
     }
     //   taskIndex: workspaces.activeChallenge.completedTasks.length
@@ -22,6 +25,12 @@ export default class Challenge extends Component {
 
   componentDidMount() {
     super.componentDidMount()
+
+    this.startTimer()
+  }
+
+  componentWillUnmount() {
+    this.stopTimer()
   }
 
   // isTaskComplete(task) {
@@ -120,51 +129,83 @@ export default class Challenge extends Component {
   //   ]
   // }
   //
-  renderTask(task, index) {
-    return  <List.Item>
-      <List.Item.Meta
-        avatar={<Avatar
-              size="small"
-              style={{ backgroundColor: '#00bcd4', color: "#ffffff" }}>
-              {index}
-            </Avatar>}
-        title={ <Typography
-              use="body1"
-              style={{ textAlign: 'left', color: '#00bcd4' }}>
-              {task.title}
-            </Typography>}
-      />
-    </List.Item>
+
+  startTimer() {
+    if (this._timer || !this.props.journey.challenge.taskActive) {
+      return
+    }
+
+    const since = moment.duration(moment().diff(moment(parseInt(this.props.journey.challenge.taskStartTime)))).asMilliseconds()
+
+    this._timer = setInterval(() => {
+      const time = parseInt((this.state.time || since) + 1000)
+      const duration = moment.duration(time, 'milliseconds')
+      const hh = Math.round(duration.asHours()) % 24
+      const mm = Math.round(duration.asMinutes()) % 60
+      const ss = Math.round(duration.asSeconds()) % 60
+
+      const prettyTime = `${hh < 10 ? '0' : ''}${hh}:${mm < 10 ? '0' : ''}${mm}:${ss < 10 ? '0' : ''}${ss}`
+      this.setState({ time, prettyTime })
+    }, 1000)
   }
 
-  renderTasks(width, padding) {
-    const { challenge } = this.props
-    const { tasks } = challenge
-    var index = 1
 
+  stopTimer() {
+    if (!this._timer) {
+      return
+    }
+
+    clearInterval(this._timer)
+  }
+
+  renderTitle() {
+    const { journey, challenge } = this.props
+    const title = `Task ${parseInt(journey.challenge.taskIndex) + 1} of ${challenge.tasks.length}`
+
+    return (
+      <div
+        style={{
+          position: 'relative',
+          display: 'flex',
+          flexDirection: "row",
+          alignItems: 'center',
+          justifyContent: 'flex-start'
+        }}>
+        <Typography
+          use="headline6"
+          tag="div"
+          style={{
+            color: '#455A64',
+            flex: 1,
+            display: "flex"
+          }}
+        >
+          { title }
+        </Typography>
+        <Typography
+          use="headline6"
+          tag="div"
+          style={{
+            backgroundColor: "#FFEB3B",
+            color: '#607D8B',
+            padding: "5px"
+          }}
+        >
+          {this.state.prettyTime}
+        </Typography>
+      </div>
+    )
+  }
+
+
+  renderTutorial(width, padding) {
     return <div  style={{
             display: 'flex',
             flex: 1,
             width,
             padding,
             flexDirection: 'column'}}>
-        <Card title={'Tasks'}>
-          {tasks.map(t => this.renderTask(t, index++))}
-          <Button
-            onClick={() => this.props.onSelectChallenge(this.props.challenge)}
-            style={{
-              color: '#ffffff',
-              lineHeight: '15px',
-              display: 'flex',
-              margin: '20px auto 0',
-              lineHeight: '28px',
-              alignItems: 'center',
-              backgroundColor: '#00bcd4',
-              border: 'none'
-            }}>
-            Start Challenge
-            <Icon type="step-forward" />
-          </Button>
+        <Card title={this.renderTitle()}>
         </Card>
       </div>
     }
@@ -370,7 +411,7 @@ export default class Challenge extends Component {
           alignItems: 'center'
         }}>
         { this.renderIntro(width, padding) }
-         { this.renderTasks(width, padding) }
+         { this.renderTutorial(width, padding) }
       </div>
   }
 }
