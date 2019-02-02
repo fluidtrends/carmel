@@ -8,7 +8,7 @@ import {
 import { Data } from 'react-chunky'
 import { Button, ButtonIcon } from 'rmwc/Button'
 import { Typography } from 'rmwc/Typography'
-import { Form, Input, Icon } from 'antd'
+import { Form, Input, Icon, Alert } from 'antd'
 import Recaptcha from 'react-recaptcha'
 const FormItem = Form.Item
 
@@ -88,6 +88,9 @@ export default class RegisterScreen extends Screen {
     const pics = ['https://github.com/fluidtrends/carmel/blob/master/assets/avatars/avatar1.png?raw=true', 'https://github.com/fluidtrends/carmel/blob/master/assets/avatars/avatar2.png?raw=true', 'https://github.com/fluidtrends/carmel/blob/master/assets/avatars/avatar3.png?raw=true', 'https://github.com/fluidtrends/carmel/blob/master/assets/avatars/avatar4.png?raw=true', 'https://github.com/fluidtrends/carmel/blob/master/assets/avatars/avatar5.png?raw=true', 'https://github.com/fluidtrends/carmel/blob/master/assets/avatars/avatar6.png?raw=true']
     const rand = this.random(1, 6)
 
+    const extra = Object.assign({}, this.state.guestSession)
+    extra && extra.alert && delete extra.alert
+
     setTimeout(() => {
       this.props.register(Object.assign({}, {
         name: this.state.name,
@@ -96,7 +99,7 @@ export default class RegisterScreen extends Screen {
         pic: pics[rand],
         bio: bios[rand],
         password: this.state.password
-      }, this.state.guestSession))
+      }, extra))
     }, 300)
   }
 
@@ -282,6 +285,7 @@ export default class RegisterScreen extends Screen {
   }
 
   renderForm () {
+    console.log(this.state.guestSession)
     const width = this.formWidth
     const padding = this.formPadding
     return (
@@ -293,12 +297,24 @@ export default class RegisterScreen extends Screen {
     )
   }
 
+  renderAlert() {
+    if (!this.state.guestSession || !this.state.guestSession.alert) {
+      return <div/>
+    }
+
+    return <Alert
+      message={this.state.guestSession.alert}
+      banner
+      closable
+    />
+  }
+
   components () {
     if (this.state.inProgress) {
       return [<Components.Loading/>]
     }
 
-    return [this.renderForm()]
+    return [this.renderAlert(), this.renderForm()]
   }
 }
 

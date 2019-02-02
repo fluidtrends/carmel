@@ -179,14 +179,35 @@ export default class MainChallengesScreen extends Screen {
       </div>]
   }
 
-  startChallenge (challenge) {
+  joinNow(session) {
+    Data.Cache.cacheItem("guestSession", Object.assign({}, session, {
+      guild: "learners",
+      alert: `You will need to sign in before you can start the "${this.state.challenge.title}" challenge`,
+      challengeId: this.state.challenge.id
+    }))
+    .then(() => this.triggerRedirect('/register'))
+    .catch((e) => this.triggerRedirect('/register'))
+  }
+
+  join() {
+    Data.Cache.retrieveCachedItem("guestSession")
+              .then((session) => this.joinNow(session))
+              .catch((e) => this.joinNow())
+  }
+
+  startChallenge () {
+    if (!this.isLoggedIn && this.state.challenge.type === "Professional") {
+      this.join()
+      return
+    }
+
     console.log(challenge)
   }
 
   renderChallenge() {
     return [<Challenge
         challenge={this.state.challenge}
-      onSelectChallenge={this._startChallenge}
+        onSelectChallenge={this._startChallenge}
      />]
   }
 

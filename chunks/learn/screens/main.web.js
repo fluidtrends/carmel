@@ -25,6 +25,10 @@ export default class LoginScreen extends Screen {
 
   componentDidMount () {
     super.componentDidMount()
+
+    if (this.isLoggedIn) {
+      this.triggerRedirect("/me/workspace")
+    }
   }
 
   joinNow(session) {
@@ -48,10 +52,6 @@ export default class LoginScreen extends Screen {
     if (this.state.loading) {
       return this.renderLoading()
     }
-    // <Icon type='play-circle' style={{
-    //   fontSize: '64px',
-    //   padding: '10px'
-    // }} />
 
     return <Fade>
         <Card style={{ width, margin: '10px', padding }}>
