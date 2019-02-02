@@ -30,7 +30,7 @@ export default class ChallengeCard extends Component {
       minutesText = minutes === 1? 'second' : 'seconds'
     }
 
-    return `in ${minutes} ${minutesText}`
+    return `${minutes} ${minutesText}`
   }
 
   renderTasks (challenge) {
@@ -99,12 +99,17 @@ export default class ChallengeCard extends Component {
     const tagColor = completed? '#87d068' : '#FFA000'
     const tagText= completed? 'Completed' : 'On going'
 
+    const challengeTime = this.completedIn(challenge.totalTime) 
+
     const title = <div style={{display: 'flex', justifyContent: 'space-between'}}>
       <Meta
         title={name}
         description={description}
       />  
-      <Tag color={tagColor}>{tagText}</Tag>
+      <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-end'}}>
+        <Tag style={{margin: 5}} color={tagColor}>{tagText}</Tag>
+        <Tag style={{margin: 5}} color="#26C6DA">{challengeTime}</Tag>
+      </div>  
     </div>
 
     const width = isSmallScreen? '90vw' : 700
