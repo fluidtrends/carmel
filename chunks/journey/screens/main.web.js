@@ -80,10 +80,9 @@ export default class MainJourneyScreen extends Screen {
 
     return <Components.AnimatedWrapper animation animationType="fade">
       <span style={{position: 'relative', marginRight: 20}}>
-        <Tag style={{marginBottom: 10, borderColor: '#00bcd4', color: '#546E7A'}}>
-          {String(name).toLowerCase()}
+        <Tag style={{marginBottom: 10, borderColor: '#00bcd4', color: '#00bcd4', backgroundColor: '#fff'}}>
+          {`#${String(name).toLowerCase()} - ${value}`}
         </Tag>
-        {Badge}
       </span>
     </Components.AnimatedWrapper>
   }

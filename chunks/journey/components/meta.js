@@ -22,13 +22,13 @@ export default class ActivityCard extends Component {
         {bio}
       </span>
       <br />
-      <span style={{fontSize: 16}}>
+      {/* <span style={{fontSize: 16}}>
         {since}
       </span>
       <br />
       <span style={{fontSize: 12}}>
         {followers &&`${followers} followers`}
-      </span>
+      </span> */}
     </div>
 
     const title = <div style={{fontSize: 32}}> 
