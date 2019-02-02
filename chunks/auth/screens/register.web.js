@@ -1,10 +1,11 @@
 import React from 'react'
-import { Screen } from 'react-dom-chunky'
+import { Screen, Components } from 'react-dom-chunky'
 import {
   Card,
   CardActions,
   CardActionButtons
 } from 'rmwc/Card'
+import { Data } from 'react-chunky'
 import { Button, ButtonIcon } from 'rmwc/Button'
 import { Typography } from 'rmwc/Typography'
 import { Form, Input, Icon } from 'antd'
@@ -18,11 +19,15 @@ export default class RegisterScreen extends Screen {
     this._done = this.done.bind(this)
     this._login = this.login.bind(this)
     this.onKeyPress = this.onKeyPress.bind(this)
-    this.state = { ...super.state }
+    this.state = { ...super.state, inProgress: true, }
   }
 
   componentDidMount () {
     super.componentDidMount()
+
+    Data.Cache.retrieveCachedItem('guestSession')
+              .then((guestSession) => this.setState({ guestSession, inProgress: false }))
+              .catch((e) => this.setState({ inProgress: false }))
   }
 
   done () {
@@ -84,14 +89,14 @@ export default class RegisterScreen extends Screen {
     const rand = this.random(1, 6)
 
     setTimeout(() => {
-      this.props.register({
+      this.props.register(Object.assign({}, {
         name: this.state.name,
         username: this.state.username,
         email: this.state.email,
         pic: pics[rand],
         bio: bios[rand],
         password: this.state.password
-      })
+      }, this.state.guestSession))
     }, 300)
   }
 
@@ -224,7 +229,7 @@ export default class RegisterScreen extends Screen {
           fontSize: '64px',
           padding: '10px'
         }} />
-        <Typography use='headline' tag='h3'>
+        <Typography use='headline' tag='h2'>
           Create Your Carmel Account
         </Typography>
       </div>
@@ -289,13 +294,17 @@ export default class RegisterScreen extends Screen {
   }
 
   components () {
+    if (this.state.inProgress) {
+      return [<Components.Loading/>]
+    }
+
     return [this.renderForm()]
   }
 }
 
 const placeholders = {
   name: 'Please enter your full name',
-  username: 'Please enter your username',
+  username: 'Please choose your username',
   email: 'Please enter your email address',
   password: 'Please choose a password',
   password2: 'Please confirm your password'

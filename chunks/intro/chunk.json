@@ -2,11 +2,12 @@
   "name": "intro",
   "routes": {
     "main": {
-      "title": "Welcome",
+      "title": "Hello",
       "desktopTitle": "Start",
       "icon": "home",
       "forceNavigation": true,
       "skipExtendedMenuOnDesktop": true,
+      "extendedMenu": [{"title": "Tour", "path": "/tour"}],
       "components": {
         "chat": {
           "source": "chat"

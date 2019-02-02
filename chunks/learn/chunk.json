@@ -4,7 +4,7 @@
     "main": {
       "title": "Learn",
       "icon": "supervisor_account",
-      "path": "/learn",
+      "path": "/learners",
       "cover": {
         "backgroundColor": "#00838F",
         "align": "bottom",
