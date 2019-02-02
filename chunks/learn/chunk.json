@@ -1,0 +1,65 @@
+{
+  "name": "learn",
+  "routes": {
+    "main": {
+      "title": "Learn",
+      "icon": "supervisor_account",
+      "path": "/learners",
+      "cover": {
+        "backgroundColor": "#00838F",
+        "align": "bottom",
+        "opacity": 0,
+        "image": "learners.r.png",
+        "navigation": true,
+        "title": "Become a Carmel Learner",
+        "subtitle": "Join the Carmel Learners Guild and start your learning journey",
+        "type": "default"
+      }
+    },
+    "challenges": {
+      "icon": "favorite",
+      "title": "Challenges",
+      "path": "/challenges",
+      "variants": true,
+      "startOperationsOnMount": false,
+      "operations": {
+        "getListings": [
+          "rest://create/journey/listings#getListings",
+          {
+            "onSuccess": "gotListings",
+            "onError": "couldNotGetListings"
+          }
+        ]
+      }
+    },
+    "workspace": {
+      "title": "Workspace",
+      "icon": "play-circle",
+      "path": "/me/workspace",
+      "private": true,
+      "cover": {
+        "backgroundColor": "#00838F",
+        "navigation": true,
+        "type": "menu"
+      },
+      "startOperationsOnMount": false,
+      "operations": {
+        "getListings": [
+          "rest://create/journey/listings#getListings",
+          {
+            "onSuccess": "gotListings",
+            "onError": "couldNotGetListings"
+          }
+        ],
+        "getJourney": "firebase://subscribe/users-journeys/:userId?latest=1&resolve=journeys#getJourney",
+        "getWallet": "firebase://subscribe/users-wallets/:userId?latest=1&resolve=wallets#getWallet",
+        "getProfile": "firebase://subscribe/users-profiles/:userId?latest=1&resolve=profiles#getProfile"
+      },
+      "subscriptions": [
+        "getJourney",
+        "getWallet",
+        "getProfile"
+      ]
+    }
+  }
+}

@@ -41,7 +41,7 @@ export default class ChallengeCard extends Component {
               style={{ backgroundColor: '#ECEFF1', color: '#00bcd4' }}
               key={`${cat}-${this.props.challenge.id}`}
             >
-              <ChipText> {cat} </ChipText>
+              <ChipText> {cat} {this.props.challenge.skills[cat]} </ChipText>
             </Chip>
           ))}
         </ChipSet>
@@ -95,11 +95,8 @@ export default class ChallengeCard extends Component {
   }
 
   renderDifficulty() {
-    let s = 0
-    for (let key in this.props.challenge.skills) {
-      s += this.props.challenge.skills[key]
-    }
-    const xp = s * 5
+
+    const xp = this.props.challenge.xp
     const level = this.props.challenge.level
 
     return (
@@ -169,7 +166,6 @@ export default class ChallengeCard extends Component {
           justifyContent: 'flex-start'
         }}
       >
-        {this.renderEnv()}
         <Typography
           use="headline5"
           tag="div"
@@ -178,6 +174,7 @@ export default class ChallengeCard extends Component {
             maxWidth: '90%',
             textOverflow: 'ellipsis',
             overflow: 'hidden',
+            marginLeft: "10px",
             display: 'inline-block'
           }}
         >
@@ -222,35 +219,37 @@ export default class ChallengeCard extends Component {
     )
   }
 
-  render() {
+  renderButton() {
+    if (this.props.minimal) {
+      return <div/>
+    }
+
     const { challenge } = this.props
     let prompt = 'Take Challenge'
 
-    if (challenge.history && challenge.history.status === 'completed') {
-      prompt = `Rate Challenge`
-    }
-    return (
-      <Card title={this.renderTitle()} className={'challenge-card'}>
-        {this.renderSummary()}
-        {this.renderDetails()}
-        {this.renderSkills()}
-        {!this.props.hideButton && (
-          <Button
-            onClick={() => this.props.onSelectChallenge(challenge)}
-            style={{
-              display: 'flex',
-              color: '#ffffff',
-              backgroundColor: challenge.history ? '#03A9F4' : '#00bcd4',
-              border: 'none',
-              margin: '10px auto 0',
-              height: '35px',
-              lineHeight: '15px'
-            }}
-          >
-            {prompt} <Icon type="caret-right" />
-          </Button>
-        )}
+    return <Button
+      onClick={() => this.props.onSelectChallenge(challenge)}
+      style={{
+        display: 'flex',
+        color: '#ffffff',
+        backgroundColor: challenge.history ? '#03A9F4' : '#00bcd4',
+        border: 'none',
+        margin: '10px auto 0',
+        height: '35px',
+        lineHeight: '15px'
+      }}
+    >
+      {prompt} <Icon type="caret-right" />
+    </Button>
+  }
+
+  render() {
+    return <Card title={this.renderTitle()} className={'challenge-card'}>
+      {this.renderSummary()}
+      {this.renderDetails()}
+      {this.renderSkills()}
+      {this.renderButton()}
+
       </Card>
-    )
   }
 }

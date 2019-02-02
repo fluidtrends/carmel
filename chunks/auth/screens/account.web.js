@@ -1,5 +1,6 @@
 import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
+import { Data } from 'react-chunky'
 import { Card, CardActions, CardActionButtons } from 'rmwc/Card'
 import { List, notification, Icon, Input, Button } from 'antd'
 
@@ -19,7 +20,14 @@ export default class AccountScreen extends Screen {
   componentWillMount () {
     if (!this.isLoggedIn) {
       this.triggerRedirect('/login')
+      return
     }
+
+    Data.Cache.retrieveCachedItem("guestSession")
+              .then((session) => {
+                Data.Cache.clearCachedItem("guestSession")
+              })
+              .catch((e) => {})
   }
 
   componentWillUnmount() {
@@ -29,7 +37,6 @@ export default class AccountScreen extends Screen {
   componentDidMount () {
     super.componentDidMount()
 
-    this.verifyTwitterCallback()
     this.setState({profileData: this.profileData, initialData: this.profileData})
   }
 
@@ -39,7 +46,6 @@ export default class AccountScreen extends Screen {
   }
 
   failedToRefreshWallet (error) {
-    this.refreshWallet()
   }
 
   updateUserOk(data) {
@@ -48,25 +54,6 @@ export default class AccountScreen extends Screen {
 
   refreshedWallet (wallets) {
     this.setState({ wallet: wallets[0], inProgress: false })
-  }
-
-  verifyTwitterCallback () {
-    if (!this.props.location.search) {
-      return
-    }
-
-    var twitterOAuth = '{ "' + this.props.location.search.substring(1).replace(/&/g, '", "').replace(/=/g, '": "') + '"}'
-    twitterOAuth = JSON.parse(twitterOAuth)
-
-    if (!twitterOAuth.oauth_verifier || !twitterOAuth.oauth_token) {
-      return
-    }
-
-    this.setState({ twitterOAuth })
-    setTimeout(() => {
-      this.props.twitterVerify({ oauthTokens: twitterOAuth })
-    }, 300)
-    this.props.history.push(this.props.location.pathname)
   }
 
   subscriptionArgs (subscription) {
@@ -244,41 +231,6 @@ export default class AccountScreen extends Screen {
     ]
   }
 
-  twitterOk (twitter) {
-    notification.success({
-      message: 'Twitter Verification Successful',
-      description: 'Thanks for verifying your Twitter identity'
-    })
-
-    this.setState({ twitter })
-  }
-
-  twitterError (error) {
-    this.setState({ twitterError: error.message })
-  }
-
-  telegramOk (telegram) {
-    notification.success({
-      message: 'Telegram Verification Pending',
-      description: 'Complete verification coming soon'
-    })
-
-    this.setState({ telegram })
-  }
-
-  telegramError (error) {
-    this.setState({ telegramError: error.message })
-  }
-
-  twitterAuthOk (twitter) {
-    const authUrl = `https://api.twitter.com/oauth/authenticate?oauth_token=${twitter.data.token.oauth_token}`
-    window && window.location.replace(authUrl)
-  }
-
-  get twitterUrl () {
-    return `${this.restUrl}auth/twitter`
-  }
-
   renderMainContentFooter () {
     return <div />
   }
@@ -360,7 +312,7 @@ export default class AccountScreen extends Screen {
       return (<div style={this.containerStyle}>
         <div style={this.cardStyle}>
           { this.renderUserInfo() }
-          <Components.Loading message='Just a minute, please ...' />
+          <Components.Loading />
         </div>
       </div>)
     }

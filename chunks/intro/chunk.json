@@ -2,11 +2,12 @@
   "name": "intro",
   "routes": {
     "main": {
-      "title": "Welcome",
+      "title": "Hello",
       "desktopTitle": "Start",
       "icon": "home",
       "forceNavigation": true,
       "skipExtendedMenuOnDesktop": true,
+      "extendedMenu": [{"title": "Tour", "path": "/tour"}],
       "components": {
         "chat": {
           "source": "chat"
@@ -153,21 +154,6 @@
         "type": "default"
       }
     },
-    "learners": {
-      "title": "Learners",
-      "icon": "supervisor_account",
-      "path": "/learners",
-      "cover": {
-        "backgroundColor": "#00838F",
-        "align": "bottom",
-        "opacity": 0,
-        "image": "learners.r.png",
-        "navigation": true,
-        "title": "Become a Carmel Learner",
-        "subtitle": "Join the Carmel Learners Guild and start your learning journey",
-        "type": "default"
-      }
-    },
     "developers": {
       "title": "Developers",
       "icon": "supervisor_account",
@@ -195,21 +181,6 @@
         "navigation": true,
         "title": "Become a Carmel Teacher",
         "subtitle": "Join the Carmel Teachers Guild and start enhancing your courses",
-        "type": "default"
-      }
-    },
-    "entrepreneurs": {
-      "title": "Entrepreneurs",
-      "icon": "supervisor_account",
-      "path": "/entrepreneurs",
-      "cover": {
-        "backgroundColor": "#00838F",
-        "align": "bottom",
-        "opacity": 0,
-        "image": "entrepreneurs.r.png",
-        "navigation": true,
-        "title": "Become a Carmel Entrepreneur",
-        "subtitle": "Join the Carmel Entrepreneurs Guild and start building your next product",
         "type": "default"
       }
     },

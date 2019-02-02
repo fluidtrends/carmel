@@ -1,0 +1,34 @@
+{
+  "intro": {
+    "title": "Ready to start your Developer Journey?",
+    "text": "Just like a chef needs a cooking environment and a carpenter needs a woodworking environment, so does a developer need a **development environment**. If you're **serious** about becoming a Software Developer - which is awesome - then you need to setup your development environment before getting down to business."
+  },
+  "steps": [{
+    "title": "Step 1. Get a Code Editor",
+    "action": "Download Visual Studio",
+    "link": "https://code.visualstudio.com/download",
+    "text": "Think of a Code Editor as a glorified Microsoft Word for writing code. As a matter of fact, the best and coolest - and free - code editor out is **Visual Studio Code**, from Microsoft."
+  }, {
+    "title": "Step 2. Get a Terminal",
+    "action": "Download Hyper",
+    "link": "https://hyper.is/#installation",
+    "text": "The second most useful tool in your developer arsenal is your Terminal. This is where you will type in commands and interact with your development environment. Get **Hyper** - a free and awesome terminal."
+  }, {
+    "title": "Step 3. Get Node.js",
+    "action": "Install Node.js",
+    "link": {
+      "windows": "https://github.com/coreybutler/nvm-windows/releases/download/1.1.7/nvm-setup.zip",
+      "mac": "https://github.com/creationix/nvm#install-script",
+      "linux": "https://github.com/creationix/nvm#install-script"
+    },
+    "text": "You will be coding in **JavaScript** so that means you need a way to run JavaScript on your computer. This is where **Node.js** comes in, a JavaScript environment."
+  }, {
+    "title": "Step 4. Get Chunky",
+    "text": {
+      "max": "You're now ready to install me on your machine. Yaay! Just type: <br/><br/>```npm i -g chunky-cli```",
+      "linux": "You're now ready to install me on your machine. Yaay! Just type: <br/><br/>```npm i -g chunky-cli```",
+      "windows": "You're now ready to install me on your machine. Yaay! Just type: <br/><br/>```npm i -g windows-build-tools --production && npm i -g chunky-cli```"
+    },
+    "action": "Continue"
+  }]
+}

@@ -1,4 +1,5 @@
 const chunky = require('react-cloud-chunky')
+const fetch = require('node-fetch')
 
 const filename = __filename
 const auth = { limit: 1 }
@@ -15,8 +16,25 @@ function getUserChallengeIds(userId) {
   return chunky.firebase.operation('retrieve', { key: `users-challenges/${userId}` })
 }
 
-function getChallenge(id) {
+function getChallenge(id, includeContent) {
   return chunky.firebase.operation('retrieve', { key: `challenges/${id}` })
+               .then((c) => {
+                    if (!includeContent) {
+                      return c
+                    }
+
+                    if (c.status === 'published' && c.repo && c.hash) {
+                     const sourceUrl = `https://raw.githubusercontent.com/${c.repo}/${c.hash}/${c.path ? c.path : '/'}`
+                     return fetch(`${sourceUrl}/index.json`, {
+                       method: 'get',
+                       headers: { 'Content-Type': 'application/json' }
+                     })
+                     .then(response => response.json())
+                     .then((content) => Object.assign({}, c, content))
+                    }
+
+                    return c
+                 })
 }
 
 function getUserJourney(userId) {
@@ -32,7 +50,7 @@ function getUserJourney(userId) {
 
 function executor ({ event, chunk, config, account }) {
   if (event.body.challengeId) {
-    return getChallenge(event.body.challengeId).then((challenge) => ({ challenge }))
+    return getChallenge(event.body.challengeId, true).then((challenge) => ({ challenge }))
   }
 
   const userId = event.body.userId || (account ? account.user.uid :false)

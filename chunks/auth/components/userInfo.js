@@ -110,7 +110,7 @@
       }
 
       return <div>
-        <Typography use='subheading2' tag='h2' style={{ color: '#90A4AE' }}>
+        <Typography use='headline6' tag='div' style={{ textAlign: "center", color: '#90A4AE' }}>
           Please check your email for the verification link
         </Typography>
         <Typography use='subheading2' tag='h2' style={{ color: '#90A4AE' }}>

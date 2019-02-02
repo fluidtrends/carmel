@@ -105,7 +105,7 @@ export default class LoginScreen extends Screen {
           fontSize: '64px',
           padding: '10px'
         }} />
-        <Typography use='headline' tag='h3'>
+        <Typography use='headline' tag='h2'>
           Login To Your Carmel Account
         </Typography>
       </div>

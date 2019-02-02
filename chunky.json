@@ -8,18 +8,19 @@
     "start": {
       "stack": [
         "intro",
-        "story",
-        "payments",
-        "challenges",
-        "journey",
+        "learn",
         "tokens",
-        "auth"
+        "story",
+        "entrepreneurs",
+        "auth",
+        "journey",
+        "payments"
       ]
     },
     "dashboard": {
       "private": true,
       "layout": "sidebar",
-      "stack": ["payments", "tokens", "auth"]
+      "stack": ["payments", "learn", "tokens", "auth"]
     }
   },
   "transitions": ["replace://start"],
@@ -71,8 +72,6 @@
   "scripts": [
     "https://unpkg.com/react@16/umd/react.production.min.js",
     "https://unpkg.com/react-dom@16/umd/react-dom.production.min.js",
-    "https://cdnjs.cloudflare.com/ajax/libs/react-transition-group/2.4.0/react-transition-group.min.js",
-    "https://unpkg.com/react-media/umd/react-media.min.js",
     "https://unpkg.com/react-router/umd/react-router.min.js",
     "https://unpkg.com/react-router-dom/umd/react-router-dom.min.js",
     "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js",
@@ -81,7 +80,6 @@
     "https://unpkg.com/material-components-web@0.40.1/dist/material-components-web.min.js",
     "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js",
     "https://unpkg.com/react-progressive-image@0.1.0/umd/react-progressive-image.min.js",
-    "https://www.google.com/recaptcha/api.js",
     "https://cdnjs.cloudflare.com/ajax/libs/antd/3.4.5/antd.min.js"
   ],
   "info": {

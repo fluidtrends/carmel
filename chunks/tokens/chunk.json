@@ -2,10 +2,9 @@
   "name": "tokens",
   "routes": {
     "main": {
-      "title": "Get Tokens",
+      "title": "Tokens",
       "icon": "favorite",
       "path": "/tokens",
-      "action": true,
       "guestOnly": true,
       "privateRedirect": "/me/tokens",
       "events": {
