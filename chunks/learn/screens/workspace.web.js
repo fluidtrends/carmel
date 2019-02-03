@@ -87,7 +87,7 @@ export default class Workspace extends Screen {
     }
 
     if (journey[0].setup) {
-      this.setState({inProgress: false, journey: journey[0], setup: journey[0].setup.step })
+      this.setState({ inProgress: false, journey: journey[0], setup: journey[0].setup.step })
       return
     }
 
@@ -142,8 +142,7 @@ export default class Workspace extends Screen {
   gotListings(content) {
     if (!content.ok || !content.data || !content.data.challenge) {
       // Try again
-      console.log(content)
-      // this.refreshCurrentChallenge()
+      this.refreshCurrentChallenge()
       return
     }
 
@@ -293,7 +292,7 @@ export default class Workspace extends Screen {
   }
 
   renderCurrentChallenge(width, padding) {
-    if (this.state.journey.challenge.taskActive) {
+    if (this.state.journey.challenge && this.state.journey.challenge.taskActive) {
       return <Fade>
           <div style={{ width, margin: '10px', padding }}>
               <div style={{ padding: '4px', textAlign: 'center', marginBottom: '20px' }}>

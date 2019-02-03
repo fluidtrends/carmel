@@ -1,5 +1,6 @@
 const REQUIREMENTS = [
   `an existing product`,
+  `that the product dependencies be installed first`,
   `at least a chunk with a route that contains a title, a cover title and a cover subtitle`
 ]
 
@@ -24,6 +25,11 @@ const init = (carmel) => new Promise((resolve, reject) => {
     return
   }
 
+  if (!carmel.utils.productDependenciesExist()) {
+    reject(new Error(`This challenge requires ${REQUIREMENTS[1]}`))
+    return
+  }
+
   // Load up the product
   carmel.utils.loadProduct().then((product) => {
 
@@ -32,7 +38,7 @@ const init = (carmel) => new Promise((resolve, reject) => {
 
     if (!chunks || chunks.length === 0) {
       // This challenge needs a route that contains a title, a cover title and a cover subtitle
-      reject(new Error(`This challenge requires ${REQUIREMENTS[1]}`))
+      reject(new Error(`This challenge requires ${REQUIREMENTS[2]}`))
       return
     }
 

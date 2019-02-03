@@ -67,6 +67,35 @@
         "getWallet",
         "getProfile"
       ]
+    },
+    "achievements": {
+      "title": "Achievements",
+      "icon": "like",
+      "path": "/me/achievements",
+      "private": true,
+      "cover": {
+        "backgroundColor": "#00838F",
+        "navigation": true,
+        "type": "menu"
+      },
+      "startOperationsOnMount": false,
+      "operations": {
+        "updateJourney": [
+          "rest://create/journey/journeys#updateJourney",
+          {
+            "onSuccess": "updateJourneyOk",
+            "onError": "updateJourneyError"
+          }
+        ],
+        "getJourney": "firebase://subscribe/users-journeys/:userId?latest=1&resolve=journeys#getJourney",
+        "getWallet": "firebase://subscribe/users-wallets/:userId?latest=1&resolve=wallets#getWallet",
+        "getProfile": "firebase://subscribe/users-profiles/:userId?latest=1&resolve=profiles#getProfile"
+      },
+      "subscriptions": [
+        "getJourney",
+        "getWallet",
+        "getProfile"
+      ]
     }
   }
 }

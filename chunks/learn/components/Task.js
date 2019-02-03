@@ -9,6 +9,7 @@ import { Data } from 'react-chunky'
 import { Typography } from '@rmwc/typography'
 import moment from 'moment'
 import Bounce from 'react-reveal/Bounce'
+import { Base64 } from 'js-base64'
 
 export default class TaskScreen extends Component {
   constructor(props) {
@@ -237,6 +238,14 @@ export default class TaskScreen extends Component {
     const sourceUrl = `https://raw.githubusercontent.com/${this.props.challenge.repo}/${this.props.challenge.hash}/${this.props.challenge.path ? this.props.challenge.path : '/'}`
     const taskTutorialFile = `${sourceUrl}/${this.props.journey.challenge.taskIndex}.tutorial.md`
 
+    var input = {}
+
+    try {
+      input = JSON.parse(Base64.decode(this.props.journey.challenge.signature))
+    } catch (e) {
+      console.log(e)
+    }
+
     return <div  style={{
             display: 'flex',
             flex: 1,
@@ -244,7 +253,7 @@ export default class TaskScreen extends Component {
             padding,
             flexDirection: 'column'}}>
         <Card title={this.renderTitle()}>
-          <Components.Text source={taskTutorialFile}/>
+          <Components.Text source={taskTutorialFile} input={input}/>
         </Card>
         <Typography
           use="caption"

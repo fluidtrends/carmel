@@ -46,9 +46,10 @@ export default class Challenge extends Component {
     var titleColor = "#00bcd4"
     var tagColor = "blue"
     var tagTitle = "next"
-    var hideTag = false
+    var hideTag = true
 
     if (this.props.journey && this.props.journey.challenge) {
+      hideTag = false
       const taskIndex = this.props.journey.challenge.taskIndex || 0
       if (taskIndex < index-1) {
         iconColor = "#CFD8DC"

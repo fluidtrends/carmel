@@ -200,6 +200,8 @@
     "socket.io-client": "^2.1.1",
     "styled-components": "^3.3.3",
     "tapable": "^1.0.0",
+    "tweetnacl": "^1.0.1",
+    "tweetnacl-util": "^0.15.0",
     "twitter": "^1.7.1",
     "vivus": "^0.4.4",
     "wait-on": "^2.1.0",

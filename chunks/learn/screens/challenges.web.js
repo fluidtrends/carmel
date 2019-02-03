@@ -24,10 +24,12 @@ export default class MainChallengesScreen extends Screen {
   }
 
   refreshContent() {
+    console.log(this.dynamicVariant)
     this.props.getListings(this.dynamicVariant ? { challengeId: this.dynamicVariant } : { all: true })
   }
 
   gotListings(content) {
+    console.log(content)
     if (!content.ok && !content.data) {
       // Try again
       this.refreshContent()
@@ -207,6 +209,7 @@ export default class MainChallengesScreen extends Screen {
   }
 
   updateWorkspace(data) {
+    console.log(data)
     Data.Cache.retrieveCachedItem("workspace")
               .then((workspace) => this._doUpdateWorkspace(merge.all([workspace, data])))
               .catch((e) => this._doUpdateWorkspace(data))
@@ -218,7 +221,9 @@ export default class MainChallengesScreen extends Screen {
       return
     }
 
-    this.updateWorkspace({ challenge: this.state.challenge, event: "startChallenge" })
+    console.log(this.state.challenge)
+
+    // this.updateWorkspace({ challenge: this.state.challenge, event: "startChallenge" })
   }
 
   renderChallenge() {
