@@ -18,6 +18,7 @@ import { Icon } from '@rmwc/icon'
 import { Grid, GridCell, GridInner } from '@rmwc/grid'
 import Fade from 'react-reveal/Fade'
 import SocialIcons from './socialIcons'
+import moment from 'moment'
 
 export default class ChapterPreview extends Component {
   constructor (props) {
@@ -48,6 +49,15 @@ export default class ChapterPreview extends Component {
     }
 
     return ""
+  }
+
+  get date() {
+    console.log(this.props)
+    if(this.props.chapter.date) {
+      return moment.unix(this.props.chapter.date).format('DD MM YYYY')
+    }
+
+    return ''
   }
 
   renderSocialIcons() {
@@ -209,6 +219,22 @@ export default class ChapterPreview extends Component {
             }}
           >
             {this.props.chapter.date}
+          </Typography>
+        </div>
+      <div 
+        style={{
+          display: 'flex',
+          flex: 1,
+          paddingLeft: '20px',
+        }}>
+          <Typography
+            use="caption"
+            tag="div"
+            style={{
+              color: '#607D8B'
+            }}
+          >
+            {this.date}
           </Typography>
         </div>
         {this.renderCategories()}
