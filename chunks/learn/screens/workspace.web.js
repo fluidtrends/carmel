@@ -61,7 +61,7 @@ export default class Workspace extends Screen {
   }
 
   updateWorkspace(journey, workspace) {
-    if (!journey.challenge && workspace.event && workspace.event === "startChallenge" && workspace.challenge && journey.machines) {
+    if (!journey.challenge && workspace && workspace.event && workspace.event === "startChallenge" && workspace.challenge && journey.machines) {
       const machineId = Object.keys(journey.machines)[0]
       workspace.event = "doChallenge"
       Data.Cache.cacheItem("workspace", workspace).then(() => {

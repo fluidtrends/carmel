@@ -2,7 +2,7 @@
   "name": "entrepreneurs",
   "routes": {
     "main": {
-      "title": "Buy DevTime",
+      "title": "Hire Us",
       "icon": "supervisor_account",
       "action": true,
       "path": "/entrepreneurs",
