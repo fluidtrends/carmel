@@ -21,13 +21,13 @@ import SocialIcons from './socialIcons'
 import moment from 'moment'
 
 export default class ChapterPreview extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = { ...super.state }
     this._onSelected = this.onSelected.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     super.componentDidMount()
   }
 
@@ -40,7 +40,7 @@ export default class ChapterPreview extends Component {
       return this.props.chapter.author.pic
     }
 
-    return "https://github.com/fluidtrends/carmel/raw/master/assets/chunky-logo.gif"
+    return 'https://github.com/fluidtrends/carmel/raw/master/assets/chunky-logo.gif'
   }
 
   get authorName() {
@@ -48,47 +48,46 @@ export default class ChapterPreview extends Component {
       return this.props.chapter.author.name
     }
 
-    return ""
+    return ''
   }
 
   get date() {
-    console.log(this.props)
-    if(this.props.chapter.date) {
-      return moment.unix(this.props.chapter.date).format('DD MM YYYY')
+    if (this.props.chapter.date) {
+      return moment(this.props.chapter.date, 'x').format('DD MMMM YYYY')
     }
 
     return ''
   }
 
   renderSocialIcons() {
-    return <SocialIcons compact={this.props.compact} chapter={this.props.chapter}/>
+    return (
+      <SocialIcons compact={this.props.compact} chapter={this.props.chapter} />
+    )
   }
 
   renderCategories() {
-    return <ChipSet>
+    return (
+      <ChipSet>
         {this.props.chapter.tags.map(t => (
           <Chip style={{ backgroundColor: '#F5F5F5', color: '#546E7A' }}>
             <ChipText>{t}</ChipText>
           </Chip>
         ))}
       </ChipSet>
+    )
   }
 
   renderDefaultActions() {
-      return (
-        <CardActions style={{ margin: '10px' }}>
-          <CardActionButtons
-            style={{ justifyContent: 'flex-start', display: 'flex', flex: 1 }}
-          >
-            <CardAction
-              onClick={this._onSelected}
-            >
-              Continue Reading
-            </CardAction>
-          </CardActionButtons>
-          {this.renderSocialIcons()}
-        </CardActions>
-      )
+    return (
+      <CardActions style={{ margin: '10px' }}>
+        <CardActionButtons
+          style={{ justifyContent: 'flex-start', display: 'flex', flex: 1 }}
+        >
+          <CardAction onClick={this._onSelected}>Continue Reading</CardAction>
+        </CardActionButtons>
+        {this.renderSocialIcons()}
+      </CardActions>
+    )
   }
 
   renderCompactActions() {
@@ -113,73 +112,74 @@ export default class ChapterPreview extends Component {
             marginBottom: '20px'
           }}
         >
-          <CardAction
-            onClick={this._onSelected}
-          >
-            Continue Reading
-          </CardAction>
+          <CardAction onClick={this._onSelected}>Continue Reading</CardAction>
         </CardActionButtons>
       </CardActions>
     ]
   }
 
   renderActions() {
-    return this.props.compact ? this.renderCompactActions() : this.renderDefaultActions()
+    return this.props.compact
+      ? this.renderCompactActions()
+      : this.renderDefaultActions()
   }
 
   renderCompactHeader() {
-      return <div
+    return (
+      <div
+        style={{
+          display: 'flex',
+          padding: '10px',
+          margin: '10px',
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexDirection: 'column'
+        }}
+      >
+        <Avatar
+          src={this.authorImage}
+          size="large"
+          style={{
+            border: '1px solid #B0BEC5'
+          }}
+        />
+        <div
           style={{
             display: 'flex',
+            flex: 1,
             padding: '10px',
-            margin: '10px',
-            justifyContent: 'center',
-            alignItems: 'center',
             flexDirection: 'column'
           }}
         >
-          <Avatar
-            src={this.authorImage}
-            size="large"
+          <Typography
+            use="caption"
+            tag="div"
             style={{
-              border: '1px solid #B0BEC5'
-            }}
-          />
-          <div
-            style={{
-              display: 'flex',
-              flex: 1,
-              padding: '10px',
-              flexDirection: 'column'
+              color: '#607D8B',
+              textAlign: 'center'
             }}
           >
-            <Typography
-              use="caption"
-              tag="div"
-              style={{
-                color: '#607D8B',
-                textAlign: 'center'
-              }}
-            >
-              {this.authorName}
-            </Typography>
-            <Typography
-              use="caption"
-              tag="div"
-              style={{
-                color: '#B0BEC5',
-                textAlign: 'center'
-              }}
-            >
-              {this.props.chapter.date}
-            </Typography>
-          </div>
-          {this.renderCategories()}
+            {this.authorName}
+          </Typography>
+          <Typography
+            use="caption"
+            tag="div"
+            style={{
+              color: '#B0BEC5',
+              textAlign: 'center'
+            }}
+          >
+            {this.props.chapter.date}
+          </Typography>
         </div>
-    }
+        {this.renderCategories()}
+      </div>
+    )
+  }
 
   renderDefaultHeader() {
-    return <div
+    return (
+      <div
         style={{
           display: 'flex',
           padding: '10px',
@@ -218,35 +218,22 @@ export default class ChapterPreview extends Component {
               color: '#B0BEC5'
             }}
           >
-            {this.props.chapter.date}
-          </Typography>
-        </div>
-      <div 
-        style={{
-          display: 'flex',
-          flex: 1,
-          paddingLeft: '20px',
-        }}>
-          <Typography
-            use="caption"
-            tag="div"
-            style={{
-              color: '#607D8B'
-            }}
-          >
             {this.date}
           </Typography>
         </div>
         {this.renderCategories()}
       </div>
+    )
   }
 
   renderHeader() {
-    return this.props.compact ? this.renderCompactHeader() : this.renderDefaultHeader()
+    return this.props.compact
+      ? this.renderCompactHeader()
+      : this.renderDefaultHeader()
   }
 
   render() {
-    const width = this.props.compact? '90vw' : '700px'
+    const width = this.props.compact ? '90vw' : '700px'
     const summary =
       this.props.chapter.summary.length > 250
         ? `${this.props.chapter.summary.substring(0, 250)}...`
