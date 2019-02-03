@@ -72,7 +72,7 @@ export default class Workspace extends Screen {
     }
 
     if (journey.challenge) {
-      this.setState({ journey, workspace, inProgress: true })
+      this.setState({ journey, workspace })
       this.refreshCurrentChallenge()
       return
     }

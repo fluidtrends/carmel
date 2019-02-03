@@ -1,6 +1,6 @@
 import React from 'react'
 import { Component, Components } from 'react-dom-chunky'
-import { Row, Col, message, Button, Icon, Card, List, Avatar, Tag } from 'antd'
+import { Row, Col, message, Button, Icon, Card, List, Alert, Avatar, Tag } from 'antd'
 import ChallengePlayground from './challengePlayground'
 import ChallengeCard from './challengeCard'
 import Task from './playground/task'
@@ -8,6 +8,7 @@ import Timeline from './challengeTimeline'
 import { Data } from 'react-chunky'
 import { Typography } from '@rmwc/typography'
 import moment from 'moment'
+import Bounce from 'react-reveal/Bounce'
 
 export default class TaskScreen extends Component {
   constructor(props) {
@@ -16,11 +17,9 @@ export default class TaskScreen extends Component {
     this.state = {
       tasksStarted: false,
       time: 0,
-      prettyTime: "00:00:00",
+       prettyTime: "00:00:00",
       challengeCompleted: false
     }
-    //   taskIndex: workspaces.activeChallenge.completedTasks.length
-    // }
   }
 
   componentDidMount() {
@@ -158,9 +157,30 @@ export default class TaskScreen extends Component {
     clearInterval(this._timer)
   }
 
+  renderTimer() {
+    if (!this.state.time) {
+      return <div/>
+    }
+
+    return <Bounce>
+      <Typography
+        use="headline6"
+        tag="div"
+        style={{
+          backgroundColor: "#FFEB3B",
+          color: '#607D8B',
+          padding: "5px"
+        }}
+      >
+        {this.state.prettyTime}
+      </Typography>
+    </Bounce>
+  }
+
   renderTitle() {
     const { journey, challenge } = this.props
     const title = `Task ${parseInt(journey.challenge.taskIndex) + 1} of ${challenge.tasks.length}`
+    const task = this.props.challenge.tasks[this.props.journey.challenge.taskIndex]
 
     return (
       <div
@@ -176,29 +196,47 @@ export default class TaskScreen extends Component {
           tag="div"
           style={{
             color: '#455A64',
-            flex: 1,
             display: "flex"
-          }}
-        >
-          { title }
+          }}>
+          { title }:
         </Typography>
         <Typography
           use="headline6"
-          tag="div"
           style={{
-            backgroundColor: "#FFEB3B",
-            color: '#607D8B',
-            padding: "5px"
-          }}
-        >
-          {this.state.prettyTime}
+            color: "#00BCD4",
+            margin: "10px",
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
+            display: 'inline-block',
+            flex: 1
+          }}>
+          { task.title }
         </Typography>
+        { this.renderTimer() }
       </div>
     )
   }
 
+  renderFailurePrompt() {
+    if (!this.props.journey || !this.props.journey.challenge || !this.props.journey.challenge.result || !this.props.journey.challenge.result.error) {
+      return <div/>
+    }
+
+    const description = `${this.props.journey.challenge.result.error}. It's ok, don't worry about it, give it another shot :)`
+
+    return <Alert
+       style={{marginTop: "10px", }}
+       message="Sorry, that didn't work"
+       description={description}
+       type="error"
+       closable
+   />
+  }
 
   renderTutorial(width, padding) {
+    const sourceUrl = `https://raw.githubusercontent.com/${this.props.challenge.repo}/${this.props.challenge.hash}/${this.props.challenge.path ? this.props.challenge.path : '/'}`
+    const taskTutorialFile = `${sourceUrl}/${this.props.journey.challenge.taskIndex}.tutorial.md`
+
     return <div  style={{
             display: 'flex',
             flex: 1,
@@ -206,7 +244,19 @@ export default class TaskScreen extends Component {
             padding,
             flexDirection: 'column'}}>
         <Card title={this.renderTitle()}>
+          <Components.Text source={taskTutorialFile}/>
         </Card>
+        <Typography
+          use="caption"
+          style={{
+            color: "#455A64",
+            backgroundColor: "#FFEB3B",
+            textAlign: "center",
+            padding: "10px"
+          }}>
+          When done, type <strong> chunky carmel next </strong> to continue
+        </Typography>
+        {this.renderFailurePrompt() }
       </div>
     }
 
