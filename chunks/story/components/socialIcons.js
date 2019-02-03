@@ -47,7 +47,7 @@ export default class SocialIcons extends Component {
   }
 
   render() {
-    const url = `${window.location.origin}/story/${this.props.chapter.slug}`
+    const url = `https://carmel.io/story/${this.props.chapter.slug}`
 
     return (
       <CardActionIcons

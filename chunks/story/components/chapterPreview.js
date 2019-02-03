@@ -169,7 +169,7 @@ export default class ChapterPreview extends Component {
               textAlign: 'center'
             }}
           >
-            {this.props.chapter.date}
+            {this.date}
           </Typography>
         </div>
         {this.renderCategories()}
