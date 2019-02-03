@@ -14,12 +14,11 @@ import { Form, Input, Icon, Avatar } from 'antd'
 const FormItem = Form.Item
 import Bounce from 'react-reveal/Bounce'
 
-export default class LoginScreen extends Screen {
+export default class MainScreen extends Screen {
   constructor (props) {
     super(props)
     this.state = { ...this.state }
-    this._join = this.join.bind(this)
-    this._login = this.login.bind(this)
+    this._send = this.send.bind(this)
     this._onKeyPress = this.onKeyPress.bind(this)
     this.state = { ...super.state }
   }
@@ -29,26 +28,44 @@ export default class LoginScreen extends Screen {
   }
 
   joinNow(session) {
-    Data.Cache.cacheItem("guestSession", Object.assign({}, session, { guild: "entrepreneurs", help: this.state.message }))
-              .then(() => this.triggerRedirect('/register'))
-              .catch((e) => this.triggerRedirect('/register'))
+    // Data.Cache.cacheItem("guestSession", Object.assign({}, session, { guild: "entrepreneurs", help: this.state.message }))
+    //           .then(() => this.triggerRedirect('/register'))
+    //           .catch((e) => this.triggerRedirect('/register'))
   }
 
 
-  join() {
-    Data.Cache.retrieveCachedItem("guestSession")
-              .then((session) => this.joinNow(session))
-              .catch((e) => this.joinNow())
+  send() {
+    var name = this.state.name || ""
+    var email = this.state.email || ""
+
+    if (this.isLoggedIn) {
+      name = this.account.user.name
+      email = this.account.user.email
+    }
+
+    const message = `${this.state.message} (${name} <${email})`
+    this.props.sendMessage({ message })
+
+    // Data.Cache.retrieveCachedItem("guestSession")
+    //           .then((session) => this.joinNow(session))
+    //           .catch((e) => this.joinNow())
   }
 
   login () {
-    this.triggerRedirect('/login')
+    // this.triggerRedirect('/login')
+  }
+
+  sendMessageOk(response) {
+    this.setState({ messageSent: true })
+  }
+
+  sendMessageError(error) {
+    this.send()
   }
 
   onKeyPress (event) {
-    console.log(event)
     if (event.key === 'Enter') {
-      this.join()
+      this.send()
     }
   }
 
@@ -84,6 +101,57 @@ export default class LoginScreen extends Screen {
     </Fade>
   }
 
+  renderInfoField() {
+    if (this.isLoggedIn) {
+      return <div/>
+    }
+
+    return <div style={{
+              display: 'flex',
+              flex: 1
+            }}>
+               <Input
+                 prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
+                 style={{ height: '36px', display: "flex", flex: 1, margin: "10px"  }}
+                 value={this.state.name}
+                 onChange={val => this.setState({ name: val.target.value, error: '' })}
+                 placeholder={`What's your name?`} />
+                <Input
+                  prefix={<Icon type='email' style={{ color: 'rgba(0,0,0,.25)' }} />}
+                  style={{ height: '36px', display: "flex", flex: 1, margin: "10px"  }}
+                  value={this.state.email}
+                  onChange={val => this.setState({ email: val.target.value, error: '' })}
+                  placeholder={`What's your email address?`} />
+          </div>
+  }
+
+  renderMessageField() {
+    if (this.state.messageSent) {
+      return <Bounce>
+                <Icon type='check-circle' style={{ color: this.props.theme.primaryColor, fontSize: "50px" }} />
+            </Bounce>
+    }
+
+    return <FormItem style={{ }}>
+     <div style={{
+       display: 'flex'
+     }}>
+     <Input
+     style={{ height: '36px', display: "flex", flex: 1, margin: "10px"  }}
+       value={this.state.message}
+       onChange={val => this.setState({ message: val.target.value, error: '' })}
+       placeholder={'What can we help you with today?'} />
+       <Button
+         raised
+         theme='secondary-bg text-primary-on-secondary'
+         style={{ height: '36px', margin: "10px"  }}
+         onClick={this._send}>
+         Send
+       </Button>
+       </div>
+     </FormItem>
+  }
+
   renderActionContent (width, padding) {
     if (this.state.loading) {
       return this.renderLoading()
@@ -92,26 +160,12 @@ export default class LoginScreen extends Screen {
     return <Fade>
         <Card style={{ width, margin: '10px', padding }}>
       <div style={{ padding: '4px', textAlign: 'center', margin: '20px' }}>
-       <FormItem style={{
-      }}>
-        <div style={{
-          display: 'flex'
-        }}>
-        <Input
-          style={{ height: '36px' }}
-          value={this.state.message}
-          onChange={val => this.setState({ message: val.target.value, error: '' })}
-          placeholder={'What can we help you with today?'} />
-          <Button
-            raised
-            theme='secondary-bg text-primary-on-secondary'
-            style={{ marginLeft: "10px" }}
-            onClick={this._join}>
-            Send
-          </Button>
-          </div>
-        </FormItem>
+        { this.renderInfoField() }
+        { this.renderMessageField() }
        </div>
+       <Typography use='caption' tag='div' style={{ textAlign: "center" }}>
+         We'll get back to you asap and we'll continue the conversation :)
+       </Typography>
     </Card>
     </Fade>
   }
