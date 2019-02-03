@@ -102,7 +102,7 @@ export default class MainScreen extends Screen {
   }
 
   renderInfoField() {
-    if (this.isLoggedIn) {
+    if (this.isLoggedIn || this.state.messageSent) {
       return <div/>
     }
 
