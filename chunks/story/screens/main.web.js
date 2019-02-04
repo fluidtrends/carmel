@@ -3,11 +3,12 @@ import { Screen, Components } from 'react-dom-chunky'
 import ChapterPreview from '../components/chapterPreview'
 import merge from 'deepmerge'
 import Chapter from '../components/Chapter'
+import { Tabs } from 'antd'
 
 export default class MainStoryScreen extends Screen {
   constructor(props) {
     super(props)
-    this.state = { ...this.state }
+    this.state = { ...this.state, categoryFilter: 'All' }
     this._onChapterSelected = this.onChapterSelected.bind(this)
   }
 
@@ -63,6 +64,10 @@ export default class MainStoryScreen extends Screen {
     return data
   }
 
+  filterCategories = categoryFilter => {
+    this.setState({ categoryFilter })
+  }
+
   renderChapterPreview(chapter) {
     const data = this.chapterData(chapter)
 
@@ -78,6 +83,19 @@ export default class MainStoryScreen extends Screen {
   }
 
   renderStoryChapters() {
+    const { TabPane } = Tabs
+
+    const filteredStories =
+      this.state.categoryFilter === 'All'
+        ? Object.keys(this.state.story.chapters)
+        : Object.keys(this.state.story.chapters).filter(
+            c =>
+              this.state.story.chapters[c].tags &&
+              this.state.story.chapters[c].tags.find(
+                t => t === this.state.categoryFilter
+              )
+          )
+
     return (
       <div
         style={{
@@ -88,9 +106,22 @@ export default class MainStoryScreen extends Screen {
           alignItems: 'center'
         }}
       >
-        {Object.keys(this.state.story.chapters).map(chapter =>
-          this.renderChapterPreview(chapter)
-        )}
+        <Tabs
+          defaultActiveKey="All"
+          tabPosition={'top'}
+          style={{ marginTop: '50px', minWidth: '300px', maxWidth: '700px' }}
+          onTabClick={this.filterCategories}
+        >
+          {this.state.story.categories.map(category => (
+            <TabPane tab={category} key={category} />
+          ))}
+        </Tabs>
+        {filteredStories.length
+          ? filteredStories.map(chapter => this.renderChapterPreview(chapter))
+          : [
+              <p> Sorry no post yet for the selected Category.</p>,
+              <p>We will add more stories soon!</p>
+            ]}
       </div>
     )
   }

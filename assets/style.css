@@ -473,6 +473,14 @@ strong {
   display: none;
 }
 
+.ant-tabs-tab-prev-icon:before {
+  display: none;
+}
+
+.ant-tabs-tab-next-icon:before {
+  display: none;
+}
+
 .challenge-card {
   height: 100%;
 }
