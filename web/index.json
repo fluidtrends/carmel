@@ -33,6 +33,11 @@
             "link": "http://files.carmel.io/whitepaper/en-v1.4.pdf"
           },
           {
+            "id": "sourcecode",
+            "title": "Source Code",
+            "link": "https://github.com/fluidtrends/carmel"
+          },
+          {
             "id": "team",
             "title": "Team",
             "link": "/team"
@@ -43,35 +48,40 @@
             "link": "/challenges"
           },
           {
-            "id": "guilds",
-            "title": "Guilds",
-            "link": "/guilds"
+            "id": "feedback",
+            "title": "Feedback",
+            "link": "https://t.me/carmelplatform"
           }
         ]
       },
       {
-        "title": "Roadmap",
-        "id": "roadmap",
+        "title": "Use Cases",
+        "id": "usecases",
         "elements": [
           {
-            "id": "code",
-            "title": "Source Code",
-            "link": "http://github.com/fluidtrends/carmel"
+            "id": "entrepreneurs",
+            "title": "For Entrepreneurs",
+            "link": "/entrepreneurs"
           },
           {
-            "id": "board",
-            "title": "Board",
-            "link": "http://github.com/fluidtrends/carmel/projects/1"
+            "id": "managers",
+            "title": "For Managers",
+            "link": "/managers"
           },
           {
-            "id": "milestones",
-            "title": "Milestones",
-            "link": "http://github.com/fluidtrends/carmel/milestones"
+            "id": "recruiters",
+            "title": "For Recruiters",
+            "link": "/recruiters"
           },
           {
-            "id": "issues",
-            "title": "Issues",
-            "link": "http://github.com/fluidtrends/carmel/issues"
+            "id": "teachers",
+            "title": "For Teachers",
+            "link": "/teachers"
+          },
+          {
+            "id": "developers",
+            "title": "For Developers",
+            "link": "/developers"
           }
         ]
       }
