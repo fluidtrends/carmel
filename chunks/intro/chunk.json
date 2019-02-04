@@ -7,7 +7,7 @@
       "icon": "home",
       "forceNavigation": true,
       "skipExtendedMenuOnDesktop": true,
-      "extendedMenu": [{"title": "Tour", "path": "/tour"}],
+      "extendedMenu": [{ "title": "Tour", "path": "/tour" }],
       "components": {
         "chat": {
           "source": "chat"
@@ -35,6 +35,18 @@
           "url": "https://www.youtube.com/watch?v=qrHBVDbrOOY",
           "image": "presentation.png",
           "textColor": "#37474F"
+        },
+        "tokens": {
+          "source": "buy",
+          "text": "local://get-tokens",
+          "buttonColor": "#039BE5",
+          "hoveredButtonColor": "#039BE5",
+          "action": "Get Tokens",
+          "components": {
+            "getAccess": {
+              "path": "/tokens"
+            }
+          }
         }
       },
       "path": "/",
