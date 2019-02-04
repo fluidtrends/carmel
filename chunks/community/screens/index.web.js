@@ -1,1 +1,5 @@
 export { default as main } from './main.web'
+export { default as managers } from './managers.web'
+export { default as recruiters } from './recruiters.web'
+export { default as teachers } from './teachers.web'
+export { default as developers } from './developers.web'
