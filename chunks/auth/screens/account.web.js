@@ -2,7 +2,7 @@ import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
 import { Data } from 'react-chunky'
 import { Card, CardActions, CardActionButtons } from 'rmwc/Card'
-import { List, notification, Icon, Input, Button } from 'antd'
+import { List, notification, Icon, Input, Button, Select } from 'antd'
 
 import UserInfo from '../components/userInfo'
 
@@ -128,13 +128,15 @@ export default class AccountScreen extends Screen {
   showInput (item) {
     this.setState({editId: item.id, editValue: item.value})
 
+    if (item.id === 'guild') return
     setTimeout(() => {
       this.input.focus()
     }, 100);
   }
 
   onValueChanged (item, event) {
-    const value = event.target.value
+    const value = item.id === 'guild' ? event : event.target.value
+
     if (item.id == 'eosAddress' && value.length > 12) {
       return
     }
@@ -144,21 +146,38 @@ export default class AccountScreen extends Screen {
   renderProfileItem (item) {
 
     const width = this.isSmallScreen? '75vw' : 500
+    const { Option } = Select
 
-    const description = <div style={{height: 32, padding: '5px 12px', width, overflow: 'hidden',  whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}>{item.value || ''}</div>
+    const description = <div style={{ height: 32, padding: '5px 12px', width, overflow: 'hidden',  whiteSpace: 'nowrap', textOverflow: 'ellipsis', textTransform: item.id === 'guild' ? 'capitalize' : '' }}>{item.value || ''}</div>
     let value = item.value || ''
 
     if (item.id == this.state.editId) {
       value = this.state.editValue
     }
 
-    const content = this.state.editId == item.id ? <Input
-                                                      ref={(input) => { this.input = input }}
-                                                      placeholder={item.title}
-                                                      value={ value }
-                                                      style={{ width: '100%' }}
-                                                      onChange={this.onValueChanged.bind(this, item)}
-                                                    /> : description
+    const content = this.state.editId == item.id ? 
+      item.id === 'guild' ? 
+        <Select
+          defaultValue={value}
+          style={{ width: '100%' }}
+          placeholder="Select a guild"
+          onChange={this.onValueChanged.bind(this, item)}
+        >
+          <Option value="learner">Learner</Option>
+          <Option value="developer">Developer</Option>
+          <Option value="entrepreneur">Entrepreneur</Option>
+          <Option value="teacher">Teacher</Option>
+          <Option value="manager">Manager</Option>
+          <Option value="recruiter">Recruiter</Option>
+        </Select> 
+      :
+        <Input
+          ref={(input) => { this.input = input }}
+          placeholder={item.title}
+          value={ value }
+          style={{ width: '100%' }}
+          onChange={this.onValueChanged.bind(this, item)}
+        /> : description
 
     const icon = this.state.editId == item.id ?
                                       <div style={{display: 'flex'}}>
@@ -202,6 +221,11 @@ export default class AccountScreen extends Screen {
         id: 'username',
         title: 'Username',
         value: this.account.user.username
+      },
+      {
+        id: 'guild',
+        title: 'Guild',
+        value: this.account.user.guild
       },
       {
         id: 'eosAddress',
