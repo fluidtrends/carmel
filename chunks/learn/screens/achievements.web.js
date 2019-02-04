@@ -21,6 +21,7 @@ import platform from 'platform'
 import { Data } from 'react-chunky'
 import Task from '../components/Task'
 import Challenge from '../components/Challenge'
+import ChallengeCard from '../../journey/components/challengeCard'
 
 export default class Workspace extends Screen {
   constructor (props) {
@@ -130,15 +131,38 @@ export default class Workspace extends Screen {
           </Fade>
   }
 
+  renderCompletedChallenges(challenges) {
+    return challenges.slice(0).reverse().map(challenge => <ChallengeCard challenge={challenge} isSmallScreen={this.isSmallScreen} completed />)
+  }
+
+  renderCurrentChallenge(challenge) {
+    return <ChallengeCard challenge={challenge} isSmallScreen={this.isSmallScreen} active />
+  }
+
+  renderJourney() {
+    const journey = this.state.journey
+
+    const { completedChallenges, challenge } = journey
+    const completedChallengesCards = completedChallenges && this.renderCompletedChallenges(completedChallenges)
+
+    if (!completedChallenges.length && ! challenge) {
+      return this.renderNewJourney()
+    }
+
+    return [
+      this.renderCurrentChallenge(challenge),
+      ...completedChallengesCards
+    ]
+  }
+
   renderExistingJourney(width, padding) {
-    console.log(this.state.journey)
     const title = this.state.journey && this.state.journey.completedChallenges ? (
       this.state.journey.completedChallenges.length === 1 ? 'Congrats on completing your first challenge!' :
       `You completed ${this.state.journey.completedChallenges.length} challenges so far`
     ): 'You have not completed any challenges yet'
 
     return <Fade>
-        <Card style={{ width, margin: '10px', padding }}>
+        <Card style={{ width, margin: '40px 10px', padding }}>
             <div style={{ padding: '4px', textAlign: 'center', marginBottom: '20px' }}>
               <Bounce>
                 <Avatar src="/assets/chunky-logo.gif" style={{
@@ -150,6 +174,8 @@ export default class Workspace extends Screen {
               { title }
            </Typography>
           </Card>
+
+          {this.state.journey && this.renderJourney()}
     </Fade>
   }
 

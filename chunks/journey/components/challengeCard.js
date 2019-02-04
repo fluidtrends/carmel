@@ -34,6 +34,7 @@ export default class ChallengeCard extends Component {
   }
 
   renderTasks (challenge) {
+    console.log(challenge)
     const tasks = challenge.totalTasks
     const index = challenge.tasksTime.length
     const errors = challenge.failures
@@ -118,7 +119,7 @@ export default class ChallengeCard extends Component {
 
     const width = isSmallScreen? '90vw' : 700
 
-    return <div style={{ paddingTop: 20, textAlign: 'left' }}>
+    return <div style={{ paddingTop: 20, textAlign: 'left', marginBottom: 10 }}>
 			<Card
 				size="small"
 				style={{width}}
