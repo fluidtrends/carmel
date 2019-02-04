@@ -16,6 +16,312 @@
         "subtitle": "Join the Carmel Entrepreneurs Guild and start building your next product",
         "type": "default"
       },
+      "components": {
+        "intro": {
+          "source": "summary",
+          "text": "local://community/entrepreneurs",
+          "image": "carmel.svg",
+          "textColor": "#37474F"
+        }
+      },
+      "conversation": {
+        "icon": "question-circle",
+        "header": "How can we help?",
+        "title": "What keeps you up at night?",
+        "text": "Wanna get a bit more specific? :)",
+        "type": "entrepreneur",
+        "extra": {
+          "platforms": {
+            "type": "MultipleChoice",
+            "title": "What kind of development work do you need?",
+            "value": ["mobile", "web", "cloud", "blockchain"]
+          },
+          "budget": {
+            "type": "Range",
+            "title": "What's your budget?",
+            "value": {
+              "10": "$10K",
+              "25": "$25K",
+              "50": "$50K",
+              "75": "$75K",
+              "100": "$100K+"
+            }
+          },
+          "link": {
+            "type": "Link",
+            "title": "What's your website address (if any)?",
+            "optional": true
+          },
+          "link2": {
+            "type": "Link",
+            "title": "How about a competitor's website? (if any)",
+            "optional": true
+          }
+        }
+      },
+      "startOperationsOnMount": false,
+      "operations": {
+        "sendMessage": [
+          "rest://create/community/events#sendMessage",
+          {
+            "onSuccess": "sendMessageOk",
+            "onError": "sendMessageError"
+          }
+        ]
+      }
+    },
+    "developers": {
+      "title": "Developers",
+      "icon": "supervisor_account",
+      "path": "/developers",
+      "cover": {
+        "backgroundColor": "#00838F",
+        "align": "bottom",
+        "opacity": 0,
+        "image": "developers.r.png",
+        "navigation": true,
+        "title": "Become a Carmel Developer",
+        "subtitle": "Join the Carmel Developers Guild and start sharing your knowledge",
+        "type": "default"
+      },
+      "components": {
+        "intro": {
+          "source": "summary",
+          "text": "local://community/developers",
+          "image": "carmel.svg",
+          "textColor": "#37474F"
+        }
+      },
+      "conversation": {
+        "icon": "smile",
+        "header": "Join the Carmel Team",
+        "title": "Why do you code? :)",
+        "text": "Wanna get a bit more specific? :)",
+        "type": "developer",
+        "extra": {
+          "platforms": {
+            "type": "MultipleChoice",
+            "title": "What kind of skills do you have?",
+            "value": ["JavaScript", "React", "React Native", "AWS", "Firebase", "EOS"]
+          },
+          "experience": {
+            "type": "Rate",
+            "title": "How good are you?",
+            "value": ["Novice", "Apprentice", "Journeyman", "Master", "I'm sick bro"]
+          },
+          "link": {
+            "type": "Link",
+            "title": "What's your GitHub profile link?"
+          },
+          "link2": {
+            "type": "Link",
+            "title": "How about your LinkedIn profile?"
+          }
+        }
+      },
+      "startOperationsOnMount": false,
+      "operations": {
+        "sendMessage": [
+          "rest://create/community/events#sendMessage",
+          {
+            "onSuccess": "sendMessageOk",
+            "onError": "sendMessageError"
+          }
+        ]
+      }
+    },
+    "managers": {
+      "title": "Managers",
+      "icon": "supervisor_account",
+      "path": "/managers",
+      "cover": {
+        "backgroundColor": "#00838F",
+        "align": "bottom",
+        "opacity": 0,
+        "image": "managers.r.png",
+        "navigation": true,
+        "title": "Become a Carmel Manager",
+        "subtitle": "Join the Carmel Managers Guild and accelerate your team's productivity",
+        "type": "default"
+      },
+      "components": {
+        "intro": {
+          "source": "summary",
+          "text": "local://community/managers",
+          "image": "carmel.svg",
+          "textColor": "#37474F"
+        }
+      },
+      "conversation": {
+        "icon": "message",
+        "header": "Let's have a chat",
+        "title": "What are your current training needs?",
+        "text": "Wanna get a bit more specific? :)",
+        "type": "manager",
+        "extra": {
+          "team": {
+            "type": "Range",
+            "title": "How large is your development team?",
+            "value": {
+              "10": "10 devs",
+              "25": "25 dev",
+              "50": "50 devs",
+              "100": "100+ devs"
+            }
+          },
+          "platforms": {
+            "type": "MultipleChoice",
+            "title": "What kind of development work do you do?",
+            "value": ["mobile", "web", "cloud", "blockchain"]
+          },
+          "budget": {
+            "type": "Range",
+            "title": "What's your yearly training budget?",
+            "value": {
+              "10": "$10K",
+              "25": "$25K",
+              "50": "$50K",
+              "75": "$75K",
+              "100": "$100K+"
+            }
+          },
+          "link": {
+            "type": "Link",
+            "title": "What's your website address (if any)?",
+            "optional": true
+          }
+        }
+      },
+      "startOperationsOnMount": false,
+      "operations": {
+        "sendMessage": [
+          "rest://create/community/events#sendMessage",
+          {
+            "onSuccess": "sendMessageOk",
+            "onError": "sendMessageError"
+          }
+        ]
+      }
+    },
+    "recruiters": {
+      "title": "Recruiters",
+      "icon": "supervisor_account",
+      "path": "/recruiters",
+      "cover": {
+        "backgroundColor": "#00838F",
+        "align": "bottom",
+        "opacity": 0,
+        "image": "recruiters.r.png",
+        "navigation": true,
+        "title": "Become a Carmel Recruiter",
+        "subtitle": "Join the Carmel Recruiters Guild and find more suitable candidates",
+        "type": "default"
+      },
+      "components": {
+        "intro": {
+          "source": "summary",
+          "text": "local://community/recruiters",
+          "image": "carmel.svg",
+          "textColor": "#37474F"
+        }
+      },
+      "conversation": {
+        "icon": "rocket",
+        "header": "Let's work together",
+        "title": "What keeps you up at night?",
+        "text": "Wanna get a bit more specific? :)",
+        "type": "recruiter",
+        "extra": {
+          "platforms": {
+            "type": "MultipleChoice",
+            "title": "What kind of development skills do you need?",
+            "value": ["mobile", "web", "cloud", "blockchain"]
+          },
+          "budget": {
+            "type": "Range",
+            "title": "What's your open headcount?",
+            "value": {
+              "10": "10 devs",
+              "25": "25 dev",
+              "50": "50 devs",
+              "100": "100+ devs"
+            }
+          },
+          "link": {
+            "type": "Link",
+            "title": "What's your website address (if any)?",
+            "optional": true
+          }
+        }
+      },
+      "startOperationsOnMount": false,
+      "operations": {
+        "sendMessage": [
+          "rest://create/community/events#sendMessage",
+          {
+            "onSuccess": "sendMessageOk",
+            "onError": "sendMessageError"
+          }
+        ]
+      }
+    },
+    "teachers": {
+      "title": "Teachers",
+      "icon": "supervisor_account",
+      "path": "/teachers",
+      "cover": {
+        "backgroundColor": "#00838F",
+        "align": "bottom",
+        "opacity": 0,
+        "image": "teachers.r.png",
+        "navigation": true,
+        "title": "Become a Carmel Teacher",
+        "subtitle": "Join the Carmel Teachers Guild and start enhancing your courses",
+        "type": "default"
+      },
+      "components": {
+        "intro": {
+          "source": "summary",
+          "text": "local://community/teachers",
+          "image": "carmel.svg",
+          "textColor": "#37474F"
+        }
+      },
+      "conversation": {
+        "icon": "heart",
+        "header": "Let's enhance your course",
+        "title": "What do you currently teach?",
+        "text": "Wanna get a bit more specific? :)",
+        "type": "teacher",
+        "extra": {
+          "skills": {
+            "type": "MultipleChoice",
+            "title": "What kind of development do you teach?",
+            "value": ["mobile", "web", "cloud", "blockchain"]
+          },
+          "platforms": {
+            "type": "MultipleChoice",
+            "title": "Where do you teach?",
+            "value": ["College", "Udemy", "Pluralsight", "Lynda", "Other"]
+          },
+          "budget": {
+            "type": "Range",
+            "title": "How many students do you have?",
+            "value": {
+              "10": "10",
+              "25": "25",
+              "50": "50",
+              "75": "75",
+              "100": "100+"
+            }
+          },
+          "link": {
+            "type": "Link",
+            "title": "What's your website address (if any)?",
+            "optional": true
+          }
+        }
+      },
       "startOperationsOnMount": false,
       "operations": {
         "sendMessage": [
