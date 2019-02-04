@@ -244,7 +244,12 @@ export default class ChallengeCard extends Component {
   }
 
   render() {
-    return <Card title={this.renderTitle()} className={'challenge-card'}>
+    return <Card title={this.renderTitle()} className={'challenge-card'} style={{
+      display: "flex",
+      flex: 1,
+      flexDirection: "column",
+      width: "100%"
+    }}>
       {this.renderSummary()}
       {this.renderDetails()}
       {this.renderSkills()}

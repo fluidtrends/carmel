@@ -8,7 +8,7 @@ import {
 import { Data } from 'react-chunky'
 import { Button, ButtonIcon } from 'rmwc/Button'
 import { Typography } from 'rmwc/Typography'
-import { Form, Input, Icon, Alert } from 'antd'
+import { Form, Input, Icon, Alert, Select } from 'antd'
 import Recaptcha from 'react-recaptcha'
 const FormItem = Form.Item
 
@@ -41,6 +41,11 @@ export default class RegisterScreen extends Screen {
       return
     }
 
+    if (!this.state.guild) {
+      this.setState({ error: errors.guild, errorType: 'guild', loading: false })
+      return
+    }
+
     if (!this.state.email) {
       this.setState({ error: errors.email, errorType: 'email', loading: false })
       return
@@ -54,6 +59,7 @@ export default class RegisterScreen extends Screen {
       })
       return
     }
+    
 
     if (!this.state.password2) {
       this.setState({
@@ -187,6 +193,20 @@ export default class RegisterScreen extends Screen {
           onKeyPress={this.onKeyPress}
           prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
           placeholder={placeholders.username} />
+      </FormItem>
+      <FormItem>
+        <Select
+          style={{width: '100%'}}
+          placeholder="Select a guild"
+          onChange={val => this.setState({guild: val, error: ''})}
+        >
+          <Option value="learner">Learner</Option>
+          <Option value="developer">Developer</Option>
+          <Option value="entrepreneur">Entrepreneur</Option>
+          <Option value="teacher">Teacher</Option>
+          <Option value="manager">Manager</Option>
+          <Option value="recruiter">Recruiter</Option>
+        </Select>
       </FormItem>
       <FormItem>
         <Input
@@ -330,6 +350,7 @@ const errors = {
   name: "Don't forget your name",
   username: "Don't forget your username",
   email: "Don't forget your email address",
+  guild: "Don't forget to select a guild",
   password: 'Please choose a password',
   password2: 'Please confirm your password',
   passwordMismatch: 'Please make sure your passwords match',

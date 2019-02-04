@@ -1,8 +1,0 @@
-{
-	"id": "changeIntroSubtitle",
-	"index": 3,
-	"title": "Change the subtitle of your main page",
-	"instructions": "Edit the cover subtitle. To achieve this you have to do something simillar with changing the title.",
-	"help": "Tap the 'Open Source Code' button and open the chunks/intro/chunk.json file. Look for cover subtitle.",
-	"files": ["chunks/intro/chunk.json"]
-}

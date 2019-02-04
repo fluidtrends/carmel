@@ -83,7 +83,15 @@ export default class EarlyAccessScreen extends Screen {
             theme="text-secondary-on-background"
             style={{ margin: '1rem', textAlign: 'center' }}
           >
-            Become one of the first 1,000 Carmel Customers
+            Become one of the first 1,000 Carmel Learners
+          </Typography>
+          <Typography
+            use="p"
+            tag="p"
+            theme="text-secondary-on-background"
+            style={{ margin: '1rem', textAlign: 'center', fontSize: '14px' }}
+          >
+            Note: this offer expires after first 1000 subscriptions are sold.
           </Typography>
           <Progress
             style={{ display: 'flex', justifyContent: 'center' }}

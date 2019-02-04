@@ -11,11 +11,7 @@ const emotion = (type) => {
 }
 
 const message = (registered, args) => {
-  if (!registered) {
-     return [`Hey, good stuff, this machine is now registered.`, emotion('happy')]
-  }
-
-  return [`Hello right back at ya :) This machine is already registered.`, emotion('happy')]
+  return [`Hello right back at ya :) Ready to take on the world? :)`, emotion('happy')]
 }
 
 module.exports = ({ args, journey, timestamp, config }) => {
@@ -27,8 +23,9 @@ module.exports = ({ args, journey, timestamp, config }) => {
   var update = Object.assign({}, journey)
   var response = { message: "ok" }
 
+  update.setup = false
   update.machines = update.machines || {}
-  response.message = message(update.machines[args.machineId], args)
+  response.message = message(update.machines[args.machineId], args, )
   update.machines[args.machineId] = Object.assign({}, args, { timestamp })
 
   return { update, response }

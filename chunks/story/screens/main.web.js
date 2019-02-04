@@ -2,8 +2,8 @@ import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
 import ChapterPreview from '../components/chapterPreview'
 import merge from 'deepmerge'
-import Fade from 'react-reveal/Fade'
-import { Card } from '@rmwc/card'
+import Chapter from '../components/Chapter'
+
 export default class MainStoryScreen extends Screen {
   constructor(props) {
     super(props)
@@ -21,11 +21,11 @@ export default class MainStoryScreen extends Screen {
     const self = this
 
     this.importRemoteData(`${this.props.source}/story.json`)
-        .then((storyData) => {
-          self.setState({ storyData })
-          self.props.getUsers({ usernames: storyData.authors })
-        })
-        .catch((error) => console.log(error))
+      .then(storyData => {
+        self.setState({ storyData })
+        self.props.getUsers({ usernames: storyData.authors })
+      })
+      .catch(error => console.log(error))
   }
 
   onChapterSelected(chapter) {
@@ -39,7 +39,7 @@ export default class MainStoryScreen extends Screen {
     }
 
     var authors = {}
-    users.data.map(u => authors[u.username] = Object.assign({}, u))
+    users.data.map(u => (authors[u.username] = Object.assign({}, u)))
     this.setState({ story: this.state.storyData, authors })
   }
 
@@ -50,9 +50,15 @@ export default class MainStoryScreen extends Screen {
   chapterData(chapter) {
     const storyFragment = Object.assign({}, this.state.story)
     delete storyFragment.chapters
-    var data = Object.assign({}, merge.all([storyFragment, this.state.story.chapters[chapter]]))
+    var data = Object.assign(
+      {},
+      merge.all([storyFragment, this.state.story.chapters[chapter]])
+    )
 
-    data.author = Object.assign({}, this.state.authors[data.author || data.authors[0]])
+    data.author = Object.assign(
+      {},
+      this.state.authors[data.author || data.authors[0]]
+    )
 
     return data
   }
@@ -60,29 +66,39 @@ export default class MainStoryScreen extends Screen {
   renderChapterPreview(chapter) {
     const data = this.chapterData(chapter)
 
-    return <ChapterPreview
-            onSelected={this._onChapterSelected}
-            compact={this.isSmallScreen}
-            source={this.props.source}
-            chapter={data}
-            chapterId={chapter}/>
+    return (
+      <ChapterPreview
+        onSelected={this._onChapterSelected}
+        compact={this.isSmallScreen}
+        source={this.props.source}
+        chapter={data}
+        chapterId={chapter}
+      />
+    )
   }
 
   renderStoryChapters() {
-    return <div
+    return (
+      <div
         style={{
           display: 'flex',
           flex: 1,
           justifyContent: 'center',
           flexDirection: 'column',
           alignItems: 'center'
-        }}>
-      {Object.keys(this.state.story.chapters).map(chapter => this.renderChapterPreview(chapter))}
-    </div>
+        }}
+      >
+        {Object.keys(this.state.story.chapters).map(chapter =>
+          this.renderChapterPreview(chapter)
+        )}
+      </div>
+    )
   }
 
   renderChapter() {
-    const chapterId = Object.keys(this.state.story.chapters).find(c => this.state.story.chapters[c].slug === this.dynamicVariant)
+    const chapterId = Object.keys(this.state.story.chapters).find(
+      c => this.state.story.chapters[c].slug === this.dynamicVariant
+    )
 
     if (!chapterId) {
       return this.renderStoryChapters()
@@ -94,26 +110,16 @@ export default class MainStoryScreen extends Screen {
       return this.renderStoryChapters()
     }
 
-    const width = this.props.compact? '90vw' : '700px'
+    const data = this.chapterData(chapterId)
 
-    return <div
-      style={{
-        display: 'flex',
-        flex: 1,
-        marginTop: "40px",
-        justifyContent: 'center',
-        flexDirection: 'column',
-        alignItems: 'center'
-      }}>
-
-      <Fade>
-        <Card style={{ margin: '20px', width, padding: '20px' }} onClick={() => {}}>
-          <Components.Text
-            source={`${this.props.source}/chapters/${chapterId}/README.md`}
-          />
-        </Card>
-      </Fade>
-    </div>
+    return (
+      <Chapter
+        chapter={data}
+        chapterId={chapterId}
+        compact={this.props.compact}
+        source={this.props.source}
+      />
+    )
   }
 
   renderLoading() {

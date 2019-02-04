@@ -1,0 +1,44 @@
+{
+  "name": "community",
+  "routes": {
+    "main": {
+      "title": "Hire Us",
+      "icon": "supervisor_account",
+      "action": true,
+      "path": "/entrepreneurs",
+      "cover": {
+        "backgroundColor": "#00838F",
+        "align": "bottom",
+        "opacity": 0,
+        "image": "entrepreneurs.r.png",
+        "navigation": true,
+        "title": "Become a Carmel Entrepreneur",
+        "subtitle": "Join the Carmel Entrepreneurs Guild and start building your next product",
+        "type": "default"
+      },
+      "startOperationsOnMount": false,
+      "operations": {
+        "sendMessage": [
+          "rest://create/community/events#sendMessage",
+          {
+            "onSuccess": "sendMessageOk",
+            "onError": "sendMessageError"
+          }
+        ]
+      }
+    }
+  },
+  "service": {
+    "functions": [
+      "post://events#newEvent"
+    ],
+    "dependencies": {
+      "@slack/client": "latest"
+    },
+    "requiredFields": {
+    },
+    "permissions": {
+      "newEvent": ["ses:SendEmail"]
+    }
+  }
+}

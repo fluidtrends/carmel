@@ -37,23 +37,26 @@ import {
 } from 'react-share'
 
 export default class SocialIcons extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = { ...super.state }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     super.componentDidMount()
   }
 
   render() {
+    const url = `https://carmel.io/story/${this.props.chapter.slug}`
+
     return (
       <CardActionIcons
         style={{
           justifyContent: this.props.compact ? 'center' : 'flex-end'
-        }}>
+        }}
+      >
         <TwitterShareButton
-          url={this.props.chapter.url}
+          url={url}
           title={this.props.chapter.quote}
           hashtags={this.props.chapter.hashtags}
           style={{ marginRight: '10px' }}
@@ -61,14 +64,14 @@ export default class SocialIcons extends Component {
           <TwitterIcon size={32} round={true} />
         </TwitterShareButton>
         <LinkedinShareButton
-          url={this.props.chapter.url}
+          url={url}
           description={this.props.chapter.quote}
           style={{ marginRight: '10px' }}
         >
           <LinkedinIcon size={32} round={true} />
         </LinkedinShareButton>
         <FacebookShareButton
-          url={this.props.chapter.url}
+          url={url}
           hashtag={`#${this.props.chapter.hashtags[0]}`}
           quote={this.props.chapter.quote}
           style={{ marginRight: '10px' }}
@@ -76,7 +79,7 @@ export default class SocialIcons extends Component {
           <FacebookIcon size={32} round={true} />
         </FacebookShareButton>
         <TelegramShareButton
-          url={this.props.chapter.url}
+          url={url}
           title={this.props.chapter.quote}
           style={{ marginRight: '0px' }}
         >

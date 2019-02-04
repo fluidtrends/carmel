@@ -1,8 +1,0 @@
-{
-    "id": "changeMenuTitle",
-    "index": 1,
-    "title": "Define your page and add a title for the menu",
-    "instructions": "Edit the menu title. In order to do that, you need to open the chunks folder and take a look at the intro folder.",
-    "help": "Tap the 'Open Source Code' button and open the chunk.json file located in the intro folder and look for title key",
-    "files": ["chunks/intro/chunk.json"]
-}
