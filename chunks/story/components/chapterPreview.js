@@ -69,7 +69,15 @@ export default class ChapterPreview extends Component {
     return (
       <ChipSet>
         {this.props.chapter.tags.map(t => (
-          <Chip style={{ backgroundColor: '#F5F5F5', color: '#546E7A' }}>
+          <Chip
+            id={t}
+            onInteraction={evt =>
+              this.props.onTagClick
+                ? this.props.onTagClick(evt.detail.chipId)
+                : false
+            }
+            style={{ backgroundColor: '#F5F5F5', color: '#546E7A' }}
+          >
             <ChipText>{t}</ChipText>
           </Chip>
         ))}

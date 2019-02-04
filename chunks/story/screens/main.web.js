@@ -3,12 +3,12 @@ import { Screen, Components } from 'react-dom-chunky'
 import ChapterPreview from '../components/chapterPreview'
 import merge from 'deepmerge'
 import Chapter from '../components/Chapter'
-import { Tabs } from 'antd'
+import { Tabs, Tag } from 'antd'
 
 export default class MainStoryScreen extends Screen {
   constructor(props) {
     super(props)
-    this.state = { ...this.state, categoryFilter: 'All' }
+    this.state = { ...this.state, categoryFilter: 'All', selectedTags: [] }
     this._onChapterSelected = this.onChapterSelected.bind(this)
   }
 
@@ -68,6 +68,45 @@ export default class MainStoryScreen extends Screen {
     this.setState({ categoryFilter })
   }
 
+  addTag = tag => {
+    let { selectedTags } = this.state
+    if (tag && selectedTags.indexOf(tag) === -1) {
+      selectedTags = [...selectedTags, tag]
+    }
+    if (this.state.selectedTags.find(t => t === tag)) {
+      return
+    }
+
+    this.setState({
+      selectedTags
+    })
+  }
+
+  removeTag = removedTag => {
+    const selectedTags = this.state.selectedTags.filter(
+      tag => tag !== removedTag
+    )
+    this.setState({ selectedTags })
+  }
+
+  renderTags() {
+    return (
+      <div
+        style={{
+          padding: '5px 30px',
+          display: 'flex',
+          justifyContent: 'center'
+        }}
+      >
+        {this.state.selectedTags.map(tag => (
+          <Tag key={tag} closable afterClose={() => this.removeTag(tag)}>
+            {tag}
+          </Tag>
+        ))}
+      </div>
+    )
+  }
+
   renderChapterPreview(chapter) {
     const data = this.chapterData(chapter)
 
@@ -78,6 +117,7 @@ export default class MainStoryScreen extends Screen {
         source={this.props.source}
         chapter={data}
         chapterId={chapter}
+        onTagClick={tag => this.addTag(tag)}
       />
     )
   }
@@ -116,6 +156,7 @@ export default class MainStoryScreen extends Screen {
             <TabPane tab={category} key={category} />
           ))}
         </Tabs>
+        {this.renderTags()}
         {filteredStories.length
           ? filteredStories.map(chapter => this.renderChapterPreview(chapter))
           : [
