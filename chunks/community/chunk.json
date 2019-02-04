@@ -2,7 +2,7 @@
   "name": "community",
   "routes": {
     "main": {
-      "title": "Hire Us",
+      "title": "Get a quote",
       "icon": "supervisor_account",
       "action": true,
       "path": "/entrepreneurs",
