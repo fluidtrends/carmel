@@ -9,6 +9,7 @@ import About from '../components/about'
 import Chat from '../components/chat'
 import { Button, ButtonIcon } from 'rmwc/Button'
 import { Typography } from '@rmwc/typography'
+import teamData from '../data/team'
 
 export default class MainIntroScreen extends Screen {
   constructor(props) {
@@ -189,11 +190,16 @@ export default class MainIntroScreen extends Screen {
     )
   }
 
+  renderTeam() {
+    return <Components.Team {...teamData} />
+  }
+
   components() {
     const features = super.components()
     return [
       this.renderDefault(),
       ...features,
+      this.renderTeam(),
       // this.renderMainAction(),
       this.chat
     ]
