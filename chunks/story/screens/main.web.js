@@ -130,8 +130,8 @@ export default class MainStoryScreen extends Screen {
         ? Object.keys(this.state.story.chapters)
         : Object.keys(this.state.story.chapters).filter(
             c =>
-              this.state.story.chapters[c].tags &&
-              this.state.story.chapters[c].tags.find(
+              this.state.story.chapters[c].categories &&
+              this.state.story.chapters[c].categories.find(
                 t => t === this.state.categoryFilter
               )
           )
