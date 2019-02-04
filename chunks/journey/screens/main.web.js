@@ -1,11 +1,19 @@
 import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
-import { Icon, Tag, Tabs, Badge } from 'antd';
+import { Icon, Tag, Tabs, Avatar } from 'antd';
 import Activity from '../components/activityCard'
 import Challenge from '../components/challengeCard'
 import Meta from '../components/meta'
 import Story from '../components/Story'
 import StoryCard from '../components/storyCard'
+import Fade from 'react-reveal/Fade'
+import Bounce from 'react-reveal/Bounce'
+import { Typography } from '@rmwc/typography'
+import {
+  Card,
+  CardActions,
+  CardActionButtons
+} from 'rmwc/Card'
 
 const { TabPane } = Tabs;
 
@@ -92,18 +100,37 @@ export default class MainJourneyScreen extends Screen {
   }
 
   renderTabs() {
-    return <Tabs defaultActiveKey="3" onChange={() => {}} style={{color: '#546E7A', marginTop: 75, minHeight: '30vh'}}>
-      <TabPane tab="Activity" disabled key="1">
-        <div style={{textAlign: 'center'}}>
-          <Icon type="loading" style={{fontSize: 40, color: '#00bfa5', padding: '20px 0'}} />
-        </div>
-      </TabPane>
-      <TabPane tab="Stories" disabled key="2">
-        {this.state.stories? this.renderStories() : this.renderLoading()}
-      </TabPane>
-      <TabPane tab="Challenges" key="3">{this._renderChallenges()}</TabPane>
-      <TabPane tab="Code" disabled key="4"></TabPane>
-    </Tabs>
+    return this._renderChallenges()
+    // return <Tabs defaultActiveKey="3" onChange={() => {}} style={{color: '#546E7A', marginTop: 75, minHeight: '30vh'}}>
+    //   <TabPane tab="Activity" disabled key="1">
+    //     <div style={{textAlign: 'center'}}>
+    //       <Icon type="loading" style={{fontSize: 40, color: '#00bfa5', padding: '20px 0'}} />
+    //     </div>
+    //   </TabPane>
+    //   <TabPane tab="Stories" disabled key="2">
+    //     {this.state.stories? this.renderStories() : this.renderLoading()}
+    //   </TabPane>
+    //   <TabPane tab="Challenges" key="3">{this._renderChallenges()}</TabPane>
+    //   <TabPane tab="Code" disabled key="4"></TabPane>
+    // </Tabs>
+  }
+
+  renderNewJourney(width, padding) {
+    return <Fade>
+        <Card style={{ width, margin: '40px 10px', padding }}>
+            <div style={{ padding: '4px', textAlign: 'center', marginBottom: '20px' }}>
+              <Bounce>
+                <Avatar src="/assets/chunky-logo.gif" style={{
+                  height: "180px", width: "180px"
+                }} />
+              </Bounce>
+            </div>
+
+            <Typography use='headline5' tag='div' style={{margin: "20px", color: this.props.theme.primaryColor, textAlign: 'center' }}>
+              {this.dynamicVariant}'s learning journey hasn't started yet
+            </Typography>
+          </Card>
+          </Fade>
   }
 
   renderCompletedChallenges(challenges) {
@@ -118,9 +145,12 @@ export default class MainJourneyScreen extends Screen {
       const {journey} = this.state.journey
 
       const {completedChallenges, challenge} = journey
-      console.log(challenge)
 
       const completedChallengesCards = completedChallenges && this.renderCompletedChallenges(completedChallenges)
+
+      if (!completedChallenges.length && ! challenge) {
+        return this.renderNewJourney()
+      }
 
       return [
         this.renderCurrentChallenge(challenge),

@@ -59,7 +59,7 @@ export default class ChallengeCard extends Component {
       if (i < index) {
         item = <Timeline.Item color="green">
           <div style={{paddingTop: 6}}>
-            {`Task ${i + 1} - completed ${this.completedIn(challenge.tasksTime[i])}`}
+            {`Task ${i + 1} - completed in ${this.completedIn(challenge.tasksTime[i])}`}
           </div>
         </Timeline.Item>
       } else {
@@ -76,6 +76,10 @@ export default class ChallengeCard extends Component {
 
     }
 
+    if (!items.length) {
+      return <div />
+    }
+
     return <Timeline>
       {[...items]}
     </Timeline>
@@ -85,7 +89,7 @@ export default class ChallengeCard extends Component {
     const { challenge, isSmallScreen, completed, active } = this.props
 
     if (!challenge) {
-      return
+      return null
     }
 
     const { challengeId, timestamp } = challenge
