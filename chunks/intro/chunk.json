@@ -50,6 +50,7 @@
         }
       },
       "path": "/",
+      "storySource": "https://raw.githubusercontent.com/fluidtrends/carmel/master/chunks/story/data",
       "events": {
         "cover": "system://buy",
         "team": "local://team",

@@ -10,6 +10,8 @@ import Chat from '../components/chat'
 import { Button, ButtonIcon } from 'rmwc/Button'
 import { Typography } from '@rmwc/typography'
 import teamData from '../data/team'
+import { Col, Row } from 'antd'
+import moment from 'moment'
 
 export default class MainIntroScreen extends Screen {
   constructor(props) {
@@ -30,6 +32,26 @@ export default class MainIntroScreen extends Screen {
 
   componentDidMount() {
     super.componentDidMount()
+
+    this._loadStoryContent()
+  }
+
+  _loadStoryContent() {
+    const self = this
+
+    this.importRemoteData(`${this.props.storySource}/story.json`)
+      .then(storyData => {
+        self.setState({ storyData })
+      })
+      .catch(error => console.log(error))
+  }
+
+  date = date => {
+    if (date) {
+      return moment(date, 'x').format('DD MMMM YYYY')
+    }
+
+    return ''
   }
 
   onStart() {
@@ -190,6 +212,89 @@ export default class MainIntroScreen extends Screen {
     )
   }
 
+  renderLatestChapters() {
+    if (!this.state.storyData) return <div />
+
+    return (
+      <div
+        style={{
+          display: 'flex',
+          flex: 1,
+          justifyContent: 'center',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }}
+      >
+        <Typography use="headline4">
+          Checkout the Latest Carmel Stories
+        </Typography>
+        <div>
+          {Object.keys(this.state.storyData.chapters)
+            .slice(-3)
+            .map(c => this.renderStoryCard(this.state.storyData.chapters[c]))}
+        </div>
+      </div>
+    )
+  }
+
+  renderStoryCard(chapter) {
+    const { title, summary, image, date, slug } = chapter
+    return (
+      <Row
+        onClick={() => {
+          slug && this.props.history.push(`/story/${slug}`)
+        }}
+        style={{
+          boxShadow: '0 5px 20px 0 rgba(0,0,0,.15)',
+          padding: '15px',
+          marginTop: '15px',
+          marginBottom: '15px',
+          maxHeight: '250px',
+          cursor: 'pointer',
+          maxWidth: '700px'
+        }}
+      >
+        <Col sm={16} xs={24} style={{ height: '200px' }}>
+          <h4
+            style={{
+              padding: '20px 0',
+              fontSize: '26px',
+              textOverflow: 'ellipsis',
+              overflow: 'hidden',
+              maxHeight: '60px'
+            }}
+          >
+            {title}
+          </h4>
+          <p
+            style={{
+              fontSize: '16px',
+              lineHeight: '20px',
+              textOverflow: 'ellipsis',
+              overflow: 'hidden',
+              maxHeight: '60px'
+            }}
+          >
+            {summary}
+          </p>
+          {date && (
+            <p style={{ fontSize: '14px', position: 'absolute', bottom: 0 }}>
+              {this.date(date)}
+            </p>
+          )}
+        </Col>
+        {window.innerWidth > 576 && (
+          <Col span={4} offset={1}>
+            <img
+              style={{ height: '200px', width: '100%', minWidth: '200px' }}
+              src={image}
+            />
+          </Col>
+        )}
+      </Row>
+    )
+  }
+
   renderTeam() {
     return <Components.Team {...teamData} />
   }
@@ -199,6 +304,7 @@ export default class MainIntroScreen extends Screen {
     return [
       this.renderDefault(),
       ...features,
+      this.renderLatestChapters(),
       this.renderTeam(),
       // this.renderMainAction(),
       this.chat
