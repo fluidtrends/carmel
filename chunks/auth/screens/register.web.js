@@ -101,6 +101,7 @@ export default class RegisterScreen extends Screen {
       this.props.register(Object.assign({}, {
         name: this.state.name,
         username: this.state.username,
+        guild: this.state.guild,
         email: this.state.email,
         pic: pics[rand],
         bio: bios[rand],
@@ -196,7 +197,8 @@ export default class RegisterScreen extends Screen {
       </FormItem>
       <FormItem>
         <Select
-          style={{width: '100%'}}
+          style={{ width: '100%' }}
+          className={'guild-select-wrapper'}
           placeholder="Select a guild"
           onChange={val => this.setState({guild: val, error: ''})}
         >

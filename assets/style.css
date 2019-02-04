@@ -497,3 +497,8 @@ strong {
 .plans-list-wrapper i {
   color: #2e7d32;
 }
+
+.guild-select-wrapper .ant-select-selection--single {
+  height: 48px;
+  padding-top: 8px;
+}
