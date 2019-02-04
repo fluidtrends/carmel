@@ -144,7 +144,7 @@ export default class MainJourneyScreen extends Screen {
   renderChallenges() {
       const {journey} = this.state.journey
 
-      const {completedChallenges, challenge} = journey
+      const {completedChallenges = [], challenge} = journey
 
       const completedChallengesCards = completedChallenges && this.renderCompletedChallenges(completedChallenges)
 

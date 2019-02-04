@@ -22,38 +22,47 @@ export default class ChallengeCard extends Component {
 
   completedIn (timestamp) {
     let minutes = moment.duration(timestamp).minutes()
+    let seconds = moment.duration(timestamp).seconds()
     let minutesText
+    let secondsText
     if (minutes > 0) {
       minutesText = minutes === 1? 'minute' : 'minutes'
+      secondsText = seconds === 1? 'second' : 'seconds'
     } else {
-      minutes = moment.duration(timestamp).seconds()
-      minutesText = minutes === 1? 'second' : 'seconds'
+      seconds = moment.duration(timestamp).seconds()
+      secondsText = seconds === 1? 'second' : 'seconds'
     }
 
-    return `${minutes} ${minutesText}`
+    if (!minutes && !seconds) {
+      return 0
+    }
+
+    return `${minutes || ''} ${minutesText || ''} ${seconds} ${secondsText}`
   }
 
   renderTasks (challenge) {
-    console.log(challenge)
     const tasks = challenge.totalTasks
-    const index = challenge.tasksTime.length
+    const tasksTime = challenge.tasksTime || []
+    const index = tasksTime.length
     const errors = challenge.failures
 
     const items = []
     let item, i
     for (i = 0; i < tasks; i++) {
-      let error = errors[i]
-      
-      if( error ) {
-        let errorsCount = Object.keys(error).length
-        let errorsText = errorsCount === 1 ? 'failure' : 'failures'
-        let errorItem = <Timeline.Item color="red">
-          <div style={{paddingTop: 6}}>
-            {`Task ${i + 1} - ${errorsCount} ${errorsText}`}
-          </div>
-        </Timeline.Item>          
-
-        items.push(errorItem)
+      if (errors && errors.length) {
+        let error = errors[i]
+        
+        if( error ) {
+          let errorsCount = Object.keys(error).length
+          let errorsText = errorsCount === 1 ? 'failure' : 'failures'
+          let errorItem = <Timeline.Item color="red">
+            <div style={{paddingTop: 6}}>
+              {`Task ${i + 1} - ${errorsCount} ${errorsText}`}
+            </div>
+          </Timeline.Item>          
+  
+          items.push(errorItem)
+        }
       }
      
       //check if task was completed
@@ -93,8 +102,7 @@ export default class ChallengeCard extends Component {
       return null
     }
 
-    const { challengeId, timestamp } = challenge
-
+    const { challengeId, timestamp, tasksTime } = challenge
     const name = this.capitalizeName(challengeId.replace(/-/g, ' '))
     const date = moment.unix(timestamp/1000).fromNow()
     const description = <div style={{fontSize: 12}}>
@@ -104,7 +112,9 @@ export default class ChallengeCard extends Component {
     const tagColor = completed? '#87d068' : '#FFA000'
     const tagText= completed? 'Completed' : 'On going'
 
-    const challengeTime = this.completedIn(challenge.totalTime) 
+    const totalTime = (tasksTime && tasksTime.length) ? tasksTime.reduce((time, acc) => acc + time) : 0
+
+    const challengeTime = this.completedIn(totalTime) 
 
     const title = <div style={{display: 'flex', justifyContent: 'space-between'}}>
       <Meta
@@ -113,7 +123,7 @@ export default class ChallengeCard extends Component {
       />  
       <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-end'}}>
         <Tag style={{margin: 5}} color={tagColor}>{tagText}</Tag>
-        <Tag style={{margin: 5}} color="#26C6DA">{challengeTime}</Tag>
+        {challengeTime ? <Tag style={{margin: 5}} color="#26C6DA">{challengeTime}</Tag> : null}
       </div>  
     </div>
 
