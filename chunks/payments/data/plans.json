@@ -1,25 +1,5 @@
 [
   {
-    "id": "free",
-    "title": "FREE",
-    "description": "Enjoy the Carmel Experience for Free.",
-    "discount": "",
-    "monthlyPrice": "Free",
-    "yearlyPrice": "Free",
-    "color": "#37474F",
-    "benefits": [
-      {
-        "text": "Free minutes: ",
-        "value": "30"
-      }
-    ],
-    "button": {
-      "text": "Get Started",
-      "backgroundColor": "#546E7A",
-      "color": "#fff"
-    }
-  },
-  {
     "id": "starter",
     "title": "STARTER",
     "description": "Try the Starter edition and get into coding.",
@@ -97,34 +77,6 @@
     "button": {
       "text": "Get Started",
       "backgroundColor": "#00695C",
-      "color": "#fff"
-    }
-  },
-  {
-    "id": "team",
-    "title": "TEAM",
-    "description": "This package is perfect for the teams.",
-    "discount": "",
-    "monthlyPrice": "500",
-    "yearlyPrice": "5000",
-    "color": "#2E7D32",
-    "benefits": [
-      {
-        "text": "Free minutes: ",
-        "value": "∞"
-      },
-      {
-        "text": "Extra minutes: ",
-        "value": "∞"
-      },
-      {
-        "text": "Mentoring: ",
-        "value": "Online Chat"
-      }
-    ],
-    "button": {
-      "text": "Get Started",
-      "backgroundColor": "#2E7D32",
       "color": "#fff"
     }
   }
