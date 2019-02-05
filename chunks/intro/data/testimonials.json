@@ -1,20 +1,20 @@
 [
-	{
-		"imageUrl": "http://files.carmel.io/team/robert/profile.png",
-		"text": "Amazingly easy for people to dive into coding",
-		"person": "Robert Pop",
-		"description": "Web & Mobile developer"	
-	},
-	{
-		"imageUrl": "http://files.carmel.io/team/orchid/profile.jpg",
-		"text": "Carmel is a new way of revolutionizing education, in a decentralized manner. Now we will see each different engagement getting incentivized, in a way that benefits the whole community.",
-		"person": "Orchid Kim",
-		"description": "Chain Partners, EOSYS"	
-	},
-	{
-		"imageUrl": "http://files.carmel.io/team/daniel/profile.jpg",
-		"text": "The best way to empower any human is to give them relevant skills for the modern world. Carmel goes a step further to create the necessary incentives for those with these skills to pass them on to the ones who also need them. I believe the impact that Carmel will have will be profound in an age of fast evolving technology. The community approach supports a self sustaining ecosystem that gets all participants performing at their best. Creating what we like to losely call a communiversity.",
-		"person": "Daniel Kimotho",
-		"description": "Co-founder and Community lead EOS Nairobi"	
-	}
+  {
+    "image": "",
+    "text": "Being a avid blockchain enthusiast amongst the EOS community and keeping a eye out for upcoming projects, Carmel is one I’ve been watching for a while now. A project this size requires patience and understanding let alone a lot of determination. Carmel has a lot to offer to not just groups but to everyone. If you wish to learn then learn, if you like to teach or create challenges you can! People can brainstorm, shares challenges and have potential to turn the idea into a project then go live from the Carmel platform! Carmel oozes learning & opportunity for everyone, quite literally everyone!",
+    "name": "Richie M",
+    "description": "Block Aid"
+  },
+  {
+    "image": "",
+    "text": "Being a avid blockchain enthusiast amongst the EOS community and keeping a eye out for upcoming projects, Carmel is one I’ve been watching for a while now. A project this size requires patience and understanding let alone a lot of determination. Carmel has a lot to offer to not just groups but to everyone. If you wish to learn then learn, if you like to teach or create challenges you can! People can brainstorm, shares challenges and have potential to turn the idea into a project then go live from the Carmel platform! Carmel oozes learning & opportunity for everyone, quite literally everyone!",
+    "name": "Adrien Benoist",
+    "description": "Carmel French Evangelist"
+  },
+  {
+    "image": "",
+    "text": "As I’ve always been a person who likes to keep in touch with IT, technology and the benefits of it, when first hearing about Carmel I’ve said to myself: I must try it! I’m not an IT person let alone working it this field but as IT is the future, I feel blessed to be able to learn coding in the Carmel Way. It is a tool accessible to everyone, a very “newbie-friendly” and super educative environment, where learning seems like having fun🐵 It took a bunch of motivated awesome people and a great idea to create this innovative platform and seeing the fabulous path it follows, I can say that the Carmel Way is the right way to successfully develop yourself!",
+    "name": "Anca Maria Corui",
+    "description": "Accounts Receivable & Cash Management Analyst"
+  }
 ]
