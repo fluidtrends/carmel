@@ -10,6 +10,7 @@ import {
 } from '../components'
 import { Typography } from '@rmwc/typography'
 import { List, Icon, notification } from 'antd'
+import Distribution from '../components/distribution'
 
 import moment from 'moment'
 
@@ -234,26 +235,9 @@ export default class PrivateTokensScreen extends Screen {
   }
 
   renderDistribution(width, padding) {
-      return <Card style={{ width, margin: '10px', padding }}>
-      <Typography use='subheading2' tag='h3' style={{ textAlign:"center", color: '#333333' }}>
-        1 CARMEL = 0.005 EOS
-      </Typography>
-     <Typography use='subheading2' tag='h3' style={{ textAlign:"center", color: '#90A4AE' }}>
-        Get more CARMEL by sending EOS to the
-      </Typography>
-      <Typography use='subheading2' tag='h3' style={{ textAlign:"center", color: '#90A4AE' }}>
-       <strong> carmeltokens </strong> smart contract
-      </Typography>
-      <Typography
-          use="caption"
-          tag="div"
-          style={{
-            textAlign: "center",
-            color: `#546E7A`,
-            padding: "5px"
-          }}>
-        </Typography>
-      </Card>
+    return <div style={{textAlign: 'center'}}> 
+      <Distribution isSmallScreen={this.isSmallScreen} />
+    </div>
   }
 
   renderClaim () {
