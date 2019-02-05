@@ -1,4 +1,4 @@
-# Pre-listing sale LIVE now!
+# Pre-listing token distribution LIVE now!
 
 ## Get your CARMEL here.
 
