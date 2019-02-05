@@ -18,9 +18,35 @@ const getProfile = (userId) => {
   })
 }
 
+const removeOldUsernamesIfAny = (userId) => {
+  return chunky.firebase.operation('retrieve', { key: `users-usernames/${userId}` })
+               .then((usernames) => {
+                 if (!usernames) {
+                   return
+                 }
+                 return chunky.firebase.operation('remove', { key: `users-usernames/${userId}/${usernames._id}` })
+               })
+}
+
+const updateUsername = (username, userId) => {
+  return removeOldUsernamesIfAny(userId)
+         .then(() => chunky.firebase.operation('add', {
+              node: 'usernames',
+              id: username,
+              userId,
+              join: {
+                users: {
+                  id: userId
+                }
+              }
+          }))
+}
+
 const updateUser = (data, userId) => {
   return getUser(userId).then((user) => {
-    return chunky.firebase.operation('update', Object.assign({}, { key: `users/${user._id}` }, data))
+    return Promise.all([chunky.firebase.operation('update', Object.assign({}, { key: `users/${userId}` }, data)),
+                        data.username ? updateUsername(data.username, userId) : Promise.resolve()
+                       ])
   })
 }
 
