@@ -121,6 +121,33 @@ export default class Challenge extends Component {
     </Button>
   }
 
+  
+  renderControls() {
+    return <Typography
+        use="caption"
+        style={{
+          color: "#00bcd4",
+          textAlign: "center",
+          padding: "20px"
+        }}>
+        <Button
+          onClick={() => this.props.onPause(this.props.challenge)}
+          style={{
+            color: '#90A4AE',
+            lineHeight: '15px',
+            display: 'flex',
+            margin: '20px auto 0',
+            lineHeight: '28px',
+            alignItems: 'center',
+            backgroundColor: '#ECEFF1',
+            border: 'none'
+          }}>
+          <Icon type="pause" />
+          Pause Challenge
+        </Button>
+      </Typography>
+  }
+
   renderTasks(width, padding) {
     const { challenge } = this.props
     const { tasks } = challenge
@@ -137,6 +164,7 @@ export default class Challenge extends Component {
           { this.renderActionButton() }
         </Card>
         { this.renderNextPrompt() }
+        { this.renderControls() }
       </div>
     }
 

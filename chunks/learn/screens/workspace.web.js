@@ -306,6 +306,7 @@ export default class Workspace extends Screen {
     return <Fade>
         <div style={{ width, margin: '10px', padding }}>
             <Challenge
+                onPause={this._pauseChallenge}
                 journey={this.state.journey}
                 challenge={this.state.challenge}
                 onSelectChallenge={this._startChallenge}/>

@@ -48,34 +48,6 @@ export default class Workspace extends Screen {
     // console.log(error)
   }
 
-  // cachedWorkspace() {
-  //   return new Promise((resolve, reject) => {
-  //       Data.Cache.retrieveCachedItem("workspace")
-  //                 .then((workspace) => resolve(workspace))
-  //                 .catch((e) => resolve())
-  //   })
-  // }
-  //
-  // updateWorkspace(journey, workspace) {
-  //   if (!journey.challenge && workspace.event && workspace.event === "startChallenge" && workspace.challenge && journey.machines) {
-  //     const machineId = Object.keys(journey.machines)[0]
-  //     workspace.event = "doChallenge"
-  //     Data.Cache.cacheItem("workspace", workspace).then(() => {
-  //       this.updateLearningJourney({ type: "start", challengeId: workspace.challenge._id, machineId })
-  //       this.setState({ journey, workspace })
-  //     })
-  //     return
-  //   }
-  //
-  //   if (journey.challenge) {
-  //     this.setState({ journey, workspace })
-  //     this.refreshCurrentChallenge()
-  //     return
-  //   }
-  //
-  //   this.setState({ journey, workspace, inProgress: false })
-  // }
-
   getJourneySuccess (journey) {
     if (!journey || !journey[0]) {
       this.setState({ inProgress: false })
@@ -114,21 +86,7 @@ export default class Workspace extends Screen {
   }
 
   renderNewJourney(width, padding) {
-    return <Fade>
-        <Card style={{ width, margin: '10px', padding }}>
-            <div style={{ padding: '4px', textAlign: 'center', marginBottom: '20px' }}>
-              <Bounce>
-                <Avatar src="/assets/chunky-logo.gif" style={{
-                  height: "180px", width: "180px"
-                }} />
-              </Bounce>
-            </div>
-
-            <Typography use='headline5' tag='div' style={{margin: "20px", color: this.props.theme.primaryColor }}>
-              You didn't start your learning journey yet
-            </Typography>
-          </Card>
-          </Fade>
+    return <div/>
   }
 
   renderCompletedChallenges(challenges) {

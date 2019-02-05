@@ -176,8 +176,7 @@ export default class ChallengeCard extends Component {
             overflow: 'hidden',
             marginLeft: "10px",
             display: 'inline-block'
-          }}
-        >
+          }}>
           {this.props.challenge.title}
         </Typography>
         <Ribbon backgroundColor={'#00BCD4'}>
@@ -243,6 +242,34 @@ export default class ChallengeCard extends Component {
     </Button>
   }
 
+  renderPrerequisites() {
+    if (!this.props.challenge.prerequisites || this.props.challenge.prerequisites.length === 0) {
+      return <div/>
+    }
+
+    return <div style={{
+      flex: 1,
+      display: "flex",
+      flexDirection: "column",
+      borderTop: "1px #4FC3F7 solid",
+      padding: "10px",
+      backgroundColor: "#FFFDE7",
+      margin: "10px"
+    }}>
+      { this.props.challenge.prerequisites.map(p => {
+        return <Typography
+          use="caption"
+          style={{
+            color: "#81D4FA",
+            textAlign: "center"
+          }}>
+          { p.message }
+        </Typography>
+      })}
+    </div>
+
+  }
+
   render() {
     return <Card title={this.renderTitle()} className={'challenge-card'} style={{
       display: "flex",
@@ -254,7 +281,7 @@ export default class ChallengeCard extends Component {
       {this.renderDetails()}
       {this.renderSkills()}
       {this.renderButton()}
-
-      </Card>
+      {this.renderPrerequisites()}
+    </Card>
   }
 }
