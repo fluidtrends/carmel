@@ -61,7 +61,10 @@ export default class Workspace extends Screen {
   }
 
   updateWorkspace(journey, workspace) {
-    if (!journey.challenge && workspace && workspace.event && workspace.event === "startChallenge" && workspace.challenge && journey.machines) {
+    if ((!journey || !journey.challenge) && workspace && workspace.event && workspace.event === "startChallenge" && workspace.challenge) {
+      if (!journey || !journey.machines) {
+        return
+      }
       const machineId = Object.keys(journey.machines)[0]
       workspace.event = "doChallenge"
       Data.Cache.cacheItem("workspace", workspace).then(() => {
@@ -83,6 +86,7 @@ export default class Workspace extends Screen {
   getJourneySuccess (journey) {
     if (!journey || !journey[0]) {
       this.setState({ inProgress: false })
+      // this.cachedWorkspace().then((workspace) => this.updateWorkspace(journey[0], workspace))
       return
     }
 

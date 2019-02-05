@@ -24,10 +24,14 @@ export default class AccountScreen extends Screen {
     }
 
     Data.Cache.retrieveCachedItem("guestSession")
-              .then((session) => {
-                Data.Cache.clearCachedItem("guestSession")
-              })
-              .catch((e) => {})
+              .then((session) => Data.Cache.clearCachedItem("guestSession")
+                .then(() => {
+                  if (!session.workspace) {
+                    return
+                  }
+                  Data.Cache.cacheItem("workspace", session.workspace)
+                      .then(() => this.triggerRedirect('/me/workspace'))
+              }))
   }
 
   componentWillUnmount() {
@@ -93,9 +97,9 @@ export default class AccountScreen extends Screen {
     const updatedData = this.state.profileData
 
     if (this.state.editId == 'eosAddress' && this.state.editValue.length !== 12) {
-      this.setState({error: 'EOS username has to be 12 characters long!'})      
+      this.setState({error: 'EOS username has to be 12 characters long!'})
       return
-    } 
+    }
 
     for(let i =0; i<updatedData.length; i++) {
       if (updatedData[i].id === this.state.editId && this.state.editValue !== updatedData[i].value) {
@@ -160,8 +164,8 @@ export default class AccountScreen extends Screen {
       value = this.state.editValue
     }
 
-    const content = this.state.editId == item.id ? 
-      item.id === 'guild' ? 
+    const content = this.state.editId == item.id ?
+      item.id === 'guild' ?
         <Select
           defaultValue={value}
           style={{ width: '100%' }}
@@ -174,7 +178,7 @@ export default class AccountScreen extends Screen {
           <Option value="teacher">Teacher</Option>
           <Option value="manager">Manager</Option>
           <Option value="recruiter">Recruiter</Option>
-        </Select> 
+        </Select>
       :
         <Input
           ref={(input) => { this.input = input }}
