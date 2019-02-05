@@ -18,20 +18,10 @@
           "image": "carmel.svg",
           "textColor": "#37474F"
         },
-        "pillars": {
-          "source": "benefits",
-          "benefits": [
-            { "text": "local://tweak", "image": "tweak.svg" },
-            { "text": "local://reputation", "image": "reputation.svg" },
-            { "text": "local://market", "image": "market.svg" }
-          ],
-          "textColor": "#37474F",
-          "backgroundColor": "#F3FFFF"
-        },
         "video": {
           "source": "presentation",
           "backgroundColor": "#ffffff",
-          "text": "local://intro",
+          "title": "Why Carmel?",
           "url": "https://www.youtube.com/watch?v=qrHBVDbrOOY",
           "image": "presentation.png",
           "textColor": "#37474F"
@@ -39,8 +29,8 @@
         "tokens": {
           "source": "buy",
           "text": "local://get-tokens",
-          "buttonColor": "#039BE5",
-          "hoveredButtonColor": "#039BE5",
+          "buttonColor": "#00bfa5",
+          "hoveredButtonColor": "#04bdd4",
           "action": "Get Tokens",
           "components": {
             "getAccess": {

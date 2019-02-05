@@ -13,11 +13,11 @@
       "cover": {
         "backgroundColor": "#00838F",
         "align": "bottom",
-        "opacity": 0.3,
-        "image": "roadmap.r.png",
+        "opacity": 0.6,
+        "image": "tokens.r.png",
         "navigation": true,
-        "title": "Participate in the Token Distribution",
-        "type": "simple"
+        "title": "Pre-listing sale LIVE!",
+        "type": "default"
       },
       "startOperationsOnMount": false,
       "operations": {

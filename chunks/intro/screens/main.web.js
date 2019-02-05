@@ -10,7 +10,7 @@ import Chat from '../components/chat'
 import { Button, ButtonIcon } from 'rmwc/Button'
 import { Typography } from '@rmwc/typography'
 import teamData from '../data/team'
-import { Col, Row } from 'antd'
+import { Col, Row, Icon } from 'antd'
 import moment from 'moment'
 
 export default class MainIntroScreen extends Screen {
@@ -255,17 +255,19 @@ export default class MainIntroScreen extends Screen {
         }}
       >
         <Col sm={16} xs={24} style={{ height: '200px' }}>
-          <h4
-            style={{
-              padding: '20px 0',
-              fontSize: '26px',
-              textOverflow: 'ellipsis',
-              overflow: 'hidden',
-              maxHeight: '60px'
-            }}
-          >
-            {title}
-          </h4>
+          <Row>
+            <h4
+              style={{
+                padding: '20px',
+                fontSize: '26px',
+                textOverflow: 'ellipsis',
+                overflow: 'hidden',
+                maxHeight: '60px'
+              }}
+            >
+              {title}
+            </h4>
+          </Row>
           <p
             style={{
               fontSize: '16px',
@@ -277,16 +279,19 @@ export default class MainIntroScreen extends Screen {
           >
             {summary}
           </p>
-          {date && (
-            <p style={{ fontSize: '14px', position: 'absolute', bottom: 0 }}>
-              {this.date(date)}
-            </p>
-          )}
+          <div style={{display: 'flex', position: 'absolute', bottom: 0, justifyContent: 'space-between'}}>
+            {date && (
+              <p style={{ fontSize: '14px', marginTop: 7, marginRight: 20 }}>
+                {this.date(date)}
+              </p>
+            )}
+            <Button>Read more</Button>
+          </div>
         </Col>
         {window.innerWidth > 576 && (
           <Col span={4} offset={1}>
             <img
-              style={{ height: '200px', width: '100%', minWidth: '200px' }}
+              style={{ height: '200px', width: '100%', minWidth: '200px', objectFit: 'cover' }}
               src={image}
             />
           </Col>

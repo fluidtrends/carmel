@@ -125,6 +125,7 @@ export default class LoginScreen extends Screen {
   }
 
   components () {
-    return [this.renderForm()]
+    const features = super.components()
+    return [...features, this.renderForm()]
   }
 }

@@ -23,13 +23,13 @@ export default class ChallengeCard extends Component {
   completedIn (timestamp) {
     let minutes = moment.duration(timestamp).minutes()
     let seconds = moment.duration(timestamp).seconds()
-    let minutesText
-    let secondsText
+
+    let minutesText, secondsText
+    
     if (minutes > 0) {
       minutesText = minutes === 1? 'minute' : 'minutes'
       secondsText = seconds === 1? 'second' : 'seconds'
     } else {
-      seconds = moment.duration(timestamp).seconds()
       secondsText = seconds === 1? 'second' : 'seconds'
     }
 

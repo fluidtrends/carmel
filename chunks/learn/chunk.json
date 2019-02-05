@@ -14,6 +14,24 @@
         "title": "Become a Carmel Learner",
         "subtitle": "Join the Carmel Learners Guild and start your learning journey",
         "type": "default"
+      },
+      "components": {
+        "intro": {
+          "source": "summary",
+          "text": "local://intro",
+          "image": "carmel.svg",
+          "textColor": "#37474F"
+        },
+        "pillars": {
+          "source": "benefits",
+          "benefits": [
+            { "text": "local://tweak", "image": "tweak.svg" },
+            { "text": "local://reputation", "image": "reputation.svg" },
+            { "text": "local://market", "image": "market.svg" }
+          ],
+          "textColor": "#37474F",
+          "backgroundColor": "#F3FFFF"
+        }
       }
     },
     "challenges": {
