@@ -33,59 +33,7 @@ export default class TaskScreen extends Component {
     this.stopTimer()
   }
 
-  // isTaskComplete(task) {
-  //   return (
-  //     this.props.challenge.taskIds.findIndex(t => t === task) <
-  //     this.state.taskIndex
-  //   )
-  // }
-  //
-  // isCurrentTask(task) {
-  //   return (
-  //     this.props.challenge.taskIds.findIndex(t => t === task) ===
-  //     this.state.taskIndex
-  //   )
-  // }
-  //
-  // toggleStarted = () => {
-  //   const task = this.props.challenge.taskIds[this.state.taskIndex - 1]
-  //
-  //   if (!this.state.tasksStarted) {
-  //     this.props.pushActivity({
-  //       type: 'task',
-  //       event: 'started',
-  //       taskId: task,
-  //       challengeId: this.props.challengeId
-  //     })
-  //   } else {
-  //     this.props.pushActivity({
-  //       type: 'task',
-  //       event: 'paused',
-  //       taskId: task,
-  //       challengeId: this.props.challengeId
-  //     })
-  //   }
-  //   this.setState({
-  //     tasksStarted: !this.state.tasksStarted
-  //   })
-  // }
-  //
-
-  // renderProgress() {
-  //   return <Col
-  //     span={6}
-  //     offset={9}
-  //     style={{ marginTop: '20px', marginBottom: '20px' }}
-  //   >
-  //     <Timeline
-  //       completedTasks={this.state.taskIndex}
-  //       taskNr={0}
-  //     />
-  //   </Col>
-  // }
-
   renderIntro(width, padding) {
-    // const text = require(`assets/text/challenges/${challengeId}.md`)
     return <div style={{
             display: 'flex',
             flex: 1,
@@ -102,53 +50,32 @@ export default class TaskScreen extends Component {
       </div>
   }
 
-  // renderTaskTitle(data, task) {
-  //   const textDecoration = this.isTaskComplete(task) ? 'line-through' : 'none'
-  //   const color = this.isTaskComplete(task)
-  //     ? '#78909C'
-  //     : this.isCurrentTask(task)
-  //     ? '#00bcd4'
-  //     : '#CFD8DC'
-  //
-  //   return [
-  //     <Typography
-  //       use="body1"
-  //       style={{
-  //         textAlign: 'left',
-  //         textDecoration,
-  //         color
-  //       }}
-  //     >
-  //       {data.title}
-  //     </Typography>,
-  //     this.isTaskComplete(task) && (
-  //       <Tag style={{ position: 'absolute', right: 0 }} color="#03A9F4">
-  //         500s
-  //       </Tag>
-  //     )
-  //   ]
-  // }
-  //
-
   startTimer() {
     if (this._timer || !this.props.journey.challenge.taskActive) {
       return
     }
 
-    const since = moment.duration(moment().diff(moment(parseInt(this.props.journey.challenge.taskStartTime)))).asMilliseconds()
+    const startTime = parseInt(this.props.journey.challenge.taskStartTime)
+    const taskTotalTime = parseInt(this.props.journey.challenge.taskTotalTime || 0)
+    const startTotalTime = moment.duration(moment().diff(moment(startTime))).asMilliseconds() + taskTotalTime
+
+    const since = startTotalTime
+    const sec = 1000
 
     this._timer = setInterval(() => {
-      const time = parseInt((this.state.time || since) + 1000)
-      const duration = moment.duration(time, 'milliseconds')
-      const hh = Math.round(duration.asHours()) % 24
-      const mm = Math.round(duration.asMinutes()) % 60
-      const ss = Math.round(duration.asSeconds()) % 60
+      const time = parseInt((this.state.time || since) + sec)
+      const duration = moment.duration(time, 'milliseconds') / 1000
+      const hh = parseInt(duration / 3600) % (24 * 3600)
+      const mm = parseInt(duration / 60) % 3600
+      const ss = parseInt(duration) % 60
+
+      console.log(hh, mm, ss)
 
       const prettyTime = `${hh < 10 ? '0' : ''}${hh}:${mm < 10 ? '0' : ''}${mm}:${ss < 10 ? '0' : ''}${ss}`
-      this.setState({ time, prettyTime })
-    }, 1000)
-  }
 
+      this.setState({ time, prettyTime })
+    }, sec)
+  }
 
   stopTimer() {
     if (!this._timer) {
@@ -171,8 +98,7 @@ export default class TaskScreen extends Component {
           backgroundColor: "#FFEB3B",
           color: '#607D8B',
           padding: "5px"
-        }}
-      >
+        }}>
         {this.state.prettyTime}
       </Typography>
     </Bounce>
@@ -183,8 +109,7 @@ export default class TaskScreen extends Component {
     const title = `Task ${parseInt(journey.challenge.taskIndex) + 1} of ${challenge.tasks.length}`
     const task = this.props.challenge.tasks[this.props.journey.challenge.taskIndex]
 
-    return (
-      <div
+    return <div
         style={{
           position: 'relative',
           display: 'flex',
@@ -215,7 +140,6 @@ export default class TaskScreen extends Component {
         </Typography>
         { this.renderTimer() }
       </div>
-    )
   }
 
   renderFailurePrompt() {
@@ -230,8 +154,33 @@ export default class TaskScreen extends Component {
        message="Sorry, that didn't work"
        description={description}
        type="error"
-       closable
-   />
+       closable />
+  }
+
+  renderControls() {
+    return <Typography
+        use="caption"
+        style={{
+          color: "#00bcd4",
+          textAlign: "center",
+          padding: "20px"
+        }}>
+        <Button
+          onClick={() => this.props.onPause(this.props.challenge)}
+          style={{
+            color: '#90A4AE',
+            lineHeight: '15px',
+            display: 'flex',
+            margin: '20px auto 0',
+            lineHeight: '28px',
+            alignItems: 'center',
+            backgroundColor: '#ECEFF1',
+            border: 'none'
+          }}>
+          <Icon type="pause" />
+          Pause Challenge
+        </Button>
+      </Typography>
   }
 
   renderTutorial(width, padding) {
@@ -246,7 +195,7 @@ export default class TaskScreen extends Component {
       console.log(e)
     }
 
-    return <div  style={{
+    return <div style={{
             display: 'flex',
             flex: 1,
             width,
@@ -266,195 +215,9 @@ export default class TaskScreen extends Component {
           When done, type <strong> chunky carmel next </strong> to continue
         </Typography>
         {this.renderFailurePrompt() }
+        {this.renderControls()}
       </div>
-    }
-
-  // showTask() {
-  //   // -1 because array and index
-  //   const task = require(`challenges/${this.props.challengeId}/index.json`)
-  //     .taskIds[this.state.taskIndex]
-  //
-  //   return (
-  //     <Task
-  //       task={require(`challenges/${
-  //         this.props.challengeId
-  //       }/${task}/index.json`)}
-  //     />
-  //   )
-  // }
-  // renderTaskSummary(task) {
-  //   const taskData = require(`challenges/${
-  //     this.props.challengeId
-  //   }/${task}/index.json`)
-  //   return (
-  //     <List.Item>
-  //       <List.Item.Meta
-  //         avatar={this.renderTaskIcon(taskData, task)}
-  //         title={this.renderTaskTitle(taskData, task)}
-  //       />
-  //     </List.Item>
-  //   )
-  // }
-  // renderChallenge() {
-  //   const { challengeId, challenge } = this.props
-  //   const { type, components } = challenge
-  //   if (type[0] !== 'playground') return null
-  //   let defaultData = require(`../data/${challengeId}.json`)
-  //   defaultData = defaultData.filter(d => d.source === components[0])
-  //
-  //   if (this.state.tasksStarted) {
-  //     return (
-  //       <Col span={24} style={{ margin: '20px 0' }}>
-  //         <ChallengePlayground
-  //           defaults={defaultData[0]}
-  //           updateValue={editorValue => this.setState({ editorValue })}
-  //         />
-  //       </Col>
-  //     )
-  //   }
-  // }
-  //
-  // renderInitialChallenge() {
-  //   const initialChallenge = require(`challenges/initial/index.json`)
-  //   return (
-  //     <ChallengePlayground
-  //       challenge={initialChallenge}
-  //       defaults={require('../data/initial.json')}
-  //       initial
-  //       updateValue={editorValue => this.setState({ editorValue })}
-  //     />
-  //   )
-  // }
-  //
-  // verifyTask = () => {
-  //   const { challengeId } = this.props
-  //   const { editorValue } = this.state
-  //   message.loading('Verifying your task ...')
-  //   if (challengeId === 'initial') {
-  //     // no changes has been made to the editor
-  //     if (!editorValue) {
-  //       // randomize this with an array
-  //       message.destroy()
-  //       message.error('I know you can!')
-  //       this.props.newActivity({
-  //         type: 'taskVerification',
-  //         source: 'web/playground',
-  //         error: 'editor not updated'
-  //       })
-  //       return
-  //     }
-  //     if (JSON.stringify(editorValue) === JSON.stringify(this.state.initial)) {
-  //       message.destroy()
-  //       message.error('Come on, I believe in you!')
-  //       this.props.newActivity({
-  //         type: 'taskVerification',
-  //         source: 'web/playground',
-  //         error: 'editor not different from the initial values'
-  //       })
-  //       return
-  //     } else {
-  //       this.setState({
-  //         challengeCompleted: true
-  //       })
-  //       this.props.newActivity({
-  //         type: 'taskVerification',
-  //         source: 'web/playground',
-  //         success: true
-  //       })
-  //     }
-  //   } else {
-  //     console.log(editorValue)
-  //     // call api for verifying other tasks
-  //     // this.props.newActivity({
-  //     // 	type: "taskVerification",
-  //     // 	source: "cli",
-  //     // 	status: "failed",
-  //     // 	reason: "dkdkdkdkd error stack"
-  //     // })
-  //   }
-  // }
-  //
-  // renderButtons() {
-  //   return (
-  //     <Col style={{ padding: '20px' }} span={12} offset={6}>
-  //       <div
-  //         style={{
-  //           display: 'flex',
-  //           flexDirection: 'row',
-  //           height: '100px',
-  //           alignItems: 'center'
-  //         }}
-  //       >
-  //         <Button
-  //           onClick={() => this.props.showChallenges()}
-  //           style={{
-  //             display: 'flex',
-  //             color: '#ffffff',
-  //             backgroundColor: '#006064',
-  //             border: 'none',
-  //             margin: '10px auto 0',
-  //             height: '35px',
-  //             lineHeight: '15px'
-  //           }}
-  //         >
-  //           <Icon type="arrow-left" />
-  //           Choose another challenge
-  //         </Button>
-  //       </div>
-  //     </Col>
-  //   )
-  // }
-  //
-  // showSuccess() {
-  //   // maybe generate random success msgs
-  //   const { challengeId } = this.props
-  //
-  //   return (
-  //     <div style={{ marginTop: '30px' }}>
-  //       {challengeId === 'initial' ? (
-  //         <React.Fragment>
-  //           <h1>Congrats!</h1>
-  //           <h2>Is that easy to be a developer with the help of Carmel</h2>
-  //           <h2>Now let's do more challenges</h2>
-  //           <Button
-  //             onClick={() => this.props.showChallenges()}
-  //             style={{
-  //               display: 'flex',
-  //               color: '#ffffff',
-  //               backgroundColor: '#006064',
-  //               border: 'none',
-  //               margin: '10px auto 0',
-  //               height: '35px',
-  //               lineHeight: '15px'
-  //             }}
-  //           >
-  //             <Icon type="arrow-left" />
-  //             Go to challenges
-  //           </Button>
-  //         </React.Fragment>
-  //       ) : (
-  //         <React.Fragment>
-  //           <h1>Congrats!</h1>
-  //           <h2>You completed the {challengeId} challenge !</h2>
-  //           <h2>More challenges are waiting to be completed</h2>
-  //         </React.Fragment>
-  //       )}
-  //     </div>
-  //   )
-  // }
-  //
-  // render2() {
-  //   const { challengeId } = this.props
-  //   if (this.state.challengeCompleted) {
-  //     return this.showSuccess()
-  //   }
-  //   return [
-  //     this.renderIntro(challengeId),
-  //     this.renderTasks(),
-  //     this.renderChallenge(),
-  //     this.renderButtons()
-  //   ]
-  // }
+  }
 
   render() {
     const width = this.props.compact ? '95vw' : '700px'

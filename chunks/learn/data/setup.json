@@ -16,11 +16,7 @@
   }, {
     "title": "Step 3. Get Node.js",
     "action": "Install Node.js",
-    "link": {
-      "windows": "https://github.com/coreybutler/nvm-windows/releases/download/1.1.7/nvm-setup.zip",
-      "mac": "https://github.com/creationix/nvm#install-script",
-      "linux": "https://github.com/creationix/nvm#install-script"
-    },
+    "link": "https://nodejs.org/en/",
     "text": "You will be coding in **JavaScript** so that means you need a way to run JavaScript on your computer. This is where **Node.js** comes in, a JavaScript environment."
   }, {
     "title": "Step 4. Get Chunky",
