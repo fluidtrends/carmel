@@ -69,8 +69,9 @@ export default class Chapter extends Component {
   }
 
   get date() {
+    console.log(this.props.chapter.date)
     if (this.props.chapter.date) {
-      return moment(this.props.chapter.date, 'x').format('DD MMMM YYYY')
+      return moment(this.props.chapter.date, 'YYYY-MM-DD').format("MMMM D, YYYY")
     }
 
     return ''

@@ -53,7 +53,7 @@ export default class ChapterPreview extends Component {
 
   get date() {
     if (this.props.chapter.date) {
-      return moment(this.props.chapter.date, 'x').format('DD MMMM YYYY')
+      return moment(this.props.chapter.date, 'YYYY-MM-DD').format("MMMM D, YYYY")
     }
 
     return ''
