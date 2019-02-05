@@ -21,9 +21,9 @@
   }, {
     "title": "Step 4. Get Chunky",
     "text": {
-      "max": "You're now ready to install me on your machine. Yaay! Just type: <br/><br/>```npm i -g chunky-cli```",
-      "linux": "You're now ready to install me on your machine. Yaay! Just type: <br/><br/>```npm i -g chunky-cli```",
-      "windows": "You're now ready to install me on your machine. Yaay! Just type: <br/><br/>```npm i -g windows-build-tools --production && npm i -g chunky-cli```"
+      "max": "You're now ready to install me on your machine. Yaay! Just type: <br/><br/>```npm i -g chunky-cli``` in your terminal",
+      "linux": "You're now ready to install me on your machine. Yaay! Just type: <br/><br/>```npm i -g chunky-cli``` in your terminal",
+      "windows": "You're now ready to install me on your machine. Yaay! Just type: <br/><br/>```npm i -g windows-build-tools --production && npm i -g chunky-cli``` in your terminal"
     },
     "action": "Continue"
   }, {
