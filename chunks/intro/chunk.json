@@ -37,40 +37,7 @@
               "path": "/tokens"
             }
           }
-        },
-        "features": [
-          {
-            "id": "feature-web",
-            "source": "feature",
-            "text": "local://beta",
-            "image": "beta.r.png",
-            "actionTitle": "Learn More",
-            "backgroundColor": "#ffffff",
-            "textColor": "#0686d8",
-            "animation": true
-          },
-          {
-            "id": "feature-web",
-            "source": "feature",
-            "text": "local://beta",
-            "image": "beta.r.png",
-            "reversed": true,
-            "actionTitle": "Learn More",
-            "backgroundColor": "#fbfbfb",
-            "textColor": "#0686d8",
-            "animation": true
-          },
-          {
-            "id": "feature-web",
-            "source": "feature",
-            "text": "local://beta",
-            "image": "beta.r.png",
-            "actionTitle": "Learn More",
-            "backgroundColor": "#ffffff",
-            "textColor": "#0686d8",
-            "animation": true
-          }
-        ]
+        }
       },
       "path": "/",
       "storySource": "https://raw.githubusercontent.com/fluidtrends/carmel/master/chunks/story/data",
