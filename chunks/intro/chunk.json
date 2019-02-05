@@ -41,6 +41,7 @@
       },
       "path": "/",
       "storySource": "https://raw.githubusercontent.com/fluidtrends/carmel/master/chunks/story/data",
+      "testimonialsSource": "https://raw.githubusercontent.com/fluidtrends/carmel/master/chunks/intro/data/testimonials.json",
       "events": {
         "cover": "system://buy",
         "team": "local://team",

@@ -10,7 +10,7 @@ import Chat from '../components/chat'
 import { Button, ButtonIcon } from 'rmwc/Button'
 import { Typography } from '@rmwc/typography'
 import teamData from '../data/team'
-import { Col, Row, Icon } from 'antd'
+import { Col, Row, Carousel, Icon } from 'antd'
 import moment from 'moment'
 import {
   Card,
@@ -21,6 +21,7 @@ import {
   CardActionButtons,
   CardActionIcons
 } from '@rmwc/card'
+import Slider from 'react-slick'
 
 export default class MainIntroScreen extends Screen {
   constructor(props) {
@@ -33,6 +34,16 @@ export default class MainIntroScreen extends Screen {
     this._onContinue = this.onContinue.bind(this)
     this._download = this.download.bind(this)
     this._showTeam = this.showTeam.bind(this)
+    this.next = this.next.bind(this)
+    this.previous = this.previous.bind(this)
+    this.carousel = React.createRef()
+  }
+
+  next() {
+    this.carousel.next()
+  }
+  previous() {
+    this.carousel.prev()
   }
 
   renderStakeholders() {
@@ -51,6 +62,12 @@ export default class MainIntroScreen extends Screen {
     this.importRemoteData(`${this.props.storySource}/story.json`)
       .then(storyData => {
         self.setState({ storyData })
+      })
+      .catch(error => console.log(error))
+
+    this.importRemoteData(`${this.props.testimonialsSource}`)
+      .then(testimonialsData => {
+        self.setState({ testimonialsData })
       })
       .catch(error => console.log(error))
   }
@@ -354,6 +371,63 @@ export default class MainIntroScreen extends Screen {
     )
   }
 
+  renderTestimonials() {
+    if (!this.state.testimonialsData) return <div />
+
+    const settings = {
+      dots: true,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1
+    }
+
+    return (
+      <div style={{ textAlign: 'center' }}>
+        <Typography
+          use="headline3"
+          style={{
+            margin: '20px'
+          }}
+        >
+          What other people say about CARMEL
+        </Typography>
+        <Carousel
+          ref={node => (this.carousel = node)}
+          className={'testimonials'}
+          {...settings}
+        >
+          {this.state.testimonialsData.map(t => this.renderTestimonialCard(t))}
+        </Carousel>
+      </div>
+    )
+  }
+
+  renderTestimonialCard(testimonial) {
+    const { text, image, name, description } = testimonial
+
+    return (
+      <Row gutter={16}>
+        <Col span={4}>
+          {image && (
+            <img
+              style={{ width: '60px', height: '60px', margin: '0 auto' }}
+              src={image}
+            />
+          )}
+        </Col>
+        <Col span={20}>
+          <p style={{ fontStyle: 'italic', padding: '20px 15px 0 0' }}>
+            "{text}"
+          </p>
+          <p style={{ fontWeight: 'bold' }}>
+            {name} - {description}
+          </p>
+        </Col>
+      </Row>
+    )
+  }
+
   renderTeamHeader() {
     return (
       <div style={{ margin: '50px 0 10px' }}>
@@ -378,6 +452,7 @@ export default class MainIntroScreen extends Screen {
     return [
       this.renderDefault(),
       ...features,
+      this.renderTestimonials(),
       this.renderLatestChapters(),
       this.renderTeamHeader(),
       this.renderTeam(),

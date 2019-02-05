@@ -451,14 +451,13 @@ strong {
 }
 
 .ant-carousel {
-  height: 300px;
   width: 90vw;
   margin: 15px 50px;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 20px 0px;
 }
 
 .ant-carousel .slick-slide {
-  height: 300px;
+  min-height: 300px;
 }
 
 .ant-carousel .slick-dots li button {
@@ -509,4 +508,14 @@ strong {
 .guild-select-wrapper .ant-select-selection--single {
   height: 48px;
   padding-top: 8px;
+}
+
+.testimonials {
+  position: relative;
+  min-height: 350px;
+  margin: 50px 0;
+  padding: 20px;
+}
+.testimonials .slick-dots button::before {
+  display: none;
 }
