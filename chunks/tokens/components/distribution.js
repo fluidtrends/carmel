@@ -45,8 +45,8 @@ export default class Distribution extends Component {
           Live now
         </Typography>
         <Typography use='headline5' tag='h3' style={{ textAlign:"center", color: '#546E7A' }}>
-          Period 3: Pre-Listing token distribution
-          <Icon type="loading" spin style={{marginLeft: 15}} />
+          Period 3: Pre-Listing Token Distribution
+          <Icon type="loading" spin style={{marginLeft: 15}} style={{color: '#4ebcd4'}}/>
         </Typography>
         <br />
         <br />
