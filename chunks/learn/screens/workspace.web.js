@@ -3,7 +3,6 @@ import { Screen, Components } from 'react-dom-chunky'
 import UserInfo from '../../auth/components/userInfo'
 import { Typography } from '@rmwc/typography'
 import { List, Icon, Tabs, Avatar, Alert, Progress, Steps, notification } from 'antd'
-const TabPane = Tabs.TabPane
 import Fade from 'react-reveal/Fade'
 import Bounce from 'react-reveal/Bounce'
 import {
@@ -21,12 +20,14 @@ import platform from 'platform'
 import { Data } from 'react-chunky'
 import Task from '../components/Task'
 import Challenge from '../components/Challenge'
+const { TabPane } = Tabs
 
 export default class Workspace extends Screen {
   constructor (props) {
     super(props)
     this.state = {
       inProgress: true,
+      section: "active",
       ...this.state
     }
 
@@ -34,6 +35,7 @@ export default class Workspace extends Screen {
     this._restartSetup = this.restartSetup.bind(this)
     this._chooseChallenge = this.chooseChallenge.bind(this)
     this._startChallenge = this.startChallenge.bind(this)
+    this._pauseChallenge = this.pauseChallenge.bind(this)
   }
 
   componentDidMount () {
@@ -86,7 +88,6 @@ export default class Workspace extends Screen {
   getJourneySuccess (journey) {
     if (!journey || !journey[0]) {
       this.setState({ inProgress: false })
-      // this.cachedWorkspace().then((workspace) => this.updateWorkspace(journey[0], workspace))
       return
     }
 
@@ -279,11 +280,6 @@ export default class Workspace extends Screen {
     return <Fade>
         <Card style={{ width, margin: '10px', padding }}>
             <div style={{ padding: '4px', textAlign: 'center', marginBottom: '20px' }}>
-              <Bounce>
-                <Avatar src="/assets/chunky-logo.gif" style={{
-                  height: "180px", width: "180px"
-                }} />
-              </Bounce>
               { this.renderSetupSteps() }
               { this.renderSetupTitle() }
               { this.renderSetupMessage() }
@@ -299,14 +295,8 @@ export default class Workspace extends Screen {
     if (this.state.journey.challenge && this.state.journey.challenge.taskActive) {
       return <Fade>
           <div style={{ width, margin: '10px', padding }}>
-              <div style={{ padding: '4px', textAlign: 'center', marginBottom: '20px' }}>
-                <Bounce>
-                  <Avatar src="/assets/chunky-logo.gif" style={{
-                    height: "180px", width: "180px"
-                  }} />
-                </Bounce>
-              </div>
               <Task
+                  onPause={this._pauseChallenge}
                   journey={this.state.journey}
                   challenge={this.state.challenge}/>
               </div>
@@ -315,13 +305,6 @@ export default class Workspace extends Screen {
 
     return <Fade>
         <div style={{ width, margin: '10px', padding }}>
-            <div style={{ padding: '4px', textAlign: 'center', marginBottom: '20px' }}>
-              <Bounce>
-                <Avatar src="/assets/chunky-logo.gif" style={{
-                  height: "180px", width: "180px"
-                }} />
-              </Bounce>
-            </div>
             <Challenge
                 journey={this.state.journey}
                 challenge={this.state.challenge}
@@ -335,21 +318,101 @@ export default class Workspace extends Screen {
     this.updateLearningJourney({ type: "next"  })
   }
 
-  renderExistingJourney(width, padding) {
+  restartChallenge(challengeId) {
+    this.setState({ inProgress: true, section: "active" })
+    this.updateLearningJourney({ type: "start", challengeId  })
+  }
 
-    if (this.state.challenge) {
+  pauseChallenge() {
+    this.setState({ inProgress: true, section: "paused" })
+    this.updateLearningJourney({ type: "pause"  })
+  }
+
+  timeConsumed(duration) {
+    const hh = Math.round(moment.duration(duration).asHours()) % 24
+    const mm = Math.round(moment.duration(duration).asMinutes()) % 60
+    const ss = Math.round(moment.duration(duration).asSeconds()) % 60
+
+    return `${hh < 10 ? '0' : ''}${hh}:${mm < 10 ? '0' : ''}${mm}:${ss < 10 ? '0' : ''}${ss}`
+  }
+
+  renderPausedChallenge(width, padding, challenge) {
+    return <Fade>
+        <Card style={{ width, margin: '10px', padding }}>
+            <Typography use='headline5' tag='div' style={{margin: "10px", textAlign: "center", color: this.props.theme.primaryColor }}>
+            { challenge.title || challenge.challengeId }
+           </Typography>
+           <Typography use='headline6' tag='div' style={{margin: "10px", textAlign: "center", color: "#455A64" }}>
+           Current task: { parseInt(challenge.taskIndex + 1)} of {parseInt(challenge.totalTasks)}
+          </Typography>
+           <Typography
+             use="caption"
+             style={{
+               color: "#455A64",
+               backgroundColor: "#FFEB3B",
+               textAlign: "center",
+               padding: "10px"
+             }}>
+             Time consumed: { this.timeConsumed(challenge.totalTime)}
+           </Typography>
+           <CardActions style={{ justifyContent: 'center', margin: '20px' }}>
+             <CardActionButtons>
+               <Button
+                 raised
+                 onClick={() => this.restartChallenge(challenge.challengeId)}
+                 theme='secondary-bg text-primary-on-secondary'>
+                 <ButtonIcon icon={'play_circle_filled'} />
+                  Restart
+               </Button>
+             </CardActionButtons>
+           </CardActions>
+          </Card>
+      </Fade>
+  }
+
+  renderPausedChallenges(width, padding) {
+    if (!this.state.journey || this.state.journey.setup) {
+      return <div/>
+    }
+
+    if (!this.state.journey.pausedChallenges || Object.keys(this.state.journey.pausedChallenges).length === 0) {
+      return  <Fade>
+          <Card style={{ width, margin: '10px', padding }}>
+              <Typography use='headline5' tag='div' style={{margin: "10px", textAlign: "center", color: this.props.theme.primaryColor }}>
+              You have not paused any challenges yet
+             </Typography>
+            </Card>
+        </Fade>
+    }
+
+    return <div style={{
+      display: "flex",
+      flex: 1,
+      flexDirection: "column"
+    }}>
+      {
+        Object.keys(this.state.journey.pausedChallenges).map(c => this.renderPausedChallenge(width, padding, this.state.journey.pausedChallenges[c]))
+      }
+    </div>
+  }
+
+  renderChunkyIntro() {
+    return <div style={{ padding: '4px', textAlign: 'center', marginBottom: '20px' }}>
+      <Bounce>
+        <Avatar src="/assets/chunky-logo.gif" style={{
+          height: "180px", width: "180px"
+        }} />
+      </Bounce>
+    </div>
+  }
+
+  renderActiveChallenge(width, padding) {
+    if (this.state.journey && this.state.journey.challenge) {
       return this.renderCurrentChallenge(width, padding)
     }
 
     return <Fade>
         <Card style={{ width, margin: '10px', padding }}>
-            <div style={{ padding: '4px', textAlign: 'center', marginBottom: '20px' }}>
-              <Bounce>
-                <Avatar src="/assets/chunky-logo.gif" style={{
-                  height: "180px", width: "180px"
-                }} />
-              </Bounce>
-            </div>
             <Typography use='headline5' tag='div' style={{margin: "10px", textAlign: "center", color: this.props.theme.primaryColor }}>
               Ready to level up your tech skills?
            </Typography>
@@ -365,7 +428,19 @@ export default class Workspace extends Screen {
               </CardActionButtons>
             </CardActions>
           </Card>
-          </Fade>
+      </Fade>
+  }
+
+  renderExistingJourney(width, padding) {
+    const section = this.state.section || "active"
+
+    switch (section) {
+      case "paused":
+          return this.renderPausedChallenges(width, padding)
+      case "active":
+      default:
+        return this.renderActiveChallenge(width, padding)
+    }
   }
 
   renderWorkspaceArea(width, padding) {
@@ -385,6 +460,21 @@ export default class Workspace extends Screen {
             account={this.account}
           />
       </Card>
+ }
+
+ renderSections(width, padding) {
+   if (!this.state.journey || this.state.journey.setup) {
+     return <div/>
+   }
+
+   return <Tabs
+     defaultActiveKey={this.state.section}
+     tabPosition={'top'}
+     style={{ marginTop: '20px', width }}
+     onTabClick={ (section) => this.setState({ section })}>
+     <TabPane tab={<span><Icon type="play-circle" />Active Challenge</span>} key={"active"} />
+     <TabPane tab={<span><Icon type="pause-circle" />Paused Challenges</span>} key={"paused"} />
+   </Tabs>
  }
 
   renderMainContent () {
@@ -408,6 +498,8 @@ export default class Workspace extends Screen {
           alignItems: 'center'
         }}>
         { this.renderHeader(width, padding) }
+        { this.renderChunkyIntro() }
+        { this.renderSections(width, padding) }
         { this.renderWorkspaceArea(width, padding) }
       </div>
     )
