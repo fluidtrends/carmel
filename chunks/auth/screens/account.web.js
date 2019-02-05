@@ -53,6 +53,7 @@ export default class AccountScreen extends Screen {
   }
 
   updateUserOk(data) {
+    console.log(data)
     this.setState({updatingUser: false, initialData: this.profileData, profileData: this.profileData})
   }
 
@@ -115,7 +116,10 @@ export default class AccountScreen extends Screen {
 
   submitUpdateUser() {
 
+    console.log("SUBMIT!!!")
+
     this.setState({updatingUser: true})
+    
     if( this._dataChanged() ) {
       this.setState({updatingUser: false})
       return false
@@ -128,6 +132,8 @@ export default class AccountScreen extends Screen {
     }
 
     data['userData'] = true
+
+    console.log(data)
 
     setTimeout(() => {
       this.props.updateUser(data)
