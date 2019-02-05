@@ -12,6 +12,15 @@ import { Typography } from '@rmwc/typography'
 import teamData from '../data/team'
 import { Col, Row, Icon } from 'antd'
 import moment from 'moment'
+import {
+  Card,
+  CardPrimaryAction,
+  CardMedia,
+  CardAction,
+  CardActions,
+  CardActionButtons,
+  CardActionIcons
+} from '@rmwc/card'
 
 export default class MainIntroScreen extends Screen {
   constructor(props) {
@@ -228,75 +237,135 @@ export default class MainIntroScreen extends Screen {
         <Typography use="headline4">
           Checkout the Latest Carmel Stories
         </Typography>
-        <div>
+        {this.isSmallScreen
+          ? this.renderCompactStoryCard()
+          : this.renderDefaultStoryCard()}
+      </div>
+    )
+  }
+
+  renderCompactStoryCard() {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          flex: 1,
+          justifyContent: 'center',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }}
+      >
+        {Object.keys(this.state.storyData.chapters)
+          .slice(-3)
+          .map(c => this.renderStoryCard(this.state.storyData.chapters[c]))}
+      </div>
+    )
+  }
+
+  renderDefaultStoryCard() {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          flex: 1,
+          justifyContent: 'center',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }}
+      >
+        <Row gutter={16}>
           {Object.keys(this.state.storyData.chapters)
             .slice(-3)
-            .map(c => this.renderStoryCard(this.state.storyData.chapters[c]))}
-        </div>
+            .map(c => (
+              <Col span={8}>
+                {this.renderStoryCard(this.state.storyData.chapters[c])}
+              </Col>
+            ))}
+        </Row>
       </div>
     )
   }
 
   renderStoryCard(chapter) {
-    const { title, summary, image, date, slug } = chapter
+    const { title, summary, image, slug } = chapter
+
     return (
-      <Row
-        onClick={() => {
-          slug && this.props.history.push(`/story/${slug}`)
-        }}
+      <Card
         style={{
-          boxShadow: '0 5px 20px 0 rgba(0,0,0,.15)',
-          padding: '15px',
-          marginTop: '15px',
-          marginBottom: '15px',
-          maxHeight: '250px',
-          cursor: 'pointer',
-          maxWidth: '700px'
+          margin: '10px',
+          minWidth: '300px',
+          maxWidth: '450px',
+          maxHeight: '400px'
         }}
+        onClick={() => slug && this.props.history.push(`/story/${slug}`)}
       >
-        <Col sm={16} xs={24} style={{ height: '200px' }}>
-          <Row>
-            <h4
+        <CardPrimaryAction
+          style={{
+            justifyContent: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center'
+          }}
+        >
+          <CardMedia
+            sixteenByNine
+            style={{
+              marginTop: '10px',
+              width: '200px',
+              height: '200px',
+              backgroundImage: `url(${image}})`
+            }}
+          />
+          <div style={{ padding: '10px' }}>
+            <Typography use="headline5" tag="h1">
+              {title}
+            </Typography>
+            <Typography
+              use="headline6"
+              tag="h2"
+              theme="text-secondary-on-background"
               style={{
-                padding: '20px',
-                fontSize: '26px',
+                margin: '1rem',
+                textAlign: 'center',
                 textOverflow: 'ellipsis',
                 overflow: 'hidden',
                 maxHeight: '60px'
               }}
             >
-              {title}
-            </h4>
-          </Row>
-          <p
-            style={{
-              fontSize: '16px',
-              lineHeight: '20px',
-              textOverflow: 'ellipsis',
-              overflow: 'hidden',
-              maxHeight: '60px'
-            }}
-          >
-            {summary}
-          </p>
-          <div style={{display: 'flex', position: 'absolute', bottom: 0, justifyContent: 'space-between'}}>
-            {date && (
-              <p style={{ fontSize: '14px', marginTop: 7, marginRight: 20 }}>
-                {this.date(date)}
-              </p>
-            )}
-            <Button>Read more</Button>
+              {summary}
+            </Typography>
           </div>
-        </Col>
-        {window.innerWidth > 576 && (
-          <Col span={4} offset={1}>
-            <img
-              style={{ height: '200px', width: '100%', minWidth: '200px', objectFit: 'cover' }}
-              src={image}
-            />
-          </Col>
-        )}
-      </Row>
+          <CardActions style={{ justifyContent: 'center' }}>
+            <Button
+              onClick={() => slug && this.props.history.push(`/story/${slug}`)}
+              style={{
+                margin: '10px 0px 30px 0px',
+                color: '#ffffff',
+                backgroundColor: '#04bdd4'
+              }}
+            >
+              <ButtonIcon icon="library_books" style={{ marginLeft: '5px' }} />
+              Read more
+              <ButtonIcon icon="arrow_forward" style={{ marginLeft: '5px' }} />
+            </Button>
+          </CardActions>
+        </CardPrimaryAction>
+      </Card>
+    )
+  }
+
+  renderTeamHeader() {
+    return (
+      <div style={{ margin: '50px 0 10px' }}>
+        <Typography
+          use="headline3"
+          style={{
+            textAlign: 'center'
+          }}
+        >
+          Meet the team
+        </Typography>
+      </div>
     )
   }
 
@@ -310,6 +379,7 @@ export default class MainIntroScreen extends Screen {
       this.renderDefault(),
       ...features,
       this.renderLatestChapters(),
+      this.renderTeamHeader(),
       this.renderTeam(),
       // this.renderMainAction(),
       this.chat
