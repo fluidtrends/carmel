@@ -252,8 +252,8 @@ export default class MainIntroScreen extends Screen {
           alignItems: 'center'
         }}
       >
-        <Typography use="headline4">
-          Checkout the Latest Carmel Story
+        <Typography use="headline4" style={{ margin: '50px 0 20px' }}>
+          Unfold Carmel's Story
         </Typography>
         {this.isSmallScreen
           ? this.renderCompactStoryCard()
@@ -270,7 +270,8 @@ export default class MainIntroScreen extends Screen {
           flex: 1,
           justifyContent: 'center',
           flexDirection: 'column',
-          alignItems: 'center'
+          alignItems: 'center',
+          marginTop: '30px'
         }}
       >
         {Object.keys(this.state.storyData.chapters)
@@ -288,7 +289,8 @@ export default class MainIntroScreen extends Screen {
           flex: 1,
           justifyContent: 'center',
           flexDirection: 'column',
-          alignItems: 'center'
+          alignItems: 'center',
+          marginTop: '30px'
         }}
       >
         <Row gutter={16}>
@@ -397,7 +399,8 @@ export default class MainIntroScreen extends Screen {
           style={{
             display: 'flex',
             flexDirection: 'row',
-            alignItems: 'center'
+            alignItems: 'center',
+            marginTop: '30px'
           }}
         >
           <Icon
@@ -456,7 +459,7 @@ export default class MainIntroScreen extends Screen {
 
   renderTeamHeader() {
     return (
-      <div style={{ margin: '50px 0 10px' }}>
+      <div style={{ margin: '60px 0 10px' }}>
         <Typography
           use="headline3"
           style={{
