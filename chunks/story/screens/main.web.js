@@ -8,7 +8,11 @@ import { Tabs, Tag } from 'antd'
 export default class MainStoryScreen extends Screen {
   constructor(props) {
     super(props)
-    this.state = { ...this.state, categoryFilter: 'All', selectedTags: [] }
+    this.state = {
+      ...this.state,
+      categoryFilter: 'All',
+      selectedTags: []
+    }
     this._onChapterSelected = this.onChapterSelected.bind(this)
   }
 
@@ -113,6 +117,7 @@ export default class MainStoryScreen extends Screen {
     return (
       <ChapterPreview
         onSelected={this._onChapterSelected}
+        playVideo={this._playVideo}
         compact={this.isSmallScreen}
         source={this.props.source}
         chapter={data}
@@ -190,6 +195,7 @@ export default class MainStoryScreen extends Screen {
         chapterId={chapterId}
         compact={this.props.compact}
         source={this.props.source}
+        goBack={() => this.props.history.goBack()}
       />
     )
   }

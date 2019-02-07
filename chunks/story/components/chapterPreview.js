@@ -53,7 +53,9 @@ export default class ChapterPreview extends Component {
 
   get date() {
     if (this.props.chapter.date) {
-      return moment(this.props.chapter.date, 'YYYY-MM-DD').format("MMMM D, YYYY")
+      return moment(this.props.chapter.date, 'YYYY-MM-DD').format(
+        'MMMM D, YYYY'
+      )
     }
 
     return ''
@@ -86,12 +88,15 @@ export default class ChapterPreview extends Component {
   }
 
   renderDefaultActions() {
+    const { video } = this.props.chapter
+    const btnText = video ? 'Watch Video' : 'Continue Reading'
+
     return (
       <CardActions style={{ margin: '10px' }}>
         <CardActionButtons
           style={{ justifyContent: 'flex-start', display: 'flex', flex: 1 }}
         >
-          <CardAction onClick={this._onSelected}>Continue Reading</CardAction>
+          <CardAction onClick={this._onSelected}>{btnText}</CardAction>
         </CardActionButtons>
         {this.renderSocialIcons()}
       </CardActions>
@@ -99,6 +104,8 @@ export default class ChapterPreview extends Component {
   }
 
   renderCompactActions() {
+    const { video } = this.props.chapter
+    const btnText = video ? 'Watch Video' : 'Continue Reading'
     return [
       <CardActions
         key="first"
@@ -120,7 +127,7 @@ export default class ChapterPreview extends Component {
             marginBottom: '20px'
           }}
         >
-          <CardAction onClick={this._onSelected}>Continue Reading</CardAction>
+          <CardAction onClick={this._onSelected}>{btnText}</CardAction>
         </CardActionButtons>
       </CardActions>
     ]
@@ -266,7 +273,7 @@ export default class ChapterPreview extends Component {
                 backgroundImage: `url(${this.props.chapter.image})`
               }}
             />
-            <div style={{ padding: '20px' }}>
+            <div style={{ padding: '20px', width: '100%' }}>
               <Typography
                 use="headline5"
                 tag="div"

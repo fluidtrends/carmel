@@ -519,3 +519,7 @@ strong {
 .testimonials .slick-dots button::before {
   display: none;
 }
+
+.ant-modal-close i {
+  display: none;
+}
