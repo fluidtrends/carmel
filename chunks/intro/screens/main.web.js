@@ -253,7 +253,7 @@ export default class MainIntroScreen extends Screen {
         }}
       >
         <Typography use="headline4" style={{ margin: '50px 0 20px' }}>
-          Unfold Carmel's Story
+          Follow The Carmel Story
         </Typography>
         {this.isSmallScreen
           ? this.renderCompactStoryCard()
