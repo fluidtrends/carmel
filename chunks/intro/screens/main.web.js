@@ -281,7 +281,6 @@ export default class MainIntroScreen extends Screen {
   }
 
   renderDefaultStoryCard() {
-    console.log('stories', Object.keys(this.state.storyData.chapters))
     return (
       <div
         style={{
