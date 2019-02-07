@@ -281,6 +281,7 @@ export default class MainIntroScreen extends Screen {
   }
 
   renderDefaultStoryCard() {
+    console.log('stories', Object.keys(this.state.storyData.chapters))
     return (
       <div
         style={{
@@ -293,7 +294,7 @@ export default class MainIntroScreen extends Screen {
       >
         <Row gutter={16}>
           {Object.keys(this.state.storyData.chapters)
-            .slice(-3)
+            .slice(0, 3)
             .map(c => (
               <Col span={8}>
                 {this.renderStoryCard(this.state.storyData.chapters[c])}
