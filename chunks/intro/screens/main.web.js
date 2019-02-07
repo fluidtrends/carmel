@@ -244,6 +244,7 @@ export default class MainIntroScreen extends Screen {
     return (
       <div
         style={{
+          marginTop: '50px',
           display: 'flex',
           flex: 1,
           justifyContent: 'center',
@@ -392,13 +393,33 @@ export default class MainIntroScreen extends Screen {
         >
           What other people say about CARMEL
         </Typography>
-        <Carousel
-          ref={node => (this.carousel = node)}
-          className={'testimonials'}
-          {...settings}
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center'
+          }}
         >
-          {this.state.testimonialsData.map(t => this.renderTestimonialCard(t))}
-        </Carousel>
+          <Icon
+            type="left"
+            onClick={this.previous}
+            style={{ color: '#04bdd4', fontSize: '20px' }}
+          />
+          <Carousel
+            ref={node => (this.carousel = node)}
+            className={'testimonials'}
+            {...settings}
+          >
+            {this.state.testimonialsData.map(t =>
+              this.renderTestimonialCard(t)
+            )}
+          </Carousel>
+          <Icon
+            type="right"
+            onClick={this.next}
+            style={{ color: '#04bdd4', fontSize: '20px' }}
+          />
+        </div>
       </div>
     )
   }
@@ -411,7 +432,12 @@ export default class MainIntroScreen extends Screen {
         <Col span={4}>
           {image && (
             <img
-              style={{ width: '60px', height: '60px', margin: '0 auto' }}
+              style={{
+                width: '80px',
+                height: '80px',
+                margin: '20px auto',
+                borderRadius: '50%'
+              }}
               src={image}
             />
           )}

@@ -80,11 +80,7 @@
         "getWallet": "firebase://subscribe/users-wallets/:userId?latest=1&resolve=wallets#getWallet",
         "getProfile": "firebase://subscribe/users-profiles/:userId?latest=1&resolve=profiles#getProfile"
       },
-      "subscriptions": [
-        "getJourney",
-        "getWallet",
-        "getProfile"
-      ]
+      "subscriptions": ["getJourney", "getWallet", "getProfile"]
     },
     "achievements": {
       "title": "Achievements",
@@ -109,11 +105,7 @@
         "getWallet": "firebase://subscribe/users-wallets/:userId?latest=1&resolve=wallets#getWallet",
         "getProfile": "firebase://subscribe/users-profiles/:userId?latest=1&resolve=profiles#getProfile"
       },
-      "subscriptions": [
-        "getJourney",
-        "getWallet",
-        "getProfile"
-      ]
+      "subscriptions": ["getJourney", "getWallet", "getProfile"]
     }
   }
 }
