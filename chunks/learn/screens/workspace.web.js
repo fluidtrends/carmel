@@ -20,6 +20,8 @@ import platform from 'platform'
 import { Data } from 'react-chunky'
 import Task from '../components/Task'
 import Challenge from '../components/Challenge'
+import EnvSetup from '../components/EnvSetup'
+
 const { TabPane } = Tabs
 
 export default class Workspace extends Screen {
@@ -33,6 +35,8 @@ export default class Workspace extends Screen {
 
     this._setup = this.setup.bind(this)
     this._restartSetup = this.restartSetup.bind(this)
+    this._skipSetupStep = this.skipSetupStep.bind(this)
+
     this._chooseChallenge = this.chooseChallenge.bind(this)
     this._startChallenge = this.startChallenge.bind(this)
     this._pauseChallenge = this.pauseChallenge.bind(this)
@@ -131,9 +135,13 @@ export default class Workspace extends Screen {
     return this.state.setup
   }
 
+  skipSetupStep() {
+    this.setup(true)
+  }
+
   restartSetup() {
-    this.updateLearningJourney({ type: "setup", step: parseInt(0) })
-    this.setState({ setup: parseInt(0)})
+    this.updateLearningJourney({ type: "setup", step: parseInt(1) })
+    this.setState({ setup: parseInt(1)})
   }
 
   refreshCurrentChallenge() {
@@ -159,7 +167,7 @@ export default class Workspace extends Screen {
     this.refreshCurrentChallenge()
   }
 
-  setup() {
+  setup(skip) {
     const setup = this.setupProgress
     const step = setup ? SetupData.steps[setup-1] : null
     const link = setup ? SetupData.steps[setup-1].link : null
@@ -171,7 +179,7 @@ export default class Workspace extends Screen {
       return
     }
 
-    if (link) {
+    if (link && !skip) {
       this.triggerRawRedirect("object" === typeof link ? link[this.platformType] : link)
     }
 
@@ -195,100 +203,17 @@ export default class Workspace extends Screen {
    </Typography>
   }
 
-  renderRestartSetup() {
-    if (!this.setupProgress) {
-      return <div/>
-    }
-
-    return <CardActions style={{ justifyContent: 'center', margin: '20px' }}>
-      <CardActionButtons>
-        <Button
-          onClick={this._restartSetup}>
-            Wanna start again?
-        </Button>
-      </CardActionButtons>
-    </CardActions>
-  }
-
-  renderSetupButton() {
-    if (!this.setupProgress && this.state.setupDone) {
-      return <div/>
-    }
-
-    if (this.isMobile) {
-      return <Alert
-        message="You need to login from your computer to setup your development environment"
-        banner
-        closable
-      />
-    }
-
-    const setup = this.setupProgress
-    const step = setup ? SetupData.steps[setup-1] : null
-
-    const icon = setup ? 'done' : 'play_circle_filled'
-
-    if (step && !step.action) {
-      return <div/>
-    }
-
-    const action = setup ? step.action : 'Get Started'
-
-    return <CardActions style={{ justifyContent: 'center', margin: '20px' }}>
-      <CardActionButtons>
-        <Button
-          raised
-          onClick={this._setup}
-          theme='secondary-bg text-primary-on-secondary'>
-          <ButtonIcon icon={icon} />
-            { action }
-        </Button>
-      </CardActionButtons>
-    </CardActions>
-  }
-
-  renderSetupTitle() {
-    if (!this.setupProgress && this.state.setupDone) {
-      return <Typography use='headline5' tag='div' style={{margin: "20px", color: this.props.theme.primaryColor }}>
-        Woohoo, you did it!
-      </Typography>
-    }
-
-    const setup = this.setupProgress
-    const step = setup ? SetupData.steps[setup-1] : null
-    const title = setup ? step.title : SetupData.intro.title
-
-    return <Typography use='headline5' tag='div' style={{margin: "20px", color: this.props.theme.primaryColor }}>
-      { title }
-    </Typography>
-  }
-
-  renderSetupMessage() {
-    if (!this.setupProgress && this.state.setupDone) {
-      return <div/>
-    }
-
-    const setup = this.setupProgress
-    const step = setup ? SetupData.steps[setup-1] : null
-    const text = step ? ("object" === typeof step.text ? step.text[this.platformType] : step.text) : null
-    const message = marked(text ? `${text}` : SetupData.intro.text)
-
-    return <div dangerouslySetInnerHTML={{__html: `${message}`}} style={{textAlign: "justify"}}/>
-  }
-
   renderNewJourney(width, padding) {
     return <Fade>
         <Card style={{ width, margin: '10px', padding }}>
-            <div style={{ padding: '4px', textAlign: 'center', marginBottom: '20px' }}>
-              { this.renderSetupSteps() }
-              { this.renderSetupTitle() }
-              { this.renderSetupMessage() }
-            </div>
-
-            { this.renderSetupButton() }
-            { this.renderRestartSetup() }
+            <EnvSetup
+              platformType={this.platformType}  
+              step={this.setupProgress}
+              start={this._setup}
+              skip={this._skipSetupStep}
+              restart={this._restartSetup}/>
           </Card>
-          </Fade>
+      </Fade>
   }
 
   renderCurrentChallenge(width, padding) {
@@ -445,7 +370,7 @@ export default class Workspace extends Screen {
   }
 
   renderWorkspaceArea(width, padding) {
-    if (!this.state.journey || this.state.journey.setup) {
+    if (!this.state.journey || this.state.journey.setup || !this.state.journey.machines) {
       return this.renderNewJourney(width, padding)
     }
 
@@ -464,7 +389,7 @@ export default class Workspace extends Screen {
  }
 
  renderSections(width, padding) {
-   if (!this.state.journey || this.state.journey.setup) {
+   if (!this.state.journey || this.state.journey.setup || !this.state.journey.machines) {
      return <div/>
    }
 
