@@ -49,14 +49,14 @@
       "image": "https://i.imgur.com/n5g8QxS.png"
     },
     "carmel-devlog-1": {
-      "video": true,
-      "slug": "https://www.youtube.com/watch?v=hUcMqblawDE",
+      "video": "https://www.youtube.com/watch?v=hUcMqblawDE",
+      "slug": "carmel-devlog-1",
       "date": "2018-05-15",
       "tags": ["Education", "Vlog", "Video"],
       "categories": ["Videos"],
       "title": "The Dream",
       "summary": "Carmel Video Blog about the Dream",
-      "image": "https://imgur.com/a/TilNQdd"
+      "image": "https://i.imgur.com/RqilFwk.png"
     }
   }
 }
