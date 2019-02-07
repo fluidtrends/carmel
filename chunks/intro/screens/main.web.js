@@ -403,7 +403,7 @@ export default class MainIntroScreen extends Screen {
           <Icon
             type="left"
             onClick={this.previous}
-            style={{ color: '#04bdd4', fontSize: '20px' }}
+            style={{ color: '#04bdd4', fontSize: '20px', cursor: 'pointer' }}
           />
           <Carousel
             ref={node => (this.carousel = node)}
@@ -417,7 +417,7 @@ export default class MainIntroScreen extends Screen {
           <Icon
             type="right"
             onClick={this.next}
-            style={{ color: '#04bdd4', fontSize: '20px' }}
+            style={{ color: '#04bdd4', fontSize: '20px', cursor: 'pointer' }}
           />
         </div>
       </div>
