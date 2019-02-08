@@ -142,8 +142,6 @@ export default class EnvSetup extends PureComponent {
     const text = step ? ("object" === typeof step.text ? step.text[this.props.platformType] : step.text) : null
     const message = marked(text ? `${text}` : SetupData.intro.text)
 
-    console.log(step.text)
-
     return <div dangerouslySetInnerHTML={{__html: `${message}`}} style={{textAlign: "justify"}}/>
   }
 

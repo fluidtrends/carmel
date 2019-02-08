@@ -205,7 +205,7 @@ export default class Workspace extends Screen {
 
   renderNewJourney(width, padding) {
     return <Fade>
-        <Card style={{ width, margin: '10px', padding }}>
+        <Card style={{ width, margin: '10px 10px 50px 10px', padding }}>
             <EnvSetup
               platformType={this.platformType}  
               step={this.setupProgress}
