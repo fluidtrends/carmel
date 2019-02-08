@@ -252,7 +252,7 @@ export default class MainIntroScreen extends Screen {
           alignItems: 'center'
         }}
       >
-        <Typography use="headline4" style={{ margin: '50px 0 20px' }}>
+        <Typography use="headline4" style={{ margin: '50px 20px 20px' }}>
           Follow The Carmel Story
         </Typography>
         {this.isSmallScreen
@@ -400,7 +400,7 @@ export default class MainIntroScreen extends Screen {
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'center',
-            marginTop: '30px'
+            margin: '30px 20px 10px'
           }}
         >
           <Icon
@@ -432,7 +432,7 @@ export default class MainIntroScreen extends Screen {
 
     return (
       <Row gutter={16}>
-        <Col span={4}>
+        <Col xs={24} sm={4}>
           {image && (
             <img
               style={{
@@ -445,7 +445,7 @@ export default class MainIntroScreen extends Screen {
             />
           )}
         </Col>
-        <Col span={20}>
+        <Col xs={24} sm={20}>
           <p style={{ fontStyle: 'italic', padding: '20px 15px 0 0' }}>
             "{text}"
           </p>
