@@ -30,6 +30,8 @@ export default class Workspace extends Screen {
       inProgress: true,
       ...this.state
     }
+
+    this._join = this.join.bind(this)
   }
 
   componentDidMount () {
@@ -46,6 +48,18 @@ export default class Workspace extends Screen {
 
   updateJourneyError(error) {
     // console.log(error)
+  }
+
+  join() {
+    Data.Cache.retrieveCachedItem("guestSession")
+              .then((session) => this.joinNow(session))
+              .catch((e) => this.joinNow())
+  }
+
+  joinNow(session) {
+    Data.Cache.cacheItem("guestSession", Object.assign({}, session, { guild: "learners" }))
+              .then(() => this.triggerRedirect('/challenges'))
+              .catch((e) => this.triggerRedirect('/challenges'))
   }
 
   getJourneySuccess (journey) {
@@ -86,7 +100,33 @@ export default class Workspace extends Screen {
   }
 
   renderNewJourney(width, padding) {
-    return <div/>
+    return <Fade>
+      <Card style={{ width, margin: '40px 10px', padding }}>
+        <div style={{ padding: '4px', textAlign: 'center', marginBottom: '20px' }}>
+          <Bounce>
+            <Avatar src="/assets/chunky-logo.gif" style={{
+              height: "180px", width: "180px"
+            }} />
+          </Bounce>
+        </div>
+
+        <Typography use='headline5' tag='div' style={{margin: "20px", color: this.props.theme.primaryColor, textAlign: 'center' }}>
+          Your learning journey hasn't started yet.
+        </Typography>
+
+        <CardActions style={{ justifyContent: 'center', margin: '20px' }}>
+          <CardActionButtons>
+            <Button
+              raised
+              onClick={this._join}
+              theme='secondary-bg text-primary-on-secondary'>
+              <ButtonIcon icon='play_circle_filled' />
+              Take A Challenge Now
+            </Button>
+          </CardActionButtons>
+      </CardActions>
+      </Card>
+    </Fade>
   }
 
   renderCompletedChallenges(challenges) {
