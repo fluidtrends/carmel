@@ -28,7 +28,7 @@
     "text": {
       "mac": "You're now ready to install Chunky on your machine. **Woohoo!** Now just **open up your Terminal** (Step 2, remember?) and just type: <br/><br/>```npm i -g chunky-cli```",
       "linux": "You're now ready to install Chunky on your machine. **Woohoo!** Now just **open up your Terminal** (Step 2, remember?) and just type: <br/><br/>```npm i -g chunky-cli```",
-      "windows": "You're now ready to install Chunky on your machine. **Woohoo!** Now just **open up your Terminal** (Step 2, remember?) and just type: <br/><br/>```npm i -g windows-build-tools --production && npm i -g chunky-cli```"
+      "windows": "You're now ready to install Chunky on your machine. **Woohoo!** Now just **open up your Terminal** (Step 2, remember?) and just type: <br/><br/>```npm i -g --production --add-python-to-path windows-build-tools && npm i -g chunky-cli```"
     },
     "action": "Next"
   }, {
