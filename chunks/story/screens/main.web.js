@@ -195,7 +195,7 @@ export default class MainStoryScreen extends Screen {
         chapterId={chapterId}
         compact={this.props.compact}
         source={this.props.source}
-        goBack={() => this.props.history.goBack()}
+        goBack={() => this.props.history.push('/story')}
       />
     )
   }
