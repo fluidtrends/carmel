@@ -490,9 +490,22 @@ strong {
   height: 100%;
 }
 
+.future-challenge-card {
+  height: 100%;
+}
+
 .challenge-card .ant-card-head {
   padding-right: 0;
   padding-left: 10px;
+}
+
+.future-challenge-card .ant-card-head {
+  padding-right: 0;
+  padding-left: 10px;
+}
+
+.future-challenge-card .ant-card-body {
+  padding: 0;
 }
 
 .timeline-wrapper .ant-progress-bg {

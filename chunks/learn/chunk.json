@@ -40,6 +40,7 @@
       "path": "/challenges",
       "variants": true,
       "startOperationsOnMount": false,
+      "futureChallenges": "https://raw.githubusercontent.com/fluidtrends/carmel/master/chunks/learn/data/futureChallenges.json",
       "operations": {
         "getListings": [
           "rest://create/journey/listings#getListings",
