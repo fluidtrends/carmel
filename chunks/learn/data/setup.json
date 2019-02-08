@@ -4,30 +4,35 @@
     "text": "Just like a chef needs a cooking environment and a carpenter needs a woodworking environment, so does a developer need a **development environment**. If you're **serious** about becoming a Software Developer - which is awesome - then you need to setup your development environment before getting down to business."
   },
   "steps": [{
-    "title": "Step 1. Get a Code Editor",
-    "action": "Download Visual Studio",
+    "title": "Step 1. Install Your Code Editor",
+    "action": "Download Visual Studio Now",
     "link": "https://code.visualstudio.com/download",
-    "text": "Think of a Code Editor as a glorified Microsoft Word for writing code. As a matter of fact, the best and coolest - and free - code editor out is **Visual Studio Code**, from Microsoft."
+    "text": "This is where you will spend most of your time a Software Developer. Think of a Code Editor as a glorified Microsoft Word for writing code. As a matter of fact, the best and coolest - and free - code editor out there is **Visual Studio Code**, from Microsoft. Press the download button below to go and download it now."
   }, {
-    "title": "Step 2. Get a Terminal",
-    "action": "Download Hyper",
+    "title": "Step 2. Install Your Terminal",
+    "action": "Download Hyper Now",
     "link": "https://hyper.is/#installation",
-    "text": "The second most useful tool in your developer arsenal is your Terminal. This is where you will type in commands and interact with your development environment. Get **Hyper** - a free and awesome terminal."
+    "text": "The second most useful tool in your developer arsenal is your Terminal. This is where you will type in commands, at **the command prompt**, and interact with your development environment. Go ahead and download **Hyper** - a free and awesome Terminal. Press the download button below to go and download it now."
   }, {
-    "title": "Step 3. Get Node.js",
-    "action": "Install Node.js",
+    "title": "Step 3. Install Your JavaScript Engine",
+    "action": "Download Node.js Now",
     "link": "https://nodejs.org/en/",
-    "text": "You will be coding in **JavaScript** so that means you need a way to run JavaScript on your computer. This is where **Node.js** comes in, a JavaScript environment."
+    "text": "You will be coding in **JavaScript** so that means you need a way to run JavaScript code on your computer. This is where **Node.js** comes in. It is a JavaScript engine that rocks. Press the download button below to go and download it now."
   }, {
-    "title": "Step 4. Get Chunky",
+    "title": "Step 4. Install Your Blockchain Wallet",
+    "action": "Download Scatter Now",
+    "link": "https://get-scatter.com/download",
+    "text": "Because Carmel is a Blockchain platform, specifically using the EOS blockchain, you will need a Blockchain Wallet to make the most of Carmel. **Carmel loves Scatter**, the most advanced wallet out there. Oh and it's free too. Press the download button below to go and download it now."
+  }, {
+    "title": "Step 5. Install Chunky",
     "text": {
-      "max": "You're now ready to install me on your machine. Yaay! Just type: <br/><br/>```npm i -g chunky-cli``` in your terminal",
-      "linux": "You're now ready to install me on your machine. Yaay! Just type: <br/><br/>```npm i -g chunky-cli``` in your terminal",
-      "windows": "You're now ready to install me on your machine. Yaay! Just type: <br/><br/>```npm i -g windows-build-tools --production && npm i -g chunky-cli``` in your terminal"
+      "mac": "You're now ready to install Chunky on your machine. **Woohoo!** Now just **open up your Terminal** (Step 2, remember?) and just type: <br/><br/>```npm i -g chunky-cli```",
+      "linux": "You're now ready to install Chunky on your machine. **Woohoo!** Now just **open up your Terminal** (Step 2, remember?) and just type: <br/><br/>```npm i -g chunky-cli```",
+      "windows": "You're now ready to install Chunky on your machine. **Woohoo!** Now just **open up your Terminal** (Step 2, remember?) and just type: <br/><br/>```npm i -g windows-build-tools --production && npm i -g chunky-cli```"
     },
-    "action": "Continue"
+    "action": "Next"
   }, {
-    "title": "Step 5. Say Hello",
-    "text": "Congrats, you made it! Just type: <br/><br/>```chunky carmel say hello```"
+    "title": "Amazing! You did it!",
+    "text": "Now go back to that terminal and type: <br/><br/>```chunky carmel say hello``` <br/><br/> As soon you do that, this screen will automatically update. Cool, eh? :)"
   }]
 }
