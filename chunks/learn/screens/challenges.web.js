@@ -138,7 +138,7 @@ export default class MainChallengesScreen extends Screen {
     if (Object.keys(filter).length > 0) {
       filteredChallenges = filteredChallenges.filter(challenge => {
         for (var key in filter) {
-          if (challenge.category.find(c => c === filter[key])) {
+          if (Object.keys(challenge.skills).find(c => c === filter[key])) {
             return true
           }
         }

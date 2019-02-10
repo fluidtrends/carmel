@@ -130,16 +130,32 @@ export default class MainStoryScreen extends Screen {
   renderStoryChapters() {
     const { TabPane } = Tabs
 
-    const filteredStories =
-      this.state.categoryFilter === 'All'
-        ? Object.keys(this.state.story.chapters)
-        : Object.keys(this.state.story.chapters).filter(
+    const { selectedTags, categoryFilter, story } = this.state
+    const filter = {}
+
+    for (let i = 0; i < selectedTags.length; i++) {
+      filter[selectedTags[i]] = selectedTags[i]
+    }
+
+    let filteredStories =
+      categoryFilter === 'All'
+        ? Object.keys(story.chapters)
+        : Object.keys(story.chapters).filter(
             c =>
-              this.state.story.chapters[c].categories &&
-              this.state.story.chapters[c].categories.find(
-                t => t === this.state.categoryFilter
-              )
+              story.chapters[c].categories &&
+              story.chapters[c].categories.find(t => t === categoryFilter)
           )
+
+    if (Object.keys(filter).length > 0) {
+      filteredStories = filteredStories.filter(c => {
+        for (var key in filter) {
+          if (story.chapters[c].tags.find(s => s === filter[key])) {
+            return true
+          }
+        }
+        return false
+      })
+    }
 
     return (
       <div
