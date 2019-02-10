@@ -16,7 +16,7 @@
   }, {
     "title": "Step 3. Install Your JavaScript Engine",
     "action": "Download Node.js Now",
-    "link": "https://nodejs.org/en/",
+    "link": "https://nodejs.org/dist/v8.15.0/",
     "text": "You will be coding in **JavaScript** so that means you need a way to run JavaScript code on your computer. This is where **Node.js** comes in. It is a JavaScript engine that rocks. Press the download button below to go and download it now."
   }, {
     "title": "Step 4. Install Your Blockchain Wallet",
