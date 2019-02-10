@@ -160,7 +160,7 @@
     "react-chunky": "^1.0.1",
     "react-dnd": "^5.0.0",
     "react-dom": "^16.7.0",
-    "react-dom-chunky": "^1.0.18",
+    "react-dom-chunky": "^1.0.20",
     "react-electron-chunky": "0.x",
     "react-element-to-jsx-string": "^14.0.1",
     "react-filetree-electron": "^1.2.2",
