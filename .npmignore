@@ -9,3 +9,4 @@ packer_cache
 .eosio
 carmel.token.wasm
 eosio.token.wasm
+.distro.csv
