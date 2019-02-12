@@ -119,3 +119,27 @@ Check out your achievements at [carmel.io/me/achievements](https://carmel.io/me/
 Wanna keep going? Go to the Challenges list ([carmel.io/challenges](https://carmel.io/challenges)) and choose the **[Learn to manipulate simple text](https://carmel.io/challenges/learn-how-to-use-strings)** Challenge.
 
 **Have fun!**
+
+## Get Your CARMEL Tokens
+
+We're excited to let you know that the [Carmel Token](https://eospark.com/token/carmel/carmeltokens) is live on the EOS Mainnet under the **carmeltokens** EOS Smart Contract. The first 100 token holders have received their CARMEL already and more will come soon. If you have participated in the previous two token distribution periods and you want your CARMEL, you have to enter your EOS username in your Carmel Profile at [carmel.io/me](https://carmel.io/me) and you will get your CARMEL in a new drop. There will be one a week until everyone gets their tokens.
+
+We're currently in the 3rd Token Distribution Period (ending March 7th) and that means you have 3 weeks left to participate. To participate, send EOS to the **carmeltokens** EOS smart contract and you will get CARMEL back automatically. The price for this period is **1 CARMEL = 0.005 EOS**. So if you want more CARMEL, now's your chance to get some and hold on to them before we list.
+
+Listing will begin as of April and we're really excited about us having a functional economy with an amazing community that truly believes in the Carmel Mission.
+
+## Become a Carmel Community Leader
+
+Join the Carmel Community Leaders group and help us spread the word about what the Carmel Story. We've been at this for a good year now and we've been asked by a lot of you why we're not making more noise.
+
+Our answer was simple and constant. We wanted to have something to talk about before we start talking.
+
+And so, now that Carmel 1.0 is here to stay, we're ready to share so much goodness with the world. There's so much that can be do with Carmel already that it's going to be exciting creating content, articles, videos and even a podcast about the different things you can do with Carmel.
+
+We've built a tool for builders. Carmel is a meta product. It helps builders build. Its applications are endless and absolutely insane. And I can't wait for us to share all that through content that we will be creating as of today.
+
+But we need your help to share that content with the world.
+
+We will gladly create bounties and award you with CARMEL tokens for your efforts but more than anything, you will gain Chunky's favor.
+
+So you're in? If so, [check this out and fill this form to get started](https://goo.gl/forms/u9m4SyRiGgBnKFMC3) and Andrei will get back at you with the masterplan. If you're on Telegram, just join our [Carmel Community Leaders](https://t.me/carmelcommunityleaders) group too and we can continue this conversation there.
