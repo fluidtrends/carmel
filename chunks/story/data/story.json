@@ -9,6 +9,15 @@
   ],
   "authors": ["idancali"],
   "chapters": {
+    "getting-started": {
+      "slug": "getting-started",
+      "title": "Getting Started Carmel 1.0 [Official Launch]",
+      "date": "2019-02-11",
+      "tags": ["Product", "How-To"],
+      "categories": ["News", "Tutorial"],
+      "summary": "I can't believe I'm writing this announcement but here we are. After 4 years of trial and error and after 13 months of heads down product development, we're absolutely thrilled to introduce you to Carmel 1.0 - The Official Public Release.",
+      "https://imgur.com/MGY7tSp.png"
+    },
     "development-for-all": {
       "slug": "is-software-development-for-everyone",
       "title": "Is Software Development For Everyone?",
