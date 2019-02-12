@@ -10,7 +10,7 @@ export default class MainStoryScreen extends Screen {
     super(props)
     this.state = {
       ...this.state,
-      categoryFilter: 'All',
+      categoryFilter: 'News',
       selectedTags: []
     }
     this._onChapterSelected = this.onChapterSelected.bind(this)
@@ -168,7 +168,7 @@ export default class MainStoryScreen extends Screen {
         }}
       >
         <Tabs
-          defaultActiveKey="All"
+          defaultActiveKey="News"
           tabPosition={'top'}
           style={{ marginTop: '50px', minWidth: '300px', maxWidth: '700px' }}
           onTabClick={this.filterCategories}
