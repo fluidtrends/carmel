@@ -1,5 +1,5 @@
 {
-  "categories": ["News", "Tutorials", "Articles", "Devlog"],
+  "categories": ["News", "Tutorials", "Articles", "Videos", "All"],
   "hashtags": ["CarmelStory", "RoadTo1B", "EducationStory"],
   "keywords": [
     "learning to code",
@@ -52,8 +52,8 @@
       "video": "https://www.youtube.com/watch?v=hUcMqblawDE",
       "slug": "carmel-devlog-1",
       "date": "2018-05-15",
-      "tags": ["Education", "Vlog", "Video"],
-      "categories": ["Devlog"],
+      "tags": ["Education", "Devlog"],
+      "categories": ["Videos"],
       "title": "The Dream",
       "summary": "Carmel Video Blog about the Dream",
       "image": "https://i.imgur.com/RqilFwk.png"
