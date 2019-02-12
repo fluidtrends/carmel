@@ -36,6 +36,8 @@ And that, is **simply groundbreaking**.
 
 I thought I'd never get write to this section. If you love the promise of a new Tech Educational model, then you're gonna love this. We actually implemented it. You can actually try it out. Right now. Actually, hold on, finish this article first. So check this out. In order to implement Tweak-N-Learn™, we needed to implement an almost magical sublayer of the Carmel plaform that handles the Product Development side of things. Remember, our Tweak-N-Learn™ Tech Education model bridges the gap between **learning** (education) and **development** (productivity). So we needed to not only solve the first but the second problem too.
 
+![hey chunky](https://github.com/fluidtrends/carmel/raw/master/assets/chunky-logo.gif)
+
 And boy did we solve it. We actually created an entire Product Development Platform called **Chunky** (the perpetually happy Code Monkey) that handles all the grunt work so that you - the developer - will never get stuck doing monkey work. You know, the type of work that makes you wanna pull your eyes out with an invisible surreal and non-existent sharp object. Chunky does that for you. Not the eye poking thing. The grunt work. It's only fitting that a Code Monkey does the code monkey work. While you, the priviledged Carmel developer that you are, get to work on awesome higher-purpose creative development work. Pretty sweet deal if you ask me.
 
 I won't even being to describe how awesome Chunky is here. I'll leave that for a separate dopamine infusing series of Tutorials on how Chunky will save your life as a developer. And make you coffee one day if we build him a real brain. One day. Wait, did that scare you? I take it back. No coffee. Just awesome development help that you will make you cry sweat tear of joy with every new line of code you write.
@@ -46,16 +48,11 @@ Here's what the setup process looks like.
 
 ### Steps 1 to 4
 
-The first 4 steps are pretty straight forward. We're guiding you to download the 4 most important tools in your arsenal as a Carmel developer.
-
-![setup 1](http://files.carmel.io/media/setup-1.png)
-![setup 2](http://files.carmel.io/media/setup-2.png)
-![setup 3](http://files.carmel.io/media/setup-3.png)
-![setup 4](http://files.carmel.io/media/setup-4.png)
+The first 4 steps are pretty straight forward. We're guiding you to download the 4 most important tools in your arsenal as a Carmel developer. If you already have some of those tools installed, just skip that step and move on.
 
 ### Step 5
 
-Here come's the interesting part. We're going to get Chunky installed on your machine, at this point.
+Here comes the interesting part. We're going to get Chunky installed on your machine, at this point.
 
 ![setup 5](http://files.carmel.io/media/setup-5.png)
 
@@ -77,8 +74,51 @@ And here's what it should look like in action. It will ask you to login to your 
 
 ![hello](http://files.carmel.io/media/hello.gif)
 
-I get it, some of you might be terrified of the terminal and you can't stand typing commands at a command prompt. Fair enough. But if you want to become a Software Developer, you have to get your hands dirty my friend. Carmel is not miraculous magic pill that will automatically turn keystrokes into unicorns. Yet. Chin up. We'll improve the process as we go along. For now, get ready to flex them mental muscles and show your terminal some love.
+*NOTE:*
+
+*I get it, some of you might be terrified of the terminal and you can't stand typing commands at a command prompt. Fair enough. But if you want to become a Software Developer, you have to get your hands dirty my friend. Carmel is not miraculous magic pill that will automatically turn keystrokes into unicorns. Yet. Chin up. We'll improve the process as we go along. For now, get ready to flex them mental muscles and show your terminal some love.*
 
 ## Taking Your First Challenge
 
-Ready?
+Ready? You can now take your first challenge from the Challenges list ([carmel.io/challenges](https://carmel.io/challenges)). Choose the **[Create a brand new product](https://carmel.io/challenges/create-your-first-product)** Challenge and as soon as you do that, you will be guided to your Carmel Workspace, with the challenge ready to proceed.
+
+![start now](http://files.carmel.io/media/start-workspace.png)
+
+Carmel then waits until you go back to your Terminal and type **chunky carmel next** to advance to the next point in the challenge. As soon as you do that, the first task is started. Carmel instructs you to complete the task and your Carmel Learning timer is started. This simply calculates the time it takes you to complete the task.
+
+![start now1](http://files.carmel.io/media/start-workspace2.png)
+
+The *MyProduct* folder name can be anything. Even *hello*, or whatever you want. Here's what it would look like in practice.
+
+![start3](http://files.carmel.io/media/new-dir.gif)
+
+As the task instructs you, you can now go into that folder and tell Chunky to create the product for you:
+
+![start4](http://files.carmel.io/media/init.gif)
+
+How cool is that? This is a real React project. As soon as you type **chunky carmel next** you can move on to the next task.
+
+![start5](http://files.carmel.io/media/start-workspace3.png)
+
+Next you want to tell Chunky to install all the product's dependencies. This will take a couple of minutes or more, depending on how fast your computer is and how fast your internet connection is.
+
+![start6](http://files.carmel.io/media/install.gif)
+
+And type **chunky carmel next** to go to the last task.
+
+![start7](http://files.carmel.io/media/start-workspace4.png)
+
+So now simply tell chunky to show you your newly created website. It's as simple as typing a command.
+
+![start8](http://files.carmel.io/media/start-web.gif)
+
+That's it! You just completed your first Carmel Challenge and you created your first React product from scratch. What you see in your newly opened browser tab there, is your website in action. That's a real website, with real code running, waiting for you to Tweak-N-Learn™ and continue your developer journey.
+
+Check out your achievements at [carmel.io/me/achievements](https://carmel.io/me/achievements) and wow the world by sharing your Carmel journey with everyone else. Your Carmel link is **carmel.io/<your username>**
+
+Ready? You can now take your first challenge from the Challenges list ([carmel.io/challenges](https://carmel.io/challenges)). Choose the **[Create a brand new product](https://carmel.io/challenges/create-your-first-product)** Challenge and as soon as you do that, you will be guided to your Carmel Workspace, with the challenge ready to proceed.
+
+
+Wanna keep going and add tweak your website? Go to the Challenges list ([carmel.io/challenges](https://carmel.io/challenges)) and choose the **[Learn to manipulate simple text](https://carmel.io/challenges/learn-how-to-use-strings)** Challenge.
+
+**Have fun!**
