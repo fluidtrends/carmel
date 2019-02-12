@@ -1,5 +1,5 @@
 {
-  "categories": ["All", "Chapters", "Tutorials", "Videos"],
+  "categories": ["News", "Tutorials", "Articles", "Devlog"],
   "hashtags": ["CarmelStory", "RoadTo1B", "EducationStory"],
   "keywords": [
     "learning to code",
@@ -14,7 +14,7 @@
       "title": "Is Software Development For Everyone?",
       "date": "2018-11-19",
       "tags": ["Education", "Backstory", "Productivity"],
-      "categories": ["Chapters"],
+      "categories": ["Articles"],
       "summary": "Hugo and his pet dog Uno, were two of my best friends during my teenage years. They were two cartoon characters I had dreamed up during classes I couldn't stand, mostly English classes, in grades 10 and 11",
       "image": "https://imgur.com/9hPkQwA.jpg"
     },
@@ -23,7 +23,7 @@
       "title": "Education For The Sake Of Education Is Not Enough",
       "date": "2018-11-18",
       "tags": ["Education", "Backstory", "Productivity"],
-      "categories": ["Chapters"],
+      "categories": ["Articles"],
       "summary": "I had never seen more poverty in my entire life. And I didn't grow up with warm water, let me tell you. But this was different. A few hundred people, close to the city garbage dump, crammed together all around that dump, in improvised carton boxes. You can't honestly call them houses, but they call them homes nonetheless. My heart was absolutely torn apart seeing young children playing in the ankle-deep mud and holding a piece of dirty bread in their unwashed hands, while smiling - yes - smiling - and playing and running around in that nasty mud, without the slightest sense of worry on their beautiful little minds. I was accompanying a friend who worked with the children and tried to connect with them through music and games. The entire experience is something I am not even going to attempt to lay down in writing because there are no words to describe what I felt. One little story stands out above the rest though.",
       "quote": "Education For The Sake Of Education Is Not Enough",
       "image": "https://i.imgur.com/1yf7E7q.png"
@@ -33,7 +33,7 @@
       "title": "Poor Kids Deserve A Shot Too",
       "date": "2018-11-17",
       "tags": ["Education", "Backstory", "Opportunity"],
-      "categories": ["Chapters"],
+      "categories": ["Articles"],
       "summary": "\"Hey listen up! Whoever ordered their books from me last week, come and get them quickly before class begins\", I yelled at the top of my lungs.I had to yell. That lecture hall was full of first year statistics students who were having a hundred simultaneous conversations. I dropped my big box of freshly printed textbooks on one of the desks somewhere in the middle of the room and I made sure everyone not only heard me yelling but that they also heard the loud thud of the big box being intentionally dropped on that wooden desk.",
       "quote": "Poor Kids Deserve A Shot Too",
       "image": "https://i.imgur.com/dgZe3BX.png"
@@ -43,7 +43,7 @@
       "title": "I Could Have Become A Hustler",
       "date": "2018-11-16",
       "tags": ["Education", "Backstory"],
-      "categories": ["Chapters"],
+      "categories": ["Articles"],
       "summary": "We had settled in Toronto, Canada for about five years at that point - the year was 1999. This was our first trip back to Romania since we had left and it was an emotional one to say the least. My parents, my brother and I. We had travelled back to where we grew up, in Bucharest, and even reconnected to with some of the people we grew up with. One of those people was my best friend growing up in Bucharest when we were kids. We used to do everything together, even fight together, get in trouble together, be scared together and just literally spend hours of our day roaming the streets of Bucharest in the 80s and do what kids used to do back then - nothing and everything.",
       "quote": "I Could Have Become A Hustler",
       "image": "https://i.imgur.com/n5g8QxS.png"
@@ -53,7 +53,7 @@
       "slug": "carmel-devlog-1",
       "date": "2018-05-15",
       "tags": ["Education", "Vlog", "Video"],
-      "categories": ["Videos"],
+      "categories": ["Devlog"],
       "title": "The Dream",
       "summary": "Carmel Video Blog about the Dream",
       "image": "https://i.imgur.com/RqilFwk.png"

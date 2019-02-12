@@ -168,7 +168,7 @@
           <ChipSet>
             <Chip style={{ backgroundColor: (this.tokens > 0 ? '#006A4E' : '#CFD8DC'), marginLeft: 0 }}>
               <ChipText style={{ color: (this.tokens > 0 ? '#ffffff' : '#B0BEC5') }}>
-                <strong> {this.state.tokens.carmel.toLocaleString('en')} </strong>
+                <strong> {parseFloat(this.state.tokens.carmel).toLocaleString('en', { minimumFractionDigits:4 })} </strong>
               </ChipText>
             </Chip>
             { this.renderClaimed() }
@@ -178,7 +178,7 @@
     }
 
     renderTokens () {
-      if (this.props.skipWallet || !this.tokens || this.tokens <= 0) {
+      if (this.props.skipWallet || !this.tokens || this.tokens <= 0 || (this.state.tokens && this.state.tokens.carmel)) {
         return <div style={{
           marginBottom: '20px',
           paddingBottom: '20px',
