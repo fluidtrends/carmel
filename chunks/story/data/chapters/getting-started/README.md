@@ -130,11 +130,11 @@ Listing will begin as of April and we're really excited about us having a functi
 
 ## Become a Carmel Community Leader
 
-Join the Carmel Community Leaders group and help us spread the word about what the Carmel Story. We've been at this for a good year now and we've been asked by a lot of you why we're not making more noise.
+Join the Carmel Community Leaders group and help us spread the word about the Carmel Story. We've been at this for a good year now and we've been asked by a lot of you why we're not making more noise.
 
 Our answer was simple and constant. We wanted to have something to talk about before we start talking.
 
-And so, now that Carmel 1.0 is here to stay, we're ready to share so much goodness with the world. There's so much that can be do with Carmel already that it's going to be exciting creating content, articles, videos and even a podcast about the different things you can do with Carmel.
+And so, now that Carmel 1.0 is here to stay, we're ready to share so much goodness with the world. There's so much that can be done with Carmel already that it's going to be exciting creating content, articles, videos and even a podcast about the different things you can do with Carmel.
 
 We've built a tool for builders. Carmel is a meta product. It helps builders build. Its applications are endless and absolutely insane. And I can't wait for us to share all that through content that we will be creating as of today.
 
