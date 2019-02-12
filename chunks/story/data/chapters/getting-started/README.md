@@ -1,8 +1,8 @@
-## It's (a)live!
+### It's (a)live!
 
 I can't believe I'm writing this announcement but here we are. After 4 years of trial and error and after 13 months of heads down product development, we're absolutely thrilled to introduce you to **Carmel 1.0 - The Official Public Release**.
 
-## Credits First
+### Credits First
 
 There's so many *out-of-this-world* people that need to be recognized for this release and I am not even going to say another word until I acknowledge these amazing human beings who have sacrificed endless days and nights to make this happen.
 
@@ -16,7 +16,7 @@ I won't mention Andrei's wife, Claudia, either. I don't want to embarrass her by
 
 I'm looking at you **Fuzzy** - thanks man for your constant help and wisdom. I've been to Fuzzy U in the past year. You're a blockchain encyclopedia man and I'm honored you shared so much with me on this journey. **Bluejays** - you were there from the beginning man and this story pretty much began with that interview a year ago. Thanks for believing in Carmel from the get-go, brother. I'm happy you're part of this journey. All our advisors - **NSJames** - dude, thanks for those initial talks that set me on the right path. Having you on board was always a huge boost for us man, even before EOS was a thing. **Paul** thank you for being part of the team and thanks for supporting us from the beginning, brother. **Emil** - thanks man. Just thanks. You're just awesome. **Roxana** thanks for joining us and for being such an incredible voice for Carmel. **Vivek**, my UofT bro, those nights coding in that computer lab 20 years ago are paying off eh? Thanks for believing in Carmel from day 1 dude. **Paul**, thanks for joining our team man and I'm looking forward to your continued wisdom as we grow from here. **Rennie**, my friend, so glad you decided to join this party. **Gheorghe** I am excited about seeing you get your hands dirty and building a real brain for Chunky.
 
-## Introducing Tweak-N-Learn™
+### Introducing Tweak-N-Learn™
 
 Yay, we're live. But that means what exactly. Right? Let's put it this way.
 
@@ -78,7 +78,7 @@ And here's what it should look like in action. It will ask you to login to your 
 
 *I get it, some of you might be terrified of the terminal and you can't stand typing commands at a command prompt. Fair enough. But if you want to become a Software Developer, you have to get your hands dirty my friend. Carmel is not miraculous magic pill that will automatically turn keystrokes into unicorns. Yet. Chin up. We'll improve the process as we go along. For now, get ready to flex them mental muscles and show your terminal some love.*
 
-## Taking Your First Challenge
+### Taking Your First Challenge
 
 Ready? You can now take your first challenge from the Challenges list ([carmel.io/challenges](https://carmel.io/challenges)). Choose the **[Create a brand new product](https://carmel.io/challenges/create-your-first-product)** Challenge and as soon as you do that, you will be guided to your Carmel Workspace, with the challenge ready to proceed.
 
@@ -120,7 +120,7 @@ Wanna keep going? Go to the Challenges list ([carmel.io/challenges](https://carm
 
 **Have fun!**
 
-## Get Your CARMEL Tokens
+### Get Your CARMEL Tokens
 
 We're excited to let you know that the [Carmel Token](https://eospark.com/token/carmel/carmeltokens) is live on the EOS Mainnet under the **carmeltokens** EOS Smart Contract. The first 100 token holders have received their CARMEL already and more will come soon. If you have participated in the previous two token distribution periods and you want your CARMEL, you have to enter your EOS username in your Carmel Profile at [carmel.io/me](https://carmel.io/me) and you will get your CARMEL in a new drop. There will be one a week until everyone gets their tokens.
 
@@ -128,7 +128,7 @@ We're currently in the 3rd Token Distribution Period (ending March 7th) and that
 
 Listing will begin as of April and we're really excited about us having a functional economy with an amazing community that truly believes in the Carmel Mission.
 
-## Become a Carmel Community Leader
+### Become a Carmel Community Leader
 
 Join the Carmel Community Leaders group and help us spread the word about the Carmel Story. We've been at this for a good year now and we've been asked by a lot of you why we're not making more noise.
 
