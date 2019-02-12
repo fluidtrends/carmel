@@ -114,11 +114,8 @@ So now simply tell chunky to show you your newly created website. It's as simple
 
 That's it! You just completed your first Carmel Challenge and you created your first React product from scratch. What you see in your newly opened browser tab there, is your website in action. That's a real website, with real code running, waiting for you to Tweak-N-Learn™ and continue your developer journey.
 
-Check out your achievements at [carmel.io/me/achievements](https://carmel.io/me/achievements) and wow the world by sharing your Carmel journey with everyone else. Your Carmel link is **carmel.io/<your username>**
+Check out your achievements at [carmel.io/me/achievements](https://carmel.io/me/achievements) and wow the world by sharing your Carmel journey with everyone else. Your Carmel link is **carmel.io/yourusername**
 
-Ready? You can now take your first challenge from the Challenges list ([carmel.io/challenges](https://carmel.io/challenges)). Choose the **[Create a brand new product](https://carmel.io/challenges/create-your-first-product)** Challenge and as soon as you do that, you will be guided to your Carmel Workspace, with the challenge ready to proceed.
-
-
-Wanna keep going and add tweak your website? Go to the Challenges list ([carmel.io/challenges](https://carmel.io/challenges)) and choose the **[Learn to manipulate simple text](https://carmel.io/challenges/learn-how-to-use-strings)** Challenge.
+Wanna keep going? Go to the Challenges list ([carmel.io/challenges](https://carmel.io/challenges)) and choose the **[Learn to manipulate simple text](https://carmel.io/challenges/learn-how-to-use-strings)** Challenge.
 
 **Have fun!**
