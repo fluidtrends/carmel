@@ -52,7 +52,7 @@ I am a developer. I am a teacher. And I am a clown.
 
 And I'm enjoying (almost) every minute of it.
 
-PS. `The difference between a poorly dressed man on a bicycle and a richly dressed man on an unicycle is...attire.` [Lemme know when you get it](t.me/aclowwwn) 😁.
+PS. `The difference between a poorly dressed man on a bicycle and a richly dressed man on an unicycle is...attire.` [Lemme know when you get it](https://t.me/aclowwwn) 😁.
 
 
 
