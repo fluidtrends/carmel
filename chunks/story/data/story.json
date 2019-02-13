@@ -11,7 +11,6 @@
   "chapters": {
     "getting-started": {
       "slug": "getting-started",
-      "author": "aclowwwn",
       "title": "Getting Started with Carmel [1.0 Launch]",
       "date": "2019-02-11",
       "tags": ["Product", "How-To"],
@@ -21,10 +20,11 @@
     },
     "meet-a-clowwwn": {
       "slug": "meet-a-clowwwn",
+      "author": "aclowwwn",
       "title": "Meet a clowwwn",
       "date": "2019-02-13",
       "tags": ["Backstory", "Dream"],
-      "categories": ["Articles"],
+      "categories": ["Articles", "News"],
       "summary": "What are you laughing at, guys? Never seen a clown before?",
       "image": "https://cdn.pixabay.com/photo/2018/02/03/21/07/hat-3128511_960_720.jpg"
     },
