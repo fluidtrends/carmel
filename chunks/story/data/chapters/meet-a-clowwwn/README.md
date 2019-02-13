@@ -5,21 +5,21 @@ Nevertheless, I got up, and, as usual, was ready to go in about 3 minutes - and 
 
 You don't often see clowns on the street, at 5AM in the morning. When it's still dark outside. Only, you know...those clowns you see in horror movies, those clowns that cause so many people to fear the real clowns (damn you, Stephen King). And there I was, though, in a clown costume, on a bike (a two wheeled one, tho'), on the barely lighted streets of Cluj, Transylvania - as if vampires were not enough.
 
-<blockquote style="border-left: 3px solid #00bcd4; padding-left: 20px; font-size: 20px; padding-bottom: 2px">
+<blockquote style="border-left: 3px solid #00bcd4; padding-left: 20px; font-size: 20px; padding-bottom: 2px; font-family: monospace">
 Btw, do you know what the difference is between a poorly dressed man on a bicycle and a richly dressed man on an unicycle...? I'll tell you later...
 </blockquote>
 
 
 And no, I don't work as a clown. I'm not a professional clown. But I'm not an evil one, either. Not yet, at least. My (night and) day job is programming. I'm a software developer in Romania's Silicon Valley, Cluj - and I'm enjoying (almost) every minute of it. Who wouldn't? Having a (very) well payed job, nice holidays, chill work schedules, no stress...that's the romanian *#americandream*. That was my life too, until...
 
-<blockquote style="border-left: 3px solid #00bcd4; padding-left: 20px; font-size: 20px; padding-bottom: 2px">
+<blockquote style="border-left: 3px solid #00bcd4; padding-left: 20px; font-size: 20px; padding-bottom: 2px; font-family: monospace">
 I woke up at 4AM, remember? 🙄 No sane software developer wakes up at that hour, if (s)he has a choice. No, <b>#americandream</b> is not on my list of dreams. Not anymore.
 </blockquote>
 
 
 My life changed when I met [Dan](https://carmel.io/story/idancali). After spending some time together, volunteering, serving our community, and almost dying together a few times, he convinced me (and that wasn't as easy as it sounds 😁) to join him in his lifetime project - __Carmel__, a platform that will help anybody willing to learn programming. It's a great story, you can read more about it [here](https://carmel.io/story). Well...I accepted his offer. And that is...I gave him my last money, so he won't starve to death (he's a brilliant programmer, but he chose to chase his dream, not other people's), and that's how I got in this mess. [Andrei](https://carmel.io/story/andreiwrites) too.
 
-<blockquote style="border-left: 3px solid #00bcd4; padding-left: 20px; font-size: 20px; padding-bottom: 2px">
+<blockquote style="border-left: 3px solid #00bcd4; padding-left: 20px; font-size: 20px; padding-bottom: 2px; font-family: monospace">
 <b>Let's starve togheter</b> was our motto. Yes, misspelled like that. Sorry, still working on my English. ¯\_(ツ)_/¯
 </blockquote>
 
@@ -28,19 +28,19 @@ My life changed when I met [Dan](https://carmel.io/story/idancali). After spendi
 Our learning model, called *Tweak-n-Learn™* is a revolutionary one - and we believe it will change the learning industry forever. However, this statement, and this crazy dream of ours needed to be proved. So we needed to put our money where our mouth was (that being told, we had no money - but we still did it). We assembled a team of 4 amazing, dedicated, willing to learn guys - and started teaching them. How did we know they're really, really willing to learn? Glad you asked.
 
 
-<blockquote style="border-left: 3px solid #00bcd4; padding-left: 20px; font-size: 20px; padding-bottom: 2px">
+<blockquote style="border-left: 3px solid #00bcd4; padding-left: 20px; font-size: 20px; padding-bottom: 2px; font-family: monospace">
 The initiation test, to get you in the internship program, was the following. <b>Be here at 5AM, every day, for the following 6 months.</b> As simple as that...
 </blockquote>
 
 And that team included: our hero, __Chris__, with a family of 5, a fulltime day job, and serving the community too; __Joe__, juggling at times with 2 jobs at once, plus helping and volunteering in lots of places, __Adrien__, our French fries...friend, sorry, who had a fulltime job, and suffered from Tourette syndrome - so it seemed, at least 😁, and the kid, __Emanuel__, a 1st year CS student. My point is...this wasn't easy for any of us. 
 
-<blockquote style="border-left: 3px solid #00bcd4; padding-left: 20px; font-size: 20px; padding-bottom: 2px">
+<blockquote style="border-left: 3px solid #00bcd4; padding-left: 20px; font-size: 20px; padding-bottom: 2px; font-family: monospace">
 <b>But that never stopped us.</b>
 </blockquote>
 
 We called our group the *5AM legends*. Pretty self-explanatory, I think. And we had a system to encourage us to be there on the time...you payed an amount of money for every 5 minutes you were late - *guess who contributed the most to this fund?*. 🙄 But we were there, each morning, from 5AM - ish, to 7AM sharp. Every day. For 6 months. Give or take. And this brings me back - after a journey longer than Bilbo Baggins's - to where I started...
 
-<blockquote style="border-left: 3px solid #00bcd4; padding-left: 20px; font-size: 20px; padding-bottom: 2px">
+<blockquote style="border-left: 3px solid #00bcd4; padding-left: 20px; font-size: 20px; padding-bottom: 2px; font-family: monospace">
 There I was, a clown on a bike, in the night, on the barely lighted streets of Cluj, Transylvania - as if vampires were not enough.
 </blockquote>
 
@@ -48,14 +48,14 @@ I got to the office about 20 minutes late. That's a lot of money I had to put in
 
 Diane's expression turned from 'Good morning, Andi, you're late again' - to shock/surprise, then laughter. Well, it's not everyday you see a clown walking on the front door. Except that day is your birthday. And it wasn't. I mysteriously passed by her, saying nothing, and entered the room where everybody waited for me...
 
-<blockquote style="border-left: 3px solid #00bcd4; padding-left: 20px; font-size: 20px; padding-bottom: 2px">
+<blockquote style="border-left: 3px solid #00bcd4; padding-left: 20px; font-size: 20px; padding-bottom: 2px; font-family: monospace">
 Hey, the queen is never late. Everybody else came to early.
 </blockquote>
 
 I enter the room...huge, blue, sunglasses (it was still dark outside) - red, blue, green and yellow wig (that looked exactly like my real hair, except for the colors), and a small hat with a big flower in front - no red nose, tho', I'm still looking for one. Everybody looked at me as I entered. And...you'll never guess their reaction...
 
 
-<blockquote style="border-left: 3px solid #00bcd4; padding-left: 20px; font-size: 20px; padding-bottom: 2px">
+<blockquote style="border-left: 3px solid #00bcd4; padding-left: 20px; font-size: 20px; padding-bottom: 2px; font-family: monospace">
 "What are you laughing at, guys? Never seen a clown before?"
 </blockquote>
 
@@ -69,7 +69,7 @@ Hi. I'm Andy. Aka *aclowwwn*.
 
 I am a developer. I am a teacher. And I am a clown.
 
-<blockquote style="border-left: 3px solid #00bcd4; padding-left: 20px; font-size: 20px; padding-bottom: 2px">
+<blockquote style="border-left: 3px solid #00bcd4; padding-left: 20px; font-size: 20px; padding-bottom: 2px; font-family: monospace">
 Job. Vocation. Hobby. I think I'm living the dream.
 </blockquote>
 
@@ -77,7 +77,7 @@ And I'm enjoying (almost) every minute of it.
 
 P.S. 
 
-<blockquote style="border-left: 3px solid #00bcd4; padding-left: 20px; font-size: 20px; padding-bottom: 2px">
+<blockquote style="border-left: 3px solid #00bcd4; padding-left: 20px; font-size: 20px; padding-bottom: 2px; font-family: monospace">
 The difference between a poorly dressed man on a bicycle and a richly dressed man on an unicycle is...a tire. [Lemme know when you get it](https://t.me/aclowwwn) 😁.
 </blockquote>
 
