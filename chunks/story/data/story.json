@@ -11,6 +11,7 @@
   "chapters": {
     "getting-started": {
       "slug": "getting-started",
+      "author": "aclowwwn",
       "title": "Getting Started with Carmel [1.0 Launch]",
       "date": "2019-02-11",
       "tags": ["Product", "How-To"],
