@@ -49,7 +49,7 @@ I got to the office about 20 minutes late. That's a lot of money I had to put in
 Diane's expression turned from 'Good morning, Andi, you're late again' - to shock/surprise, then laughter. Well, it's not everyday you see a clown walking on the front door. Except that day is your birthday. And it wasn't. I mysteriously passed by her, saying nothing, and entered the room where everybody waited for me...
 
 <blockquote style="border-left: 3px solid #00bcd4; padding-left: 20px; font-size: 20px; padding-bottom: 2px; font-family: monospace">
-Hey, the queen is never late. Everybody else came to early.
+Hey, the queen is never late. Everybody else came too early.
 </blockquote>
 
 I enter the room...huge, blue, sunglasses (it was still dark outside) - red, blue, green and yellow wig (that looked exactly like my real hair, except for the colors), and a small hat with a big flower in front - no red nose, tho', I'm still looking for one. Everybody looked at me as I entered. And...you'll never guess their reaction...
