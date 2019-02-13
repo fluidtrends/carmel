@@ -44,7 +44,7 @@ That's a long story, longer that it needed to be. I just wanted to introduce mys
 
 Allow me to introduce myself.
 
-Hi. I'm Andy.
+Hi. I'm Andy. Aka *aclowwwn*.
 
 I am a developer. I am a teacher. And I am a clown.
 
