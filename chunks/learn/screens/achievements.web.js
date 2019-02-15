@@ -32,6 +32,7 @@ export default class Workspace extends Screen {
     }
 
     this._join = this.join.bind(this)
+    this._renderSkills = this.renderSkills.bind(this)
   }
 
   componentDidMount () {
@@ -137,6 +138,31 @@ export default class Workspace extends Screen {
     return <ChallengeCard challenge={challenge} isSmallScreen={this.isSmallScreen} active />
   }
 
+   renderBadge(name, value) {
+    if (this.isSmallScreen) {
+      // return
+    }
+
+    const Badge = <span style={{width: 25, height: 25, borderRadius: '50%', background: '#00bcd4', position: 'absolute', bottom: 7, right: -10, color: '#fff',textAlign: 'center', padding: 3}}>{value}</span>
+
+    return <Components.AnimatedWrapper animation animationType="fade">
+      <span style={{position: 'relative', marginRight: 20}}>
+        <Tag style={{marginBottom: 10, borderColor: '#00bcd4', color: '#00bcd4', backgroundColor: '#fff'}}>
+          {`#${String(name).toLowerCase()} - ${value}`}
+        </Tag>
+      </span>
+    </Components.AnimatedWrapper>
+  }
+
+  renderSkills() {
+    const { skills } = this.state.journey.journey
+    console.log("the skills:",skills)
+    if (!skills) {
+      return console.log("there are no skills")
+    }
+    return Object.keys(skills).map(key => this.renderBadge(key, skills[key]))
+  }
+
   renderJourney() {
     const journey = this.state.journey
 
@@ -148,6 +174,7 @@ export default class Workspace extends Screen {
     }
 
     return [
+      this._renderSkills(),
       this.renderCurrentChallenge(challenge),
       ...completedChallengesCards
     ]
