@@ -2,7 +2,7 @@ import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
 import UserInfo from '../../auth/components/userInfo'
 import { Typography } from '@rmwc/typography'
-import { List, Icon, Tabs, Avatar, Alert, Progress, Steps, notification } from 'antd'
+import { List, Icon, Tabs, Avatar, Alert, Progress, Steps, notification, Tag } from 'antd'
 const TabPane = Tabs.TabPane
 import Fade from 'react-reveal/Fade'
 import Bounce from 'react-reveal/Bounce'
@@ -155,12 +155,12 @@ export default class Workspace extends Screen {
   }
 
   renderSkills() {
-    const { skills } = this.state.journey.journey
-    console.log("the skills:",skills)
+    const { skills } = this.state.journey
+    // console.log("the skills:",skills)
     if (!skills) {
       return console.log("there are no skills")
     }
-    return Object.keys(skills).map(key => this.renderBadge(key, skills[key]))
+    return <div flex>{Object.keys(skills).map(key => this.renderBadge(key, skills[key]))}</div>
   }
 
   renderJourney() {
@@ -174,7 +174,6 @@ export default class Workspace extends Screen {
     }
 
     return [
-      this._renderSkills(),
       this.renderCurrentChallenge(challenge),
       ...completedChallengesCards
     ]
@@ -220,6 +219,7 @@ export default class Workspace extends Screen {
             wallet={this.state.wallet}
             account={this.account}
           />
+          {this._renderSkills()}
       </Card>
  }
 
@@ -232,7 +232,7 @@ export default class Workspace extends Screen {
 
     const width = this.isSmallScreen ? '95vw' : '700px'
     const padding = this.isSmallScreen ? '5px' : '30px'
-
+    console.log("the state is:", this.state)
     return (
       <div
         style={{
