@@ -1,4 +1,4 @@
-# Pre-listing token distribution LIVE now!
+# Continuous token distribution LIVE now!
 
 ## Get your CARMEL here.
 
