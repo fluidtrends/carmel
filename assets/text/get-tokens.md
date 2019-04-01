@@ -1,6 +1,6 @@
-# Continuous token distribution LIVE now!
+# Exchange Listing Has Started
 
-## Get your CARMEL here.
+## Get your CARMEL from an exchange
 
 <div style='width: 100%; text-align: center'>
   <img src='/assets/tokens.png' style='width: 150px; border-radius: 70px;'>

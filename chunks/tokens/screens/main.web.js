@@ -14,8 +14,10 @@ export default class TokensScreen extends Screen {
   }
 
   renderMainContent() {
-    return <div style={{textAlign: 'center'}}> 
-      <Distribution isSmallScreen={this.isSmallScreen} />
+    return <div style={{textAlign: 'center'}}>
+      <Distribution
+      triggerRawRedirect={this.triggerRawRedirect}
+      isSmallScreen={this.isSmallScreen} />
     </div>
   }
 

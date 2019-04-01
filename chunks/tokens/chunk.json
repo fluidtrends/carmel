@@ -16,7 +16,7 @@
         "opacity": 0.6,
         "image": "tokens.r.png",
         "navigation": true,
-        "title": "Continuous token distribution LIVE",
+        "title": "Get Your CARMEL Tokens",
         "type": "default"
       },
       "startOperationsOnMount": false,
