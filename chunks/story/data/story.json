@@ -9,6 +9,15 @@
   ],
   "authors": ["idancali", "aclowwwn"],
   "chapters": {
+    "listing-started": {
+      "slug": "listing-started",
+      "title": "Exchange Listing Has Officially Started",
+      "date": "2019-04-01",
+      "tags": ["Product", "Dream"],
+      "categories": ["News", "Articles"],
+      "summary": "Hey Carmel family - guess what? We have exciting news for all of you all!",
+      "image": "https://imgur.com/P3EaKuM.png"
+    },
     "getting-started": {
       "slug": "getting-started",
       "title": "Getting Started with Carmel [1.0 Launch]",

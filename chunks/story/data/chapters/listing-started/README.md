@@ -36,9 +36,9 @@ The more we invest in Carmel, the more Carmel will pay us back. When the time is
 
 Today, as we launch on the first exchange, the time to extract value from Carmel is not here yet.
 
-* DO Hold on to your existing CARMEL tokens.
-* DO Get more CARMEL tokens.
-* And please consider NOT dumping your CARMEL.
+* DO **hold** on to your existing CARMEL tokens.
+* DO **get more** CARMEL tokens.
+* And please consider *NOT dumping* your CARMEL.
 
 The time will come for us all to profit financially - well - but until then, let's continue putting the **common good** of our community ahead of our own short term gain. We do that - and I promise you - the common good will return the favor when the time is right.
 
