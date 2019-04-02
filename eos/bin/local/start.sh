@@ -37,6 +37,7 @@ else
       --config-dir .chunky/eos/contracts/eosio/config \
       --access-control-allow-origin='*' \
       --contracts-console \
+      --hard-replay \
       --http-validate-host=false \
       --verbose-http-errors \
       --filter-on='*' >> .chunky/eos/nodeos.log 2>&1 &

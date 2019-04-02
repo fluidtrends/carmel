@@ -16,9 +16,10 @@
     @version 1.0.0 16/01/19
 */
 
-#include <eosiolib/asset.hpp>
-#include <eosiolib/time.hpp>
-#include <eosiolib/eosio.hpp>
+#include <eosio/asset.hpp>
+#include <eosio/time.hpp>
+#include <eosio/eosio.hpp>
+#include <eosio/system.hpp>
 #include <string>
 
 #ifdef MAINNET
@@ -62,8 +63,6 @@ namespace carmel {
          [[eosio::action]]
          void retire( asset quantity, string memo );
 
-         void distribute(name from, name to, asset quantity, string memo);
-
          static asset get_supply(name token_contract_account, symbol_code sym_code)
          {
             stats statstable(token_contract_account, sym_code.raw());
@@ -99,5 +98,6 @@ namespace carmel {
          void sub_balance(name owner, asset value);
          void add_balance(name owner, asset value, name ram_payer);
          void validate_issuance(asset quantity, currency_stats st);
+         void validate_transfer(name from, asset quantity);
    };
 } /// namespace carmel

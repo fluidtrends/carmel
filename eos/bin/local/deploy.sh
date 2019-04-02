@@ -27,27 +27,5 @@ then
   exit
 fi
 
-ENV=$1
-
-echo "*** unlocking the wallet ..."
-cat .chunky/eos/wallet.password | cleos wallet unlock
-
-if [ "--testnet" = "$ENV" ]; then
-  echo "*** deploying to the testnet ..."
-  cleos -u "$TESTNET_ENDPOINT" set contract carmeltokens .chunky/eos/contracts/carmeltokens --abi carmeltokens.abi -p carmeltokens@active
-
-  # echo "*** give carmeltokens code permissions ..."
-  # cleos -u "$TESTNET_ENDPOINT" set account permission carmeltokens active --add-code
-  exit
-fi
-
-if [ "--mainnet" = "$ENV" ]; then
-  # echo "*** give carmeltokens code permissions ..."
-  # cleos -u "$MAINNET_ENDPOINT" set account permission carmeltokens active --add-code
-  echo "*** deploying to the mainnet ..."
-  cleos -u "$MAINNET_ENDPOINT" set contract carmeltokens .chunky/eos/contracts/carmeltokens --abi carmeltokens.abi -p carmeltokens@active
-  exit
-fi
-
 echo "*** deploying the carmeltokens contract locally ..."
 cleos set contract carmeltokens .chunky/eos/contracts/carmeltokens --abi carmeltokens.abi -p carmeltokens@active

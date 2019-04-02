@@ -12,7 +12,7 @@ fi
 
 cd eos/contracts/carmel/carmeltokens
 echo "*** compiling the carmeltokens contract ..."
-eosio-cpp "-DLOCAL" -o carmeltokens.wasm carmeltokens.cpp --abigen
+eosio-cpp "-DLOCAL" -o carmeltokens.wasm carmeltokens.cpp --abigen -I.
 
 cd ../../../../
 echo "*** updating the local carmeltokens contract ..."

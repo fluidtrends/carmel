@@ -1,6 +1,7 @@
 {
-    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Wed Jan 16 22:55:00 2019",
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT ",
     "version": "eosio::abi/1.1",
+    "types": [],
     "structs": [
         {
             "name": "account",
@@ -99,7 +100,6 @@
             ]
         }
     ],
-    "types": [],
     "actions": [
         {
             "name": "create",
@@ -148,6 +148,5 @@
             "body": "This contract and all its actions is subject to the Carmel Terms and Conditions at https://carmel.io."
         }
     ],
-    "variants": [],
-    "abi_extensions": []
+    "variants": []
 }
