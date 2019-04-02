@@ -195,6 +195,11 @@ namespace carmel {
     int64_t seconds_elapsed = now - start_time;
     int64_t current_period = (int64_t)(seconds_elapsed / seconds_per_period);
 
+    if (current_period > 25) {
+      // The vesting periods have ended
+      return;
+    }
+
     // This is how much carmelfamily and carmelgrowth started with,
     // and half of the total carmelorigin started with
     long double base_tokens = 7000000000;
