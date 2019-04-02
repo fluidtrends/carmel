@@ -200,21 +200,20 @@ namespace carmel {
       return;
     }
 
-    // This is how much carmelfamily and carmelgrowth started with,
-    // and half of the total carmelorigin started with
-    long double base_tokens = 7000000000;
+    // A simple factor to distinguish between base metrics
+    int factor = (from == "carmelorigin"_n ? 2 : 1);
 
-    // This is how many tokens vest per period for carmelfamily and carmelgrowth,
-    // and half of the total vesting for carmelorigin
+    // This is how much we started with
+    long double base_tokens = 7000000000 * factor;
+
+    // This is how many tokens vest per period
     long double base_period_amount = base_tokens / 25;
 
-    // This is how many tokens should still be unvested per period for carmelfamily and carmelgrowth,
-    // and half of the total unvested for carmelorigin
+    // This is how many tokens should still be unvested per period
     long double base_expected_unvested = (base_tokens * 25) - (base_period_amount * current_period);
 
     // This is how many tokens can be transferred right now
-    int factor = (from == "carmelorigin"_n ? 2 : 1);
-    long double total_vested_for_period = total_unvested - (base_expected_unvested * factor);
+    long double total_vested_for_period = total_unvested - base_expected_unvested;
 
     // Let's check if there are any tokens available for us to transfer
     check(total_vested_for_period > 0, "The tokens have not vested yet for this period");
