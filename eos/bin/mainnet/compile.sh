@@ -13,7 +13,7 @@ fi
 mkdir -p .chunky/eos/mainnet
 cd eos/contracts/carmel/carmeltokens
 echo "*** compiling the carmeltokens contract ..."
-eosio-cpp "--DMAINNET" -o carmeltokens.wasm carmeltokens.cpp --abigen
+eosio-cpp "--DMAINNET" -o carmeltokens.wasm carmeltokens.cpp --abigen -I.
 
 cd ../../../../
 echo "*** updating the mainnet carmeltokens contract ..."

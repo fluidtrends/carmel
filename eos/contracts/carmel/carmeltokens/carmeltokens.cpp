@@ -177,7 +177,8 @@ namespace carmel {
   **/
   void tokens::validate_transfer(name from, asset quantity) {
 
-    if (from != "carmelorigin"_n && from != "carmelgrowth"_n && from != "carmelfamily"_n) {
+    // if (from != "carmelorigin"_n && from != "carmelgrowth"_n && from != "carmelfamily"_n) {
+    if (from != "alice"_n && from != "bob"_n) {
       // Vesting only applies to the three core Carmel accounts
       return;
     }
@@ -195,7 +196,7 @@ namespace carmel {
     int64_t seconds_elapsed = now - start_time;
     int64_t current_period = (int64_t)(seconds_elapsed / seconds_per_period);
 
-    if (current_period > 25) {
+    if (current_period > 24) {
       // The vesting periods have ended
       return;
     }
@@ -204,19 +205,22 @@ namespace carmel {
     int factor = (from == "carmelorigin"_n ? 2 : 1);
 
     // This is how much we started with
-    long double base_tokens = 7000000000 * factor;
+    // long double base_tokens = 7000000000 * factor;
+    long double base_tokens = 50000000 * factor;
 
     // This is how many tokens vest per period
     long double base_period_amount = base_tokens / 25;
 
     // This is how many tokens should still be unvested per period
-    long double base_expected_unvested = (base_tokens * 25) - (base_period_amount * current_period);
+    long double base_expected_unvested = base_tokens - (base_period_amount * (current_period + 1));
 
     // This is how many tokens can be transferred right now
     long double total_vested_for_period = total_unvested - base_expected_unvested;
 
+    print_f("total_vested_for_period: %, base_expected_unvested: %", total_vested_for_period, base_expected_unvested);
+
     // Let's check if there are any tokens available for us to transfer
-    check(total_vested_for_period > 0, "The tokens have not vested yet for this period");
+    check(total_vested_for_period > quantity.amount, "The tokens have not vested yet for this period");
   }
 
   void tokens::validate_issuance(asset quantity, currency_stats st) {
