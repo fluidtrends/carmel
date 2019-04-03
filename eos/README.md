@@ -28,24 +28,42 @@
 
 **Level 3** ([CSV file](http://files.carmel.io/snapshots/eos_snapshot_20190402_level3.sorted.csv))
 
-* **EOS Stake Range:** 1k - 10k EOS
-* **Total wallets:** 20,452
-* **Total EOS:** 56.20m
+* **EOS Stake Range:** 1k - 5k EOS
+* **Total wallets:** 17,385
+* **Total EOS:** 35.55m
 
 **Level 4** ([CSV file](http://files.carmel.io/snapshots/eos_snapshot_20190402_level4.sorted.csv))
 
-* **EOS Stake Range:** 10k - 100k EOS
-* **Total wallets:** 3,437
-* **Total EOS:** 88.49m
+* **EOS Stake Range:** 5k - 10k EOS
+* **Total wallets:** 3,067
+* **Total EOS:** 20.65m
 
 **Level 5** ([CSV file](http://files.carmel.io/snapshots/eos_snapshot_20190402_level5.sorted.csv))
+
+* **EOS Stake Range:** 10k - 50k EOS
+* **Total wallets:** 2,999
+* **Total EOS:** 58.89m
+
+**Level 6** ([CSV file](http://files.carmel.io/snapshots/eos_snapshot_20190402_level6.sorted.csv))
+
+* **EOS Stake Range:** 50k - 100k EOS
+* **Total wallets:** 437
+* **Total EOS:** 29.61m
+
+**Level 7** ([CSV file](http://files.carmel.io/snapshots/eos_snapshot_20190402_level7.sorted.csv))
 
 * **EOS Stake Range:** 100k - 1m EOS
 * **Total wallets:** 425
 * **Total EOS:** 112.40m
 
-**Level 6** ([CSV file](http://files.carmel.io/snapshots/eos_snapshot_20190402_level6.sorted.csv))
+**Level 8** ([CSV file](http://files.carmel.io/snapshots/eos_snapshot_20190402_level8.sorted.csv))
 
-* **EOS Stake Range:** 1m+ EOS
-* **Total wallets:** 95
-* **Total EOS:** 261.59m
+* **EOS Stake Range:** 1m - 5m EOS
+* **Total wallets:** 82
+* **Total EOS:** 152.18m
+
+**Level 9** ([CSV file](http://files.carmel.io/snapshots/eos_snapshot_20190402_level9.sorted.csv))
+
+* **EOS Stake Range:** 5m+ EOS
+* **Total wallets:** 12
+* **Total EOS:** 109.42m
