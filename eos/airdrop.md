@@ -1,6 +1,6 @@
 ### Carmel Airdrop
 
-**Total Distribution Budget:** *3.1464b CARMEL*
+**Total Distribution Budget:** *3.1265b CARMEL*
 
 *Distribution Algorithm:*
 
@@ -141,13 +141,13 @@
 **Level 9** ([CSV file](http://files.carmel.io/snapshots/eos_snapshot_20190402_level9.sorted.csv))
 
 * **EOS Stake Range:** 5m-15m EOS
-* **Total wallets:** 12
-* **Total EOS:** 109.42m
+* **Total wallets:** 10
+* **Total EOS:** 81.40m
 * **Distribution Factor:** 1 (*1st Fibonnaci number*)
 * **Midrange:** 10,000,000
-* **Mean:** 9,118,333.33
-* **Variance:** 1.10 (midrange/mean)
-* **CARMEL/EOS:** 1.10 (variance x distribution factor)
+* **Mean:** 8,140,000.00
+* **Variance:** 1.23 (midrange/mean)
+* **CARMEL/EOS:** 1.23 (variance x distribution factor)
 * **Average distributed per wallet:** 10,030,166.67 CARMEL (mean x CARMEL/EOS)
 
-  **DISTRIBUTION BUDGET:** 120.00m (109.42m x 1 x 1.10)
+  **DISTRIBUTION BUDGET:** 100.12m (81.40m x 1 x 1.23)
