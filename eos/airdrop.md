@@ -35,7 +35,7 @@
 * **Midrange:** 55
 * **Mean:** 36.75
 * **Variance:** 1.50 (midrange/mean)
-* **CARMEL/EOS:** 51.00 (variance * distribution factor)
+* **CARMEL/EOS:** 51.00 (variance x distribution factor)
 
   **DISTRIBUTION BUDGET:** 158.74m (3.12m x 34 x 1.50)
 
@@ -48,7 +48,7 @@
 * **Midrange:** 550
 * **Mean:** 315.14
 * **Variance:** 1.75 (midrange/mean)
-* **CARMEL/EOS:** 36.75 (variance * distribution factor)
+* **CARMEL/EOS:** 36.75 (variance x distribution factor)
 
   **DISTRIBUTION BUDGET:** 743.99m (20.30m x 21 x 1.75)
 
@@ -61,7 +61,7 @@
 * **Midrange:** 3,000
 * **Mean:** 2,044.87
 * **Variance:** 1.47 (midrange/mean)
-* **CARMEL/EOS:** 19.11 (variance * distribution factor)
+* **CARMEL/EOS:** 19.11 (variance x distribution factor)
 
   **DISTRIBUTION BUDGET:** 678.02m (35.55m x 13 x 1.47)
 
@@ -74,7 +74,7 @@
 * **Midrange:** 7,500
 * **Mean:** 6,732.96
 * **Variance:** 1.11 (midrange/mean)
-* **CARMEL/EOS:** 8.88 (variance * distribution factor)
+* **CARMEL/EOS:** 8.88 (variance x distribution factor)
 
   **DISTRIBUTION BUDGET:** 184.02m (20.65m x 8 x 1.11)
 
@@ -87,7 +87,7 @@
 * **Midrange:** 30,000
 * **Mean:** 19,636.55
 * **Variance:** 1.53 (midrange/mean)
-* **CARMEL/EOS:** 7.65 (variance * distribution factor)
+* **CARMEL/EOS:** 7.65 (variance x distribution factor)
 
   **DISTRIBUTION BUDGET:** 449.85 (58.89m x 5 x 1.53)
 
@@ -100,7 +100,7 @@
 * **Midrange:** 75,000
 * **Mean:** 67,757.44
 * **Variance:** 1.11 (midrange/mean)
-* **CARMEL/EOS:** 3.33 (variance * distribution factor)
+* **CARMEL/EOS:** 3.33 (variance x distribution factor)
 
   **DISTRIBUTION BUDGET:** 98.33m (29.61m x 3 x 1.11)
 
@@ -113,7 +113,7 @@
 * **Midrange:** 550,000
 * **Mean:** 264,470.59
 * **Variance:** 2.08 (midrange/mean)
-* **CARMEL/EOS:** 4.16 (variance * distribution factor)
+* **CARMEL/EOS:** 4.16 (variance x distribution factor)
 
   **DISTRIBUTION BUDGET:** 467.50m (112.40m x 2 x 2.08)
 
@@ -126,7 +126,7 @@
 * **Midrange:** 3,000,000
 * **Mean:** 1,855,853.66
 * **Variance:** 1.62 (midrange/mean)
-* **CARMEL/EOS:** 1.62 (variance * distribution factor)
+* **CARMEL/EOS:** 1.62 (variance x distribution factor)
 
   **DISTRIBUTION BUDGET:** 246.00m (152.18m x 1 x 1.62)
 
@@ -139,6 +139,6 @@
 * **Midrange:** 10,000,000
 * **Mean:** 9,118,333.33
 * **Variance:** 1.10 (midrange/mean)
-* **CARMEL/EOS:** 1.10 (variance * distribution factor)
+* **CARMEL/EOS:** 1.10 (variance x distribution factor)
 
   **DISTRIBUTION BUDGET:** 120.00m (109.42m x 1 x 1.10)
