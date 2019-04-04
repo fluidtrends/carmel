@@ -38,7 +38,7 @@
 * **CARMEL/EOS:** 51.00 (variance x distribution factor)
 * **Average distributed per wallet:** 1,874.25 CARMEL (mean x CARMEL/EOS)
 
-  **DISTRIBUTION BUDGET:** 158.74m CARMEL (3.12m x 34 x 1.50)
+  **DISTRIBUTION BUDGET:** 158.74m CARMEL (3.12m x 34 x 1.50) ([CSV file](http://files.carmel.io/snapshots/distribution_level1.csv))
 
 **Level 2** ([CSV file](http://files.carmel.io/snapshots/eos_snapshot_20190402_level2.sorted.csv))
 
@@ -52,7 +52,7 @@
 * **CARMEL/EOS:** 36.75 (variance x distribution factor)
 * **Average distributed per wallet:** 11,581.40 CARMEL (mean x CARMEL/EOS)
 
-  **DISTRIBUTION BUDGET:** 743.99m CARMEL (20.30m x 21 x 1.75)
+  **DISTRIBUTION BUDGET:** 743.99m CARMEL (20.30m x 21 x 1.75) ([CSV file](http://files.carmel.io/snapshots/distribution_level2.csv))
 
 **Level 3** ([CSV file](http://files.carmel.io/snapshots/eos_snapshot_20190402_level3.sorted.csv))
 
@@ -66,7 +66,7 @@
 * **CARMEL/EOS:** 19.11 (variance x distribution factor)
 * **Average distributed per wallet:** 39,077.47 CARMEL (mean x CARMEL/EOS)
 
-  **DISTRIBUTION BUDGET:** 678.02m CARMEL (35.55m x 13 x 1.47)
+  **DISTRIBUTION BUDGET:** 678.02m CARMEL (35.55m x 13 x 1.47) ([CSV file](http://files.carmel.io/snapshots/distribution_level3.csv))
 
 **Level 4** ([CSV file](http://files.carmel.io/snapshots/eos_snapshot_20190402_level4.sorted.csv))
 
@@ -80,7 +80,7 @@
 * **CARMEL/EOS:** 8.88 (variance x distribution factor)
 * **Average distributed per wallet:** 59,788.68 CARMEL (mean x CARMEL/EOS)
 
-  **DISTRIBUTION BUDGET:** 184.02m CARMEL (20.65m x 8 x 1.11)
+  **DISTRIBUTION BUDGET:** 184.02m CARMEL (20.65m x 8 x 1.11) ([CSV file](http://files.carmel.io/snapshots/distribution_level4.csv))
 
 **Level 5** ([CSV file](http://files.carmel.io/snapshots/eos_snapshot_20190402_level5.sorted.csv))
 
@@ -94,7 +94,7 @@
 * **CARMEL/EOS:** 7.65 (variance x distribution factor)
 * **Average distributed per wallet:** 150,219.61 CARMEL (mean x CARMEL/EOS)
 
-  **DISTRIBUTION BUDGET:** 449.85 CARMEL (58.89m x 5 x 1.53)
+  **DISTRIBUTION BUDGET:** 449.85 CARMEL (58.89m x 5 x 1.53) ([CSV file](http://files.carmel.io/snapshots/distribution_level5.csv))
 
 **Level 6** ([CSV file](http://files.carmel.io/snapshots/eos_snapshot_20190402_level6.sorted.csv))
 
@@ -108,7 +108,7 @@
 * **CARMEL/EOS:** 3.33 (variance x distribution factor)
 * **Average distributed per wallet:** 225,632.28 CARMEL (mean x CARMEL/EOS)
 
-  **DISTRIBUTION BUDGET:** 98.33m (29.61m x 3 x 1.11)
+  **DISTRIBUTION BUDGET:** 98.33m (29.61m x 3 x 1.11) ([CSV file](http://files.carmel.io/snapshots/distribution_level6.csv))
 
 **Level 7** ([CSV file](http://files.carmel.io/snapshots/eos_snapshot_20190402_level7.sorted.csv))
 
@@ -122,7 +122,7 @@
 * **CARMEL/EOS:** 4.16 (variance x distribution factor)
 * **Average distributed per wallet:** 1,100,197.65 CARMEL (mean x CARMEL/EOS)
 
-  **DISTRIBUTION BUDGET:** 467.50m (112.40m x 2 x 2.08)
+  **DISTRIBUTION BUDGET:** 467.50m (112.40m x 2 x 2.08) ([CSV file](http://files.carmel.io/snapshots/distribution_level7.csv))
 
 **Level 8** ([CSV file](http://files.carmel.io/snapshots/eos_snapshot_20190402_level8.sorted.csv))
 
@@ -136,7 +136,7 @@
 * **CARMEL/EOS:** 1.62 (variance x distribution factor)
 * **Average distributed per wallet:** 3,006,482.93 CARMEL (mean x CARMEL/EOS)
 
-  **DISTRIBUTION BUDGET:** 246.00m (152.18m x 1 x 1.62)
+  **DISTRIBUTION BUDGET:** 246.00m (152.18m x 1 x 1.62) ([CSV file](http://files.carmel.io/snapshots/distribution_level8.csv))
 
 **Level 9** ([CSV file](http://files.carmel.io/snapshots/eos_snapshot_20190402_level9.sorted.csv))
 
@@ -150,4 +150,4 @@
 * **CARMEL/EOS:** 1.23 (variance x distribution factor)
 * **Average distributed per wallet:** 10,030,166.67 CARMEL (mean x CARMEL/EOS)
 
-  **DISTRIBUTION BUDGET:** 100.12m (81.40m x 1 x 1.23)
+  **DISTRIBUTION BUDGET:** 100.12m (81.40m x 1 x 1.23) ([CSV file](http://files.carmel.io/snapshots/distribution_level9.csv))
