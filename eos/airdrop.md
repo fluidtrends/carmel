@@ -122,8 +122,8 @@
 
   **DISTRIBUTION BUDGET:** 246.00m (152.18m x 1 x 1.62)
 
+**Level 9** ([CSV file](http://files.carmel.io/snapshots/eos_snapshot_20190402_level8.sorted.csv))
 
-**Level 9** ([CSV file](http:// files.carmel.io/snapshots/eos_snapshot_20190402_level9.sorted.csv))
 
 * **EOS Stake Range:** 5m-15m EOS
 * **Total wallets:** 12
