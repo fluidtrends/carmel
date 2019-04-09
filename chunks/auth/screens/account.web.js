@@ -301,11 +301,20 @@ export default class AccountScreen extends Screen {
       account={this.account} />
   }
 
+  renderWarning() {
+    return !this._dataChanged() && <div>
+      <p style={{color: '#f44336', fontSize: '16px'}}>
+        ⚠️ You have unsaved data. Click the "Update profile" button below ⬇️ to save your changes.
+      </p>
+    </div>
+  }
+
   renderActiveContent () {
 
     const editColor = !this._dataChanged() ? '#00bcd4' : '#546E7A'
 
-    return [<List
+    return [this.renderWarning(),
+      <List
       key='active-list'
       style={{ marginTop: '20px' }}
       itemLayout='horizontal'
@@ -315,6 +324,7 @@ export default class AccountScreen extends Screen {
         <CardActionButtons style={{ marginLeft: '10px', flexDirection: 'column' }}>
         <Button
             style={{ color: editColor, borderColor: editColor, margin: '20px' }}
+            className={'flashing-btn'}
             onClick={this._submitUpdateUser}>
               Update Profile
               {this.state.updatingUser ? <Icon type="loading" /> : null}
