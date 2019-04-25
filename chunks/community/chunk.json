@@ -2,9 +2,69 @@
   "name": "community",
   "routes": {
     "main": {
+      "title": "Get Involved",
+      "icon": "supervisor_account",
+      "path": "/developers",
+      "action": true,
+      "cover": {
+        "backgroundColor": "#00838F",
+        "align": "bottom",
+        "opacity": 0,
+        "image": "developers.r.png",
+        "navigation": true,
+        "title": "Become a Carmel Developer",
+        "subtitle": "Join the Carmel Developers Guild and start sharing your knowledge",
+        "type": "default"
+      },
+      "components": {
+        "intro": {
+          "source": "summary",
+          "text": "local://community/developers",
+          "image": "carmel.svg",
+          "textColor": "#37474F"
+        }
+      },
+      "conversation": {
+        "icon": "smile",
+        "header": "Join the Carmel Team",
+        "title": "Why do you code? :)",
+        "text": "Wanna get a bit more specific? :)",
+        "type": "developer",
+        "extra": {
+          "platforms": {
+            "type": "MultipleChoice",
+            "title": "What kind of skills do you have?",
+            "value": ["JavaScript", "React", "React Native", "AWS", "Firebase", "EOS"]
+          },
+          "experience": {
+            "type": "Rate",
+            "title": "How good are you?",
+            "value": ["Novice", "Apprentice", "Journeyman", "Master", "I'm sick bro"]
+          },
+          "link": {
+            "type": "Link",
+            "title": "What's your GitHub profile link?"
+          },
+          "link2": {
+            "type": "Link",
+            "title": "How about your LinkedIn profile?"
+          }
+        }
+      },
+      "startOperationsOnMount": false,
+      "operations": {
+        "sendMessage": [
+          "rest://create/community/events#sendMessage",
+          {
+            "onSuccess": "sendMessageOk",
+            "onError": "sendMessageError"
+          }
+        ]
+      }
+    },
+    "entrepreneurs": {
       "title": "Get a quote",
       "icon": "supervisor_account",
-      "action": true,
       "path": "/entrepreneurs",
       "cover": {
         "backgroundColor": "#00838F",
@@ -56,66 +116,6 @@
             "type": "Link",
             "title": "How about a competitor's website? (if any)",
             "optional": true
-          }
-        }
-      },
-      "startOperationsOnMount": false,
-      "operations": {
-        "sendMessage": [
-          "rest://create/community/events#sendMessage",
-          {
-            "onSuccess": "sendMessageOk",
-            "onError": "sendMessageError"
-          }
-        ]
-      }
-    },
-    "developers": {
-      "title": "Developers",
-      "icon": "supervisor_account",
-      "path": "/developers",
-      "cover": {
-        "backgroundColor": "#00838F",
-        "align": "bottom",
-        "opacity": 0,
-        "image": "developers.r.png",
-        "navigation": true,
-        "title": "Become a Carmel Developer",
-        "subtitle": "Join the Carmel Developers Guild and start sharing your knowledge",
-        "type": "default"
-      },
-      "components": {
-        "intro": {
-          "source": "summary",
-          "text": "local://community/developers",
-          "image": "carmel.svg",
-          "textColor": "#37474F"
-        }
-      },
-      "conversation": {
-        "icon": "smile",
-        "header": "Join the Carmel Team",
-        "title": "Why do you code? :)",
-        "text": "Wanna get a bit more specific? :)",
-        "type": "developer",
-        "extra": {
-          "platforms": {
-            "type": "MultipleChoice",
-            "title": "What kind of skills do you have?",
-            "value": ["JavaScript", "React", "React Native", "AWS", "Firebase", "EOS"]
-          },
-          "experience": {
-            "type": "Rate",
-            "title": "How good are you?",
-            "value": ["Novice", "Apprentice", "Journeyman", "Master", "I'm sick bro"]
-          },
-          "link": {
-            "type": "Link",
-            "title": "What's your GitHub profile link?"
-          },
-          "link2": {
-            "type": "Link",
-            "title": "How about your LinkedIn profile?"
           }
         }
       },
