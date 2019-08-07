@@ -5,8 +5,7 @@ node_modules
 build
 .chunky
 .gitignore
-package-lock.json
-.vagrant
+\.vagrant
 \.idea/
 .assets
 screenshots
