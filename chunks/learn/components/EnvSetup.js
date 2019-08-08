@@ -58,6 +58,19 @@ export default class EnvSetup extends PureComponent {
      </Typography>
   }
 
+  renderSkipSetupStep() {
+    if (!this.props.step || this.props.step >= SetupData.steps.length) {
+      return <div/>
+    }
+
+    return <CardActionButtons style={{ marginLeft: '10px' }}>
+        <Button
+          onClick={this._skip}>
+            Skip step
+        </Button>
+      </CardActionButtons>
+  }
+
   renderRestartSetup() {
     if (!this.props.step) {
       return <div/>
@@ -70,12 +83,7 @@ export default class EnvSetup extends PureComponent {
             Start again
         </Button>
       </CardActionButtons>
-      <CardActionButtons style={{ marginLeft: '10px' }}>
-        <Button
-          onClick={this._skip}>
-            Skip step
-        </Button>
-      </CardActionButtons>
+      { this.renderSkipSetupStep() }
     </CardActions>
   }
 
