@@ -80,7 +80,7 @@ export default class Workspace extends Screen {
       return
     }
 
-    if (journey.challenge) {
+    if (journey.challenge && journey.challenge.challengeId) {
       this.setState({ journey, workspace })
       this.refreshCurrentChallenge()
       return
@@ -153,6 +153,7 @@ export default class Workspace extends Screen {
   }
 
   gotListings(content) {
+    console.log(content)
     if (!content.ok || !content.data || !content.data.challenge) {
       // Try again
       this.refreshCurrentChallenge()
@@ -207,7 +208,7 @@ export default class Workspace extends Screen {
     return <Fade>
         <Card style={{ width, margin: '10px 10px 50px 10px', padding }}>
             <EnvSetup
-              platformType={this.platformType}  
+              platformType={this.platformType}
               step={this.setupProgress}
               start={this._setup}
               skip={this._skipSetupStep}
@@ -333,7 +334,7 @@ export default class Workspace extends Screen {
   }
 
   renderActiveChallenge(width, padding) {
-    if (this.state.journey && this.state.journey.challenge) {
+    if (this.state.journey && this.state.journey.challenge && this.state.journey.challenge.challengeId) {
       return this.renderCurrentChallenge(width, padding)
     }
 
