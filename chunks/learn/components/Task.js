@@ -64,12 +64,12 @@ export default class TaskScreen extends Component {
 
     this._timer = setInterval(() => {
       const time = parseInt((this.state.time || since) + sec)
-      const duration = moment.duration(time, 'milliseconds') / 1000
-      const hh = parseInt(duration / 3600) % (24 * 3600)
-      const mm = parseInt(duration / 60) % 3600
-      const ss = parseInt(duration) % 60
+      var duration = moment.duration(time, 'milliseconds') / 1000
 
-      console.log(hh, mm, ss)
+      const hh = Math.floor(duration / 3600)
+      duration %= 3600
+      const mm = Math.floor(duration / 60)
+      const ss = parseInt(duration) % 60
 
       const prettyTime = `${hh < 10 ? '0' : ''}${hh}:${mm < 10 ? '0' : ''}${mm}:${ss < 10 ? '0' : ''}${ss}`
 
