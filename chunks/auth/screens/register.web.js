@@ -36,16 +36,6 @@ export default class RegisterScreen extends Screen {
       return
     }
 
-    if (!this.state.username) {
-      this.setState({ error: errors.username, errorType: 'username', loading: false })
-      return
-    }
-
-    if (!this.state.guild) {
-      this.setState({ error: errors.guild, errorType: 'guild', loading: false })
-      return
-    }
-
     if (!this.state.email) {
       this.setState({ error: errors.email, errorType: 'email', loading: false })
       return
@@ -79,15 +69,6 @@ export default class RegisterScreen extends Screen {
       return
     }
 
-    // if (!this.props.desktop && !this.state.verifiedCaptcha) {
-    //   this.setState({
-    //     error: errors.captcha,
-    //     errorType: 'captcha',
-    //     loading: false
-    //   })
-    //   return
-    // }
-
     this.setState({ loading: true, loadingMessage: messages.loading })
 
     const bios = ['Amazing human being', 'Awesome Carmel supporter', 'Fast learner', 'Tech savy and future entrepreneur', 'Developer in development', 'The family champion']
@@ -100,8 +81,6 @@ export default class RegisterScreen extends Screen {
     setTimeout(() => {
       this.props.register(Object.assign({}, {
         name: this.state.name,
-        username: this.state.username,
-        guild: this.state.guild,
         email: this.state.email,
         pic: pics[rand],
         bio: bios[rand],
@@ -185,30 +164,6 @@ export default class RegisterScreen extends Screen {
           onKeyPress={this.onKeyPress}
           prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
           placeholder={placeholders.name} />
-      </FormItem>
-      <FormItem>
-        <Input
-          value={this.state.username}
-          style={{ height: '48px' }}
-          onChange={val => this.setState({ username: val.target.value, error: '' })}
-          onKeyPress={this.onKeyPress}
-          prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
-          placeholder={placeholders.username} />
-      </FormItem>
-      <FormItem>
-        <Select
-          style={{ width: '100%' }}
-          className={'guild-select-wrapper'}
-          placeholder="Select a guild"
-          onChange={val => this.setState({guild: val, error: ''})}
-        >
-          <Option value="learner">Learner</Option>
-          <Option value="developer">Developer</Option>
-          <Option value="entrepreneur">Entrepreneur</Option>
-          <Option value="teacher">Teacher</Option>
-          <Option value="manager">Manager</Option>
-          <Option value="recruiter">Recruiter</Option>
-        </Select>
       </FormItem>
       <FormItem>
         <Input
@@ -307,7 +262,6 @@ export default class RegisterScreen extends Screen {
   }
 
   renderForm () {
-    console.log(this.state.guestSession)
     const width = this.formWidth
     const padding = this.formPadding
     return (

@@ -1,20 +1,23 @@
 import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
 import { Data } from 'react-chunky'
-import { Card, CardActions, CardActionButtons } from 'rmwc/Card'
-import { List, notification, Icon, Input, Button, Select } from 'antd'
+import { CardActions, CardActionButtons } from 'rmwc/Card'
+import { List, Icon, Input, Button, Select, Modal } from 'antd'
 
 import UserInfo from '../components/userInfo'
 
 export default class AccountScreen extends Screen {
   constructor (props) {
     super(props)
+
     this.state = { ...this.state, inProgress: true, data: null, updatingUser: false }
+
     this._renderProfileItem = this.renderProfileItem.bind(this)
     this._onProfileItemEdit = (item) => this.onProfileItemEdit.bind(this, item)
     this._logout = this.logout.bind(this)
     this._submitUpdateUser = this.submitUpdateUser.bind(this)
     this._dataChanged = this.dataChanged.bind(this)
+    this._handleOk = this.handleOk.bind(this)
   }
 
   componentWillMount () {
@@ -42,6 +45,14 @@ export default class AccountScreen extends Screen {
     super.componentDidMount()
 
     this.setState({profileData: this.profileData, initialData: this.profileData})
+
+    const { user = {} } = this.account
+    if (!user.eosAddress || !user.username || !user.guild) {
+      setTimeout(() => {
+        this.renderWalkthrough()
+      }, 5000)
+    }
+
   }
 
   refreshWallet () {
@@ -116,14 +127,13 @@ export default class AccountScreen extends Screen {
 
   submitUpdateUser() {
 
-    console.log("SUBMIT!!!")
-
     this.setState({updatingUser: true})
     
     if( this._dataChanged() ) {
       this.setState({updatingUser: false})
       return false
     }
+
     const data = {}
     for (let key in this.state.initialData) {
       if (this.state.initialData[key].value !== this.state.profileData[key].value) {
@@ -218,6 +228,40 @@ export default class AccountScreen extends Screen {
           </style>
       {item.id != 'email' && icon}
     </List.Item>
+  }
+
+  handleOk() {
+    this.setState({ modalVisible: false })
+  }
+
+  renderWalkthrough() {
+    const { user = {} } = this.account
+    
+
+    Modal.warning({
+      title: 'Hey there, don\'t forget to update your:',
+      content: <div>
+        <br />
+        {!user.username && '- username'}
+        <br />
+        {!user.guild && '- guild'}
+        <br />
+        {!user.eosAddress && '- EOS username'}
+      </div>,
+    })
+
+    // return <Modal
+    //   title="Basic Modal"
+    //   visible={this.state.modalVisible}
+    //   onOk={this._handleOk}
+    // >
+      // {!user.username && <p>Don't forget to update your username</p>}
+      // <br />
+      // {!user.guild && <p>Don't forget to update your guild</p>}
+      // <br />
+      // {!user.eosAddress && <p>Don't forget to update your EOS username</p>}
+    // </Modal>
+
   }
 
   get profileData () {

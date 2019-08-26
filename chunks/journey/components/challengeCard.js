@@ -102,7 +102,7 @@ export default class ChallengeCard extends Component {
       return null
     }
 
-    const { challengeId, timestamp, tasksTime } = challenge
+    const { challengeId = '', timestamp, tasksTime } = challenge
     const name = this.capitalizeName(challengeId.replace(/-/g, ' '))
     const date = moment.unix(timestamp/1000).fromNow()
     const description = <div style={{fontSize: 12}}>
