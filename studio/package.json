@@ -1,0 +1,125 @@
+{
+  "name": "chunky",
+  "productName": "chunky",
+  "version": "1.0.0",
+  "preferGlobal": true,
+  "description": "My Electron application description",
+  "main": ".webpack/main",
+  "bin": {
+    "chunky": "bin/cli.js"
+  },
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "rebuild": "electron-rebuild -f",
+    "lint": "echo \"No linting configured\""
+  },
+  "keywords": [],
+  "author": {
+    "name": "I. Dan Calinescu",
+    "email": "idancalinescu@gmail.com"
+  },
+  "license": "MIT",
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "chunky"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-dmg",
+          "config": {
+            "name": "chunky"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ],
+      "plugins": [
+        [
+          "@electron-forge/plugin-webpack",
+          {
+            "mainConfig": "./webpack.main.config.js",
+            "renderer": {
+              "config": "./webpack.renderer.config.js",
+              "entryPoints": [
+                {
+                  "html": "./ui/index.html",
+                  "js": "./ui/index.js",
+                  "name": "main_window"
+                }
+              ]
+            }
+          }
+        ]
+      ]
+    }
+  },
+  "dependencies": {
+    "antd": "^3.23.3",
+    "electron-main-fetch": "^0.2.0",
+    "electron-squirrel-startup": "^1.0.0",
+    "favicon-getter": "^1.1.3",
+    "fs-extra": "^8.1.0",
+    "jsonfile": "^5.0.0",
+    "node-7z": "^1.1.1",
+    "opn": "^6.0.0",
+    "os": "^0.1.1",
+    "os-name": "^3.1.0",
+    "react": "^16.9.0",
+    "react-detect-offline": "^2.4.0",
+    "react-dom": "^16.9.0",
+    "react-markdown": "^4.2.2",
+    "react-reveal": "^1.2.2",
+    "react-spring": "^8.0.27",
+    "recursive-readdir": "^2.2.2",
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0",
+    "url-loader": "^2.2.0",
+    "uuid": "^3.3.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
+    "@babel/preset-react": "^7.0.0",
+    "@electron-forge/cli": "6.0.0-beta.45",
+    "@electron-forge/maker-deb": "6.0.0-beta.45",
+    "@electron-forge/maker-dmg": "6.0.0-beta.45",
+    "@electron-forge/maker-rpm": "6.0.0-beta.45",
+    "@electron-forge/maker-squirrel": "6.0.0-beta.45",
+    "@electron-forge/maker-zip": "6.0.0-beta.45",
+    "@electron-forge/plugin-webpack": "6.0.0-beta.45",
+    "@marshallofsound/webpack-asset-relocator-loader": "^0.5.0",
+    "babel-loader": "^8.0.6",
+    "babel-plugin-import": "^1.12.1",
+    "css-loader": "^3.0.0",
+    "electron": "^6.0.11",
+    "electron-rebuild": "^1.8.6",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "less": "^3.10.3",
+    "less-loader": "^5.0.0",
+    "node-loader": "^0.6.0",
+    "prop-types": "^15.7.2",
+    "style-loader": "^0.23.1"
+  }
+}

@@ -12,3 +12,4 @@ screenshots
 .eosio
 carmel.token.wasm
 eosio.token.wasm
+.webpack

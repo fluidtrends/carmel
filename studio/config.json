@@ -1,0 +1,152 @@
+{
+    "screens": [
+    {
+        "id": "products", 
+        "name": "Products",
+        "title": "Your Products",
+        "noItemsLabel": "No products created yet",
+        "icon": "gift", 
+        "action": {
+            "icon": "plus",
+            "title": "Create a new product"
+        }
+    },
+    {
+        "id": "newProduct", 
+        "name": "Product",
+        "title": "Create New Product",
+        "disableBack": true,
+        "disableSettings": true,
+        "noItemsLabel": "No product created yet"
+    },
+    {
+        "id": "settings", 
+        "name": "Your Carmel",
+        "title": "Your Carmel",
+        "disableSettings": true
+    },
+    {
+        "id": "login", 
+        "name": "Sign in",
+        "title": "Sign in",
+        "disableBack": true,
+        "disableSettings": true
+    },
+    {
+        "id": "product", 
+        "name": "Product",
+        "title": "Your Product",
+        "sections": [
+            { "id": "code", "name": "Code", "icon": "code" }, 
+            { "id": "web", "name": "Website", "icon": "layout" },
+            { "id": "api", "name": "API", "icon": "api" },
+            { "id": "mobile", "name": "Mobile", "icon": "mobile" },
+            { "id": "challenge", "skipMenu": true }
+        ]
+    },
+    {
+        "id": "toolbox", 
+        "name": "Toolbox",
+        "noItemsLabel": "No tools installed yet",
+        "title": "Your Local Tools",
+        "icon": "build"
+    }, 
+    {
+        "id": "keystore", 
+        "name": "Keystore",
+        "noItemsLabel": "No keys added yet",
+        "title": "Your Secure Keys",
+        "icon": "lock",
+        "action": {
+            "icon": "api",
+            "title": "Add a secure key",
+            "options": [{
+            "id": "aws",
+            "title": "AWS Key"
+            }, {
+                "id": "googlecloud",
+                "title": "Google Cloud Key"
+            }]
+        }
+    }],
+    "tools": [
+        { 
+            "id": "hyper",
+            "name": "Hyper",
+            "hasApp": true,
+            "download": {
+                "darwin": "https://github.com/zeit/hyper/releases/download/3.0.2/Hyper-3.0.2.dmg",
+                "win32": "https://github.com/zeit/hyper/releases/download/3.0.2/hyper-Setup-3.0.2.exe",
+                "rpm": "https://github.com/zeit/hyper/releases/download/3.0.2/hyper-3.0.2.x86_64.rpm",
+                "deb": "https://github.com/zeit/hyper/releases/download/3.0.2/hyper_3.0.2_amd64.deb"
+            },
+            "logo": "http://files.carmel.io/images/hyperjs-logo-120.png",
+            "commands": ["hyper"]
+        },
+        { 
+            "id": "vscode",
+            "name": "Visual Studio Code",
+            "hasApp": true,
+            "download": {
+                "darwin": "https://go.microsoft.com/fwlink/?LinkID=620882",
+                "win32": "https://aka.ms/win32-user-stable",
+                "rpm": "https://go.microsoft.com/fwlink/?LinkID=760867",
+                "deb": "https://go.microsoft.com/fwlink/?LinkID=760868"
+            },
+            "logo": "http://files.carmel.io/images/vscode-logo-120.png",
+            "commands": ["code"]
+        },
+        { 
+            "id": "node",
+            "name": "Node",
+            "script": {
+                "darwin": "install-nvm.sh"
+            },
+            "logo": "http://files.carmel.io/images/nodejs-logo-120.png",
+            "commands": ["node", "npm", "nvm"]
+        },
+        {
+            "id": "git",
+            "name": "Git",
+            "download": {
+                "darwin": "",
+                "win32": "",
+                "linux": ""
+            },
+            "logo": "http://files.carmel.io/images/git-logo-120.png",
+            "commands": ["git"]
+        }
+    ],
+    "cloud": {
+        "dev": {
+            "firebase": {
+                "apiKey": "AIzaSyCQn2-SxAbu7fKqSCNJ8hmPQPVGOAsxZX4",
+                "authDomain": "carmel-dev.firebaseapp.com",
+                "databaseURL": "https://carmel-dev.firebaseio.com",
+                "projectId": "carmel-dev",
+                "storageBucket": "carmel-dev.appspot.com",
+                "messagingSenderId": "544354695743"
+            }
+        },
+        "next": {
+            "firebase": {
+                "apiKey": "AIzaSyDOxCikP1uNTWXuAN8l0vrPZ7EOhuKiW8E",
+                "authDomain": "carmel-next.firebaseapp.com",
+                "databaseURL": "https://carmel-next.firebaseio.com",
+                "projectId": "carmel-next",
+                "storageBucket": "carmel-next.appspot.com",
+                "messagingSenderId": "436679009317"
+            }
+        },
+        "production": {
+            "firebase": {
+                "apiKey": "AIzaSyBxhRHoajdWhKmM58mcs6k85Jzdyj2Y_k0",
+                "authDomain": "carmel-platform.firebaseapp.com",
+                "databaseURL": "https://carmel-platform.firebaseio.com",
+                "projectId": "carmel-platform",
+                "storageBucket": "carmel-platform.appspot.com",
+                "messagingSenderId": "524166931663"
+            }
+        }
+    }
+}
