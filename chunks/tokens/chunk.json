@@ -154,11 +154,7 @@
   },
   "service": {
     "functions": [
-      "get://period#currentPeriod",
-      "post://transactions#checkTransactions",
-      "post://purchases#newPurchase",
-      "get://purchases#checkPurchases",
-      "post://claims#newClaim"
+      "post://transactions#checkTransactions"
     ],
     "dependencies": {
       "moment": "latest"

@@ -45,6 +45,7 @@
     "functions": [
       "post://activities#newActivity",
       "post://challenges#newChallenge",
+      "post://quests#newQuest",
       "post://listings#getListings",
       "post://journeys#updateJourney"
     ],
