@@ -10,6 +10,15 @@
   "authors": ["idancali", "aclowwwn"],
   "chapters": {
     "listing-started": {
+      "hobbiton-release": {
+        "slug": "listing-started",
+        "title": "New Release: Hobbiton",
+        "date": "2019-11-18",
+        "tags": ["Product", "Releases"],
+        "categories": ["News", "Articles"],
+        "summary": "We're thrilled to announce a new release has been successfully developed.",
+        "image": "https://i.imgur.com/CF6N3WR.png"
+      },
       "slug": "listing-started",
       "title": "Exchange Listing Has Officially Started",
       "date": "2019-04-01",
