@@ -8,8 +8,8 @@ We just wrote an amazing new chapter of the Carmel Story. Namely, the **Hobbiton
 
 ![](https://i.imgur.com/B93E41X.png)
 
-Have a look at complete ([The Hobbiton Release](https://github.com/fluidtrends/carmel/milestone/25)) for details on the entire work completed.
+Have a look at complete [The Hobbiton Release](https://github.com/fluidtrends/carmel/milestone/25) for details on the entire work completed.
 
 ## Coming Up Next
 
-Stay tuned for the upcoming release ([Fords of Isden Release](https://github.com/fluidtrends/carmel/milestone/25))
+Stay tuned for the upcoming release [Fords of Isden Release](https://github.com/fluidtrends/carmel/milestone/26)
