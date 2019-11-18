@@ -10,7 +10,7 @@
   "authors": ["idancali", "aclowwwn"],
   "chapters": {
     "hobbiton-release": {
-      "slug": "listing-started",
+      "slug": "hobbiton-release",
       "title": "New Release: Hobbiton",
       "date": "2019-11-18",
       "tags": ["Product", "Releases"],
