@@ -1,11 +1,14 @@
 import React from 'react'
 import { Screen, Components } from 'react-dom-chunky'
-import { Row, Col, Radio, Tag, Avatar, Alert } from 'antd'
+import { Row, Col, Radio, Icon, Tag, Avatar, Alert, Tabs } from 'antd'
 import ChallengeCard from '../components/challengeCard'
+import QuestCard from '../components/questCard'
 import FutureChallengeCard from '../components/futureChallengeCard'
 import Challenge from '../components/Challenge'
 import { Data } from 'react-chunky'
 import merge from 'deepmerge'
+
+const { TabPane } = Tabs
 
 export default class MainChallengesScreen extends Screen {
   constructor(props) {
@@ -13,6 +16,7 @@ export default class MainChallengesScreen extends Screen {
     this.state = {
       ...this.state,
       inProgress: false,
+      section: "quests",
       selectedCategories: []
     }
     this._startChallenge = this.startChallenge.bind(this)
@@ -61,16 +65,30 @@ export default class MainChallengesScreen extends Screen {
       return
     }
 
-    if (!content.data.challenges) {
-      this.setState({ challenges: [] })
-      return
-    }
-
     // Only look for published challenges
-    const challenges = content.data.challenges.filter(
+    const challenges = (content.data.challenges || []).filter(
       c => c.status === 'published'
     )
-    this.setState({ challenges })
+
+    // Only look for published quests
+    // const quests = (content.data.quests || []).filter(
+    //   q => q.status === 'published'
+    // )
+
+    // TODO: temporary
+    const quests = [{
+      id: "your-first-website",
+      level: "Apprentice",
+      totalChallenges: 7,
+      title: "Create Your First Website",
+      status: "published",
+      summary: "Get started from scratch with this quest and go from nothing to publishing your first website.",
+      skills: { json: 3, web: 4, images: 2 },
+      xp: 25,
+      challenges: ["create-your-first-product", "learn-how-to-use-strings"]
+    }]
+
+    this.setState({ challenges, quests })
   }
 
   couldNotGetListings(error) {
@@ -99,6 +117,40 @@ export default class MainChallengesScreen extends Screen {
     this.setState({ selectedCategories })
   }
 
+  get filteredChallengesAndQuests() {
+    const { selectedCategories } = this.state
+    const filter = {}
+
+    for (let i = 0; i < selectedCategories.length; i++) {
+      filter[selectedCategories[i]] = selectedCategories[i]
+    }
+
+    let challenges = this.state.challenges || []
+    let quests = this.state.quests || []
+
+    if (Object.keys(filter).length > 0) {
+      challenges = challenges.filter(challenge => {
+        for (var key in filter) {
+          if (Object.keys(challenge.skills).find(c => c === filter[key])) {
+            return true
+          }
+        }
+        return false
+      })
+
+      quests = quests.filter(quest => {
+        for (var key in filter) {
+          if (Object.keys(quest.skills).find(c => c === filter[key])) {
+            return true
+          }
+        }
+        return false
+      })
+    }
+
+    return ({ challenges, quests })
+  }
+
   renderTags() {
     return (
       <div
@@ -121,55 +173,93 @@ export default class MainChallengesScreen extends Screen {
     )
   }
 
-  renderChallenges() {
+  renderSections() {
+    return <div style={{ margin: '20px' }}>
+      <Tabs
+      defaultActiveKey={this.state.section || "quests"}
+      tabPosition={'top'}
+      style={{ marginTop: '20px' }}
+      onTabClick={ (section) => this.setState({ section })}>
+      <TabPane tab={<span>Quests</span>} key={"quests"} />
+      <TabPane tab={<span>Challenges</span>} key={"challenges"} />
+    </Tabs>
+    </div>
+  }
+
+  renderSection() {
     if (!this.state.challenges) {
       return [<Components.Loading />]
     }
 
-    const { selectedCategories } = this.state
-    const filter = {}
+    const filteredChallengesAndQuests = this.filteredChallengesAndQuests
 
-    for (let i = 0; i < selectedCategories.length; i++) {
-      filter[selectedCategories[i]] = selectedCategories[i]
+    return [<div style={{ margin: '20px' }}>
+       <Components.Text
+        source={'local://challenges-intro'}
+        style={{
+          maxWidth: '100%',
+          display: 'flex',
+          justifyContent: 'center'
+        }}
+       />
+      {!this.isLoggedIn && (
+        <div style={{ margin: '20px' }}>
+          <Alert
+            message="Login to to keep track of your progress"
+            banner
+            closable
+          />
+        </div>
+      )}
+    </div>, 
+    this.renderSections(),
+    this.renderChallenges(filteredChallengesAndQuests)]
+  }
+
+  renderQuests(filteredChallengesAndQuests) {
+    if (!filteredChallengesAndQuests || !filteredChallengesAndQuests.quests || filteredChallengesAndQuests.quests.length === 0) {
+      return <div/>
     }
 
-    let filteredChallenges = this.state.challenges
+    return <div style={{ width: "700px" }}>
+      <Row gutter={26} style={{ padding: '20px' }}>
+            <React.Fragment>
+              {filteredChallengesAndQuests.quests.map(quest => (
+                  <div
+                    style={{
+                      padding: '20px',
+                      maxWidth: '700px',
+                      margin: '0 auto'
+                    }}
+                  >
+                    <QuestCard
+                      quest={quest}
+                      onSelectQuest={selectedQuest =>
+                        this.props.history.push(
+                          `/challenges/quests/${selectedQuest.id}`
+                        )
+                      }
+                      onCategoryClick={category => this.addCategory(category)}
+                    />
+                  </div>))}
+              </React.Fragment>
+        </Row>
+      </div>
+  }
 
-    if (Object.keys(filter).length > 0) {
-      filteredChallenges = filteredChallenges.filter(challenge => {
-        for (var key in filter) {
-          if (Object.keys(challenge.skills).find(c => c === filter[key])) {
-            return true
-          }
-        }
-        return false
-      })
+  renderChallenges(filteredChallengesAndQuests) {
+    if (!this.state.section || this.state.section === 'quests') {
+      return this.renderQuests(filteredChallengesAndQuests)
     }
+    
+    return <div>
 
-    return [
-      <div>
-        <Components.Text
-          source={'local://challenges-intro'}
-          style={{
-            maxWidth: '100%',
-            display: 'flex',
-            justifyContent: 'center'
-          }}
-        />
-        {!this.isLoggedIn && (
-          <div style={{ margin: '20px' }}>
-            <Alert
-              message="Login to to keep track of your progress"
-              banner
-              closable
-            />
-          </div>
-        )}
         {this.renderTags()}
+
         <Row gutter={26} style={{ padding: '20px' }}>
           <React.Fragment>
-            {filteredChallenges.length ? (
-              filteredChallenges.map(challenge => (
+            {filteredChallengesAndQuests.challenges.length ? (
+              filteredChallengesAndQuests.challenges.map(challenge => (
                 <div
                   style={{
                     padding: '20px',
@@ -212,7 +302,6 @@ export default class MainChallengesScreen extends Screen {
           </React.Fragment>
         </Row>
       </div>
-    ]
   }
 
   joinNow(session) {
@@ -283,6 +372,6 @@ export default class MainChallengesScreen extends Screen {
 
     return this.state.challenge
       ? this.renderChallenge()
-      : this.renderChallenges()
+      : this.renderSection()
   }
 }

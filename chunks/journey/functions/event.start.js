@@ -6,11 +6,13 @@ module.exports = ({ args, journey, timestamp }) => {
     throw new Error("A challenge is already in progress")
   }
 
-  if (journey.pausedChallenges && journey.pausedChallenges[args.challengeId]) {
-    update.challenge = Object.assign({}, journey.pausedChallenges[args.challengeId], { timestamp })
-    if (update.pausedChallenges && update.pausedChallenges[args.challengeId]) {
-      delete update.pausedChallenges[args.challengeId]
-    }
+  if (journey.pausedChallenges && 
+      journey.pausedChallenges[args.productId] &&
+      journey.pausedChallenges[args.productId][args.challengeId]) {
+        update.challenge = Object.assign({}, journey.pausedChallenges[args.productId][args.challengeId], { timestamp })
+        if (update.pausedChallenges && update.pausedChallenges[args.productId][args.challengeId]) {
+          delete update.pausedChallenges[args.productId][args.challengeId]
+        }
   } else {
     update.challenge = Object.assign({}, { timestamp, taskIndex: 0 }, args)
   }

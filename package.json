@@ -197,6 +197,8 @@
     "scatterjs-core": "^2.7.7",
     "scatterjs-plugin-eosjs": "^1.5.0",
     "scatterjs-plugin-eosjs2": "^1.5.0",
+    "serverless-domain-manager": "^3.3.0",
+    "serverless-iam-roles-per-function": "^2.0.2",
     "shopify-buy": "^1.11.0",
     "sinon": "^6.1.5",
     "slick-carousel": "^1.8.1",

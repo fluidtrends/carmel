@@ -12,15 +12,12 @@ import {
 } from 'rmwc/Card'
 import moment from 'moment'
 import { Button, ButtonIcon } from 'rmwc/Button'
-import Setup from '../components/setup'
 import marked from 'marked'
-const Step = Steps.Step
-import SetupData from '../data/setup.json'
 import platform from 'platform'
 import { Data } from 'react-chunky'
 import Task from '../components/Task'
 import Challenge from '../components/Challenge'
-import EnvSetup from '../components/EnvSetup'
+import Welcome from '../components/Welcome'
 
 const { TabPane } = Tabs
 
@@ -33,9 +30,7 @@ export default class Workspace extends Screen {
       ...this.state
     }
 
-    this._setup = this.setup.bind(this)
-    this._restartSetup = this.restartSetup.bind(this)
-    this._skipSetupStep = this.skipSetupStep.bind(this)
+    this._startJourney = this.startJourney.bind(this)
 
     this._chooseChallenge = this.chooseChallenge.bind(this)
     this._startChallenge = this.startChallenge.bind(this)
@@ -131,19 +126,6 @@ export default class Workspace extends Screen {
     }, 300)
   }
 
-  get setupProgress() {
-    return this.state.setup
-  }
-
-  skipSetupStep() {
-    this.setup(true)
-  }
-
-  restartSetup() {
-    this.updateLearningJourney({ type: "setup", step: parseInt(1) })
-    this.setState({ setup: parseInt(1)})
-  }
-
   refreshCurrentChallenge() {
     if (!this.state.journey || !this.state.journey.challenge) {
       return
@@ -168,51 +150,21 @@ export default class Workspace extends Screen {
     this.refreshCurrentChallenge()
   }
 
-  setup(skip) {
-    const setup = this.setupProgress
-    const step = setup ? SetupData.steps[setup-1] : null
-    const link = setup ? SetupData.steps[setup-1].link : null
-
-    this.updateLearningJourney({ type: "setup", step: parseInt((setup || 0) + 1) })
-
-    if (setup === SetupData.steps.length) {
-      this.setState({ setup: false, setupDone: true })
-      return
-    }
-
-    if (link && !skip) {
-      this.triggerRawRedirect("object" === typeof link ? link[this.platformType] : link)
-    }
-
-    this.setState({ setup: parseInt((setup || 0) + 1)})
-  }
-
   chooseChallenge() {
     this.triggerRedirect("/challenges")
   }
 
-  renderSetupSteps() {
-    if (!this.setupProgress) {
-      return <div/>
-    }
-
-   const percent = ((this.setupProgress-1)/SetupData.steps.length)*100
-
-   return <Typography use='headline5' tag='div' style={{ textAlign:"center", color: '#333333' }}>
-     Setup your development environment
-     <Progress style={{ margin: "10px" }} percent={parseFloat(percent).toFixed(0)} status="active" />
-   </Typography>
+  startJourney() {
+    this.triggerRedirect("/challenges/quests/start")
   }
 
   renderNewJourney(width, padding) {
     return <Fade>
         <Card style={{ width, margin: '10px 10px 50px 10px', padding }}>
-            <EnvSetup
-              platformType={this.platformType}
-              step={this.setupProgress}
-              start={this._setup}
-              skip={this._skipSetupStep}
-              restart={this._restartSetup}/>
+            <Welcome
+                  onStart={this._startJourney}
+                  onClick={this._chooseChallenge}
+            />
           </Card>
       </Fade>
   }

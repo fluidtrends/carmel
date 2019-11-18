@@ -5,7 +5,7 @@ import { Chip, ChipText, ChipSet } from '@rmwc/chip'
 import { Typography } from '@rmwc/typography'
 import { Ribbon } from './styledComponents'
 
-export default class ChallengeCard extends Component {
+export default class QuestCard extends Component {
   constructor(props) {
     super(props)
 
@@ -17,7 +17,7 @@ export default class ChallengeCard extends Component {
   }
 
   renderSkills() {
-    const category = Object.keys(this.props.challenge.skills)
+    const category = Object.keys(this.props.quest.skills)
 
     return (
       <Typography
@@ -39,9 +39,9 @@ export default class ChallengeCard extends Component {
                   : false
               }
               style={{ backgroundColor: '#ECEFF1', color: '#00bcd4' }}
-              key={`${cat}-${this.props.challenge.id}`}
+              key={`${cat}-${this.props.quest.id}`}
             >
-              <ChipText> {cat} {this.props.challenge.skills[cat]} </ChipText>
+              <ChipText> {cat} {this.props.quest.skills[cat]} </ChipText>
             </Chip>
           ))}
         </ChipSet>
@@ -59,7 +59,7 @@ export default class ChallengeCard extends Component {
           padding: '10px'
         }}
       >
-        {this.props.challenge.summary}
+        {this.props.quest.summary}
       </Typography>
     )
   }
@@ -85,10 +85,9 @@ export default class ChallengeCard extends Component {
             textAlign: 'left',
             cursor: 'pointer'
           }}
-          onClick={() => window.open(this.props.challenge.author.link)}
+          onClick={() => window.open(this.props.quest.author.link)}
         >
-          <Icon type="user" style={{ marginRight: '5px' }} />
-          {this.props.challenge.authorName}
+          7 Challenges
         </Typography>
       </div>
     )
@@ -96,8 +95,8 @@ export default class ChallengeCard extends Component {
 
   renderDifficulty() {
 
-    const xp = this.props.challenge.xp
-    const level = this.props.challenge.level
+    const xp = this.props.quest.xp
+    const level = this.props.quest.level
 
     return (
       <Typography
@@ -177,61 +176,26 @@ export default class ChallengeCard extends Component {
             marginLeft: "10px",
             display: 'inline-block'
           }}>
-          {this.props.challenge.title}
+          {this.props.quest.title}
         </Typography>
-        <Ribbon backgroundColor={'#00BCD4'}>
-          {this.props.challenge.type.toUpperCase()}
-        </Ribbon>
       </div>
     )
   }
-
-  // renderEnv() {
-  //   const content =
-  //     this.props.challenge.type === 'Professional'
-  //       ? 'By getting Chunky Cli you will have a real development environment setup.'
-  //       : 'You can do it without installing anything.'
-  //   const title =
-  //     this.props.challenge.type === 'Professional'
-  //       ? 'This is a Cli Challenge.'
-  //       : 'This is a Playground Challenge.'
-  //   const icon =
-  //     this.props.challenge.type === 'Professional' ? 'code' : 'global'
-  //   return (
-  //     <div
-  //       style={{
-  //         cursor: 'pointer',
-  //         background: '#fff',
-  //         borderRadius: '20px',
-  //         borderColor: '#00bcd4',
-  //         height: '35px',
-  //         lineHeight: '35px',
-  //         textAlign: 'center',
-  //         margin: '5px',
-  //         display: 'inline-block'
-  //       }}
-  //     >
-  //       <Popover content={content} title={title} placement={'top'}>
-  //         <Icon type={icon} style={{ color: '#00bcd4', fontSize: '12px' }} />
-  //       </Popover>
-  //     </div>
-  //   )
-  // }
 
   renderButton() {
     if (this.props.minimal) {
       return <div/>
     }
 
-    const { challenge } = this.props
-    let prompt = 'Take Challenge'
+    const { quest } = this.props
+    let prompt = 'Start Quest'
 
     return <Button
-      onClick={() => this.props.onSelectChallenge(challenge)}
+      onClick={() => this.props.onSelectQuest(quest)}
       style={{
         display: 'flex',
         color: '#ffffff',
-        backgroundColor: challenge.history ? '#03A9F4' : '#00bcd4',
+        backgroundColor:  '#03A9F4',
         border: 'none',
         margin: '10px auto 0',
         height: '35px',
@@ -240,34 +204,6 @@ export default class ChallengeCard extends Component {
     >
       {prompt} <Icon type="caret-right" />
     </Button>
-  }
-
-  renderPrerequisites() {
-    if (!this.props.challenge.prerequisites || this.props.challenge.prerequisites.length === 0) {
-      return <div/>
-    }
-
-    return <div style={{
-      flex: 1,
-      display: "flex",
-      flexDirection: "column",
-      borderTop: "1px #4FC3F7 solid",
-      padding: "10px",
-      backgroundColor: "#FFFDE7",
-      margin: "10px"
-    }}>
-      { this.props.challenge.prerequisites.map(p => {
-        return <Typography
-          use="caption"
-          style={{
-            color: "#81D4FA",
-            textAlign: "center"
-          }}>
-          { p.message }
-        </Typography>
-      })}
-    </div>
-
   }
 
   render() {
@@ -281,7 +217,6 @@ export default class ChallengeCard extends Component {
       {this.renderDetails()}
       {this.renderSkills()}
       {this.renderButton()}
-      {this.renderPrerequisites()}
     </Card>
   }
 }

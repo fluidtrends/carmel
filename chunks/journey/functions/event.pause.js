@@ -21,7 +21,8 @@ module.exports = ({ args, journey, timestamp }) => {
 
   update.challenge = false
   update.pausedChallenges = update.pausedChallenges || {}
-  update.pausedChallenges[journey.challenge.challengeId] = Object.assign({}, journey.challenge, { timestamp })
+  update.pausedChallenges[journey.challenge.productId] = update.pausedChallenges[journey.challenge.productId] || {} 
+  update.pausedChallenges[journey.challenge.productId][journey.challenge.challengeId] = Object.assign({}, journey.challenge, { timestamp })
 
   return { update, response }
 }
