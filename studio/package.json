@@ -75,6 +75,9 @@
   },
   "dependencies": {
     "antd": "^3.23.3",
+    "decompress": "^4.2.0",
+    "download": "^7.1.0",
+    "electron-dl": "^1.14.0",
     "electron-main-fetch": "^0.2.0",
     "electron-squirrel-startup": "^1.0.0",
     "favicon-getter": "^1.1.3",
