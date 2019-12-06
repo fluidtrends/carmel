@@ -139,7 +139,19 @@ class Session {
 
         fs.existsSync(dest) || fs.mkdirsSync(dest)
 
-        return decompress(archivePath, dest, { strip: 0, plugins: [decompressTarbz2()]})
+        console.log("-> TRYING TO to decompress", name, " ...")
+
+        return new Promise((resolve, reject) => {
+            decompress(archivePath, dest, { strip: 0, plugins: [decompressTarbz2()]})
+                .then(() => {
+                    resolve({ name, version })
+                })
+                .catch((e) => {
+                    this.decompressArchive({ name, version }).then(() => {
+                        resolve({ name, version })
+                    }) 
+                })
+        })
     }
 
     startService(chunky) {

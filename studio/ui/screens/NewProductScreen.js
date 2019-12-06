@@ -22,9 +22,10 @@ class  NewProductScreen extends BaseScreen {
       const session = this.props.session.data
       
       if (session.event.eventId === "init" && session.event.done) {
+        console.log("INIT EVENT:", session.event)
         this.props.screenTransition && this.props.screenTransition('product', { 
           product: {
-            id: session.event.productId,
+            id: session.event.options.productId,
             name: this.state.name, 
             template: this.state.template
           }
