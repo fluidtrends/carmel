@@ -86,7 +86,7 @@ class Session {
                 return 
             }
     
-            const productIds = fs.readdirSync(productsDir).filter(dir => (dir && dir !== '.DS_Store'))
+            const productIds = fs.readdirSync(productsDir).filter(dir => (dir && dir !== '.DS_Store' && dir !== 'node_modules'))
             this._products = this._products.concat(productIds.map(id => Object.assign({}, this.loadProduct(env, id), { id })))
     
         })
