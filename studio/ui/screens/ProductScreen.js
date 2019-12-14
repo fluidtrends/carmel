@@ -83,7 +83,7 @@ class ProductScreen extends BaseScreen {
     }
 
     load() {    
-      if (this.props.session.data.journey.challenge) {
+      if (this.props.session.data.journey && this.props.session.data.journey.challenge) {
         const section = this.props.sections.find(i => i.id === 'challenge')
         this.setState({ section, ready: this.props.product.hasDependencies })
         return 

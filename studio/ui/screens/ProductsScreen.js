@@ -18,10 +18,10 @@ class ProductsScreen extends ListScreen {
     this.goTo('newProduct')
   }
 
-  load() {    
+  load() { 
     let challenges = {
-      paused: Object.assign({}, this.props.session.data.journey.pausedChallenges),
-      completed: Object.assign({}, this.props.session.data.journey.completedChallenges)
+      paused: Object.assign({}, this.props.session.data.journey && this.props.session.data.journey.pausedChallenges),
+      completed: Object.assign({}, this.props.session.data.journey && this.props.session.data.journey.completedChallenges)
     }
 
     const data = this.props.session.data.products.map(p => {
