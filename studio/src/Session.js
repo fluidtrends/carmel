@@ -8,24 +8,18 @@ const { spawn } = require('child_process')
 const opn = require('opn')
 const recursive = require("recursive-readdir")
 const decompress = require('decompress')
-const decompressTarbz2 = require('decompress-tarbz2')
+const decompressTargz = require('decompress-targz')
 const { download } = require("electron-dl")
+const lali = require('lali')
+const cpy = require('cpy')
+const copyfiles = require('copyfiles')
+const rsync = require('rsync')
 
-const CHUNKY_VERSION = '1.1.2'
-const NODE_VERSION = '8.16.2'
-const CHUNKY_WEB_DEPS_VERSION = '1.1.0'
-
-const CHUNKY_REPO_URL = `https://raw.githubusercontent.com/fluidtrends/chunky/master`
-const CHUNKY_STORE_URL = `https://github.com/fluidtrends/chunky-store/raw/master`
+const STUDIO_FILES_URL = `http://files.carmel.io/studio`
 
 const USER_HOME = process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME']
 const HOME = path.resolve(USER_HOME, '.chunky')
 
-const ARCHIVES = [
-    { name: 'chunky', version: CHUNKY_VERSION },
-    { name: 'node', version: NODE_VERSION },
-    { name: 'chunky-web-deps', version: '1.1.0'}
-]
 
 class Session {
     constructor ({ window, port }) {    
@@ -46,6 +40,10 @@ class Session {
         return this._products
     }
 
+    get env() {
+        return this._env
+    }
+
     listen(key, cb) {
         ipcMain.on(key, (event, data) => {
             cb && cb(data)
@@ -60,8 +58,8 @@ class Session {
         return this._state
     }
 
-    loadProduct(id) {
-        const productDir = path.resolve(HOME, 'products', id)
+    loadProduct(env, id) {
+        const productDir = path.resolve(HOME, 'env', env, 'products', id)
         const manifestFile = path.resolve(productDir, 'chunky.json')
         const webStartFile = path.resolve(productDir, 'node_modules', 'react-dom-chunky', 'bin', 'start.js')
         
@@ -79,15 +77,19 @@ class Session {
     }
  
     loadProducts() {
-        const productsDir = path.resolve(HOME, 'products')
+        this._products = []
 
-        if (!fs.existsSync(productsDir)) {
-            this._products = []
-            return 
-        }
+        Object.keys(this.env.all).map(env => {
+            const productsDir = path.resolve(HOME, 'env', env, 'products')
 
-        const productIds = fs.readdirSync(productsDir).filter(dir => (dir && dir !== '.DS_Store'))
-        this._products = productIds.map(id => Object.assign({}, this.loadProduct(id), { id }))
+            if (!fs.existsSync(productsDir)) {
+                return 
+            }
+    
+            const productIds = fs.readdirSync(productsDir).filter(dir => (dir && dir !== '.DS_Store'))
+            this._products = this._products.concat(productIds.map(id => Object.assign({}, this.loadProduct(env, id), { id })))
+    
+        })
     }
 
     updateState(event) {
@@ -105,95 +107,96 @@ class Session {
         })
     }
 
-    downloadArchive ({ name, version }) {
-        const downloadsDir = path.resolve(HOME, 'downloads')
+    syncEnv() {
+        const url = `${STUDIO_FILES_URL}/env.json`
+        const directory = path.resolve(HOME)
+        const manifestFile = path.resolve(directory, 'env.json')
 
-        fs.existsSync(downloadsDir)  || fs.mkdirsSync(downloadsDir)
-                
-        const filename = `${name}-v${version}-${process.platform}-${process.arch}`
-        const url = `${CHUNKY_STORE_URL}/${filename}.tar.bz2`
-        const archivePath = path.resolve(downloadsDir, `${filename}.tar.bz2`)
+        fs.existsSync(directory) || fs.mkdirsSync(directory)
 
-        if (fs.existsSync(archivePath)) {
-            return Promise.resolve()
+        if (fs.existsSync(manifestFile)) {
+            fs.removeSync(manifestFile)
         }
- 
+
         return download(this.window, url, { 
-                url,
-                saveAs: false,
-                directory: downloadsDir
-            })
-    }
-
-    decompressArchive({ name, version }) {
-        const downloadsDir = path.resolve(HOME, 'downloads')
-
-        const filename = `${name}-v${version}-${process.platform}-${process.arch}`
-        const archivePath = path.resolve(downloadsDir, `${filename}.tar.bz2`)
-        
-        if (!fs.existsSync(archivePath)) {
-            return Promise.resolve()
-        }
-        
-        const dest = path.resolve(HOME, 'bin', name, version)
-
-        fs.existsSync(dest) || fs.mkdirsSync(dest)
-
-        console.log("-> TRYING TO to decompress", name, " ...")
-
-        return new Promise((resolve, reject) => {
-            decompress(archivePath, dest, { strip: 0, plugins: [decompressTarbz2()]})
-                .then(() => {
-                    resolve({ name, version })
-                })
-                .catch((e) => {
-                    this.decompressArchive({ name, version }).then(() => {
-                        resolve({ name, version })
-                    }) 
-                })
+            url,
+            saveAs: false,
+            directory
+        })
+        .then(() => { 
+            const all = JSON.parse(fs.readFileSync(manifestFile, 'utf8'))
+            const versions = Object.keys(all).map(v => parseFloat(v))
+            versions.sort((a, b) => b-a)
+            const latest = Object.assign({}, all[`${versions[0]}`], { version: `${versions[0]}` })
+            this._env = { all, versions, latest }
         })
     }
 
-    startService(chunky) {
-        const node = path.resolve(HOME, 'bin', 'node', NODE_VERSION)
-        const cwd = path.resolve(HOME)
+    downloadLib({ url, destDir }) {
+        return lali.link(url).install(destDir).then(() => {
+            const depsDir = path.resolve(destDir, 'node_modules')
+            if (!fs.existsSync(depsDir)) {
+                return 
+            }
 
-        process.env.PATH = `${node}/bin/:${process.env.PATH}`
+            fs.readdirSync(depsDir).filter(d => d.startsWith('_-_-_-_-_-_')).map(dir => {
+                fs.moveSync(path.resolve(depsDir, dir), path.resolve(depsDir, `@${dir.substring(11)}`))
+            })
+        })
+    }
 
+    installLib ({ name, version }) {
+        const filename = `${name}-v${version}-${process.platform}-${process.arch}`
+        const url = `${STUDIO_FILES_URL}/${filename}.tar.bz2`
+        const destDir = path.resolve(HOME, 'bin', name, version)
+
+        if (fs.existsSync(destDir)) {
+            return Promise.resolve()
+        }
+
+        fs.mkdirsSync(destDir)
+
+        return this.downloadLib({ url, destDir })
+    }
+
+    installDeps () {       
+        const filename = `chunky-deps-v${this.env.latest.version}-${process.platform}-${process.arch}`
+        const url = `${STUDIO_FILES_URL}/${filename}.tar.bz2`
+
+        const destDir = path.resolve(HOME, 'env', this.env.latest.version)
+ 
+        if (fs.existsSync(destDir)) {
+            return Promise.resolve()
+        }
+
+        fs.mkdirsSync(destDir)
+
+        return this.downloadLib({ url, destDir })
+    }
+
+    startService() {
+        const cli = `bin/chunky-cli/${this.env.latest.tools.cli}/service/start.js`
         return new Promise((resolve, reject) => {
-            const proc = spawn('node', [chunky], { cwd, stdio: ['inherit', 'inherit', 'inherit', 'ipc'] })
+            const proc = spawn('node', [cli], { cwd: HOME, stdio: ['inherit', 'inherit', 'inherit', 'ipc'] })
             this.updateState()
             resolve(this.state)
         })   
     }
     
-    start() {   
-        const chunky = path.resolve(HOME, 'bin', 'chunky', CHUNKY_VERSION, 'service', 'start.js')
-        
-        const mainDepsFilename = `chunky-web-deps-v${CHUNKY_WEB_DEPS_VERSION}-${process.platform}-${process.arch}.tar.bz2`
-        const mainDepsArchive = path.resolve(HOME, 'downloads', mainDepsFilename)
-        const mainDepsDir = path.resolve(HOME, 'deps')
-        const mainDeps = path.resolve(mainDepsDir, 'main.tar.bz2')
+    start() {  
+        const node = path.resolve(HOME, 'bin', 'node', this.env.latest.tools.node)
 
-        fs.existsSync(mainDepsDir) || fs.mkdirsSync(mainDepsDir)
+        const start = Date.now()
+        console.log("STARTING", this.env)
 
-        if (fs.existsSync(chunky)) {
-            return this.startService(chunky)
-        }
- 
-        return Promise.all(ARCHIVES.map(archive => this.downloadArchive(archive)))
-                    .then(() => this.decompressArchive(ARCHIVES[0]))
-                    .then(() => this.decompressArchive(ARCHIVES[1]))
-                    .then(() => {
-                          if (!fs.existsSync(chunky)) {
-                              return 
-                          }
+        const workers = [this.installDeps()]
+                      .concat(Object.keys(this.env.latest.tools).map(tool => this.installLib({ name: `chunky-${tool}`, version: this.env.latest.tools[tool] })))
 
-                          if (!fs.existsSync(mainDeps)) {
-                            fs.copyFileSync(mainDepsArchive, mainDeps)
-                          }
-
-                          return this.startService(chunky)
+        return Promise.all(workers).then(() => {
+                        console.log("DONE")
+                        console.log(((Date.now() - start)/ 1000))
+                        process.env.PATH = `${node}/bin/:${process.env.PATH}`
+                        return this.startService()
                       })
     }
 
@@ -252,11 +255,12 @@ class Session {
         })
 
         this.listen('startSession', () => {
-            this.start().then((data) => {
-                this.send('sessionStarted', data)
-            })
+            this.syncEnv()
+                .then(() => this.start())
+                .then((data) => {
+                    this.send('sessionStarted', data)
+                })
         })    
-
  
         // // this.listen('stopWebPreview', (data) => {
         // //     this.socket.emit('command', Object.assign({}, {
@@ -266,13 +270,14 @@ class Session {
         
         this.listen('command', (command) => {
             this.socket.emit('event', Object.assign({}, {
-                "type": "command"
+                type: "command",
+                env: this.env
             }, command))
         })
 
-        // this.listen('operation', (operation) => {
-        //    this.performOperation(operation)
-        // })
+        this.listen('operation', (operation) => {
+           this.performOperation(operation)
+        })
 
         // // this.listen('endSession', () => {
         // //     this.end().then((data) => {
@@ -280,7 +285,7 @@ class Session {
         // //     })
         // // })
 
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {           
             resolve()
         })        
     }
