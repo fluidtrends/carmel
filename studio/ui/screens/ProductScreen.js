@@ -127,7 +127,6 @@ class ProductScreen extends BaseScreen {
           if (session.event.challenge && session.journey.challenge) {
             this.setState({ 
               listings: session.event, 
-              alert: false,
               taskTutorial: session.event.challenge.taskTutorial,
               challenge: session.event.challenge, 
               challengeState: "started", 
@@ -151,7 +150,6 @@ class ProductScreen extends BaseScreen {
           this.setState({ 
             challengeState: "started", 
             taskValidationError: false,
-            alert: false,
             taskValidationSuccess: false, 
             taskTutorial: session.event.taskTutorial,
             challenge: Object.assign({}, session.event.challenge),
@@ -170,7 +168,6 @@ class ProductScreen extends BaseScreen {
         if (session.event.eventId === 'taskValidated') {
           this.setState(Object.assign({}, { 
             challengeState: "started", 
-            alert: { type: "success", message: "Great work!", description: "Keep going, you're doing amazing!" },
             taskValidationError: session.event.error,
             taskValidationSuccess: !session.event.error,
             challenge: session.event.challenge,
@@ -180,7 +177,6 @@ class ProductScreen extends BaseScreen {
 
         if (session.event.eventId === 'challengeCompleted') {
           this.setState(Object.assign({}, { 
-            alert: { type: "success", message: "Amazing!", description: "You just collected new skills!" },
             challengeState: "completed", 
             challenge: session.event.challenge,
           }))
@@ -221,17 +217,6 @@ class ProductScreen extends BaseScreen {
       </Menu.Item>
     }
 
-    renderAlert() {
-      if (!this.state.alert) {
-        return <div/>
-      }
-
-      return notification[this.state.alert.type]({
-        message: this.state.alert.message,
-        description: this.state.alert.description
-      })
-    }
-
     renderSectionContent() {
       const section = this.section
       const Section = Sections[section.id]
@@ -258,7 +243,6 @@ class ProductScreen extends BaseScreen {
             onChallengeEvent={this._onChallengeEvent}
             onStartWebPreview={this._onStartWebPreview}
             product={this.props.product} />
-          { this.renderAlert() }
           </div>
     }
 
