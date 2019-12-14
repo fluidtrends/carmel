@@ -222,10 +222,11 @@ class Session {
         if (operation.path) {
             let filepath = path.resolve(HOME, 'products', operation.productId, operation.path)
             fs.existsSync(filepath) && this.openBrowser(`vscode://file${filepath}`)
-        } else {
-            let filepath = path.resolve(HOME, 'products', operation.productId, 'chunky.code-workspace')
-            fs.existsSync(filepath) && this.openFile(filepath)                
-        }
+            return
+        } 
+
+        let filepath = path.resolve(HOME, 'env', this.env.latest.version, 'products', operation.productId, 'chunky.code-workspace')
+        fs.existsSync(filepath) && this.openFile(filepath)                
     }
 
     performOperation(operation) {
