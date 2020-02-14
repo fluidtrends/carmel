@@ -2,7 +2,7 @@
 
 <h1 align="center"> Carmel </h1>
 <h3 align="center"> The Decentralized Tech Job Training Platform </h3>
-<p align="center"> Carmel helps Aspiring Developers unlock Tech Jobs by earning in-demand Tech Skills & Experience </hp>
+<p align="center"> Carmel helps Aspiring Developers unlock Tech Jobs by earning in-demand Tech Skills & Experience </p>
 
 </p>
 
