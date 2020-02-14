@@ -1,0 +1,21 @@
+{
+  "name": "@carmel/cloud",
+  "version": "1.0.0",
+  "description": "The Carmel Cloud",
+  "scripts": {
+    "test": "savor test",
+    "coverage": "savor coverage"
+  },
+  "author": "I. Dan Calinescu <idancalinescu@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fluidtrends/carmel.git"
+  },
+  "homepage": "http://www.carmel.io",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "savor": "^1.1.2"
+  }
+}

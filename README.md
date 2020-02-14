@@ -6,11 +6,12 @@
 
 <p align="center"> 
 
+<img src="https://img.shields.io/npm/v/@carmel/web?color=green&label=web"/>
+<img src="https://img.shields.io/npm/v/@carmel/desktop?color=green&label=desktop"/>
+<img src="https://img.shields.io/npm/v/@carmel/cloud?color=green&label=cloud"/>
 <img src="https://img.shields.io/npm/v/@carmel/blockchain?color=green&label=blockchain"/>
 <img src="https://img.shields.io/npm/v/@carmel/cli?color=green&label=cli"/>
-<img src="https://img.shields.io/npm/v/@carmel/desktop?color=green&label=desktop"/>
 <img src="https://img.shields.io/npm/v/@carmel/sdk?color=green&label=sdk"/>
-<img src="https://img.shields.io/npm/v/@carmel/web?color=green&label=web"/>
 
 </p>
 

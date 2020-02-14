@@ -81,6 +81,26 @@ jobs:
           paths:
             - codeclimate.desktop.json
 
+  cloud-tests:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/root/tmp
+      - run:
+          name: Install cloud dependencies
+          command: cd cloud && npm install
+      - run:
+          name: Run cloud tests
+          command: | 
+            cd cloud
+            npm run coverage
+            ../tmp/cc-test-reporter format-coverage -t lcov -o ../tmp/codeclimate.cloud.json --add-prefix cloud
+      - persist_to_workspace:
+          root: tmp
+          paths:
+            - codeclimate.cloud.json
+
   blockchain-tests:
     <<: *defaults
     steps:
@@ -129,7 +149,7 @@ jobs:
       - run:
           name: Upload combined coverage to Code Climate
           command: |
-            ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 5 -o tmp/codeclimate.total.json
+            ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 6 -o tmp/codeclimate.total.json
             ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.total.json
 
 workflows:
@@ -153,6 +173,9 @@ workflows:
       - web-tests:
           requires:
             - build
+      - cloud-tests:
+          requires:
+            - build
       - submit-coverage:
           requires:
             - blockchain-tests
@@ -160,3 +183,4 @@ workflows:
             - desktop-tests
             - sdk-tests
             - web-tests
+            - cloud-tests
