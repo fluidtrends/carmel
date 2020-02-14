@@ -50,7 +50,7 @@ add('should make sure it does not run without a name', (context, done) => {
   
     savor.promiseShouldFail(Commander.run(cmd), done, (error) => {
       stub.restore()
-        context.expect(error.message).to.equal(Commands.Init.ERRORS.ALREADY_EXISTS('product'))
+      context.expect(error.message).to.equal(Commands.Init.ERRORS.ALREADY_EXISTS('workspace'))
     })
   }).
   
