@@ -26,4 +26,4 @@ add('should not run', (context, done) => {
   })
 }).
 
-run('[CLI] Core Command')
+run('[Carmel SDK] Command')

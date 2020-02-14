@@ -69,4 +69,4 @@ add('should make sure it does not run without a name', (context, done) => {
     })
   }).
 
-run('[Carmel SDK] init command')
+run('[Carmel SDK] Init Command')
