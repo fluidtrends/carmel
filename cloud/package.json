@@ -1,6 +1,6 @@
 {
   "name": "@carmel/cloud",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The Carmel Cloud",
   "scripts": {
     "test": "savor test",
