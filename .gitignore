@@ -13,3 +13,5 @@ screenshots
 carmel.token.wasm
 eosio.token.wasm
 .webpack
+.nyc_output
+coverage

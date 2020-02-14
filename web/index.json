@@ -6,19 +6,13 @@
     "privateRedirect": "/me",
     "publicRedirect": "/register"
   },
-  "ethereum": {
-    "infura": {
-      "key": "lbSc5wiaSdI145gumKRG",
-      "provider": "mainNet"
-    }
-  },
   "footer": {
     "socialMediaLinks": {
       "facebook": "https://www.facebook.com/carmelio-347131802460343/",
       "medium": "http://medium.com/carmelplatform",
       "instagram": "https://www.instagram.com/carmel.io/",
       "github": "https://github.com/fluidtrends/carmel",
-      "youtube": "https://www.youtube.com/channel/UCjiQXohOk0pBmJ6PFElQL-g",
+      "youtube": "https://www.youtube.com/idancali",
       "twitter": "https://twitter.com/carmelplatform",
       "linkedin": "https://www.linkedin.com/company/carmel-platform/"
     },
@@ -28,29 +22,14 @@
         "id": "platform",
         "elements": [
           {
-            "id": "whitepaper",
-            "title": "Whitepaper",
-            "link": "http://files.carmel.io/whitepaper/en-v1.4.pdf"
-          },
-          {
             "id": "sourcecode",
-            "title": "Source Code",
+            "title": "GitHub",
             "link": "https://github.com/fluidtrends/carmel"
           },
           {
-            "id": "team",
-            "title": "Team",
-            "link": "/team"
-          },
-          {
-            "id": "challenges",
-            "title": "Challenges",
-            "link": "/challenges"
-          },
-          {
-            "id": "feedback",
-            "title": "Feedback",
-            "link": "https://t.me/carmelplatform"
+            "id": "issues",
+            "title": "Issues",
+            "link": "https://github.com/fluidtrends/carmel/issues"
           }
         ]
       },
@@ -59,29 +38,14 @@
         "id": "usecases",
         "elements": [
           {
-            "id": "entrepreneurs",
-            "title": "For Entrepreneurs",
-            "link": "/entrepreneurs"
-          },
-          {
-            "id": "managers",
-            "title": "For Managers",
-            "link": "/managers"
+            "id": "learners",
+            "title": "For Learners",
+            "link": "/learners"
           },
           {
             "id": "recruiters",
             "title": "For Recruiters",
             "link": "/recruiters"
-          },
-          {
-            "id": "teachers",
-            "title": "For Teachers",
-            "link": "/teachers"
-          },
-          {
-            "id": "developers",
-            "title": "For Developers",
-            "link": "/developers"
           }
         ]
       }

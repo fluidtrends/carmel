@@ -1,0 +1,20 @@
+{
+  "name": "@carmel/blockchain",
+  "version": "1.0.0",
+  "description": "The Carmel Blockchain Integration",
+  "scripts": {
+    "test": "savor test",
+    "coverage": "savor coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fluidtrends/carmel.git"
+  },
+  "homepage": "http://www.carmel.io",
+  "dependencies": {
+    "eosjs": "^20.0.3"
+  },
+  "devDependencies": {
+    "savor": "^1.1.2"
+  }
+}

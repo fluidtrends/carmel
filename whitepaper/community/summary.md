@@ -1,1 +1,0 @@
-There are several online platforms catering to people like Chris today. The problem is that they are all operating under a centralized architecture and business model, where the platform acts as a third party between teachers and students, dominating the entire teaching and learning experience.
