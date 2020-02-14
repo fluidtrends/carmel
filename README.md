@@ -5,3 +5,9 @@
 <p align="center"> Carmel helps Aspiring Developers unlock Tech Jobs by earning in-demand Tech Skills & Experience </p>
 
 </p>
+
+<p align="center">
+
+<a href="https://circleci.com/gh/fluidtrends/workflows/carmel"><img src="https://circleci.com/gh/fluidtrends/carmel.svg?style=svg"/></a>
+
+</p>
