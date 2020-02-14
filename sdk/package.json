@@ -1,0 +1,22 @@
+{
+    "name": "@carmel/sdk",
+    "version": "1.0.0",
+    "description": "The Carmel SDK",
+    "scripts": {
+      "test": "savor test",
+      "coverage": "savor coverage"
+    },
+    "author": "I. Dan Calinescu <idancalinescu@gmail.com>",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/fluidtrends/carmel.git"
+    },
+    "homepage": "http://www.carmel.io",
+    "dependencies": {
+      "dodi": "^1.1.3"
+    },
+    "devDependencies": {
+      "react-savor": "^1.1.3"
+    }
+}

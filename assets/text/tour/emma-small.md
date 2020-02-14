@@ -1,3 +1,0 @@
-## Emma is a Manager.
-
-She is a **tech professional** who knows how to motivate development teams to deliver software projects on time and on budget. **Carmel helps Managers** like Emma *improve team productivity* while having fun in the process.

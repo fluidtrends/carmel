@@ -1,0 +1,65 @@
+version: "2"
+checks:
+  argument-count:
+    config:
+      threshold: 4
+  complex-logic:
+    config:
+      threshold: 4
+  file-lines:
+    config:
+      threshold: 300
+  method-complexity:
+    config:
+      threshold: 30
+  method-count:
+    config:
+      threshold: 50
+  method-lines:
+    config:
+      threshold: 50
+  nested-control-flow:
+    config:
+      threshold: 4
+  return-statements:
+    config:
+      threshold: 10
+  similar-code:
+    config:
+      threshold: 2
+  identical-code:
+    config:
+      threshold: 2
+engines:
+  eslint:
+    enabled: false
+  csslint:
+    enabled: false
+  duplication:
+    enabled: false
+    checks:
+      Similar code:
+        enabled: false
+    config:
+      languages:
+      - javascript
+ratings:
+  paths:
+  - blockchain/src/**/*
+  - cli/src/**/*
+  - desktop/src/**/*
+  - sdk/src/**/*
+  - web/src/**/*
+exclude_paths:
+- package.json
+- .circleci/**/*
+- .codeclimate.yml
+- .es*
+- .gitignore
+- .npmignore
+- LICENSE
+- README.md
+- logo.gif
+- logo.png
+- lib/**/*
+- docs/**/*

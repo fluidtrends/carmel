@@ -1,6 +1,0 @@
-export { default as main } from './main.web'
-export { default as person } from './person.web'
-export { default as team } from './team.web'
-export { default as terms } from './terms.web'
-export { default as tour } from './tour.web'
-export { default as guilds } from './guilds.web'

@@ -1,0 +1,22 @@
+{
+    "name": "@carmel/cli",
+    "version": "1.0.0",
+    "description": "The Carmel CLI",
+    "scripts": {
+      "test": "savor test",
+      "coverage": "savor coverage"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/fluidtrends/carmel.git"
+    },
+    "homepage": "http://www.carmel.io",
+    "dependencies": {
+        "@carmel/sdk": "^1.0.0"
+    },
+    "devDependencies": {
+      "savor": "^1.1.2",
+      "slana": "^1.0.0"
+    }
+  }
+  

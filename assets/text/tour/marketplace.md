@@ -1,1 +1,0 @@
-## The **Carmel Marketplace** revolves around **Technical Challenges**. **Developers write** and sell them. **Learners buy** and complete them. **Teachers use** them in their courses. **Entrepreneurs request** them for new products. **Managers design** them from feature requests. And **Recruiters monitor** them for ideal candidates.

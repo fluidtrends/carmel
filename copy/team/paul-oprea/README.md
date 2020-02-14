@@ -1,3 +1,0 @@
-**Paul Oprea, Engineering Advisor**
-
-Paul is an experienced software architect, product technologist and executive with over 15 years of experience building software products for a variety of businesses, ranging from startups to enterprises. He held several technical and business roles within 3Pillar Global, most notably as Engineering Manager and later as a Client Partner for Europe, until 2017 when he joined QCatalyst, a top of the class digital strategy consulting company, as its Director of Engineering. Paul is a keen advocate of teamwork culture, continuous learning, agility and pragmatism. He still codes.

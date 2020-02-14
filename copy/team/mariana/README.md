@@ -1,3 +1,0 @@
-**Mariana Misca, Social Media Manager**
-
-Mariana thrives on being around people, meeting new people and finding herself new challenges. What she likes above all is interacting with people, listening to them and learning new things. She is also passionate about languages and learning new languages. And she is a bit of a grammar nazi. She currently works in customer support for a technology company. Mariana majored in English Language and Literature and minored in Korean Language and Literature at the Faculty of Letters, Babeș-Bolyai University and is writing her BA thesis as part of the Media Communication masters program at the same university.
