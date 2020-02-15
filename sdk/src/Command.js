@@ -10,8 +10,7 @@ class _ {
     get requiredArgs() { return [] }
     get title() { return "command" }
     exec() { return Promise.reject(new Error(_.ERRORS.COULD_NOT_EXECUTE())) }
-    initialize() { return Promise.resolve() }
-    
+
     get args() {
         return this._args
     }

@@ -1,8 +1,9 @@
 /* eslint-disable no-unused-expressions */
 
 const savor = require('savor')
-const { Commander, Commands } = require('../..')
+const { Commander, Commands, Session } = require('../..')
 const fs = require('fs-extra')
+const path = require('path')
 
 savor.
 
@@ -40,21 +41,7 @@ add('should make sure it does not run without a name', (context, done) => {
     })
   }).
   
-  add('should not create if it already exists', (context, done) => {
-    const cmd = new Commands.Init({ 
-      name: "test", 
-      template: "test", 
-      bundle: "test",
-      env: { homeDir: context.dir }})
-    const stub = context.stub(cmd, "hasFile").callsFake(() => true)
-  
-    savor.promiseShouldFail(Commander.run(cmd), done, (error) => {
-      stub.restore()
-      context.expect(error.message).to.equal(Commands.Init.ERRORS.ALREADY_EXISTS('workspace'))
-    })
-  }).
-  
-  add('should create a new workspace', (context, done) => {
+  add('should not create a workspace without a session', (context, done) => {
     const cmd = new Commands.Init({ 
       name: "test", 
       template: "test", 
@@ -63,10 +50,43 @@ add('should make sure it does not run without a name', (context, done) => {
 
       const stub = context.stub(fs, "existsSync").callsFake(() => false)
 
-      savor.promiseShouldSucceed(Commander.run(cmd), done, () => {
-        context.expect(cmd.title).to.equal('Creating a new workspace')
+      savor.promiseShouldFail(Commander.run(cmd), done, (error) => {
+        stub.restore()
+        context.expect(error.message).to.equal(Commands.Init.ERRORS.COULD_NOT_EXECUTE('the session is missing'))
+      })
+  }).
 
+  add('should create a new workspace', (context, done) => {
+    const cmd = new Commands.Init({ 
+      name: "test", 
+      template: "test", 
+      bundle: "test",
+      env: { test: "test", homeDir: context.dir }})
+
+      const stub = context.stub(fs, "existsSync").callsFake(() => false)
+      const session = new Session({ test: "test1234", dir: context.dir })
+
+      savor.promiseShouldSucceed(Commander.run(cmd, session), done, () => {
+        context.expect(cmd.title).to.equal('Creating a new workspace')
+        stub.restore()
     })
   }).
+
+  add('should skip creating if a workspace exists', (context, done) => {
+    const cmd = new Commands.Init({ 
+      name: "test", 
+      template: "test", 
+      bundle: "test",
+      env: { test: "test", homeDir: context.dir }})
+
+      savor.addAsset('assets/.carmel.json', '.carmel.json', context)
+
+      const session = new Session({ test: "test1234", dir: context.dir })
+
+      savor.promiseShouldFail(Commander.run(cmd, session), done, (error) => {
+        context.expect(error.message).to.equal(Commands.Init.ERRORS.ALREADY_EXISTS('workspace'))
+      })
+  }).
+
 
 run('[Carmel SDK] Init Command')

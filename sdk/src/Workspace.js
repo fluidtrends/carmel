@@ -20,14 +20,17 @@ class _ {
     }
 
     initialize () {
-        if (!this.exists) {
-            const manifest = JSON.stringify(_.DEFAULT_MANIFEST(), null, 2)
-            fs.existsSync(this.dir) || fs.mkdirsSync(this.dir)
-            fs.writeFileSync(path.resolve(this.dir, _.MANIFEST_FILENAME), manifest, 'utf8')
-        }
-
         // Let's just initialize this workspace before anything else
         return Promise.resolve()
+    }
+
+    create() {
+        return new Promise((resolve, reject) => {
+            const manifest = JSON.stringify(_.DEFAULT_MANIFEST(), null, 2)
+            fs.existsSync(this.dir) || fs.mkdirsSync(this.dir)
+            fs.writeFileSync(path.resolve(this.dir, _.MANIFEST_FILENAME), `${manifest}\n`, 'utf8')
+            resolve()
+        })
     }
 }
 
@@ -36,4 +39,5 @@ _.DEFAULT_MANIFEST = () => ({
     type: "carmel",
     description: "This is a Carmel Workspace"
 })
+
 module.exports = _

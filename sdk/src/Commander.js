@@ -1,10 +1,15 @@
 class _ {
-    constructor (command) {
+    constructor (command, session) {
         this._command = command
+        this._session = session
     }
 
     get command() {
         return this._command
+    }
+
+    get session() {
+        return this._session
     }
 
     exec() {
@@ -14,12 +19,11 @@ class _ {
             return Promise.reject(new Error(_.ERRORS.MISSING_ARG(missing[0])))
         }
 
-        return this.command.initialize().then(() => this.command.exec())
-
+        return this.command.exec(this.session)
     }
 
-    static run (command) {
-        const _this = new _(command)
+    static run (command, session) {
+        const _this = new _(command, session)
         return _this.exec()
     }
 }
