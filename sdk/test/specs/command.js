@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 
 const savor = require('savor')
-const { Command, Commander } = require('../..')
+const { Command, Session, Commander } = require('../..')
 
 savor.
 
@@ -11,19 +11,40 @@ add('should make sure it expects required args', (context, done) => {
   context.expect(cmd.requiredArgs.length).to.equal(0)
   context.expect(cmd.title).to.equal("command")
   context.expect(cmd.args.test).to.equal("test")
-  
+
   done()
 }).
 
-add('should not run', (context, done) => {
+add('should not run without a session', (context, done) => {
   const cmd = new Command({ env: { homeDir: context.dir }})
 
-  context.expect(cmd.cwd).to.equal(process.cwd())
-  context.expect(cmd.hasFile('test')).to.be.false
-
   savor.promiseShouldFail(Commander.run(cmd), done, (error) => {
-      context.expect(error.message).to.equal(Command.ERRORS.COULD_NOT_EXECUTE())
+    context.expect(cmd.cwd).to.equal(process.cwd())
+    context.expect(cmd.id).to.equal(Command.ID)
+    context.expect(error.message).to.equal(Command.ERRORS.COULD_NOT_EXECUTE('the session is missing'))
   })
 }).
+
+add('should not run without a workspace', (context, done) => {
+  const cmd = new Command({ env: { homeDir: context.dir }})
+  const session = new Session({ dir: context.dir })
+
+  savor.promiseShouldFail(Commander.run(cmd, session), done, (error) => {
+    context.expect(error.message).to.equal(Command.ERRORS.DOES_NOT_EXIST('workspace'))
+  })
+}).
+
+// add('should run without a valid workspace', (context, done) => {
+//   const cmd = new Command({ env: { homeDir: context.dir }})
+//   const session = new Session({ dir: context.dir })
+
+//   savor.promiseShouldSucceed(
+//       session.initialize()
+//              .then(() => session.workspace.create())
+//              .then(() => Commander.run(cmd, session)), done, () => {
+//                 context.expect(cmd.context).to.not.exist
+//                 context.expect(cmd.session).to.exist
+//       })
+// }).
 
 run('[Carmel SDK] Command')

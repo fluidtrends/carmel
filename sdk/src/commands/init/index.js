@@ -1,11 +1,13 @@
-const Command = require('../Command')
+const Command = require('../../Command')
 
 class _ extends Command {
   constructor(args) {
     super(args)
   }
 
+  get id() { return _.ID }
   get requiredArgs() { return _.REQUIRED }
+  get requiresContext() { return _.REQUIRES_CONTEXT }
   get title() { return _.TITLE }
   get type () { return _.TYPE }
 
@@ -24,8 +26,10 @@ class _ extends Command {
 }
 
 _.ERRORS = Object.assign({}, _.ERRORS, {})
-_.REQUIRED = ['name', 'template', 'bundle']
+_.REQUIRES_CONTEXT = false
+_.REQUIRED = ['name', 'template']
 _.TITLE = "Creating a new workspace"
 _.TYPE = "workspace"
+_.ID = 'init'
 
 module.exports = _
