@@ -11,6 +11,10 @@ class _ {
         return this._props
     }
 
+    get logger() {
+
+    }
+
     get index() {
         return this._index
     }

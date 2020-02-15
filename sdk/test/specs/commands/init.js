@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 
 const savor = require('savor')
-const { Commander, Commands, Session } = require('../..')
+const { Commander, Commands, Session } = require('../../..')
 const fs = require('fs-extra')
 const path = require('path')
 
@@ -12,8 +12,9 @@ add('should make sure it expects required args', (context, done) => {
 
   context.expect(cmd.requiredArgs[0]).to.equal('name')
   context.expect(cmd.requiredArgs[1]).to.equal('template')
-  context.expect(cmd.requiredArgs[2]).to.equal('bundle')
-  
+  context.expect(cmd.id).to.equal(Commands.Init.ID)
+  context.expect(cmd.requiresContext).to.be.equal(Commands.Init.REQUIRES_CONTEXT)
+
   done()  
 }).
 
@@ -32,20 +33,11 @@ add('should make sure it does not run without a name', (context, done) => {
         context.expect(error.message).to.equal(Commander.ERRORS.MISSING_ARG("template"))
     })
   }).
-  
-  add('should make sure it does not run without a bundle', (context, done) => {
-    const cmd = new Commands.Init({ name: "test", template: "test", env: { homeDir: context.dir }})
-  
-    savor.promiseShouldFail(Commander.run(cmd), done, (error) => {
-      context.expect(error.message).to.equal(Commander.ERRORS.MISSING_ARG("bundle"))
-    })
-  }).
-  
+    
   add('should not create a workspace without a session', (context, done) => {
     const cmd = new Commands.Init({ 
       name: "test", 
       template: "test", 
-      bundle: "test",
       env: { test: "test", homeDir: context.dir }})
 
       const stub = context.stub(fs, "existsSync").callsFake(() => false)
@@ -60,7 +52,6 @@ add('should make sure it does not run without a name', (context, done) => {
     const cmd = new Commands.Init({ 
       name: "test", 
       template: "test", 
-      bundle: "test",
       env: { test: "test", homeDir: context.dir }})
 
       const stub = context.stub(fs, "existsSync").callsFake(() => false)
@@ -76,7 +67,6 @@ add('should make sure it does not run without a name', (context, done) => {
     const cmd = new Commands.Init({ 
       name: "test", 
       template: "test", 
-      bundle: "test",
       env: { test: "test", homeDir: context.dir }})
 
       savor.addAsset('assets/.carmel.json', '.carmel.json', context)
@@ -87,6 +77,5 @@ add('should make sure it does not run without a name', (context, done) => {
         context.expect(error.message).to.equal(Commands.Init.ERRORS.ALREADY_EXISTS('workspace'))
       })
   }).
-
 
 run('[Carmel SDK] Init Command')
