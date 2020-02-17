@@ -3,7 +3,7 @@
 const savor = require('savor')
 const { Commander, Commands, Session } = require('../../..')
 const fs = require('fs-extra')
-const path = require('path')
+const { Archive } = require('rara')
 
 savor.
 
@@ -77,5 +77,65 @@ add('should make sure it does not run without a name', (context, done) => {
         context.expect(error.message).to.equal(Commands.Init.ERRORS.ALREADY_EXISTS('workspace'))
       })
   }).
+
+  add('should skip creating if the template is invalid', (context, done) => {
+    const cmd = new Commands.Init({ 
+      name: "test", 
+      template: "oops:test", 
+      env: { test: "test", homeDir: context.dir }})
+
+      const session = new Session({ test: "test1234", dir: context.dir })
+
+      savor.promiseShouldFail(Commander.run(cmd, session), done, (error) => {
+        context.expect(error.message).to.equal(Commands.Init.ERRORS.COULD_NOT_EXECUTE('the template is invalid'))
+      })
+  }).
+
+add('should install an archive in an index section', (context, done) => {
+    const cmd = new Commands.Init({ 
+      name: "test", 
+      template: "test", 
+      env: { test: "test", homeDir: context.dir }})
+      const stub = context.stub(Archive.prototype, 'download').callsFake(() => Promise.resolve({ version: "1" }))
+
+      const session = new Session({ test: "test1234", dir: context.dir })
+      
+      savor.promiseShouldSucceed(session.initialize().then(() => Commander.run(cmd, session)), done, (result) => {
+        stub.restore()
+      })
+  }).
+
+add('should parse the archive from a basic uri', (context, done) => {
+    const cmd = new Commands.Init({ template: "test" })
+    cmd.parse()
+
+    context.expect(cmd.archive.source).to.equal('npm')
+    context.expect(cmd.archive.id).to.equal(Commands.Init.DEFAULT_ARCHIVE_ID)
+    context.expect(cmd.archive.version).to.not.exist
+
+    done()
+}).
+
+add('should parse the archive from a full uri', (context, done) => {
+  const cmd = new Commands.Init({ template: "npm://fluidtrends:bananas/templates/personal#1.0.2" })
+  cmd.parse()
+
+  context.expect(cmd.archive.source).to.equal('npm')
+  context.expect(cmd.archive.id).to.equal('@fluidtrends/bananas')
+  context.expect(cmd.archive.version).to.equal('1.0.2')
+
+  done()
+}).
+
+add('should parse the archive from an unscoped uri', (context, done) => {
+  const cmd = new Commands.Init({ template: "npm://bananas/templates/personal" })
+  cmd.parse()
+
+  context.expect(cmd.archive.source).to.equal('npm')
+  context.expect(cmd.archive.id).to.equal('bananas')
+  context.expect(cmd.archive.version).to.not.exist
+
+  done()
+}).
 
 run('[Carmel SDK] Init Command')

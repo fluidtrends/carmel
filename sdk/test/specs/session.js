@@ -11,7 +11,7 @@ add('should load a simple session', (context, done) => {
     const session = new Session({ test: "test1234", dir: context.dir })
 
     context.expect(session.props.test).to.equal("test1234")
-    context.expect(session.index).to.not.exist
+    context.expect(session.index).to.exist
     
     done()
 }).

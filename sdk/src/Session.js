@@ -5,14 +5,11 @@ class _ {
     constructor(props) {
         this._props = Object.assign({}, props)
         this._workspace = new Workspace(this.props)
+        this._index = new Index(Object.assign({}, { sections: _.DEFAULT_SECTIONS }, this.props))
     }
 
     get props() {
         return this._props
-    }
-
-    get logger() {
-
     }
 
     get index() {
@@ -24,11 +21,6 @@ class _ {
     }
 
     initialize () {
-        // Create a brand new index and workspace
-        this._index = new Index(Object.assign({}, this.props, {
-            sections: _.DEFAULT_SECTIONS
-        }))
-
         // Initialize the index first of all
         return this.index.initialize()
             
