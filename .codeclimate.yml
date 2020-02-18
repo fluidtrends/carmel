@@ -47,6 +47,7 @@ ratings:
   paths:
   - blockchain/src/**/*
   - cli/src/**/*
+  - cloud/src/**/*
   - desktop/src/**/*
   - sdk/src/**/*
   - web/src/**/*
@@ -60,6 +61,14 @@ exclude_paths:
 - LICENSE
 - README.md
 - logo.gif
+- assets/**/*
+- assets/eos/**/*
 - logo.png
 - lib/**/*
 - docs/**/*
+- blockchain/test/**/*
+- cli/test/**/*
+- cloud/test/**/*
+- desktop/test/**/*
+- sdk/test/**/*
+- web/test/**/*

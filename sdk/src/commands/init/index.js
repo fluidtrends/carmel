@@ -58,9 +58,13 @@ class _ extends Command {
       return Promise.reject(new Error(_.ERRORS.COULD_NOT_EXECUTE('the template is invalid')))
     }
 
+    // The dynamic args for templating
+    const args = {}
+
     // Initialize the workspace
     return session.workspace.create()
-                  .then(() => session.index.sections.archives && session.index.sections.archives.installArchive(this.archive))
+             .then(() => session.index.installArchive(this.archive))
+             .then((archive) => archive.save(session.workspace.dir, args))
   }
 }
 
