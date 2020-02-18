@@ -26,84 +26,73 @@ add('should make sure it does not run without a name', (context, done) => {
     })
   }).
   
-  add('should make sure it does not run without a template', (context, done) => {
-    const cmd = new Commands.Init({ name: "test", env: { homeDir: context.dir }})
+add('should make sure it does not run without a template', (context, done) => {
+  const cmd = new Commands.Init({ name: "test", env: { homeDir: context.dir }})
+
+  savor.promiseShouldFail(Commander.run(cmd), done, (error) => {
+      context.expect(error.message).to.equal(Commander.ERRORS.MISSING_ARG("template"))
+  })
+}).
   
+add('should not create a workspace without a session', (context, done) => {
+  const cmd = new Commands.Init({ 
+    name: "test", 
+    template: "test", 
+    env: { test: "test", homeDir: context.dir }})
+
+    const stub = context.stub(fs, "existsSync").callsFake(() => false)
+
     savor.promiseShouldFail(Commander.run(cmd), done, (error) => {
-        context.expect(error.message).to.equal(Commander.ERRORS.MISSING_ARG("template"))
+      stub.restore()
+      context.expect(error.message).to.equal(Commands.Init.ERRORS.COULD_NOT_EXECUTE('the session is missing'))
     })
-  }).
-    
-  add('should not create a workspace without a session', (context, done) => {
-    const cmd = new Commands.Init({ 
-      name: "test", 
-      template: "test", 
-      env: { test: "test", homeDir: context.dir }})
+}).
 
-      const stub = context.stub(fs, "existsSync").callsFake(() => false)
+add('should create a new workspace', (context, done) => {
+  const cmd = new Commands.Init({ 
+    name: "test", 
+    template: "test", 
+    env: { test: "test", homeDir: context.dir }})
 
-      savor.promiseShouldFail(Commander.run(cmd), done, (error) => {
-        stub.restore()
-        context.expect(error.message).to.equal(Commands.Init.ERRORS.COULD_NOT_EXECUTE('the session is missing'))
-      })
-  }).
+    const stub = context.stub(Archive.prototype, 'save').callsFake(() => Promise.resolve({ }))
+    const stub2 = context.stub(Archive.prototype, 'download').callsFake(() => Promise.resolve({ version: "1" }))
+    const stub3 = context.stub(fs, "existsSync").callsFake(() => false)
+    const session = new Session({ test: "test1234", dir: context.dir, sections: [{ id: "archives" }] })
 
-  add('should create a new workspace', (context, done) => {
-    const cmd = new Commands.Init({ 
-      name: "test", 
-      template: "test", 
-      env: { test: "test", homeDir: context.dir }})
+    savor.promiseShouldSucceed(session.initialize().then(() => Commander.run(cmd, session)), done, () => {
+      context.expect(cmd.title).to.equal('Creating a new workspace')
+      stub.restore()
+      stub2.restore()
+      stub3.restore()
+  })
+}).
 
-      const stub = context.stub(fs, "existsSync").callsFake(() => false)
-      const session = new Session({ test: "test1234", dir: context.dir })
+add('should skip creating if a workspace exists', (context, done) => {
+  const cmd = new Commands.Init({ 
+    name: "test", 
+    template: "test", 
+    env: { test: "test", homeDir: context.dir }})
 
-      savor.promiseShouldSucceed(Commander.run(cmd, session), done, () => {
-        context.expect(cmd.title).to.equal('Creating a new workspace')
-        stub.restore()
+    savor.addAsset('assets/.carmel.json', '.carmel.json', context)
+    const session = new Session({ test: "test1234", dir: context.dir })
+
+    savor.promiseShouldFail(Commander.run(cmd, session), done, (error) => {
+      context.expect(error.message).to.equal(Commands.Init.ERRORS.ALREADY_EXISTS('workspace'))
     })
-  }).
+}).
 
-  add('should skip creating if a workspace exists', (context, done) => {
-    const cmd = new Commands.Init({ 
-      name: "test", 
-      template: "test", 
-      env: { test: "test", homeDir: context.dir }})
+add('should skip creating if the template is invalid', (context, done) => {
+  const cmd = new Commands.Init({ 
+    name: "test", 
+    template: "oops:test", 
+    env: { test: "test", homeDir: context.dir }})
 
-      savor.addAsset('assets/.carmel.json', '.carmel.json', context)
+    const session = new Session({ test: "test1234", dir: context.dir })
 
-      const session = new Session({ test: "test1234", dir: context.dir })
-
-      savor.promiseShouldFail(Commander.run(cmd, session), done, (error) => {
-        context.expect(error.message).to.equal(Commands.Init.ERRORS.ALREADY_EXISTS('workspace'))
-      })
-  }).
-
-  add('should skip creating if the template is invalid', (context, done) => {
-    const cmd = new Commands.Init({ 
-      name: "test", 
-      template: "oops:test", 
-      env: { test: "test", homeDir: context.dir }})
-
-      const session = new Session({ test: "test1234", dir: context.dir })
-
-      savor.promiseShouldFail(Commander.run(cmd, session), done, (error) => {
-        context.expect(error.message).to.equal(Commands.Init.ERRORS.COULD_NOT_EXECUTE('the template is invalid'))
-      })
-  }).
-
-add('should install an archive in an index section', (context, done) => {
-    const cmd = new Commands.Init({ 
-      name: "test", 
-      template: "test", 
-      env: { test: "test", homeDir: context.dir }})
-      const stub = context.stub(Archive.prototype, 'download').callsFake(() => Promise.resolve({ version: "1" }))
-
-      const session = new Session({ test: "test1234", dir: context.dir })
-      
-      savor.promiseShouldSucceed(session.initialize().then(() => Commander.run(cmd, session)), done, (result) => {
-        stub.restore()
-      })
-  }).
+    savor.promiseShouldFail(Commander.run(cmd, session), done, (error) => {
+      context.expect(error.message).to.equal(Commands.Init.ERRORS.COULD_NOT_EXECUTE('the template is invalid'))
+    })
+}).
 
 add('should parse the archive from a basic uri', (context, done) => {
     const cmd = new Commands.Init({ template: "test" })
@@ -136,6 +125,23 @@ add('should parse the archive from an unscoped uri', (context, done) => {
   context.expect(cmd.archive.version).to.not.exist
 
   done()
+}).
+
+add('should install an archive in an index section', (context, done) => {
+  const cmd = new Commands.Init({ 
+    name: "test", 
+    template: "test", 
+    env: { test: "test", homeDir: context.dir }})
+    const stub = context.stub(Archive.prototype, 'download').callsFake(() => Promise.resolve({ version: "1" }))
+    const stub2 = context.stub(Archive.prototype, 'save').callsFake(() => Promise.resolve({}))
+
+    savor.addAsset("assets/test-archive", "archives/test-archive/1", context)
+    const session = new Session({ test: "test1234", dir: context.dir })
+    
+    savor.promiseShouldSucceed(session.initialize().then(() => Commander.run(cmd, session)), done, (result) => {
+      stub.restore()
+      stub2.restore()
+    })
 }).
 
 run('[Carmel SDK] Init Command')
