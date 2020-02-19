@@ -82,10 +82,24 @@ class _ {
           }
       })
     }
+
+    findDirs(dirpath) {
+        // This is where we want to look
+        const dir = path.resolve(this.dir, dirpath)
+
+        if (!fs.existsSync(dir)) {
+          // We can't continue without the dir
+          return Promise.reject(new Error(_.ERRORS.DIR_NOT_FOUND(dirpath)))
+        }
+
+        // Let's see what we've got
+        return fs.readdirSync(dirpath).filter(d => (d && !_.IGNORE_DIRS.includes(d)))
+    }
 }
 
 _.ERRORS = {
-    FILE_NOT_FOUND: (name) => name ? `The ${name} file is missing` : `The file is missing`
+    FILE_NOT_FOUND: (name) => name ? `The ${name} file is missing` : `The file is missing`,
+    DIR_NOT_FOUND: (name) => name ? `The ${name} directory is missing` : `The directory is missing`
 }
 
 _.MANIFEST_FILENAME = ".carmel.json"
@@ -95,5 +109,7 @@ _.DEFAULT_MANIFEST = () => ({
     description: "This is a Carmel Workspace",
     context: {}
 })
+
+_.IGNORE_DIRS = [".DS_Store"]
 
 module.exports = _
