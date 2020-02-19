@@ -92,8 +92,12 @@ class _ {
           return Promise.reject(new Error(_.ERRORS.DIR_NOT_FOUND(dirpath)))
         }
 
-        // Let's see what we've got
-        return fs.readdirSync(dirpath).filter(d => (d && !_.IGNORE_DIRS.includes(d)))
+        return new Promise((resolve, reject) => {
+            // Let's see what we've got
+            const dirs = fs.readdirSync(dirpath).filter(d => (d && !_.IGNORE_DIRS.includes(d)))
+
+            resolve(dirs)
+        })
     }
 }
 

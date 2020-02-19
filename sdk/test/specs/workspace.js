@@ -3,6 +3,7 @@
 const savor = require('savor')
 const { Workspace } = require('../..')
 const fs = require('fs-extra')
+const path = require('path')
 
 savor.
 
@@ -71,6 +72,25 @@ add('should load a JSON file', (context, done) => {
 
     savor.promiseShouldSucceed(workspace.loadFile("file.json"), done, (data) => {
         context.expect(data.hello).to.equal('test1234')
+    })
+}).
+
+add('should not lookup directories in a missing directory', (context, done) => {
+    const workspace = new Workspace({ cwd: context.dir })
+
+    savor.promiseShouldFail(workspace.findDirs("test"), done, (error) => {
+        context.expect(error.message).to.equal(Workspace.ERRORS.DIR_NOT_FOUND("test"))
+    })
+}).
+
+add('should find some directories', (context, done) => {
+    const workspace = new Workspace({ cwd: context.dir })
+    savor.addAsset('assets/dirs', 'dirs', context)
+
+    savor.promiseShouldSucceed(workspace.findDirs("dirs"), done, (data) => {
+        context.expect(data[0]).to.equal('one')
+        context.expect(data[1]).to.equal('three')
+        context.expect(data[2]).to.equal('two')
     })
 }).
 
