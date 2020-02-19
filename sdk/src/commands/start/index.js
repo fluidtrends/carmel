@@ -1,6 +1,8 @@
 const Command = require('../../Command')
 const path = require('path')
 const fs = require('fs-extra')
+const pm2 = require('pm2')
+const uuid = require('uuid')
 
 class _ extends Command {
   constructor(args) {
