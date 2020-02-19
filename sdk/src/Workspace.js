@@ -62,9 +62,33 @@ class _ {
             resolve()
         })
     }
+
+    loadFile (filepath) {
+      const file = path.resolve(this.dir, filepath)
+
+      if (!fs.existsSync(file)) {
+        // We can't continue without this file
+        return Promise.reject(new Error(_.ERRORS.FILE_NOT_FOUND(filepath)))
+      }
+    
+      return new Promise((resolve, reject) => {
+          try {
+            // Load the content
+            const config = fs.readFileSync(file, 'utf8')
+            resolve(path.basename(filepath).toLowerCase() === '.json' ? JSON.parse(config) : config)
+          } catch(e) {
+            reject(e)
+          }
+      })
+    }
+}
+
+_.ERRORS = {
+    FILE_NOT_FOUND: (name) => name ? `The ${name} file is missing` : `The file is missing`
 }
 
 _.MANIFEST_FILENAME = ".carmel.json"
+
 _.DEFAULT_MANIFEST = () => ({
     type: "carmel",
     description: "This is a Carmel Workspace",
