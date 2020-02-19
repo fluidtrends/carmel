@@ -62,13 +62,58 @@ class _ {
             resolve()
         })
     }
+
+    loadFile (filepath) {
+      const file = path.resolve(this.dir, filepath)
+
+      if (!fs.existsSync(file)) {
+        // We can't continue without this file
+        return Promise.reject(new Error(_.ERRORS.FILE_NOT_FOUND(filepath)))
+      }
+    
+      return new Promise((resolve, reject) => {
+          try {
+            // Load the content
+            const data = fs.readFileSync(file, 'utf8')
+
+            resolve(path.extname(filepath).toLowerCase() === '.json' ? JSON.parse(data) : data)
+          } catch(e) {
+            reject(e)
+          }
+      })
+    }
+
+    findDirs(dirpath) {
+        // This is where we want to look
+        const dir = path.resolve(this.dir, dirpath)
+
+        if (!fs.existsSync(dir)) {
+          // We can't continue without the dir
+          return Promise.reject(new Error(_.ERRORS.DIR_NOT_FOUND(dirpath)))
+        }
+
+        return new Promise((resolve, reject) => {
+            // Let's see what we've got
+            const dirs = fs.readdirSync(dirpath).filter(d => (d && !_.IGNORE_DIRS.includes(d)))
+
+            resolve(dirs)
+        })
+    }
+}
+
+_.ERRORS = {
+    FILE_NOT_FOUND: (name) => name ? `The ${name} file is missing` : `The file is missing`,
+    DIR_NOT_FOUND: (name) => name ? `The ${name} directory is missing` : `The directory is missing`
 }
 
 _.MANIFEST_FILENAME = ".carmel.json"
+
 _.DEFAULT_MANIFEST = () => ({
     type: "carmel",
     description: "This is a Carmel Workspace",
     context: {}
 })
+
+_.IGNORE_DIRS = [".DS_Store"]
 
 module.exports = _
