@@ -26,7 +26,7 @@ class _ extends Command {
   exec(session) {
     return super.initialize(session)
                 .then(() => this.loadStarterScript())
-                .then((starter) => starter(Object.assign({}, { dir: process.cwd() }, this.execArgs))
+                .then((starter) => starter(Object.assign({}, { dir: process.cwd() }, this.execArgs)))
   }
 }
 

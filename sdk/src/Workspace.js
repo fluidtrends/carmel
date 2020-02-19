@@ -74,8 +74,9 @@ class _ {
       return new Promise((resolve, reject) => {
           try {
             // Load the content
-            const config = fs.readFileSync(file, 'utf8')
-            resolve(path.basename(filepath).toLowerCase() === '.json' ? JSON.parse(config) : config)
+            const data = fs.readFileSync(file, 'utf8')
+
+            resolve(path.extname(filepath).toLowerCase() === '.json' ? JSON.parse(data) : data)
           } catch(e) {
             reject(e)
           }
