@@ -63,8 +63,6 @@ class _ extends Command {
 
     // Initialize the workspace
     return session.workspace.create()
-             .then(() => session.index.installArchive(this.archive))
-             .then((archive) => archive.save(session.workspace.dir, args))
   }
 }
 
