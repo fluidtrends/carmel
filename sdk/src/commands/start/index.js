@@ -11,7 +11,6 @@ class _ extends Command {
 
   get id() { return _.ID }
   get title() { return _.TITLE }
-  get execArgs() { return this.args.exec}
 
   loadStarterScript() {
     return new Promise((resolve, reject) => {
@@ -28,7 +27,6 @@ class _ extends Command {
   exec(session) {
     return super.initialize(session)
                 .then(() => this.loadStarterScript())
-                .then((starter) => starter(Object.assign({}, { dir: process.cwd() }, this.execArgs)))
   }
 }
 
