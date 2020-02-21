@@ -25,7 +25,7 @@ class _ extends Command {
 
     const source = url.protocol.slice(0, -1).toLowerCase() || 'npm'
     const version = url.hash.substring(1) || null
-    const path = url.pathname
+    const path = url.pathname.substring(1)
       
     var id = url.host || _.DEFAULT_ARCHIVE_ID
 
