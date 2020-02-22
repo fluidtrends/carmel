@@ -67,6 +67,7 @@ exclude_paths:
 - lib/**/*
 - docs/**/*
 - blockchain/test/**/*
+- blockchain/eos/**/*
 - cli/test/**/*
 - cloud/test/**/*
 - desktop/test/**/*

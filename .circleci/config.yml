@@ -31,7 +31,7 @@ jobs:
           name: Install web dependencies
           command: cd sdk && npm install
       - run:
-          name: Run web tests
+          name: Run sdk tests
           command: | 
             cd sdk
             npm run coverage

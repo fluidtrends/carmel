@@ -3,7 +3,7 @@ const Commander = require('./Commander')
 
 class _ {
     constructor(props) {
-        this._props = Object.assign({}, props)
+        this._props = Object.assign({}, { session: { name: "carmel" }}, props)
     }
 
     get props() {
@@ -18,6 +18,10 @@ class _ {
         return this._command
     }
 
+    findCommand(id) {
+        return require(`./commands/${id}`)
+    }
+
     loadCommand() {
         if (!this.props || !this.props.command) {
             return Promise.reject(new Error(_.ERRORS.CANNOT_LOAD('the command is missing')))
@@ -25,7 +29,7 @@ class _ {
 
         return new Promise((resolve, reject) => {
             try {
-                const Command = require(`./commands/${this.props.command.id}`)
+                const Command = this.findCommand(this.props.command.id)
                 this._command = new Command(this.props.command.args)
                 resolve(this.command)
             } catch (e) {
@@ -35,11 +39,7 @@ class _ {
     }
 
     load() {
-        if (!this.props || !this.props.session || !this.props.session.id) {
-            return Promise.reject(new Error(_.ERRORS.CANNOT_LOAD('the session is missing')))
-        }
-
-        this._session = new Session({ name: this.props.session.id })
+        this._session = new Session(this.props.session)
         return this.loadCommand().then(() => this.session.initialize())
     }
  
