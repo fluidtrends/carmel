@@ -1,7 +1,7 @@
 {
   "name": "@carmel/desktop",
-  "version": "1.0.1",
-  "description": "The Carmel Desktop",
+  "version": "1.1.0",
+  "description": "The Carmel Studio",
   "scripts": {
     "test": "savor test",
     "coverage": "savor coverage"
@@ -11,7 +11,9 @@
     "url": "git+https://github.com/fluidtrends/carmel.git"
   },
   "homepage": "http://www.carmel.io",
-  "dependencies": {},
+  "dependencies": {
+    "react-electron-chunky": "^1.0.0"
+  },
   "devDependencies": {
     "savor": "^1.1.2"
   }
