@@ -2,7 +2,7 @@
   "name": "@carmel/platform",
   "version": "1.2.0",
   "description": "The Carmel Platform",
-  "main": ".webpack/main",
+  "main": "./node_modules/react-electron-chunky/app/main",
   "scripts": {
     "start": "node node_modules/react-electron-chunky/bin/start",
     "test": "react-savor test",
@@ -14,7 +14,7 @@
   },
   "homepage": "http://www.carmel.io",
   "config": {
-    "forge": "./desktop.config.js"
+    "forge": "./node_modules/react-electron-chunky/app/config.js"
   },
   "dependencies": {
     "react-electron-chunky": "^1.1.3"
