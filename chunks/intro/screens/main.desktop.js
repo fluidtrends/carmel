@@ -1,5 +1,5 @@
 import React from 'react'
-import { Screen } from 'react-dom-chunky'
+import { Screen } from 'react-electron-chunky'
 
 export default class MainScreen extends Screen {
   constructor(props) {

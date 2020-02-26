@@ -6,7 +6,7 @@ class _ {
         this._args = Object.assign({}, args)
     }
 
-        // TO BE IMPLEMENTED BY CHILDREN
+    // TO BE IMPLEMENTED BY CHILDREN
     get requiredArgs() { return [] }
     get title() { return _.TITLE }
     get id() { return _.ID }
@@ -36,8 +36,12 @@ class _ {
         return Promise.resolve()
     }
 
+    get target () { 
+        this._target 
+    }
+
     get context() {
-        return this._context
+        return this.target ? this._context[this.target] : this._context
     }
 
     get session() {
@@ -68,5 +72,6 @@ _.ERRORS = {
 _.TITLE = 'command'
 _.ID = '_'
 _.REQUIRES_CONTEXT = true 
+_.TARGETS = { WEB: "web", DESKTOP: "desktop", MOBILE: "mobile", CLOUD: "cloud" }
 
 module.exports = _

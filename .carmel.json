@@ -1,0 +1,12 @@
+{
+    "context": {
+        "start": {
+            "web": {
+                "script": "react-dom-chunky/bin/start.js"
+            },
+            "desktop": {
+                "script": "react-electron-chunky/bin/start.js"
+            }
+        }
+    }
+}
