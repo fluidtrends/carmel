@@ -1,0 +1,21 @@
+{
+  "name": "@carmel/desktop",
+  "version": "1.1.1",
+  "description": "The Carmel Studio",
+  "scripts": {
+    "test": "react-savor test",
+    "coverage": "react-savor coverage"
+  },
+  "author": "I. Dan Calinescu <idancalinescu@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fluidtrends/carmel.git"
+  },
+  "homepage": "http://www.carmel.io",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "react-savor": "^1.1.3"
+  }
+}
