@@ -17,7 +17,7 @@
     "forge": "./node_modules/react-electron-chunky/app/config.js"
   },
   "dependencies": {
-    "react-electron-chunky": "^1.1.5"
+    "react-electron-chunky": "^1.2.1"
   },
   "devDependencies": {
     "electron": "^6.0.11",
