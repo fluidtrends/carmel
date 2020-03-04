@@ -34,17 +34,4 @@ add('should not run without a workspace', (context, done) => {
   })
 }).
 
-// add('should run without a valid workspace', (context, done) => {
-//   const cmd = new Command({ env: { homeDir: context.dir }})
-//   const session = new Session({ dir: context.dir })
-
-//   savor.promiseShouldSucceed(
-//       session.initialize()
-//              .then(() => session.workspace.create())
-//              .then(() => Commander.run(cmd, session)), done, () => {
-//                 context.expect(cmd.context).to.not.exist
-//                 context.expect(cmd.session).to.exist
-//       })
-// }).
-
 run('[Carmel SDK] Command')
