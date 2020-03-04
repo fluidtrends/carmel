@@ -56,14 +56,12 @@ add('should create a new workspace', (context, done) => {
 
     const stub = context.stub(Archive.prototype, 'save').callsFake(() => Promise.resolve({ }))
     const stub2 = context.stub(Archive.prototype, 'download').callsFake(() => Promise.resolve({ version: "1" }))
-    const stub3 = context.stub(fs, "existsSync").callsFake(() => false)
     const session = new Session({ test: "test1234", dir: context.dir, sections: [{ id: "archives" }] })
 
     savor.promiseShouldSucceed(session.initialize().then(() => Commander.run(cmd, session)), done, () => {
       context.expect(cmd.title).to.equal('Creating a new workspace')
       stub.restore()
       stub2.restore()
-      stub3.restore()
   })
 }).
 
