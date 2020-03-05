@@ -20,10 +20,17 @@ class _ {
         return this._workspace
     }
 
+    downloadCommonDeps() {
+        return this.index.installArchive({ id: "papanache" })
+    }
+    
     initialize () {
         // Initialize the index first of all
         return this.index.initialize()
-            
+
+                // Make sure the local common deps are available
+                .then(() => this.downloadCommonDeps())
+
                 // Then let's make sure the workspace is also initialized
                 .then(() => this.workspace.initialize())
     }

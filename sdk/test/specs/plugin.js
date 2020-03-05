@@ -2,6 +2,7 @@
 
 const savor = require('savor')
 const { Plugin, Commander } = require('../..')
+const { Archive } = require('rara')
 const fs = require('fs-extra')
 const path = require('path')
 
@@ -24,20 +25,25 @@ add('should not run without a command', (context, done) => {
 }).
 
 add('should catch a failed command execution', (context, done) => {
+  const stub = context.stub(Archive.prototype, 'download').callsFake(() => Promise.resolve({ version: "1" }))
   const plugin = new Plugin({ session: { name: "test" }, command: { id: "init" }})
 
   savor.promiseShouldFail(plugin.run(), done, (error) => {
     context.expect(error.message).to.equal(Commander.ERRORS.MISSING_ARG('name'))
+    stub.restore()
   })
 }).
 
 add('should run a command', (context, done) => {
+  const stub = context.stub(Archive.prototype, 'download').callsFake(() => Promise.resolve({ version: "1" }))
+
   const plugin = new Plugin({ session: { id: "test" }, command: { id: "init", args: {
     name: "test",
     template: "test"
   }}})
 
   savor.promiseShouldSucceed(plugin.run(), done, (data) => {
+    stub.restore()
   })
 }).
 
