@@ -12,13 +12,15 @@ class _ extends Command {
   get id() { return _.ID }
   get title() { return _.TITLE }
 
-  loadStarterScript() {
+  loadStarterScript(session) {
     return new Promise((resolve, reject) => {
       try {
         // Let's find the starter script as specified by the context
-        const starter = require(path.resolve(process.cwd(), this.context.script))
+        const starter = require(path.resolve(this.context.script))
         resolve(starter)
       } catch (e) {
+        console.log(e)
+        
         reject(new Error(_.ERRORS.COULD_NOT_EXECUTE('the starter script could not be loaded')))
       }
     })
@@ -26,7 +28,7 @@ class _ extends Command {
 
   exec(session) {
     return super.initialize(session)
-                .then(() => this.loadStarterScript())
+                .then(() => this.loadStarterScript(session))
   }
 }
 
