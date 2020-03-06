@@ -22,6 +22,7 @@ class _ {
 
     downloadCommonDeps() {
         return this.index.installArchive({ id: "papanache" })
+                         .then((archive) => archive.installDependencies())
     }
     
     initialize () {
