@@ -3,6 +3,8 @@ const path = require('path')
 const fs = require('fs-extra')
 const pm2 = require('pm2')
 const uuid = require('uuid')
+const npm = require("npm")
+const libnpm = require('libnpm')
 
 class _ extends Command {
   constructor(args) {
@@ -12,8 +14,25 @@ class _ extends Command {
   get id() { return _.ID }
   get title() { return _.TITLE }
 
+  findDefaultStarterScript(session) {
+    return session.index.sections.archives.findArchive({ id: "papanache", version: "1.1.0" })
+  }
+
+  getDefaultStarterScript(archive) {   
+    return new Promise((resolve, reject) => {
+      try {
+        // Let's find the starter script as specified by the context
+        const starter = require(path.resolve(archive.path, 'src', this.target, 'start.js'))
+        resolve(starter)
+      } catch (e) {
+        reject(new Error(_.ERRORS.COULD_NOT_EXECUTE('the starter script could not be loaded')))
+      }
+    })
+  }
+
   loadDefaultStarterScript(session) {
-      
+    return this.findDefaultStarterScript(session)
+               .then((archive) => this.getDefaultStarterScript(archive))
   }
 
   loadCustomStarterScript(session) {

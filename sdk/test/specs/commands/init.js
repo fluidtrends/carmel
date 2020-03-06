@@ -4,6 +4,7 @@ const savor = require('savor')
 const { Commander, Commands, Session } = require('../../..')
 const fs = require('fs-extra')
 const { Archive } = require('rara')
+const { Index } = require('dodi')
 
 savor.
 
@@ -58,10 +59,13 @@ add('should create a new workspace', (context, done) => {
     const stub2 = context.stub(Archive.prototype, 'download').callsFake(() => Promise.resolve({ version: "1" }))
     const session = new Session({ test: "test1234", dir: context.dir, sections: [{ id: "archives" }] })
 
+    const stub3 = context.stub(Index.prototype, 'installArchive').callsFake(() => Promise.resolve({ installDependencies: () => ({}) }))
+  
     savor.promiseShouldSucceed(session.initialize().then(() => Commander.run(cmd, session)), done, () => {
       context.expect(cmd.title).to.equal('Creating a new workspace')
       stub.restore()
       stub2.restore()
+      stub3.restore()
   })
 }).
 
@@ -135,10 +139,12 @@ add('should install an archive in an index section', (context, done) => {
 
     savor.addAsset("assets/test-archive", "archives/test-archive/1", context)
     const session = new Session({ test: "test1234", dir: context.dir })
+    const stub3 = context.stub(Index.prototype, 'installArchive').callsFake(() => Promise.resolve({ installDependencies: () => ({}) }))
     
     savor.promiseShouldSucceed(session.initialize().then(() => Commander.run(cmd, session)), done, (result) => {
       stub.restore()
       stub2.restore()
+      stub3.restore()
     })
 }).
 
