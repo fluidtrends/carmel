@@ -21,7 +21,7 @@ class _ {
     }
 
     set(key, val) {
-       return this.index.sections.main.vault.write(key, value)
+       return this.index.sections.main.vault.write(key, val)
     }
 
     get(key) {
