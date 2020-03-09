@@ -20,9 +20,20 @@ class _ {
         return this._workspace
     }
 
+    set(key, val) {
+       return this.index.sections.main.vault.write(key, value)
+    }
+
+    get(key) {
+       return this.index.sections.main.vault.read(key)
+    }
+
     downloadCommonDeps() {
         return this.index.installArchive({ id: "papanache" })
-                         .then((archive) => archive.installDependencies())
+                         .then((archive) => {
+                             archive.installDependencies()
+                             this.set("papanacheVersion", archive.version)
+                         })
     }
     
     initialize () {
