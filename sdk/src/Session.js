@@ -31,8 +31,8 @@ class _ {
     downloadCommonDeps() {
         return this.index.installArchive({ id: "papanache" })
                          .then((archive) => {
-                             archive.installDependencies()
-                             this.set("papanacheVersion", archive.version)
+                            this.set("papanacheVersion", archive.version)
+                            return archive.installDependencies()
                          })
     }
     
