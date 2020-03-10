@@ -29,7 +29,7 @@ class _ {
     }
 
     downloadCommonDeps() {
-        return this.index.installArchive({ id: "papanache" })
+        return this.index.installArchive({ id: "papanache", silent: true })
                          .then((archive) => {
                             this.set("papanacheVersion", archive.version)
                             return archive.installDependencies()
