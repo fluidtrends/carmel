@@ -94,7 +94,7 @@ class _ {
 
         return new Promise((resolve, reject) => {
             // Let's see what we've got
-            const dirs = fs.readdirSync(dirpath).filter(d => (d && path.extname(d).length === 0 && !_.IGNORE_DIRS.includes(d)))
+            const dirs = fs.readdirSync(dir).filter(d => (d && path.extname(d).length === 0 && !_.IGNORE_DIRS.includes(d)))
 
             resolve(dirs)
         })
