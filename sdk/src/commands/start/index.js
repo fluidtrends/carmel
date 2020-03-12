@@ -11,7 +11,7 @@ class _ extends Command {
     super(args)
   }
 
-  get id() { return _.ID }
+  get id() { return _.ID }s
   get title() { return _.TITLE }
 
   findDefaultStarterScript(session) {
@@ -26,7 +26,6 @@ class _ extends Command {
         const starter = require(path.resolve(archive.path, 'src', this.target, 'start.js'))
         resolve(starter)
       } catch (e) {
-        console.log(e)
         reject(new Error(_.ERRORS.COULD_NOT_EXECUTE('the starter script could not be loaded')))
       }
     })
