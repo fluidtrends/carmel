@@ -11,7 +11,7 @@ class _ extends Command {
     super(args)
   }
 
-  get id() { return _.ID }s
+  get id() { return _.ID } 
   get title() { return _.TITLE }
 
   findDefaultStarterScript(session) {
