@@ -34,6 +34,11 @@ class _ {
                             this.set("papanacheVersion", archive.version)
                             return archive.installDependencies()
                          })
+                         .then(() => this.index.installArchive({ id: "@fluidtrends/bananas", silent: true }))
+                         .then((archive) => {
+                            this.set("bananasVersion", archive.version)
+                            return archive.installDependencies()
+                         })
     }
     
     initialize () {
