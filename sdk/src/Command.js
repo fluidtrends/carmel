@@ -14,6 +14,32 @@ class _ {
 
     exec(session) { return this.initialize(session) }
 
+    loadScript(paths = [this.context.script]) {   
+        return new Promise((resolve, reject) => {
+          try {
+            // Let's find the script as specified by the context
+            const starter = require(path.resolve(...paths))
+            resolve(starter)
+          } catch (e) {
+            reject(new Error(_.ERRORS.COULD_NOT_EXECUTE('the script could not be loaded')))
+          }
+        })
+    }
+
+    findDefaultArchive(session) {
+        const version = session.get("papanacheVersion")
+        return session.index.sections.archives.findArchive({ id: "papanache", version })
+    }
+    
+    loadDefaultScript(session, type) {
+        return this.findDefaultArchive(session)
+                   .then((archive) => this.loadScript([archive.path, 'src', this.target, `${type}.js`]))
+    }
+
+    startScript(session, type) {
+        return (this.context.script === _.DEFAULT_SCRIPT) ? this.loadDefaultScript(session, type) : this.loadScript()
+    }
+
     initialize(session) {
         this._session = session
 
@@ -73,5 +99,6 @@ _.TITLE = 'command'
 _.ID = '_'
 _.REQUIRES_CONTEXT = true 
 _.TARGETS = { WEB: "web", DESKTOP: "desktop", MOBILE: "mobile", CLOUD: "cloud" }
+_.DEFAULT_SCRIPT = 'default'
 
 module.exports = _
