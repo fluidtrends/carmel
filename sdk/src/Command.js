@@ -18,9 +18,11 @@ class _ {
         return new Promise((resolve, reject) => {
           try {
             // Let's find the script as specified by the context
+            // console.log(p /daths)
             const starter = require(path.resolve(...paths))
             resolve(starter)
           } catch (e) {
+              console.log(e)
             reject(new Error(_.ERRORS.COULD_NOT_EXECUTE('the script could not be loaded')))
           }
         })
@@ -37,6 +39,7 @@ class _ {
     }
 
     startScript(session, type) {
+        console.log(this.context.script)
         return (this.context.script === _.DEFAULT_SCRIPT) ? this.loadDefaultScript(session, type) : this.loadScript()
     }
 
