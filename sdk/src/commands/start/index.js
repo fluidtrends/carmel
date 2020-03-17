@@ -11,7 +11,7 @@ class _ extends Command {
 
   exec(session) {
     return super.initialize(session)
-                .then(() => this.loadScript(session, _.ID))
+                .then(() => this.startScript(session, _.ID))
   }
 }
 
