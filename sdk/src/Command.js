@@ -39,7 +39,6 @@ class _ {
     }
 
     startScript(session, type) {
-        console.log(this.context.script)
         return (this.context.script === _.DEFAULT_SCRIPT) ? this.loadDefaultScript(session, type) : this.loadScript()
     }
 
