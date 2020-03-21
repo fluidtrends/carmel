@@ -29,6 +29,7 @@ class _ {
     }
 
     downloadCommonDeps() {
+        console.log("[carmel] updating dependencies ...")
         return this.index.installArchive({ id: "papanache", silent: true })
                          .then((archive) => {
                             this.set("papanacheVersion", archive.version)

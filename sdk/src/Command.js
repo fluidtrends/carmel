@@ -18,11 +18,9 @@ class _ {
         return new Promise((resolve, reject) => {
           try {
             // Let's find the script as specified by the context
-            // console.log(p /daths)
             const starter = require(path.resolve(...paths))
             resolve(starter)
           } catch (e) {
-              console.log(e)
             reject(new Error(_.ERRORS.COULD_NOT_EXECUTE('the script could not be loaded')))
           }
         })
@@ -35,7 +33,7 @@ class _ {
     
     loadDefaultScript(session, type) {
         return this.findDefaultArchive(session)
-                   .then((archive) => this.loadScript([archive.path, 'src', this.target, `${type}.js`]))
+                   .then((archive) => this.loadScript([archive.path, 'src', this.target, 'commands', `${type}.js`]))
     }
 
     startScript(session, type) {
