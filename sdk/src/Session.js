@@ -57,8 +57,8 @@ class _ {
 _.DEFAULT_SECTIONS = [
     { id: "main" }, 
     { id: "events" }, 
-    { id: "cloud" },
-    { id: "chain" },
+    { id: "store" },
+    { id: "products" },
     { id: "archives" }
 ]
 
