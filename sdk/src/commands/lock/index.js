@@ -16,9 +16,11 @@ class _ extends Command {
       return Promise.reject(new Error(_.ERRORS.COULD_NOT_EXECUTE('the session is missing')))
     }
 
-    return new Promise((resolve, reject) => {
-        resolve()
-    })
+    if (session.index.sections.store.vault.isLocked) {
+      return Promise.reject(new Error(_.ERRORS.COULD_NOT_EXECUTE('the store is already locked')))
+    }
+
+    return session.index.sections.store.vault.lock("test")
   }
 }
 

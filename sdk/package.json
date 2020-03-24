@@ -1,6 +1,6 @@
 {
   "name": "@carmel/sdk",
-  "version": "1.6.6",
+  "version": "1.6.7",
   "description": "The Carmel SDK",
   "scripts": {
     "test": "savor test",
