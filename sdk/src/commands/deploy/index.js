@@ -9,13 +9,19 @@ class _ extends Command {
   get id() { return _.ID } 
   get title() { return _.TITLE }
 
+  upload(session) {
+    return new Promise((resolve, reject) => {
+      resolve()
+    })
+  }
+
   exec(session) {
     return super.initialize(session)
-                .then(() => this.startScript(session, _.ID))
+                .then(() => this.upload(session))
   }
-} 
+}
 
-_.TITLE = "Previewing"
-_.ID = 'preview'
+_.TITLE = "Deploying"
+_.ID = 'deploy'
 
 module.exports = _
