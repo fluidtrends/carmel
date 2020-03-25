@@ -1,6 +1,4 @@
 const Command = require('../../Command')
-const parse = require('url-parse')
-const keytar = require('keytar')
 
 class _ extends Command {
   constructor(args) {
@@ -20,7 +18,11 @@ class _ extends Command {
       return Promise.reject(new Error(_.ERRORS.COULD_NOT_EXECUTE('the store is already locked')))
     }
 
-    return session.index.sections.store.vault.lock("test")
+    if (!this.args.password) {
+      return Promise.reject(new Error(_.ERRORS.COULD_NOT_EXECUTE('the password is missing')))
+    }
+
+    return session.index.sections.store.vault.lock(this.args.password)
   }
 }
 

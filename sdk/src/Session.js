@@ -30,16 +30,17 @@ class _ {
 
     downloadCommonDeps() {
         console.log("[carmel] updating dependencies ...")
-        return this.index.installArchive({ id: "papanache", silent: true })
-                         .then((archive) => {
-                            this.set("papanacheVersion", archive.version)
-                            return archive.installDependencies()
-                         })
-                         .then(() => this.index.installArchive({ id: "@fluidtrends/bananas", silent: true }))
-                         .then((archive) => {
-                            this.set("bananasVersion", archive.version)
-                            return archive.installDependencies()
-                         })
+        // return this.index.installArchive({ id: "papanache", silent: true })
+        //                  .then((archive) => {
+        //                     this.set("papanacheVersion", archive.version)
+        //                     return archive.installDependencies()
+        //                  })
+        //                  .then(() => this.index.installArchive({ id: "@fluidtrends/bananas", silent: true }))
+        //                  .then((archive) => {
+        //                     this.set("bananasVersion", archive.version)
+        //                     return archive.installDependencies()
+        //                  })
+        return Promise.resolve()
     }
     
     initialize () {
