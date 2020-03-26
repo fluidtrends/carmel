@@ -7,7 +7,7 @@ class _ {
         this._props = Object.assign({}, props)
         this._logger = new Logger(this.props)
         this._workspace = new Workspace(this.props, this)
-        this._index = new Index(Object.assign({}, { sections: _.DEFAULT_SECTIONS }, this.props), this.logger)
+        this._index = new Index(Object.assign({}, { sections: _.DEFAULT_SECTIONS }, this.props, { name: 'carmel' }), this.logger)
     }
 
     get props() {
@@ -57,14 +57,22 @@ class _ {
     }
     
     initialize (command) {
-        // Initialize the index first of all
-        return this.index.initialize()
+        // Let's setup the logger
+        return this.logger.start(command && command.title)
+
+                // Initialize the index first of all
+                .then(() => this.index.initialize())
 
                 // Make sure the local common deps are available
                 .then(() => this.updateIndex(command && command.requiresFreshSession))
 
                 // Then let's make sure the workspace is also initialized
                 .then(() => this.workspace.initialize())
+    }
+
+    close() {
+        // Close this session
+        return this.logger.stop()
     }
 }
 

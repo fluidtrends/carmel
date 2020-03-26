@@ -3,7 +3,8 @@ const Commander = require('./Commander')
 
 class _ {
     constructor(props) {
-        this._props = Object.assign({}, { session: { name: "carmel" }}, props)
+        this._props = Object.assign({}, props)
+        this._props.session = Object.assign({}, { name: "carmel" }, props.session)
     }
 
     get props() {
