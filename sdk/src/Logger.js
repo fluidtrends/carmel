@@ -1,7 +1,14 @@
+const Ora = require('ora')
+const chalk = require('chalk')
+
 class _ {
     constructor(props) {
         this._props = Object.assign({}, { name: "carmel" }, props)
         this._events = []
+    }
+
+    get console() {
+        return this._console
     }
 
     get props() {
@@ -16,14 +23,55 @@ class _ {
         return this.props.name
     }
 
+    start(message) {
+        return new Promise((resolve) => {
+            if (!this.props.console) {
+                resolve()
+                return 
+            }
+
+            this._console = new Ora({ text: chalk[_.TYPE_FLAGS[_.TYPE_SYSTEM]](message || ''), spinner: 'dots', color: 'yellow', stream: process.stdout })
+            this.console.start()
+            resolve()
+        })
+    }
+
+    stop() {
+        return new Promise((resolve) => {
+            if (!this.console) {
+                resolve()
+                return 
+            }
+
+            this.console.stop()
+            resolve()
+        })
+    }
+
+    done(message) {
+        this.info(message)
+        this.console.succeed()
+    }
+
     logEvent(event) {
         const type = event.type || _.TYPE_SYSTEM
-        const message = event.message || ""
+        const message = `[${this.name}] ${event.message || ""}`
 
         this.events.push(Object.assign({}, {
             timestamp: `${Date.now()}`,
-            type
-        }, { message: `[${this.name} ${type}] ${message}`}, event))
+            type, message
+        }, event))
+
+        if (!this.console) {
+            return 
+        }
+
+        if (_.TYPE_ERROR === type) {
+            this.console.fail(`${chalk[_.TYPE_FLAGS[type]](message)}`)
+            return
+        }
+
+        this.console.text = `${chalk[_.TYPE_FLAGS[type]](message)}`
     }
 
     system(message) {
@@ -35,7 +83,7 @@ class _ {
     }
 
     info (message) {
-        this.logEvent({ message, type: _.TYPE_SYSTEM })
+        this.logEvent({ message, type: _.TYPE_INFO })
     }
 }
 
@@ -43,10 +91,10 @@ _.TYPE_ERROR = 'error'
 _.TYPE_INFO = 'info'
 _.TYPE_SYSTEM = 'system'
 
-_.TYPES = { 
-    [_.TYPE_ERROR]: _.TYPE_ERROR, 
-    [_.TYPE_INFO]: _.TYPE_INFO,
-    [_.TYPE_SYSTEM]: _.TYPE_SYSTEM 
+_.TYPE_FLAGS = { 
+    [_.TYPE_ERROR]: 'red', 
+    [_.TYPE_INFO]: 'green',
+    [_.TYPE_SYSTEM]: 'bold' 
 }
 
 module.exports = _

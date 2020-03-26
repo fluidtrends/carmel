@@ -93,7 +93,7 @@ class _ {
 _.ERRORS = {
     DOES_NOT_EXIST: (name) => name ? `The ${name} does not exist` : `Does not exist`,
     ALREADY_EXISTS: (name) => name ? `The ${name} already exists` : `Already exists`,
-    COULD_NOT_EXECUTE: (reason) => reason ? `Could not execute command because ${reason}`: `Could not execute command`
+    COULD_NOT_EXECUTE: (reason) => reason ? `${reason}`: `Could not execute command`
 }
 
 _.TITLE = 'command'

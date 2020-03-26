@@ -22,7 +22,7 @@ class _ extends Command {
       return Promise.reject(new Error(_.ERRORS.COULD_NOT_EXECUTE('the password is missing')))
     }
 
-    return session.index.sections.store.vault.unlock(this.args.password)  
+    return session.index.sections.store.vault.unlock(this.args.password)
   }
 }
 
