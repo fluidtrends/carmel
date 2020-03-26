@@ -8,6 +8,7 @@ class _ extends Command {
 
   get id() { return _.ID } 
   get title() { return _.TITLE }
+  get requiresFreshSession() { return true }
 
   exec(session) {
     return super.initialize(session)

@@ -1,15 +1,21 @@
 const { Index } = require('dodi')
 const Workspace = require('./Workspace')
+const Logger = require('./Logger')
 
 class _ {
     constructor(props) {
         this._props = Object.assign({}, props)
-        this._workspace = new Workspace(this.props)
-        this._index = new Index(Object.assign({}, { sections: _.DEFAULT_SECTIONS }, this.props))
+        this._logger = new Logger(this.props)
+        this._workspace = new Workspace(this.props, this)
+        this._index = new Index(Object.assign({}, { sections: _.DEFAULT_SECTIONS }, this.props), this.logger)
     }
 
     get props() {
         return this._props
+    }
+
+    get logger() {
+        return this._logger
     }
 
     get index() {
@@ -28,8 +34,13 @@ class _ {
        return this.index.sections.main.vault.read(key)
     }
 
-    downloadCommonDeps() {
-        console.log("[carmel] preparing session ...")
+    updateIndex(refresh) {
+        if (!refresh) {
+            return Promise.resolve()
+        }
+
+        this.logger.info('updating')
+ 
         return this.index.installArchive({ id: "papanache", silent: true })
                          .then((archive) => {
                             this.set("papanacheVersion", archive.version)
@@ -40,14 +51,17 @@ class _ {
                             this.set("bananasVersion", archive.version)
                             return archive.installDependencies()
                          })
+                         .then(() => {
+                            this.logger.info('all up to date')
+                         })
     }
     
-    initialize () {
+    initialize (command) {
         // Initialize the index first of all
         return this.index.initialize()
 
                 // Make sure the local common deps are available
-                .then(() => this.downloadCommonDeps())
+                .then(() => this.updateIndex(command && command.requiresFreshSession))
 
                 // Then let's make sure the workspace is also initialized
                 .then(() => this.workspace.initialize())

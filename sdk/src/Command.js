@@ -11,6 +11,7 @@ class _ {
     get title() { return _.TITLE }
     get id() { return _.ID }
     get requiresContext() { return _.REQUIRES_CONTEXT }
+    get requiresFreshSession() { return _.REQUIRES_FRESH_SESSION }
 
     exec(session) { return this.initialize(session) }
 
@@ -98,6 +99,7 @@ _.ERRORS = {
 _.TITLE = 'command'
 _.ID = '_'
 _.REQUIRES_CONTEXT = true 
+_.REQUIRES_FRESH_SESSION = false
 _.TARGETS = { WEB: "web", DESKTOP: "desktop", MOBILE: "mobile", CLOUD: "cloud" }
 _.DEFAULT_SCRIPT = 'default'
 

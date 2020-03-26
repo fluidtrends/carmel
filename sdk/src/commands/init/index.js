@@ -11,6 +11,7 @@ class _ extends Command {
   get requiresContext() { return _.REQUIRES_CONTEXT }
   get title() { return _.TITLE }
   get type () { return _.TYPE }
+  get requiresFreshSession() { return true }
 
   get archive() {
     return this._archive
