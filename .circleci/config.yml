@@ -28,6 +28,9 @@ jobs:
       - attach_workspace:
           at: ~/root/tmp
       - run:
+          name: Install libsecret
+          command: sudo apt-get install libsecret-1-dev
+      - run:
           name: Install web dependencies
           command: cd sdk && npm install
       - run:

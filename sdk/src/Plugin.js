@@ -40,14 +40,12 @@ class _ {
 
     load() {
         this._session = new Session(this.props.session)
-        return this.loadCommand().then(() => this.session.initialize())
+        return this.loadCommand().then(() => this.session.initialize(this.command))
     }
  
     run() {
-        return this.load()
-                    .then(() => Commander.run(this.command, this.session))
+        return this.load().then(() => Commander.run(this.command, this.session))
     }
-
 }
 
 _.ERRORS = {

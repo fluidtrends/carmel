@@ -3,13 +3,22 @@ const path = require('path')
 const merge = require('deepmerge')
 
 class _ {
-    constructor(props) {
+    constructor(props, session) {
+        this._session = session
         this._props = Object.assign({}, props)
         this._dir = this.props.cwd || process.cwd()
     }
 
     get props() {
         return this._props
+    }
+
+    get session() {
+        return this._session
+    }
+
+    get logger() {
+        return this.session.logger
     }
 
     get dir() {
