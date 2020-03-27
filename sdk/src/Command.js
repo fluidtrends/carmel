@@ -4,9 +4,11 @@ const fs = require('fs-extra')
 class _ {
     constructor(args) {
         this._args = Object.assign({}, args)
+        this._operation = this.args.operation
     }
 
     // TO BE IMPLEMENTED BY CHILDREN
+    get operation () { return this._operation }
     get requiredArgs() { return [] }
     get title() { return _.TITLE }
     get id() { return _.ID }
