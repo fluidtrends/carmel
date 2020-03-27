@@ -31,7 +31,7 @@ class _ {
         return new Promise((resolve, reject) => {
             try {
                 const Command = this.findCommand(this.props.command.id)
-                this._command = new Command(this.props.command.args)
+                this._command = new Command(this.props.command.args, this.props.command.subid)
                 resolve(this.command)
             } catch (e) {
                 reject(e)
