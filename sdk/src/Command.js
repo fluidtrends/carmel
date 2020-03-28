@@ -22,7 +22,7 @@ class _ {
           try {
             // Let's find the script as specified by the context
             const starter = require(path.resolve(...paths))
-            resolve(starter)
+            resolve({ exec: starter, props: { name: "app" }})
           } catch (e) {
             reject(new Error(_.ERRORS.COULD_NOT_EXECUTE('the script could not be loaded')))
           }

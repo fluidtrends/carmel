@@ -1,6 +1,6 @@
 {
   "name": "@carmel/sdk",
-  "version": "1.9.1",
+  "version": "1.9.2",
   "description": "The Carmel SDK",
   "scripts": {
     "test": "savor test",
@@ -16,6 +16,7 @@
   "dependencies": {
     "deepmerge": "^4.2.2",
     "dodi": "^1.9.0",
+    "awsome": "^1.1.0",
     "pm2": "^4.2.3",
     "url-parse": "^1.4.7"
   },
