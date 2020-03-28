@@ -12,19 +12,28 @@ class _ {
         return this._session
     }
 
-    exec() {
-        const missing = this.command.missingRequiredArgs
-        if (missing && missing.length > 0) {
-            // Make sure that the command has been given what it expects
-            return Promise.reject(new Error(_.ERRORS.MISSING_ARG(missing[0])))
-        }
-
+    run() {
         return this.command.exec(this.session)
+    }
+
+    verify() {
+        return new Promise((resolve, reject) => {
+            const missing = this.command.missingRequiredArgs
+
+            if (missing && missing.length > 0) {
+                // Make sure that the command has been given what it expects
+                reject(new Error(_.ERRORS.MISSING_ARG(missing[0])))
+                return
+            }
+            resolve()    
+        })
     }
 
     static run (command, session) {
         const _this = new _(command, session)
-        return _this.exec()
+        return _this.verify()
+                    .then(() => _this.session.initialize())
+                    .then(() => _this.run())
     }
 }
 
