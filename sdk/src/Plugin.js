@@ -39,19 +39,23 @@ class _ {
         })
     }
 
-    createSession(command) {
-        this._session = new Session(this.props.session)
+    createSession() {
+        this._session = new Session(this.props.session, this.command)
         return this.session.open(this.command)
     }
 
     run() {
+        return new Promise((resolve) => {
+         this.loadCommand()
+                .then(() => this.createSession())
+                .then(() => Commander.run(this.command, this.session))
+                .then(() => this.session.close())
+                .catch((e) => {
+                    this.session.logger.error(e)
+                    resolve()
+                })   
+        })
         
-        return this.loadCommand()
-                   .then(() => this.createSession())
-                   .then(() => Commander.run(this.command, this.session))
-                   .catch((e) => {
-                       this.session.logger.error(e)
-                   })
     }
 }
 
