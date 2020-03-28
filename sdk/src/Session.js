@@ -3,10 +3,11 @@ const Workspace = require('./Workspace')
 const Logger = require('./Logger')
 
 class _ {
-    constructor(props) {
+    constructor(props, command) {
         this._props = Object.assign({}, props)
+        this._command = command
         this._logger = new Logger(this.props)
-        this._workspace = new Workspace(this.props, this)
+        this._workspace = this.props.noWorkspace ? null : new Workspace(this.props, this)
         this._index = new Index(Object.assign({}, { sections: _.DEFAULT_SECTIONS }, this.props, { name: 'carmel' }), this.logger)
     }
 
@@ -26,6 +27,14 @@ class _ {
         return this._workspace
     }
 
+    get hasWorkspace() {
+        return !this.props.noWorkspace
+    }
+
+    get command() {
+        return this._command
+    }
+
     set(key, val) {
        return this.index.sections.main.vault.write(key, val)
     }
@@ -34,12 +43,8 @@ class _ {
        return this.index.sections.main.vault.read(key)
     }
 
-    updateIndex(refresh) {
-        if (!refresh) {
-            return Promise.resolve()
-        }
-
-        this.logger.info('updating')
+    updateIndex() {
+        this.logger.info('Making sure your development environment is up to date ...')
  
         return this.index.installArchive({ id: "papanache", silent: true })
                          .then((archive) => {
@@ -52,22 +57,24 @@ class _ {
                             return archive.installDependencies()
                          })
                          .then(() => {
-                            this.logger.info('all up to date')
+                            this.logger.info('Your development environment is all up to date')
                          })
     }
-    
-    initialize (command) {
-        // Let's setup the logger
-        return this.logger.start(command && command.title)
 
-                // Initialize the index first of all
-                .then(() => this.index.initialize())
+    open() {
+        // Let's setup the logger
+        return this.logger.start(this.command && this.command.title)
+    }
+    
+    initialize () {
+        // Initialize the index first of all
+        return  this.index.initialize()
 
                 // Make sure the local common deps are available
-                .then(() => this.updateIndex(command && command.requiresFreshSession))
+                .then(() => this.command && this.command.requiresFreshSession && this.updateIndex())
 
                 // Then let's make sure the workspace is also initialized
-                .then(() => this.workspace.initialize())
+                .then(() => this.hasWorkspace && this.workspace.initialize())
     }
 
     close() {
@@ -78,10 +85,10 @@ class _ {
 
 _.DEFAULT_SECTIONS = [
     { id: "main" }, 
+    { id: "safe", secure: true },
+    { id: "archives" },
     { id: "events" }, 
-    { id: "store" },
-    { id: "products" },
-    { id: "archives" }
+    { id: "products" }
 ]
 
 module.exports = _
