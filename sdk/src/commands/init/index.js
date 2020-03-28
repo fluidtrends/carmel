@@ -39,7 +39,7 @@ class _ extends Command {
       return
     }
 
-    this._archive = Object.assign({}, { source, id }, version && { version })
+    this._archive = Object.assign({}, { silent: true, source, id }, version && { version })
     this._template = Object.assign({}, { path })    
   }
 
@@ -58,9 +58,6 @@ class _ extends Command {
     if (!this.archive || !this.archive.id || !this.template || !this.template.path) {
       return Promise.reject(new Error(_.ERRORS.COULD_NOT_EXECUTE('the template is invalid')))
     }
-
-    // The dynamic args for templating
-    const args = {}
 
     // Initialize the workspace
     return session.workspace.create()
