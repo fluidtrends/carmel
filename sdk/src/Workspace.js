@@ -43,6 +43,12 @@ class _ {
         fs.writeFileSync(path.resolve(this.dir, _.MANIFEST_FILENAME), `${manifest}\n`, 'utf8')
     }
 
+    saveData(data) {
+        this._data = merge(Object.assign({}, this.data), data || {})
+        const manifest = JSON.stringify(this.data, null, 2)
+        fs.writeFileSync(path.resolve(this.dir, _.MANIFEST_FILENAME), `${manifest}\n`, 'utf8')
+    }
+
     reload() {
         if (!this.exists) {
             // Nothing to load yet
