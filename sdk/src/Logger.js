@@ -55,7 +55,7 @@ class _ {
 
     logEvent(event) {
         const type = event.type || _.TYPE_SYSTEM
-        const message = `[${this.name}] ${event.message || ""}`
+        const message = `${event.message || ""}`
 
         this.events.push(Object.assign({}, {
             timestamp: `${Date.now()}`,
