@@ -82,6 +82,12 @@ class _ extends Command {
     return Promise.resolve()
   }
 
+  setupDomainBucket(session, domain, bucket) {
+    return this.ensureDomainIsHosted(session, domain)
+               .then(() => this.ensureBucketExists(session, bucket))
+               .then(() => this.ensureBucketIsLinked(session, domain))
+  }
+
   prepareBucket(session) { 
     session.workspace.reload()
 
@@ -102,16 +108,22 @@ class _ extends Command {
 
     session.logger.info('Preparing for deployment ...')
 
-    return this.ensureDomainIsHosted(session, domain)
-               .then(() => this.ensureBucketExists(session, bucket))
-               .then(() => this.ensureBucketIsLinked(session, domain))
+    return this.setupDomainBucket(session, domain, bucket)  
+               .then(() => {
+                 if (!domainStats.subdomain) {
+                  const redirectBucket = new Bucket({ name: `www.${appDomain}`, site: { redirectTo: appDomain } })
+                  const redirectDomain = new Domain({ name:  `www.${appDomain}` })
+
+                  return this.ensureBucketExists(session, redirectBucket).then(() => this.ensureBucketIsLinked(session, redirectDomain))
+                 }
+               })
                .then(() => bucket)
   }
 
   upload(session, bucket) {
     session.logger.info('Uploading files to bucket ...')
 
-    return bucket.update()
+    // return bucket.update()
   }
 
   exec(session) {
