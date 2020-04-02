@@ -1,12 +1,26 @@
 {
     "context": {
-        "start": {
-            "web": {
-                "script": "./node_modules/react-dom-chunky/bin/start.js"
-            },
-            "desktop": {
-                "script": "./node_modules/react-electron-chunky/bin/start.js"
-            }
+      "start": {
+        "web": {
+          "script": "default"
         }
+      },
+      "make": {
+        "web": {
+          "script": "default"
+        }
+      },
+      "preview": {
+        "web": {
+          "script": "default"
+        }
+      },
+      "deploy": {
+        "web": {}
+      }
+    },
+    "web": {
+      "domain": "carmel.io"
     }
-}
+  }
+  
