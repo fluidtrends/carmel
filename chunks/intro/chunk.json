@@ -6,20 +6,20 @@
       "icon": "home",
       "path": "/",
       "cover": {
-        "image": "castle.r.jpg",
+        "image": "busy.r.png",
         "opacity": 0.5,
         "navigation": true,
-        "title": "Your Code Monkey Days Are Over",
-        "subtitle": "Unleash Your Developer Creativity And Build Great Software Products",
+        "title": "Level Up Your Tech Skills",
+        "subtitle": "Zero Experience Required.",
         "type": "default",
-        "primaryActionTitle": "Get to know Chunky",
-        "localLink": "/docs"
+        "primaryActionTitle": "Start Your Journey",
+        "localLink": "/"
       },
       "components": {
         "intro": {
           "source": "summary",
           "text": "local://intro",
-          "image": "logo.gif",
+          "image": "logo.png",
           "textColor": "#37474F"
         },
         "info": {

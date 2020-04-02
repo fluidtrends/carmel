@@ -4,7 +4,7 @@
   "env": "production",
   "id": "io.carmel",
   "androidSdkDir": "~/Library/Android/sdk",
-  "sections": {
+  "app": {
     "start": {
       "stack": [
         "intro"
@@ -21,8 +21,8 @@
     "platforms": ["darwin/x64"]
   },
   "theme": {
-    "logoImage": "carmel-logo-white.png",
-    "logoLightImage": "carmel-logo.png",
+    "logoImage": "logo-white.png",
+    "logoLightImage": "logo.png",
     "headerColor": "#FF5722",
     "textColor": "#546E7A",
     "linkColor": "#0288D1",
@@ -44,38 +44,26 @@
     "footerSocialIconsColorHover": "#0097A7",
     "notFoundPageText": "local://404"
   },
-  "styles": [
-    "https://fonts.googleapis.com/css?family=Roboto",
-    "https://fonts.googleapis.com/css?family=Montserrat:400,700",
-    "https://fonts.googleapis.com/icon?family=Material+Icons",
-    "https://cdnjs.cloudflare.com/ajax/libs/octicons/4.4.0/font/octicons.css",
-    "https://cdnjs.cloudflare.com/ajax/libs/antd/3.4.5/antd.min.css",
-    "https://cdn.jsdelivr.net/npm/material-components-web@0.43.1/dist/material-components-web.css",
-    "https://cdn.jsdelivr.net/npm/react-placeholder@3.0.1/lib/reactPlaceholder.css",
-    "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css",
-    "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css",
-    "https://cdnjs.cloudflare.com/ajax/libs/antd/3.4.5/antd.min.css",
-    "/assets/style.css"
-  ],
-  "scripts": [
-    "https://cdnjs.cloudflare.com/ajax/libs/react/16.7.0/umd/react.production.min.js",
-    "https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.7.0/umd/react-dom.production.min.js",
-    "https://cdnjs.cloudflare.com/ajax/libs/react-router/4.3.1/react-router.min.js",
-    "https://cdnjs.cloudflare.com/ajax/libs/react-router-dom/4.3.1/react-router-dom.min.js",
-    "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js",
-    "https://cdnjs.cloudflare.com/ajax/libs/markdown-it/8.3.1/markdown-it.min.js",
-    "https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/TweenMax.min.js",
-    "https://cdn.jsdelivr.net/npm/material-components-web@0.43.1/dist/material-components-web.min.js",
-    "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js",
-    "https://cdn.jsdelivr.net/npm/react-progressive-image@0.6.0/dist.min.js",
-    "https://cdnjs.cloudflare.com/ajax/libs/antd/3.4.5/antd.min.js"
-  ],
+  "styles": {
+    "web": [
+      "https://fonts.googleapis.com/css?family=Roboto",
+      "https://fonts.googleapis.com/css?family=Montserrat:400,700",
+      "https://fonts.googleapis.com/icon?family=Material+Icons",
+      "https://unpkg.com/material-components-web@5.1.0/dist/material-components-web.min.css",
+      "https://unpkg.com/antd@4.0.2/dist/antd.min.css"
+    ]
+  },
+  "scripts": {
+    "web": [
+      "https://unpkg.com/antd@4.0.2/dist/antd.js"
+    ]
+  },
   "info": {
-    "copyright": "© 2019",
+    "copyright": "© 2020",
     "title": "Carmel",
     "summary": "The Decentralized Tech Education Platform",
     "watermark": "Created with Chunky.",
-    "cover": "chris.r.png",
+    "cover": "busy.r.png",
     "analytics": {
       "type": "google",
       "key": "UA-99031266-1"

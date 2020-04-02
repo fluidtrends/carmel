@@ -8,6 +8,7 @@ build
 .gitignore
 \.vagrant
 \.idea/
+.app
 .assets
 screenshots
 .eosio
