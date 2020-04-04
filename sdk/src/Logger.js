@@ -30,8 +30,8 @@ class _ {
                 return 
             }
 
-            this._console = new Ora({ text: chalk[_.TYPE_FLAGS[_.TYPE_SYSTEM]](message || ''), spinner: 'dots', color: 'yellow', stream: process.stdout })
-            this.console.start()
+            // this._console = new Ora({ text: chalk[_.TYPE_FLAGS[_.TYPE_SYSTEM]](message || ''), spinner: 'dots', color: 'yellow', stream: process.stdout })
+            // this.console.start()
             resolve()
         })
     }

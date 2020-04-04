@@ -58,30 +58,6 @@ class _ extends Command {
     })
   }
 
-  findCredentials(session) {
-    const profile = this.args.profile || 'default'
-
-    const v = session.index.sections.safe.vault
-
-    if (v.isLocked) {
-      return Promise.reject(new Error(_.ERRORS.COULD_NOT_EXECUTE('the safe is locked')))
-    }
-
-    session.logger.info(`Looking up AWS credentials [${profile}] ...`)
-
-    const credentials = v.read(`aws.${profile}`)
-
-    if (!credentials || !credentials.key || !credentials.secret) {
-      return Promise.reject(new Error('No credentials found'))
-    }
-
-    process.env.AWS_SDK_LOAD_CONFIG = null
-    process.env.AWS_ACCESS_KEY_ID = credentials.key
-    process.env.AWS_SECRET_ACCESS_KEY = credentials.secret
-
-    return Promise.resolve()
-  }
-
   setupDomainBucket(session, domain, bucket) {
     return this.ensureDomainIsHosted(session, domain)
                .then(() => this.ensureBucketExists(session, bucket))
