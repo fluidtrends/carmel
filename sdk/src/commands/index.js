@@ -7,6 +7,7 @@ const Workspace = require('./workspace')
 const Preview = require('./preview')
 const Deploy = require('./deploy')
 const Setup = require('./setup')
+const Cloud = require('./cloud')
 
 module.exports = {
   Init,
@@ -14,6 +15,7 @@ module.exports = {
   Start,
   Workspace,
   Data,
+  Cloud,
   Deploy,
   Preview,
   Setup,
