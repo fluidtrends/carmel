@@ -18,8 +18,8 @@ eosio.token.wasm
 .nyc_output
 coverage
 sdk/package-lock.json
-
-#amplify
+.webpack
+amplify/
 amplify/\#current-cloud-backend
 amplify/.config/local-*
 amplify/mock-data

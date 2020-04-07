@@ -1,5 +1,4 @@
 const Command = require('../../Command')
-const amplify = require("awsome/src/amplify")
 
 class _ extends Command {
   constructor(args) {
@@ -15,10 +14,8 @@ class _ extends Command {
       return Promise.reject(new Error(_.ERRORS.COULD_NOT_EXECUTE('the session is missing')))
     }
 
-    const env = this.args.env || "development"
-
-    return this.findCredentials(session)
-               .then(({ key, secret, region }) => amplify.init({ env, key, secret, region }))
+    return this.prepareCloud(session)
+               .then(() => this.cloud.init())
   }
 }
 
