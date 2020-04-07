@@ -1,5 +1,6 @@
 const path = require('path')
 const fs = require('fs-extra')
+const { Cloud } = require("awsome")
 
 class _ {
     constructor(args) {
@@ -12,7 +13,9 @@ class _ {
     get id() { return _.ID }
     get requiresContext() { return _.REQUIRES_CONTEXT }
     get requiresFreshSession() { return _.REQUIRES_FRESH_SESSION }
-
+    get cloud () { return this._cloud }
+    get env () { return this.args.env || "dev" }
+    
     exec(session) { return this.initialize(session) }
 
     loadScript(paths = [this.context.script]) {   
@@ -63,6 +66,13 @@ class _ {
         process.env.AWS_SECRET_ACCESS_KEY = credentials.secret
     
         return Promise.resolve(credentials)
+    }
+
+    prepareCloud(session) {
+        return this.findCredentials(session).then((credentials) => {
+            this._cloud = new Cloud(Object.assign({}, credentials, { env: this.env }))
+            return this.cloud
+        })
     }
 
     initialize(session) {
