@@ -88,6 +88,7 @@ _.DEFAULT_SECTIONS = [
     { id: "safe", secure: true },
     { id: "archives" },
     { id: "events" }, 
+    { id: "cloud" },
     { id: "products" }
 ]
 
