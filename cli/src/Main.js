@@ -1,10 +1,13 @@
-class _ {
+const { Plugin } = require('@carmel/sdk')
+
+class _ extends Plugin {
+
     constructor(props) {
-        this._props = Object.assign({}, props)
+        super(Object.assign({}, props, { session: { console: true }}))
     }
 
-    get props() {
-        return this._props
+    findCommand(id) {
+        return require(`./commands/${id}`)
     }
 }
 

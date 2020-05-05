@@ -40,7 +40,7 @@ class _ {
                    .then((archive) => this.loadScript([archive.path, 'src', this.target, 'commands', `${type}.js`]))
     }
 
-    startScript(session, type) {
+    commandScript(session, type) {
         return (this.context.script === _.DEFAULT_SCRIPT) ? this.loadDefaultScript(session, type) : this.loadScript()
     }
 

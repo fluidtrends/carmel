@@ -15,15 +15,15 @@ add('should make sure it expects required args', (context, done) => {
   done()
 }).
 
-add('should not run without a session', (context, done) => {
-  const cmd = new Command({ env: { homeDir: context.dir }})
+// add('should not run without a session', (context, done) => {
+//   const cmd = new Command({ env: { homeDir: context.dir }})
 
-  savor.promiseShouldFail(Commander.run(cmd), done, (error) => {
-    context.expect(cmd.cwd).to.equal(process.cwd())
-    context.expect(cmd.id).to.equal(Command.ID)
-    context.expect(error.message).to.equal(Command.ERRORS.COULD_NOT_EXECUTE('the session is missing'))
-  })
-}).
+//   savor.promiseShouldFail(Commander.run(cmd), done, (error) => {
+//     context.expect(cmd.cwd).to.equal(process.cwd())
+//     context.expect(cmd.id).to.equal(Command.ID)
+//     context.expect(error.message).to.equal(Command.ERRORS.COULD_NOT_EXECUTE('the session is missing'))
+//   })
+// }).
 
 add('should not run without a workspace', (context, done) => {
   const cmd = new Command({ env: { homeDir: context.dir }})

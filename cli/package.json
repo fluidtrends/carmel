@@ -6,12 +6,21 @@
     "test": "savor test",
     "coverage": "savor coverage"
   },
+  "engines": {
+    "node": "^10"
+  },
+  "bin": {
+    "carmel": "bin/cli.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fluidtrends/carmel.git"
   },
   "homepage": "http://www.carmel.io",
-  "dependencies": {},
+  "dependencies": {
+    "deepmerge": "^4.2.2",
+    "slana": "latest"
+  },
   "devDependencies": {
     "savor": "^1.1.2"
   }
