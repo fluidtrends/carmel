@@ -1,0 +1,101 @@
+name: carmel
+footer:
+  suffix: "Chunky says:"
+  text: "keep on building ;)"
+
+commands:
+- name: setup [operation] [operationType]
+  more: Configure your development environmnt
+  description: Supported operations are masterpass, account
+  executor: src/exec
+  examples:
+  - command: setup masterpass
+    description: Setup the master password
+
+- name: init [name]
+  more: Specify a custom name or go with the default generated name
+  description: Create a new product
+  executor: src/exec
+  options:
+  - name: template
+    description: The product template to use
+    type: string
+    default: npm://fluidtrends:bananas/default
+  examples:
+  - command: init MyProduct
+    description: Create a new product using the default template
+  - command: init MyProduct --template some-template
+    description: Create a new product using the specified template from the default bundle
+
+- name: start [platform]
+  description: Start the packager for a specific platform
+  more: The supported platforms are web, mobile and desktop
+  executor: src/exec
+  options:
+  - name: port
+    description: Use a custom packager port
+    type: string
+    default: 8082
+  examples:
+  - command: start
+    description: Start all the packagers, using the default ports
+  - command: start web mobile
+    description: Start the web and mobile packagers, using the default ports
+  - command: start mobile
+    description: Start the mobile packager only, using the default mobile port
+  - command: start web
+    description: Start the web packager only, using the default web port
+  - command: start --mobile-port 9200
+    description: Start all the packagers, using the default web port and a custom mobile port
+  - command: start mobile --mobile-port 9200
+    description: Start the mobile packager only, using a custom mobile port
+
+- name: make [platform]
+  description: Build for a specific platform
+  more: The supported platforms are web, mobile and desktop
+  executor: src/exec
+  examples:
+  - command: make web
+    description: Build the website
+
+- name: preview [platform]
+  description: Preview for a specific platform
+  more: The supported platforms are web, mobile and desktop
+  executor: src/exec
+  examples:
+  - command: preview web
+    description: Preview the website
+
+- name: deploy [platform]
+  description: Deploy for a specific platform
+  more: The supported platforms are web, mobile and desktop
+  executor: src/exec
+  options:
+  - name: profile
+    description: Use a custom AWS profile
+    type: string
+    default: default
+  examples:
+  - command: deploy web
+    description: Deploy the website
+
+- name: data [operation] [key] [values..]
+  description: Manage the data
+  more: Supported operations are lock, unlock, save, read
+  executor: src/exec
+  options:
+  - name: secure
+    description: Manage secure data
+    type: boolean
+    default: false
+  examples:
+  - command: data lock
+    description: Lock the secure data
+
+- name: workspace [operation] [key] [values..]
+  description: Manage the workspace
+  more: Supported operations are set, get
+  executor: src/exec
+  examples:
+  - command: workspace set web domain=mydomain.com
+    description: Set the domain to use

@@ -51,6 +51,7 @@ class _ {
                 .then(() => Commander.run(this.command, this.session))
                 .then(() => this.session.close())
                 .catch((e) => {
+                    console.log(e)
                     this.session.logger.error(e)
                     resolve()
                 })   

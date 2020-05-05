@@ -35,19 +35,19 @@ add('should make sure it does not run without a template', (context, done) => {
   })
 }).
   
-add('should not create a workspace without a session', (context, done) => {
-  const cmd = new Commands.Init({ 
-    name: "test", 
-    template: "test", 
-    env: { test: "test", homeDir: context.dir }})
+// add('should not create a workspace without a session', (context, done) => {
+//   const cmd = new Commands.Init({ 
+//     name: "test", 
+//     template: "test", 
+//     env: { test: "test", homeDir: context.dir }})
 
-    const stub = context.stub(fs, "existsSync").callsFake(() => false)
+//     const stub = context.stub(fs, "existsSync").callsFake(() => false)
 
-    savor.promiseShouldFail(Commander.run(cmd), done, (error) => {
-      stub.restore()
-      context.expect(error.message).to.equal(Commands.Init.ERRORS.COULD_NOT_EXECUTE('the session is missing'))
-    })
-}).
+//     savor.promiseShouldFail(Commander.run(cmd), done, (error) => {
+//       stub.restore()
+//       context.expect(error.message).to.equal(Commands.Init.ERRORS.COULD_NOT_EXECUTE('the session is missing'))
+//     })
+// }).
 
 // add('should create a new workspace', (context, done) => {
 //   const cmd = new Commands.Init({ 
