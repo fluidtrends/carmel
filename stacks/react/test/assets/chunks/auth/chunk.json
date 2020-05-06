@@ -1,0 +1,40 @@
+{
+  "name": "auth",
+  "routes": {
+    "loading": {
+      "test": "hello",
+      "operations": {
+        "getTests": "firebase://retrieve/tests"
+      }
+    },
+    "progress": {
+      "test": "hello",
+      "operations": {
+        "getTests": "firebase://retrieve/tests"
+      }
+    },
+    "flow": {
+      "test": "hello",
+      "startOperationsOnMount": false,
+      "operations": {
+        "getTests": "firebase://retrieve/tests",
+        "getAccount": "firebase://subscribe/users/:userId?#getAccount"
+      },
+      "subscriptions": [
+        "getAccount"
+      ],
+      "events": {
+        "go2": "system://now/event",
+        "go4": "local://event#go",
+        "go5": "local://event"
+      }
+    },
+    "events": {
+      "test": "hello",
+      "operations": {
+        "getTests": "firebase://retrieve/tests"
+      }
+    }
+  },
+  "transitions": ["push://loading"]
+}
