@@ -15,7 +15,9 @@
     "type": "git",
     "url": "git+https://github.com/fluidtrends/carmel.git"
   },
-  "files": [ "lib" ],
+  "files": [
+    "lib"
+  ],
   "author": "I. Dan Calinescu <idancalinescu@gmail.com>",
   "license": "MIT",
   "bugs": {
