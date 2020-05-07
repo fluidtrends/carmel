@@ -16,35 +16,20 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: "Install dependencies"
-      run: cd stacks/react && npm ci
     - name: "Download CC Test Reporter"
       run: |
         mkdir -p tmp/
         curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
         chmod +x ./tmp/cc-test-reporter
-    - name: "Upload cc-test-reports"
-      uses: actions/upload-artifact@v1
-      with:
-        name: cc-test-reporter
-        path: ./tmp/cc-test-reporter
-
-  react-stack: 
-    needs: setup
-    runs-on: ubuntu-latest
-    name: "build react stack"
-    steps: 
-    - name: "Download cc-test-reporter"
-      uses: actions/download-artifact@v1
-      with:
-        name: cc-test-reporter
-    - name: "Run coverage"
+    - name: "React Stack"
       run: | 
-        cd stacks/react && npm run coverage 
-        ./tmp/cc-test-reporter format-coverage -t lcov -o tmp/codeclimate.main.json
+        cd stacks/react
+        npm ci
+        npm run coverage 
+        ../../tmp/cc-test-reporter format-coverage -t lcov -o ../../tmp/codeclimate.react-stack.json
     - name: "Submit CC coverage"
       run: |
-        ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 1 -o tmp/codeclimate.total.json
-        ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.total.json
+        ../../tmp/cc-test-reporter sum-coverage ../../tmp/codeclimate.*.json -p 1 -o tmp/codeclimate.total.json
+        ../../tmp/cc-test-reporter upload-coverage -i ../../tmp/codeclimate.total.json
       env:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
