@@ -1,2 +1,2 @@
-declare const _default: (state: any, action: any) => any;
-export default _default;
+declare const auth: (state: any, action: any) => any;
+export default auth;

@@ -8,4 +8,5 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var common = __importStar(require("./common"));
-exports.default = common.asyncReducer('auth');
+var auth = common.asyncReducer('auth');
+exports.default = auth;

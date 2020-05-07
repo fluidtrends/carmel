@@ -1,19 +1,21 @@
 {
   "name": "@carmel/react-stack",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The Carmel React Stack",
   "scripts": {
+    "build": "tsc",
     "test": "react-savor test",
     "testing": "react-savor testing",
     "coverage": "react-savor coverage",
     "open:coverage": "open coverage/lcov-report/index.html"
   },
-  "main": "index.js",
-  "types": "index.d.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fluidtrends/carmel.git"
   },
+  "files": [ "lib" ],
   "author": "I. Dan Calinescu <idancalinescu@gmail.com>",
   "license": "MIT",
   "bugs": {
