@@ -1,0 +1,16 @@
+{
+    "plugins": [
+        "@babel/plugin-proposal-object-rest-spread",
+        "@babel/plugin-transform-destructuring",
+        "@babel/plugin-transform-react-jsx",
+        "@babel/plugin-proposal-class-properties",
+        "@babel/transform-runtime",
+        "styled-jsx/babel",
+        "babel-plugin-macros",
+        "istanbul"
+    ],
+    "presets": [
+        "@babel/react",
+        "@babel/env"
+    ]
+}

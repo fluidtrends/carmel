@@ -8,6 +8,8 @@
     "coverage": "react-savor coverage",
     "open:coverage": "open coverage/lcov-report/index.html"
   },
+  "main": "index.js",
+  "types": "index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fluidtrends/carmel.git"
@@ -17,25 +19,7 @@
   "bugs": {
     "url": "https://github.com/fluidtrends/carmel/issues"
   },
-  "files": [
-    "src/*/**",
-    "index.js"
-  ],
   "homepage": "https://github.com/fluidtrends/carmel",
-  "babel": {
-    "plugins": [
-      "@babel/plugin-proposal-object-rest-spread",
-      "@babel/plugin-transform-destructuring",
-      "@babel/plugin-transform-react-jsx",
-      "@babel/plugin-proposal-class-properties",
-      "styled-jsx/babel",
-      "babel-plugin-macros"
-    ],
-    "presets": [
-      "@babel/react",
-      "@babel/env"
-    ]
-  },
   "dependencies": {
     "@babel/core": "^7.8.4",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
@@ -44,7 +28,12 @@
     "@babel/plugin-transform-react-jsx": "^7.8.3",
     "@babel/polyfill": "^7.8.3",
     "@babel/preset-env": "^7.8.4",
+    "@babel/preset-typescript": "^7.9.0",
     "@babel/register": "^7.8.3",
+    "@types/react": "^16.9.34",
+    "@types/react-redux": "^7.1.8",
+    "@types/redux-logger": "^3.0.7",
+    "@types/redux-promise": "^0.5.28",
     "antd": "^4.2.0",
     "babel-plugin-macros": "^2.8.0",
     "base-64": "^0.1.0",
@@ -83,6 +72,7 @@
     "reselect": "^2.5.4",
     "shortid": "^2.2.8",
     "styled-jsx": "^3.2.4",
+    "typescript": "^3.8.3",
     "url-parse": "^1.1.9",
     "validator": "^8.1.0",
     "video-react": "^0.9.4"

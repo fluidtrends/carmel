@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="theme-color" content="#000000" />
+
+    <base href="/" />
+
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/assets/favicon/favicon.ico"
+    />
+    <meta name="theme-color" content="#ffffff" />
+
+    <%if (app.styles) { %>
+    <% app.styles.forEach(function(s){ %>
+    <link href="<%- s %>" type="text/css" charset="UTF-8" rel="stylesheet"/>
+    <% })} %>
+    <link href="/assets/base.css" type="text/css" charset="UTF-8" rel="stylesheet"/>
+    <link href="/assets/style.css" type="text/css" charset="UTF-8" rel="stylesheet"/>
+
+    <title><%= app.info.title || "Carmel" %></title>
+
+  </head>
+  <body>
+    <noscript> You need to enable JavaScript to run this app. </noscript>
+    <div class="ipl-progress-indicator" id="ipl-progress-indicator">
+      <div class="ipl-progress-indicator-head">
+        <div class="first-indicator"></div>
+        <div class="second-indicator"></div>
+      </div>
+      <div class="insp-logo-frame">
+        <object data="/assets/loader.svg" type="image/svg+xml"> </object>
+      </div>
+    </div>
+    <div id="chunky"><%- app.route.html %></div>
+
+    <%if (app.scripts) { %>
+    <% app.scripts.forEach(function(s){ %>
+    <script type="text/javascript" src="<%- s %>"></script>
+    <% })} %>
+
+    <%if (app.vars) { %>
+    <script type="text/javascript">
+      var chunky = JSON.parse('<%- app.vars %>')
+    </script>
+    <% } %>
+  </body>
+</html>

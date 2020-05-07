@@ -1,5 +1,5 @@
-export const asyncReducer = (name) => {
-  return (state = {}, action) => {
+export const asyncReducer = (name: string) => {
+  return (state: any = {}, action: any) => {
     if (!action || Object.keys(action).length === 0 || !action.type) {
       // We don't tolerate empty actions
       return state

@@ -7,7 +7,7 @@ import * as common from './common'
 const commonReducers = { auth }
 
 // Create the root reducer
-const reducers = (appReducers) => combineReducers(Object.assign(commonReducers, appReducers))
+const reducers = (appReducers: any) => combineReducers(Object.assign(commonReducers, appReducers))
 
 export { auth, common }
 export default reducers
