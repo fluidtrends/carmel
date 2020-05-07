@@ -4,7 +4,8 @@
   "description": "The Carmel SDK",
   "scripts": {
     "test": "savor test",
-    "coverage": "savor coverage"
+    "coverage": "savor coverage",
+    "open:coverage": "open coverage/lcov-report/index.html"
   },
   "author": "I. Dan Calinescu <idancalinescu@gmail.com>",
   "license": "MIT",
