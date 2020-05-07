@@ -20,5 +20,5 @@ jobs:
     - name: "React Stack"
       run: | 
         cd stacks/react
-        npm ci
+        npm i
         npm run coverage
