@@ -35,7 +35,7 @@ jobs:
     name: "build react stack"
     steps: 
     - name: "Download cc-test-reporter"
-      uses: actions/dowload-artifact@v1
+      uses: actions/download-artifact@v1
       with:
         name: cc-test-reporter
     - name: "Run coverage"
