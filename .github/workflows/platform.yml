@@ -12,7 +12,13 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: 10.x
+    - name: "Download CC Test Reporter"
+      run: |
+        mkdir -p tmp/
+        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
+        chmod +x ./tmp/cc-test-reporter
     - name: "React Stack"
       run: | 
         cd stacks/react
         npm ci
+        npm run coverage
