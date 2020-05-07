@@ -1,6 +1,6 @@
 {
   "name": "@carmel/react-stack",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "The Carmel React Stack",
   "scripts": {
     "build": "tsc",
@@ -84,7 +84,7 @@
     "chokidar": "^2.0.2",
     "fs-extra": "^6.0.0",
     "prettier": "^1.19.1",
-    "react-savor": "^1.2.1",
+    "react-savor": "^1.3.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "@babel/preset-env": "^7.8.4",
