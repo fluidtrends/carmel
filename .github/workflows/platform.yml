@@ -1,0 +1,49 @@
+name: platform
+on:
+  push:
+    branches: [ master ]
+jobs:
+
+  setup:
+    strategy:
+      matrix:
+        platform: ["ubuntu-latest"]
+        node: [10.x]
+    runs-on: ${{ matrix.platform }}
+    name: build on node ${{ matrix.node }} ${{ matrix.platform }}
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: "Install dependencies"
+      run: cd stacks/react && npm ci
+    - name: "Download CC Test Reporter"
+      run: |
+        mkdir -p tmp/
+        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
+        chmod +x ./tmp/cc-test-reporter
+    - name: "Upload cc-test-reports"
+      uses: actions/upload-artifact@v1
+      with:
+        name: cc-test-reporter
+        path: ./tmp/cc-test-reporter
+
+  react-stack: 
+    name: "build react stack"
+    needs: setup
+    steps: 
+    - name: "Download cc-test-reporter"
+      uses: actions/dowload-artifact@v1
+      with:
+        name: cc-test-reporter
+    - name: "Run coverage"
+      run: | 
+        cd stacks/react && npm run coverage 
+        ./tmp/cc-test-reporter format-coverage -t lcov -o tmp/codeclimate.main.json
+    - name: "Submit CC coverage"
+      run: |
+        ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 1 -o tmp/codeclimate.total.json
+        ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.total.json
+      env:
+        CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
