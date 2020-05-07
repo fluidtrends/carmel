@@ -9,8 +9,6 @@
     "coverage": "react-savor coverage",
     "open:coverage": "open coverage/lcov-report/index.html"
   },
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fluidtrends/carmel.git"
