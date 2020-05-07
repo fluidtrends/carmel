@@ -22,6 +22,7 @@ jobs:
         mkdir -p tmp/
         curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
         chmod +x ./tmp/cc-test-reporter
+    - name: "Upload cc-test-reports"
       uses: actions/upload-artifact@v1
       with:
         name: cc-test-reporter
@@ -30,13 +31,14 @@ jobs:
   react-stack: 
     name: "build react stack"
     steps: 
+    - name: "Download cc-test-reporter"
+      uses: actions/dowload-artifact@v1
+      with:
+        name: cc-test-reporter
     - name: "Run coverage"
       run: | 
         cd stacks/react && npm run coverage 
         ./tmp/cc-test-reporter format-coverage -t lcov -o tmp/codeclimate.main.json
-      uses: actions/dowload-artifact@v1
-      with:
-        name: cc-test-reporter
     - name: "Submit CC coverage"
       run: |
         ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 1 -o tmp/codeclimate.total.json
