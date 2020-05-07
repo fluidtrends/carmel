@@ -2,11 +2,10 @@
   "name": "@carmel/platform",
   "version": "1.2.1",
   "description": "The Carmel Platform",
-  "main": ".webpack/main",
   "scripts": {
-    "start": "node node_modules/react-electron-chunky/bin/start",
     "test": "react-savor test",
-    "coverage": "react-savor coverage"
+    "coverage": "react-savor coverage",
+    "coverage:react-stack": "cd stacks/react && ./node_modules/.bin/react-savor coverage"
   },
   "repository": {
     "type": "git",
