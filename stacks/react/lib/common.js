@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.asyncReducer = function (name) {
     return function (state, action) {
         var _a, _b;
+        if (state === void 0) { state = {}; }
         if (!action || Object.keys(action).length === 0 || !action.type) {
             // We don't tolerate empty actions
             return state;
