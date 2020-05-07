@@ -20,5 +20,5 @@ jobs:
     - name: "React Stack"
       run: | 
         cd stacks/react
-        npm i
-        npm run coverage
+        npm ci
+        ./node_modules/.bin/react-savor coverage
