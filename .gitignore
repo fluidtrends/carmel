@@ -17,5 +17,4 @@ eosio.token.wasm
 .webpack
 .nyc_output
 coverage
-sdk/package-lock.json
 .webpack

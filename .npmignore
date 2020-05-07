@@ -10,5 +10,4 @@ packer_cache
 carmel.token.wasm
 eosio.token.wasm
 .distro.csv
-package-lock.json
 .nyc_output
