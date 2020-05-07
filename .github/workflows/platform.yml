@@ -21,7 +21,7 @@ jobs:
       run: | 
         cd sdk
         npm ci
-        ./node_modules/.bin/react-savor coverage
+        ./node_modules/.bin/savor coverage
         ../tmp/cc-test-reporter format-coverage -t lcov -o ../tmp/codeclimate.react-stack.json --add-prefix sdk
     - name: "React Stack"
       run: | 
