@@ -30,8 +30,9 @@ jobs:
         path: ./tmp/cc-test-reporter
 
   react-stack: 
-    name: "build react stack"
     needs: setup
+    runs-on: ubuntu-latest
+    name: "build react stack"
     steps: 
     - name: "Download cc-test-reporter"
       uses: actions/dowload-artifact@v1
