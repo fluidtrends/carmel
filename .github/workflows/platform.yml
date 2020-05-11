@@ -36,5 +36,5 @@ jobs:
       env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
       run: | 
-        ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 3 -o tmp/codeclimate.total.json
+        ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 2 -o tmp/codeclimate.total.json
         ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.total.json
