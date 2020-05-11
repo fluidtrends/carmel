@@ -1,9 +1,9 @@
 {
   "name": "@carmel/platform",
-  "version": "1.2.1",
+  "version": "0.5",
   "description": "The Carmel Platform",
   "scripts": {
-    "build": "node build"
+    "build": "node builds"
   },
   "repository": {
     "type": "git",
