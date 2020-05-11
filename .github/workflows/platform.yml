@@ -33,6 +33,8 @@ jobs:
         ../tmp/cc-test-reporter format-coverage -t lcov -o ../tmp/codeclimate.sdk.json --add-prefix sdk
     - shell: bash
       name: upload coverage report
+      env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
       run: | 
-        ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 3 tmp/codeclimate.total.json
+        ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 3 -o tmp/codeclimate.total.json
         ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.total.json
