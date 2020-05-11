@@ -3,23 +3,18 @@
   "version": "1.2.1",
   "description": "The Carmel Platform",
   "scripts": {
-    "test": "react-savor test",
-    "coverage": "react-savor coverage",
-    "coverage:react-stack": "cd stacks/react && ./node_modules/.bin/react-savor coverage"
+    "build": "node build"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fluidtrends/carmel.git"
   },
   "homepage": "http://www.carmel.io",
-  "config": {
-    "forge": "./node_modules/react-electron-chunky/app/config.js"
-  },
   "dependencies": {
-    "deepmerge": "^4.2.2"
+    "deepmerge": "^4.2.2",
+    "fs-extra": "^9.0.0",
+    "semver": "^7.3.2",
+    "shortid": "^2.2.15"
   },
-  "devDependencies": {
-    "electron": "^6.0.11",
-    "react-savor": "^1.1.3"
-  }
+  "devDependencies": {}
 }

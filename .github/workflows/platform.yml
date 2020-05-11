@@ -17,6 +17,12 @@ jobs:
         curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
         chmod +x ./tmp/cc-test-reporter
     - shell: bash
+      name: build
+      run: | 
+        npm ci
+        npm run build > tmp/build
+        cat tmp/build
+    - shell: bash
       name: react-stack coverage
       run: | 
         cd stacks/react
