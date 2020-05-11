@@ -18,10 +18,10 @@ jobs:
         curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
         chmod +x ./tmp/cc-test-reporter
     - name: Save cc-test-reporter
-        uses: actions/upload-artifact@v1
-        with:
-          name: cc-test-reporter
-          path: ./tmp/cc-test-reporter
+      uses: actions/upload-artifact@v1
+      with:
+        name: cc-test-reporter
+        path: ./tmp/cc-test-reporter
 
   react-stack:
     runs-on: "ubuntu-latest"
