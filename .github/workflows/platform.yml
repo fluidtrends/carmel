@@ -12,18 +12,19 @@ jobs:
       with:
         node-version: 10.x
     - name: "Download CC Test Reporter"
-      working-directory: ./root
       run: |
         mkdir -p tmp/
         curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
         chmod +x ./tmp/cc-test-reporter
     - shell: bash
       name: react-stack coverage
-      working-directory: ./root
       run: | 
         cd stacks/react
         npm ci
         npm run coverage
+        ls -la .
+        ls -la ../..
+        ls -la ../../tmp
         ../../tmp/cc-test-reporter format-coverage -t lcov -o ../../tmp/codeclimate.react-stack.json --add-prefix react-stack
     - shell: bash
       name: sdk
