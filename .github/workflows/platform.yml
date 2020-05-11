@@ -8,16 +8,20 @@ jobs:
     name: Setup
     steps:
     - uses: actions/checkout@v2
+      working-directory: ./root
     - uses: actions/setup-node@v1
+      working-directory: ./root
       with:
         node-version: 10.x
     - name: "Download CC Test Reporter"
+      working-directory: ./root
       run: |
         mkdir -p tmp/
         curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
         chmod +x ./tmp/cc-test-reporter
     - shell: bash
       name: react-stack coverage
+      working-directory: ./root
       run: | 
         cd stacks/react
         npm ci
@@ -25,13 +29,15 @@ jobs:
         ../../tmp/cc-test-reporter format-coverage -t lcov -o ../../tmp/codeclimate.react-stack.json --add-prefix react-stack
     - shell: bash
       name: sdk
+      working-directory: ./root
       run: | 
         cd sdk
         npm ci
         npm run build
         npm run coverage
-        ../tmp/cc-test-reporter format-coverage -t lcov -o ../../tmp/codeclimate.sdk.json --add-prefix sdk
+        ../tmp/cc-test-reporter format-coverage -t lcov -o ../tmp/codeclimate.sdk.json --add-prefix sdk
     - shell: bash
+      working-directory: ./root
       name: upload report
       run: | 
         ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 2 tmp/codeclimate.total.json
