@@ -22,21 +22,17 @@ jobs:
         cd stacks/react
         npm ci
         npm run coverage
-        ls -la .
-        ls -la ../..
-        ls -la ../../tmp
         ../../tmp/cc-test-reporter format-coverage -t lcov -o ../../tmp/codeclimate.react-stack.json --add-prefix react-stack
     - shell: bash
       name: sdk
-      working-directory: ./root
       run: | 
+        pwd
         cd sdk
         npm ci
         npm run build
         npm run coverage
         ../tmp/cc-test-reporter format-coverage -t lcov -o ../tmp/codeclimate.sdk.json --add-prefix sdk
     - shell: bash
-      working-directory: ./root
       name: upload report
       run: | 
         ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 2 tmp/codeclimate.total.json
