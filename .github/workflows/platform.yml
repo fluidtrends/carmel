@@ -23,43 +23,39 @@ jobs:
         name: cc-test-reporter
         path: ./tmp/cc-test-reporter
 
-  react-stack:
+  coverage:
     runs-on: "ubuntu-latest"
-    name: react-stack
+    name: coverage
     needs: setup
     steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 10.x
     - name: Use cc-test-reporter
       uses: actions/download-artifact@v1
       with:
         name: cc-test-reporter
     - shell: bash
+      name: react-stack
       run: | 
         cd stacks/react
         npm ci
-        ./node_modules/.bin/react-savor coverage
+        npm run coverage
         ../../tmp/cc-test-reporter format-coverage -t lcov -o ../../tmp/codeclimate.react-stack.json --add-prefix react-stack
-   
-  sdk:
-    runs-on: "ubuntu-latest"
-    name: sdk
-    needs: setup
-    steps:
-    - name: Use cc-test-reporter
-      uses: actions/download-artifact@v1
-      with:
-        name: cc-test-reporter
     - shell: bash
+      name: sdk
       run: | 
         cd sdk
         npm ci
         npm run build
-        ./node_modules/.bin/react-savor coverage
+        npm run coverage
         ../../tmp/cc-test-reporter format-coverage -t lcov -o ../../tmp/codeclimate.sdk.json --add-prefix sdk
-
+   
   report:
     runs-on: "ubuntu-latest"
     name: report
-    needs: [react-stack,sdk]
+    needs: [coverage]
     steps:
     - name: Use cc-test-reporter
       uses: actions/download-artifact@v1
