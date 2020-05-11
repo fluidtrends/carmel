@@ -53,6 +53,12 @@ ratings:
   - web/src/**/*
 exclude_paths:
 - package.json
+- .carmel.json
+- .github/**/*
+- carmel.json
+- fluid/**/*
+- ./**/*.md
+- ./**/*.json
 - .circleci/**/*
 - .codeclimate.yml
 - .es*
