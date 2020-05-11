@@ -2,7 +2,7 @@ const path = require('path')
 const Command = require('../../Command')
 const parseDomain = require("parse-domain")
 
-class _ extends Command {
+export class DeployCommand extends Command {
   constructor(args) {
     super(args)
   }
@@ -112,5 +112,3 @@ class _ extends Command {
 
 _.TITLE = "Deploying"
 _.ID = 'deploy'
-
-module.exports = _

@@ -1,6 +1,6 @@
 const path = require('path')
 
-class _ {
+export class Script {
     constructor(args) {
       this._args = Object.assign({}, args)
       this._platform = _.PLATFORMS[args.platform ? args.platform.toUpperCase() : _.DEFAULT_PLATFORM.toUpperCase()]
@@ -70,5 +70,3 @@ _.ERRORS = Object.assign({}, _.ERRORS, {
 
 _.PLATFORMS = { WEB: "web", DESKTOP: "desktop", MOBILE: "mobile" }
 _.DEFAULT_PLATFORM = _.PLATFORMS.WEB
-
-module.exports = _

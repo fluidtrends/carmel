@@ -1,7 +1,7 @@
 const Ora = require('ora')
 const chalk = require('chalk')
 
-class _ {
+export class Logger {
     constructor(props) {
         this._props = Object.assign({}, { name: "carmel" }, props)
         this._events = []
@@ -96,5 +96,3 @@ _.TYPE_FLAGS = {
     [_.TYPE_INFO]: 'green',
     [_.TYPE_SYSTEM]: 'bold' 
 }
-
-module.exports = _

@@ -3,7 +3,7 @@ const Command = require('../../Command')
 const Script = require('../../Script')
 const run = require('../../run')
 
-class _ extends Command {
+export class StartCommand extends Command {
   constructor(args) {
     super(args)
     this._script = new Script(Object.assign({}, args, { dev: true }))
@@ -30,5 +30,3 @@ class _ extends Command {
 
 _.TITLE = "Starting up"
 _.ID = 'start'
-
-module.exports = _

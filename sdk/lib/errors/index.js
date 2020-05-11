@@ -1,0 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var __1 = require("..");
+exports.FileDoesNotExist = function (file) { return new Error(__1.Strings.FileDoesNotExist(file)); };
+exports.FileCouldNotBeLoaded = function (file, reason) { return new Error(__1.Strings.FileCouldNotBeLoaded(file, reason)); };

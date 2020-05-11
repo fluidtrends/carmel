@@ -1,6 +1,6 @@
 const Command = require('../../Command')
 
-class _ extends Command {
+export class WorkspaceCommand extends Command {
   constructor(args) {
     super(args)
   }
@@ -107,5 +107,3 @@ _.ERRORS = Object.assign({}, _.ERRORS, {})
 _.REQUIRES_CONTEXT = false
 _.TITLE = "Managing workspace"
 _.ID = 'workspace'
-
-module.exports = _

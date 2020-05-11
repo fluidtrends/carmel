@@ -1,4 +1,4 @@
-class _ {
+export class Commander {
     constructor (command, session) {
         this._command = command
         this._session = session
@@ -40,5 +40,3 @@ class _ {
 _.ERRORS = {
     MISSING_ARG: (arg) => `Missing [${arg}] argument`
 }
-
-module.exports = _

@@ -1,7 +1,6 @@
 const Command = require('../../Command')
-const parse = require('url-parse')
 
-class _ extends Command {
+export class SetupCommand extends Command {
   constructor(args) {
     super(args)
   }
@@ -23,5 +22,3 @@ _.ERRORS = Object.assign({}, _.ERRORS, {})
 _.REQUIRES_CONTEXT = false
 _.TITLE = "Setting up your environment"
 _.ID = 'setup'
-
-module.exports = _

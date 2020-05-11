@@ -2,7 +2,7 @@ const { Index } = require('dodi')
 const Workspace = require('./Workspace')
 const Logger = require('./Logger')
 
-class _ {
+export class Session {
     constructor(props, command) {
         this._props = Object.assign({}, props)
         this._command = command
@@ -91,5 +91,3 @@ _.DEFAULT_SECTIONS = [
     { id: "cloud" },
     { id: "products" }
 ]
-
-module.exports = _
