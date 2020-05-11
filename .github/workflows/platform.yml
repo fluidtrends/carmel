@@ -8,9 +8,7 @@ jobs:
     name: Setup
     steps:
     - uses: actions/checkout@v2
-      working-directory: ./root
     - uses: actions/setup-node@v1
-      working-directory: ./root
       with:
         node-version: 10.x
     - name: "Download CC Test Reporter"
