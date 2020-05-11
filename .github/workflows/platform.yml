@@ -6,7 +6,7 @@ jobs:
 
   setup:
     runs-on: "ubuntu-latest"
-    name: Build platform
+    name: Setup
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v1
@@ -17,20 +17,55 @@ jobs:
         mkdir -p tmp/
         curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
         chmod +x ./tmp/cc-test-reporter
-    - name: "SDK"
-      run: | 
-        cd sdk
-        npm ci
-        npm run build
-        ./node_modules/.bin/savor coverage
-        ../tmp/cc-test-reporter format-coverage -t lcov -o ../tmp/codeclimate.react-stack.json --add-prefix sdk
-    - name: "React Stack"
-      run: | 
-        cd stacks/react
-        npm ci
-        ./node_modules/.bin/react-savor coverage
-        ../../tmp/cc-test-reporter format-coverage -t lcov -o ../../tmp/codeclimate.react-stack.json --add-prefix react-stack
-    - name: "Submit CC"
-      run: |
-        ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 2 tmp/codeclimate.total.json
-        ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.total.json
+    - name: Save cc-test-reporter
+        uses: actions/upload-artifact@v1
+        with:
+          name: cc-test-reporter
+          path: ./tmp/cc-test-reporter
+
+  react-stack:
+    runs-on: "ubuntu-latest"
+    name: react-stack
+    needs: setup
+    steps:
+      - name: Use cc-test-reporter
+        uses: actions/download-artifact@v1
+        with:
+          name: cc-test-reporter
+      - shell: bash
+        run: | 
+          cd stacks/react
+          npm ci
+          ./node_modules/.bin/react-savor coverage
+          ../../tmp/cc-test-reporter format-coverage -t lcov -o ../../tmp/codeclimate.react-stack.json --add-prefix react-stack
+   
+    sdk:
+      runs-on: "ubuntu-latest"
+      name: sdk
+      needs: setup
+      steps:
+        - name: Use cc-test-reporter
+          uses: actions/download-artifact@v1
+          with:
+            name: cc-test-reporter
+        - shell: bash
+          run: | 
+            cd sdk
+            npm ci
+            npm run build
+            ./node_modules/.bin/react-savor coverage
+            ../../tmp/cc-test-reporter format-coverage -t lcov -o ../../tmp/codeclimate.sdk.json --add-prefix sdk
+
+    report:
+      runs-on: "ubuntu-latest"
+      name: report
+      needs: [react-stack,sdk]
+      steps:
+        - name: Use cc-test-reporter
+          uses: actions/download-artifact@v1
+          with:
+            name: cc-test-reporter
+        - shell: bash
+          run: | 
+            ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 2 tmp/codeclimate.total.json
+            ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.total.json
