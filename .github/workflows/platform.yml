@@ -34,6 +34,5 @@ jobs:
     - shell: bash
       name: upload coverage report
       run: | 
-        ls -la tmp/codeclimate.*.json
-        ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 2 tmp/codeclimate.total.json
+        ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 3 tmp/codeclimate.total.json
         ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.total.json
