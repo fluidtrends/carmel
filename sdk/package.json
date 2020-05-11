@@ -1,8 +1,9 @@
 {
   "name": "@carmel/sdk",
-  "version": "1.9.8",
+  "version": "1.9.9",
   "description": "The Carmel SDK",
   "scripts": {
+    "build": "tsc",
     "test": "savor test",
     "coverage": "savor coverage",
     "open:coverage": "open coverage/lcov-report/index.html"
@@ -13,8 +14,14 @@
     "type": "git",
     "url": "git+https://github.com/fluidtrends/carmel.git"
   },
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib/**/*"
+  ],
   "homepage": "http://www.carmel.io",
   "dependencies": {
+    "@types/node": "^13.13.5",
     "awsome": "^1.3.1",
     "deepmerge": "^4.2.2",
     "dodi": "^1.9.0",
@@ -24,6 +31,7 @@
     "url-parse": "^1.4.7"
   },
   "devDependencies": {
-    "savor": "^1.1.2"
+    "savor": "^1.1.2",
+    "typescript": "^3.8.3"
   }
 }

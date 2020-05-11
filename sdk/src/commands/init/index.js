@@ -1,7 +1,7 @@
 const Command = require('../../Command')
 const parse = require('url-parse')
 
-class _ extends Command {
+export class InitCommand extends Command {
   constructor(args) {
     super(args)
   }
@@ -72,5 +72,3 @@ _.TYPE = "workspace"
 _.ID = 'init'
 _.DEFAULT_ARCHIVE_ID = "@fluidtrends/bananas"
 _.SUPPORTED_ARCHIVE_SOURCES = ['npm']
-
-module.exports = _

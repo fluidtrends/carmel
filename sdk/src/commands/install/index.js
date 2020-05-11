@@ -1,6 +1,6 @@
 const Command = require('../../Command')
 
-class _ extends Command {
+export class InstallCommand extends Command {
   constructor(args) {
     super(args)
   }
@@ -26,5 +26,3 @@ class _ extends Command {
 _.ERRORS = Object.assign({}, _.ERRORS, {})
 _.TITLE = "Installing dependencies"
 _.ID = 'install'
-
-module.exports = _

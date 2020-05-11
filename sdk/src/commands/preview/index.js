@@ -1,7 +1,7 @@
 const path = require('path')
 const Command = require('../../Command')
 
-class _ extends Command {
+export class PreviewCommand extends Command {
   constructor(args) {
     super(args)
   }
@@ -17,5 +17,3 @@ class _ extends Command {
 
 _.TITLE = "Previewing"
 _.ID = 'preview'
-
-module.exports = _

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 
 const savor = require('savor')
-const { Session } = require('../..')
+const { Session } = require('../../lib')
 const { Archive } = require('rara')
 const fs = require('fs-extra')
 const path = require('path')
