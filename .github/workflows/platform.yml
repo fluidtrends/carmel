@@ -3,8 +3,7 @@ on:
   push:
     branches: [ master ]
 jobs:
-
-  setup:
+  coverage:
     runs-on: "ubuntu-latest"
     name: Setup
     steps:
@@ -17,27 +16,8 @@ jobs:
         mkdir -p tmp/
         curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
         chmod +x ./tmp/cc-test-reporter
-    - name: Save cc-test-reporter
-      uses: actions/upload-artifact@v1
-      with:
-        name: cc-test-reporter
-        path: ./tmp/cc-test-reporter
-
-  coverage:
-    runs-on: "ubuntu-latest"
-    name: coverage
-    needs: setup
-    steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
-      with:
-        node-version: 10.x
-    - name: Use cc-test-reporter
-      uses: actions/download-artifact@v1
-      with:
-        name: cc-test-reporter
     - shell: bash
-      name: react-stack
+      name: react-stack coverage
       run: | 
         cd stacks/react
         npm ci
@@ -50,18 +30,9 @@ jobs:
         npm ci
         npm run build
         npm run coverage
-        ../../tmp/cc-test-reporter format-coverage -t lcov -o ../../tmp/codeclimate.sdk.json --add-prefix sdk
-   
-  report:
-    runs-on: "ubuntu-latest"
-    name: report
-    needs: [coverage]
-    steps:
-    - name: Use cc-test-reporter
-      uses: actions/download-artifact@v1
-      with:
-        name: cc-test-reporter
+        ../tmp/cc-test-reporter format-coverage -t lcov -o ../../tmp/codeclimate.sdk.json --add-prefix sdk
     - shell: bash
+      name: upload report
       run: | 
         ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 2 tmp/codeclimate.total.json
         ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.total.json
