@@ -52,6 +52,7 @@ ratings:
   - sdk/src/**/*
   - web/src/**/*
 exclude_paths:
+- build/**/*
 - package.json
 - .carmel.json
 - .github/**/*
