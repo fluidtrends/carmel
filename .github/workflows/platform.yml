@@ -5,13 +5,13 @@ on:
 jobs:
   coverage:
     runs-on: "ubuntu-latest"
-    name: Setup
+    name: coverage
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v1
       with:
         node-version: 10.x
-    - name: "Download CC Test Reporter"
+    - name: "download cc test tool"
       run: |
         mkdir -p tmp/
         curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
@@ -24,7 +24,7 @@ jobs:
         npm run coverage
         ../../tmp/cc-test-reporter format-coverage -t lcov -o ../../tmp/codeclimate.react-stack.json --add-prefix react-stack
     - shell: bash
-      name: sdk
+      name: sdk coverage
       run: | 
         cd sdk
         npm ci
@@ -32,8 +32,8 @@ jobs:
         npm run coverage
         ../tmp/cc-test-reporter format-coverage -t lcov -o ../tmp/codeclimate.sdk.json --add-prefix sdk
     - shell: bash
-      name: upload report
+      name: upload coverage report
       run: | 
-        ls -la ./tmp
+        ls -la tmp/codeclimate.*.json
         ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 2 tmp/codeclimate.total.json
         ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.total.json
