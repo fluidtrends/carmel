@@ -47,6 +47,6 @@ ratings:
   paths:
   - "sdk/lib/**/*.{js|d.ts}"
   - "stacks/react/lib/**/*.{js|d.ts}"
-exclude_paths:
+exclude_patterns:
 - "!sdk/lib/**/*.{js|d.ts}"
 - "!stacks/react/lib/**/*.{js|d.ts}"
