@@ -11,26 +11,26 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: 10.x
-    - name: "download cc test tool"
+    - name: "Download the Code Climate test reporter"
       run: |
         mkdir -p tmp/
         curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
         chmod +x ./tmp/cc-test-reporter
     - shell: bash
-      name: build
+      name: "Update build fingerprint"
       run: | 
         npm ci
         npm run build > tmp/build
         cat tmp/build
     - shell: bash
-      name: react-stack coverage
+      name: "Create coverage for the React Stack"
       run: | 
         cd stacks/react
         npm ci
         npm run coverage
         ../../tmp/cc-test-reporter format-coverage -t lcov -o ../../tmp/codeclimate.react-stack.json --add-prefix react-stack
     - shell: bash
-      name: sdk coverage
+      name: "Create coverage for the SDK"
       run: | 
         cd sdk
         npm ci
@@ -38,7 +38,7 @@ jobs:
         npm run coverage
         ../tmp/cc-test-reporter format-coverage -t lcov -o ../tmp/codeclimate.sdk.json --add-prefix sdk
     - shell: bash
-      name: upload coverage report
+      name: "Upload the combined coverage report to Code Climate"
       env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
       run: | 

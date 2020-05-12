@@ -6,7 +6,7 @@ export declare class File implements IFile {
     get data(): IData;
     get path(): string;
     get exists(): boolean;
-    load(): void;
+    load(): Promise<unknown>;
     save(): void;
     update(data: UTF8 | object): void;
 }

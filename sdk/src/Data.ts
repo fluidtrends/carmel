@@ -15,6 +15,15 @@ export class Data implements IData {
         return this._raw
     }
 
+    get isJson() {
+        try {
+            JSON.parse(this.raw)
+            return true
+        } catch (e) {
+            return false
+        }
+    }
+
     json() {
         return this.raw ? JSON.parse(this.raw) : {}
     }

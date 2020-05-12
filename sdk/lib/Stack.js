@@ -14,3 +14,4 @@ var Stack = /** @class */ (function () {
     return Stack;
 }());
 exports.Stack = Stack;
+//# sourceMappingURL=Stack.js.map

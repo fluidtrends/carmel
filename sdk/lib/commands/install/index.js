@@ -49,3 +49,4 @@ exports.InstallCommand = InstallCommand;
 _.ERRORS = Object.assign({}, _.ERRORS, {});
 _.TITLE = "Installing dependencies";
 _.ID = 'install';
+//# sourceMappingURL=index.js.map

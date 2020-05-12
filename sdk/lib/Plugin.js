@@ -71,3 +71,4 @@ exports.Plugin = Plugin;
 _.ERRORS = {
     CANNOT_LOAD: function (reason) { return reason ? "Cannot load plugin because " + reason : "Cannot load plugin"; }
 };
+//# sourceMappingURL=Plugin.js.map

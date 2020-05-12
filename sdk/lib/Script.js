@@ -74,3 +74,4 @@ exports.Script = Script;
 _.ERRORS = Object.assign({}, _.ERRORS, {});
 _.PLATFORMS = { WEB: "web", DESKTOP: "desktop", MOBILE: "mobile" };
 _.DEFAULT_PLATFORM = _.PLATFORMS.WEB;
+//# sourceMappingURL=Script.js.map

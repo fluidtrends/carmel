@@ -4,6 +4,7 @@
     "module": "commonjs",                     
     "strict": true,             
     "jsx": "preserve",     
+    "sourceMap": true,
     "allowJs": true,
     "declaration": true,         
     "esModuleInterop": true,                 

@@ -109,3 +109,4 @@ _.ERRORS = Object.assign({}, _.ERRORS, {});
 _.REQUIRES_CONTEXT = false;
 _.TITLE = "Managing workspace";
 _.ID = 'workspace';
+//# sourceMappingURL=index.js.map

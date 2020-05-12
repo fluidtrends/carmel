@@ -7,8 +7,9 @@ import {
     WorkspaceProps, 
     Path, 
     IFile,
+    IDir,
     File,
-    Id,
+    Dir,
     ISession 
 } from '.'
 
@@ -20,16 +21,16 @@ export class Workspace implements IWorkspace {
         context: {}
     }
 
-    protected _props: WorkspaceProps;
-    protected _dir: Path;
+    protected _props: any;
+    protected _dir: IDir;
     protected _manifest: IFile;
-    protected _session: ISession;
+    protected _session?: ISession;
 
-    constructor(props: WorkspaceProps, session: ISession) {
-        this._session = session
+    constructor(props: any) {
+        // this._session = session
         this._props = props
-        this._dir = this.props.cwd || process.cwd()
-        this._manifest = new File(path.resolve(this.dir, Workspace.MANIFEST_FILENAME))
+        this._dir = new Dir(this.props.cwd || process.cwd())
+        this._manifest = new File(path.resolve(this.dir.path, Workspace.MANIFEST_FILENAME))
     }
 
     get manifest() { return this._manifest }
@@ -42,7 +43,7 @@ export class Workspace implements IWorkspace {
     }
 
     get exists() {
-        return this.manifest?.exists
+        return this.manifest.exists
     }
 
     async load() {
@@ -65,6 +66,15 @@ export class Workspace implements IWorkspace {
     saveContext(context: object) {
         this.manifest.data.append({ context })
         this.manifest.save()
+    }
+
+    async loadFile (path: Path) {
+        const file = new File(path)
+        return file.load()
+    }
+
+    async findDirs(dirpath: Path) {
+        return this.dir.dir(dirpath).dirs()
     }
 
     // context(id: Id) {
@@ -109,22 +119,6 @@ export class Workspace implements IWorkspace {
     //   })
     // }
 
-    // findDirs(dirpath) {
-    //     // This is where we want to look
-    //     const dir = path.resolve(this.dir, dirpath)
-
-    //     if (!fs.existsSync(dir)) {
-    //       // We can't continue without the dir
-    //       return Promise.reject(new Error(_.ERRORS.DIR_NOT_FOUND(dirpath)))
-    //     }
-
-    //     return new Promise((resolve, reject) => {
-    //         // Let's see what we've got
-    //         const dirs = fs.readdirSync(dir).filter(d => (d && path.extname(d).length === 0 && !_.IGNORE_DIRS.includes(d)))
-
-    //         resolve(dirs)
-    //     })
-    // }
 }
 
 // _.ERRORS = {

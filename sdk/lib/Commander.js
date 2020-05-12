@@ -46,3 +46,4 @@ exports.Commander = Commander;
 _.ERRORS = {
     MISSING_ARG: function (arg) { return "Missing [" + arg + "] argument"; }
 };
+//# sourceMappingURL=Commander.js.map

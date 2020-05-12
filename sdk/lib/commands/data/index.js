@@ -115,3 +115,4 @@ _.ERRORS = Object.assign({}, _.ERRORS, {});
 _.REQUIRES_CONTEXT = false;
 _.TITLE = "Managing data";
 _.ID = 'data';
+//# sourceMappingURL=index.js.map

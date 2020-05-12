@@ -45,3 +45,4 @@ var MakeCommand = /** @class */ (function (_super) {
 exports.MakeCommand = MakeCommand;
 _.TITLE = "Building";
 _.ID = 'make';
+//# sourceMappingURL=index.js.map
