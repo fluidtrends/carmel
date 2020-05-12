@@ -71,3 +71,4 @@ _.ERRORS = Object.assign({}, _.ERRORS, {});
 _.REQUIRES_CONTEXT = false;
 _.TITLE = "Managing cloud";
 _.ID = 'cloud';
+//# sourceMappingURL=index.js.map

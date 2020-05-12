@@ -13,6 +13,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./Command"));
 __export(require("./Stack"));
 __export(require("./File"));
+__export(require("./Dir"));
 __export(require("./Data"));
 __export(require("./Workspace"));
 // export * from './Commander'
@@ -21,3 +22,4 @@ __export(require("./Workspace"));
 // export * as Commands from './commands'
 exports.Errors = __importStar(require("./errors"));
 exports.Strings = __importStar(require("./strings"));
+//# sourceMappingURL=index.js.map

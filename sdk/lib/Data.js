@@ -15,6 +15,19 @@ var Data = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Data.prototype, "isJson", {
+        get: function () {
+            try {
+                JSON.parse(this.raw);
+                return true;
+            }
+            catch (e) {
+                return false;
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     Data.prototype.json = function () {
         return this.raw ? JSON.parse(this.raw) : {};
     };
@@ -28,3 +41,4 @@ var Data = /** @class */ (function () {
     return Data;
 }());
 exports.Data = Data;
+//# sourceMappingURL=Data.js.map

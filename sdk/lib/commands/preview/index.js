@@ -40,3 +40,4 @@ var PreviewCommand = /** @class */ (function (_super) {
 exports.PreviewCommand = PreviewCommand;
 _.TITLE = "Previewing";
 _.ID = 'preview';
+//# sourceMappingURL=index.js.map

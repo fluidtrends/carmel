@@ -67,3 +67,4 @@ var StartCommand = /** @class */ (function (_super) {
 exports.StartCommand = StartCommand;
 _.TITLE = "Starting up";
 _.ID = 'start';
+//# sourceMappingURL=index.js.map

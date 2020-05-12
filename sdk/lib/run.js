@@ -49,3 +49,4 @@ SHADOW_CHUNK = function (_a) {
     return "\nimport config from '../../../chunks/" + chunk.name + "/chunk.json'\nimport * as screens from './screens/index" + SHADOW_TYPES[type] + ".js'\nconst chunk = { screens, ...config }\nexport default chunk\n";
 };
 module.exports = run;
+//# sourceMappingURL=run.js.map

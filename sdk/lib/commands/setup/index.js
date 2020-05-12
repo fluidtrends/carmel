@@ -47,3 +47,4 @@ _.ERRORS = Object.assign({}, _.ERRORS, {});
 _.REQUIRES_CONTEXT = false;
 _.TITLE = "Setting up your environment";
 _.ID = 'setup';
+//# sourceMappingURL=index.js.map

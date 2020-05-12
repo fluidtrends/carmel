@@ -106,3 +106,4 @@ _.TYPE = "workspace";
 _.ID = 'init';
 _.DEFAULT_ARCHIVE_ID = "@fluidtrends/bananas";
 _.SUPPORTED_ARCHIVE_SOURCES = ['npm'];
+//# sourceMappingURL=index.js.map

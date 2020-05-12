@@ -99,3 +99,4 @@ _.TYPE_FLAGS = (_a = {},
     _a[_.TYPE_INFO] = 'green',
     _a[_.TYPE_SYSTEM] = 'bold',
     _a);
+//# sourceMappingURL=Logger.js.map

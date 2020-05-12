@@ -42,11 +42,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var path_1 = __importDefault(require("path"));
 var _1 = require(".");
 var Workspace = /** @class */ (function () {
-    function Workspace(props, session) {
-        this._session = session;
+    function Workspace(props) {
+        // this._session = session
         this._props = props;
-        this._dir = this.props.cwd || process.cwd();
-        this._manifest = new _1.File(path_1.default.resolve(this.dir, Workspace.MANIFEST_FILENAME));
+        this._dir = new _1.Dir(this.props.cwd || process.cwd());
+        this._manifest = new _1.File(path_1.default.resolve(this.dir.path, Workspace.MANIFEST_FILENAME));
     }
     Object.defineProperty(Workspace.prototype, "manifest", {
         get: function () { return this._manifest; },
@@ -77,8 +77,7 @@ var Workspace = /** @class */ (function () {
     });
     Object.defineProperty(Workspace.prototype, "exists", {
         get: function () {
-            var _a;
-            return (_a = this.manifest) === null || _a === void 0 ? void 0 : _a.exists;
+            return this.manifest.exists;
         },
         enumerable: true,
         configurable: true
@@ -114,6 +113,22 @@ var Workspace = /** @class */ (function () {
         this.manifest.data.append({ context: context });
         this.manifest.save();
     };
+    Workspace.prototype.loadFile = function (path) {
+        return __awaiter(this, void 0, void 0, function () {
+            var file;
+            return __generator(this, function (_a) {
+                file = new _1.File(path);
+                return [2 /*return*/, file.load()];
+            });
+        });
+    };
+    Workspace.prototype.findDirs = function (dirpath) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.dir.dir(dirpath).dirs()];
+            });
+        });
+    };
     Workspace.MANIFEST_FILENAME = ".carmel.json";
     Workspace.DEFAULT_MANIFEST = {
         type: "carmel",
@@ -133,3 +148,4 @@ exports.Workspace = Workspace;
 // })
 // _.IGNORE_DIRS = [".DS_Store"]
 // module.exports = _
+//# sourceMappingURL=Workspace.js.map
