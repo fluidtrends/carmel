@@ -38,7 +38,7 @@ export class Workspace implements IWorkspace {
     get session() { return this._session }
     
     get data() {
-        return this.manifest.data?.json()
+        return this.manifest.data.json()
     }
 
     get exists() {
@@ -51,25 +51,21 @@ export class Workspace implements IWorkspace {
 
     async create() {
         return new Promise((resolve, reject) => {
-            const _default = JSON.stringify(Workspace.DEFAULT_MANIFEST, null, 2)
+            this.manifest.data.update(Workspace.DEFAULT_MANIFEST)
+            this.manifest.save()
             
-            fs.existsSync(this.dir) || fs.mkdirsSync(this.dir)
-            fs.writeFileSync(path.resolve(this.dir, Workspace.MANIFEST_FILENAME), `${_default}\n`, 'utf8')
-
-            resolve()
+            resolve(this.manifest.data.json())
         })
-        .then(() => this.load())
     }
 
     async initialize () {
         return this.load()
     }
 
-    // saveContext(data: object) {
-    //     this.manifest.context = merge(Object.assign({}, this.data.context), data || {})
-    //     const manifest = JSON.stringify(this.data, null, 2)
-    //     fs.writeFileSync(path.resolve(this.dir, _.MANIFEST_FILENAME), `${manifest}\n`, 'utf8')
-    // }
+    saveContext(context: object) {
+        this.manifest.data.append({ context })
+        this.manifest.save()
+    }
 
     // context(id: Id) {
     //     return this.data && this.data.context ? (id ? this.data.context[id] : this.data.context) : null

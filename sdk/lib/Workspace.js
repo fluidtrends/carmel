@@ -39,7 +39,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var fs_extra_1 = __importDefault(require("fs-extra"));
 var path_1 = __importDefault(require("path"));
 var _1 = require(".");
 var Workspace = /** @class */ (function () {
@@ -71,8 +70,7 @@ var Workspace = /** @class */ (function () {
     });
     Object.defineProperty(Workspace.prototype, "data", {
         get: function () {
-            var _a;
-            return (_a = this.manifest.data) === null || _a === void 0 ? void 0 : _a.json();
+            return this.manifest.data.json();
         },
         enumerable: true,
         configurable: true
@@ -98,12 +96,10 @@ var Workspace = /** @class */ (function () {
             var _this = this;
             return __generator(this, function (_a) {
                 return [2 /*return*/, new Promise(function (resolve, reject) {
-                        var _default = JSON.stringify(Workspace.DEFAULT_MANIFEST, null, 2);
-                        fs_extra_1.default.existsSync(_this.dir) || fs_extra_1.default.mkdirsSync(_this.dir);
-                        fs_extra_1.default.writeFileSync(path_1.default.resolve(_this.dir, Workspace.MANIFEST_FILENAME), _default + "\n", 'utf8');
-                        resolve();
-                    })
-                        .then(function () { return _this.load(); })];
+                        _this.manifest.data.update(Workspace.DEFAULT_MANIFEST);
+                        _this.manifest.save();
+                        resolve(_this.manifest.data.json());
+                    })];
             });
         });
     };
@@ -113,6 +109,10 @@ var Workspace = /** @class */ (function () {
                 return [2 /*return*/, this.load()];
             });
         });
+    };
+    Workspace.prototype.saveContext = function (context) {
+        this.manifest.data.append({ context: context });
+        this.manifest.save();
     };
     Workspace.MANIFEST_FILENAME = ".carmel.json";
     Workspace.DEFAULT_MANIFEST = {

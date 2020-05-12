@@ -9,6 +9,7 @@ var _1 = require(".");
 var File = /** @class */ (function () {
     function File(path) {
         this._path = path;
+        this._data = new _1.Data();
     }
     Object.defineProperty(File.prototype, "data", {
         get: function () {
@@ -36,11 +37,19 @@ var File = /** @class */ (function () {
             throw _1.Errors.FileDoesNotExist(this.path);
         }
         try {
-            this._data = new _1.Data(fs_extra_1.default.readFileSync(path_1.default.resolve(this.path), 'utf8'));
+            this.data.update(fs_extra_1.default.readFileSync(path_1.default.resolve(this.path), 'utf8'));
         }
         catch (e) {
             throw _1.Errors.FileCouldNotBeLoaded(this.path, e.message);
         }
+    };
+    File.prototype.save = function () {
+        this.exists || fs_extra_1.default.mkdirsSync(path_1.default.dirname(this.path));
+        fs_extra_1.default.writeFileSync(this.path, "" + this.data.raw, 'utf8');
+    };
+    File.prototype.update = function (data) {
+        this.data.append(data);
+        this.save();
     };
     return File;
 }());
