@@ -58,7 +58,7 @@ exclude_patterns:
 - cloud/
 - desktop/
 - fluid/
-- sdk/
+- "!sdk/src/**/*.ts"
 - stacks/
 - templates/
 - web/
