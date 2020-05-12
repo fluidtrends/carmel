@@ -1,6 +1,6 @@
 {
   "name": "@carmel/platform",
-  "version": "0.5",
+  "version": "0.5.0",
   "description": "The Carmel Platform",
   "scripts": {
     "build": "node builds"
