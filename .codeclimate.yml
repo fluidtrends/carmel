@@ -51,8 +51,11 @@ ratings:
   - desktop/src/**/*
   - sdk/src/**/*
   - web/src/**/*
+  - stacks/**/*
 exclude_paths:
-- build/**/*
+- sdk/lib/**/*
+- stacks/react/lib/**/*
+- builds/**/*
 - package.json
 - .carmel.json
 - .github/**/*
