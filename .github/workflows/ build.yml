@@ -1,4 +1,4 @@
-name: platform
+name: build
 on:
   push:
     branches: [ master ]
