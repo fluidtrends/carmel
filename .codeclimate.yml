@@ -47,6 +47,9 @@ ratings:
   paths:
   - "sdk/src/**/*.ts"
   - "stacks/react/src/**/*.ts"
-exclude_paths:
+exclude_patterns:
 - "!sdk/src/**/*.ts"
 - "!stacks/src/lib/**/*.ts"
+- "fluid/**/*"
+- "assets/**/*"
+- ".*"
