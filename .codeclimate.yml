@@ -45,8 +45,8 @@ engines:
       - javascript
 ratings:
   paths:
-  - "sdk/lib/**/*.js"
-  - "stacks/react/lib/**/*.js"
+  - "sdk/src/**/*.ts"
+  - "stacks/react/src/**/*.ts"
 exclude_paths:
-- "!sdk/lib/**/*.js"
-- "!stacks/react/lib/**/*.js"
+- "!sdk/src/**/*.ts"
+- "!stacks/src/lib/**/*.ts"
