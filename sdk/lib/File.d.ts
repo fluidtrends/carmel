@@ -1,10 +1,12 @@
-import { IFile, IData, Path } from '.';
+import { IFile, IData, Path, UTF8 } from '.';
 export declare class File implements IFile {
-    protected _data?: IData;
+    protected _data: IData;
     protected _path: Path;
     constructor(path: Path);
-    get data(): IData | undefined;
+    get data(): IData;
     get path(): string;
     get exists(): boolean;
     load(): void;
+    save(): void;
+    update(data: UTF8 | object): void;
 }

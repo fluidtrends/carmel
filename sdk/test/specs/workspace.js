@@ -27,14 +27,14 @@ add('should load an existing workspace', (context, done) => {
     })
 }).
 
-// add('should be able to save to the context', (context, done) => {
-//     const workspace = new Workspace({ cwd: context.dir })
+add('should be able to save to the context', (context, done) => {
+    const workspace = new Workspace({ cwd: context.dir })
 
-//     savor.promiseShouldSucceed(workspace.create().then(() => workspace.initialize()), done, () => {
-//         workspace.saveContext({ hello: "test" })
-//         context.expect(workspace.data.context.hello).to.equal('test')
-//     })
-// }).
+    savor.promiseShouldSucceed(workspace.create().then(() => workspace.initialize()), done, () => {
+        workspace.saveContext({ hello: "test" })
+        context.expect(workspace.data.context.hello).to.equal('test')
+    })
+}).
 
 // add('should not load a missing file', (context, done) => {
 //     const workspace = new Workspace({ cwd: context.dir })

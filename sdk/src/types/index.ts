@@ -40,14 +40,18 @@ export interface IData extends IClass {
     readonly raw: UTF8;
 
     json(): object;
+    update(data: UTF8 | object): void;
+    append(data: UTF8 | object): void;
 }
 
 export interface IFile extends IClass {
     readonly path: Path;
-    readonly data?: IData;
+    readonly data: IData;
     readonly exists: boolean;
 
     load(): void;
+    save(): void;
+    update(data: UTF8 | object): void;
 }
 
 export interface IStack extends IClass {
@@ -68,11 +72,11 @@ export interface IWorkspace extends IClass  {
     readonly manifest: IFile;
     readonly session: ISession;
     readonly exists: boolean;
-    readonly data?: object;
     
     load(): void;
     create(): void;
     initialize(): void;
+    saveContext(context: object): void;
 }
 
 export interface ICommand extends IClass  {

@@ -45,41 +45,8 @@ engines:
       - javascript
 ratings:
   paths:
-  - blockchain/src/**/*
-  - cli/src/**/*
-  - cloud/src/**/*
-  - desktop/src/**/*
-  - sdk/src/**/*
-  - web/src/**/*
-  - stacks/**/*
+  - "sdk/lib/**/*.{js|d.ts}"
+  - "stacks/react/lib/**/*.{js|d.ts}"
 exclude_paths:
-- sdk/lib/**/*
-- stacks/react/lib/**/*
-- builds/**/*
-- package.json
-- .carmel.json
-- .github/**/*
-- carmel.json
-- fluid/**/*
-- ./**/*.md
-- ./**/*.json
-- .circleci/**/*
-- .codeclimate.yml
-- .es*
-- .gitignore
-- .npmignore
-- LICENSE
-- README.md
-- logo.gif
-- assets/**/*
-- assets/eos/**/*
-- logo.png
-- lib/**/*
-- docs/**/*
-- blockchain/test/**/*
-- blockchain/eos/**/*
-- cli/test/**/*
-- cloud/test/**/*
-- desktop/test/**/*
-- sdk/test/**/*
-- web/test/**/*
+- "!sdk/lib/**/*.{js|d.ts}"
+- "!stacks/react/lib/**/*.{js|d.ts}"

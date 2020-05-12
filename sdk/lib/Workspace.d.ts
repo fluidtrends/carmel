@@ -14,9 +14,10 @@ export declare class Workspace implements IWorkspace {
     get props(): WorkspaceProps;
     get dir(): string;
     get session(): ISession;
-    get data(): object | undefined;
+    get data(): object;
     get exists(): boolean;
     load(): Promise<void>;
-    create(): Promise<void>;
+    create(): Promise<unknown>;
     initialize(): Promise<void>;
+    saveContext(context: object): void;
 }
