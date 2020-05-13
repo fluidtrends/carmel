@@ -53,6 +53,8 @@ exclude_patterns:
 - "**/*.md"
 - "**/*.png"
 - "**/*.gif"
+- "**/*.d.ts"
+- ".*"
 - LICENSE
 - .github/
 - .circleci/
