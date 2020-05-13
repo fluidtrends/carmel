@@ -48,6 +48,12 @@ ratings:
   - "sdk/src/**/*.ts"
   - "stacks/react/src/**/*.ts"
 exclude_patterns:
+- "**/*.js"
+- "**/*.json"
+- "**/*.md"
+- "**/*.png"
+- "**/*.gif"
+- LICENSE
 - .github/
 - .circleci/
 - assets/
