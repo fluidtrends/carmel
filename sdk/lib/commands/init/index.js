@@ -13,6 +13,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.InitCommand = void 0;
 var Command = require('../../Command');
 var parse = require('url-parse');
 var InitCommand = /** @class */ (function (_super) {
@@ -22,46 +23,46 @@ var InitCommand = /** @class */ (function (_super) {
     }
     Object.defineProperty(InitCommand.prototype, "id", {
         get: function () { return _.ID; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(InitCommand.prototype, "requiredArgs", {
         get: function () { return _.REQUIRED; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(InitCommand.prototype, "requiresContext", {
         get: function () { return _.REQUIRES_CONTEXT; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(InitCommand.prototype, "title", {
         get: function () { return _.TITLE; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(InitCommand.prototype, "type", {
         get: function () { return _.TYPE; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(InitCommand.prototype, "requiresFreshSession", {
         get: function () { return true; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(InitCommand.prototype, "archive", {
         get: function () {
             return this._archive;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(InitCommand.prototype, "template", {
         get: function () {
             return this._template;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     InitCommand.prototype.parse = function () {

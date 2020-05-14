@@ -54,13 +54,15 @@ exclude_patterns:
 - "**/*.png"
 - "**/*.gif"
 - "**/*.d.ts"
+- "**/*.js.map"
 - ".*"
 - LICENSE
 - .github/
 - .circleci/
 - assets/
-- blockchain/
 - builds/
+- sdk/test/
+- blockchain/
 - chunks/
 - cli/
 - cloud/

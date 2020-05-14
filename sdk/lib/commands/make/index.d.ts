@@ -1,7 +1,7 @@
 export class MakeCommand {
     constructor(args: any);
-    get id(): string;
-    get title(): string;
+    get id(): any;
+    get title(): any;
     get requiresFreshSession(): boolean;
     exec(session: any): any;
 }

@@ -1,6 +1,6 @@
-import { ICommand, CommandProps } from '.';
+import { ICommand } from '.';
 export declare class Command implements ICommand {
-    protected readonly _props: CommandProps;
-    constructor(props: CommandProps);
-    get props(): CommandProps;
+    protected readonly _props: any;
+    constructor(props: any);
+    get props(): any;
 }

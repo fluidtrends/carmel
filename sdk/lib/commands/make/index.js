@@ -13,6 +13,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.MakeCommand = void 0;
 var path = require('path');
 var Command = require('../../Command');
 var MakeCommand = /** @class */ (function (_super) {
@@ -22,17 +23,17 @@ var MakeCommand = /** @class */ (function (_super) {
     }
     Object.defineProperty(MakeCommand.prototype, "id", {
         get: function () { return _.ID; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(MakeCommand.prototype, "title", {
         get: function () { return _.TITLE; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(MakeCommand.prototype, "requiresFreshSession", {
         get: function () { return true; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     MakeCommand.prototype.exec = function (session) {

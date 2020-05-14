@@ -39,6 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Workspace = void 0;
 var path_1 = __importDefault(require("path"));
 var _1 = require(".");
 var Workspace = /** @class */ (function () {
@@ -50,36 +51,36 @@ var Workspace = /** @class */ (function () {
     }
     Object.defineProperty(Workspace.prototype, "manifest", {
         get: function () { return this._manifest; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Workspace.prototype, "props", {
         get: function () { return this._props; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Workspace.prototype, "dir", {
         get: function () { return this._dir; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Workspace.prototype, "session", {
         get: function () { return this._session; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Workspace.prototype, "data", {
         get: function () {
             return this.manifest.data.json();
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Workspace.prototype, "exists", {
         get: function () {
             return this.manifest.exists;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Workspace.prototype.load = function () {

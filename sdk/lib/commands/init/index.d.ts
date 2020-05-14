@@ -1,10 +1,10 @@
 export class InitCommand {
     constructor(args: any);
-    get id(): string;
-    get requiredArgs(): string[];
-    get requiresContext(): boolean;
-    get title(): string;
-    get type(): string;
+    get id(): any;
+    get requiredArgs(): any;
+    get requiresContext(): any;
+    get title(): any;
+    get type(): any;
     get requiresFreshSession(): boolean;
     get archive(): ({
         silent: boolean;

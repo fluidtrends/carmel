@@ -1,7 +1,7 @@
 export class DeployCommand {
     constructor(args: any);
-    get id(): string;
-    get title(): string;
+    get id(): any;
+    get title(): any;
     ensureDomainIsHosted(session: any, domain: any): Promise<any>;
     ensureBucketExists(session: any, bucket: any): Promise<any>;
     ensureBucketIsLinked(session: any, domain: any): Promise<any>;

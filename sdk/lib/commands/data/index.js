@@ -13,6 +13,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.DataCommand = void 0;
 var Command = require('../../Command');
 var DataCommand = /** @class */ (function (_super) {
     __extends(DataCommand, _super);
@@ -21,17 +22,17 @@ var DataCommand = /** @class */ (function (_super) {
     }
     Object.defineProperty(DataCommand.prototype, "id", {
         get: function () { return _.ID; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(DataCommand.prototype, "requiresContext", {
         get: function () { return _.REQUIRES_CONTEXT; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(DataCommand.prototype, "title", {
         get: function () { return _.TITLE; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     DataCommand.prototype.vault = function (session) {

@@ -13,6 +13,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.DeployCommand = void 0;
 var path = require('path');
 var Command = require('../../Command');
 var parseDomain = require("parse-domain");
@@ -23,12 +24,12 @@ var DeployCommand = /** @class */ (function (_super) {
     }
     Object.defineProperty(DeployCommand.prototype, "id", {
         get: function () { return _.ID; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(DeployCommand.prototype, "title", {
         get: function () { return _.TITLE; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     DeployCommand.prototype.ensureDomainIsHosted = function (session, domain) {

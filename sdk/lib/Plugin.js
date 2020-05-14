@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Plugin = void 0;
 var Session = require('./Session');
 var Commander = require('./Commander');
 var Plugin = /** @class */ (function () {
@@ -11,21 +12,21 @@ var Plugin = /** @class */ (function () {
         get: function () {
             return this._props;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Plugin.prototype, "session", {
         get: function () {
             return this._session;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Plugin.prototype, "command", {
         get: function () {
             return this._command;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Plugin.prototype.findCommand = function (id) {

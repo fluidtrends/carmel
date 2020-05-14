@@ -13,6 +13,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.StartCommand = void 0;
 var path = require('path');
 var Command = require('../../Command');
 var Script = require('../../Script');
@@ -26,31 +27,31 @@ var StartCommand = /** @class */ (function (_super) {
     }
     Object.defineProperty(StartCommand.prototype, "id", {
         get: function () { return _.ID; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(StartCommand.prototype, "title", {
         get: function () { return _.TITLE; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(StartCommand.prototype, "requiresFreshSession", {
         get: function () { return true; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(StartCommand.prototype, "script", {
         get: function () {
             return this._script;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(StartCommand.prototype, "target", {
         get: function () {
             return this.script.target;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     StartCommand.prototype.exec = function (session) {

@@ -1,15 +1,23 @@
-/* eslint-disable no-unused-expressions */
+import savor, {
+    Context,
+    Completion
+} from 'savor'
 
-const savor = require('savor')
-const { Session } = require('../../lib')
-const { Archive } = require('rara')
-const fs = require('fs-extra')
-const path = require('path')
-const { Index } = require('dodi')
+import { 
+    Session
+} from '../../src'
+
+import {
+    Archive
+} from 'rara'
+
+import {
+    Index
+} from 'dodi'
 
 savor.
 
-add('should load a simple session', (context, done) => {
+add('should load a simple session', (context: Context, done: Completion) => {
     const session = new Session({ test: "test1234", dir: context.dir })
 
     context.expect(session.props.test).to.equal("test1234")
@@ -18,7 +26,7 @@ add('should load a simple session', (context, done) => {
     done()
 }).
 
-add('should initialize a session with a basic index', (context, done) => {
+add('should initialize a session with a basic index', (context: Context, done: Completion) => {
     const session = new Session({ dir: context.dir, name: 'test' })
     const stub = context.stub(Archive.prototype, 'download').callsFake(() => Promise.resolve({ version: "1" }))
     const stub2 = context.stub(Index.prototype, 'installArchive').callsFake(() => Promise.resolve({ installDependencies: () => ({}) }))

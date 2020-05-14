@@ -1,8 +1,8 @@
 export class StartCommand {
     constructor(args: any);
     _script: any;
-    get id(): string;
-    get title(): string;
+    get id(): any;
+    get title(): any;
     get requiresFreshSession(): boolean;
     get script(): any;
     get target(): any;

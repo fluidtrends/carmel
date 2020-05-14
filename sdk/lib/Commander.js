@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Commander = void 0;
 var Commander = /** @class */ (function () {
     function Commander(command, session) {
         this._command = command;
@@ -9,14 +10,14 @@ var Commander = /** @class */ (function () {
         get: function () {
             return this._command;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Commander.prototype, "session", {
         get: function () {
             return this._session;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Commander.prototype.run = function () {
