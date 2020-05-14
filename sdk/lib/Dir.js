@@ -39,6 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Dir = void 0;
 var fs_extra_1 = __importDefault(require("fs-extra"));
 var path_1 = __importDefault(require("path"));
 var _1 = require(".");
@@ -50,14 +51,14 @@ var Dir = /** @class */ (function () {
         get: function () {
             return this._path;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Dir.prototype, "exists", {
         get: function () {
             return fs_extra_1.default.existsSync(path_1.default.resolve(this.path));
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Dir.prototype.dir = function (dirpath) {

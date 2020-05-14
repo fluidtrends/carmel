@@ -1,20 +1,19 @@
-export class Session {
-    constructor(props: any, command: any);
-    _props: any;
-    _command: any;
-    _logger: any;
-    _workspace: any;
-    _index: any;
+import { ISession, IWorkspace, ILogger } from '.';
+export declare class Session implements ISession {
+    protected _props: any;
+    protected _logger: ILogger;
+    protected _index: any;
+    protected _workspace?: IWorkspace;
+    static DEFAULT_SECTIONS: ({
+        id: string;
+        secure?: undefined;
+    } | {
+        id: string;
+        secure: boolean;
+    })[];
+    constructor(props: any);
     get props(): any;
-    get logger(): any;
+    get logger(): ILogger;
     get index(): any;
-    get workspace(): any;
-    get hasWorkspace(): boolean;
-    get command(): any;
-    set(key: any, val: any): any;
-    get(key: any): any;
-    updateIndex(): any;
-    open(): any;
-    initialize(): any;
-    close(): any;
+    get workspace(): IWorkspace | undefined;
 }

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Stack = void 0;
 var Stack = /** @class */ (function () {
     function Stack(props) {
         this._props = props;
@@ -8,7 +9,7 @@ var Stack = /** @class */ (function () {
         get: function () {
             return this._props;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return Stack;

@@ -13,6 +13,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.InstallCommand = void 0;
 var Command = require('../../Command');
 var InstallCommand = /** @class */ (function (_super) {
     __extends(InstallCommand, _super);
@@ -21,12 +22,12 @@ var InstallCommand = /** @class */ (function (_super) {
     }
     Object.defineProperty(InstallCommand.prototype, "id", {
         get: function () { return _.ID; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(InstallCommand.prototype, "title", {
         get: function () { return _.TITLE; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     InstallCommand.prototype.downloadDeps = function (installerType) {

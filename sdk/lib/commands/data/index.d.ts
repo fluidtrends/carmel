@@ -1,8 +1,8 @@
 export class DataCommand {
     constructor(args: any);
-    get id(): string;
-    get requiresContext(): boolean;
-    get title(): string;
+    get id(): any;
+    get requiresContext(): any;
+    get title(): any;
     vault(session: any): any;
     lock(session: any): any;
     unlock(session: any): any;

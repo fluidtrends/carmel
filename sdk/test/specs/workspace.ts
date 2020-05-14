@@ -5,8 +5,7 @@ import savor, {
 
 import { 
     Workspace, 
-    Strings, 
-    WorkspaceProps
+    Strings    
 } from '../../src'
 
 import fs from 'fs-extra'
@@ -22,7 +21,7 @@ add('should create a default workspace', (context: Context, done: Completion) =>
 }).
 
 add('should load an existing workspace', (context: Context, done: Completion) => {
-    const workspace = new Workspace({ test: "test1234", cwd: context.dir })
+    const workspace = new Workspace({ test: "test1234", dir: context.dir })
 
     context.expect(workspace.props.test).to.equal("test1234")
     context.expect(workspace.dir.path).to.equal(context.dir)
@@ -34,7 +33,7 @@ add('should load an existing workspace', (context: Context, done: Completion) =>
 }).
 
 add('should be able to save to the context', (context: Context, done: Completion) => {
-    const workspace = new Workspace({ cwd: context.dir } as WorkspaceProps)
+    const workspace = new Workspace({ dir: context.dir })
 
     savor.promiseShouldSucceed(workspace.create().then(() => workspace.initialize()), done, () => {
         workspace.saveContext({ hello: "test" })
@@ -43,7 +42,7 @@ add('should be able to save to the context', (context: Context, done: Completion
 }).
 
 add('should not load a missing file', (context: Context, done: Completion) => {
-    const workspace = new Workspace({ cwd: context.dir } as WorkspaceProps)
+    const workspace = new Workspace({ dir: context.dir })
 
     savor.promiseShouldFail(workspace.loadFile("test"), done, (error: Error) => {
         context.expect(error.message).to.equal(Strings.FileDoesNotExist("test"))
@@ -52,7 +51,7 @@ add('should not load a missing file', (context: Context, done: Completion) => {
 
 add('should handle invalid files', (context: Context, done: Completion) => {
     const stub = context.stub(fs, 'readFileSync').callsFake(() => { throw new Error('oops') })
-    const workspace = new Workspace({ cwd: context.dir } as WorkspaceProps)
+    const workspace = new Workspace({ dir: context.dir })
     savor.addAsset('assets/file.txt', 'file.txt', context)
 
     savor.promiseShouldFail(workspace.loadFile("file.txt"), done, (error: Error) => {
@@ -62,7 +61,7 @@ add('should handle invalid files', (context: Context, done: Completion) => {
 }).
 
 add('should load a non-JSON file', (context: Context, done: Completion) => {
-    const workspace = new Workspace({ cwd: context.dir } as WorkspaceProps)
+    const workspace = new Workspace({ dir: context.dir })
     savor.addAsset('assets/file.txt', 'file.txt', context)
 
     savor.promiseShouldSucceed(workspace.loadFile("file.txt"), done, (data: any) => {
@@ -72,7 +71,7 @@ add('should load a non-JSON file', (context: Context, done: Completion) => {
 
 add('should load a JSON file', (context: Context, done: Completion) => {
     savor.addAsset('assets/file.json', 'file.json', context)
-    const workspace = new Workspace({ cwd: context.dir } as WorkspaceProps)
+    const workspace = new Workspace({ dir: context.dir })
 
     savor.promiseShouldSucceed(workspace.loadFile("file.json"), done, (data: any) => {
         context.expect(data.hello).to.equal('test1234')
@@ -80,7 +79,7 @@ add('should load a JSON file', (context: Context, done: Completion) => {
 }).
 
 add('should not lookup directories in a missing directory', (context: Context, done: Completion) => {
-    const workspace = new Workspace({ cwd: context.dir } as WorkspaceProps)
+    const workspace = new Workspace({ dir: context.dir })
 
     savor.promiseShouldFail(workspace.findDirs("test"), done, (error: Error) => {
         context.expect(error.message).to.equal(Strings.DirDoesNotExist("test"))
@@ -88,7 +87,7 @@ add('should not lookup directories in a missing directory', (context: Context, d
 }).
 
 add('should find some directories',  (context: Context, done: Completion) => {
-    const workspace = new Workspace({ cwd: context.dir } as WorkspaceProps)
+    const workspace = new Workspace({ dir: context.dir })
     savor.addAsset('assets/dirs', 'dirs', context)
 
     savor.promiseShouldSucceed(workspace.findDirs("dirs"), done, (data: any) => {

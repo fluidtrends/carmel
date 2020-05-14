@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Script = void 0;
 var path = require('path');
 var Script = /** @class */ (function () {
     function Script(args) {
@@ -10,28 +11,28 @@ var Script = /** @class */ (function () {
         get: function () {
             return this._platform;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Script.prototype, "target", {
         get: function () {
             return this.platform;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Script.prototype, "args", {
         get: function () {
             return this._args;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Script.prototype, "isDev", {
         get: function () {
             return this.args.dev;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Script.prototype.makeConfig = function (session) {
@@ -43,7 +44,8 @@ var Script = /** @class */ (function () {
         var chunkyWebDir = path.resolve(templateDir, 'node_modules', 'react-dom-chunky');
         var dev = this.isDev;
         var templateAssets = [{
-                path: "node_modules/react-dom-chunky/app/assets", glob: '**/*'
+                path: "node_modules/react-dom-chunky/app/assets",
+                glob: '**/*'
             }];
         return {
             dir: dir,

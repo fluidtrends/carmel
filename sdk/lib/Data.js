@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Data = void 0;
 var deepmerge_1 = __importDefault(require("deepmerge"));
 var Data = /** @class */ (function () {
     function Data(raw) {
@@ -12,7 +13,7 @@ var Data = /** @class */ (function () {
         get: function () {
             return this._raw;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Data.prototype, "isJson", {
@@ -25,7 +26,7 @@ var Data = /** @class */ (function () {
                 return false;
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Data.prototype.json = function () {

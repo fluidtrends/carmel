@@ -3,6 +3,7 @@
 // const fs = require('fs-extra')
 // const { Cloud } = require("awsome")
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Command = void 0;
 var Command = /** @class */ (function () {
     function Command(props) {
         this._props = props;
@@ -11,7 +12,7 @@ var Command = /** @class */ (function () {
         get: function () {
             return this._props;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return Command;

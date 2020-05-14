@@ -6,22 +6,6 @@ export declare type Name = string;
 export declare type Path = string;
 export declare type UTF8 = string;
 /*******************************************************
- *                     Properties                      *
- *******************************************************/
-export interface Props {
-    readonly id: Id;
-    readonly name: Name;
-}
-export interface StackProps extends Props {
-}
-export interface SessionProps extends Props {
-}
-export interface WorkspaceProps extends Props {
-    cwd: Path;
-}
-export interface CommandProps extends Props {
-}
-/*******************************************************
  *                   Class Interfaces                  *
  *******************************************************/
 export interface IClass {
@@ -48,13 +32,16 @@ export interface IDir extends IClass {
     dirs(): Promise<Path[]>;
 }
 export interface IStack extends IClass {
-    readonly props: StackProps;
+    readonly props: any;
 }
 export interface ILogger extends IClass {
-    readonly props: SessionProps;
+    readonly props: any;
 }
-export interface ISession extends IClass {
-    readonly props: SessionProps;
+export interface ICommand extends IClass {
+    readonly props: any;
+}
+export interface ILogger extends IClass {
+    readonly props: any;
 }
 export interface IWorkspace extends IClass {
     readonly props: any;
@@ -69,6 +56,9 @@ export interface IWorkspace extends IClass {
     loadFile(path: Path): void;
     findDirs(dirpath: Path): Promise<Path[]>;
 }
-export interface ICommand extends IClass {
-    readonly props: CommandProps;
+export interface ISession extends IClass {
+    readonly props: any;
+    readonly logger: ILogger;
+    readonly workspace?: IWorkspace;
+    readonly index: any;
 }

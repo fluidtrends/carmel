@@ -1,6 +1,6 @@
 {
   "name": "@carmel/sdk",
-  "version": "1.9.9",
+  "version": "1.9.8",
   "description": "The Carmel SDK",
   "scripts": {
     "build": "tsc",
@@ -23,7 +23,7 @@
   "dependencies": {
     "awsome": "^1.3.1",
     "deepmerge": "^4.2.2",
-    "dodi": "^1.9.0",
+    "dodi": "^1.9.7",
     "ora": "^4.0.3",
     "parse-domain": "^2.3.4",
     "pm2": "^4.2.3",

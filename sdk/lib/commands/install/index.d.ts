@@ -1,7 +1,7 @@
 export class InstallCommand {
     constructor(args: any);
-    get id(): string;
-    get title(): string;
+    get id(): any;
+    get title(): any;
     downloadDeps(installerType: any): any;
     exec(session: any): any;
 }

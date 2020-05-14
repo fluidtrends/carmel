@@ -4,9 +4,9 @@ import merge from 'deepmerge'
 
 import { 
     IWorkspace, 
-    WorkspaceProps, 
     Path, 
     IFile,
+    Id,
     IDir,
     File,
     Dir,
@@ -29,7 +29,7 @@ export class Workspace implements IWorkspace {
     constructor(props: any) {
         // this._session = session
         this._props = props
-        this._dir = new Dir(this.props.cwd || process.cwd())
+        this._dir = new Dir(this.props.dir || process.cwd())
         this._manifest = new File(path.resolve(this.dir.path, Workspace.MANIFEST_FILENAME))
     }
 
@@ -47,7 +47,7 @@ export class Workspace implements IWorkspace {
     }
 
     async load() {
-        this.manifest.load()
+        this.manifest.exists && this.manifest.load()
     }
 
     async create() {
@@ -77,10 +77,9 @@ export class Workspace implements IWorkspace {
         return this.dir.dir(dirpath).dirs()
     }
 
-    // context(id: Id) {
-    //     return this.data && this.data.context ? (id ? this.data.context[id] : this.data.context) : null
-    // }
-
+    context(id: Id) {
+        return this.data && this.data.context ? (id ? this.data.context[id] : this.data.context) : undefined
+    }
 
     // saveData(data) {
     //     this._data = merge(Object.assign({}, this.data), data || {})

@@ -13,6 +13,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.SetupCommand = void 0;
 var Command = require('../../Command');
 var SetupCommand = /** @class */ (function (_super) {
     __extends(SetupCommand, _super);
@@ -21,17 +22,17 @@ var SetupCommand = /** @class */ (function (_super) {
     }
     Object.defineProperty(SetupCommand.prototype, "id", {
         get: function () { return _.ID; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(SetupCommand.prototype, "requiresContext", {
         get: function () { return _.REQUIRES_CONTEXT; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(SetupCommand.prototype, "title", {
         get: function () { return _.TITLE; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     SetupCommand.prototype.exec = function (session) {

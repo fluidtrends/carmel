@@ -1,5 +1,15 @@
-export class Commander {
-    constructor (command, session) {
+import {
+    ICommander,
+    ICommand,
+    ISession,
+    Errors
+} from '.'
+
+export class Commander implements ICommander {
+    protected _command: ICommand;
+    protected _session?: ISession;
+
+    constructor (command: ICommand, session?: ISession) {
         this._command = command
         this._session = session
     }
@@ -22,21 +32,17 @@ export class Commander {
 
             if (missing && missing.length > 0) {
                 // Make sure that the command has been given what it expects
-                reject(new Error(_.ERRORS.MISSING_ARG(missing[0])))
+                reject(Errors.ArgumentIsMissing(missing[0]))
                 return
             }
             resolve()    
         })
     }
 
-    static run (command, session) {
-        const _this = new _(command, session)
+    public static async run (command: ICommand, session?: ISession) {
+        const _this = new Commander(command, session)
         return _this.verify()
-                    .then(() => _this.session.initialize())
+                    .then(() => _this.session?.initialize())
                     .then(() => _this.run())
     }
-}
-
-_.ERRORS = {
-    MISSING_ARG: (arg) => `Missing [${arg}] argument`
 }

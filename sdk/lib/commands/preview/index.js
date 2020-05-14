@@ -13,6 +13,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.PreviewCommand = void 0;
 var path = require('path');
 var Command = require('../../Command');
 var PreviewCommand = /** @class */ (function (_super) {
@@ -22,12 +23,12 @@ var PreviewCommand = /** @class */ (function (_super) {
     }
     Object.defineProperty(PreviewCommand.prototype, "id", {
         get: function () { return _.ID; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PreviewCommand.prototype, "title", {
         get: function () { return _.TITLE; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     PreviewCommand.prototype.exec = function (session) {

@@ -1,33 +1,64 @@
-// const path = require('path')
-// const fs = require('fs-extra')
-// const { Cloud } = require("awsome")
+import fs from 'fs-extra'
+import path from 'path'
 
 import {
     ICommand,
-    CommandProps
+    Errors
 } from '.'
+import { ISection } from 'dodi';
+import { ISession } from './types';
+
+// const { Cloud } = require("awsome")
 
 export class Command implements ICommand {
-    protected readonly _props: CommandProps;
+    protected readonly _args: any;
+    protected _session?: ISession;
+    protected _context?: any;
 
-    constructor(props: CommandProps) {
-        this._props = props
+// _.TARGETS = { WEB: "web", DESKTOP: "desktop", MOBILE: "mobile", CLOUD: "cloud" }
+// _.DEFAULT_SCRIPT = 'default'
+
+    constructor(args: any) {
+        this._args = args
     }
 
-    get props() {
-        return this._props
+    get session() {
+        return this._session
     }
-
-    // TO BE IMPLEMENTED BY CHILDREN
-//     get requiredArgs() { return [] }
-//     get title() { return _.TITLE }
-//     get id() { return _.ID }
-//     get requiresContext() { return _.REQUIRES_CONTEXT }
-//     get requiresFreshSession() { return _.REQUIRES_FRESH_SESSION }
-//     get cloud () { return this._cloud }
-//     get env () { return this.args.env || "dev" }
     
-//     exec(session) { return this.initialize(session) }
+    get args() {
+        return this._args
+    }
+
+    get context() {
+        return this._context
+    }
+    
+    get env () { 
+        return this.args.env || "dev" 
+    }
+
+    get requiredArgs() { return [] }
+    get title() { return 'command' }
+    get id() { return '_' }
+    get requiresContext() { return true }
+    get requiresFreshSession() { return true }
+
+    get cwd() {
+        return process.cwd()
+    }
+
+//     get cloud () { return this._cloud }
+    
+    get missingRequiredArgs() {
+        return this.requiredArgs.filter(arg => {
+            return (!this.args || !this.args[arg])
+        })
+    }
+
+    async exec(session?: ISession) { 
+        return this.initialize(session) 
+    }
 
 //     loadScript(paths = [this.context.script]) {   
 //         return new Promise((resolve, reject) => {
@@ -86,27 +117,27 @@ export class Command implements ICommand {
 //         })
 //     }
 
-//     initialize(session) {
-//         this._session = session
+    async initialize(session?: ISession) {
+        this._session = session
 
-//         if (!this.session) {
-//             return Promise.reject(new Error(_.ERRORS.COULD_NOT_EXECUTE('the session is missing')))
-//         }
-    
-//         if (!this.session.workspace.exists) {
-//             return Promise.reject(new Error(_.ERRORS.DOES_NOT_EXIST('workspace')))
-//         }
+        if (!this.session) {
+            return Promise.reject(Errors.CommandCannotExecute(this.id, 'the session is missing'))
+        }    
+
+        if (!this.session.workspace!.exists) {
+            return Promise.reject(Errors.CommandCannotExecute(this.id, 'the workspace is invalid'))
+        }
       
-//         // Look up the workspace context, if any
-//         this._context = this.session.workspace.context(this.id)
+        // Look up the workspace context, if any
+        this._context = this.session.workspace!.context(this.id)
     
-//         if (!this.context && this.requiresContext) {
-//             // We need a start context in the workspace
-//             return Promise.reject(new Error(_.ERRORS.COULD_NOT_EXECUTE('the workspace context is missing')))
-//         }
+        if (!this.context && this.requiresContext) {
+            // We need a start context in the workspace
+            return Promise.reject(Errors.CommandCannotExecute(this.id, 'the workspace context is missing'))
+        }
       
-//         return Promise.resolve()
-//     }
+        return Promise.resolve()
+    }
 
 //     get target () { 
 //         this._target 
@@ -124,26 +155,4 @@ export class Command implements ICommand {
 //         return this._args
 //     }
 
-//     get cwd() {
-//         return process.cwd()
-//     }
-
-//     get missingRequiredArgs() {
-//         return this.requiredArgs.filter(arg => {
-//             return (!this.args || !this.args[arg])
-//         })
-//     }
 }
-
-// _.ERRORS = {
-//     DOES_NOT_EXIST: (name) => name ? `The ${name} does not exist` : `Does not exist`,
-//     ALREADY_EXISTS: (name) => name ? `The ${name} already exists` : `Already exists`,
-//     COULD_NOT_EXECUTE: (reason) => reason ? `${reason}`: `Could not execute command`
-// }
-
-// _.TITLE = 'command'
-// _.ID = '_'
-// _.REQUIRES_CONTEXT = true 
-// _.REQUIRES_FRESH_SESSION = false
-// _.TARGETS = { WEB: "web", DESKTOP: "desktop", MOBILE: "mobile", CLOUD: "cloud" }
-// _.DEFAULT_SCRIPT = 'default'

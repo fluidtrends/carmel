@@ -10,7 +10,6 @@ import {
     UTF8,
     Errors,
 } from '.'
-import { resolve } from 'dns';
  
 export class File implements IFile {
     protected _data: IData;
@@ -36,14 +35,15 @@ export class File implements IFile {
     async load() {
         return new Promise((resolve, reject) => {
             if (!this.exists) {
-                throw Errors.FileDoesNotExist(this.path)
+                reject(Errors.FileDoesNotExist(this.path))
+                return
             }
 
             try {
                 this.data.update(fs.readFileSync(path.resolve(this.path), 'utf8'))
                 resolve(this.data.isJson ? this.data.json() : this.data.raw)
             } catch (e) {
-                throw Errors.FileCouldNotBeLoaded(this.path, e.message)
+                reject(Errors.FileCouldNotBeLoaded(this.path, e.message))
             }
         })
     }

@@ -1,9 +1,11 @@
-import { IStack, StackProps } from './types'
+import { 
+    IStack
+ } from './types'
 
 export class Stack implements IStack {
-    protected _props: StackProps;
+    protected _props: any;
 
-    constructor(props: StackProps) {
+    constructor(props: any) {
         this._props = props
     }
 

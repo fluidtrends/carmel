@@ -1,1 +1,1 @@
-{"version":3,"file":"Stack.js","sourceRoot":"","sources":["../src/Stack.ts"],"names":[],"mappings":";;AAEA;IAGI,eAAY,KAAiB;QACzB,IAAI,CAAC,MAAM,GAAG,KAAK,CAAA;IACvB,CAAC;IAED,sBAAI,wBAAK;aAAT;YACI,OAAO,IAAI,CAAC,MAAM,CAAA;QACtB,CAAC;;;OAAA;IACL,YAAC;AAAD,CAAC,AAVD,IAUC;AAVY,sBAAK"}
+{"version":3,"file":"Stack.js","sourceRoot":"","sources":["../src/Stack.ts"],"names":[],"mappings":";;;AAIA;IAGI,eAAY,KAAU;QAClB,IAAI,CAAC,MAAM,GAAG,KAAK,CAAA;IACvB,CAAC;IAED,sBAAI,wBAAK;aAAT;YACI,OAAO,IAAI,CAAC,MAAM,CAAA;QACtB,CAAC;;;OAAA;IACL,YAAC;AAAD,CAAC,AAVD,IAUC;AAVY,sBAAK"}

@@ -6,28 +6,7 @@ export type Id = string;
 export type Name = string;
 export type Path = string;
 export type UTF8 = string;
-
-/*******************************************************
- *                     Properties                      *
- *******************************************************/
-
-export interface Props {
-    readonly id: Id;
-    readonly name: Name;
-}
-
-export interface StackProps extends Props {
-}
-
-export interface SessionProps extends Props {
-}
-
-export interface WorkspaceProps extends Props {
-    cwd: Path;
-}
-
-export interface CommandProps extends Props {
-}
+export type JSON = any;
 
 /*******************************************************
  *                   Class Interfaces                  *
@@ -64,15 +43,36 @@ export interface IDir extends IClass {
 }
 
 export interface IStack extends IClass {
-    readonly props: StackProps 
+    readonly props: any 
 }
 
 export interface ILogger extends IClass  {
-    readonly props: SessionProps;
+    readonly props: any;
 }
 
-export interface ISession extends IClass  {
-    readonly props: SessionProps;
+export interface ICommand extends IClass  {
+    readonly args: any;
+    readonly requiredArgs: string[];
+    readonly title: string;
+    readonly id: string;
+    readonly requiresContext: boolean;
+    readonly requiresFreshSession: boolean;
+    readonly env: any;
+    readonly session?: ISession;
+    readonly context?: any;
+    readonly missingRequiredArgs: string[];
+    readonly cwd: string;
+
+    exec(session?: ISession): Promise<any>; 
+}
+
+export interface ICommander extends IClass  {
+    readonly command: ICommand;
+    readonly session?: ISession;
+}
+
+export interface ILogger extends IClass  {
+    readonly props: any;
 }
 
 export interface IWorkspace extends IClass  {
@@ -88,8 +88,14 @@ export interface IWorkspace extends IClass  {
     saveContext(context: object): void;
     loadFile (path: Path): void;
     findDirs(dirpath: Path): Promise<Path[]>;
+    context(id: Id): any;
 }
 
-export interface ICommand extends IClass  {
-    readonly props: CommandProps;
+export interface ISession extends IClass  {
+    readonly props: any;
+    readonly logger: ILogger;
+    readonly workspace?: IWorkspace;
+    readonly index: any;
+
+    initialize(): Promise<any>;
 }

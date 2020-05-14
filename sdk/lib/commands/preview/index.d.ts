@@ -1,6 +1,6 @@
 export class PreviewCommand {
     constructor(args: any);
-    get id(): string;
-    get title(): string;
+    get id(): any;
+    get title(): any;
     exec(session: any): any;
 }

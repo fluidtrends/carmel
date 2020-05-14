@@ -13,6 +13,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.WorkspaceCommand = void 0;
 var Command = require('../../Command');
 var WorkspaceCommand = /** @class */ (function (_super) {
     __extends(WorkspaceCommand, _super);
@@ -21,17 +22,17 @@ var WorkspaceCommand = /** @class */ (function (_super) {
     }
     Object.defineProperty(WorkspaceCommand.prototype, "id", {
         get: function () { return _.ID; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(WorkspaceCommand.prototype, "requiresContext", {
         get: function () { return _.REQUIRES_CONTEXT; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(WorkspaceCommand.prototype, "title", {
         get: function () { return _.TITLE; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     WorkspaceCommand.prototype.set = function (session) {

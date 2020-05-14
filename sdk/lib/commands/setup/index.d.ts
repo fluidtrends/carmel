@@ -1,7 +1,7 @@
 export class SetupCommand {
     constructor(args: any);
-    get id(): string;
-    get requiresContext(): boolean;
-    get title(): string;
+    get id(): any;
+    get requiresContext(): any;
+    get title(): any;
     exec(session: any): any;
 }
