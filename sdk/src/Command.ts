@@ -38,7 +38,7 @@ export class Command implements ICommand {
         return this.args.env || "dev" 
     }
 
-    get requiredArgs() { return [] }
+    get requiredArgs() { return [] as string[] }
     get title() { return 'command' }
     get id() { return '_' }
     get requiresContext() { return true }

@@ -75,14 +75,15 @@ var File = /** @class */ (function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/, new Promise(function (resolve, reject) {
                         if (!_this.exists) {
-                            throw _1.Errors.FileDoesNotExist(_this.path);
+                            reject(_1.Errors.FileDoesNotExist(_this.path));
+                            return;
                         }
                         try {
                             _this.data.update(fs_extra_1.default.readFileSync(path_1.default.resolve(_this.path), 'utf8'));
                             resolve(_this.data.isJson ? _this.data.json() : _this.data.raw);
                         }
                         catch (e) {
-                            throw _1.Errors.FileCouldNotBeLoaded(_this.path, e.message);
+                            reject(_1.Errors.FileCouldNotBeLoaded(_this.path, e.message));
                         }
                     })];
             });

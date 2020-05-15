@@ -46,7 +46,7 @@ var Workspace = /** @class */ (function () {
     function Workspace(props) {
         // this._session = session
         this._props = props;
-        this._dir = new _1.Dir(this.props.cwd || process.cwd());
+        this._dir = new _1.Dir(this.props.dir || process.cwd());
         this._manifest = new _1.File(path_1.default.resolve(this.dir.path, Workspace.MANIFEST_FILENAME));
     }
     Object.defineProperty(Workspace.prototype, "manifest", {
@@ -86,7 +86,7 @@ var Workspace = /** @class */ (function () {
     Workspace.prototype.load = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                this.manifest.load();
+                this.manifest.exists && this.manifest.load();
                 return [2 /*return*/];
             });
         });
@@ -129,6 +129,9 @@ var Workspace = /** @class */ (function () {
                 return [2 /*return*/, this.dir.dir(dirpath).dirs()];
             });
         });
+    };
+    Workspace.prototype.context = function (id) {
+        return this.data && this.data.context ? (id ? this.data.context[id] : this.data.context) : undefined;
     };
     Workspace.MANIFEST_FILENAME = ".carmel.json";
     Workspace.DEFAULT_MANIFEST = {

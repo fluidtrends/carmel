@@ -33,7 +33,7 @@ __exportStar(require("./Data"), exports);
 __exportStar(require("./Workspace"), exports);
 __exportStar(require("./Session"), exports);
 __exportStar(require("./Logger"), exports);
-// export * from './Commander'
-// export * from './Plugin'
+__exportStar(require("./Commander"), exports);
+__exportStar(require("./Plugin"), exports);
 // export * as Commands from './commands'
 //# sourceMappingURL=index.js.map

@@ -5,6 +5,7 @@ export declare type Id = string;
 export declare type Name = string;
 export declare type Path = string;
 export declare type UTF8 = string;
+export declare type JSON = any;
 /*******************************************************
  *                   Class Interfaces                  *
  *******************************************************/
@@ -37,8 +38,29 @@ export interface IStack extends IClass {
 export interface ILogger extends IClass {
     readonly props: any;
 }
-export interface ICommand extends IClass {
+export interface IPlugin extends IClass {
     readonly props: any;
+    readonly session?: ISession;
+    readonly command?: ICommand;
+    readonly name: string;
+}
+export interface ICommand extends IClass {
+    readonly args: any;
+    readonly requiredArgs: string[];
+    readonly title: string;
+    readonly id: string;
+    readonly requiresContext: boolean;
+    readonly requiresFreshSession: boolean;
+    readonly env: any;
+    readonly session?: ISession;
+    readonly context?: any;
+    readonly missingRequiredArgs: string[];
+    readonly cwd: string;
+    exec(session?: ISession): Promise<any>;
+}
+export interface ICommander extends IClass {
+    readonly command?: ICommand;
+    readonly session?: ISession;
 }
 export interface ILogger extends IClass {
     readonly props: any;
@@ -55,10 +77,14 @@ export interface IWorkspace extends IClass {
     saveContext(context: object): void;
     loadFile(path: Path): void;
     findDirs(dirpath: Path): Promise<Path[]>;
+    context(id: Id): any;
 }
 export interface ISession extends IClass {
     readonly props: any;
     readonly logger: ILogger;
     readonly workspace?: IWorkspace;
     readonly index: any;
+    initialize(): Promise<any>;
+    open(): void;
+    close(): void;
 }

@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Plugin = void 0;
-var Session = require('./Session');
-var Commander = require('./Commander');
+var _1 = require(".");
 var Plugin = /** @class */ (function () {
     function Plugin(props) {
         this._props = Object.assign({}, props);
-        this._props.session = Object.assign({}, { name: "carmel" }, props.session);
+        this._name = props.name || "carmel";
+        this._props.session = Object.assign({}, { name: this.name }, props.session);
     }
     Object.defineProperty(Plugin.prototype, "props", {
         get: function () {
@@ -29,13 +29,20 @@ var Plugin = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Plugin.prototype, "name", {
+        get: function () {
+            return this._name;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Plugin.prototype.findCommand = function (id) {
         return require("./commands/" + id);
     };
     Plugin.prototype.loadCommand = function () {
         var _this = this;
         if (!this.props || !this.props.command) {
-            return Promise.reject(new Error(_.ERRORS.CANNOT_LOAD('the command is missing')));
+            return Promise.reject(_1.Errors.PluginCannotLoad(this.name, 'the command is missing'));
         }
         return new Promise(function (resolve, reject) {
             try {
@@ -49,19 +56,20 @@ var Plugin = /** @class */ (function () {
         });
     };
     Plugin.prototype.createSession = function () {
-        this._session = new Session(this.props.session, this.command);
-        return this.session.open(this.command);
+        var _a;
+        this._session = new _1.Session(this.props.session); //, this.command)
+        return (_a = this.session) === null || _a === void 0 ? void 0 : _a.open();
     };
     Plugin.prototype.run = function () {
         var _this = this;
         return new Promise(function (resolve) {
             _this.loadCommand()
                 .then(function () { return _this.createSession(); })
-                .then(function () { return Commander.run(_this.command, _this.session); })
-                .then(function () { return _this.session.close(); })
+                .then(function () { return _1.Commander.run(_this.command, _this.session); })
+                .then(function () { var _a; return (_a = _this.session) === null || _a === void 0 ? void 0 : _a.close(); })
                 .catch(function (e) {
-                console.log(e);
-                _this.session.logger.error(e);
+                // console.log(e)
+                // this.session.logger.error(e)
                 resolve();
             });
         });
@@ -69,7 +77,4 @@ var Plugin = /** @class */ (function () {
     return Plugin;
 }());
 exports.Plugin = Plugin;
-_.ERRORS = {
-    CANNOT_LOAD: function (reason) { return reason ? "Cannot load plugin because " + reason : "Cannot load plugin"; }
-};
 //# sourceMappingURL=Plugin.js.map

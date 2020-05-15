@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 
 const savor = require('savor')
-const { Commander, Commands, Session } = require('../../..')
+const { Commander, Commands, Session } = require('../../lib')
 const { Archive } = require('rara')
 const npm = require('npm')
 const { Index } = require('dodi')

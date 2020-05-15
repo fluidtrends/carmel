@@ -1,4 +1,4 @@
-import { IWorkspace, Path, IFile, IDir, ISession } from '.';
+import { IWorkspace, Path, IFile, Id, IDir, ISession } from '.';
 export declare class Workspace implements IWorkspace {
     static MANIFEST_FILENAME: Path;
     static DEFAULT_MANIFEST: {
@@ -22,4 +22,5 @@ export declare class Workspace implements IWorkspace {
     saveContext(context: object): void;
     loadFile(path: Path): Promise<unknown>;
     findDirs(dirpath: Path): Promise<string[]>;
+    context(id: Id): any;
 }

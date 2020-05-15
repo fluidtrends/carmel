@@ -101,15 +101,13 @@ export class Session implements ISession {
                          })
     }
 
-    // open() {
-    //     // Let's setup the logger
-    //     return this.logger.start(this.command && this.command.title)
-    // }
-    
-    
+    open() {
+        // Let's setup the logger
+        // return this.logger.start(this.command && this.command.title)
+    }
 
-    // close() {
-    //     // Close this session
-    //     return this.logger.stop()
-    // }
+    close() {
+        // Close this session
+        // return this.logger.stop()
+    }
 }
