@@ -5,3 +5,4 @@ export const ArgumentIsMissing = (arg: string) => `The ${arg} argument is missin
 export const CommandDoesNotExist = (name: string) => `The ${name} command does not exist`;
 export const CommandAlreadyExists = (name: string) => `The ${name} command already exists`;
 export const CommandCannotExecute = (name: string, reason: string) => `The ${name} command could not execute because ${reason}`;
+export const PluginCannotLoad = (name: string, reason: string) => `The ${name} plugin cannot load because ${reason}`;

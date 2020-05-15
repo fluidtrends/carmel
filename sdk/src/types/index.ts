@@ -43,11 +43,18 @@ export interface IDir extends IClass {
 }
 
 export interface IStack extends IClass {
-    readonly props: any 
+    readonly props: any;
 }
 
 export interface ILogger extends IClass  {
     readonly props: any;
+}
+
+export interface IPlugin extends IClass {
+    readonly props: any;
+    readonly session?: ISession;
+    readonly command?: ICommand;
+    readonly name: string;
 }
 
 export interface ICommand extends IClass  {
@@ -67,7 +74,7 @@ export interface ICommand extends IClass  {
 }
 
 export interface ICommander extends IClass  {
-    readonly command: ICommand;
+    readonly command?: ICommand;
     readonly session?: ISession;
 }
 
@@ -98,4 +105,6 @@ export interface ISession extends IClass  {
     readonly index: any;
 
     initialize(): Promise<any>;
+    open(): void;
+    close(): void;
 }

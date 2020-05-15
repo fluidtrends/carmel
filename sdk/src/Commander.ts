@@ -6,10 +6,10 @@ import {
 } from '.'
 
 export class Commander implements ICommander {
-    protected _command: ICommand;
+    protected _command?: ICommand;
     protected _session?: ISession;
 
-    constructor (command: ICommand, session?: ISession) {
+    constructor (command?: ICommand, session?: ISession) {
         this._command = command
         this._session = session
     }
@@ -23,12 +23,12 @@ export class Commander implements ICommander {
     }
 
     run() {
-        return this.command.exec(this.session)
+        return this.command?.exec(this.session)
     }
 
     verify() {
         return new Promise((resolve, reject) => {
-            const missing = this.command.missingRequiredArgs
+            const missing = this.command?.missingRequiredArgs
 
             if (missing && missing.length > 0) {
                 // Make sure that the command has been given what it expects
@@ -39,7 +39,7 @@ export class Commander implements ICommander {
         })
     }
 
-    public static async run (command: ICommand, session?: ISession) {
+    public static async run (command?: ICommand, session?: ISession) {
         const _this = new Commander(command, session)
         return _this.verify()
                     .then(() => _this.session?.initialize())

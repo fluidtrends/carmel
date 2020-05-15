@@ -9,3 +9,5 @@ export * from './Data';
 export * from './Workspace';
 export * from './Session';
 export * from './Logger';
+export * from './Commander';
+export * from './Plugin';
