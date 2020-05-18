@@ -1,1 +1,1 @@
-## E300: 
+## E300: Chris confirms that the default AWS profile exists.
