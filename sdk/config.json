@@ -1,0 +1,11 @@
+{
+    "commands": {
+        "init": {
+            "type": "workspace",
+            "title": "Creating a new product",
+            "requiredArgs": ["name", "template"], 
+            "requiresContext": false,
+            "requiresFreshSession": true
+        }
+    }
+}
