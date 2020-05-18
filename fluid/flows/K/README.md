@@ -2,7 +2,7 @@
 
 **Steps:**
 
-- [K100: .](100)
-- [K200: .](200)
-- [K300: .](300)
+- [K100: Chris opens a terminal.](100)
+- [K200: Chris goes to a Carmel product directory.](200)
+- [K300: Chris runs the Carmel package command.](300)
 
