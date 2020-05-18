@@ -1,1 +1,1 @@
-## F100: 
+## F100: Chris opens a terminal.

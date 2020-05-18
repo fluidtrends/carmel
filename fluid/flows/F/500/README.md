@@ -1,1 +1,1 @@
-## F500: 
+## F500: Chris verifies the product was created.
