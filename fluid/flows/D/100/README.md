@@ -1,1 +1,1 @@
-## D100: 
+## D100: Chris opens a terminal.
