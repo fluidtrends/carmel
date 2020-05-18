@@ -1,1 +1,1 @@
-## K100: 
+## K100: Chris opens a terminal.
