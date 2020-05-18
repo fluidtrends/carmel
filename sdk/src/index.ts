@@ -1,3 +1,5 @@
+import Config from '../config.json'
+
 export * as Errors from './errors'    
 export * as Strings from './strings'    
 export * as Globals from './globals'    
@@ -13,3 +15,4 @@ export * from './Logger'
 export * from './Commander'
 export * from './Plugin'
 export * as Commands from './commands'
+export { Config }

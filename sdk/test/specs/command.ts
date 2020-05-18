@@ -27,7 +27,7 @@ add('should not run without a session', (context: Context, done: Completion) => 
 
   savor.promiseShouldFail(Commander.run(cmd), done, (error) => {
     context.expect(cmd.cwd).to.equal(process.cwd())
-    context.expect(cmd.id).to.equal("_")
+    context.expect(cmd.id).to.equal("command")
     context.expect(error.message).to.equal(Strings.CommandCannotExecute(cmd.id, 'the session is missing'))
   })
 }).

@@ -7,26 +7,13 @@ import {
   Globals
 } from '../..'
 
-export default class InitCommand extends Command {
+export default class Init extends Command {
   protected _archive?: any;
   protected _template?: any;
 
   constructor(args?: any) {
     super(args)
   }
-
-  get id() { 
-    return 'init' 
-  }
-
-  get requiredArgs() { 
-    return ['name', 'template']
-  }
-
-  get requiresContext() { return false }
-  get title() { return "Creating a new workspace" }
-  get type () { return 'workspace' }
-  get requiresFreshSession() { return true }
 
   get archive() {
     return this._archive

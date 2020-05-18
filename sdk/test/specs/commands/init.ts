@@ -7,6 +7,7 @@ import {
   Globals,
   Commands, 
   Strings,
+  Config,
   Session,
   Commander
 } from '../../../src' 
@@ -76,7 +77,7 @@ add('should create a new workspace', (context: Context, done: Completion) => {
     const stub3 = context.stub(Index.prototype, 'installArchive').callsFake(() => Promise.resolve({ installDependencies: () => ({}) }))
   
     savor.promiseShouldSucceed(session.initialize().then(() => Commander.run(cmd, session)), done, () => {
-      context.expect(cmd.title).to.equal('Creating a new workspace')
+      context.expect(cmd.title).to.equal(Config.commands.init.title)
       stub.restore()
       stub2.restore()
       stub3.restore()

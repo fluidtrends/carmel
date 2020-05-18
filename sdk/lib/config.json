@@ -1,0 +1,9 @@
+{
+    "commands": {
+        "init": {
+            "id": "init",
+            "class": "Init",
+            "title": "Create a new product"
+        }
+    }
+}

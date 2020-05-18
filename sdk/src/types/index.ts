@@ -61,6 +61,7 @@ export interface ICommand extends IClass  {
     readonly args: any;
     readonly requiredArgs: string[];
     readonly title: string;
+    readonly type: string;
     readonly id: string;
     readonly requiresContext: boolean;
     readonly requiresFreshSession: boolean;

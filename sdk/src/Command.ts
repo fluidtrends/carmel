@@ -1,12 +1,9 @@
-import fs from 'fs-extra'
-import path from 'path'
-
 import {
     ICommand,
-    Errors
+    Errors,
+    Config,
+    ISession
 } from '.'
-import { ISection } from 'dodi';
-import { ISession } from './types';
 
 // const { Cloud } = require("awsome")
 
@@ -14,12 +11,22 @@ export class Command implements ICommand {
     protected readonly _args: any;
     protected _session?: ISession;
     protected _context?: any;
+    protected _props?: any;
 
 // _.TARGETS = { WEB: "web", DESKTOP: "desktop", MOBILE: "mobile", CLOUD: "cloud" }
 // _.DEFAULT_SCRIPT = 'default'
 
     constructor(args: any) {
         this._args = args
+        this._props = (Config.commands as any)[this.id] || {}
+    }
+
+    get id () {
+        return this.constructor.name.toLowerCase()
+    }
+
+    get props() {
+        return this._props
     }
 
     get session() {
@@ -38,11 +45,11 @@ export class Command implements ICommand {
         return this.args.env || "dev" 
     }
 
-    get requiredArgs() { return [] as string[] }
-    get title() { return 'command' }
-    get id() { return '_' }
-    get requiresContext() { return true }
-    get requiresFreshSession() { return true }
+    get requiredArgs() { return (this.props.requiredArgs || []) as string[] }
+    get title() { return this.props.title || 'command' }
+    get requiresContext() { return this.props.requiresContext }
+    get requiresFreshSession() { return this.props.requiresFreshSession }
+    get type () { return this.props.type || 'workspace' }
 
     get cwd() {
         return process.cwd()
