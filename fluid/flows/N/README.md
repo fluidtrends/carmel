@@ -2,7 +2,7 @@
 
 **Steps:**
 
-- [N100: .](100)
-- [N200: .](200)
-- [N300: .](300)
+- [N100: Chris visits the Carmel Roadmap web page.](100)
+- [N200: Chris sees the summary of all releases.](200)
+- [N300: Chris sees the details of the current release.](300)
 
