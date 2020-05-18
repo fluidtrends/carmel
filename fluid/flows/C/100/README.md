@@ -1,1 +1,1 @@
-## C100: 
+## C100: Chris opens a terminal.
