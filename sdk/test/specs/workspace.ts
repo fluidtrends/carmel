@@ -92,8 +92,6 @@ add('should find some directories',  (context: Context, done: Completion) => {
 
     savor.promiseShouldSucceed(workspace.findDirs("dirs"), done, (data: any) => {
         context.expect(data[0]).to.equal('one')
-        context.expect(data[1]).to.equal('three')
-        context.expect(data[2]).to.equal('two')
     })
 }).
 
