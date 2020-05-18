@@ -1,1 +1,1 @@
-## H100: 
+## H100: Chris opens a terminal.
