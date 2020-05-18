@@ -1,0 +1,1 @@
+## B400: Chris confirms that the Carmel CLI is installed.
