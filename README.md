@@ -5,9 +5,9 @@
 
 <p align="center"> 
 <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vTtLsIGbhpMYQ44M_1EjYoJNlRKREgx0Uu6f79K4zS-RIUlzf7gAccnAlgemvW7x6XxPzIZiGbqYf3f/pubhtml">
-<img src="https://img.shields.io/badge/dynamic/json?color=blue&label=release&prefix=pre&query=name&suffix=post&url=https%3A%2F%2Fraw.githubusercontent.com%2Ffluidtrends%2Fcarmel%2Fmaster%2Ffluid%2Freleases%2Fnext%2Fstatus.json"/></a>
+<img src="https://img.shields.io/badge/dynamic/json?color=blue&label=release&query=name&url=https%3A%2F%2Fraw.githubusercontent.com%2Ffluidtrends%2Fcarmel%2Fmaster%2Ffluid%2Freleases%2Fnext%2Fstatus.json"/></a>
 <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vTtLsIGbhpMYQ44M_1EjYoJNlRKREgx0Uu6f79K4zS-RIUlzf7gAccnAlgemvW7x6XxPzIZiGbqYf3f/pubhtml">
-<img src="https://img.shields.io/badge/dynamic/json?color=blue&label=progress&prefix=&query=progress&suffix=&url=https%3A%2F%2Fraw.githubusercontent.com%2Ffluidtrends%2Fcarmel%2Fmaster%2Ffluid%2Freleases%2Fnext%2Fstatus.json"/></a>
+<img src="https://img.shields.io/badge/dynamic/json?color=blue&label=progress&query=progress&url=https%3A%2F%2Fraw.githubusercontent.com%2Ffluidtrends%2Fcarmel%2Fmaster%2Ffluid%2Freleases%2Fnext%2Fstatus.json"/></a>
 </p>
 
 <p align="center"> 
