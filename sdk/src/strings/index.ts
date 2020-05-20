@@ -6,3 +6,4 @@ export const CommandDoesNotExist = (name: string) => `The ${name} command does n
 export const CommandAlreadyExists = (name: string) => `The ${name} command already exists`;
 export const CommandCannotExecute = (name: string, reason: string) => `The ${name} command could not execute because ${reason}`;
 export const PluginCannotLoad = (name: string, reason: string) => `The ${name} plugin cannot load because ${reason}`;
+export const StackCannotLoad = (name: string, reason: string) => `The ${name} stack cannot load because ${reason}`;

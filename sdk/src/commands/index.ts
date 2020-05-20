@@ -1,6 +1,6 @@
 export { default as Init } from './init'
+export { default as Start } from './start'
 // export * from './install'
-// export * from './start'
 // export * from './make'
 // export * from './workspace'
 // export * from './preview'

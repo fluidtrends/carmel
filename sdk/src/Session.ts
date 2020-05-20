@@ -12,7 +12,7 @@ import {
     IWorkspace,
     ILogger,
     ICommand,
-    Command,
+    Globals,
     Logger
 } from '.'
 
@@ -22,22 +22,13 @@ export class Session implements ISession {
     protected _index: any;
     protected _workspace?: IWorkspace;
     protected _command?: ICommand;
-
-    public static DEFAULT_SECTIONS = [
-        { id: "main" }, 
-        { id: "safe", secure: true },
-        { id: "archives" },
-        { id: "events" }, 
-        { id: "cloud" },
-        { id: "products" }
-    ]
     
     constructor(props: any) {
         this._props = props
         // this._command = command
         this._logger = new Logger(this.props)
-        this._workspace = this.props.noWorkspace ? undefined : new Workspace(this.props)
-        this._index = new Index(Object.assign({}, { sections: Session.DEFAULT_SECTIONS }, this.props, { name: 'carmel' }))//, this.logger)
+        this._workspace = this.props.noWorkspace ? undefined : new Workspace(this.props, this)
+        this._index = new Index(Object.assign({}, { sections: Globals.DEFAULT_SECTIONS }, this.props, { name: 'carmel' }))//, this.logger)
     }
 
     get props() {
@@ -74,13 +65,13 @@ export class Session implements ISession {
 
     async initialize () {
         // Initialize the index first of all
-        return  this.index.initialize()
-
-                // Make sure the local common deps are available
-                .then(() => this.command && this.command.requiresFreshSession && this.updateIndex())
-
-                // Then let's make sure the workspace is also initialized
-                .then(() => this.hasWorkspace && this.workspace!.initialize())
+        await this.index.initialize()
+    
+        // Make sure the local common deps are available
+        this.command && this.command.requiresFreshSession && await this.updateIndex()
+        
+        // Then let's make sure the workspace is also initialized
+        return this.hasWorkspace && this.workspace!.initialize()
     }
 
     updateIndex() {
