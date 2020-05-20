@@ -6,6 +6,13 @@
             "requiredArgs": ["name", "template"], 
             "requiresContext": false,
             "requiresFreshSession": true
+        },
+        "start": {
+            "type": "workspace",
+            "title": "Starting a product",
+            "requiredArgs": [], 
+            "requiresContext": true,
+            "requiresFreshSession": true
         }
     }
 }

@@ -16,7 +16,7 @@ add('should create a default workspace', (context: Context, done: Completion) =>
     const workspace = new Workspace({ cwd: context.dir })
 
     savor.promiseShouldSucceed(workspace.create(), done, () => {
-        context.expect(workspace.data.type).to.equal('carmel')
+        context.expect(workspace.data).to.exist
     })
 }).
 
@@ -27,8 +27,8 @@ add('should load an existing workspace', (context: Context, done: Completion) =>
     context.expect(workspace.dir.path).to.equal(context.dir)
 
     savor.promiseShouldSucceed(workspace.create().then(()=> workspace.initialize()), done, () => {
-        context.expect(workspace.data.type).to.equal('carmel')
-        context.expect(Object.keys(workspace.data.context).length).to.equal(0)
+        context.expect(workspace.data).to.exist
+        context.expect(workspace.data.context).to.not.exist
     })
 }).
 

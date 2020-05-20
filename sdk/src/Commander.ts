@@ -41,8 +41,10 @@ export class Commander implements ICommander {
 
     public static async run (command?: ICommand, session?: ISession) {
         const _this = new Commander(command, session)
-        return _this.verify()
-                    .then(() => _this.session?.initialize())
-                    .then(() => _this.run())
+
+        await _this.verify()
+        await _this.session?.initialize()
+
+        return _this.run()
     }
 }

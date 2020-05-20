@@ -8,3 +8,4 @@ export const CommandDoesNotExist = (name: string): Error => new Error(Strings.Co
 export const CommandAlreadyExists = (name: string): Error => new Error(Strings.CommandAlreadyExists(name))
 export const CommandCannotExecute = (name: string, reason: string): Error => new Error(Strings.CommandCannotExecute(name, reason))
 export const PluginCannotLoad = (name: string, reason: string): Error => new Error(Strings.PluginCannotLoad(name, reason))
+export const StackCannotLoad = (name: string, reason: string): Error => new Error(Strings.StackCannotLoad(name, reason))

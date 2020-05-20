@@ -2,19 +2,17 @@ import {
     ICommand,
     Errors,
     Config,
+    IScript,
     ISession
 } from '.'
-
-// const { Cloud } = require("awsome")
+import path from 'path'
 
 export class Command implements ICommand {
     protected readonly _args: any;
     protected _session?: ISession;
     protected _context?: any;
     protected _props?: any;
-
-// _.TARGETS = { WEB: "web", DESKTOP: "desktop", MOBILE: "mobile", CLOUD: "cloud" }
-// _.DEFAULT_SCRIPT = 'default'
+    protected _script?: IScript;
 
     constructor(args: any) {
         this._args = args
@@ -29,6 +27,10 @@ export class Command implements ICommand {
         return this._props
     }
 
+    get script() {
+        return this._script
+    }
+    
     get session() {
         return this._session
     }
@@ -45,15 +47,23 @@ export class Command implements ICommand {
         return this.args.env || "dev" 
     }
 
+    get cwd() {
+        return process.cwd()
+    }
+
+//     get target () { 
+//         this._target 
+//     }
+
+//     get context() {
+//         return this.target ? this._context[this.target] : this._context
+//     }
+
     get requiredArgs() { return (this.props.requiredArgs || []) as string[] }
     get title() { return this.props.title || 'command' }
     get requiresContext() { return this.props.requiresContext }
     get requiresFreshSession() { return this.props.requiresFreshSession }
     get type () { return this.props.type || 'workspace' }
-
-    get cwd() {
-        return process.cwd()
-    }
 
 //     get cloud () { return this._cloud }
     
@@ -67,31 +77,31 @@ export class Command implements ICommand {
         return this.initialize(session) 
     }
 
-//     loadScript(paths = [this.context.script]) {   
-//         return new Promise((resolve, reject) => {
-//           try {
-//             // Let's find the script as specified by the context
-//             const starter = require(path.resolve(...paths))
-//             resolve({ exec: starter, props: { name: "app" }})
-//           } catch (e) {
-//             reject(new Error(_.ERRORS.COULD_NOT_EXECUTE('the script could not be loaded')))
-//           }
-//         })
-//     }
+    loadScript(paths = [this.context.script]) {   
+        return new Promise((resolve, reject) => {
+          try {
+            // Let's find the script as specified by the context
+            const starter = require(path.resolve(...paths))
+            resolve({ exec: starter, props: { name: "app" }})
+          } catch (e) {
+            reject(Errors.CommandCannotExecute(this.id, 'the script could not be loaded'))
+          }
+        })
+    }
 
-//     findDefaultArchive(session) {
-//         const version = session.get("papanacheVersion")
-//         return session.index.sections.archives.findArchive({ id: "papanache", version })
-//     }
+    findDefaultArchive() {
+        // const version = session?.get("papanacheVersion")
+        // return session.index.sections.archives.findArchive({ id: "papanache", version })
+    }
     
-//     loadDefaultScript(session, type) {
-//         return this.findDefaultArchive(session)
-//                    .then((archive) => this.loadScript([archive.path, 'src', this.target, 'commands', `${type}.js`]))
-//     }
+    loadDefaultScript(type: string) {
+        // return this.findDefaultArchive()
+        //            .then((archive) => this.loadScript([archive.path, 'src', this.target, 'commands', `${type}.js`]))
+    }
 
-//     commandScript(session, type) {
-//         return (this.context.script === _.DEFAULT_SCRIPT) ? this.loadDefaultScript(session, type) : this.loadScript()
-//     }
+    commandScript(type: string) {
+        // return (this.context.script === _.DEFAULT_SCRIPT) ? this.loadDefaultScript(session, type) : this.loadScript()
+    }
 
 //     findCredentials(session) {
 //         const profile = this.args.profile || 'default'
@@ -126,7 +136,6 @@ export class Command implements ICommand {
 
     async initialize(session?: ISession) {
         this._session = session
-
         if (!this.session) {
             return Promise.reject(Errors.CommandCannotExecute(this.id, 'the session is missing'))
         }    
@@ -135,31 +144,14 @@ export class Command implements ICommand {
             return Promise.reject(Errors.CommandCannotExecute(this.id, 'the workspace is invalid'))
         }
       
-        // Look up the workspace context, if any
-        this._context = this.session.workspace!.context(this.id)
+        // // Look up the workspace context, if any
+        // this._context = this.session.workspace!.context?[this.id]
     
-        if (!this.context && this.requiresContext) {
-            // We need a start context in the workspace
-            return Promise.reject(Errors.CommandCannotExecute(this.id, 'the workspace context is missing'))
-        }
+        // if (!this.context && this.requiresContext) {
+        //     // We need a start context in the workspace
+        //     return Promise.reject(Errors.CommandCannotExecute(this.id, 'the workspace context is missing'))
+        // }
       
         return Promise.resolve()
     }
-
-//     get target () { 
-//         this._target 
-//     }
-
-//     get context() {
-//         return this.target ? this._context[this.target] : this._context
-//     }
-
-//     get session() {
-//         return this._session
-//     }
-
-//     get args() {
-//         return this._args
-//     }
-
 }
