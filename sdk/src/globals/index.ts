@@ -5,6 +5,7 @@ export const DEFAULT_PLATFORM = 'web'
 export const MANIFEST_FILENAME = ".carmel.json"
 export const DEFAULT_SECTIONS = [
     { id: "main" }, 
+    { id: "system" }, 
     { id: "safe", secure: true },
     { id: "bundles" },
     { id: "events" }, 

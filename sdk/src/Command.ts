@@ -77,31 +77,31 @@ export class Command implements ICommand {
         return this.initialize(session) 
     }
 
-    loadScript(paths = [this.context.script]) {   
-        return new Promise((resolve, reject) => {
-          try {
-            // Let's find the script as specified by the context
-            const starter = require(path.resolve(...paths))
-            resolve({ exec: starter, props: { name: "app" }})
-          } catch (e) {
-            reject(Errors.CommandCannotExecute(this.id, 'the script could not be loaded'))
-          }
-        })
-    }
+    // loadScript(paths = [this.context.script]) {   
+    //     return new Promise((resolve, reject) => {
+    //       try {
+    //         // Let's find the script as specified by the context
+    //         const starter = require(path.resolve(...paths))
+    //         resolve({ exec: starter, props: { name: "app" }})
+    //       } catch (e) {
+    //         reject(Errors.CommandCannotExecute(this.id, 'the script could not be loaded'))
+    //       }
+    //     })
+    // }
 
-    findDefaultArchive() {
-        // const version = session?.get("papanacheVersion")
-        // return session.index.sections.archives.findArchive({ id: "papanache", version })
-    }
+    // findDefaultArchive() {
+    //     // const version = session?.get("papanacheVersion")
+    //     // return session.index.sections.archives.findArchive({ id: "papanache", version })
+    // }
     
-    loadDefaultScript(type: string) {
-        // return this.findDefaultArchive()
-        //            .then((archive) => this.loadScript([archive.path, 'src', this.target, 'commands', `${type}.js`]))
-    }
+    // loadDefaultScript(type: string) {
+    //     // return this.findDefaultArchive()
+    //     //            .then((archive) => this.loadScript([archive.path, 'src', this.target, 'commands', `${type}.js`]))
+    // }
 
-    commandScript(type: string) {
-        // return (this.context.script === _.DEFAULT_SCRIPT) ? this.loadDefaultScript(session, type) : this.loadScript()
-    }
+    // commandScript(type: string) {
+    //     // return (this.context.script === _.DEFAULT_SCRIPT) ? this.loadDefaultScript(session, type) : this.loadScript()
+    // }
 
 //     findCredentials(session) {
 //         const profile = this.args.profile || 'default'

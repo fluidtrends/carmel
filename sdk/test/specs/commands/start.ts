@@ -63,6 +63,23 @@ add('should not start with an invalid stack', (context: Context, done: Completio
   })
 }).
 
+add('should not start a new product without a stack', (context: Context, done: Completion) => {
+  const cmd = new Commands.Start({ env: { homeDir: context.dir }})
+  const session = new Session({ test: "test1234", dir: context.dir, sections: [{ id: "bundles" }] })
+
+  savor.addAsset('assets/.carmel-missingstack.json', '.carmel.json', context)
+  savor.addAsset("assets/bundles/test", ".carmel/bundles/test/1/test", context)
+
+  const stub = context.stub(Registry, 'extract').callsFake(() => Promise.resolve({ version: '1' }))
+  const stub2 = context.stub(Registry, 'manifest').callsFake(() => Promise.resolve({ version: '1' }))
+
+  savor.promiseShouldFail(session.initialize().then(() => Commander.run(cmd, session)), done, (error) => {
+    context.expect(error.message).to.equal(Strings.StackCannotLoad("testoops", 'it is missing'))
+    stub.restore()
+    stub2.restore()
+  })
+}).
+
 add('should start a new product', (context: Context, done: Completion) => {
     const cmd = new Commands.Start({ env: { homeDir: context.dir }})
     const session = new Session({ test: "test1234", dir: context.dir, sections: [{ id: "bundles" }] })

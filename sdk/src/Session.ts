@@ -11,6 +11,8 @@ import {
     Workspace,
     IWorkspace,
     ILogger,
+    IBundle,
+    Bundle,
     ICommand,
     Globals,
     Logger
@@ -56,11 +58,11 @@ export class Session implements ISession {
     }
 
     set(key: string, val: any) {
-       return this.index.sections.main.vault.write(key, val)
+       return this.index.sections.system.vault.write(key, val)
     }
 
     get(key: string) {
-       return this.index.sections.main.vault.read(key)
+       return this.index.sections.system.vault.read(key)
     }
 
     async initialize () {
@@ -72,6 +74,28 @@ export class Session implements ISession {
         
         // Then let's make sure the workspace is also initialized
         return this.hasWorkspace && this.workspace!.initialize()
+    }
+
+    async findBundle(id: string, version: string) {
+        if (!this.index.sections.bundles ||
+             !this.index.sections.bundles.exists) {
+             return
+        }
+
+        const archive = await this.index.sections.bundles.findArchive({ id, version })
+
+        if (!archive) {
+            return
+        }
+
+        const bundle = new Bundle(archive) as any
+        return bundle
+    }
+
+    async installSystemBundle(bundleId: string) {
+        const archive = await this.index.installArchive({ section: "system", id: "papanache", silent: true })
+        this.set("papanacheVersion", archive.version)
+        await archive.installDependencies()   
     }
 
     updateIndex() {
