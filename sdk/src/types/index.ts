@@ -25,7 +25,7 @@ export interface IData extends IClass {
 }
 
 export interface IFile extends IClass {
-    readonly path: Path;
+    readonly path?: Path;
     readonly data: IData;
     readonly exists: boolean;
 
@@ -35,15 +35,11 @@ export interface IFile extends IClass {
 }
 
 export interface IDir extends IClass {
-    readonly path: Path;
+    readonly path?: Path;
     readonly exists: boolean;
 
-    dir(dirpath: Path): IDir;
+    dir(dirpath: Path): IDir | undefined;
     dirs(): Promise<Path[]>;  
-}
-
-export interface IBundle extends IClass {
-    readonly props: any;
 }
 
 export interface ILogger extends IClass  {
@@ -89,6 +85,10 @@ export interface ILogger extends IClass  {
     readonly props: any;
 }
 
+export interface IBundle extends IClass {
+    readonly dir: IDir;
+}
+
 export interface IStack extends IClass {
     readonly props: any;
     readonly name: string;
@@ -113,7 +113,7 @@ export interface IWorkspace extends IClass  {
     saveContext(context: object): void;
     loadFile (path: Path): void;
     saveData(data: any): void;
-    findDirs(dirpath: Path): Promise<Path[]>;
+    findDirs(dirpath: Path): Promise<Path[] | undefined>;
     loadStack(): Promise<IStack>;
 }
 
@@ -126,4 +126,5 @@ export interface ISession extends IClass  {
     initialize(): Promise<any>;
     open(): void;
     close(): void;
+    findBundle(id: string, version: string): Promise<IBundle>;
 }

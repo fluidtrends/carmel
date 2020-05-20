@@ -8,9 +8,9 @@ import {
 } from '.'
  
 export class Dir implements IDir {
-    protected _path: Path;
+    protected _path?: Path;
 
-    constructor(path: Path) {
+    constructor(path?: Path) {
         this._path = path
     }
 
@@ -19,20 +19,20 @@ export class Dir implements IDir {
     }    
 
     get exists() {
-        return fs.existsSync(path.resolve(this.path))
+        return this.path !== undefined && fs.existsSync(path.resolve(this.path!))
     }
 
     dir(dirpath: Path) {
-        return new Dir(path.resolve(this.path, dirpath))
+        return this.exists ? new Dir(path.resolve(this.path!, dirpath)) : undefined
     }
 
     async dirs() {
         return new Promise<Path[]>((resolve, reject) => {
             if (!this.exists) {
-                throw Errors.DirDoesNotExist(path.basename(this.path))
+                throw Errors.DirDoesNotExist(path.basename(this.path || ""))
             }
 
-            resolve(fs.readdirSync(this.path).filter(d => fs.lstatSync(path.resolve(this.path, d)).isDirectory()))
+            resolve(fs.readdirSync(this.path!).filter(d => fs.lstatSync(path.resolve(this.path!, d)).isDirectory()))
         })
     }
 }

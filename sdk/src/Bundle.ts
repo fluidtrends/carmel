@@ -1,19 +1,27 @@
 import { 
-    IBundle
-} from './types'
+    IBundle,
+    Dir,
+    IDir
+} from '.'
 
 import {
     Archive
 } from 'rara'
 
 export class Bundle implements IBundle {
-    protected _props: any;
+    protected _archive: Archive;
+    protected _dir: IDir;
 
-    constructor(props: any) {
-        this._props = props
+    constructor(archive: Archive) {
+        this._archive = archive
+        this._dir = new Dir(this.archive.path || undefined)
     }
 
-    get props() {
-        return this._props
+    get archive() {
+        return this._archive
+    }
+
+    get dir() {
+        return this._dir
     }
 }

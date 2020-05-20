@@ -25,7 +25,7 @@ export class Workspace implements IWorkspace {
         this._props = props
         this._session = session
         this._dir = new Dir(this.props.dir || process.cwd())
-        this._manifest = new File(path.resolve(this.dir.path, Globals.MANIFEST_FILENAME))
+        this._manifest = new File(this.dir.path !== undefined ? path.resolve(this.dir.path!, Globals.MANIFEST_FILENAME) : undefined)
     }
 
     get manifest() { return this._manifest }
@@ -83,6 +83,6 @@ export class Workspace implements IWorkspace {
     }
 
     async findDirs(dirpath: Path) {
-        return this.dir.dir(dirpath).dirs()
+        return this.dir.dir(dirpath)?.dirs()
     }
 }
