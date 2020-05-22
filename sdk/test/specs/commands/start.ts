@@ -78,7 +78,7 @@ add('should not run without a session', (context: Context, done: Completion) => 
 //     stub.restore()
 //     stub2.restore()
 //   })
-// }).
+// }).ce
 
 // add('should start a new product', (context: Context, done: Completion) => {
 //     const cmd = new Commands.Start({ env: { homeDir: context.dir }})
