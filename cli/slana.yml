@@ -4,8 +4,16 @@ footer:
   text: "keep on building ;)"
 
 commands:
+- name: status
+  more: Displays a friendly status message
+  description: check the status of your Carmel Environment
+  executor: lib/exec
+  examples:
+  - command: status
+    description: Check your Carmel Environment status
+
 - name: setup [operation] [operationType]
-  more: Configure your development environmnt
+  more: Configure your Carmel Environment
   description: Supported operations are masterpass, account
   executor: lib/exec
   examples:
@@ -14,7 +22,7 @@ commands:
 
 - name: init [name]
   more: Specify a custom name or go with the default generated name
-  description: Create a new product
+  description: Create a new Carmel Product
   executor: lib/exec
   options:
   - name: template
