@@ -89,6 +89,10 @@ export interface IBundle extends IClass {
     readonly dir: IDir;
 }
 
+export interface IRunner extends IClass {
+    run(): Promise<any>;
+}
+
 export interface IStack extends IClass {
     readonly props: any;
     readonly name: string;

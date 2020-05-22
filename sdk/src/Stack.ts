@@ -3,6 +3,7 @@ import {
     Errors,
     IBundle,
     IDir,
+    Dir,
     IWorkspace
  } from '.'
 
@@ -47,17 +48,22 @@ export class Stack implements IStack {
 
     async load(workspace: IWorkspace) {
         this._workspace = workspace
-        this._bundle = await this.workspace?.session?.findBundle(this.props.bundle, this.props.version)
-        
-        if (!this.bundle) {
-            throw Errors.StackCannotLoad(this.name || "unknown", 'it is invalid')
-        }
 
-        this._dir = this.bundle.dir.dir('stacks')?.dir(this.name)
+        // this._bundle = await this.workspace?.session?.findBundle(this.props.bundle, this.props.version)
+        
+        // if (!this.bundle) {
+        //     throw Errors.StackCannotLoad(this.name || "unknown", 'it is invalid')
+        // }
+
+        // this._dir = this.bundle.dir.dir('stacks')?.dir(this.name)
+        // this._dir = new Dir(`/Users/idancali/idancali/dev/papanache`)
+        this._dir = new Dir(`/Users/idancali/idancali/dev/carmel/stacks/react`)
 
         if (!this.dir?.exists) {
             throw Errors.StackCannotLoad(this.name, 'it is missing')
         }
+
+
 
         return this
     }
