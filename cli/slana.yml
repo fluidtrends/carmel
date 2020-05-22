@@ -7,7 +7,7 @@ commands:
 - name: setup [operation] [operationType]
   more: Configure your development environmnt
   description: Supported operations are masterpass, account
-  executor: src/exec
+  executor: lib/exec
   examples:
   - command: setup masterpass
     description: Setup the master password
@@ -15,7 +15,7 @@ commands:
 - name: init [name]
   more: Specify a custom name or go with the default generated name
   description: Create a new product
-  executor: src/exec
+  executor: lib/exec
   options:
   - name: template
     description: The product template to use
@@ -30,7 +30,7 @@ commands:
 - name: start [platform]
   description: Start the packager for a specific platform
   more: The supported platforms are web, mobile and desktop
-  executor: src/exec
+  executor: lib/exec.js
   options:
   - name: port
     description: Use a custom packager port
@@ -53,7 +53,7 @@ commands:
 - name: make [platform]
   description: Build for a specific platform
   more: The supported platforms are web, mobile and desktop
-  executor: src/exec
+  executor: lib/exec
   examples:
   - command: make web
     description: Build the website
@@ -61,7 +61,7 @@ commands:
 - name: preview [platform]
   description: Preview for a specific platform
   more: The supported platforms are web, mobile and desktop
-  executor: src/exec
+  executor: lib/exec
   examples:
   - command: preview web
     description: Preview the website
@@ -69,7 +69,7 @@ commands:
 - name: deploy [platform]
   description: Deploy for a specific platform
   more: The supported platforms are web, mobile and desktop
-  executor: src/exec
+  executor: lib/exec
   options:
   - name: profile
     description: Use a custom AWS profile
@@ -82,7 +82,7 @@ commands:
 - name: data [operation] [key] [values..]
   description: Manage the data
   more: Supported operations are lock, unlock, save, read
-  executor: src/exec
+  executor: lib/exec
   options:
   - name: secure
     description: Manage secure data
@@ -95,7 +95,7 @@ commands:
 - name: workspace [operation] [key] [values..]
   description: Manage the workspace
   more: Supported operations are set, get
-  executor: src/exec
+  executor: lib/exec
   examples:
   - command: workspace set web domain=mydomain.com
     description: Set the domain to use

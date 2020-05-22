@@ -1,5 +1,5 @@
 {
-  "name": "@carmel/cli",
+  "name": "carmel",
   "version": "1.1.0",
   "description": "The Carmel CLI",
   "scripts": {
@@ -9,8 +9,11 @@
   "engines": {
     "node": "^12"
   },
+  "files": [
+    "../bin/"
+  ],
   "bin": {
-    "carmel": "bin/cli.js"
+    "carmel": "../bin/cli.js"
   },
   "repository": {
     "type": "git",
@@ -19,7 +22,7 @@
   "homepage": "http://www.carmel.io",
   "dependencies": {
     "@carmel/sdk": "^1.9.8",
-    "slana": "~/idancali/dev/slana"
+    "slana": "latest"
   },
   "devDependencies": {
     "savor": "^1.2.1"
