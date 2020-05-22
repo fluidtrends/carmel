@@ -1,6 +1,6 @@
 {
   "name": "@carmel/cli",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "The Carmel CLI",
   "scripts": {
     "build": "savor build",
@@ -30,8 +30,6 @@
     "@types/nopt": "^3.0.29",
     "@types/pacote": "^11.1.0",
     "chalk": "^4.0.0",
-    "command-exists": "^1.2.9",
-    "npm": "^6.14.5",
     "ora": "^4.0.4",
     "pacote": "^11.1.10",
     "slana": "^1.4.0"
