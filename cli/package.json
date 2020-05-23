@@ -1,5 +1,5 @@
 {
-  "name": "@carmel/cli",
+  "name": "carmel",
   "version": "1.6.0",
   "description": "The Carmel CLI",
   "scripts": {
