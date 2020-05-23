@@ -81,6 +81,7 @@ var Start = /** @class */ (function (_super) {
                         return [4 /*yield*/, session.workspace.loadStack()];
                     case 2:
                         stack = _a.sent();
+                        console.log("START2222 :)");
                         return [2 /*return*/];
                 }
             });

@@ -140,6 +140,8 @@ export class Command implements ICommand {
             return Promise.reject(Errors.CommandCannotExecute(this.id, 'the session is missing'))
         }    
 
+        console.log(this.session.workspace)
+
         if (!this.session.workspace!.exists) {
             return Promise.reject(Errors.CommandCannotExecute(this.id, 'the workspace is invalid'))
         }

@@ -47,7 +47,7 @@ var Workspace = /** @class */ (function () {
     function Workspace(props, session) {
         this._props = props;
         this._session = session;
-        this._dir = new _1.Dir(this.props.dir || process.cwd());
+        this._dir = new _1.Dir(this.props.cwd || process.cwd());
         this._manifest = new _1.File(this.dir.path !== undefined ? path_1.default.resolve(this.dir.path, _1.Globals.MANIFEST_FILENAME) : undefined);
     }
     Object.defineProperty(Workspace.prototype, "manifest", {
