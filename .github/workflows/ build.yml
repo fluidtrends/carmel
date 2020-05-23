@@ -35,7 +35,7 @@ jobs:
         cd sdk
         npm ci
         npm run build
-        npm run coverage
+        npm run cov
         ../tmp/cc-test-reporter format-coverage -t lcov -o ../tmp/codeclimate.sdk.json --add-prefix sdk
     - shell: bash
       name: "Upload the combined coverage report to Code Climate"
