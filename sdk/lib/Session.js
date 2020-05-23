@@ -41,7 +41,7 @@ var dodi_1 = require("dodi");
 var _1 = require(".");
 var Session = /** @class */ (function () {
     function Session(props) {
-        this._props = props;
+        this._props = Object.assign({}, props, { cwd: process.cwd() });
         // this._command = command
         this._logger = new _1.Logger(this.props);
         this._workspace = this.props.noWorkspace ? undefined : new _1.Workspace(this.props, this);

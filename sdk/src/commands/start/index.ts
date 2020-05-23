@@ -24,5 +24,10 @@ export default class Start extends Command {
   async exec(session: ISession) {
       await super.initialize(session)
       const stack = await session.workspace!.loadStack()
+
+      console.log("START2222 :)")
+      // console.log("STAR2222T!!!!!", session.index.dir)
+      // console.log("START2!!!!!", session.workspace?.dir.path)
+      // console.log("START!!!!!", stack)
   }
 }

@@ -1,23 +1,4 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -58,10 +39,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.installCarmelSDK = void 0;
 var fs_1 = __importDefault(require("fs"));
 var path_1 = __importDefault(require("path"));
-var pacote = __importStar(require("pacote"));
-var _1 = require(".");
+var nodu_1 = require("nodu");
+var install_1 = __importDefault(require("nodu/lib/commands/install"));
 function parseCommand(input) {
     var raw = Object.assign({}, input);
     var id = raw._.shift();
@@ -73,62 +55,70 @@ function parseCommand(input) {
 function init() {
     var userRoot = process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME'];
     var carmelRoot = path_1.default.resolve(userRoot, '.carmel');
-    var carmelSDKRoot = path_1.default.resolve(carmelRoot, 'sdk');
-    var carmelSDKExists = fs_1.default.existsSync(carmelSDKRoot);
+    var carmelCacheRoot = path_1.default.resolve(carmelRoot, 'cache');
     fs_1.default.existsSync(carmelRoot) || fs_1.default.mkdirSync(carmelRoot);
-    return Object.assign({}, {
-        userRoot: userRoot,
-        carmelRoot: carmelRoot,
-        carmelSDKRoot: carmelSDKRoot,
-        carmelSDKExists: carmelSDKExists
-    }, _1.npm.env);
+    fs_1.default.existsSync(carmelCacheRoot) || fs_1.default.mkdirSync(carmelCacheRoot);
+    process.env.CARMEL_HOME = carmelRoot;
+    process.env.CARMEL_CACHE_ROOT = carmelCacheRoot;
+    nodu_1.resolveAll();
 }
-function exec(input, done) {
+function runCarmelCommand(command, sdkPath) {
     return __awaiter(this, void 0, void 0, function () {
-        var env, manifest, mod, command, Carmel, Command, cmd, session, e_1;
+        var tsMode, Carmel, Command, cmd, session;
+        return __generator(this, function (_a) {
+            tsMode = process.env.CARMEL_MODE && process.env.CARMEL_MODE === 'ts';
+            Carmel = require(path_1.default.resolve(sdkPath, tsMode ? 'src' : 'lib'));
+            Command = Carmel.Commands[command.cls];
+            cmd = new Command(command);
+            session = new Carmel.Session({ dir: process.env.CARMEL_HOME });
+            return [2 /*return*/, Carmel.Commander.run(cmd, session)];
+        });
+    });
+}
+function installCarmelSDK() {
+    return __awaiter(this, void 0, void 0, function () {
+        var carmelSDKPath, installed;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 6, , 7]);
-                    env = init();
-                    if (!env.npmExists) {
-                        throw new Error('Could not find npm');
+                    carmelSDKPath = path_1.default.resolve(process.env.CARMEL_CACHE_ROOT, "@carmel", "sdk", "default");
+                    if (fs_1.default.existsSync(carmelSDKPath)) {
+                        return [2 /*return*/, carmelSDKPath];
                     }
-                    if (!!env.carmelSDKExists) return [3 /*break*/, 4];
-                    return [4 /*yield*/, pacote.manifest('@carmel/sdk')];
-                case 1:
-                    manifest = _a.sent();
-                    return [4 /*yield*/, pacote.extract("@carmel/sdk", env.carmelSDKRoot, {})];
-                case 2:
-                    mod = _a.sent();
-                    process.chdir(env.carmelSDKRoot);
-                    return [4 /*yield*/, _1.system.run(env.npmExec, ['i'], {
-                            start: "Installing the Carmel SDK ... (hold on, this could take a while)",
-                            done: "Carmel SDK installed successfully"
+                    return [4 /*yield*/, install_1.default({
+                            module: "@carmel/sdk",
+                            to: process.env.CARMEL_CACHE_ROOT
                         })];
-                case 3:
-                    _a.sent();
-                    _a.label = 4;
-                case 4:
-                    command = parseCommand(input);
-                    Carmel = require(env.carmelSDKRoot);
-                    Command = Carmel.Commands[command.cls];
-                    cmd = new Command(command);
-                    session = new Carmel.Session({ dir: env.carmelRoot });
-                    return [4 /*yield*/, Carmel.Commander.run(cmd, session)];
-                case 5:
-                    _a.sent();
-                    return [3 /*break*/, 7];
-                case 6:
-                    e_1 = _a.sent();
-                    _1.log.error(e_1);
-                    return [3 /*break*/, 7];
-                case 7:
-                    done && done();
-                    return [2 /*return*/];
+                case 1:
+                    installed = _a.sent();
+                    fs_1.default.symlinkSync(installed.to, carmelSDKPath, 'dir');
+                    return [2 /*return*/, carmelSDKPath];
             }
         });
     });
 }
-exports.default = exec;
+exports.installCarmelSDK = installCarmelSDK;
+exports.default = (function (input) { return __awaiter(void 0, void 0, void 0, function () {
+    var sdkPath, command, e_1;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 3, , 4]);
+                init();
+                return [4 /*yield*/, installCarmelSDK()];
+            case 1:
+                sdkPath = _a.sent();
+                command = parseCommand(input);
+                return [4 /*yield*/, runCarmelCommand(command, sdkPath)];
+            case 2:
+                _a.sent();
+                return [3 /*break*/, 4];
+            case 3:
+                e_1 = _a.sent();
+                nodu_1.logError(e_1);
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); });
 //# sourceMappingURL=exec.js.map

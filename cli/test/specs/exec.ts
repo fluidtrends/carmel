@@ -3,16 +3,23 @@ import savor, {
     Completion
 } from 'savor'
   
+import path from 'path'
 import exec from '../../src/exec'
 
 savor.
   
 add('should execute a command', (context: Context, done: Completion) => {
-    const args = {
-        _: [ 'status' ]
-    }
+    savor.addAsset('assets/home', 'home', context)
+    const userHome = path.resolve(context.dir, 'home')
 
-    exec(args, done)    
+    process.env.USERPROFILE = userHome
+    process.env.HOME = userHome
+    
+    savor.promiseShouldSucceed(exec({
+        _: ['status'],
+        $0: "status"
+    }), done, (result) => {
+    })
 }).
   
 run('Exec')

@@ -26,7 +26,7 @@ export class Session implements ISession {
     protected _command?: ICommand;
     
     constructor(props: any) {
-        this._props = props
+        this._props = Object.assign({}, props, { cwd: process.cwd() })
         // this._command = command
         this._logger = new Logger(this.props)
         this._workspace = this.props.noWorkspace ? undefined : new Workspace(this.props, this)

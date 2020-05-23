@@ -199,6 +199,7 @@ var Command = /** @class */ (function () {
                 if (!this.session) {
                     return [2 /*return*/, Promise.reject(_1.Errors.CommandCannotExecute(this.id, 'the session is missing'))];
                 }
+                console.log(this.session.workspace);
                 if (!this.session.workspace.exists) {
                     return [2 /*return*/, Promise.reject(_1.Errors.CommandCannotExecute(this.id, 'the workspace is invalid'))];
                 }
