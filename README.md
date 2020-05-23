@@ -13,7 +13,6 @@
 
 <hr/>
 
-<h4 align="center"> Main Artifacts </h4>
 <p align="center"> 
 <a href="https://www.npmjs.com/package/@carmel/cli"><img src="https://img.shields.io/npm/v/@carmel/cli?label=%40carmel%2Fcli"/></a>
 <a href="https://www.npmjs.com/package/@carmel/sdk"><img src="https://img.shields.io/npm/v/@carmel/sdk?label=%40carmel%2Fsdk"/></a>
@@ -22,13 +21,8 @@
 <hr/>
 <h4 align="center"> Core Dependencies </h4>
 <p align="center"> 
-<a href="https://www.npmjs.com/package/dodi"><img src="https://img.shields.io/npm/v/dodi?label=dodi"/></a>
-<a href="https://www.npmjs.com/package/rara"><img src="https://img.shields.io/npm/v/rara?label=rara"/></a>
-<a href="https://www.npmjs.com/package/cassi"><img src="https://img.shields.io/npm/v/cassi?label=cassi"/></a>
-<a href="https://www.npmjs.com/package/binda"><img src="https://img.shields.io/npm/v/binda?label=binda"/></a>
-<a href="https://www.npmjs.com/package/slana"><img src="https://img.shields.io/npm/v/slana?label=slana"/></a>
-<a href="https://www.npmjs.com/package/savor"><img src="https://img.shields.io/npm/v/savor?label=savor"/></a>
-<a href="https://www.npmjs.com/package/nodu"><img src="https://img.shields.io/npm/v/nodu?label=nodu"/></a>
-<a href="https://www.npmjs.com/package/papanache"><img src="https://img.shields.io/npm/v/papanache?label=papanache"/></a>
-<a href="https://www.npmjs.com/package/awsome"><img src="https://img.shields.io/npm/v/awsome?label=awsome"/></a>
-</p>
+
+|  |  |  |  |
+| --- | --- | --- | --- |
+| <img src="https://raw.githubusercontent.com/fluidtrends/savor/master/logo.png" width="32px"> | <a href="https://www.npmjs.com/package/savor"><img src="https://img.shields.io/npm/v/awsome?label=savor"/></a> | <a href="https://codeclimate.com/github/fluidtrends/savor/maintainability"><img src="https://api.codeclimate.com/v1/badges/57832a98fa77c6512a4c/maintainability" /></a> | <a href="https://codeclimate.com/github/fluidtrends/savor/test_coverage"><img src="https://api.codeclimate.com/v1/badges/57832a98fa77c6512a4c/test_coverage" /></a> |
+| <img src="https://raw.githubusercontent.com/fluidtrends/slana/master/logo.png" width="32px">  | <a href="https://www.npmjs.com/package/slana"><img src="https://img.shields.io/npm/v/awsome?label=slana"/></a> | <a href="https://codeclimate.com/github/fluidtrends/slana/maintainability"><img src="https://api.codeclimate.com/v1/badges/e31eba1090ad1c55c88c/maintainability" /></a> | <a href="https://codeclimate.com/github/fluidtrends/slana/test_coverage"><img src="https://api.codeclimate.com/v1/badges/e31eba1090ad1c55c88c/test_coverage" /></a></p> |
