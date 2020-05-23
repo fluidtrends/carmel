@@ -13,21 +13,22 @@
 
 <hr/>
 
+<h4 align="center"> Main Artifacts </h4>
 <p align="center"> 
-<a href="https://www.npmjs.com/package/@carmel/cli"><img src="https://img.shields.io/npm/v/@carmel/cli"/></a>
-<a href="https://www.npmjs.com/package/@carmel/sdk"><img src="https://img.shields.io/npm/v/@carmel/sdk"/></a>
+<a href="https://www.npmjs.com/package/@carmel/cli"><img src="https://img.shields.io/npm/v/@carmel/cli?label=%40carmel%2Fcli"/></a>
+<a href="https://www.npmjs.com/package/@carmel/sdk"><img src="https://img.shields.io/npm/v/@carmel/sdk?label=%40carmel%2Fsdk"/></a>
 </p>
 
 <hr/>
-
+<h4 align="center"> Core Dependencies </h4>
 <p align="center"> 
-<a href="https://www.npmjs.com/package/dodi"><img src="https://img.shields.io/npm/v/dodi"/></a>
-<a href="https://www.npmjs.com/package/rara"><img src="https://img.shields.io/npm/v/rara"/></a>
-<a href="https://www.npmjs.com/package/cassi"><img src="https://img.shields.io/npm/v/cassi"/></a>
-<a href="https://www.npmjs.com/package/binda"><img src="https://img.shields.io/npm/v/binda"/></a>
-<a href="https://www.npmjs.com/package/slana"><img src="https://img.shields.io/npm/v/slana"/></a>
-<a href="https://www.npmjs.com/package/savor"><img src="https://img.shields.io/npm/v/savor"/></a>
-<a href="https://www.npmjs.com/package/nodu"><img src="https://img.shields.io/npm/v/nodu"/></a>
-<a href="https://www.npmjs.com/package/papanache"><img src="https://img.shields.io/npm/v/papanache"/></a>
-<a href="https://www.npmjs.com/package/awsome"><img src="https://img.shields.io/npm/v/awsome"/></a>
+<a href="https://www.npmjs.com/package/dodi"><img src="https://img.shields.io/npm/v/dodi?label=dodi"/></a>
+<a href="https://www.npmjs.com/package/rara"><img src="https://img.shields.io/npm/v/rara?label=rara"/></a>
+<a href="https://www.npmjs.com/package/cassi"><img src="https://img.shields.io/npm/v/cassi?label=cassi"/></a>
+<a href="https://www.npmjs.com/package/binda"><img src="https://img.shields.io/npm/v/binda?label=binda"/></a>
+<a href="https://www.npmjs.com/package/slana"><img src="https://img.shields.io/npm/v/slana?label=slana"/></a>
+<a href="https://www.npmjs.com/package/savor"><img src="https://img.shields.io/npm/v/savor?label=savor"/></a>
+<a href="https://www.npmjs.com/package/nodu"><img src="https://img.shields.io/npm/v/nodu?label=nodu"/></a>
+<a href="https://www.npmjs.com/package/papanache"><img src="https://img.shields.io/npm/v/papanache?label=papanache"/></a>
+<a href="https://www.npmjs.com/package/awsome"><img src="https://img.shields.io/npm/v/awsome?label=awsome"/></a>
 </p>
