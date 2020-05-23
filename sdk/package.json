@@ -1,12 +1,12 @@
 {
   "name": "@carmel/sdk",
-  "version": "1.9.10",
+  "version": "1.9.11",
   "description": "The Carmel SDK",
   "scripts": {
     "build": "tsc",
     "test": "savor test",
-    "coverage": "savor coverage",
-    "open:coverage": "open coverage/lcov-report/index.html"
+    "cov": "savor cov",
+    "viewcov": "savor viewcov"
   },
   "author": "I. Dan Calinescu <idancalinescu@gmail.com>",
   "license": "MIT",
@@ -29,6 +29,6 @@
     "url-parse": "^1.4.7"
   },
   "devDependencies": {
-    "savor": "^1.2.1"
+    "savor": "^1.3.0"
   }
 }

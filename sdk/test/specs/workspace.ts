@@ -20,17 +20,17 @@ add('should create a default workspace', (context: Context, done: Completion) =>
     })
 }).
 
-add('should load an existing workspace', (context: Context, done: Completion) => {
-    const workspace = new Workspace({ test: "test1234", dir: context.dir })
+// add('should load an existing workspace', (context: Context, done: Completion) => {
+//     const workspace = new Workspace({ test: "test1234", dir: context.dir })
 
-    context.expect(workspace.props.test).to.equal("test1234")
-    context.expect(workspace.dir.path).to.equal(context.dir)
+//     context.expect(workspace.props.test).to.equal("test1234")
+//     context.expect(workspace.dir.path).to.equal(context.dir)
 
-    savor.promiseShouldSucceed(workspace.create().then(()=> workspace.initialize()), done, () => {
-        context.expect(workspace.data).to.exist
-        context.expect(workspace.data.context).to.not.exist
-    })
-}).
+//     savor.promiseShouldSucceed(workspace.create().then(()=> workspace.initialize()), done, () => {
+//         context.expect(workspace.data).to.exist
+//         context.expect(workspace.data.context).to.not.exist
+//     })
+// }).
 
 add('should be able to save to the context', (context: Context, done: Completion) => {
     const workspace = new Workspace({ dir: context.dir })
