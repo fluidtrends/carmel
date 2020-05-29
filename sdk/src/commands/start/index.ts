@@ -1,33 +1,31 @@
 import {
   Command,
-  Errors,
   ISession,
-  Globals
+  CommandProps,
+  CommandType,
+  CommandArg
 } from '../..'
 
+const props: CommandProps = {
+  id: "start",
+  type: CommandType.PRODUCT,
+  requiresScript: true,
+  title: "Starting a new Carmel Product"
+}
+
+/**
+ * 
+ * @category Commands
+ */
 export default class Start extends Command {
-  protected _script?: any;
-
-  constructor(args?: any) {
-    super(args)
-    // this._script = new Script(Object.assign({}, args, { dev: true }))
+  /** @internal */
+  constructor() {
+    super(props)
   }
 
-  get script() {
-    return this._script
-  }
-
-  get target() {
-    return this.script.target
-  }
-
-  async exec(session: ISession) {
-      await super.initialize(session)
-      const stack = await session.workspace!.loadStack()
-
-      console.log("START2222 :)")
-      // console.log("STAR2222T!!!!!", session.index.dir)
-      // console.log("START2!!!!!", session.workspace?.dir.path)
-      // console.log("START!!!!!", stack)
+  /** @internal */
+  async exec(session: ISession, args?: CommandArg[]) {
+    // Execute the required script
+    return await this.script?.exec(args)
   }
 }

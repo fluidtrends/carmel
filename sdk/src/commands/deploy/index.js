@@ -1,7 +1,12 @@
 const path = require('path')
-const Command = require('../../Command')
+const Command = require('../../core/Command')
 const parseDomain = require("parse-domain")
 
+/**
+ * 
+ * 
+ * @category Commands::Workspace
+ */
 export class DeployCommand extends Command {
   constructor(args) {
     super(args)

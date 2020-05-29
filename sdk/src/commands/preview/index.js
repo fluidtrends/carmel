@@ -1,6 +1,11 @@
 const path = require('path')
-const Command = require('../../Command')
+const Command = require('../../core/Command')
 
+/**
+ * 
+ * 
+ * @category Commands::Workspace
+ */
 export class PreviewCommand extends Command {
   constructor(args) {
     super(args)

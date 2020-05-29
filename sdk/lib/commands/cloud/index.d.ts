@@ -1,3 +1,8 @@
+/**
+ *
+ *
+ * @category Commands::Environment
+ */
 export class CloudCommand {
     constructor(args: any);
     get id(): any;

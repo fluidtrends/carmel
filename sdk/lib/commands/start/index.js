@@ -50,40 +50,26 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var __1 = require("../..");
+var props = {
+    id: "start",
+    type: __1.CommandType.PRODUCT,
+    title: "Starting a new Carmel Product"
+};
+/**
+ *
+ * @category Commands
+ */
 var Start = /** @class */ (function (_super) {
     __extends(Start, _super);
-    function Start(args) {
-        return _super.call(this, args) || this;
-        // this._script = new Script(Object.assign({}, args, { dev: true }))
+    /** @internal */
+    function Start() {
+        return _super.call(this, props) || this;
     }
-    Object.defineProperty(Start.prototype, "script", {
-        get: function () {
-            return this._script;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Start.prototype, "target", {
-        get: function () {
-            return this.script.target;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Start.prototype.exec = function (session) {
+    /** @internal */
+    Start.prototype.exec = function (session, args) {
         return __awaiter(this, void 0, void 0, function () {
-            var stack;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, _super.prototype.initialize.call(this, session)];
-                    case 1:
-                        _a.sent();
-                        return [4 /*yield*/, session.workspace.loadStack()];
-                    case 2:
-                        stack = _a.sent();
-                        console.log("START2222 :)");
-                        return [2 /*return*/];
-                }
+                return [2 /*return*/];
             });
         });
     };

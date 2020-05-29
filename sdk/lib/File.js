@@ -43,6 +43,10 @@ exports.File = void 0;
 var fs_extra_1 = __importDefault(require("fs-extra"));
 var path_1 = __importDefault(require("path"));
 var _1 = require(".");
+/**
+ *
+ * @category System
+ */
 var File = /** @class */ (function () {
     function File(path) {
         this._path = path;

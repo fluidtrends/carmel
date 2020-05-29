@@ -1,5 +1,10 @@
-const Command = require('../../Command')
+const Command = require('../../core/Command')
 
+/**
+ * 
+ * 
+ * @category Commands::Workspace
+ */
 export class WorkspaceCommand extends Command {
   constructor(args) {
     super(args)

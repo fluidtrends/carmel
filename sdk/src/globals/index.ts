@@ -12,3 +12,4 @@ export const DEFAULT_SECTIONS = [
     { id: "cloud" },
     { id: "products" }
 ]
+

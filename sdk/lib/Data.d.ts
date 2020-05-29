@@ -1,4 +1,8 @@
 import { IData, UTF8 } from './types';
+/**
+ *
+ * @category System
+ */
 export declare class Data implements IData {
     protected _raw: UTF8;
     constructor(raw?: UTF8);

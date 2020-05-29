@@ -58,6 +58,7 @@ function init() {
     var carmelCacheRoot = path_1.default.resolve(carmelRoot, 'cache');
     fs_1.default.existsSync(carmelRoot) || fs_1.default.mkdirSync(carmelRoot);
     fs_1.default.existsSync(carmelCacheRoot) || fs_1.default.mkdirSync(carmelCacheRoot);
+    process.env.CARMEL_USER_HOME = userRoot;
     process.env.CARMEL_HOME = carmelRoot;
     process.env.CARMEL_CACHE_ROOT = carmelCacheRoot;
     nodu_1.resolveAll();
@@ -70,7 +71,7 @@ function runCarmelCommand(command, sdkPath) {
             Carmel = require(path_1.default.resolve(sdkPath, tsMode ? 'src' : 'lib'));
             Command = Carmel.Commands[command.cls];
             cmd = new Command(command);
-            session = new Carmel.Session({ dir: process.env.CARMEL_HOME });
+            session = new Carmel.Session({ dir: process.env.CARMEL_USER_HOME });
             return [2 /*return*/, Carmel.Commander.run(cmd, session)];
         });
     });

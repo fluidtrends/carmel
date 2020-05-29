@@ -1,13 +1,3 @@
 {
-    "type": "carmel",
-    "stack": {
-        "bundle": "test",
-        "version": "1",
-        "name": "test"
-    },
-    "context": {
-        "start": {
-            "script": "starter.js"
-        }
-    }
+    "stack": "testbundle/1/teststack"
 }

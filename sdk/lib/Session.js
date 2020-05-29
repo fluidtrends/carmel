@@ -39,15 +39,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Session = void 0;
 var dodi_1 = require("dodi");
 var _1 = require(".");
+/**
+ * Represents an {@linkcode Engine} Session initiated by a client.
+ *
+ * {@link https://github.com/fluidtrends/carmel/blob/master/sdk/src/Session.ts | Source Code } |
+ * {@link https://codeclimate.com/github/fluidtrends/carmel/sdk/src/Session.ts/source | Code Quality} |
+ * {@link https://codeclimate.com/github/fluidtrends/carmel/sdk/src/Session.ts/stats | Code Stats}
+ *
+ * @category Core
+ */
 var Session = /** @class */ (function () {
+    /**
+     * Builds a new Session with the given {@linkcode SessionProps} properties
+     *
+     * @param props The {@linkcode SessionProps} properties
+     */
     function Session(props) {
         this._props = Object.assign({}, props, { cwd: process.cwd() });
-        // this._command = command
         this._logger = new _1.Logger(this.props);
-        this._workspace = this.props.noWorkspace ? undefined : new _1.Workspace(this.props, this);
-        this._index = new dodi_1.Index(Object.assign({}, { sections: _1.Globals.DEFAULT_SECTIONS }, this.props, { name: 'carmel' })); //, this.logger)
+        this._index = new dodi_1.Index(Object.assign({}, { sections: _1.Globals.DEFAULT_SECTIONS }, this.props, { name: 'carmel' }));
     }
     Object.defineProperty(Session.prototype, "props", {
+        /** */
         get: function () {
             return this._props;
         },
@@ -55,6 +68,7 @@ var Session = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(Session.prototype, "logger", {
+        /** */
         get: function () {
             return this._logger;
         },
@@ -62,6 +76,7 @@ var Session = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(Session.prototype, "index", {
+        /** */
         get: function () {
             return this._index;
         },
@@ -69,65 +84,89 @@ var Session = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(Session.prototype, "workspace", {
+        /** */
         get: function () {
             return this._workspace;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(Session.prototype, "hasWorkspace", {
-        get: function () {
-            return !this.props.noWorkspace;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Session.prototype, "command", {
-        get: function () {
-            return this._command;
-        },
-        enumerable: false,
-        configurable: true
-    });
+    /** */
     Session.prototype.set = function (key, val) {
         return this.index.sections.system.vault.write(key, val);
     };
+    /** */
     Session.prototype.get = function (key) {
         return this.index.sections.system.vault.read(key);
     };
+    /**
+     *  Initializes the Session and makes sure the index is ready to go.
+     */
     Session.prototype.initialize = function () {
         return __awaiter(this, void 0, void 0, function () {
             var _a;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: 
-                    // Initialize the index first of all
-                    return [4 /*yield*/, this.index.initialize()
-                        // Make sure the local common deps are available
-                    ];
-                    case 1:
-                        // Initialize the index first of all
-                        _b.sent();
-                        // Make sure the local common deps are available
-                        _a = this.command && this.command.requiresFreshSession;
-                        if (!_a) 
-                        // Make sure the local common deps are available
-                        return [3 /*break*/, 3];
-                        return [4 /*yield*/, this.updateIndex()
+                    case 0:
+                        // Initialize the index first of all, if needed
+                        _a = this.index.exists;
+                        if (_a) 
+                        // Initialize the index first of all, if needed
+                        return [3 /*break*/, 2];
+                        return [4 /*yield*/, this.index.initialize()
+                            // // Make sure the local common dependencies are available
+                            // this.command && this.command.requiresFreshIndex && await this.updateIndex()
+                            // if (this.command?.requiresWorkspace) { 
+                            //     // The command needs a workspace so let's look for one
+                            //     await this.resolveWorkspace()
+                            //     if (!this.workspace || !this.workspace.exists) {
+                            //         // If we need a workspace but we can't get one, we're in trouble
+                            //         throw Errors.WorkspaceIsMissing()
+                            //     }
+                            //     // So we've got ourselves a workspace, yay - let's load it up
+                            //     await this.workspace.initialize()
+                            // }
                             // Then let's make sure the workspace is also initialized
+                            // return this.hasWorkspace && this.workspace!.initialize()
+                            // this.logger.start(this.command && this.command.title)
                         ];
-                    case 2:
+                    case 1:
                         _a = (_b.sent());
-                        _b.label = 3;
-                    case 3:
-                        // Make sure the local common deps are available
+                        _b.label = 2;
+                    case 2:
+                        // Initialize the index first of all, if needed
                         _a;
-                        // Then let's make sure the workspace is also initialized
-                        return [2 /*return*/, this.hasWorkspace && this.workspace.initialize()];
+                        return [2 /*return*/];
                 }
             });
         });
     };
+    /**
+     */
+    Session.prototype.destroy = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/];
+            });
+        });
+    };
+    /**
+     * Looks for a {@linkcode Workspace} in the current working directory
+     */
+    Session.prototype.resolveWorkspace = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                this._workspace = new _1.Workspace();
+                return [2 /*return*/, this.workspace];
+            });
+        });
+    };
+    /**
+     * Looks up a {@linkcode Bundle} in the index
+     *
+     * @param id The {@linkcode Bundle} id
+     * @param version the {@linkcode Bundle} version
+     */
     Session.prototype.findBundle = function (id, version) {
         return __awaiter(this, void 0, void 0, function () {
             var archive, bundle;
@@ -168,29 +207,25 @@ var Session = /** @class */ (function () {
         });
     };
     Session.prototype.updateIndex = function () {
-        // this.logger.info('Making sure your development environment is up to date ...')
-        var _this = this;
-        return this.index.installArchive({ id: "papanache", silent: true })
-            .then(function (archive) {
-            _this.set("papanacheVersion", archive.version);
-            return archive.installDependencies();
-        })
-            .then(function () { return _this.index.installArchive({ id: "@fluidtrends/bananas", silent: true }); })
-            .then(function (archive) {
-            _this.set("bananasVersion", archive.version);
-            return archive.installDependencies();
-        })
-            .then(function () {
-            // this.logger.info('Your development environment is all up to date')
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                // this.logger.info('Making sure your development environment is up to date ...')
+                return [2 /*return*/, this.index.installArchive({ id: "papanache", silent: true })
+                        .then(function (archive) {
+                        _this.set("papanacheVersion", archive.version);
+                        return archive.installDependencies();
+                    })
+                        .then(function () { return _this.index.installArchive({ id: "@fluidtrends/bananas", silent: true }); })
+                        .then(function (archive) {
+                        _this.set("bananasVersion", archive.version);
+                        return archive.installDependencies();
+                    })
+                        .then(function () {
+                        // this.logger.info('Your development environment is all up to date')
+                    })];
+            });
         });
-    };
-    Session.prototype.open = function () {
-        // Let's setup the logger
-        // return this.logger.start(this.command && this.command.title)
-    };
-    Session.prototype.close = function () {
-        // Close this session
-        // return this.logger.stop()
     };
     return Session;
 }());

@@ -7,9 +7,8 @@ import {
   Globals,
   Commands, 
   Strings,
-  Config,
-  Session,
-  Commander
+  Engine,
+  EngineState
 } from '../../../src' 
 
 import fs from 'fs-extra'
@@ -29,73 +28,133 @@ savor.
 add('should make sure it expects no required args', (context: Context, done: Completion) => {
   const cmd = new Commands.Start();
 
-  context.expect(cmd.requiredArgs.length).to.equal(0)
+  context.expect(cmd.requiresArgs).to.be.false
   context.expect(cmd.id).to.equal("start")
-  context.expect(cmd.requiresContext).to.be.true
-
+  
   done()  
 }).
 
-add('should not run without a session', (context: Context, done: Completion) => {
-  const cmd = new Commands.Start({ env: { homeDir: context.dir }})
-  const stub = context.stub(fs, "existsSync").callsFake(() => false)
+add('should not start without a valid product', (context: Context, done: Completion) => {
+  const cmd = new Commands.Start()
+ 
+  savor.promiseShouldFail(Engine.run(cmd), done, (error) => {
+    Engine.instance.stop()
+    context.expect(error.message).to.equal(Strings.CommandCannotExecuteString("start", Strings.ProductIsMissingString()))
+  })  
+}).
 
-  savor.promiseShouldFail(Commander.run(cmd), done, (error) => {
-    stub.restore()
-    context.expect(error.message).to.equal(Strings.CommandCannotExecute(cmd.id, 'the session is missing'))
+add('should not start a new product with a missing bundle', (context: Context, done: Completion) => {
+  const cmd = new Commands.Start()
+
+    savor.addAsset('assets/.carmel-badstack.json', '.carmel.json', context)
+  
+    savor.promiseShouldFail(Engine.run(cmd), done, (error) => {
+      Engine.instance.stop()
+      context.expect(error.message).to.equal(Strings.CommandCannotExecuteString("start", Strings.ProductIsNotReadyString()))    
+    })
+}).
+
+add('should not start a new product with a missing stack in the bundle', (context: Context, done: Completion) => {
+  const cmd = new Commands.Start()
+
+  process.env.CARMEL_HOME = path.resolve(context.dir, '.carmel')
+  
+  savor.addAsset('assets/.carmel.json', '.carmel.json', context)
+  savor.addAsset("assets/bundles/test", ".carmel/bundles/testbundle/1/oops", context)
+
+  savor.promiseShouldFail(Engine.run(cmd), done, (error) => {
+    Engine.instance.stop()
+    context.expect(error.message).to.equal(Strings.CommandCannotExecuteString("start", Strings.ProductIsNotReadyString()))
   })
 }).
 
-// add('should not start with an invalid stack', (context: Context, done: Completion) => {
-//     const cmd = new Commands.Start({ env: { homeDir: context.dir }})
-//     const session = new Session({ test: "test1234", dir: context.dir, sections: [{ id: "bundles" }] })
+add('should not start is the stack does not support the target', (context: Context, done: Completion) => {
+  const cmd = new Commands.Start()
 
-//     savor.addAsset('assets/.carmel-badstack.json', '.carmel.json', context)
-//     savor.addAsset("assets/test-archive", "archives/test-archive/1", context)
+  process.env.CARMEL_USERHOME = context.dir
 
-//     const stub = context.stub(Registry, 'extract').callsFake(() => Promise.resolve({ version: '1' }))
-//     const stub2 = context.stub(Registry, 'manifest').callsFake(() => Promise.resolve({ version: '1' }))
-  
-//     savor.promiseShouldFail(session.initialize().then(() => Commander.run(cmd, session)), done, (error) => {
-//       context.expect(error.message).to.equal(Strings.StackCannotLoad("unknown", 'it is invalid'))
-//       stub.restore()
-//       stub2.restore()
-//   })
-// }).
+  savor.addAsset('assets/.carmel.json', '.carmel.json', context)
+  savor.addAsset("assets/bundles/test", ".carmel/bundles/testbundle/1/testbundle", context)
+ 
+  savor.promiseShouldFail(Engine.run(cmd), done, (error) => {
+    Engine.instance.stop()
+    context.expect(error.message).to.equal(Strings.CommandCannotExecuteString("start", Strings.TargetNotSupportedString("web")))
+  })
+}).
 
-// add('should not start a new product without a stack', (context: Context, done: Completion) => {
-//   const cmd = new Commands.Start({ env: { homeDir: context.dir }})
-//   const session = new Session({ test: "test1234", dir: context.dir, sections: [{ id: "bundles" }] })
+add('should not start a new product without a required stack script', (context: Context, done: Completion) => {
+  const cmd = new Commands.Start()
 
-//   savor.addAsset('assets/.carmel-missingstack.json', '.carmel.json', context)
-//   savor.addAsset("assets/bundles/test", ".carmel/bundles/test/1/test", context)
+  process.env.CARMEL_USERHOME = context.dir
 
-//   const stub = context.stub(Registry, 'extract').callsFake(() => Promise.resolve({ version: '1' }))
-//   const stub2 = context.stub(Registry, 'manifest').callsFake(() => Promise.resolve({ version: '1' }))
+  savor.addAsset('assets/.carmel.json', '.carmel.json', context)
+  savor.addAsset("assets/bundles/test", ".carmel/bundles/testbundle/1/testbundle", context)
+  savor.addAsset("assets/dirs/one", ".carmel/bundles/testbundle/1/testbundle/stacks/teststack/web", context)
 
-//   savor.promiseShouldFail(session.initialize().then(() => Commander.run(cmd, session)), done, (error) => {
-//     context.expect(error.message).to.equal(Strings.StackCannotLoad("testoops", 'it is missing'))
-//     stub.restore()
-//     stub2.restore()
-//   })
-// }).ce
+  savor.promiseShouldFail(Engine.run(cmd), done, (error) => {
+    Engine.instance.stop()
+    context.expect(error.message).to.equal(Strings.CommandCannotExecuteString("start", Strings.StackTargetScriptIsMissingString("web", "start")))
+  })
+}).
 
-// add('should start a new product', (context: Context, done: Completion) => {
-//     const cmd = new Commands.Start({ env: { homeDir: context.dir }})
-//     const session = new Session({ test: "test1234", dir: context.dir, sections: [{ id: "bundles" }] })
+add('should not start with a missing script loader', (context: Context, done: Completion) => {
+  const cmd = new Commands.Start()
 
-//     savor.addAsset('assets/.carmel.json', '.carmel.json', context)
-//     savor.addAsset("assets/bundles/test", ".carmel/bundles/test/1/test", context)
+  process.env.CARMEL_USERHOME = context.dir
 
-//     const stub = context.stub(Registry, 'extract').callsFake(() => Promise.resolve({ version: '1' }))
-//     const stub2 = context.stub(Registry, 'manifest').callsFake(() => Promise.resolve({ version: '1' }))
-  
-//     savor.promiseShouldSucceed(session.initialize().then(() => Commander.run(cmd, session)), done, () => {
-//       context.expect(cmd.title).to.equal(Config.commands.start.title)
-//       context.expect(session.workspace!.stack!.name).to.equal('test')
-//       stub.restore()
-//       stub2.restore()
-//   })
-// }).
+  savor.addAsset('assets/.carmel.json', '.carmel.json', context)
+  savor.addAsset("assets/bundles/test", ".carmel/bundles/testbundle/1/testbundle", context)
+  savor.addAsset("assets/missingscriptloader", ".carmel/bundles/testbundle/1/testbundle/stacks/teststack/web/start", context)
+
+  savor.promiseShouldFail(Engine.run(cmd), done, (error) => {
+    Engine.instance.stop()
+    context.expect(error.message).to.equal(Strings.CommandCannotExecuteString("start", Strings.StackTargetScriptIsMissingString("web", "start")))
+  })
+}).
+
+add('should not start with a bad script loader', (context: Context, done: Completion) => {
+  const cmd = new Commands.Start()
+
+  process.env.CARMEL_USERHOME = context.dir
+
+  savor.addAsset('assets/.carmel.json', '.carmel.json', context)
+  savor.addAsset("assets/bundles/test", ".carmel/bundles/testbundle/1/testbundle", context)
+  savor.addAsset("assets/badscript", ".carmel/bundles/testbundle/1/testbundle/stacks/teststack/web/start", context)
+
+  savor.promiseShouldFail(Engine.run(cmd), done, (error) => {
+    Engine.instance.stop()
+    context.expect(error.message).to.equal(Strings.CommandCannotExecuteString("start", Strings.StackTargetScriptIsMissingString("web", "start")))
+  })
+}).
+
+add('should not start with a buggy script loader', (context: Context, done: Completion) => {
+  const cmd = new Commands.Start()
+
+  process.env.CARMEL_USERHOME = context.dir
+
+  savor.addAsset('assets/.carmel.json', '.carmel.json', context)
+  savor.addAsset("assets/bundles/test", ".carmel/bundles/testbundle/1/testbundle", context)
+  savor.addAsset("assets/buggyscript", ".carmel/bundles/testbundle/1/testbundle/stacks/teststack/web/start", context)
+
+  savor.promiseShouldFail(Engine.run(cmd), done, (error) => {
+    Engine.instance.stop()
+    context.expect(error.message).to.equal("oops")
+  })
+}).
+
+add('should start a new product with a resolved stack, supported target and script', (context: Context, done: Completion) => {
+    const cmd = new Commands.Start()
+
+    process.env.CARMEL_USERHOME = context.dir
+
+    savor.addAsset('assets/.carmel.json', '.carmel.json', context)
+    savor.addAsset("assets/bundles/test", ".carmel/bundles/testbundle/1/testbundle", context)
+    savor.addAsset("assets/target", ".carmel/bundles/testbundle/1/testbundle/stacks/teststack/web", context)
+
+    savor.promiseShouldSucceed(Engine.run(cmd), done, (output) => {
+      context.expect(Engine.instance.isStarted).to.be.false
+      context.expect(output).to.equal('ok')
+    })
+}).
 
 run('[Carmel SDK] Start Command')

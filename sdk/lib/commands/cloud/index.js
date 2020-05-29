@@ -14,7 +14,12 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CloudCommand = void 0;
-var Command = require('../../Command');
+var Command = require('../../core/Command');
+/**
+ *
+ *
+ * @category Commands::Environment
+ */
 var CloudCommand = /** @class */ (function (_super) {
     __extends(CloudCommand, _super);
     function CloudCommand(args) {

@@ -43,6 +43,14 @@ exports.Workspace = void 0;
 var path_1 = __importDefault(require("path"));
 var _1 = require(".");
 var Stack_1 = require("./Stack");
+/**
+ *
+ * {@link https://github.com/fluidtrends/carmel/blob/master/sdk/src/Workspace.ts | Source Code } |
+ * {@link https://codeclimate.com/github/fluidtrends/carmel/sdk/src/Workspace.ts/source | Code Quality} |
+ * {@link https://codeclimate.com/github/fluidtrends/carmel/sdk/src/Workspace.ts/stats | Code Stats}
+ *
+ * @category Core
+ */
 var Workspace = /** @class */ (function () {
     function Workspace(props, session) {
         this._props = props;
@@ -98,10 +106,15 @@ var Workspace = /** @class */ (function () {
     });
     Workspace.prototype.loadStack = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var name;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        this._stack = new Stack_1.Stack(this.manifest.data.json().stack);
+                        name = this.manifest.data.json().stack;
+                        if (!name) {
+                            throw _1.Errors.StackCannotLoad('unknown', 'a name was not specified');
+                        }
+                        this._stack = new Stack_1.Stack({ name: name });
                         return [4 /*yield*/, this.stack.load(this)];
                     case 1:
                         _a.sent();
@@ -130,7 +143,12 @@ var Workspace = /** @class */ (function () {
     Workspace.prototype.initialize = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.load()];
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.load()];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/, this];
+                }
             });
         });
     };

@@ -50,6 +50,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var __1 = require("../..");
+/**
+ *
+ *
+ * @category Commands::Workspace
+ */
 var Status = /** @class */ (function (_super) {
     __extends(Status, _super);
     function Status(args) {

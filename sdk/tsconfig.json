@@ -14,5 +14,11 @@
   },
   "include": [
     "./src/**/*"
-  ]
+  ],
+  "typedocOptions": {
+    "mode": "file",
+    "readme": "none",
+    "stripInternal": true,
+    "out": "docs"
+  }
 }

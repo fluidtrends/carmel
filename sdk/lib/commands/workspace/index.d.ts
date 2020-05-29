@@ -1,3 +1,8 @@
+/**
+ *
+ *
+ * @category Commands::Workspace
+ */
 export class WorkspaceCommand {
     constructor(args: any);
     get id(): any;

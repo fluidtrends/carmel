@@ -1,8 +1,11 @@
-import { Command, ISession } from '../..';
+import { Command, ISession, CommandArg } from '../..';
+/**
+ *
+ * @category Commands
+ */
 export default class Start extends Command {
-    protected _script?: any;
-    constructor(args?: any);
-    get script(): any;
-    get target(): any;
-    exec(session: ISession): Promise<void>;
+    /** @internal */
+    constructor();
+    /** @internal */
+    exec(session: ISession, args?: CommandArg[]): Promise<void>;
 }

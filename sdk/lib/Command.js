@@ -38,7 +38,20 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Command = void 0;
 var _1 = require(".");
+/**
+ * The base class representing a single unit of execution.
+ * Every Carmel Command extends this class and tweaks the defaults as needed.
+ *
+ * {@link https://github.com/fluidtrends/carmel/blob/master/sdk/src/Command.ts | Source Code } |
+ * {@link https://codeclimate.com/github/fluidtrends/carmel/sdk/src/Command.ts/source | Code Quality} |
+ * {@link https://codeclimate.com/github/fluidtrends/carmel/sdk/src/Command.ts/stats | Code Stats}
+ *
+ * @category Core
+ */
 var Command = /** @class */ (function () {
+    /**
+     * @param args The arguments required for execution, if any
+     */
     function Command(args) {
         this._args = args;
         this._props = _1.Config.commands[this.id] || {};
@@ -100,109 +113,84 @@ var Command = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(Command.prototype, "requiredArgs", {
-        //     get target () { 
-        //         this._target 
-        //     }
-        //     get context() {
-        //         return this.target ? this._context[this.target] : this._context
-        //     }
-        get: function () { return (this.props.requiredArgs || []); },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Command.prototype, "title", {
-        get: function () { return this.props.title || 'command'; },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Command.prototype, "requiresContext", {
-        get: function () { return this.props.requiresContext; },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Command.prototype, "requiresFreshSession", {
-        get: function () { return this.props.requiresFreshSession; },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Command.prototype, "type", {
-        get: function () { return this.props.type || 'workspace'; },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Command.prototype, "missingRequiredArgs", {
-        //     get cloud () { return this._cloud }
         get: function () {
-            var _this = this;
-            return this.requiredArgs.filter(function (arg) {
-                return (!_this.args || !_this.args[arg]);
-            });
+            return (this.props.requiredArgs || []);
         },
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Command.prototype, "title", {
+        get: function () {
+            return this.props.title || 'command';
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Command.prototype, "requiresStack", {
+        get: function () {
+            return this.props.requiresStack;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Command.prototype, "requiresFreshIndex", {
+        get: function () {
+            return this.props.requiresFreshIndex;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Command.prototype, "type", {
+        get: function () {
+            return this.props.type || _1.Globals.DEFAULT_COMMAND_TYPE;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Command.prototype, "requiresWorkspace", {
+        get: function () {
+            return this.type === _1.Globals.COMMAND_TYPES.WORKSPACE;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Command.prototype, "missingRequiredArgs", {
+        get: function () {
+            var _this = this;
+            return this.requiredArgs.filter(function (arg) { return (!_this.args || !_this.args[arg]); });
+        },
+        enumerable: false,
+        configurable: true
+    });
+    // async initialize() {
+    // }
+    /**
+     * Looks for potential issues with the session, and with the environment.
+     * If the coast is clear it executes the command logic.
+     *
+     * @param session The {@linkcode Session} in which to run this command
+     */
     Command.prototype.exec = function (session) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/, this.initialize(session)];
-            });
-        });
-    };
-    // loadScript(paths = [this.context.script]) {   
-    //     return new Promise((resolve, reject) => {
-    //       try {
-    //         // Let's find the script as specified by the context
-    //         const starter = require(path.resolve(...paths))
-    //         resolve({ exec: starter, props: { name: "app" }})
-    //       } catch (e) {
-    //         reject(Errors.CommandCannotExecute(this.id, 'the script could not be loaded'))
-    //       }
-    //     })
-    // }
-    // findDefaultArchive() {
-    //     // const version = session?.get("papanacheVersion")
-    //     // return session.index.sections.archives.findArchive({ id: "papanache", version })
-    // }
-    // loadDefaultScript(type: string) {
-    //     // return this.findDefaultArchive()
-    //     //            .then((archive) => this.loadScript([archive.path, 'src', this.target, 'commands', `${type}.js`]))
-    // }
-    // commandScript(type: string) {
-    //     // return (this.context.script === _.DEFAULT_SCRIPT) ? this.loadDefaultScript(session, type) : this.loadScript()
-    // }
-    //     findCredentials(session) {
-    //         const profile = this.args.profile || 'default'
-    //         const v = session.index.sections.safe.vault
-    //         if (v.isLocked) {
-    //           return Promise.reject(new Error(_.ERRORS.COULD_NOT_EXECUTE('the safe is locked')))
-    //         }
-    //         session.logger.info(`Looking up AWS credentials [${profile}] ...`)
-    //         const credentials = Object.assign({}, { region: "us-east-1" }, v.read(`aws.${profile}`))
-    //         if (!credentials || !credentials.key || !credentials.secret) {
-    //           return Promise.reject(new Error('No credentials found'))
-    //         }
-    //         process.env.AWS_SDK_LOAD_CONFIG = null
-    //         process.env.AWS_ACCESS_KEY_ID = credentials.key
-    //         process.env.AWS_SECRET_ACCESS_KEY = credentials.secret
-    //         return Promise.resolve(credentials)
-    //     }
-    //     prepareCloud(session) {
-    //         return this.findCredentials(session).then((credentials) => {
-    //             this._cloud = new Cloud(Object.assign({}, credentials, { env: this.env }))
-    //             return this.cloud
-    //         })
-    //     }
-    Command.prototype.initialize = function (session) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 this._session = session;
                 if (!this.session) {
                     return [2 /*return*/, Promise.reject(_1.Errors.CommandCannotExecute(this.id, 'the session is missing'))];
                 }
-                console.log(this.session.workspace);
-                if (!this.session.workspace.exists) {
-                    return [2 /*return*/, Promise.reject(_1.Errors.CommandCannotExecute(this.id, 'the workspace is invalid'))];
+                console.log(">>>>", this.missingRequiredArgs);
+                if (this.missingRequiredArgs.length > 0) {
+                    // Make sure that the command has been given what it expects
+                    throw _1.Errors.ArgumentIsMissing(this.missingRequiredArgs[0]);
                 }
+                // if (this.type === Globals.COMMAND_TYPES.ENVIRONMENT && !this.session.workspace!.exists) {
+                //     return Promise.reject(Errors.CommandCannotExecute(this.id, 'the workspace is invalid'))
+                // }
+                // if (this.requiresStack) {
+                //     return Promise.reject(Errors.CommandCannotExecute(this.id, 'the session is missing'))
+                // }    
+                // if (!this.session.workspace!.exists) {
+                //     return Promise.reject(Errors.CommandCannotExecute(this.id, 'the workspace is invalid'))
+                // }
                 // // Look up the workspace context, if any
                 // this._context = this.session.workspace!.context?[this.id]
                 // if (!this.context && this.requiresContext) {
