@@ -1,4 +1,4 @@
-import { IStack, IBundle, IDir } from '..';
+import { IStack, IBundle, Name, IDir, Script, Target } from '..';
 /**
  *
  * {@link https://github.com/fluidtrends/carmel/blob/master/sdk/src/Stack.ts | Source Code } |
@@ -8,15 +8,63 @@ import { IStack, IBundle, IDir } from '..';
  * @category Core
  */
 export declare class Stack implements IStack {
-    protected _props: any;
-    protected _bundle?: IBundle;
+    /** */
+    protected _bundle: IBundle;
+    /** */
+    protected _name: Name;
+    /** */
     protected _dir?: IDir;
-    constructor(props: any);
-    get name(): any;
+    /**
+     *
+     * @param name
+     * @param bundle
+     */
+    constructor(name: Name, bundle: IBundle);
+    /**
+     *
+     */
+    get name(): string;
+    /**
+     *
+     */
     get dir(): IDir | undefined;
-    get props(): any;
-    get bundle(): IBundle | undefined;
-    get exists(): any;
+    /**
+     *
+     */
+    get bundle(): IBundle;
+    /**
+     *
+     */
+    get exists(): boolean;
+    /**
+     *
+     */
     load(): Promise<this>;
-    makeConfig(): void;
+    /**
+     *
+     * @param target
+     * @param name
+     */
+    findTargetScript(target: Target, name: Name): Promise<Script | undefined>;
+    /**
+     *
+     * @param target
+     */
+    targetDir(target: Target): IDir | undefined;
+    /**
+     *
+     * @param target
+     */
+    targetScriptDir(target: Target, name: Name): IDir | undefined;
+    /**
+     *
+     * @param target
+     */
+    supportsTarget(target: Target): boolean;
+    /**
+     *
+     * @param target
+     * @param name
+     */
+    supportsTargetScript(target: Target, name: Name): boolean;
 }

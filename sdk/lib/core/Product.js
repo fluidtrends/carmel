@@ -208,10 +208,6 @@ var Product = /** @class */ (function () {
                             this.changeState(__1.ProductState.UNLOADED);
                             return [2 /*return*/, this];
                         }
-                        //new Stack({ id: stackId })
-                        // Now we're cooking
-                        // await this.stack?.load()
-                        // if (!this.stc)
                         // Excellent, tell everyone we're ready for action
                         this.changeState(__1.ProductState.READY);
                         // Let callers access us directly
@@ -267,11 +263,7 @@ var Product = /** @class */ (function () {
      */
     Product.prototype.findDirs = function (dirpath) {
         var _a;
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_b) {
-                return [2 /*return*/, (_a = this.dir.dir(dirpath)) === null || _a === void 0 ? void 0 : _a.dirs()];
-            });
-        });
+        return ((_a = this.dir.dir(dirpath)) === null || _a === void 0 ? void 0 : _a.dirs) || [];
     };
     return Product;
 }());

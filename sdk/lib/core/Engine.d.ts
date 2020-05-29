@@ -68,7 +68,7 @@ export declare class Engine implements IEngine {
      * @param command The {@linkcode ICommand} to execute
      * @param args The {@linkcode CommandArgs} to pass to this command
      */
-    exec(command?: ICommand, args?: CommandArg[]): Promise<void>;
+    exec(command?: ICommand, args?: CommandArg[]): Promise<any>;
     /**
      *
      */
@@ -80,5 +80,5 @@ export declare class Engine implements IEngine {
      * @param args The {@linkcode CommandArgs} to pass to this command
      * @param onlyOnce Whether we want to allow the Engine to process further commands or not
      */
-    static run(command: ICommand, args?: CommandArg[], onlyOnce?: boolean): Promise<void>;
+    static run(command: ICommand, args?: CommandArg[], onlyOnce?: boolean): Promise<any>;
 }

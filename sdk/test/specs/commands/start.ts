@@ -56,8 +56,6 @@ add('should not start a new product with a missing bundle', (context: Context, d
 
 add('should not start a new product with a missing stack in the bundle', (context: Context, done: Completion) => {
   const cmd = new Commands.Start()
-
-  process.env.CARMEL_HOME = path.resolve(context.dir, '.carmel')
   
   savor.addAsset('assets/.carmel.json', '.carmel.json', context)
   savor.addAsset("assets/bundles/test", ".carmel/bundles/testbundle/1/oops", context)
@@ -71,7 +69,7 @@ add('should not start a new product with a missing stack in the bundle', (contex
 add('should not start is the stack does not support the target', (context: Context, done: Completion) => {
   const cmd = new Commands.Start()
 
-  process.env.CARMEL_USERHOME = context.dir
+  process.env.CARMEL_USER_HOME = context.dir
 
   savor.addAsset('assets/.carmel.json', '.carmel.json', context)
   savor.addAsset("assets/bundles/test", ".carmel/bundles/testbundle/1/testbundle", context)
@@ -85,7 +83,7 @@ add('should not start is the stack does not support the target', (context: Conte
 add('should not start a new product without a required stack script', (context: Context, done: Completion) => {
   const cmd = new Commands.Start()
 
-  process.env.CARMEL_USERHOME = context.dir
+  process.env.CARMEL_USER_HOME = context.dir
 
   savor.addAsset('assets/.carmel.json', '.carmel.json', context)
   savor.addAsset("assets/bundles/test", ".carmel/bundles/testbundle/1/testbundle", context)
@@ -100,7 +98,7 @@ add('should not start a new product without a required stack script', (context: 
 add('should not start with a missing script loader', (context: Context, done: Completion) => {
   const cmd = new Commands.Start()
 
-  process.env.CARMEL_USERHOME = context.dir
+  process.env.CARMEL_USER_HOME = context.dir
 
   savor.addAsset('assets/.carmel.json', '.carmel.json', context)
   savor.addAsset("assets/bundles/test", ".carmel/bundles/testbundle/1/testbundle", context)
@@ -115,7 +113,7 @@ add('should not start with a missing script loader', (context: Context, done: Co
 add('should not start with a bad script loader', (context: Context, done: Completion) => {
   const cmd = new Commands.Start()
 
-  process.env.CARMEL_USERHOME = context.dir
+  process.env.CARMEL_USER_HOME = context.dir
 
   savor.addAsset('assets/.carmel.json', '.carmel.json', context)
   savor.addAsset("assets/bundles/test", ".carmel/bundles/testbundle/1/testbundle", context)
@@ -130,7 +128,7 @@ add('should not start with a bad script loader', (context: Context, done: Comple
 add('should not start with a buggy script loader', (context: Context, done: Completion) => {
   const cmd = new Commands.Start()
 
-  process.env.CARMEL_USERHOME = context.dir
+  process.env.CARMEL_USER_HOME = context.dir
 
   savor.addAsset('assets/.carmel.json', '.carmel.json', context)
   savor.addAsset("assets/bundles/test", ".carmel/bundles/testbundle/1/testbundle", context)
@@ -145,7 +143,7 @@ add('should not start with a buggy script loader', (context: Context, done: Comp
 add('should start a new product with a resolved stack, supported target and script', (context: Context, done: Completion) => {
     const cmd = new Commands.Start()
 
-    process.env.CARMEL_USERHOME = context.dir
+    process.env.CARMEL_USER_HOME = context.dir
 
     savor.addAsset('assets/.carmel.json', '.carmel.json', context)
     savor.addAsset("assets/bundles/test", ".carmel/bundles/testbundle/1/testbundle", context)

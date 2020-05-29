@@ -128,7 +128,7 @@ var Engine = /** @class */ (function () {
                         props = props || {
                             cwd: process.cwd(),
                             name: "carmel",
-                            dir: process.env.CARMEL_HOME
+                            dir: process.env.CARMEL_USER_HOME
                         };
                         // This engine is not started yet, let's begin by assigning a new Session
                         this._session = new __1.Session(props);
@@ -195,6 +195,7 @@ var Engine = /** @class */ (function () {
      */
     Engine.prototype.exec = function (command, args) {
         return __awaiter(this, void 0, void 0, function () {
+            var result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -212,14 +213,13 @@ var Engine = /** @class */ (function () {
                         }
                         // We're about to run it
                         Engine.instance.changeState(__1.EngineState.RUNNING);
-                        // Time to let the command do its thing
                         return [4 /*yield*/, (command === null || command === void 0 ? void 0 : command.run(this._session, args))];
                     case 1:
-                        // Time to let the command do its thing
-                        _a.sent();
+                        result = _a.sent();
                         // We're done running
                         Engine.instance.changeState(__1.EngineState.READY);
-                        return [2 /*return*/];
+                        // Send back the result, if any
+                        return [2 /*return*/, result];
                 }
             });
         });
@@ -244,6 +244,7 @@ var Engine = /** @class */ (function () {
     Engine.run = function (command, args, onlyOnce) {
         if (onlyOnce === void 0) { onlyOnce = true; }
         return __awaiter(this, void 0, void 0, function () {
+            var result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: 
@@ -254,16 +255,15 @@ var Engine = /** @class */ (function () {
                     case 1:
                         // First, start the engine if necessary
                         _a.sent();
-                        // Let's let this command run
                         return [4 /*yield*/, Engine.instance.exec(command, args)
                             // If we only need to run this once, then we're completely finished
                         ];
                     case 2:
-                        // Let's let this command run
-                        _a.sent();
+                        result = _a.sent();
                         // If we only need to run this once, then we're completely finished
                         onlyOnce && Engine.instance.stop();
-                        return [2 /*return*/];
+                        // Send back the result, if any
+                        return [2 /*return*/, result];
                 }
             });
         });

@@ -60,7 +60,7 @@ var Command = /** @class */ (function () {
      * @param props The {@linkcode CommandsProps} required for building this command
      */
     function Command(props) {
-        this._props = Object.assign({}, Defaults, props);
+        this._props = Object.assign({}, Defaults(this), props);
     }
     Object.defineProperty(Command.prototype, "props", {
         /**
@@ -102,12 +102,32 @@ var Command = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Command.prototype, "script", {
+        /**
+         *
+         */
+        get: function () {
+            return this._script;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Object.defineProperty(Command.prototype, "requiresArgs", {
         /**
          *
          */
         get: function () {
             return this.props.requiredArgs !== undefined && this.props.requiredArgs.length > 0;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Command.prototype, "requiresScript", {
+        /**
+         *
+         */
+        get: function () {
+            return this.props.requiresScript !== undefined && this.props.requiresScript;
         },
         enumerable: false,
         configurable: true
@@ -124,45 +144,47 @@ var Command = /** @class */ (function () {
     });
     /** @internal */
     Command.prototype._validateArgs = function (args) {
-        return __awaiter(this, void 0, void 0, function () {
-            var missingArgs;
-            return __generator(this, function (_a) {
-                if (!this.requiresArgs) {
-                    // If we don't expect any args, let's get outta here
-                    return [2 /*return*/];
-                }
-                if (!args || args.length === 0) {
-                    // Looks like no arguments were passed at all, when some were expected
-                    throw __1.Errors.ArgumentIsMissing(this.props.requiredArgs[0]);
-                }
-                missingArgs = this.props.requiredArgs.filter(function (arg) { return !args.find(function (a) { return a.name === arg; }); });
-                if (missingArgs && missingArgs.length > 0) {
-                    // Look for any missing args
-                    throw __1.Errors.ArgumentIsMissing(missingArgs[0]);
-                }
-                return [2 /*return*/];
-            });
-        });
+        if (!this.requiresArgs) {
+            // If we don't expect any args, let's get outta here
+            return;
+        }
+        if (!args || args.length === 0) {
+            // Looks like no arguments were passed at all, when some were expected
+            throw __1.Errors.ArgumentIsMissing(this.props.requiredArgs[0]);
+        }
+        var missingArgs = this.props.requiredArgs.filter(function (arg) { return !args.find(function (a) { return a.name === arg; }); });
+        if (missingArgs && missingArgs.length > 0) {
+            // Look for any missing args
+            throw __1.Errors.ArgumentIsMissing(missingArgs[0]);
+        }
+    };
+    /** @internal */
+    Command.prototype._validateProductTypeRequirements = function () {
+        var _a;
+        if (!this.product || !this.product.exists) {
+            // Ensure the product exists 
+            throw __1.Errors.CommandCannotExecute(this.id, __1.Strings.ProductIsMissingString());
+        }
+        if (!this.product.isReady) {
+            // Ensure the product is ready  
+            throw __1.Errors.CommandCannotExecute(this.id, __1.Strings.ProductIsNotReadyString());
+        }
+        if (!((_a = this.product.stack) === null || _a === void 0 ? void 0 : _a.supportsTarget(this.target))) {
+            // Make sure this target is supported by our stack
+            throw __1.Errors.CommandCannotExecute(this.id, __1.Strings.TargetNotSupportedString(this.target));
+        }
+        if (this.requiresScript && !this.script) {
+            // If we require a script let's make sure the stack has it
+            throw __1.Errors.CommandCannotExecute(this.id, __1.Strings.StackTargetScriptIsMissingString(this.target, this.id));
+        }
     };
     /** @internal */
     Command.prototype._validateTypeRequirements = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (this.type) {
-                    case __1.CommandType.PRODUCT:
-                        if (!this.product || !this.product.exists) {
-                            // Ensure the product exists 
-                            throw __1.Errors.CommandCannotExecute(this.id, __1.Strings.ProductIsMissingString());
-                        }
-                        if (!this.product.isReady) {
-                            // Ensure the product is ready  
-                            throw __1.Errors.CommandCannotExecute(this.id, __1.Strings.ProductIsNotReadyString());
-                        }
-                        break;
-                }
-                return [2 /*return*/];
-            });
-        });
+        switch (this.type) {
+            case __1.CommandType.PRODUCT:
+                this._validateProductTypeRequirements();
+                break;
+        }
     };
     /**
      * Run a command in the given session, this usually gets invoked by
@@ -172,39 +194,37 @@ var Command = /** @class */ (function () {
      * @param args The {@linkcode CommandArg} args used to execute this command, if any
      */
     Command.prototype.run = function (session, args) {
+        var _a, _b;
         return __awaiter(this, void 0, void 0, function () {
-            var _a;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var _c, _d, result;
+            return __generator(this, function (_e) {
+                switch (_e.label) {
                     case 0:
                         // Look for a product, if any
-                        _a = this;
+                        _c = this;
                         return [4 /*yield*/, session.resolveProduct()
-                            // First, make sure the passed args (if any) are valid
+                            // Load up the script, if any
                         ];
                     case 1:
                         // Look for a product, if any
-                        _a._product = _b.sent();
-                        // First, make sure the passed args (if any) are valid
-                        return [4 /*yield*/, this._validateArgs(args)
-                            // Check that all requirements for this command type are met
-                        ];
+                        _c._product = _e.sent();
+                        // Load up the script, if any
+                        _d = this;
+                        return [4 /*yield*/, ((_b = (_a = this.product) === null || _a === void 0 ? void 0 : _a.stack) === null || _b === void 0 ? void 0 : _b.findTargetScript(this.target, this.id))];
                     case 2:
+                        // Load up the script, if any
+                        _d._script = _e.sent();
                         // First, make sure the passed args (if any) are valid
-                        _b.sent();
+                        this._validateArgs(args);
                         // Check that all requirements for this command type are met
-                        return [4 /*yield*/, this._validateTypeRequirements()
-                            // Execute this command's custom logic
+                        this._validateTypeRequirements();
+                        return [4 /*yield*/, this.exec(session, args)
+                            // Send back the result, if any
                         ];
                     case 3:
-                        // Check that all requirements for this command type are met
-                        _b.sent();
-                        // Execute this command's custom logic
-                        return [4 /*yield*/, this.exec(session, args)];
-                    case 4:
-                        // Execute this command's custom logic
-                        _b.sent();
-                        return [2 /*return*/];
+                        result = _e.sent();
+                        // Send back the result, if any
+                        return [2 /*return*/, result];
                 }
             });
         });

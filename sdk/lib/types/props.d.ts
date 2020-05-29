@@ -9,6 +9,7 @@ export interface CommandProps extends Props {
     readonly requiredArgs?: string[];
     readonly title?: string;
     readonly requiresFreshIndex?: boolean;
+    readonly requiresScript?: boolean;
     readonly type?: CommandType;
 }
 export interface InitCommandProps extends CommandProps {

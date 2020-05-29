@@ -48,10 +48,8 @@ async function runCarmelCommand(command: any, sdkPath: string) {
     
     const Command = (Carmel.Commands as any)[command.cls]        
     const cmd = new Command(command)
-
-    const session = new Carmel.Session({ dir: process.env.CARMEL_USER_HOME })
-
-    return Carmel.Commander.run(cmd, session)
+    
+    return Carmel.Engine.run(cmd)
 }
 
 export async function installCarmelSDK() {
