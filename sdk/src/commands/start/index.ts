@@ -24,8 +24,8 @@ export default class Start extends Command {
   }
 
   /** @internal */
-  async exec(session: ISession, args?: CommandArg[]) {
+  async exec() {
     // Execute the required script
-    return await this.script?.exec(args)
+    return this.runScript()
   }
 }

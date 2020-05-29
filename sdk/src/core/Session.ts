@@ -10,17 +10,18 @@ import {
     ISession,
     SessionProps,
     ILogger,
-    Name,
     Id,
     Bundle,
-    ICommand,
     Globals,
     Dir,
     Logger,
     Product,
     EngineState, 
     IProduct,
+    Stack,
+    Template,
     Version,
+    ArtifactsKind,
     SessionState
 } from '..'
 
@@ -154,8 +155,9 @@ export class Session implements ISession {
      * 
      * @param id The {@linkcode Bundle} id
      * @param version the {@linkcode Bundle} version
+     * @param install whether we should  the {@linkcode Bundle} if not found
      */
-    async findBundle(id: Id, version: Version) {
+    async findBundle(id: Id, version?: Version, install: boolean = true) {
         // Make sure we're ready
         await this.makeReady()
 
@@ -164,8 +166,10 @@ export class Session implements ISession {
             return
         }
         
-        // Cool, let's see if our bundle archive is in there
-        const archive = await this.index.sections.bundles.findArchive({ id, version })
+        // Cool, let's see if our bundle archive is in there,
+        // and just install it firs if necessary
+        const archive = install ? await this.index.sections.bundles.installArchive({ id, version }) 
+                                : await this.index.sections.bundles.findArchive({ id, version })
 
         if (!archive) {
             // Doesn't look like it
@@ -180,31 +184,60 @@ export class Session implements ISession {
     }
 
     /**
-     * Looks up a {@linkcode Stack} in the local index.
-     * 
-     * @param stackId The {@linkcode Stack} id
+     * Looks up an artifact in the local index.
+
+     * @param id 
+     * @param kind 
      */
-    async findStack(stackId: Id) {
+    async findArtifact(id: Id, kind: ArtifactsKind, install: boolean = true) {
         // Make sure we're ready
         await this.makeReady()
 
-        // Parse the bundle id and version from the stack id
-        const info = stackId.match(/(.*)\/(.*)\/(.*)$/)?.slice(1,4)!
+        // Defaults
+        let bundleVersion = undefined
+        let bundleId = Globals.DEFAULT_BUNDLE_ID
+        let artifactName = id
 
-        // We need to make sure the stack is fully resolved
-        if (!info || info.length < 3) return undefined
+        // Parse the bundle id and version from the artifact id
+        const info = id.match(/(.*)\/(.*)\/(.*)$/)?.slice(1,4)! || id
 
-        // Let's look this up
-        const [bundleId, bundleVersion, stackName] = info
+        if (info.length === 3) {
+            // This is is a fully resolved artifact id
+            bundleId = info[0]
+            bundleVersion = info[1]
+            artifactName = info[2]
+        } else if (info.length === 2) {
+            // This requires the latest version (no version specified)
+            bundleId = info[0]
+            artifactName = info[1]
+        }
 
         // See if the bundle exists
-        const bundle = await this.findBundle(bundleId, bundleVersion)
-        
-        // Too bad the bundle does not exist
-        if (!bundle || !bundle.exists) return undefined
-        
-        // Look up the stack in the bundle
-        return bundle.loadStack(stackName)
+        const bundle = await this.findBundle(bundleId, bundleVersion, install)
+
+         // Too bad the bundle does not exist
+         if (!bundle || !bundle.exists) return undefined
+
+         // Load the artifact from the bundle
+         return bundle.loadArtifact(artifactName, kind)
+    }
+
+    /**
+     * 
+     * @param id 
+     */
+    async findStack(id: Id, install: boolean = true) {
+        const stack = await this.findArtifact(id, ArtifactsKind.STACKS, install)
+        return stack as Stack
+    }
+
+    /**
+     * 
+     * @param id 
+     */
+    async findTemplate(id: Id, install: boolean = true) {
+        const tpl = await this.findArtifact(id, ArtifactsKind.TEMPLATES, install)
+        return tpl as Template
     }
 
     /**

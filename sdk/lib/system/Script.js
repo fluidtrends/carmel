@@ -109,7 +109,9 @@ var Script = /** @class */ (function () {
          *
          */
         get: function () {
-            return this.stack.exists && this.stack.supportsTargetScript(this.target, this.name);
+            var _a;
+            return this.stack.artifact !== undefined && ((_a = this.stack.artifact) === null || _a === void 0 ? void 0 : _a.exists) &&
+                this.stack.supportsTargetScript(this.target, this.name);
         },
         enumerable: false,
         configurable: true

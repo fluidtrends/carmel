@@ -17,6 +17,9 @@ export const SessionIsMissingString = () => `the session is missing`
 export const ProductIsMissingString = () => `the product is missing`
 
 /** @category Strings */
+export const ProductAlreadyExistsString = () => `the product already exists`
+
+/** @category Strings */
 export const TargetNotSupportedString = (target: string) => `the target is not supported`
 
 /** @category Strings */

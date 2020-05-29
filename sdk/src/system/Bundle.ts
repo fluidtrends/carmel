@@ -3,6 +3,8 @@ import {
     Dir,
     Stack,
     Name,
+    Template,
+    ArtifactsKind,
     IDir
 } from '..'
 
@@ -69,11 +71,19 @@ export class Bundle implements IBundle {
         return this
     }
 
-    async loadStack(stackName: Name) {
-        // Let's build a stack and see how that goes  
-        const stack = new Stack(stackName, this)
-
-        // Load it up if it exists 
-        return stack.load()
+    /**
+     * 
+     * @param name 
+     * @param kind 
+     */
+    async loadArtifact(name: Name, kind: ArtifactsKind) {
+        switch(kind) {
+            case ArtifactsKind.STACKS:
+                return new Stack(name, this).load()
+            case ArtifactsKind.TEMPLATES:
+                return new Template(name, this).load()
+            default:
+                return undefined                 
+        }
     }
 }

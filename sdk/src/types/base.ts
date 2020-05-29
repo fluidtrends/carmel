@@ -14,6 +14,13 @@ export type CommandArg = {
 export interface IClass {
 }
 
+export enum ArtifactsKind {
+    UNKNOWN   = "unknown",
+    STACKS    = "stacks",
+    TEMPLATES = "templates",
+    ASSETS    = "assets"
+}
+
 export enum ProductState {
     UNKNOWN    = 0,
     UNLOADED   = 10,

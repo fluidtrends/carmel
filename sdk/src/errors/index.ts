@@ -13,6 +13,9 @@ export const DirDoesNotExist = (dir: string): Error => new Error(Strings.DirDoes
 export const ArgumentIsMissing = (arg: string): Error => new Error(Strings.ArgumentIsMissingString(arg))
 
 /** @category Errors */
+export const ProductAlreadyExists = (): Error => new Error(Strings.ProductAlreadyExistsString())
+
+/** @category Errors */
 export const SessionIsMissing = (): Error => new Error(Strings.SessionIsMissingString())
 
 /** @category Errors */

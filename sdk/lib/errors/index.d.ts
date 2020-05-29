@@ -7,6 +7,8 @@ export declare const DirDoesNotExist: (dir: string) => Error;
 /** @category Errors */
 export declare const ArgumentIsMissing: (arg: string) => Error;
 /** @category Errors */
+export declare const ProductAlreadyExists: () => Error;
+/** @category Errors */
 export declare const SessionIsMissing: () => Error;
 /** @category Errors */
 export declare const WorkspaceIsMissing: () => Error;

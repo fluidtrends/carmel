@@ -1,4 +1,4 @@
-import { IStack, IBundle, Name, IDir, Script, Target } from '..';
+import { IStack, IBundle, Name, IDir, Script, IArtifact, Target } from '..';
 /**
  *
  * {@link https://github.com/fluidtrends/carmel/blob/master/sdk/src/Stack.ts | Source Code } |
@@ -8,12 +8,8 @@ import { IStack, IBundle, Name, IDir, Script, Target } from '..';
  * @category Core
  */
 export declare class Stack implements IStack {
-    /** */
-    protected _bundle: IBundle;
-    /** */
-    protected _name: Name;
-    /** */
-    protected _dir?: IDir;
+    /** @internal */
+    protected _artifact?: IArtifact;
     /**
      *
      * @param name
@@ -23,23 +19,11 @@ export declare class Stack implements IStack {
     /**
      *
      */
-    get name(): string;
+    get artifact(): IArtifact | undefined;
     /**
      *
      */
-    get dir(): IDir | undefined;
-    /**
-     *
-     */
-    get bundle(): IBundle;
-    /**
-     *
-     */
-    get exists(): boolean;
-    /**
-     *
-     */
-    load(): Promise<this>;
+    load(): Promise<this | undefined>;
     /**
      *
      * @param target

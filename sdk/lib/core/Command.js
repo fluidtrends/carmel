@@ -142,6 +142,34 @@ var Command = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Command.prototype, "session", {
+        /**
+         *
+         */
+        get: function () {
+            return this._session;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Command.prototype, "args", {
+        /**
+         *
+         */
+        get: function () {
+            return this._args;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    /**
+     *
+     * @param name
+     */
+    Command.prototype.arg = function (name) {
+        var _a, _b;
+        return (_b = (_a = this.args) === null || _a === void 0 ? void 0 : _a.find(function (a) { return a.name === name; })) === null || _b === void 0 ? void 0 : _b.value;
+    };
     /** @internal */
     Command.prototype._validateArgs = function (args) {
         if (!this.requiresArgs) {
@@ -200,6 +228,10 @@ var Command = /** @class */ (function () {
             return __generator(this, function (_e) {
                 switch (_e.label) {
                     case 0:
+                        // Keep track of the arguments
+                        this._args = args;
+                        // Keep track of the session too
+                        this._session = session;
                         // Look for a product, if any
                         _c = this;
                         return [4 /*yield*/, session.resolveProduct()
@@ -218,13 +250,27 @@ var Command = /** @class */ (function () {
                         this._validateArgs(args);
                         // Check that all requirements for this command type are met
                         this._validateTypeRequirements();
-                        return [4 /*yield*/, this.exec(session, args)
+                        return [4 /*yield*/, this.exec()
                             // Send back the result, if any
                         ];
                     case 3:
                         result = _e.sent();
                         // Send back the result, if any
                         return [2 /*return*/, result];
+                }
+            });
+        });
+    };
+    /**
+     *
+     */
+    Command.prototype.runScript = function () {
+        var _a;
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0: return [4 /*yield*/, ((_a = this.script) === null || _a === void 0 ? void 0 : _a.exec(this.args))];
+                    case 1: return [2 /*return*/, _b.sent()];
                 }
             });
         });

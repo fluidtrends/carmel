@@ -5,11 +5,12 @@ import {
     Name,
     CommandArg,
     Module,
+    ITemplate,
     Version,
     IStack,
     Id
 } from '.'
-import { Target } from './base';
+import { Target, ArtifactsKind } from './base';
 
 export interface IData extends IClass {
     readonly raw: UTF8;
@@ -61,7 +62,7 @@ export interface IBundle extends IClass {
     readonly exists: boolean;
 
     load(): Promise<IBundle>;
-    loadStack(stackName: Name): Promise<IStack | undefined>;
+    loadArtifact(name: Name, kind: ArtifactsKind): Promise<any>;
 }
 
 

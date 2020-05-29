@@ -204,25 +204,35 @@ var Session = /** @class */ (function () {
      *
      * @param id The {@linkcode Bundle} id
      * @param version the {@linkcode Bundle} version
+     * @param install whether we should  the {@linkcode Bundle} if not found
      */
-    Session.prototype.findBundle = function (id, version) {
+    Session.prototype.findBundle = function (id, version, install) {
+        if (install === void 0) { install = true; }
         return __awaiter(this, void 0, void 0, function () {
-            var archive, bundle;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var archive, _a, bundle;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0: 
                     // Make sure we're ready
                     return [4 /*yield*/, this.makeReady()];
                     case 1:
                         // Make sure we're ready
-                        _a.sent();
+                        _b.sent();
                         if (!this.index.sections.bundles || !this.index.sections.bundles.exists) {
                             // Looks like something's missing here, we need the bundles section
                             return [2 /*return*/];
                         }
-                        return [4 /*yield*/, this.index.sections.bundles.findArchive({ id: id, version: version })];
+                        if (!install) return [3 /*break*/, 3];
+                        return [4 /*yield*/, this.index.sections.bundles.installArchive({ id: id, version: version })];
                     case 2:
-                        archive = _a.sent();
+                        _a = _b.sent();
+                        return [3 /*break*/, 5];
+                    case 3: return [4 /*yield*/, this.index.sections.bundles.findArchive({ id: id, version: version })];
+                    case 4:
+                        _a = _b.sent();
+                        _b.label = 5;
+                    case 5:
+                        archive = _a;
                         if (!archive) {
                             // Doesn't look like it
                             return [2 /*return*/];
@@ -235,32 +245,42 @@ var Session = /** @class */ (function () {
         });
     };
     /**
-     * Looks up a {@linkcode Stack} in the local index.
-     *
-     * @param stackId The {@linkcode Stack} id
+     * Looks up an artifact in the local index.
+
+     * @param id
+     * @param kind
      */
-    Session.prototype.findStack = function (stackId) {
+    Session.prototype.findArtifact = function (id, kind, install) {
         var _a;
+        if (install === void 0) { install = true; }
         return __awaiter(this, void 0, void 0, function () {
-            var info, bundleId, bundleVersion, stackName, bundle;
+            var bundleVersion, bundleId, artifactName, info, bundle;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: 
                     // Make sure we're ready
                     return [4 /*yield*/, this.makeReady()
-                        // Parse the bundle id and version from the stack id
+                        // Defaults
                     ];
                     case 1:
                         // Make sure we're ready
                         _b.sent();
-                        info = (_a = stackId.match(/(.*)\/(.*)\/(.*)$/)) === null || _a === void 0 ? void 0 : _a.slice(1, 4);
-                        // We need to make sure the stack is fully resolved
-                        if (!info || info.length < 3)
-                            return [2 /*return*/, undefined
-                                // Let's look this up
-                            ];
-                        bundleId = info[0], bundleVersion = info[1], stackName = info[2];
-                        return [4 /*yield*/, this.findBundle(bundleId, bundleVersion)
+                        bundleVersion = undefined;
+                        bundleId = __1.Globals.DEFAULT_BUNDLE_ID;
+                        artifactName = id;
+                        info = ((_a = id.match(/(.*)\/(.*)\/(.*)$/)) === null || _a === void 0 ? void 0 : _a.slice(1, 4)) || id;
+                        if (info.length === 3) {
+                            // This is is a fully resolved artifact id
+                            bundleId = info[0];
+                            bundleVersion = info[1];
+                            artifactName = info[2];
+                        }
+                        else if (info.length === 2) {
+                            // This requires the latest version (no version specified)
+                            bundleId = info[0];
+                            artifactName = info[1];
+                        }
+                        return [4 /*yield*/, this.findBundle(bundleId, bundleVersion, install)
                             // Too bad the bundle does not exist
                         ];
                     case 2:
@@ -268,10 +288,46 @@ var Session = /** @class */ (function () {
                         // Too bad the bundle does not exist
                         if (!bundle || !bundle.exists)
                             return [2 /*return*/, undefined
-                                // Look up the stack in the bundle
+                                // Load the artifact from the bundle
                             ];
-                        // Look up the stack in the bundle
-                        return [2 /*return*/, bundle.loadStack(stackName)];
+                        // Load the artifact from the bundle
+                        return [2 /*return*/, bundle.loadArtifact(artifactName, kind)];
+                }
+            });
+        });
+    };
+    /**
+     *
+     * @param id
+     */
+    Session.prototype.findStack = function (id, install) {
+        if (install === void 0) { install = true; }
+        return __awaiter(this, void 0, void 0, function () {
+            var stack;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.findArtifact(id, __1.ArtifactsKind.STACKS, install)];
+                    case 1:
+                        stack = _a.sent();
+                        return [2 /*return*/, stack];
+                }
+            });
+        });
+    };
+    /**
+     *
+     * @param id
+     */
+    Session.prototype.findTemplate = function (id, install) {
+        if (install === void 0) { install = true; }
+        return __awaiter(this, void 0, void 0, function () {
+            var tpl;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.findArtifact(id, __1.ArtifactsKind.TEMPLATES, install)];
+                    case 1:
+                        tpl = _a.sent();
+                        return [2 /*return*/, tpl];
                 }
             });
         });

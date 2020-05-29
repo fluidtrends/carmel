@@ -1,10 +1,11 @@
-import { Command, ISession } from '../..';
+import { Command } from '../..';
 /**
  *
- *
- * @category Commands::Workspace
+ * @category Commands
  */
 export default class Status extends Command {
-    constructor(args?: any);
-    exec(session: ISession): Promise<undefined>;
+    /** @internal */
+    constructor();
+    /** @internal */
+    exec(): Promise<void>;
 }

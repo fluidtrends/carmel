@@ -1,22 +1,29 @@
 import {
   Command,
+  CommandArg,
+  ISession,
   Errors,
-  ISession
+  CommandProps,
+  CommandType
 } from '../..'
+
+const props: CommandProps = {
+  id: "status",
+  type: CommandType.WORKSPACE,
+  title: "Checking the status of your Carmel Product"
+}
 
 /**
  * 
- * 
- * @category Commands::Workspace
+ * @category Commands
  */
 export default class Status extends Command {
-  constructor(args?: any) {
-    super(args)
+  /** @internal */
+  constructor() {
+    super(props)
   }
 
-  async exec(session: ISession) {
-    if (!session) {
-      return Promise.reject(Errors.CommandCannotExecute(this.id, 'the session is missing'))
-    }
- }
+  /** @internal */
+  async exec() {
+  }
 }

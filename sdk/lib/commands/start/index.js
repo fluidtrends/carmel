@@ -67,16 +67,11 @@ var Start = /** @class */ (function (_super) {
         return _super.call(this, props) || this;
     }
     /** @internal */
-    Start.prototype.exec = function (session, args) {
-        var _a;
+    Start.prototype.exec = function () {
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0: return [4 /*yield*/, ((_a = this.script) === null || _a === void 0 ? void 0 : _a.exec(args))];
-                    case 1: 
-                    // Execute the required script
-                    return [2 /*return*/, _b.sent()];
-                }
+            return __generator(this, function (_a) {
+                // Execute the required script
+                return [2 /*return*/, this.runScript()];
             });
         });
     };

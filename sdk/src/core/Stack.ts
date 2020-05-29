@@ -5,13 +5,13 @@ import {
     Name,
     IDir,
     Script,
+    ArtifactsKind,
+    Artifact,
+    IArtifact,
     Target,
     Dir
  } from '..'
 
- import path from 'path'
- import fs from 'fs'
-  
 /**
  * 
  * {@link https://github.com/fluidtrends/carmel/blob/master/sdk/src/Stack.ts | Source Code } |
@@ -21,14 +21,9 @@ import {
  * @category Core
  */
 export class Stack implements IStack {
-    /** */
-    protected _bundle: IBundle;
 
-    /** */
-    protected _name: Name;
-
-    /** */
-    protected _dir?: IDir;
+    /** @internal */
+    protected _artifact?: IArtifact;
 
     /**
      * 
@@ -36,54 +31,21 @@ export class Stack implements IStack {
      * @param bundle 
      */
     constructor(name: Name, bundle: IBundle) {
-        this._name = name 
-        this._bundle = bundle
-        this._dir = this.bundle.dir.dir("stacks")?.dir(this.name)
+        this._artifact = new Artifact(name, bundle, ArtifactsKind.STACKS)
     }
 
     /**
      * 
      */
-    get name() {
-        return this._name
-    }
-
-    /**
-     * 
-     */
-    get dir() {
-        return this._dir
-    }
-
-    /**
-     * 
-     */
-    get bundle() {
-        return this._bundle
-    }
-
-    /**
-     * 
-     */
-    get exists() {
-        return this.dir !== undefined && this.dir!.exists 
+    get artifact() {
+        return this._artifact
     }
 
     /**
      * 
      */
     async load() {
-        // const packerRoot = '/Users/idancali/idancali/dev/papanache'
-        // const packerDir = path.resolve(packerRoot, this.target)
-        // const scriptFile = path.resolve(packerDir, `${this.id}.js`)
-
-        // if (!fs.existsSync(scriptFile)) {
-        //     console.log("missing script", scriptFile)
-        //     return this
-        // }
-
-        // console.log("starting...", scriptFile)
-        return this
+        return this.artifact !== undefined && this.artifact.exists ? this : undefined
     }
 
     /**
@@ -107,7 +69,7 @@ export class Stack implements IStack {
      * @param target 
      */
     targetDir(target: Target) {
-        return this.dir!.dir(target)
+        return this.artifact?.dir!.dir(target)
     }
 
     /**
@@ -115,7 +77,7 @@ export class Stack implements IStack {
      * @param target 
      */
     targetScriptDir(target: Target, name: Name) {
-        return this.dir!.dir(target)?.dir(name)
+        return this.artifact?.dir!.dir(target)?.dir(name)
     }
 
     /**
@@ -123,7 +85,8 @@ export class Stack implements IStack {
      * @param target 
      */
     supportsTarget(target: Target) {
-        return this.exists && 
+        return this.artifact !== undefined &&
+               this.artifact?.exists && 
                this.targetDir(target) !== undefined && 
                this.targetDir(target)!.exists
     }

@@ -1,4 +1,4 @@
-import { ISession, SessionProps, ILogger, Id, Bundle, IProduct, Version, SessionState } from '..';
+import { ISession, SessionProps, ILogger, Id, Bundle, IProduct, Stack, Template, Version, ArtifactsKind, SessionState } from '..';
 /**
  * Represents an {@linkcode Engine} Session initiated by a client.
  *
@@ -65,14 +65,26 @@ export declare class Session implements ISession {
      *
      * @param id The {@linkcode Bundle} id
      * @param version the {@linkcode Bundle} version
+     * @param install whether we should  the {@linkcode Bundle} if not found
      */
-    findBundle(id: Id, version: Version): Promise<Bundle | undefined>;
+    findBundle(id: Id, version?: Version, install?: boolean): Promise<Bundle | undefined>;
     /**
-     * Looks up a {@linkcode Stack} in the local index.
-     *
-     * @param stackId The {@linkcode Stack} id
+     * Looks up an artifact in the local index.
+
+     * @param id
+     * @param kind
      */
-    findStack(stackId: Id): Promise<import("./Stack").Stack | undefined>;
+    findArtifact(id: Id, kind: ArtifactsKind, install?: boolean): Promise<Stack | Template | undefined>;
+    /**
+     *
+     * @param id
+     */
+    findStack(id: Id, install?: boolean): Promise<Stack>;
+    /**
+     *
+     * @param id
+     */
+    findTemplate(id: Id, install?: boolean): Promise<Template>;
     /**
      *
      * @param productId
