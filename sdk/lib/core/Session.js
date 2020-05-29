@@ -220,9 +220,10 @@ var Session = /** @class */ (function () {
                         _b.sent();
                         if (!this.index.sections.bundles || !this.index.sections.bundles.exists) {
                             // Looks like something's missing here, we need the bundles section
-                            return [2 /*return*/];
+                            return [2 /*return*/, undefined];
                         }
                         args = Object.assign({}, { id: id }, version && { version: version });
+                        console.log("installlling", args);
                         if (!install) return [3 /*break*/, 3];
                         return [4 /*yield*/, this.index.sections.bundles.installArchive(args)];
                     case 2:
@@ -236,7 +237,7 @@ var Session = /** @class */ (function () {
                         archive = _a;
                         if (!archive) {
                             // Doesn't look like it
-                            return [2 /*return*/];
+                            return [2 /*return*/, undefined];
                         }
                         bundle = new __1.Bundle(archive);
                         // One more thing, let's load this puppy

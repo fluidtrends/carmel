@@ -175,7 +175,7 @@ export abstract class Command implements ICommand {
             // Ensure the product exists 
             throw Errors.CommandCannotExecute(this.id, Strings.ProductIsMissingString())
         }
-
+        
         if (!this.product.isReady) {
             // Ensure the product is ready  
             throw Errors.CommandCannotExecute(this.id, Strings.ProductIsNotReadyString())

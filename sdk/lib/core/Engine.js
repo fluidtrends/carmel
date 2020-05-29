@@ -125,11 +125,11 @@ var Engine = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         // Make sure we do have props, even if only defaults
-                        props = props || {
+                        props = Object.assign({}, {
                             cwd: process.cwd(),
                             name: "carmel",
                             dir: process.env.CARMEL_USER_HOME
-                        };
+                        }, props);
                         // This engine is not started yet, let's begin by assigning a new Session
                         this._session = new __1.Session(props);
                         // Good, let's also make sure the Session is initialized

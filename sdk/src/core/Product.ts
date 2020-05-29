@@ -12,7 +12,9 @@ import {
     ISession,
     App,
     IApp,
-    Target
+    Target,
+    Errors,
+    Strings
 } from '..'
 
 /**
@@ -204,7 +206,7 @@ export class Product implements IProduct {
         if (!this.stack) {
             // Not quiet yet
             this.changeState(ProductState.UNLOADED)
-            return this
+            throw Errors.ProductCannotLoad(Strings.StackIsMissingString(stackId))
         }
 
         // Excellent, tell everyone we're ready for action

@@ -31,4 +31,8 @@ export declare const CommandCannotExecuteString: (name: string, reason: string) 
 /** @category Strings */
 export declare const PluginCannotLoadString: (name: string, reason: string) => string;
 /** @category Strings */
+export declare const ProductCannotLoadString: (reason: string) => string;
+/** @category Strings */
+export declare const StackIsMissingString: (name: string) => string;
+/** @category Strings */
 export declare const StackCannotLoadString: (name: string, reason: string) => string;

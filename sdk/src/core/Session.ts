@@ -172,26 +172,22 @@ export class Session implements ISession {
             return undefined
         }
 
-        // try {
-            // Cool, let's see if our bundle archive is in there,
-            // and just install it firs if necessary
-            const args = Object.assign({}, { id }, version && { version })
-            const archive = install ? await this.index.sections.bundles.installArchive(args) 
-                                    : await this.index.sections.bundles.findArchive(args)
+        // Cool, let's see if our bundle archive is in there,
+        // and just install it firs if necessary
+        const args = Object.assign({}, { id }, version && { version })
+        const archive = install ? await this.index.sections.bundles.installArchive(args) 
+                                : await this.index.sections.bundles.findArchive(args)
 
-            if (!archive) {
-                // Doesn't look like it
-                return undefined
-            }
+        if (!archive) {
+            // Doesn't look like it
+            return undefined
+        }
 
-            // Good stuff, found the archive, ok let's build ourselves a bundle
-            const bundle = new Bundle(archive)
+        // Good stuff, found the archive, ok let's build ourselves a bundle
+        const bundle = new Bundle(archive)
 
-            // One more thing, let's load this puppy
-            return bundle.load()
-        // } catch (err) {
-            // return undefined
-        // }
+        // One more thing, let's load this puppy
+        return bundle.load()
     }
 
     /**
@@ -225,7 +221,7 @@ export class Session implements ISession {
 
         // See if the bundle exists
         const bundle = await this.findBundle(bundleId, bundleVersion, install)
-
+        
          // Too bad the bundle does not exist
          if (!bundle || !bundle.exists) return undefined
 

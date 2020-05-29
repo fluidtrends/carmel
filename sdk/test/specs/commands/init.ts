@@ -26,18 +26,22 @@ add('should make sure it expects required args', (context: Context, done: Comple
 
 add('should make sure it does not run without a name', (context: Context, done: Completion) => {
     const cmd = new Commands.Init()
+    process.env.CARMEL_USER_HOME = context.dir
 
     savor.promiseShouldFail(Engine.run(cmd), done, (error) => {
-        context.expect(error.message).to.equal(Strings.ArgumentIsMissingString("name"))
+      Engine.instance.stop()
+      context.expect(error.message).to.equal(Strings.ArgumentIsMissingString("name"))
     })
   }).
   
 add('should make sure it does not run without a template', (context: Context, done: Completion) => {
   const cmd = new Commands.Init()
+  process.env.CARMEL_USER_HOME = context.dir
 
   savor.promiseShouldFail(Engine.run(cmd, [{ 
     name: "name", value: "hello" }
   ]), done, (error) => {
+      Engine.instance.stop()
       context.expect(error.message).to.equal(Strings.ArgumentIsMissingString("template"))
   })
 }).
@@ -46,24 +50,29 @@ add('should skip creating if a product exists already', (context: Context, done:
   const cmd = new Commands.Init()
 
     savor.addAsset('assets/.carmel.json', '.carmel.json', context)
+    process.env.CARMEL_USER_HOME = context.dir
 
     savor.promiseShouldFail(Engine.run(cmd, [{ 
       name: "name", value: "hello" 
     }, { name: "template", value: "default" }
     ]), done, (error) => {
-        context.expect(error.message).to.equal(Strings.ProductAlreadyExistsString())
+      Engine.instance.stop()
+      context.expect(error.message).to.equal(Strings.ProductAlreadyExistsString())
     })  
 }).
 
 add('should skip creating if the template bundle does not exist remotely', (context: Context, done: Completion) => {
   const cmd = new Commands.Init() 
 
+  savor.addAsset("assets/dirs/one", ".carmel/bundles/test", context)
+  process.env.CARMEL_USER_HOME = context.dir
   const stub = context.stub(Section.prototype, 'installArchive').callsFake(() => { throw new TypeError('oh oh') })
 
   savor.promiseShouldFail(Engine.run(cmd, [{ 
     name: "name", value: "hello" 
   }, { name: "template", value: "default" }
   ]), done, (error) => {
+    Engine.instance.stop()
       context.expect(error.message).to.equal("oh oh")
       stub.restore()
   })
