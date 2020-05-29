@@ -1,5 +1,5 @@
-import { IClass, UTF8, Path, Name, CommandArg, Module, Version, IStack, Id } from '.';
-import { Target } from './base';
+import { IClass, UTF8, Path, Name, CommandArg, Module, Version, Id } from '.';
+import { Target, ArtifactsKind } from './base';
 export interface IData extends IClass {
     readonly raw: UTF8;
     readonly isJson: boolean;
@@ -40,5 +40,5 @@ export interface IBundle extends IClass {
     readonly version: Version;
     readonly exists: boolean;
     load(): Promise<IBundle>;
-    loadStack(stackName: Name): Promise<IStack | undefined>;
+    loadArtifact(name: Name, kind: ArtifactsKind): Promise<any>;
 }

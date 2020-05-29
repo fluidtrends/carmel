@@ -104,13 +104,23 @@ var Bundle = /** @class */ (function () {
             });
         });
     };
-    Bundle.prototype.loadStack = function (stackName) {
+    /**
+     *
+     * @param name
+     * @param kind
+     */
+    Bundle.prototype.loadArtifact = function (name, kind) {
         return __awaiter(this, void 0, void 0, function () {
-            var stack;
             return __generator(this, function (_a) {
-                stack = new __1.Stack(stackName, this);
-                // Load it up if it exists 
-                return [2 /*return*/, stack.load()];
+                switch (kind) {
+                    case __1.ArtifactsKind.STACKS:
+                        return [2 /*return*/, new __1.Stack(name, this).load()];
+                    case __1.ArtifactsKind.TEMPLATES:
+                        return [2 /*return*/, new __1.Template(name, this).load()];
+                    default:
+                        return [2 /*return*/, undefined];
+                }
+                return [2 /*return*/];
             });
         });
     };

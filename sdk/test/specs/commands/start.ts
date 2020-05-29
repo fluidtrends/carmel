@@ -11,9 +11,6 @@ import {
   EngineState
 } from '../../../src' 
 
-import fs from 'fs-extra'
-import path from 'path'
-
 import {
   Archive,
   Registry
@@ -45,12 +42,16 @@ add('should not start without a valid product', (context: Context, done: Complet
 
 add('should not start a new product with a missing bundle', (context: Context, done: Completion) => {
   const cmd = new Commands.Start()
+    const stub = context.stub(Registry, 'manifest').callsFake(() => Promise.reject(new TypeError('oh oh')))
+    const stub1 = context.stub(Registry, 'extract').callsFake(() => Promise.resolve({ version: '1' }))
 
     savor.addAsset('assets/.carmel-badstack.json', '.carmel.json', context)
   
     savor.promiseShouldFail(Engine.run(cmd), done, (error) => {
+      stub.restore()
+      stub1.restore()
       Engine.instance.stop()
-      context.expect(error.message).to.equal(Strings.CommandCannotExecuteString("start", Strings.ProductIsNotReadyString()))    
+      context.expect(error.message).to.equal("oh oh")    
     })
 }).
 

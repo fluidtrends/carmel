@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.StackCannotLoadString = exports.PluginCannotLoadString = exports.CommandCannotExecuteString = exports.CommandAlreadyExistsString = exports.CommandDoesNotExistString = exports.CommandIsMissingString = exports.WorkspaceIsMissingString = exports.ProductIsNotReadyString = exports.StackTargetScriptIsMissingString = exports.TargetNotSupportedString = exports.ProductIsMissingString = exports.SessionIsMissingString = exports.ArgumentIsMissingString = exports.DirDoesNotExistString = exports.FileCouldNotBeLoadedString = exports.FileDoesNotExistString = void 0;
+exports.StackCannotLoadString = exports.PluginCannotLoadString = exports.CommandCannotExecuteString = exports.CommandAlreadyExistsString = exports.CommandDoesNotExistString = exports.CommandIsMissingString = exports.WorkspaceIsMissingString = exports.ProductIsNotReadyString = exports.StackTargetScriptIsMissingString = exports.TargetNotSupportedString = exports.ProductAlreadyExistsString = exports.ProductIsMissingString = exports.SessionIsMissingString = exports.ArgumentIsMissingString = exports.DirDoesNotExistString = exports.FileCouldNotBeLoadedString = exports.FileDoesNotExistString = void 0;
 /** @category Strings */
 exports.FileDoesNotExistString = function (file) { return "the " + file + " file does not exit"; };
 /** @category Strings */
@@ -13,6 +13,8 @@ exports.ArgumentIsMissingString = function (arg) { return "the " + arg + " argum
 exports.SessionIsMissingString = function () { return "the session is missing"; };
 /** @category Strings */
 exports.ProductIsMissingString = function () { return "the product is missing"; };
+/** @category Strings */
+exports.ProductAlreadyExistsString = function () { return "the product already exists"; };
 /** @category Strings */
 exports.TargetNotSupportedString = function (target) { return "the target is not supported"; };
 /** @category Strings */

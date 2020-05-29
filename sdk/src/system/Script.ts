@@ -82,7 +82,9 @@ export class Script implements IScript {
      *  
      */ 
     get exists() {
-      return this.stack.exists && this.stack.supportsTargetScript(this.target, this.name)
+      return  this.stack.artifact !== undefined &&
+              this.stack.artifact?.exists && 
+              this.stack.supportsTargetScript(this.target, this.name)
     }
 
     /**

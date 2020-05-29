@@ -1,4 +1,4 @@
-import { IBundle, Stack, Name, IDir } from '..';
+import { IBundle, Stack, Name, Template, ArtifactsKind, IDir } from '..';
 import { Archive } from 'rara';
 /**
  * This represents a Carmel Bundle of artifacts that are cache locally
@@ -37,5 +37,10 @@ export declare class Bundle implements IBundle {
      *
      */
     load(): Promise<this>;
-    loadStack(stackName: Name): Promise<Stack>;
+    /**
+     *
+     * @param name
+     * @param kind
+     */
+    loadArtifact(name: Name, kind: ArtifactsKind): Promise<Stack | Template | undefined>;
 }

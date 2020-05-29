@@ -11,6 +11,8 @@ export declare const SessionIsMissingString: () => string;
 /** @category Strings */
 export declare const ProductIsMissingString: () => string;
 /** @category Strings */
+export declare const ProductAlreadyExistsString: () => string;
+/** @category Strings */
 export declare const TargetNotSupportedString: (target: string) => string;
 /** @category Strings */
 export declare const StackTargetScriptIsMissingString: (target: string, name: string) => string;

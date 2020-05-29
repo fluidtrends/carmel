@@ -2,6 +2,7 @@ import {
   Command,
   CommandArg,
   ISession,
+  Errors,
   CommandProps,
   CommandType
 } from '../..'
@@ -15,17 +16,44 @@ const props: CommandProps = {
 
 /**
  * 
- * 
  * @category Commands
  */
 export default class Init extends Command {
-  // protected _archive?: any;
-  // protected _template?: any;
-
   /** @internal */
   constructor() {
     super(props)
   }
+
+  /** @internal */
+  async exec() {
+    if (this.product?.exists) {
+      // Check to make sure we're even allowed to attempt this
+      throw Errors.ProductAlreadyExists()
+    }
+
+    // Const check on the template
+    const templateId = this.arg('template')
+
+    // And let's see if it loads
+    const template = await this.session?.findTemplate(templateId, true)
+    
+    console.log("Template:", template)
+  }
+}
+
+// /**
+//  * 
+//  * 
+//  * @category Commands
+//  */
+// export default class Init extends Command {
+//   // protected _archive?: any;
+//   // protected _template?: any;
+
+//   /** @internal */
+//   constructor() {
+//     super(props)
+//   }
 
   // parse() {
   //   const url = parse(this.args.template, true)
@@ -49,10 +77,10 @@ export default class Init extends Command {
   //   this._template = Object.assign({}, { path })    
   // }
 
-  /** @internal */
-  async exec(session: ISession, args?: CommandArg[]) {
+  // /** @internal */
+  // async exec(session: ISession, args?: CommandArg[]) {
     
-  }
+  // }
 
     // if (!session) {
     //   return Promise.reject(Errors.CommandCannotExecute(this.id, 'the session is missing'))
@@ -71,4 +99,4 @@ export default class Init extends Command {
 
     // // Initialize the workspace
     // return session.workspace?.create() 
-}
+// }

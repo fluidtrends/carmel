@@ -1,6 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CommandType = exports.Target = exports.EngineState = exports.SessionState = exports.ProductState = void 0;
+exports.CommandType = exports.Target = exports.EngineState = exports.SessionState = exports.ProductState = exports.ArtifactsKind = void 0;
+var ArtifactsKind;
+(function (ArtifactsKind) {
+    ArtifactsKind["UNKNOWN"] = "unknown";
+    ArtifactsKind["STACKS"] = "stacks";
+    ArtifactsKind["TEMPLATES"] = "templates";
+    ArtifactsKind["ASSETS"] = "assets";
+})(ArtifactsKind = exports.ArtifactsKind || (exports.ArtifactsKind = {}));
 var ProductState;
 (function (ProductState) {
     ProductState[ProductState["UNKNOWN"] = 0] = "UNKNOWN";

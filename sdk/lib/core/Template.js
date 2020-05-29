@@ -36,64 +36,46 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Commander = void 0;
-var _1 = require(".");
-var Commander = /** @class */ (function () {
-    function Commander(command, session) {
-        this._command = command;
-        this._session = session;
+exports.Template = void 0;
+var __1 = require("..");
+/**
+ *
+ * {@link https://github.com/fluidtrends/carmel/blob/master/sdk/src/Template.ts | Source Code } |
+ * {@link https://codeclimate.com/github/fluidtrends/carmel/sdk/src/Template.ts/source | Code Quality} |
+ * {@link https://codeclimate.com/github/fluidtrends/carmel/sdk/src/Template.ts/stats | Code Stats}
+ *
+ * @category Core
+ */
+var Template = /** @class */ (function () {
+    /**
+     *
+     * @param name
+     * @param bundle
+     */
+    function Template(name, bundle) {
+        this._artifact = new __1.Artifact(name, bundle, __1.ArtifactsKind.STACKS);
     }
-    Object.defineProperty(Commander.prototype, "command", {
+    Object.defineProperty(Template.prototype, "artifact", {
+        /**
+         *
+         */
         get: function () {
-            return this._command;
+            return this._artifact;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(Commander.prototype, "session", {
-        get: function () {
-            return this._session;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Commander.prototype.run = function () {
-        var _a;
-        return (_a = this.command) === null || _a === void 0 ? void 0 : _a.exec(this.session);
-    };
-    Commander.prototype.verify = function () {
-        var _this_1 = this;
-        return new Promise(function (resolve, reject) {
-            var _a;
-            var missing = (_a = _this_1.command) === null || _a === void 0 ? void 0 : _a.missingRequiredArgs;
-            if (missing && missing.length > 0) {
-                // Make sure that the command has been given what it expects
-                reject(_1.Errors.ArgumentIsMissing(missing[0]));
-                return;
-            }
-            resolve();
-        });
-    };
-    Commander.run = function (command, session) {
-        var _a;
+    /**
+     *
+     */
+    Template.prototype.load = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _this;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        _this = new Commander(command, session);
-                        return [4 /*yield*/, _this.verify()];
-                    case 1:
-                        _b.sent();
-                        return [4 /*yield*/, ((_a = _this.session) === null || _a === void 0 ? void 0 : _a.initialize())];
-                    case 2:
-                        _b.sent();
-                        return [2 /*return*/, _this.run()];
-                }
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this];
             });
         });
     };
-    return Commander;
+    return Template;
 }());
-exports.Commander = Commander;
-//# sourceMappingURL=Commander.js.map
+exports.Template = Template;
+//# sourceMappingURL=Template.js.map

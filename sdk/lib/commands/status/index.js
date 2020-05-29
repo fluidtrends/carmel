@@ -50,22 +50,25 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var __1 = require("../..");
+var props = {
+    id: "status",
+    type: __1.CommandType.WORKSPACE,
+    title: "Checking the status of your Carmel Product"
+};
 /**
  *
- *
- * @category Commands::Workspace
+ * @category Commands
  */
 var Status = /** @class */ (function (_super) {
     __extends(Status, _super);
-    function Status(args) {
-        return _super.call(this, args) || this;
+    /** @internal */
+    function Status() {
+        return _super.call(this, props) || this;
     }
-    Status.prototype.exec = function (session) {
+    /** @internal */
+    Status.prototype.exec = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                if (!session) {
-                    return [2 /*return*/, Promise.reject(__1.Errors.CommandCannotExecute(this.id, 'the session is missing'))];
-                }
                 return [2 /*return*/];
             });
         });

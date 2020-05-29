@@ -1,4 +1,4 @@
-import { ICommand, ISession, CommandProps, CommandArg, Target, IScript, IProduct, CommandType } from '..';
+import { ICommand, ISession, CommandProps, CommandArg, Target, Name, IScript, IProduct, CommandType } from '..';
 /**
  * The base class representing a single unit of execution.
  * Every Carmel Command extends this class and tweaks the defaults as needed.
@@ -58,6 +58,19 @@ export declare abstract class Command implements ICommand {
      *
      */
     get product(): IProduct | undefined;
+    /**
+     *
+     */
+    get session(): ISession | undefined;
+    /**
+     *
+     */
+    get args(): CommandArg[] | undefined;
+    /**
+     *
+     * @param name
+     */
+    arg(name: Name): any;
     /** @internal */
     private _validateArgs;
     /** @internal */
@@ -73,10 +86,11 @@ export declare abstract class Command implements ICommand {
      */
     run(session: ISession, args?: CommandArg[]): Promise<void>;
     /**
-     * Children need to implement the execution flow.
      *
-     * @param session The {@linkcode Session} in which to run this command
-     * @param args The {@linkcode CommandArg} args used to execute this command, if any
      */
-    abstract exec(session: ISession, args?: CommandArg[]): Promise<void>;
+    runScript(): Promise<any>;
+    /**
+     * Children need to implement the execution flow.
+     */
+    abstract exec(): Promise<void>;
 }

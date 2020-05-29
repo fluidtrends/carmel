@@ -12,6 +12,7 @@ import {
 
 import fs from 'fs'
 import {
+  Registry,
   Archive
 } from 'rara'
 
@@ -48,6 +49,51 @@ add('should make sure it does not run without a template', (context: Context, do
   })
 }).
 
+add('should skip creating if a product exists already', (context: Context, done: Completion) => {
+  const cmd = new Commands.Init()
+
+    savor.addAsset('assets/.carmel.json', '.carmel.json', context)
+
+    savor.promiseShouldFail(Engine.run(cmd, [{ 
+      name: "name", value: "hello" 
+    }, { name: "template", value: "default" }
+    ]), done, (error) => {
+        context.expect(error.message).to.equal(Strings.ProductAlreadyExistsString())
+    })  
+}).
+
+add('should skip creating if the template bundle does not exist remotely', (context: Context, done: Completion) => {
+  const cmd = new Commands.Init() 
+  const stub = context.stub(Registry, 'manifest').callsFake(() => Promise.reject(new TypeError('oh oh')))
+  const stub1 = context.stub(Registry, 'extract').callsFake(() => Promise.resolve({ version: '1' }))
+
+  savor.promiseShouldFail(Engine.run(cmd, [{ 
+    name: "name", value: "hello" 
+  }, { name: "template", value: "default" }
+  ]), done, (error) => {
+      context.expect(error.message).to.equal("oh oh")
+      stub.restore()
+      stub1.restore()
+  })
+}).
+
+// add('should skip creating if the template bundle does not exist remotely', (context: Context, done: Completion) => {
+//   const cmd = new Commands.Init() 
+
+//   // const stub = context.stub(Registry, 'extract').callsFake(() => Promise.resolve({ version: '1' }))
+//   const stub = context.stub(Registry, 'manifest').callsFake(() => Promise.reject(new TypeError('oh oh')))
+//   // const stub3 = context.stub(Registry, 'npm').callsFake(() => Promise.resolve('ok'))
+
+
+//   savor.promiseShouldFail(Engine.run(cmd, [{ 
+//     name: "name", value: "hello" 
+//   }, { name: "template", value: "default" }
+//   ]), done, (error) => {
+//       context.expect(error.message).to.equal(Strings.ArgumentIsMissingString("template"))
+//       stub.restore()
+//   })
+// }).
+
 // add('should create a new product', (context: Context, done: Completion) => {
 //     const cmd = new Commands.Init()
 
@@ -67,31 +113,6 @@ add('should make sure it does not run without a template', (context: Context, do
 //       stub2.restore()
 //       stub3.restore()
 //   })
-// }).
-
-// add('should skip creating if a workspace exists', (context: Context, done: Completion) => {
-//   const cmd = new Commands.Init({ 
-//     name: "test", 
-//     template: "test", 
-//     env: { test: "test", homeDir: context.dir }})
-
-//     savor.addAsset('assets/.carmel.json', '.carmel.json', context)
-//     const session = new Session({ test: "test1234", dir: context.dir })
-
-//     savor.promiseShouldFail(Commander.run(cmd, session), done, (error) => {
-//       context.expect(error.message).to.equal(Strings.CommandCannotExecute(cmd.id, 'the workspace already exists'))
-//     })
-// }).
-
-// add('should skip creating if the template is invalid', (context: Context, done: Completion) => {
-//   const cmd = new Commands.Init({ 
-//     name: "test", 
-//     template: "oops:test", 
-//     env: { test: "test", homeDir: context.dir }})
-
-//     savor.promiseShouldFail(Engine.run(cmd), done, (error) => {
-//       context.expect(error.message).to.equal(Strings.CommandCannotExecuteString(cmd.id, 'the template is invalid'))
-//     })
 // }).
 
 // add('should parse the archive from a basic uri', (context: Context, done: Completion) => {

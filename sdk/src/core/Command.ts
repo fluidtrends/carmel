@@ -7,6 +7,7 @@ import {
     Id,
     CommandArg,
     Target,
+    Name,
     IScript,
     IProduct,
     CommandType
@@ -109,6 +110,28 @@ export abstract class Command implements ICommand {
         return this._product
     }
 
+    /**
+     * 
+     */
+    get session() {
+        return this._session
+    }
+
+    /**
+     * 
+     */
+    get args() {
+        return this._args
+    }
+
+    /**
+     * 
+     * @param name 
+     */
+    arg(name: Name) {
+        return this.args?.find(a => a.name === name)?.value
+    }
+
     /** @internal */
     private _validateArgs(args?: CommandArg[]) {
         if (!this.requiresArgs) {
@@ -167,7 +190,13 @@ export abstract class Command implements ICommand {
      * @param session The {@linkcode Session} in which to run this command
      * @param args The {@linkcode CommandArg} args used to execute this command, if any
      */
-    async run(session: ISession, args?: CommandArg[]) {        
+    async run(session: ISession, args?: CommandArg[]) {  
+        // Keep track of the arguments
+        this._args = args
+
+        // Keep track of the session too
+        this._session = session
+
         // Look for a product, if any
         this._product = await session.resolveProduct()
 
@@ -181,17 +210,21 @@ export abstract class Command implements ICommand {
         this._validateTypeRequirements()
 
         // Execute this command's custom logic
-        const result = await this.exec(session, args)
+        const result = await this.exec()
 
         // Send back the result, if any
         return result
     }
 
     /**
-     * Children need to implement the execution flow.
      * 
-     * @param session The {@linkcode Session} in which to run this command
-     * @param args The {@linkcode CommandArg} args used to execute this command, if any
      */
-    abstract async exec(session: ISession, args?: CommandArg[]): Promise<void>;
+    async runScript() {
+        return await this.script?.exec(this.args)
+    }
+
+    /**
+     * Children need to implement the execution flow.
+     */
+    abstract async exec(): Promise<void>;
 }

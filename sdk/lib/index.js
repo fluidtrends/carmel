@@ -25,6 +25,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./types"), exports);
 __exportStar(require("./core/Command"), exports);
 __exportStar(require("./core/Stack"), exports);
+__exportStar(require("./core/Artifact"), exports);
+__exportStar(require("./core/Template"), exports);
 __exportStar(require("./core/Product"), exports);
 __exportStar(require("./core/Session"), exports);
 __exportStar(require("./core/Engine"), exports);

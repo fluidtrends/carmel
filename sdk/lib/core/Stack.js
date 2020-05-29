@@ -53,47 +53,14 @@ var Stack = /** @class */ (function () {
      * @param bundle
      */
     function Stack(name, bundle) {
-        var _a;
-        this._name = name;
-        this._bundle = bundle;
-        this._dir = (_a = this.bundle.dir.dir("stacks")) === null || _a === void 0 ? void 0 : _a.dir(this.name);
+        this._artifact = new __1.Artifact(name, bundle, __1.ArtifactsKind.STACKS);
     }
-    Object.defineProperty(Stack.prototype, "name", {
+    Object.defineProperty(Stack.prototype, "artifact", {
         /**
          *
          */
         get: function () {
-            return this._name;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Stack.prototype, "dir", {
-        /**
-         *
-         */
-        get: function () {
-            return this._dir;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Stack.prototype, "bundle", {
-        /**
-         *
-         */
-        get: function () {
-            return this._bundle;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Stack.prototype, "exists", {
-        /**
-         *
-         */
-        get: function () {
-            return this.dir !== undefined && this.dir.exists;
+            return this._artifact;
         },
         enumerable: false,
         configurable: true
@@ -104,15 +71,7 @@ var Stack = /** @class */ (function () {
     Stack.prototype.load = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                // const packerRoot = '/Users/idancali/idancali/dev/papanache'
-                // const packerDir = path.resolve(packerRoot, this.target)
-                // const scriptFile = path.resolve(packerDir, `${this.id}.js`)
-                // if (!fs.existsSync(scriptFile)) {
-                //     console.log("missing script", scriptFile)
-                //     return this
-                // }
-                // console.log("starting...", scriptFile)
-                return [2 /*return*/, this];
+                return [2 /*return*/, this.artifact !== undefined && this.artifact.exists ? this : undefined];
             });
         });
     };
@@ -141,22 +100,24 @@ var Stack = /** @class */ (function () {
      * @param target
      */
     Stack.prototype.targetDir = function (target) {
-        return this.dir.dir(target);
+        var _a;
+        return (_a = this.artifact) === null || _a === void 0 ? void 0 : _a.dir.dir(target);
     };
     /**
      *
      * @param target
      */
     Stack.prototype.targetScriptDir = function (target, name) {
-        var _a;
-        return (_a = this.dir.dir(target)) === null || _a === void 0 ? void 0 : _a.dir(name);
+        var _a, _b;
+        return (_b = (_a = this.artifact) === null || _a === void 0 ? void 0 : _a.dir.dir(target)) === null || _b === void 0 ? void 0 : _b.dir(name);
     };
     /**
      *
      * @param target
      */
     Stack.prototype.supportsTarget = function (target) {
-        return this.exists &&
+        var _a;
+        return this.artifact !== undefined && ((_a = this.artifact) === null || _a === void 0 ? void 0 : _a.exists) &&
             this.targetDir(target) !== undefined &&
             this.targetDir(target).exists;
     };
