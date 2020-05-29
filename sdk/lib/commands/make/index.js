@@ -15,7 +15,12 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MakeCommand = void 0;
 var path = require('path');
-var Command = require('../../Command');
+var Command = require('../../core/Command');
+/**
+ *
+ *
+ * @category Commands::Workspace
+ */
 var MakeCommand = /** @class */ (function (_super) {
     __extends(MakeCommand, _super);
     function MakeCommand(args) {

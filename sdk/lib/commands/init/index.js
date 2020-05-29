@@ -48,64 +48,48 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var url_parse_1 = __importDefault(require("url-parse"));
 var __1 = require("../..");
+var props = {
+    id: "init",
+    requiredArgs: ["name", "template"],
+    type: __1.CommandType.WORKSPACE,
+    title: "Creating a new Carmel Product"
+};
+/**
+ *
+ *
+ * @category Commands
+ */
 var Init = /** @class */ (function (_super) {
     __extends(Init, _super);
-    function Init(args) {
-        return _super.call(this, args) || this;
+    // protected _archive?: any;
+    // protected _template?: any;
+    /** @internal */
+    function Init() {
+        return _super.call(this, props) || this;
     }
-    Object.defineProperty(Init.prototype, "archive", {
-        get: function () {
-            return this._archive;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Init.prototype, "template", {
-        get: function () {
-            return this._template;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Init.prototype.parse = function () {
-        var url = url_parse_1.default(this.args.template, true);
-        var source = url.protocol.slice(0, -1).toLowerCase() || 'npm';
-        var version = url.hash.substring(1) || null;
-        var path = url.pathname.substring(1);
-        var id = url.host || __1.Globals.DEFAULT_ARCHIVE_ID;
-        if (id.split(":").length > 1) {
-            var _a = id.toLowerCase().split(":"), owner = _a[0], repo = _a[1];
-            id = "@" + owner + "/" + repo;
-        }
-        if (!__1.Globals.SUPPORTED_ARCHIVE_SOURCES.includes(source)) {
-            return;
-        }
-        this._archive = Object.assign({}, { silent: true, source: source, id: id }, version && { version: version });
-        this._template = Object.assign({}, { path: path });
-    };
-    Init.prototype.exec = function (session) {
-        var _a, _b;
+    // parse() {
+    //   const url = parse(this.args.template, true)
+    //   const source = url.protocol.slice(0, -1).toLowerCase() || 'npm'
+    //   const version = url.hash.substring(1) || null
+    //   const path = url.pathname.substring(1)
+    //   var id = url.host || Globals.DEFAULT_ARCHIVE_ID
+    //   if (id.split(":").length > 1) {
+    //     const [owner, repo] = id.toLowerCase().split(":")
+    //     id = `@${owner}/${repo}`
+    //   }
+    //   if (!Globals.SUPPORTED_ARCHIVE_SOURCES.includes(source)) {
+    //     return
+    //   }
+    //   this._archive = Object.assign({}, { silent: true, source, id }, version && { version })
+    //   this._template = Object.assign({}, { path })    
+    // }
+    /** @internal */
+    Init.prototype.exec = function (session, args) {
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_c) {
-                if (!session) {
-                    return [2 /*return*/, Promise.reject(__1.Errors.CommandCannotExecute(this.id, 'the session is missing'))];
-                }
-                if ((_a = session.workspace) === null || _a === void 0 ? void 0 : _a.exists) {
-                    return [2 /*return*/, Promise.reject(__1.Errors.CommandCannotExecute(this.id, 'the workspace already exists'))];
-                }
-                // Figure out the archive id and version and the template path within the archive
-                this.parse();
-                if (!this.archive || !this.archive.id || !this.template || !this.template.path) {
-                    return [2 /*return*/, Promise.reject(__1.Errors.CommandCannotExecute(this.id, 'the template is invalid'))];
-                }
-                // Initialize the workspace
-                return [2 /*return*/, (_b = session.workspace) === null || _b === void 0 ? void 0 : _b.create()];
+            return __generator(this, function (_a) {
+                return [2 /*return*/];
             });
         });
     };

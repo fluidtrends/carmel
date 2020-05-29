@@ -15,8 +15,13 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DeployCommand = void 0;
 var path = require('path');
-var Command = require('../../Command');
+var Command = require('../../core/Command');
 var parseDomain = require("parse-domain");
+/**
+ *
+ *
+ * @category Commands::Workspace
+ */
 var DeployCommand = /** @class */ (function (_super) {
     __extends(DeployCommand, _super);
     function DeployCommand(args) {

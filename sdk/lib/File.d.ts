@@ -1,4 +1,8 @@
 import { IFile, IData, Path, UTF8 } from '.';
+/**
+ *
+ * @category System
+ */
 export declare class File implements IFile {
     protected _data: IData;
     protected _path?: Path;

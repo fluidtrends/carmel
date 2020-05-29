@@ -14,7 +14,12 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.WorkspaceCommand = void 0;
-var Command = require('../../Command');
+var Command = require('../../core/Command');
+/**
+ *
+ *
+ * @category Commands::Workspace
+ */
 var WorkspaceCommand = /** @class */ (function (_super) {
     __extends(WorkspaceCommand, _super);
     function WorkspaceCommand(args) {

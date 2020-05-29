@@ -1,3 +1,8 @@
+/**
+ *
+ *
+ * @category Commands::Workspace
+ */
 export class InstallCommand {
     constructor(args: any);
     get id(): any;

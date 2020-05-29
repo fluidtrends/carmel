@@ -4,15 +4,14 @@
             "type": "workspace",
             "title": "Creating a new product",
             "requiredArgs": ["name", "template"],
-            "requiresContext": false,
-            "requiresFreshSession": true
+            "requiresFreshIndex": true,
+            "requiresStack": false
         },
         "start": {
             "type": "workspace",
             "title": "Starting a product",
-            "requiredArgs": [],
-            "requiresContext": true,
-            "requiresFreshSession": true
+            "requiresFreshIndex": true,
+            "requiresStack": true
         }
     }
 }

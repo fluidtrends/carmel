@@ -1,14 +1,29 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.StackCannotLoad = exports.PluginCannotLoad = exports.CommandCannotExecute = exports.CommandAlreadyExists = exports.CommandDoesNotExist = exports.ArgumentIsMissing = exports.DirDoesNotExist = exports.FileCouldNotBeLoaded = exports.FileDoesNotExist = void 0;
+exports.StackCannotLoad = exports.PluginCannotLoad = exports.CommandCannotExecute = exports.CommandAlreadyExists = exports.CommandDoesNotExist = exports.CommandIsMissing = exports.WorkspaceIsMissing = exports.SessionIsMissing = exports.ArgumentIsMissing = exports.DirDoesNotExist = exports.FileCouldNotBeLoaded = exports.FileDoesNotExist = void 0;
 var __1 = require("..");
-exports.FileDoesNotExist = function (file) { return new Error(__1.Strings.FileDoesNotExist(file)); };
-exports.FileCouldNotBeLoaded = function (file, reason) { return new Error(__1.Strings.FileCouldNotBeLoaded(file, reason)); };
-exports.DirDoesNotExist = function (dir) { return new Error(__1.Strings.DirDoesNotExist(dir)); };
-exports.ArgumentIsMissing = function (arg) { return new Error(__1.Strings.ArgumentIsMissing(arg)); };
-exports.CommandDoesNotExist = function (name) { return new Error(__1.Strings.CommandDoesNotExist(name)); };
-exports.CommandAlreadyExists = function (name) { return new Error(__1.Strings.CommandAlreadyExists(name)); };
-exports.CommandCannotExecute = function (name, reason) { return new Error(__1.Strings.CommandCannotExecute(name, reason)); };
-exports.PluginCannotLoad = function (name, reason) { return new Error(__1.Strings.PluginCannotLoad(name, reason)); };
-exports.StackCannotLoad = function (name, reason) { return new Error(__1.Strings.StackCannotLoad(name, reason)); };
+/** @category Errors */
+exports.FileDoesNotExist = function (file) { return new Error(__1.Strings.FileDoesNotExistString(file)); };
+/** @category Errors */
+exports.FileCouldNotBeLoaded = function (file, reason) { return new Error(__1.Strings.FileCouldNotBeLoadedString(file, reason)); };
+/** @category Errors */
+exports.DirDoesNotExist = function (dir) { return new Error(__1.Strings.DirDoesNotExistString(dir)); };
+/** @category Errors */
+exports.ArgumentIsMissing = function (arg) { return new Error(__1.Strings.ArgumentIsMissingString(arg)); };
+/** @category Errors */
+exports.SessionIsMissing = function () { return new Error(__1.Strings.SessionIsMissingString()); };
+/** @category Errors */
+exports.WorkspaceIsMissing = function () { return new Error(__1.Strings.WorkspaceIsMissingString()); };
+/** @category Errors */
+exports.CommandIsMissing = function () { return new Error(__1.Strings.CommandIsMissingString()); };
+/** @category Errors */
+exports.CommandDoesNotExist = function (name) { return new Error(__1.Strings.CommandDoesNotExistString(name)); };
+/** @category Errors */
+exports.CommandAlreadyExists = function (name) { return new Error(__1.Strings.CommandAlreadyExistsString(name)); };
+/** @category Errors */
+exports.CommandCannotExecute = function (name, reason) { return new Error(__1.Strings.CommandCannotExecuteString(name, reason)); };
+/** @category Errors */
+exports.PluginCannotLoad = function (name, reason) { return new Error(__1.Strings.PluginCannotLoadString(name, reason)); };
+/** @category Errors */
+exports.StackCannotLoad = function (name, reason) { return new Error(__1.Strings.StackCannotLoadString(name, reason)); };
 //# sourceMappingURL=index.js.map

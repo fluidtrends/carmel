@@ -2,6 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Bundle = void 0;
 var _1 = require(".");
+/**
+ *
+ * @category System
+ */
 var Bundle = /** @class */ (function () {
     function Bundle(archive) {
         this._archive = archive;

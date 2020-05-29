@@ -1,4 +1,8 @@
 import { IDir, Path } from '.';
+/**
+ *
+ * @category System
+ */
 export declare class Dir implements IDir {
     protected _path?: Path;
     constructor(path?: Path);

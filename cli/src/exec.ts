@@ -35,6 +35,7 @@ function init() {
     fs.existsSync(carmelRoot) || fs.mkdirSync(carmelRoot)
     fs.existsSync(carmelCacheRoot) || fs.mkdirSync(carmelCacheRoot)
     
+    process.env.CARMEL_USER_HOME = userRoot
     process.env.CARMEL_HOME = carmelRoot
     process.env.CARMEL_CACHE_ROOT = carmelCacheRoot 
     
@@ -48,7 +49,7 @@ async function runCarmelCommand(command: any, sdkPath: string) {
     const Command = (Carmel.Commands as any)[command.cls]        
     const cmd = new Command(command)
 
-    const session = new Carmel.Session({ dir: process.env.CARMEL_HOME })
+    const session = new Carmel.Session({ dir: process.env.CARMEL_USER_HOME })
 
     return Carmel.Commander.run(cmd, session)
 }

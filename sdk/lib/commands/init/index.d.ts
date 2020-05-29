@@ -1,10 +1,12 @@
-import { Command, ISession } from '../..';
+import { Command, CommandArg, ISession } from '../..';
+/**
+ *
+ *
+ * @category Commands
+ */
 export default class Init extends Command {
-    protected _archive?: any;
-    protected _template?: any;
-    constructor(args?: any);
-    get archive(): any;
-    get template(): any;
-    parse(): void;
-    exec(session: ISession): Promise<void>;
+    /** @internal */
+    constructor();
+    /** @internal */
+    exec(session: ISession, args?: CommandArg[]): Promise<void>;
 }

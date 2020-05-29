@@ -38,6 +38,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Stack = void 0;
 var _1 = require(".");
+/**
+ *
+ * {@link https://github.com/fluidtrends/carmel/blob/master/sdk/src/Stack.ts | Source Code } |
+ * {@link https://codeclimate.com/github/fluidtrends/carmel/sdk/src/Stack.ts/source | Code Quality} |
+ * {@link https://codeclimate.com/github/fluidtrends/carmel/sdk/src/Stack.ts/stats | Code Stats}
+ *
+ * @category Core
+ */
 var Stack = /** @class */ (function () {
     function Stack(props) {
         this._props = props;

@@ -1,10 +1,12 @@
 {
   "name": "@carmel/sdk",
-  "version": "1.9.11",
+  "version": "1.9.12",
   "description": "The Carmel SDK",
   "scripts": {
     "build": "tsc",
     "test": "savor test",
+    "docs": "typedoc",
+    "viewdocs": "open docs/index.html",
     "cov": "savor cov",
     "viewcov": "savor viewcov"
   },
@@ -29,6 +31,8 @@
     "url-parse": "^1.4.7"
   },
   "devDependencies": {
-    "savor": "^1.3.0"
+    "savor": "^1.3.0",
+    "typedoc": "^0.17.7",
+    "typedoc-plugin-sourcefile-link": "^1.0.3"
   }
 }
