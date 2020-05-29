@@ -72,7 +72,7 @@ export declare class Session implements ISession {
      *
      * @param stackId The {@linkcode Stack} id
      */
-    findStack(stackId: Id): Promise<undefined>;
+    findStack(stackId: Id): Promise<import("./Stack").Stack | undefined>;
     /**
      *
      * @param productId

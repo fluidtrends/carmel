@@ -178,41 +178,11 @@ var Session = /** @class */ (function () {
                             return [2 /*return*/];
                         // Initialize the index first of all, if needed
                         return [4 /*yield*/, this.index.initialize()
-                            // // Make sure the local common dependencies are available
-                            // this.command && this.command.requiresFreshIndex && await this.updateIndex()
-                            // if (this.command?.requiresWorkspace) { 
-                            //     // The command needs a workspace so let's look for one
-                            //     await this.resolveWorkspace()
-                            //     if (!this.workspace || !this.workspace.exists) {
-                            //         // If we need a workspace but we can't get one, we're in trouble
-                            //         throw Errors.WorkspaceIsMissing()
-                            //     }
-                            //     // So we've got ourselves a workspace, yay - let's load it up
-                            //     await this.workspace.initialize()
-                            // }
-                            // Then let's make sure the workspace is also initialized
-                            // return this.hasWorkspace && this.workspace!.initialize()
-                            // this.logger.start(this.command && this.command.title)
                             // This session is ready to go
                         ];
                     case 1:
                         // Initialize the index first of all, if needed
                         _a.sent();
-                        // // Make sure the local common dependencies are available
-                        // this.command && this.command.requiresFreshIndex && await this.updateIndex()
-                        // if (this.command?.requiresWorkspace) { 
-                        //     // The command needs a workspace so let's look for one
-                        //     await this.resolveWorkspace()
-                        //     if (!this.workspace || !this.workspace.exists) {
-                        //         // If we need a workspace but we can't get one, we're in trouble
-                        //         throw Errors.WorkspaceIsMissing()
-                        //     }
-                        //     // So we've got ourselves a workspace, yay - let's load it up
-                        //     await this.workspace.initialize()
-                        // }
-                        // Then let's make sure the workspace is also initialized
-                        // return this.hasWorkspace && this.workspace!.initialize()
-                        // this.logger.start(this.command && this.command.title)
                         // This session is ready to go
                         this.changeState(__1.SessionState.INITIALIZED);
                         return [2 /*return*/];
@@ -250,12 +220,9 @@ var Session = /** @class */ (function () {
                             // Looks like something's missing here, we need the bundles section
                             return [2 /*return*/];
                         }
-                        return [4 /*yield*/, this.index.sections.bundles.findArchive({ id: id, version: version })
-                            // console.log("index ar:", archive)
-                        ];
+                        return [4 /*yield*/, this.index.sections.bundles.findArchive({ id: id, version: version })];
                     case 2:
                         archive = _a.sent();
-                        // console.log("index ar:", archive)
                         if (!archive) {
                             // Doesn't look like it
                             return [2 /*return*/];
@@ -302,13 +269,9 @@ var Session = /** @class */ (function () {
                         if (!bundle || !bundle.exists)
                             return [2 /*return*/, undefined
                                 // Look up the stack in the bundle
-                                // TODO
-                                // return bundle.loadStack(stackName)
                             ];
                         // Look up the stack in the bundle
-                        // TODO
-                        // return bundle.loadStack(stackName)
-                        return [2 /*return*/, undefined];
+                        return [2 /*return*/, bundle.loadStack(stackName)];
                 }
             });
         });
@@ -379,4 +342,26 @@ var Session = /** @class */ (function () {
     return Session;
 }());
 exports.Session = Session;
+//     findCredentials(session) {
+//         const profile = this.args.profile || 'default'
+//         const v = session.index.sections.safe.vault
+//         if (v.isLocked) {
+//           return Promise.reject(new Error(_.ERRORS.COULD_NOT_EXECUTE('the safe is locked')))
+//         }
+//         session.logger.info(`Looking up AWS credentials [${profile}] ...`)
+//         const credentials = Object.assign({}, { region: "us-east-1" }, v.read(`aws.${profile}`))
+//         if (!credentials || !credentials.key || !credentials.secret) {
+//           return Promise.reject(new Error('No credentials found'))
+//         }
+//         process.env.AWS_SDK_LOAD_CONFIG = null
+//         process.env.AWS_ACCESS_KEY_ID = credentials.key
+//         process.env.AWS_SECRET_ACCESS_KEY = credentials.secret
+//         return Promise.resolve(credentials)
+//     }
+//     prepareCloud(session) {
+//         return this.findCredentials(session).then((credentials) => {
+//             this._cloud = new Cloud(Object.assign({}, credentials, { env: this.env }))
+//             return this.cloud
+//         })
+//     }
 //# sourceMappingURL=Session.js.map

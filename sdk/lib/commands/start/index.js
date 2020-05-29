@@ -53,6 +53,7 @@ var __1 = require("../..");
 var props = {
     id: "start",
     type: __1.CommandType.PRODUCT,
+    requiresScript: true,
     title: "Starting a new Carmel Product"
 };
 /**
@@ -67,9 +68,15 @@ var Start = /** @class */ (function (_super) {
     }
     /** @internal */
     Start.prototype.exec = function (session, args) {
+        var _a;
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/];
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0: return [4 /*yield*/, ((_a = this.script) === null || _a === void 0 ? void 0 : _a.exec(args))];
+                    case 1: 
+                    // Execute the required script
+                    return [2 /*return*/, _b.sent()];
+                }
             });
         });
     };

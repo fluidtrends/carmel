@@ -104,6 +104,16 @@ var Bundle = /** @class */ (function () {
             });
         });
     };
+    Bundle.prototype.loadStack = function (stackName) {
+        return __awaiter(this, void 0, void 0, function () {
+            var stack;
+            return __generator(this, function (_a) {
+                stack = new __1.Stack(stackName, this);
+                // Load it up if it exists 
+                return [2 /*return*/, stack.load()];
+            });
+        });
+    };
     return Bundle;
 }());
 exports.Bundle = Bundle;

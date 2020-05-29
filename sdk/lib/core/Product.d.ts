@@ -99,5 +99,5 @@ export declare class Product implements IProduct {
      *
      * @param dirpath
      */
-    findDirs(dirpath: Path): Promise<string[] | undefined>;
+    findDirs(dirpath: Path): string[];
 }

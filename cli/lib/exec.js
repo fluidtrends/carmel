@@ -65,14 +65,13 @@ function init() {
 }
 function runCarmelCommand(command, sdkPath) {
     return __awaiter(this, void 0, void 0, function () {
-        var tsMode, Carmel, Command, cmd, session;
+        var tsMode, Carmel, Command, cmd;
         return __generator(this, function (_a) {
             tsMode = process.env.CARMEL_MODE && process.env.CARMEL_MODE === 'ts';
             Carmel = require(path_1.default.resolve(sdkPath, tsMode ? 'src' : 'lib'));
             Command = Carmel.Commands[command.cls];
             cmd = new Command(command);
-            session = new Carmel.Session({ dir: process.env.CARMEL_USER_HOME });
-            return [2 /*return*/, Carmel.Commander.run(cmd, session)];
+            return [2 /*return*/, Carmel.Engine.run(cmd)];
         });
     });
 }

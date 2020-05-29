@@ -1,4 +1,5 @@
-import { IClass, UTF8, Path, Version, Id } from '.';
+import { IClass, UTF8, Path, Name, CommandArg, Module, Version, IStack, Id } from '.';
+import { Target } from './base';
 export interface IData extends IClass {
     readonly raw: UTF8;
     readonly isJson: boolean;
@@ -17,12 +18,18 @@ export interface IFile extends IClass {
 export interface IDir extends IClass {
     readonly path?: Path;
     readonly exists: boolean;
+    readonly dirs: Path[];
     dir(dirpath: Path): IDir | undefined;
-    dirs(): Promise<Path[]>;
+    file(filepath: Path): IFile | undefined;
 }
 export interface IScript extends IClass {
-    readonly args: any;
-    readonly platform: string;
+    readonly name: Name;
+    readonly target: Target;
+    readonly dir?: IDir;
+    readonly exists: boolean;
+    readonly module?: Module;
+    load(): Promise<IScript | undefined>;
+    exec(args?: CommandArg[]): Promise<any>;
 }
 export interface ILogger extends IClass {
     readonly props: any;
@@ -33,4 +40,5 @@ export interface IBundle extends IClass {
     readonly version: Version;
     readonly exists: boolean;
     load(): Promise<IBundle>;
+    loadStack(stackName: Name): Promise<IStack | undefined>;
 }

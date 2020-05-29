@@ -37,6 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Stack = void 0;
+var __1 = require("..");
 /**
  *
  * {@link https://github.com/fluidtrends/carmel/blob/master/sdk/src/Stack.ts | Source Code } |
@@ -46,34 +47,41 @@ exports.Stack = void 0;
  * @category Core
  */
 var Stack = /** @class */ (function () {
-    function Stack(props) {
-        this._props = props;
+    /**
+     *
+     * @param name
+     * @param bundle
+     */
+    function Stack(name, bundle) {
+        var _a;
+        this._name = name;
+        this._bundle = bundle;
+        this._dir = (_a = this.bundle.dir.dir("stacks")) === null || _a === void 0 ? void 0 : _a.dir(this.name);
     }
     Object.defineProperty(Stack.prototype, "name", {
+        /**
+         *
+         */
         get: function () {
-            return this.props.name;
+            return this._name;
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(Stack.prototype, "dir", {
+        /**
+         *
+         */
         get: function () {
             return this._dir;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(Stack.prototype, "props", {
-        // get workspace() {
-        //     return this._workspace
-        // }
-        get: function () {
-            return this._props;
-        },
-        enumerable: false,
-        configurable: true
-    });
     Object.defineProperty(Stack.prototype, "bundle", {
+        /**
+         *
+         */
         get: function () {
             return this._bundle;
         },
@@ -81,59 +89,86 @@ var Stack = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(Stack.prototype, "exists", {
+        /**
+         *
+         */
         get: function () {
-            return this.props &&
-                this.name;
-            //    this.workspace && 
-            //    this.workspace!.session &&
-            //    this.workspace!.session!.index.sections.bundles &&
-            //    this.workspace!.session!.index.sections.bundles.exists
+            return this.dir !== undefined && this.dir.exists;
         },
         enumerable: false,
         configurable: true
     });
-    // async load(workspace: IWorkspace) {
-    //     this._workspace = workspace
-    //     // this._bundle = await this.workspace?.session?.findBundle(this.props.bundle, this.props.version)
-    //     // if (!this.bundle) {
-    //     //     throw Errors.StackCannotLoad(this.name || "unknown", 'it is invalid')
-    //     // }
-    //     // this._dir = this.bundle.dir.dir('stacks')?.dir(this.name)
-    //     // this._dir = new Dir(`/Users/idancali/idancali/dev/papanache`)
-    //     this._dir = new Dir(`/Users/idancali/idancali/dev/carmel/stacks/react`)
-    //     if (!this.dir?.exists) {
-    //         throw Errors.StackCannotLoad(this.name, 'it is missing')
-    //     }
-    //     return this
-    // }
+    /**
+     *
+     */
     Stack.prototype.load = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
+                // const packerRoot = '/Users/idancali/idancali/dev/papanache'
+                // const packerDir = path.resolve(packerRoot, this.target)
+                // const scriptFile = path.resolve(packerDir, `${this.id}.js`)
+                // if (!fs.existsSync(scriptFile)) {
+                //     console.log("missing script", scriptFile)
+                //     return this
+                // }
+                // console.log("starting...", scriptFile)
                 return [2 /*return*/, this];
             });
         });
     };
-    Stack.prototype.makeConfig = function () {
-        //   const papanacheVersion = session.get('papanacheVersion')
-        //   const bananasVersion = session.get('bananasVersion')
-        //   const templateDir = path.resolve(session.index.path, 'archives', '@fluidtrends/bananas', bananasVersion, '@fluidtrends/bananas')
-        //   const root = path.resolve(session.index.path, 'archives', 'papanache', papanacheVersion, 'papanache')
-        //   const dir = process.cwd()
-        //   const chunkyWebDir = path.resolve(templateDir, 'node_modules', 'react-dom-chunky')
-        //   const dev = this.isDev 
-        //   const templateAssets = [{
-        //     path: `node_modules/react-dom-chunky/app/assets`, glob: '**/*' 
-        //   }]
-        //   return {
-        //     dir,
-        //     root,
-        //     templateDir,
-        //     port: 8082,
-        //     templateAssets,
-        //     script: path.resolve(chunkyWebDir, 'app', `index${dev ? '.dev' : ''}.js`),
-        //     page: path.resolve(chunkyWebDir, 'app', 'pages', 'default.html')
-        //   }
-        // const stack
+    /**
+     *
+     * @param target
+     * @param name
+     */
+    Stack.prototype.findTargetScript = function (target, name) {
+        return __awaiter(this, void 0, void 0, function () {
+            var script;
+            return __generator(this, function (_a) {
+                // Don't even bother if the target script is missing
+                if (!this.supportsTargetScript(target, name))
+                    return [2 /*return*/, undefined
+                        // Cool, let's build ourselves a script now
+                    ];
+                script = new __1.Script(this, target, name);
+                // Boom, load it up and get on with it  
+                return [2 /*return*/, script.load()];
+            });
+        });
+    };
+    /**
+     *
+     * @param target
+     */
+    Stack.prototype.targetDir = function (target) {
+        return this.dir.dir(target);
+    };
+    /**
+     *
+     * @param target
+     */
+    Stack.prototype.targetScriptDir = function (target, name) {
+        var _a;
+        return (_a = this.dir.dir(target)) === null || _a === void 0 ? void 0 : _a.dir(name);
+    };
+    /**
+     *
+     * @param target
+     */
+    Stack.prototype.supportsTarget = function (target) {
+        return this.exists &&
+            this.targetDir(target) !== undefined &&
+            this.targetDir(target).exists;
+    };
+    /**
+     *
+     * @param target
+     * @param name
+     */
+    Stack.prototype.supportsTargetScript = function (target, name) {
+        return this.supportsTarget(target) &&
+            this.targetScriptDir(target, name) !== undefined &&
+            this.targetScriptDir(target, name).exists;
     };
     return Stack;
 }());

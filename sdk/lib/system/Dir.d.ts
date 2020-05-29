@@ -1,4 +1,4 @@
-import { IDir, Path } from '..';
+import { IDir, File, Path } from '..';
 /**
  *
  * @category System
@@ -9,5 +9,6 @@ export declare class Dir implements IDir {
     get path(): string | undefined;
     get exists(): boolean;
     dir(dirpath: Path): Dir | undefined;
-    dirs(): Promise<string[]>;
+    file(filepath: Path): File | undefined;
+    get dirs(): string[];
 }

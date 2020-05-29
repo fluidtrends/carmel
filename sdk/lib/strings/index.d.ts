@@ -11,6 +11,10 @@ export declare const SessionIsMissingString: () => string;
 /** @category Strings */
 export declare const ProductIsMissingString: () => string;
 /** @category Strings */
+export declare const TargetNotSupportedString: (target: string) => string;
+/** @category Strings */
+export declare const StackTargetScriptIsMissingString: (target: string, name: string) => string;
+/** @category Strings */
 export declare const ProductIsNotReadyString: () => string;
 /** @category Strings */
 export declare const WorkspaceIsMissingString: () => string;

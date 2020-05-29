@@ -52,4 +52,15 @@ add('should find a bundle', (context: Context, done: Completion) => {
     })
 }).
 
+add('should find a stack with the latest available version', (context: Context, done: Completion) => {
+    const session = new Session({ dir: context.dir, name: 'test' })
+
+    savor.addAsset('assets/bundles/teststack', '.carmel/bundles/test/1/stacks/teststack', context)
+
+    savor.promiseShouldSucceed(session.findStack("test/test"), done, (data) => {
+        context.expect(data.id).to.equal("test")
+        context.expect(data.version).to.equal("1")
+    })
+}).
+
 run('[Carmel SDK] Session')

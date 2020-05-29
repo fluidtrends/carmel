@@ -4,6 +4,7 @@ export declare type Name = string;
 export declare type Path = string;
 export declare type UTF8 = string;
 export declare type JSON = any;
+export declare type Module = any;
 export declare type CommandArg = {
     name: string;
     value: any;

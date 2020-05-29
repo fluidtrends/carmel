@@ -91,7 +91,7 @@ export class Engine implements IEngine {
         props = props || { 
             cwd: process.cwd(),
             name: "carmel",
-            dir: process.env.CARMEL_USERHOME
+            dir: process.env.CARMEL_USER_HOME
         }
 
         // This engine is not started yet, let's begin by assigning a new Session
