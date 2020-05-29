@@ -30,6 +30,7 @@ __exportStar(require("./core/Template"), exports);
 __exportStar(require("./core/Product"), exports);
 __exportStar(require("./core/Session"), exports);
 __exportStar(require("./core/Engine"), exports);
+__exportStar(require("./core/App"), exports);
 __exportStar(require("./system/File"), exports);
 __exportStar(require("./system/Dir"), exports);
 __exportStar(require("./system/Data"), exports);
@@ -38,6 +39,5 @@ __exportStar(require("./system/Logger"), exports);
 __exportStar(require("./system/Script"), exports);
 exports.Errors = __importStar(require("./errors"));
 exports.Strings = __importStar(require("./strings"));
-exports.Globals = __importStar(require("./globals"));
 exports.Commands = __importStar(require("./commands"));
 //# sourceMappingURL=index.js.map

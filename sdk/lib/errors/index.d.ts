@@ -11,8 +11,6 @@ export declare const ProductAlreadyExists: () => Error;
 /** @category Errors */
 export declare const SessionIsMissing: () => Error;
 /** @category Errors */
-export declare const WorkspaceIsMissing: () => Error;
-/** @category Errors */
 export declare const CommandIsMissing: () => Error;
 /** @category Errors */
 export declare const CommandDoesNotExist: (name: string) => Error;

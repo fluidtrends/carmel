@@ -133,7 +133,8 @@ export class Engine implements IEngine {
         this.changeState(EngineState.STOPPED)
 
         // Ready to go to sleep now
-        return this._session?.destroy()
+        await this._session?.destroy()
+        delete this._session
     }    
 
     /**
@@ -143,7 +144,7 @@ export class Engine implements IEngine {
      * @param args The {@linkcode CommandArgs} to pass to this command
      */
     public async exec(command?: ICommand, args?: CommandArg[]) {
-        if (!this._session) {
+        if (!this.session) {
             // Don't do anything without a session
             throw Errors.SessionIsMissing()
         }
@@ -162,7 +163,7 @@ export class Engine implements IEngine {
         Engine.instance.changeState(EngineState.RUNNING)
 
         // Time to let the command do its thing
-        const result = await command?.run(this._session, args)
+        const result = await command?.run(this.session, args)
 
         // We're done running
         Engine.instance.changeState(EngineState.READY)
@@ -185,7 +186,7 @@ export class Engine implements IEngine {
      * @param args The {@linkcode CommandArgs} to pass to this command
      * @param onlyOnce Whether we want to allow the Engine to process further commands or not
      */
-    public static async run (command: ICommand, args?: CommandArg[], onlyOnce: boolean = true) {
+    public static async run (command?: ICommand, args?: CommandArg[], onlyOnce: boolean = true) {
         // First, start the engine if necessary
         await Engine.instance.start()
 

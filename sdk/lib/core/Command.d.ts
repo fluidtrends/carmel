@@ -1,4 +1,4 @@
-import { ICommand, ISession, CommandProps, CommandArg, Target, Name, IScript, IProduct, CommandType } from '..';
+import { ICommand, ISession, CommandProps, CommandArg, Target, Name, IScript, IProduct, IApp, CommandType } from '..';
 /**
  * The base class representing a single unit of execution.
  * Every Carmel Command extends this class and tweaks the defaults as needed.
@@ -20,6 +20,8 @@ export declare abstract class Command implements ICommand {
     protected _product?: IProduct;
     /** @internal */
     protected _script?: IScript;
+    /** @internal */
+    protected _app?: IApp;
     /**
      * Construct a new command from the given {@linkcode CommandProps}.
      *
@@ -57,6 +59,10 @@ export declare abstract class Command implements ICommand {
     /**
      *
      */
+    get requiresApp(): boolean;
+    /**
+     *
+     */
     get product(): IProduct | undefined;
     /**
      *
@@ -68,6 +74,10 @@ export declare abstract class Command implements ICommand {
     get args(): CommandArg[] | undefined;
     /**
      *
+     */
+    get app(): IApp | undefined;
+    /**
+     *
      * @param name
      */
     arg(name: Name): any;
@@ -77,6 +87,8 @@ export declare abstract class Command implements ICommand {
     private _validateProductTypeRequirements;
     /** @internal */
     private _validateTypeRequirements;
+    /** @internal */
+    private _resolve;
     /**
      * Run a command in the given session, this usually gets invoked by
      * the {@linkcode Engine}

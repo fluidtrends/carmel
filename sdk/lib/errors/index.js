@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.StackCannotLoad = exports.PluginCannotLoad = exports.CommandCannotExecute = exports.CommandAlreadyExists = exports.CommandDoesNotExist = exports.CommandIsMissing = exports.WorkspaceIsMissing = exports.SessionIsMissing = exports.ProductAlreadyExists = exports.ArgumentIsMissing = exports.DirDoesNotExist = exports.FileCouldNotBeLoaded = exports.FileDoesNotExist = void 0;
+exports.StackCannotLoad = exports.PluginCannotLoad = exports.CommandCannotExecute = exports.CommandAlreadyExists = exports.CommandDoesNotExist = exports.CommandIsMissing = exports.SessionIsMissing = exports.ProductAlreadyExists = exports.ArgumentIsMissing = exports.DirDoesNotExist = exports.FileCouldNotBeLoaded = exports.FileDoesNotExist = void 0;
 var __1 = require("..");
 /** @category Errors */
 exports.FileDoesNotExist = function (file) { return new Error(__1.Strings.FileDoesNotExistString(file)); };
@@ -14,8 +14,6 @@ exports.ArgumentIsMissing = function (arg) { return new Error(__1.Strings.Argume
 exports.ProductAlreadyExists = function () { return new Error(__1.Strings.ProductAlreadyExistsString()); };
 /** @category Errors */
 exports.SessionIsMissing = function () { return new Error(__1.Strings.SessionIsMissingString()); };
-/** @category Errors */
-exports.WorkspaceIsMissing = function () { return new Error(__1.Strings.WorkspaceIsMissingString()); };
 /** @category Errors */
 exports.CommandIsMissing = function () { return new Error(__1.Strings.CommandIsMissingString()); };
 /** @category Errors */

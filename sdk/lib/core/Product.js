@@ -44,9 +44,9 @@ var path_1 = __importDefault(require("path"));
 var __1 = require("..");
 /**
  *
- * {@link https://github.com/fluidtrends/carmel/blob/master/sdk/src/Workspace.ts | Source Code } |
- * {@link https://codeclimate.com/github/fluidtrends/carmel/sdk/src/Workspace.ts/source | Code Quality} |
- * {@link https://codeclimate.com/github/fluidtrends/carmel/sdk/src/Workspace.ts/stats | Code Stats}
+ * {@link https://github.com/fluidtrends/carmel/blob/master/sdk/src/Product.ts | Source Code } |
+ * {@link https://codeclimate.com/github/fluidtrends/carmel/sdk/src/Product.ts/source | Code Quality} |
+ * {@link https://codeclimate.com/github/fluidtrends/carmel/sdk/src/Product.ts/stats | Code Stats}
  *
  * @category Core
  */
@@ -54,10 +54,11 @@ var Product = /** @class */ (function () {
     /**
      *
      * @param props
+     * @param target
      */
     function Product(session) {
         this._dir = new __1.Dir(process.cwd());
-        this._manifest = new __1.File(this.dir.path !== undefined ? path_1.default.resolve(this.dir.path, __1.Globals.MANIFEST_FILENAME) : undefined);
+        this._manifest = new __1.File(this.dir.path !== undefined ? path_1.default.resolve(this.dir.path, Product.MANIFEST_FILENAME) : undefined);
         this._state = __1.ProductState.UNLOADED;
         this._session = session;
     }
@@ -161,6 +162,50 @@ var Product = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Product.prototype, "apps", {
+        /**
+         *
+         */
+        get: function () {
+            return this._apps;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    /**
+     *
+     * @param target
+     */
+    Product.prototype.app = function (target) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function () {
+            var app;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        app = (_a = this.apps) === null || _a === void 0 ? void 0 : _a.get(target);
+                        // Looks like it's already loaded
+                        if (app)
+                            return [2 /*return*/, app
+                                // Load the app
+                            ];
+                        return [4 /*yield*/, new __1.App(this, target).load()];
+                    case 1:
+                        // Load the app
+                        app = _b.sent();
+                        if (!app)
+                            return [2 /*return*/, undefined
+                                // Keep track of it in memory
+                            ];
+                        // Keep track of it in memory
+                        this._apps = this._apps || new Map();
+                        this._apps.set(target, app);
+                        // Give the caller what they need
+                        return [2 /*return*/, app];
+                }
+            });
+        });
+    };
     /**
      * Move the Product into a new {@linkcode ProductState}
      *
@@ -265,6 +310,8 @@ var Product = /** @class */ (function () {
         var _a;
         return ((_a = this.dir.dir(dirpath)) === null || _a === void 0 ? void 0 : _a.dirs) || [];
     };
+    /** The default name of the manifest */
+    Product.MANIFEST_FILENAME = ".carmel.json";
     return Product;
 }());
 exports.Product = Product;

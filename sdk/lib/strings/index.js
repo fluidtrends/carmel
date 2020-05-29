@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.StackCannotLoadString = exports.PluginCannotLoadString = exports.CommandCannotExecuteString = exports.CommandAlreadyExistsString = exports.CommandDoesNotExistString = exports.CommandIsMissingString = exports.WorkspaceIsMissingString = exports.ProductIsNotReadyString = exports.StackTargetScriptIsMissingString = exports.TargetNotSupportedString = exports.ProductAlreadyExistsString = exports.ProductIsMissingString = exports.SessionIsMissingString = exports.ArgumentIsMissingString = exports.DirDoesNotExistString = exports.FileCouldNotBeLoadedString = exports.FileDoesNotExistString = void 0;
+exports.StackCannotLoadString = exports.PluginCannotLoadString = exports.CommandCannotExecuteString = exports.CommandAlreadyExistsString = exports.CommandDoesNotExistString = exports.ProductIsNotReadyString = exports.ProductAppIsMissingString = exports.StackTargetScriptIsMissingString = exports.TargetNotSupportedString = exports.ProductAlreadyExistsString = exports.ProductIsMissingString = exports.CommandIsMissingString = exports.SessionIsMissingString = exports.ArgumentIsMissingString = exports.DirDoesNotExistString = exports.FileCouldNotBeLoadedString = exports.FileDoesNotExistString = void 0;
 /** @category Strings */
 exports.FileDoesNotExistString = function (file) { return "the " + file + " file does not exit"; };
 /** @category Strings */
@@ -12,6 +12,8 @@ exports.ArgumentIsMissingString = function (arg) { return "the " + arg + " argum
 /** @category Strings */
 exports.SessionIsMissingString = function () { return "the session is missing"; };
 /** @category Strings */
+exports.CommandIsMissingString = function () { return "the command is missing"; };
+/** @category Strings */
 exports.ProductIsMissingString = function () { return "the product is missing"; };
 /** @category Strings */
 exports.ProductAlreadyExistsString = function () { return "the product already exists"; };
@@ -20,11 +22,9 @@ exports.TargetNotSupportedString = function (target) { return "the target is not
 /** @category Strings */
 exports.StackTargetScriptIsMissingString = function (target, name) { return "the required " + target + "/" + name + " stack script is missing"; };
 /** @category Strings */
+exports.ProductAppIsMissingString = function (target) { return "the required product " + target + " app is missing"; };
+/** @category Strings */
 exports.ProductIsNotReadyString = function () { return "the product is not ready yet"; };
-/** @category Strings */
-exports.WorkspaceIsMissingString = function () { return "the workspace is missing"; };
-/** @category Strings */
-exports.CommandIsMissingString = function () { return "the command is missing"; };
 /** @category Strings */
 exports.CommandDoesNotExistString = function (name) { return "the " + name + " command does not exist"; };
 /** @category Strings */

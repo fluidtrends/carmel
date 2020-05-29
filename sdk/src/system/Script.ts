@@ -1,7 +1,6 @@
 import {
   IScript,
   Target,
-  Globals,
   IStack,
   Name,
   Module,

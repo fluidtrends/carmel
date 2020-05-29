@@ -1,4 +1,4 @@
-import { ISession, SessionProps, ILogger, Id, Bundle, IProduct, Stack, Template, Version, ArtifactsKind, SessionState } from '..';
+import { ISession, SessionProps, ILogger, Id, Bundle, IProduct, Stack, Target, Template, Version, ArtifactsKind, SessionState } from '..';
 /**
  * Represents an {@linkcode Engine} Session initiated by a client.
  *
@@ -9,6 +9,10 @@ import { ISession, SessionProps, ILogger, Id, Bundle, IProduct, Stack, Template,
  * @category Core
  */
 export declare class Session implements ISession {
+    /** Start with these sections - always */
+    static DEFAULT_SECTIONS: string[];
+    /** Use these as mandatory bundles */
+    static DEFAULT_BUNDLES: string[];
     /** @internal */
     protected _props?: SessionProps;
     /** @internal */
@@ -89,7 +93,7 @@ export declare class Session implements ISession {
      *
      * @param productId
      */
-    resolveProduct(): Promise<IProduct | undefined>;
+    resolveProduct(target?: Target): Promise<IProduct | undefined>;
     installSystemBundle(bundleId: string): Promise<void>;
     updateIndex(): Promise<any>;
 }

@@ -1,14 +1,15 @@
-import { IProduct, Path, IFile, IDir, ProductState, IStack } from '..';
-import { ISession } from '../types';
+import { IProduct, Path, IFile, IDir, ProductState, IStack, ISession, IApp, Target } from '..';
 /**
  *
- * {@link https://github.com/fluidtrends/carmel/blob/master/sdk/src/Workspace.ts | Source Code } |
- * {@link https://codeclimate.com/github/fluidtrends/carmel/sdk/src/Workspace.ts/source | Code Quality} |
- * {@link https://codeclimate.com/github/fluidtrends/carmel/sdk/src/Workspace.ts/stats | Code Stats}
+ * {@link https://github.com/fluidtrends/carmel/blob/master/sdk/src/Product.ts | Source Code } |
+ * {@link https://codeclimate.com/github/fluidtrends/carmel/sdk/src/Product.ts/source | Code Quality} |
+ * {@link https://codeclimate.com/github/fluidtrends/carmel/sdk/src/Product.ts/stats | Code Stats}
  *
  * @category Core
  */
 export declare class Product implements IProduct {
+    /** The default name of the manifest */
+    static MANIFEST_FILENAME: string;
     /** @internal */
     protected _props: any;
     /** @internal */
@@ -21,9 +22,12 @@ export declare class Product implements IProduct {
     protected _state: ProductState;
     /** @internal */
     protected _session?: ISession;
+    /** @internal */
+    protected _apps?: Map<Target, IApp>;
     /**
      *
      * @param props
+     * @param target
      */
     constructor(session?: ISession);
     /**
@@ -66,6 +70,15 @@ export declare class Product implements IProduct {
      *
      */
     get isReady(): boolean;
+    /**
+     *
+     */
+    get apps(): Map<Target, IApp> | undefined;
+    /**
+     *
+     * @param target
+     */
+    app(target: Target): Promise<IApp | undefined>;
     /**
      * Move the Product into a new {@linkcode ProductState}
      *

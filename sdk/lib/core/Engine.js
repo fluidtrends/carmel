@@ -180,10 +180,18 @@ var Engine = /** @class */ (function () {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_b) {
-                // Let's put ourselves in the right state
-                this.changeState(__1.EngineState.STOPPED);
-                // Ready to go to sleep now
-                return [2 /*return*/, (_a = this._session) === null || _a === void 0 ? void 0 : _a.destroy()];
+                switch (_b.label) {
+                    case 0:
+                        // Let's put ourselves in the right state
+                        this.changeState(__1.EngineState.STOPPED);
+                        // Ready to go to sleep now
+                        return [4 /*yield*/, ((_a = this._session) === null || _a === void 0 ? void 0 : _a.destroy())];
+                    case 1:
+                        // Ready to go to sleep now
+                        _b.sent();
+                        delete this._session;
+                        return [2 /*return*/];
+                }
             });
         });
     };
@@ -199,7 +207,7 @@ var Engine = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (!this._session) {
+                        if (!this.session) {
                             // Don't do anything without a session
                             throw __1.Errors.SessionIsMissing();
                         }
@@ -213,7 +221,7 @@ var Engine = /** @class */ (function () {
                         }
                         // We're about to run it
                         Engine.instance.changeState(__1.EngineState.RUNNING);
-                        return [4 /*yield*/, (command === null || command === void 0 ? void 0 : command.run(this._session, args))];
+                        return [4 /*yield*/, (command === null || command === void 0 ? void 0 : command.run(this.session, args))];
                     case 1:
                         result = _a.sent();
                         // We're done running

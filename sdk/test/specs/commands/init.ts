@@ -4,20 +4,13 @@ import savor, {
 } from 'savor'
 
 import { 
-  Globals,
   Commands, 
   Strings,
   Engine
 } from '../../../src' 
 
-import fs from 'fs'
 import {
-  Registry,
-  Archive
-} from 'rara'
-
-import {
-  Index
+  Section
 } from 'dodi'
 
 savor.
@@ -64,8 +57,8 @@ add('should skip creating if a product exists already', (context: Context, done:
 
 add('should skip creating if the template bundle does not exist remotely', (context: Context, done: Completion) => {
   const cmd = new Commands.Init() 
-  const stub = context.stub(Registry, 'manifest').callsFake(() => Promise.reject(new TypeError('oh oh')))
-  const stub1 = context.stub(Registry, 'extract').callsFake(() => Promise.resolve({ version: '1' }))
+
+  const stub = context.stub(Section.prototype, 'installArchive').callsFake(() => { throw new TypeError('oh oh') })
 
   savor.promiseShouldFail(Engine.run(cmd, [{ 
     name: "name", value: "hello" 
@@ -73,7 +66,6 @@ add('should skip creating if the template bundle does not exist remotely', (cont
   ]), done, (error) => {
       context.expect(error.message).to.equal("oh oh")
       stub.restore()
-      stub1.restore()
   })
 }).
 
