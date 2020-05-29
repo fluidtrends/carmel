@@ -10,6 +10,7 @@ import {
     Name,
     IScript,
     IProduct,
+    IApp,
     CommandType
 } from '..'
 
@@ -44,6 +45,9 @@ export abstract class Command implements ICommand {
 
     /** @internal */
     protected _script?: IScript;
+
+    /** @internal */
+    protected _app?: IApp; 
 
     /**
      * Construct a new command from the given {@linkcode CommandProps}.
@@ -106,6 +110,13 @@ export abstract class Command implements ICommand {
     /**
      * 
      */
+    get requiresApp() {
+        return this.props.requiresApp !== undefined && this.props.requiresApp
+    }
+
+    /**
+     * 
+     */
     get product() {
         return this._product
     }
@@ -122,6 +133,13 @@ export abstract class Command implements ICommand {
      */
     get args() {
         return this._args
+    }
+
+    /**
+     * 
+     */
+    get app() {
+        return this._app
     }
 
     /**
@@ -161,8 +179,8 @@ export abstract class Command implements ICommand {
         if (!this.product.isReady) {
             // Ensure the product is ready  
             throw Errors.CommandCannotExecute(this.id, Strings.ProductIsNotReadyString())
-        }
-        
+        }        
+
         if (!this.product.stack?.supportsTarget(this.target)) {
             // Make sure this target is supported by our stack
             throw Errors.CommandCannotExecute(this.id, Strings.TargetNotSupportedString(this.target))
@@ -172,6 +190,11 @@ export abstract class Command implements ICommand {
             // If we require a script let's make sure the stack has it
             throw Errors.CommandCannotExecute(this.id, Strings.StackTargetScriptIsMissingString(this.target, this.id))
         }
+
+        if (this.requiresApp && !this.app) {
+            // If we require an app let's make sure the product has it
+            throw Errors.CommandCannotExecute(this.id, Strings.ProductAppIsMissingString(this.target))
+        }
     }
 
     /** @internal */
@@ -179,6 +202,19 @@ export abstract class Command implements ICommand {
         switch(this.type) {
             case CommandType.PRODUCT:
             this._validateProductTypeRequirements()
+            break;                
+        }
+    }
+
+    /** @internal */
+    private async _resolve() {
+        this._product = await this.session?.resolveProduct(this.target)
+
+        switch(this.type) {
+            case CommandType.PRODUCT:
+            await this._product?.load()
+            this._app = await this.product?.app(this.target)
+            this._script = await this.product?.stack?.findTargetScript(this.target, this.id)
             break;                
         }
     }
@@ -198,10 +234,7 @@ export abstract class Command implements ICommand {
         this._session = session
 
         // Look for a product, if any
-        this._product = await session.resolveProduct()
-
-        // Load up the script, if any
-        this._script = await this.product?.stack?.findTargetScript(this.target, this.id)
+        await this._resolve()
         
         // First, make sure the passed args (if any) are valid
         this._validateArgs(args)

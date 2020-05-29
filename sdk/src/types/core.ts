@@ -46,7 +46,7 @@ export interface ISession extends IClass  {
     makeReady(): Promise<void>;
     destroy(): Promise<void>;
     changeState(state: SessionState): void;
-    resolveProduct(): Promise<IProduct | undefined>;
+    resolveProduct(target?: Target): Promise<IProduct | undefined>;
     findBundle(id: Id, version: Version, install?: boolean): Promise<IBundle | undefined>;
     findArtifact(id: Id, kind: ArtifactsKind, install?: boolean): Promise<any>;
     findStack(id: Id, install?: boolean): Promise<IStack | undefined>;
@@ -64,6 +64,7 @@ export interface ICommand extends IClass  {
     readonly id: Id;
     readonly script?: IScript;
     readonly args?: CommandArg[];
+    readonly app?: IApp;
 
     run(session: ISession, args?: CommandArg[]): Promise<any>;
     exec(): Promise<any>; 
@@ -81,14 +82,16 @@ export interface IProduct extends IClass  {
     readonly isLoaded: boolean;
     readonly isReady: boolean;
     readonly state: ProductState;
+    readonly apps?: Map<Target, IApp>;
 
     create(): void;
-    load(): Promise<IProduct>;
+    load(): Promise<IProduct | undefined>;
     saveContext(context: object): void;
     changeState(state: ProductState): void;
     loadFile (path: Path): void;
     saveData(data: any): void;
     findDirs(dirpath: Path): Path[]
+    app(target: Target): Promise<IApp | undefined>;
 }
 
 export interface IArtifact extends IClass {
@@ -114,5 +117,12 @@ export interface ITemplate extends IClass {
     readonly artifact?: IArtifact;
 
     load(): Promise<ITemplate | undefined>;
+}
+
+export interface IApp extends IClass {
+    readonly target: Target;
+    readonly product: IProduct;
+
+    load(): Promise<IApp | undefined>;
 }
 

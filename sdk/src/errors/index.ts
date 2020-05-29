@@ -19,9 +19,6 @@ export const ProductAlreadyExists = (): Error => new Error(Strings.ProductAlread
 export const SessionIsMissing = (): Error => new Error(Strings.SessionIsMissingString())
 
 /** @category Errors */
-export const WorkspaceIsMissing = (): Error => new Error(Strings.WorkspaceIsMissingString())
-
-/** @category Errors */
 export const CommandIsMissing = (): Error => new Error(Strings.CommandIsMissingString())
 
 /** @category Errors */

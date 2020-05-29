@@ -12,13 +12,13 @@ import {
     ILogger,
     Id,
     Bundle,
-    Globals,
     Dir,
     Logger,
     Product,
     EngineState, 
     IProduct,
     Stack,
+    Target,
     Template,
     Version,
     ArtifactsKind,
@@ -35,6 +35,12 @@ import {
  * @category Core
  */
 export class Session implements ISession {
+    /** Start with these sections - always */
+    public static DEFAULT_SECTIONS = ["bundles"];
+
+    /** Use these as mandatory bundles */
+    public static DEFAULT_BUNDLES = ["@fluidtrends/bananas"];
+
     /** @internal */
     protected _props?: SessionProps;
 
@@ -58,7 +64,7 @@ export class Session implements ISession {
     constructor(props?: SessionProps) {
         this._props = props
         this._logger = new Logger(this.props)
-        this._index = new Index(Object.assign({}, { sections: Globals.DEFAULT_SECTIONS }, this.props, { name: 'carmel' }))
+        this._index = new Index(Object.assign({}, { sections: Session.DEFAULT_SECTIONS.map (id => ({ id })) }, this.props, { name: 'carmel' }))
         this._state = SessionState.UNINITIALIZED
     }
 
@@ -163,24 +169,29 @@ export class Session implements ISession {
 
         if (!this.index.sections.bundles || !this.index.sections.bundles.exists) {
             // Looks like something's missing here, we need the bundles section
-            return
-        }
-        
-        // Cool, let's see if our bundle archive is in there,
-        // and just install it firs if necessary
-        const archive = install ? await this.index.sections.bundles.installArchive({ id, version }) 
-                                : await this.index.sections.bundles.findArchive({ id, version })
-
-        if (!archive) {
-            // Doesn't look like it
-            return
+            return undefined
         }
 
-        // Good stuff, found the archive, ok let's build ourselves a bundle
-        const bundle = new Bundle(archive)
+        // try {
+            // Cool, let's see if our bundle archive is in there,
+            // and just install it firs if necessary
+            const args = Object.assign({}, { id }, version && { version })
+            const archive = install ? await this.index.sections.bundles.installArchive(args) 
+                                    : await this.index.sections.bundles.findArchive(args)
 
-        // One more thing, let's load this puppy
-        return bundle.load()
+            if (!archive) {
+                // Doesn't look like it
+                return undefined
+            }
+
+            // Good stuff, found the archive, ok let's build ourselves a bundle
+            const bundle = new Bundle(archive)
+
+            // One more thing, let's load this puppy
+            return bundle.load()
+        // } catch (err) {
+            // return undefined
+        // }
     }
 
     /**
@@ -195,18 +206,18 @@ export class Session implements ISession {
 
         // Defaults
         let bundleVersion = undefined
-        let bundleId = Globals.DEFAULT_BUNDLE_ID
+        let bundleId = Session.DEFAULT_BUNDLES[0]
         let artifactName = id
 
         // Parse the bundle id and version from the artifact id
-        const info = id.match(/(.*)\/(.*)\/(.*)$/)?.slice(1,4)! || id
+        const info = id.match(/(.*)\/(.*)\/(.*)$/)?.slice(1,4)!
 
-        if (info.length === 3) {
+        if (info && info.length === 3) {
             // This is is a fully resolved artifact id
             bundleId = info[0]
             bundleVersion = info[1]
             artifactName = info[2]
-        } else if (info.length === 2) {
+        } else if (info && info.length === 2) {
             // This requires the latest version (no version specified)
             bundleId = info[0]
             artifactName = info[1]
@@ -244,15 +255,15 @@ export class Session implements ISession {
      * 
      * @param productId 
      */
-    async resolveProduct() {
+    async resolveProduct(target?: Target) {
         // Make sure we're ready
         await this.makeReady()
 
         // Let's build it up
         this._product = new Product(this)
 
-        // Send it back all loaded up, if found
-        return this.product?.load()
+        // Send it back if found
+        return this.product
     }
 
     async installSystemBundle(bundleId: string) {
@@ -279,9 +290,6 @@ export class Session implements ISession {
                          })
     }
 }
-
-
-
 
 //     findCredentials(session) {
 //         const profile = this.args.profile || 'default'

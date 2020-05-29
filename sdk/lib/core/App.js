@@ -1,17 +1,4 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -49,34 +36,78 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var __1 = require("../..");
-var props = {
-    id: "start",
-    type: __1.CommandType.PRODUCT,
-    requiresScript: true,
-    requiresApp: true,
-    title: "Starting a new Carmel Product"
-};
+exports.App = void 0;
 /**
  *
- * @category Commands
+ * {@link https://github.com/fluidtrends/carmel/blob/master/sdk/src/App.ts | Source Code } |
+ * {@link https://codeclimate.com/github/fluidtrends/carmel/sdk/src/App.ts/source | Code Quality} |
+ * {@link https://codeclimate.com/github/fluidtrends/carmel/sdk/src/App.ts/stats | Code Stats}
+ *
+ * @category Core
  */
-var Start = /** @class */ (function (_super) {
-    __extends(Start, _super);
-    /** @internal */
-    function Start() {
-        return _super.call(this, props) || this;
+var App = /** @class */ (function () {
+    /**
+     *
+     * @param product
+     * @param target
+     */
+    function App(product, target) {
+        this._product = product;
+        this._target = target;
+        this._dir = this.product.dir.dir(this.target);
     }
-    /** @internal */
-    Start.prototype.exec = function () {
+    Object.defineProperty(App.prototype, "target", {
+        /**
+         *
+         */
+        get: function () {
+            return this._target;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(App.prototype, "product", {
+        /**
+         *
+         */
+        get: function () {
+            return this._product;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(App.prototype, "exists", {
+        /**
+         *
+         */
+        get: function () {
+            var _a;
+            return (_a = this.dir) === null || _a === void 0 ? void 0 : _a.exists;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(App.prototype, "dir", {
+        /**
+         *
+         */
+        get: function () {
+            return this._dir;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    /**
+     *
+     */
+    App.prototype.load = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                // Execute the required script
-                return [2 /*return*/, this.runScript()];
+                return [2 /*return*/, this.exists ? this : undefined];
             });
         });
     };
-    return Start;
-}(__1.Command));
-exports.default = Start;
-//# sourceMappingURL=index.js.map
+    return App;
+}());
+exports.App = App;
+//# sourceMappingURL=App.js.map

@@ -7,27 +7,27 @@ import {
     IDir,
     File,
     Dir,
-    Errors,
     ProductState,
-    Globals,
     IStack,
-    Stack
+    ISession,
+    App,
+    IApp,
+    Target
 } from '..'
-
-import {
-    Archive
-} from 'rara'
-import { ISession } from '../types';
 
 /**
  * 
- * {@link https://github.com/fluidtrends/carmel/blob/master/sdk/src/Workspace.ts | Source Code } |
- * {@link https://codeclimate.com/github/fluidtrends/carmel/sdk/src/Workspace.ts/source | Code Quality} |
- * {@link https://codeclimate.com/github/fluidtrends/carmel/sdk/src/Workspace.ts/stats | Code Stats}
+ * {@link https://github.com/fluidtrends/carmel/blob/master/sdk/src/Product.ts | Source Code } |
+ * {@link https://codeclimate.com/github/fluidtrends/carmel/sdk/src/Product.ts/source | Code Quality} |
+ * {@link https://codeclimate.com/github/fluidtrends/carmel/sdk/src/Product.ts/stats | Code Stats}
  * 
  * @category Core
  */
 export class Product implements IProduct {
+
+    /** The default name of the manifest */   
+    public static MANIFEST_FILENAME = ".carmel.json"
+
     /** @internal */
     protected _props: any;
 
@@ -46,13 +46,17 @@ export class Product implements IProduct {
     /** @internal */
     protected _session?: ISession;
 
+    /** @internal */
+    protected _apps?: Map<Target, IApp>;
+    
     /**
      * 
      * @param props 
+     * @param target
      */
     constructor(session?: ISession) {
         this._dir = new Dir(process.cwd())
-        this._manifest = new File(this.dir.path !== undefined ? path.resolve(this.dir.path!, Globals.MANIFEST_FILENAME) : undefined)
+        this._manifest = new File(this.dir.path !== undefined ? path.resolve(this.dir.path!, Product.MANIFEST_FILENAME) : undefined)
         this._state = ProductState.UNLOADED
         this._session = session
     }
@@ -125,6 +129,36 @@ export class Product implements IProduct {
      */
     get isReady() {
         return this.state >= ProductState.READY
+    }
+
+    /**
+     * 
+     */
+    get apps() {
+        return this._apps
+    }
+
+    /**
+     * 
+     * @param target 
+     */
+    async app(target: Target) {
+        let app = this.apps?.get(target)
+
+        // Looks like it's already loaded
+        if (app) return app
+
+        // Load the app
+        app = await new App(this, target).load()
+
+        if (!app) return undefined
+
+        // Keep track of it in memory
+        this._apps = this._apps || new Map<Target, IApp>();
+        this._apps.set(target, app)
+
+        // Give the caller what they need
+        return app
     }
 
     /**

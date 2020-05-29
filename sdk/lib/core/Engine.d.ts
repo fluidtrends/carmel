@@ -61,7 +61,7 @@ export declare class Engine implements IEngine {
     /**
      * Ends the current Engine {@linkcode Session} and clean up if necessary.
      */
-    stop(): Promise<void | undefined>;
+    stop(): Promise<void>;
     /**
      * Executes a single {@linkcode ICommand}.
      *
@@ -80,5 +80,5 @@ export declare class Engine implements IEngine {
      * @param args The {@linkcode CommandArgs} to pass to this command
      * @param onlyOnce Whether we want to allow the Engine to process further commands or not
      */
-    static run(command: ICommand, args?: CommandArg[], onlyOnce?: boolean): Promise<any>;
+    static run(command?: ICommand, args?: CommandArg[], onlyOnce?: boolean): Promise<any>;
 }

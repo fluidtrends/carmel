@@ -132,6 +132,16 @@ var Command = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Command.prototype, "requiresApp", {
+        /**
+         *
+         */
+        get: function () {
+            return this.props.requiresApp !== undefined && this.props.requiresApp;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Object.defineProperty(Command.prototype, "product", {
         /**
          *
@@ -158,6 +168,16 @@ var Command = /** @class */ (function () {
          */
         get: function () {
             return this._args;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Command.prototype, "app", {
+        /**
+         *
+         */
+        get: function () {
+            return this._app;
         },
         enumerable: false,
         configurable: true
@@ -205,6 +225,10 @@ var Command = /** @class */ (function () {
             // If we require a script let's make sure the stack has it
             throw __1.Errors.CommandCannotExecute(this.id, __1.Strings.StackTargetScriptIsMissingString(this.target, this.id));
         }
+        if (this.requiresApp && !this.app) {
+            // If we require an app let's make sure the product has it
+            throw __1.Errors.CommandCannotExecute(this.id, __1.Strings.ProductAppIsMissingString(this.target));
+        }
     };
     /** @internal */
     Command.prototype._validateTypeRequirements = function () {
@@ -214,6 +238,38 @@ var Command = /** @class */ (function () {
                 break;
         }
     };
+    /** @internal */
+    Command.prototype._resolve = function () {
+        var _a, _b, _c, _d;
+        return __awaiter(this, void 0, void 0, function () {
+            var _e, _f, _g;
+            return __generator(this, function (_h) {
+                switch (_h.label) {
+                    case 0:
+                        _e = this;
+                        return [4 /*yield*/, ((_a = this.session) === null || _a === void 0 ? void 0 : _a.resolveProduct(this.target))];
+                    case 1:
+                        _e._product = _h.sent();
+                        _f = this.type;
+                        switch (_f) {
+                            case __1.CommandType.PRODUCT: return [3 /*break*/, 2];
+                        }
+                        return [3 /*break*/, 5];
+                    case 2: return [4 /*yield*/, ((_b = this._product) === null || _b === void 0 ? void 0 : _b.load())];
+                    case 3:
+                        _h.sent();
+                        // this._app = await this.product?.app(this.target)
+                        _g = this;
+                        return [4 /*yield*/, ((_d = (_c = this.product) === null || _c === void 0 ? void 0 : _c.stack) === null || _d === void 0 ? void 0 : _d.findTargetScript(this.target, this.id))];
+                    case 4:
+                        // this._app = await this.product?.app(this.target)
+                        _g._script = _h.sent();
+                        return [3 /*break*/, 5];
+                    case 5: return [2 /*return*/];
+                }
+            });
+        });
+    };
     /**
      * Run a command in the given session, this usually gets invoked by
      * the {@linkcode Engine}
@@ -222,30 +278,22 @@ var Command = /** @class */ (function () {
      * @param args The {@linkcode CommandArg} args used to execute this command, if any
      */
     Command.prototype.run = function (session, args) {
-        var _a, _b;
         return __awaiter(this, void 0, void 0, function () {
-            var _c, _d, result;
-            return __generator(this, function (_e) {
-                switch (_e.label) {
+            var result;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0:
                         // Keep track of the arguments
                         this._args = args;
                         // Keep track of the session too
                         this._session = session;
                         // Look for a product, if any
-                        _c = this;
-                        return [4 /*yield*/, session.resolveProduct()
-                            // Load up the script, if any
+                        return [4 /*yield*/, this._resolve()
+                            // First, make sure the passed args (if any) are valid
                         ];
                     case 1:
                         // Look for a product, if any
-                        _c._product = _e.sent();
-                        // Load up the script, if any
-                        _d = this;
-                        return [4 /*yield*/, ((_b = (_a = this.product) === null || _a === void 0 ? void 0 : _a.stack) === null || _b === void 0 ? void 0 : _b.findTargetScript(this.target, this.id))];
-                    case 2:
-                        // Load up the script, if any
-                        _d._script = _e.sent();
+                        _a.sent();
                         // First, make sure the passed args (if any) are valid
                         this._validateArgs(args);
                         // Check that all requirements for this command type are met
@@ -253,8 +301,8 @@ var Command = /** @class */ (function () {
                         return [4 /*yield*/, this.exec()
                             // Send back the result, if any
                         ];
-                    case 3:
-                        result = _e.sent();
+                    case 2:
+                        result = _a.sent();
                         // Send back the result, if any
                         return [2 /*return*/, result];
                 }

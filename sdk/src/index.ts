@@ -7,6 +7,7 @@ export * from './core/Template'
 export * from './core/Product'
 export * from './core/Session'
 export * from './core/Engine'
+export * from './core/App'
 
 export * from './system/File'
 export * from './system/Dir'
@@ -17,5 +18,4 @@ export * from './system/Script'
 
 export * as Errors from './errors'    
 export * as Strings from './strings'    
-export * as Globals from './globals'    
 export * as Commands from './commands'

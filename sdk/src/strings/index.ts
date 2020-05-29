@@ -14,6 +14,9 @@ export const ArgumentIsMissingString = (arg: string) => `the ${arg} argument is 
 export const SessionIsMissingString = () => `the session is missing`
 
 /** @category Strings */
+export const CommandIsMissingString = () => `the command is missing`
+
+/** @category Strings */
 export const ProductIsMissingString = () => `the product is missing`
 
 /** @category Strings */
@@ -26,13 +29,10 @@ export const TargetNotSupportedString = (target: string) => `the target is not s
 export const StackTargetScriptIsMissingString = (target: string, name: string) => `the required ${target}/${name} stack script is missing`
 
 /** @category Strings */
+export const ProductAppIsMissingString = (target: string) => `the required product ${target} app is missing`
+
+/** @category Strings */
 export const ProductIsNotReadyString = () => `the product is not ready yet`
-
-/** @category Strings */
-export const WorkspaceIsMissingString = () => `the workspace is missing`
-
-/** @category Strings */
-export const CommandIsMissingString = () => `the command is missing`
 
 /** @category Strings */
 export const CommandDoesNotExistString = (name: string) => `the ${name} command does not exist`;

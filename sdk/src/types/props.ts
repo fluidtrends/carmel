@@ -18,6 +18,7 @@ export interface CommandProps extends Props {
     readonly title?: string;
     readonly requiresFreshIndex?: boolean;
     readonly requiresScript?: boolean;
+    readonly requiresApp?: boolean;
     readonly type?: CommandType;
 }
 

@@ -10,6 +10,7 @@ const props: CommandProps = {
   id: "start",
   type: CommandType.PRODUCT,
   requiresScript: true,
+  requiresApp: true,
   title: "Starting a new Carmel Product"
 }
 

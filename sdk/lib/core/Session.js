@@ -57,7 +57,7 @@ var Session = /** @class */ (function () {
     function Session(props) {
         this._props = props;
         this._logger = new __1.Logger(this.props);
-        this._index = new dodi_1.Index(Object.assign({}, { sections: __1.Globals.DEFAULT_SECTIONS }, this.props, { name: 'carmel' }));
+        this._index = new dodi_1.Index(Object.assign({}, { sections: Session.DEFAULT_SECTIONS.map(function (id) { return ({ id: id }); }) }, this.props, { name: 'carmel' }));
         this._state = __1.SessionState.UNINITIALIZED;
     }
     Object.defineProperty(Session.prototype, "props", {
@@ -209,7 +209,7 @@ var Session = /** @class */ (function () {
     Session.prototype.findBundle = function (id, version, install) {
         if (install === void 0) { install = true; }
         return __awaiter(this, void 0, void 0, function () {
-            var archive, _a, bundle;
+            var args, archive, _a, bundle;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: 
@@ -222,12 +222,13 @@ var Session = /** @class */ (function () {
                             // Looks like something's missing here, we need the bundles section
                             return [2 /*return*/];
                         }
+                        args = Object.assign({}, { id: id }, version && { version: version });
                         if (!install) return [3 /*break*/, 3];
-                        return [4 /*yield*/, this.index.sections.bundles.installArchive({ id: id, version: version })];
+                        return [4 /*yield*/, this.index.sections.bundles.installArchive(args)];
                     case 2:
                         _a = _b.sent();
                         return [3 /*break*/, 5];
-                    case 3: return [4 /*yield*/, this.index.sections.bundles.findArchive({ id: id, version: version })];
+                    case 3: return [4 /*yield*/, this.index.sections.bundles.findArchive(args)];
                     case 4:
                         _a = _b.sent();
                         _b.label = 5;
@@ -266,16 +267,16 @@ var Session = /** @class */ (function () {
                         // Make sure we're ready
                         _b.sent();
                         bundleVersion = undefined;
-                        bundleId = __1.Globals.DEFAULT_BUNDLE_ID;
+                        bundleId = Session.DEFAULT_BUNDLES[0];
                         artifactName = id;
-                        info = ((_a = id.match(/(.*)\/(.*)\/(.*)$/)) === null || _a === void 0 ? void 0 : _a.slice(1, 4)) || id;
-                        if (info.length === 3) {
+                        info = (_a = id.match(/(.*)\/(.*)\/(.*)$/)) === null || _a === void 0 ? void 0 : _a.slice(1, 4);
+                        if (info && info.length === 3) {
                             // This is is a fully resolved artifact id
                             bundleId = info[0];
                             bundleVersion = info[1];
                             artifactName = info[2];
                         }
-                        else if (info.length === 2) {
+                        else if (info && info.length === 2) {
                             // This requires the latest version (no version specified)
                             bundleId = info[0];
                             artifactName = info[1];
@@ -336,11 +337,10 @@ var Session = /** @class */ (function () {
      *
      * @param productId
      */
-    Session.prototype.resolveProduct = function () {
-        var _a;
+    Session.prototype.resolveProduct = function (target) {
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0: 
                     // Make sure we're ready
                     return [4 /*yield*/, this.makeReady()
@@ -348,11 +348,11 @@ var Session = /** @class */ (function () {
                     ];
                     case 1:
                         // Make sure we're ready
-                        _b.sent();
+                        _a.sent();
                         // Let's build it up
                         this._product = new __1.Product(this);
-                        // Send it back all loaded up, if found
-                        return [2 /*return*/, (_a = this.product) === null || _a === void 0 ? void 0 : _a.load()];
+                        // Send it back if found
+                        return [2 /*return*/, this.product];
                 }
             });
         });
@@ -395,6 +395,10 @@ var Session = /** @class */ (function () {
             });
         });
     };
+    /** Start with these sections - always */
+    Session.DEFAULT_SECTIONS = ["bundles"];
+    /** Use these as mandatory bundles */
+    Session.DEFAULT_BUNDLES = ["@fluidtrends/bananas"];
     return Session;
 }());
 exports.Session = Session;
