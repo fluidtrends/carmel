@@ -88,11 +88,12 @@ export class Engine implements IEngine {
      */
     public async newSession(props?: SessionProps) {
         // Make sure we do have props, even if only defaults
-        props = props || { 
+        props = Object.assign({}, { 
             cwd: process.cwd(),
             name: "carmel",
             dir: process.env.CARMEL_USER_HOME
-        }
+        }, props)
+        
 
         // This engine is not started yet, let's begin by assigning a new Session
         this._session = new Session(props)

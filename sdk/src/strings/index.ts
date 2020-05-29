@@ -47,4 +47,10 @@ export const CommandCannotExecuteString = (name: string, reason: string) => `the
 export const PluginCannotLoadString = (name: string, reason: string) => `the ${name} plugin cannot load because ${reason}`;
 
 /** @category Strings */
+export const ProductCannotLoadString = (reason: string) => `the product cannot load because ${reason}`;
+
+/** @category Strings */
+export const StackIsMissingString = (name: string) => `the ${name} stack is missing`;
+
+/** @category Strings */
 export const StackCannotLoadString = (name: string, reason: string) => `the ${name} stack cannot load because ${reason}`;

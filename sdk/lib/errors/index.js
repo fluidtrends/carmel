@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.StackCannotLoad = exports.PluginCannotLoad = exports.CommandCannotExecute = exports.CommandAlreadyExists = exports.CommandDoesNotExist = exports.CommandIsMissing = exports.SessionIsMissing = exports.ProductAlreadyExists = exports.ArgumentIsMissing = exports.DirDoesNotExist = exports.FileCouldNotBeLoaded = exports.FileDoesNotExist = void 0;
+exports.StackCannotLoad = exports.ProductCannotLoad = exports.PluginCannotLoad = exports.CommandCannotExecute = exports.CommandAlreadyExists = exports.CommandDoesNotExist = exports.CommandIsMissing = exports.SessionIsMissing = exports.ProductAlreadyExists = exports.ArgumentIsMissing = exports.DirDoesNotExist = exports.FileCouldNotBeLoaded = exports.FileDoesNotExist = void 0;
 var __1 = require("..");
 /** @category Errors */
 exports.FileDoesNotExist = function (file) { return new Error(__1.Strings.FileDoesNotExistString(file)); };
@@ -24,6 +24,8 @@ exports.CommandAlreadyExists = function (name) { return new Error(__1.Strings.Co
 exports.CommandCannotExecute = function (name, reason) { return new Error(__1.Strings.CommandCannotExecuteString(name, reason)); };
 /** @category Errors */
 exports.PluginCannotLoad = function (name, reason) { return new Error(__1.Strings.PluginCannotLoadString(name, reason)); };
+/** @category Errors */
+exports.ProductCannotLoad = function (reason) { return new Error(__1.Strings.ProductCannotLoadString(reason)); };
 /** @category Errors */
 exports.StackCannotLoad = function (name, reason) { return new Error(__1.Strings.StackCannotLoadString(name, reason)); };
 //# sourceMappingURL=index.js.map

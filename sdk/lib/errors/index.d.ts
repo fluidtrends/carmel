@@ -21,4 +21,6 @@ export declare const CommandCannotExecute: (name: string, reason: string) => Err
 /** @category Errors */
 export declare const PluginCannotLoad: (name: string, reason: string) => Error;
 /** @category Errors */
+export declare const ProductCannotLoad: (reason: string) => Error;
+/** @category Errors */
 export declare const StackCannotLoad: (name: string, reason: string) => Error;

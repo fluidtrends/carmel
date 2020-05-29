@@ -27,7 +27,8 @@ add('should make sure it expects no required args', (context: Context, done: Com
 
 add('should not start without a valid product', (context: Context, done: Completion) => {
   const cmd = new Commands.Start()
- 
+  process.env.CARMEL_USER_HOME = context.dir
+
   savor.promiseShouldFail(Engine.run(cmd), done, (error) => {
     Engine.instance.stop()
     context.expect(error.message).to.equal(Strings.CommandCannotExecuteString("start", Strings.ProductIsMissingString()))
@@ -39,7 +40,8 @@ add('should not start a new product with a missing bundle', (context: Context, d
     const stub = context.stub(Section.prototype, 'installArchive').callsFake(() => { throw new TypeError('oh oh') })
 
     savor.addAsset('assets/.carmel-badstack.json', '.carmel.json', context)
-  
+    process.env.CARMEL_USER_HOME = context.dir
+
     savor.promiseShouldFail(Engine.run(cmd), done, (error) => {
       stub.restore()
       Engine.instance.stop()
@@ -50,12 +52,14 @@ add('should not start a new product with a missing bundle', (context: Context, d
 add('should not start a new product with a missing stack in the bundle', (context: Context, done: Completion) => {
   const cmd = new Commands.Start()
   
+  process.env.CARMEL_USER_HOME = context.dir
+
   savor.addAsset('assets/.carmel.json', '.carmel.json', context)
-  savor.addAsset("assets/bundles/test", ".carmel/bundles/testbundle/1/oops", context)
+  savor.addAsset("assets/dirs/one", ".carmel/bundles/testbundle/1/testbundle", context)
 
   savor.promiseShouldFail(Engine.run(cmd), done, (error) => {
     Engine.instance.stop()
-    context.expect(error.message).to.equal(Strings.CommandCannotExecuteString("start", Strings.ProductIsNotReadyString()))
+    context.expect(error.message).to.equal(Strings.ProductCannotLoadString(Strings.StackIsMissingString("testbundle/1/teststack")))    
   })
 }).
 

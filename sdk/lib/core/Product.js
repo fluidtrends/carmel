@@ -251,7 +251,7 @@ var Product = /** @class */ (function () {
                         if (!this.stack) {
                             // Not quiet yet
                             this.changeState(__1.ProductState.UNLOADED);
-                            return [2 /*return*/, this];
+                            throw __1.Errors.ProductCannotLoad(__1.Strings.StackIsMissingString(stackId));
                         }
                         // Excellent, tell everyone we're ready for action
                         this.changeState(__1.ProductState.READY);
