@@ -223,7 +223,6 @@ var Session = /** @class */ (function () {
                             return [2 /*return*/, undefined];
                         }
                         args = Object.assign({}, { id: id }, version && { version: version });
-                        console.log("installlling", args);
                         if (!install) return [3 /*break*/, 3];
                         return [4 /*yield*/, this.index.sections.bundles.installArchive(args)];
                     case 2:
