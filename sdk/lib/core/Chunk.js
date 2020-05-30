@@ -36,59 +36,58 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.App = void 0;
+exports.Chunk = void 0;
 /**
  *
- * {@link https://github.com/fluidtrends/carmel/blob/master/sdk/src/App.ts | Source Code } |
- * {@link https://codeclimate.com/github/fluidtrends/carmel/sdk/src/App.ts/source | Code Quality} |
- * {@link https://codeclimate.com/github/fluidtrends/carmel/sdk/src/App.ts/stats | Code Stats}
+ * {@link https://github.com/fluidtrends/carmel/blob/master/sdk/src/Chunk.ts | Source Code } |
+ * {@link https://codeclimate.com/github/fluidtrends/carmel/sdk/src/Chunk.ts/source | Code Quality} |
+ * {@link https://codeclimate.com/github/fluidtrends/carmel/sdk/src/Chunk.ts/stats | Code Stats}
  *
  * @category Core
  */
-var App = /** @class */ (function () {
+var Chunk = /** @class */ (function () {
     /**
      *
      * @param product
      * @param target
      */
-    function App(snapshot, target) {
-        var _a;
+    function Chunk(snapshot, name) {
+        var _a, _b;
+        this._name = name;
         this._snapshot = snapshot;
-        this._target = target;
-        this._dir = (_a = this.snapshot.dir) === null || _a === void 0 ? void 0 : _a.dir(this.target);
+        this._dir = (_b = (_a = this.snapshot.dir) === null || _a === void 0 ? void 0 : _a.dir('chunks')) === null || _b === void 0 ? void 0 : _b.dir(this.name);
     }
-    Object.defineProperty(App.prototype, "target", {
+    Object.defineProperty(Chunk.prototype, "name", {
         /**
          *
          */
         get: function () {
-            return this._target;
+            return this._name;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(App.prototype, "snapshot", {
+    Object.defineProperty(Chunk.prototype, "snapshot", {
         /**
-         *
-         */
+        *
+        */
         get: function () {
             return this._snapshot;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(App.prototype, "exists", {
+    Object.defineProperty(Chunk.prototype, "exists", {
         /**
          *
          */
         get: function () {
-            var _a;
-            return this.dir !== undefined && ((_a = this.dir) === null || _a === void 0 ? void 0 : _a.exists);
+            return this.dir !== undefined && this.dir.exists;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(App.prototype, "dir", {
+    Object.defineProperty(Chunk.prototype, "dir", {
         /**
          *
          */
@@ -98,17 +97,32 @@ var App = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Chunk.prototype, "srcDir", {
+        /**
+         *
+         */
+        get: function () {
+            return this._srcDir;
+        },
+        enumerable: false,
+        configurable: true
+    });
     /**
      *
      */
-    App.prototype.load = function () {
+    Chunk.prototype.load = function () {
+        var _a, _b, _c;
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/, this];
+            return __generator(this, function (_d) {
+                if ((_a = this.dir) === null || _a === void 0 ? void 0 : _a.exists)
+                    return [2 /*return*/, this];
+                this._srcDir = (_b = this.snapshot.product.dir.dir('chunks')) === null || _b === void 0 ? void 0 : _b.dir(this.name);
+                (_c = this.dir) === null || _c === void 0 ? void 0 : _c.link(this.srcDir);
+                return [2 /*return*/, this.exists ? this : undefined];
             });
         });
     };
-    return App;
+    return Chunk;
 }());
-exports.App = App;
-//# sourceMappingURL=App.js.map
+exports.Chunk = Chunk;
+//# sourceMappingURL=Chunk.js.map

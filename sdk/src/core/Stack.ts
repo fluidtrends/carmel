@@ -59,7 +59,7 @@ export class Stack implements IStack {
 
         // Cool, let's build ourselves a script now
         const script = new Script(this, target, name)
-
+        
         // Boom, load it up and get on with it  
         return script.load()
     }

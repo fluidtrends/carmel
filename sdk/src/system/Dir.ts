@@ -35,6 +35,20 @@ export class Dir implements IDir {
         return this.exists ? new File(path.resolve(this.path!, filepath)) : undefined
     }
 
+    make() {
+        this.exists || (this.path && fs.mkdirsSync(this.path!))
+        return this.exists ? this : undefined
+    }
+
+    link(dir?: IDir) {
+        if (this.exists) return this
+        if (!this.path || !dir || !dir.exists) return undefined
+        
+        fs.symlinkSync(dir.path!, this.path, 'dir')
+        
+        return this.exists ? this : undefined
+    }
+
     get dirs() {
         if (!this.exists) {
             return []

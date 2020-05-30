@@ -240,32 +240,32 @@ var Command = /** @class */ (function () {
     };
     /** @internal */
     Command.prototype._resolve = function () {
-        var _a, _b, _c, _d, _e;
+        var _a, _b, _c, _d, _e, _f;
         return __awaiter(this, void 0, void 0, function () {
-            var _f, _g, _h, _j;
-            return __generator(this, function (_k) {
-                switch (_k.label) {
+            var _g, _h, _j, _k;
+            return __generator(this, function (_l) {
+                switch (_l.label) {
                     case 0:
-                        _f = this;
+                        _g = this;
                         return [4 /*yield*/, ((_a = this.session) === null || _a === void 0 ? void 0 : _a.resolveProduct(this.target))];
                     case 1:
-                        _f._product = _k.sent();
-                        _g = this.type;
-                        switch (_g) {
+                        _g._product = _l.sent();
+                        _h = this.type;
+                        switch (_h) {
                             case __1.CommandType.PRODUCT: return [3 /*break*/, 2];
                         }
                         return [3 /*break*/, 6];
                     case 2: return [4 /*yield*/, ((_b = this._product) === null || _b === void 0 ? void 0 : _b.load())];
                     case 3:
-                        _k.sent();
-                        _h = this;
-                        return [4 /*yield*/, ((_c = this.product) === null || _c === void 0 ? void 0 : _c.app(this.target))];
-                    case 4:
-                        _h._app = _k.sent();
+                        _l.sent();
                         _j = this;
-                        return [4 /*yield*/, ((_e = (_d = this.product) === null || _d === void 0 ? void 0 : _d.stack) === null || _e === void 0 ? void 0 : _e.findTargetScript(this.target, this.id))];
+                        return [4 /*yield*/, ((_d = (_c = this.product) === null || _c === void 0 ? void 0 : _c.snapshot) === null || _d === void 0 ? void 0 : _d.app(this.target))];
+                    case 4:
+                        _j._app = _l.sent();
+                        _k = this;
+                        return [4 /*yield*/, ((_f = (_e = this.product) === null || _e === void 0 ? void 0 : _e.stack) === null || _f === void 0 ? void 0 : _f.findTargetScript(this.target, this.id))];
                     case 5:
-                        _j._script = _k.sent();
+                        _k._script = _l.sent();
                         return [3 /*break*/, 6];
                     case 6: return [2 /*return*/];
                 }

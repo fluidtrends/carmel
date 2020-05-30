@@ -35,6 +35,9 @@ export const ProductAppIsMissingString = (target: string) => `the required produ
 export const ProductIsNotReadyString = () => `the product is not ready yet`
 
 /** @category Strings */
+export const ChunksAreMissingString = () => `the product does not have any chunks`
+
+/** @category Strings */
 export const CommandDoesNotExistString = (name: string) => `the ${name} command does not exist`;
 
 /** @category Strings */
@@ -48,6 +51,9 @@ export const PluginCannotLoadString = (name: string, reason: string) => `the ${n
 
 /** @category Strings */
 export const ProductCannotLoadString = (reason: string) => `the product cannot load because ${reason}`;
+
+/** @category Strings */
+export const CannotTakeSnapshotString = (reason?: string) => `a product snapshot could not be taken${reason && ' because ' + reason}`;
 
 /** @category Strings */
 export const StackIsMissingString = (name: string) => `the ${name} stack is missing`;

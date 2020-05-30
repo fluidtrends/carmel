@@ -152,6 +152,16 @@ var Product = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Product.prototype, "snapshot", {
+        /**
+         *
+         */
+        get: function () {
+            return this._snapshot;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Object.defineProperty(Product.prototype, "isReady", {
         /**
          *
@@ -162,50 +172,6 @@ var Product = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(Product.prototype, "apps", {
-        /**
-         *
-         */
-        get: function () {
-            return this._apps;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    /**
-     *
-     * @param target
-     */
-    Product.prototype.app = function (target) {
-        var _a;
-        return __awaiter(this, void 0, void 0, function () {
-            var app;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        app = (_a = this.apps) === null || _a === void 0 ? void 0 : _a.get(target);
-                        // Looks like it's already loaded
-                        if (app)
-                            return [2 /*return*/, app
-                                // Load the app
-                            ];
-                        return [4 /*yield*/, new __1.App(this, target).load()];
-                    case 1:
-                        // Load the app
-                        app = _b.sent();
-                        if (!app)
-                            return [2 /*return*/, undefined
-                                // Keep track of it in memory
-                            ];
-                        // Keep track of it in memory
-                        this._apps = this._apps || new Map();
-                        this._apps.set(target, app);
-                        // Give the caller what they need
-                        return [2 /*return*/, app];
-                }
-            });
-        });
-    };
     /**
      * Move the Product into a new {@linkcode ProductState}
      *
@@ -220,9 +186,9 @@ var Product = /** @class */ (function () {
     Product.prototype.load = function () {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var stackId, _b;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
+            var stackId, _b, _c;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
                     case 0:
                         // No need to re-load this again
                         if (this.isLoaded)
@@ -247,13 +213,25 @@ var Product = /** @class */ (function () {
                         return [4 /*yield*/, ((_a = this.session) === null || _a === void 0 ? void 0 : _a.findStack(stackId))];
                     case 1:
                         // There we go, we have a stack too
-                        _b._stack = _c.sent();
+                        _b._stack = _d.sent();
                         if (!this.stack) {
                             // Not quiet yet
                             this.changeState(__1.ProductState.UNLOADED);
                             throw __1.Errors.ProductCannotLoad(__1.Strings.StackIsMissingString(stackId));
                         }
-                        // Excellent, tell everyone we're ready for action
+                        // Take an initial snapshot
+                        _c = this;
+                        return [4 /*yield*/, new __1.Snapshot(this).load()];
+                    case 2:
+                        // Take an initial snapshot
+                        _c._snapshot = _d.sent();
+                        if (!this.snapshot) {
+                            // Not quiet yet
+                            this.changeState(__1.ProductState.UNLOADED);
+                            throw __1.Errors.ProductCannotLoad(__1.Strings.CannotTakeSnapshotString());
+                        }
+                        // Prepare the snapshot if necessary and if all good,
+                        // then tell everyone we're ready for action
                         this.changeState(__1.ProductState.READY);
                         // Let callers access us directly
                         return [2 /*return*/, this];

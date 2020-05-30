@@ -1,4 +1,4 @@
-import { IProduct, Path, IFile, IDir, ProductState, IStack, ISession, IApp, Target } from '..';
+import { IProduct, Path, IFile, IDir, ProductState, IStack, ISession, ISnapshot } from '..';
 /**
  *
  * {@link https://github.com/fluidtrends/carmel/blob/master/sdk/src/Product.ts | Source Code } |
@@ -23,7 +23,7 @@ export declare class Product implements IProduct {
     /** @internal */
     protected _session?: ISession;
     /** @internal */
-    protected _apps?: Map<Target, IApp>;
+    protected _snapshot?: ISnapshot;
     /**
      *
      * @param props
@@ -69,16 +69,11 @@ export declare class Product implements IProduct {
     /**
      *
      */
+    get snapshot(): ISnapshot | undefined;
+    /**
+     *
+     */
     get isReady(): boolean;
-    /**
-     *
-     */
-    get apps(): Map<Target, IApp> | undefined;
-    /**
-     *
-     * @param target
-     */
-    app(target: Target): Promise<IApp | undefined>;
     /**
      * Move the Product into a new {@linkcode ProductState}
      *

@@ -10,5 +10,7 @@ export declare class Dir implements IDir {
     get exists(): boolean;
     dir(dirpath: Path): Dir | undefined;
     file(filepath: Path): File | undefined;
+    make(): this | undefined;
+    link(dir?: IDir): this | undefined;
     get dirs(): string[];
 }

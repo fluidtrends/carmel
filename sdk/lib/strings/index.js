@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.StackCannotLoadString = exports.StackIsMissingString = exports.ProductCannotLoadString = exports.PluginCannotLoadString = exports.CommandCannotExecuteString = exports.CommandAlreadyExistsString = exports.CommandDoesNotExistString = exports.ProductIsNotReadyString = exports.ProductAppIsMissingString = exports.StackTargetScriptIsMissingString = exports.TargetNotSupportedString = exports.ProductAlreadyExistsString = exports.ProductIsMissingString = exports.CommandIsMissingString = exports.SessionIsMissingString = exports.ArgumentIsMissingString = exports.DirDoesNotExistString = exports.FileCouldNotBeLoadedString = exports.FileDoesNotExistString = void 0;
+exports.StackCannotLoadString = exports.StackIsMissingString = exports.CannotTakeSnapshotString = exports.ProductCannotLoadString = exports.PluginCannotLoadString = exports.CommandCannotExecuteString = exports.CommandAlreadyExistsString = exports.CommandDoesNotExistString = exports.ChunksAreMissingString = exports.ProductIsNotReadyString = exports.ProductAppIsMissingString = exports.StackTargetScriptIsMissingString = exports.TargetNotSupportedString = exports.ProductAlreadyExistsString = exports.ProductIsMissingString = exports.CommandIsMissingString = exports.SessionIsMissingString = exports.ArgumentIsMissingString = exports.DirDoesNotExistString = exports.FileCouldNotBeLoadedString = exports.FileDoesNotExistString = void 0;
 /** @category Strings */
 exports.FileDoesNotExistString = function (file) { return "the " + file + " file does not exit"; };
 /** @category Strings */
@@ -26,6 +26,8 @@ exports.ProductAppIsMissingString = function (target) { return "the required pro
 /** @category Strings */
 exports.ProductIsNotReadyString = function () { return "the product is not ready yet"; };
 /** @category Strings */
+exports.ChunksAreMissingString = function () { return "the product does not have any chunks"; };
+/** @category Strings */
 exports.CommandDoesNotExistString = function (name) { return "the " + name + " command does not exist"; };
 /** @category Strings */
 exports.CommandAlreadyExistsString = function (name) { return "the " + name + " command already exists"; };
@@ -35,6 +37,8 @@ exports.CommandCannotExecuteString = function (name, reason) { return "the " + n
 exports.PluginCannotLoadString = function (name, reason) { return "the " + name + " plugin cannot load because " + reason; };
 /** @category Strings */
 exports.ProductCannotLoadString = function (reason) { return "the product cannot load because " + reason; };
+/** @category Strings */
+exports.CannotTakeSnapshotString = function (reason) { return "a product snapshot could not be taken" + (reason && ' because ' + reason); };
 /** @category Strings */
 exports.StackIsMissingString = function (name) { return "the " + name + " stack is missing"; };
 /** @category Strings */

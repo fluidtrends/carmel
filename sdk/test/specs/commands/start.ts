@@ -63,12 +63,28 @@ add('should not start a new product with a missing stack in the bundle', (contex
   })
 }).
 
-add('should not start is the stack does not support the target', (context: Context, done: Completion) => {
+add('should not start without any chunks', (context: Context, done: Completion) => {
   const cmd = new Commands.Start()
 
   process.env.CARMEL_USER_HOME = context.dir
 
   savor.addAsset('assets/.carmel.json', '.carmel.json', context)
+  savor.addAsset("assets/bundles/test", ".carmel/bundles/testbundle/1/testbundle", context)
+  savor.addAsset("assets/target", ".carmel/bundles/testbundle/1/testbundle/stacks/teststack/web", context)
+
+  savor.promiseShouldFail(Engine.run(cmd), done, (error) => {
+    Engine.instance.stop()
+    context.expect(error.message).to.equal(Strings.CannotTakeSnapshotString(Strings.ChunksAreMissingString()))
+  })
+}).
+
+add('should not start if the stack does not support the target', (context: Context, done: Completion) => {
+  const cmd = new Commands.Start()
+
+  process.env.CARMEL_USER_HOME = context.dir
+
+  savor.addAsset('assets/.carmel.json', '.carmel.json', context)
+  savor.addAsset('assets/chunks', 'chunks', context)
   savor.addAsset("assets/bundles/test", ".carmel/bundles/testbundle/1/testbundle", context)
  
   savor.promiseShouldFail(Engine.run(cmd), done, (error) => {
@@ -83,6 +99,7 @@ add('should not start a new product without a required stack script', (context: 
   process.env.CARMEL_USER_HOME = context.dir
 
   savor.addAsset('assets/.carmel.json', '.carmel.json', context)
+  savor.addAsset('assets/chunks', 'chunks', context)
   savor.addAsset("assets/bundles/test", ".carmel/bundles/testbundle/1/testbundle", context)
   savor.addAsset("assets/dirs/one", ".carmel/bundles/testbundle/1/testbundle/stacks/teststack/web", context)
 
@@ -98,6 +115,7 @@ add('should not start with a missing script loader', (context: Context, done: Co
   process.env.CARMEL_USER_HOME = context.dir
 
   savor.addAsset('assets/.carmel.json', '.carmel.json', context)
+  savor.addAsset('assets/chunks', 'chunks', context)
   savor.addAsset("assets/bundles/test", ".carmel/bundles/testbundle/1/testbundle", context)
   savor.addAsset("assets/missingscriptloader", ".carmel/bundles/testbundle/1/testbundle/stacks/teststack/web/start", context)
 
@@ -113,6 +131,7 @@ add('should not start with a bad script loader', (context: Context, done: Comple
   process.env.CARMEL_USER_HOME = context.dir
 
   savor.addAsset('assets/.carmel.json', '.carmel.json', context)
+  savor.addAsset('assets/chunks', 'chunks', context)
   savor.addAsset("assets/bundles/test", ".carmel/bundles/testbundle/1/testbundle", context)
   savor.addAsset("assets/badscript", ".carmel/bundles/testbundle/1/testbundle/stacks/teststack/web/start", context)
 
@@ -128,12 +147,13 @@ add('should not start with a buggy script loader', (context: Context, done: Comp
   process.env.CARMEL_USER_HOME = context.dir
 
   savor.addAsset('assets/.carmel.json', '.carmel.json', context)
+  savor.addAsset('assets/chunks', 'chunks', context)
   savor.addAsset("assets/bundles/test", ".carmel/bundles/testbundle/1/testbundle", context)
   savor.addAsset("assets/buggyscript", ".carmel/bundles/testbundle/1/testbundle/stacks/teststack/web/start", context)
 
   savor.promiseShouldFail(Engine.run(cmd), done, (error) => {
     Engine.instance.stop()
-    context.expect(error.message).to.equal(Strings.CommandCannotExecuteString("start", Strings.ProductAppIsMissingString("web")))
+    context.expect(error.message).to.equal("oops")
   })
 }).
 
@@ -143,7 +163,7 @@ add('should start a new product with a resolved stack, supported target and scri
     process.env.CARMEL_USER_HOME = context.dir
 
     savor.addAsset('assets/.carmel.json', '.carmel.json', context)
-    savor.addAsset("assets/app", "web", context)
+    savor.addAsset('assets/chunks', 'chunks', context)
     savor.addAsset("assets/bundles/test", ".carmel/bundles/testbundle/1/testbundle", context)
     savor.addAsset("assets/target", ".carmel/bundles/testbundle/1/testbundle/stacks/teststack/web", context)
 

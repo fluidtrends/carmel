@@ -23,6 +23,8 @@ export declare const ProductAppIsMissingString: (target: string) => string;
 /** @category Strings */
 export declare const ProductIsNotReadyString: () => string;
 /** @category Strings */
+export declare const ChunksAreMissingString: () => string;
+/** @category Strings */
 export declare const CommandDoesNotExistString: (name: string) => string;
 /** @category Strings */
 export declare const CommandAlreadyExistsString: (name: string) => string;
@@ -32,6 +34,8 @@ export declare const CommandCannotExecuteString: (name: string, reason: string) 
 export declare const PluginCannotLoadString: (name: string, reason: string) => string;
 /** @category Strings */
 export declare const ProductCannotLoadString: (reason: string) => string;
+/** @category Strings */
+export declare const CannotTakeSnapshotString: (reason?: string | undefined) => string;
 /** @category Strings */
 export declare const StackIsMissingString: (name: string) => string;
 /** @category Strings */

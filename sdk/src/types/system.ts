@@ -38,6 +38,8 @@ export interface IDir extends IClass {
     
     dir(dirpath: Path): IDir | undefined;
     file(filepath: Path): IFile | undefined;
+    make(): IDir | undefined;
+    link(dir?: IDir): IDir | undefined;
 }
 
 export interface IScript extends IClass {

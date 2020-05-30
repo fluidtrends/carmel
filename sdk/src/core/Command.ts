@@ -8,6 +8,7 @@ import {
     CommandArg,
     Target,
     Name,
+    IChunk,
     IScript,
     IProduct,
     IApp,
@@ -213,7 +214,7 @@ export abstract class Command implements ICommand {
         switch(this.type) {
             case CommandType.PRODUCT:
             await this._product?.load()
-            this._app = await this.product?.app(this.target)
+            this._app = await this.product?.snapshot?.app(this.target)
             this._script = await this.product?.stack?.findTargetScript(this.target, this.id)
             break;                
         }
