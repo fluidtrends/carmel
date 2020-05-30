@@ -11,7 +11,7 @@ export interface IFile extends IClass {
     readonly path?: Path;
     readonly data: IData;
     readonly exists: boolean;
-    load(): void;
+    load(): UTF8 | JSON;
     save(): void;
     update(data: UTF8 | object): void;
 }

@@ -7,7 +7,7 @@ export type JSON       = any;
 export type Module     = any;
 
 export type CommandArg = {
-    name: string,
+    name: string
     value: any
 }
 

@@ -35,20 +35,17 @@ export class File implements IFile {
         return this.path !== undefined && fs.existsSync(path.resolve(this.path))
     }
 
-    async load() {
-        return new Promise((resolve, reject) => {
-            if (!this.exists) {
-                reject(Errors.FileDoesNotExist(this.path || ""))
-                return
-            }
+    load() {
+        if (!this.exists) {
+            throw Errors.FileDoesNotExist(this.path || "")
+        }
 
-            try {
-                this.data.update(fs.readFileSync(path.resolve(this.path!), 'utf8'))
-                resolve(this.data.isJson ? this.data.json() : this.data.raw)
-            } catch (e) {
-                reject(Errors.FileCouldNotBeLoaded(this.path!, e.message))
-            }
-        })
+        try {
+            this.data.update(fs.readFileSync(path.resolve(this.path!), 'utf8'))
+            return this.data.isJson ? this.data.json() : this.data.raw
+        } catch (e) {
+            throw Errors.FileCouldNotBeLoaded(this.path!, e.message)
+        }
     }
 
     save() {

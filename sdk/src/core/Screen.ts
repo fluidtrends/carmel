@@ -1,6 +1,7 @@
 import { 
     IScreen,
     IChunk,
+    ChunkConfigRoute,
     Name,
     IDir
  } from '..'
@@ -22,24 +23,24 @@ export class Screen implements IScreen {
     protected _dir?: IDir;
 
     /** @internal */
-    protected _name: Name;
+    protected _config: ChunkConfigRoute;
 
     /**
      * 
      * @param chunk 
-     * @param name 
+     * @param config 
      */
-    constructor(chunk: IChunk, name: Name) {
-        this._chunk = chunk;
-        this._name = name;
-        this._dir = chunk.dir?.dir('screens')?.dir(name)
+    constructor(chunk: IChunk, config: ChunkConfigRoute) {
+        this._chunk = chunk
+        this._config = config
+        this._dir = chunk.dir?.dir('screens')?.dir(config.screen)
     }
 
     /**
      * 
      */
-    get name() {
-        return this._name
+    get config() {
+        return this._config
     }
 
     /**

@@ -1,4 +1,4 @@
-import { SessionProps, CommandProps, Path, EngineState, IClass, IBundle, Name, Id, ILogger, ArtifactsKind, IFile, IDir, CommandType, SessionState, Target, Version, ProductState, IScript, CommandArg } from '.';
+import { SessionProps, CommandProps, Path, EngineState, IClass, IBundle, Name, ChunkConfig, Id, ILogger, ArtifactsKind, IFile, IDir, CommandType, SessionState, ChunkConfigRoute, Target, Version, ProductState, IScript, CommandArg } from '.';
 export interface IEngine extends IClass {
     readonly state: EngineState;
     readonly isStarted: boolean;
@@ -107,15 +107,18 @@ export interface IChunk extends IClass {
     readonly name: Name;
     readonly snapshot: ISnapshot;
     readonly exists: boolean;
+    readonly config?: ChunkConfig;
+    readonly manifest?: IFile;
     readonly screens?: Map<Name, IScreen>;
     readonly dir?: IDir;
     readonly srcDir?: IDir;
     load(): Promise<IChunk | undefined>;
+    screen(route: ChunkConfigRoute): Promise<IScreen | undefined>;
 }
 export interface IScreen extends IClass {
-    readonly name: Name;
     readonly chunk: IChunk;
     readonly exists: boolean;
     readonly dir?: IDir;
+    readonly config?: ChunkConfigRoute;
     load(): Promise<IScreen | undefined>;
 }
