@@ -49,20 +49,20 @@ var Screen = /** @class */ (function () {
     /**
      *
      * @param chunk
-     * @param name
+     * @param config
      */
-    function Screen(chunk, name) {
+    function Screen(chunk, config) {
         var _a, _b;
         this._chunk = chunk;
-        this._name = name;
-        this._dir = (_b = (_a = chunk.dir) === null || _a === void 0 ? void 0 : _a.dir('screens')) === null || _b === void 0 ? void 0 : _b.dir(name);
+        this._config = config;
+        this._dir = (_b = (_a = chunk.dir) === null || _a === void 0 ? void 0 : _a.dir('screens')) === null || _b === void 0 ? void 0 : _b.dir(config.screen);
     }
-    Object.defineProperty(Screen.prototype, "name", {
+    Object.defineProperty(Screen.prototype, "config", {
         /**
          *
          */
         get: function () {
-            return this._name;
+            return this._config;
         },
         enumerable: false,
         configurable: true

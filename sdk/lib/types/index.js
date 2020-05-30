@@ -14,4 +14,5 @@ __exportStar(require("./base"), exports);
 __exportStar(require("./props"), exports);
 __exportStar(require("./core"), exports);
 __exportStar(require("./system"), exports);
+__exportStar(require("./config"), exports);
 //# sourceMappingURL=index.js.map

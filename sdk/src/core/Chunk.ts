@@ -3,10 +3,14 @@ import {
     Name,
     IChunk,
     IScreen,
+    IFile,
     Screen,
+    ChunkConfig,
+    ChunkConfigRoute,
     IDir
  } from '..'
 import { Product } from './Product';
+import { copySync } from 'fs-extra';
 
 /**
  * 
@@ -18,8 +22,14 @@ import { Product } from './Product';
  */
 export class Chunk implements IChunk {
 
+    /** The default name of the manifest */   
+    public static MANIFEST_FILENAME = "chunk.json"
+
     /** @internal */
     protected _name: Name;
+
+    /** @internal */
+    protected _manifest?: IFile;
 
     /** @internal */
     protected _snapshot: ISnapshot;
@@ -32,6 +42,9 @@ export class Chunk implements IChunk {
 
     /** @internal */
     protected _screens?: Map<Name, IScreen>;
+
+    /** @internal */
+    protected _config?: ChunkConfig;
 
     /**
      * 
@@ -68,8 +81,22 @@ export class Chunk implements IChunk {
     /**
      * 
      */
+    get config() {
+        return this._config
+    }
+
+    /**
+     * 
+     */
     get exists() {
-        return this.dir !== undefined && this.dir.exists
+        return this.dir !== undefined && this.dir.exists && this.manifest !== undefined && this.manifest.exists
+    }
+
+    /**
+     * 
+     */
+    get manifest() {
+        return this._manifest
     }
 
     /**
@@ -90,40 +117,75 @@ export class Chunk implements IChunk {
      * 
      * @param name 
      */
-    async screen(name: Name) {
-        let screen = this.screens?.get(name)
+    async screen(route: ChunkConfigRoute) {
+        let screen = this.screens?.get(route.screen)
 
         // Looks like it's already loaded
         if (screen) return screen
 
         // Load the screen
-        screen = await new Screen(this, name).load()
+        screen = await new Screen(this, route).load()
 
         if (!screen) return undefined
 
         // Keep track of it in memory
         this._screens = this._screens || new Map<Name, IScreen>();
-        this._screens.set(name, screen)
+        this._screens.set(route.screen, screen)
 
         // Give the caller what they need
         return screen
+    }
+
+    /** @internal */
+    private async _loadConfig() {
+        // Load up the manifest and figure out the config details
+        this.manifest?.load()
+        this._config = this.manifest!.data.json() as ChunkConfig
+
+        // We gotta make sure the config works
+        if (!this.config) return false
+
+        // No routes needed but no error, let's just leave silently
+        if (!this.config.routes || this.config.routes.length === 0) return true
+
+        // Let's see the screen names we've got available
+        const screenNames = this.dir?.dir('screens')?.dirs
+
+        // This is problematic because we have routes we need to satisfy
+        if (!screenNames || screenNames.length === 0) return false
+
+        await Promise.all(this.config.routes.map(async r => {
+            // Check if the screen is specified in this route and if it's available
+            const route = r as ChunkConfigRoute
+            if (!route || !route.screen || !screenNames.includes(route!.screen)) return
+
+            // Alright, we've got a valid route so let's build the screen
+            await this.screen(route) 
+        }))
+
+        return true
     }
 
     /**
      * 
      */
     async load() {
+        // Look up the source location
         this._srcDir = this.snapshot.product.dir.dir('chunks')?.dir(this.name)
+
+        // Link it up here
         this.dir?.link(this.srcDir)
 
+        // Let's see if we have a manifest
+        this._manifest = this.dir?.file(Chunk.MANIFEST_FILENAME)
+
+        // This is not good
         if (!this.exists) return undefined
 
-         // Look for screens
-        await Promise.all(this.dir?.dir('screens')?.dirs.map(async name => await this.screen(name)) || []) 
+        // Look for the config
+        if (!await this._loadConfig()) return undefined
 
-        // No screens, nothing else needed for us to do
-        if (!this.screens) return this
-
+        // Looks like we're ready to go
         return this
     }
 }

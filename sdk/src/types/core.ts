@@ -6,6 +6,7 @@ import {
     IClass,
     IBundle,
     Name,
+    ChunkConfig,
     Id,
     ILogger,
     ArtifactsKind,
@@ -13,6 +14,7 @@ import {
     IDir,
     CommandType,
     SessionState,
+    ChunkConfigRoute,
     Target,
     Version,
     ProductState,
@@ -146,18 +148,22 @@ export interface IChunk extends IClass {
     readonly name: Name;
     readonly snapshot: ISnapshot;
     readonly exists: boolean;
+    readonly config?: ChunkConfig;
+    readonly manifest?: IFile;
     readonly screens?: Map<Name, IScreen>;
     readonly dir?: IDir;
     readonly srcDir?: IDir;
     
     load(): Promise<IChunk | undefined>;
+    screen(route: ChunkConfigRoute): Promise<IScreen | undefined>;
+
 }
 
 export interface IScreen extends IClass {
-    readonly name: Name;
     readonly chunk: IChunk;
     readonly exists: boolean;
     readonly dir?: IDir;
+    readonly config?: ChunkConfigRoute;
     
     load(): Promise<IScreen | undefined>;
 }

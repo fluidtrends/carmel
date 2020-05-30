@@ -88,12 +88,32 @@ var Chunk = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Chunk.prototype, "config", {
+        /**
+         *
+         */
+        get: function () {
+            return this._config;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Object.defineProperty(Chunk.prototype, "exists", {
         /**
          *
          */
         get: function () {
-            return this.dir !== undefined && this.dir.exists;
+            return this.dir !== undefined && this.dir.exists && this.manifest !== undefined && this.manifest.exists;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Chunk.prototype, "manifest", {
+        /**
+         *
+         */
+        get: function () {
+            return this._manifest;
         },
         enumerable: false,
         configurable: true
@@ -122,20 +142,20 @@ var Chunk = /** @class */ (function () {
      *
      * @param name
      */
-    Chunk.prototype.screen = function (name) {
+    Chunk.prototype.screen = function (route) {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
             var screen;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        screen = (_a = this.screens) === null || _a === void 0 ? void 0 : _a.get(name);
+                        screen = (_a = this.screens) === null || _a === void 0 ? void 0 : _a.get(route.screen);
                         // Looks like it's already loaded
                         if (screen)
                             return [2 /*return*/, screen
                                 // Load the screen
                             ];
-                        return [4 /*yield*/, new __1.Screen(this, name).load()];
+                        return [4 /*yield*/, new __1.Screen(this, route).load()];
                     case 1:
                         // Load the screen
                         screen = _b.sent();
@@ -145,9 +165,59 @@ var Chunk = /** @class */ (function () {
                             ];
                         // Keep track of it in memory
                         this._screens = this._screens || new Map();
-                        this._screens.set(name, screen);
+                        this._screens.set(route.screen, screen);
                         // Give the caller what they need
                         return [2 /*return*/, screen];
+                }
+            });
+        });
+    };
+    /** @internal */
+    Chunk.prototype._loadConfig = function () {
+        var _a, _b, _c;
+        return __awaiter(this, void 0, void 0, function () {
+            var screenNames;
+            var _this = this;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
+                    case 0:
+                        // Load up the manifest and figure out the config details
+                        (_a = this.manifest) === null || _a === void 0 ? void 0 : _a.load();
+                        this._config = this.manifest.data.json();
+                        // We gotta make sure the config works
+                        if (!this.config)
+                            return [2 /*return*/, false
+                                // No routes needed but no error, let's just leave silently
+                            ];
+                        // No routes needed but no error, let's just leave silently
+                        if (!this.config.routes || this.config.routes.length === 0)
+                            return [2 /*return*/, true
+                                // Let's see the screen names we've got available
+                            ];
+                        screenNames = (_c = (_b = this.dir) === null || _b === void 0 ? void 0 : _b.dir('screens')) === null || _c === void 0 ? void 0 : _c.dirs;
+                        // This is problematic because we have routes we need to satisfy
+                        if (!screenNames || screenNames.length === 0)
+                            return [2 /*return*/, false];
+                        return [4 /*yield*/, Promise.all(this.config.routes.map(function (r) { return __awaiter(_this, void 0, void 0, function () {
+                                var route;
+                                return __generator(this, function (_a) {
+                                    switch (_a.label) {
+                                        case 0:
+                                            route = r;
+                                            if (!route || !route.screen || !screenNames.includes(route.screen))
+                                                return [2 /*return*/];
+                                            // Alright, we've got a valid route so let's build the screen
+                                            return [4 /*yield*/, this.screen(route)];
+                                        case 1:
+                                            // Alright, we've got a valid route so let's build the screen
+                                            _a.sent();
+                                            return [2 /*return*/];
+                                    }
+                                });
+                            }); }))];
+                    case 1:
+                        _d.sent();
+                        return [2 /*return*/, true];
                 }
             });
         });
@@ -156,38 +226,37 @@ var Chunk = /** @class */ (function () {
      *
      */
     Chunk.prototype.load = function () {
-        var _a, _b, _c, _d;
+        var _a, _b, _c;
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            return __generator(this, function (_e) {
-                switch (_e.label) {
+            return __generator(this, function (_d) {
+                switch (_d.label) {
                     case 0:
+                        // Look up the source location
                         this._srcDir = (_a = this.snapshot.product.dir.dir('chunks')) === null || _a === void 0 ? void 0 : _a.dir(this.name);
+                        // Link it up here
                         (_b = this.dir) === null || _b === void 0 ? void 0 : _b.link(this.srcDir);
+                        // Let's see if we have a manifest
+                        this._manifest = (_c = this.dir) === null || _c === void 0 ? void 0 : _c.file(Chunk.MANIFEST_FILENAME);
+                        // This is not good
                         if (!this.exists)
                             return [2 /*return*/, undefined
-                                // Look for screens
+                                // Look for the config
                             ];
-                        // Look for screens
-                        return [4 /*yield*/, Promise.all(((_d = (_c = this.dir) === null || _c === void 0 ? void 0 : _c.dir('screens')) === null || _d === void 0 ? void 0 : _d.dirs.map(function (name) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-                                switch (_a.label) {
-                                    case 0: return [4 /*yield*/, this.screen(name)];
-                                    case 1: return [2 /*return*/, _a.sent()];
-                                }
-                            }); }); })) || [])
-                            // No screens, nothing else needed for us to do
-                        ];
+                        return [4 /*yield*/, this._loadConfig()];
                     case 1:
-                        // Look for screens
-                        _e.sent();
-                        // No screens, nothing else needed for us to do
-                        if (!this.screens)
-                            return [2 /*return*/, this];
+                        // Look for the config
+                        if (!(_d.sent()))
+                            return [2 /*return*/, undefined
+                                // Looks like we're ready to go
+                            ];
+                        // Looks like we're ready to go
                         return [2 /*return*/, this];
                 }
             });
         });
     };
+    /** The default name of the manifest */
+    Chunk.MANIFEST_FILENAME = "chunk.json";
     return Chunk;
 }());
 exports.Chunk = Chunk;

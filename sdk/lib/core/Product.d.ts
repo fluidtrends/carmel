@@ -102,7 +102,7 @@ export declare class Product implements IProduct {
      *
      * @param path
      */
-    loadFile(path: Path): Promise<unknown>;
+    loadFile(path: Path): Promise<any>;
     /**
      *
      * @param dirpath

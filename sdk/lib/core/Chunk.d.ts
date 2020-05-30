@@ -1,4 +1,4 @@
-import { ISnapshot, Name, IChunk, IScreen, IDir } from '..';
+import { ISnapshot, Name, IChunk, IScreen, IFile, ChunkConfig, ChunkConfigRoute, IDir } from '..';
 /**
  *
  * {@link https://github.com/fluidtrends/carmel/blob/master/sdk/src/Chunk.ts | Source Code } |
@@ -8,8 +8,12 @@ import { ISnapshot, Name, IChunk, IScreen, IDir } from '..';
  * @category Core
  */
 export declare class Chunk implements IChunk {
+    /** The default name of the manifest */
+    static MANIFEST_FILENAME: string;
     /** @internal */
     protected _name: Name;
+    /** @internal */
+    protected _manifest?: IFile;
     /** @internal */
     protected _snapshot: ISnapshot;
     /** @internal */
@@ -18,6 +22,8 @@ export declare class Chunk implements IChunk {
     protected _srcDir?: IDir;
     /** @internal */
     protected _screens?: Map<Name, IScreen>;
+    /** @internal */
+    protected _config?: ChunkConfig;
     /**
      *
      * @param product
@@ -39,7 +45,15 @@ export declare class Chunk implements IChunk {
     /**
      *
      */
+    get config(): ChunkConfig | undefined;
+    /**
+     *
+     */
     get exists(): boolean;
+    /**
+     *
+     */
+    get manifest(): IFile | undefined;
     /**
      *
      */
@@ -52,7 +66,9 @@ export declare class Chunk implements IChunk {
      *
      * @param name
      */
-    screen(name: Name): Promise<IScreen | undefined>;
+    screen(route: ChunkConfigRoute): Promise<IScreen | undefined>;
+    /** @internal */
+    private _loadConfig;
     /**
      *
      */

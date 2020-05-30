@@ -1,4 +1,4 @@
-import { IScreen, IChunk, Name, IDir } from '..';
+import { IScreen, IChunk, ChunkConfigRoute, IDir } from '..';
 /**
  *
  * {@link https://github.com/fluidtrends/carmel/blob/master/sdk/src/Screen.ts | Source Code } |
@@ -13,17 +13,17 @@ export declare class Screen implements IScreen {
     /** @internal */
     protected _dir?: IDir;
     /** @internal */
-    protected _name: Name;
+    protected _config: ChunkConfigRoute;
     /**
      *
      * @param chunk
-     * @param name
+     * @param config
      */
-    constructor(chunk: IChunk, name: Name);
+    constructor(chunk: IChunk, config: ChunkConfigRoute);
     /**
      *
      */
-    get name(): string;
+    get config(): ChunkConfigRoute;
     /**
      *
      */

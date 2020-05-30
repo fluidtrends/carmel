@@ -10,7 +10,7 @@ export declare class File implements IFile {
     get data(): IData;
     get path(): string | undefined;
     get exists(): boolean;
-    load(): Promise<unknown>;
+    load(): any;
     save(): void;
     update(data: UTF8 | object): void;
 }
