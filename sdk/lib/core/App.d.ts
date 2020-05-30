@@ -1,4 +1,4 @@
-import { IApp, IProduct, Target, IDir } from '..';
+import { IApp, Target, ISnapshot, IDir } from '..';
 /**
  *
  * {@link https://github.com/fluidtrends/carmel/blob/master/sdk/src/App.ts | Source Code } |
@@ -11,7 +11,7 @@ export declare class App implements IApp {
     /** @internal */
     protected _target: Target;
     /** @internal */
-    protected _product: IProduct;
+    protected _snapshot: ISnapshot;
     /** @internal */
     protected _dir?: IDir;
     /**
@@ -19,7 +19,7 @@ export declare class App implements IApp {
      * @param product
      * @param target
      */
-    constructor(product: IProduct, target: Target);
+    constructor(snapshot: ISnapshot, target: Target);
     /**
      *
      */
@@ -27,11 +27,11 @@ export declare class App implements IApp {
     /**
      *
      */
-    get product(): IProduct;
+    get snapshot(): ISnapshot;
     /**
      *
      */
-    get exists(): boolean | undefined;
+    get exists(): boolean;
     /**
      *
      */
@@ -39,5 +39,5 @@ export declare class App implements IApp {
     /**
      *
      */
-    load(): Promise<this | undefined>;
+    load(): Promise<this>;
 }

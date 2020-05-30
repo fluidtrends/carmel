@@ -21,6 +21,8 @@ export interface IDir extends IClass {
     readonly dirs: Path[];
     dir(dirpath: Path): IDir | undefined;
     file(filepath: Path): IFile | undefined;
+    make(): IDir | undefined;
+    link(dir?: IDir): IDir | undefined;
 }
 export interface IScript extends IClass {
     readonly name: Name;

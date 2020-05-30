@@ -55,7 +55,7 @@ export interface IProduct extends IClass {
     readonly isLoaded: boolean;
     readonly isReady: boolean;
     readonly state: ProductState;
-    readonly apps?: Map<Target, IApp>;
+    readonly snapshot?: ISnapshot;
     create(): void;
     load(): Promise<IProduct | undefined>;
     saveContext(context: object): void;
@@ -63,7 +63,18 @@ export interface IProduct extends IClass {
     loadFile(path: Path): void;
     saveData(data: any): void;
     findDirs(dirpath: Path): Path[];
+}
+export interface ISnapshot extends IClass {
+    readonly id: Id;
+    readonly product: IProduct;
+    readonly exists: boolean;
+    readonly dir?: IDir;
+    readonly chunksDir?: IDir;
+    readonly apps?: Map<Target, IApp>;
+    readonly chunks?: Map<Name, IChunk>;
+    load(): Promise<ISnapshot | undefined>;
     app(target: Target): Promise<IApp | undefined>;
+    chunk(name: Name): Promise<IChunk | undefined>;
 }
 export interface IArtifact extends IClass {
     readonly kind: ArtifactsKind;
@@ -87,6 +98,16 @@ export interface ITemplate extends IClass {
 }
 export interface IApp extends IClass {
     readonly target: Target;
-    readonly product: IProduct;
+    readonly snapshot: ISnapshot;
+    readonly exists: boolean;
+    readonly dir?: IDir;
     load(): Promise<IApp | undefined>;
+}
+export interface IChunk extends IClass {
+    readonly name: Name;
+    readonly snapshot: ISnapshot;
+    readonly exists: boolean;
+    readonly dir?: IDir;
+    readonly srcDir?: IDir;
+    load(): Promise<IChunk | undefined>;
 }

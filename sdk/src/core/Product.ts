@@ -10,9 +10,8 @@ import {
     ProductState,
     IStack,
     ISession,
-    App,
-    IApp,
-    Target,
+    ISnapshot,
+    Snapshot,
     Errors,
     Strings
 } from '..'
@@ -49,8 +48,8 @@ export class Product implements IProduct {
     protected _session?: ISession;
 
     /** @internal */
-    protected _apps?: Map<Target, IApp>;
-    
+    protected _snapshot?: ISnapshot;
+
     /**
      * 
      * @param props 
@@ -129,38 +128,15 @@ export class Product implements IProduct {
     /**
      * 
      */
+    get snapshot() {
+        return this._snapshot
+    }
+
+    /**
+     * 
+     */
     get isReady() {
         return this.state >= ProductState.READY
-    }
-
-    /**
-     * 
-     */
-    get apps() {
-        return this._apps
-    }
-
-    /**
-     * 
-     * @param target 
-     */
-    async app(target: Target) {
-        let app = this.apps?.get(target)
-
-        // Looks like it's already loaded
-        if (app) return app
-
-        // Load the app
-        app = await new App(this, target).load()
-
-        if (!app) return undefined
-
-        // Keep track of it in memory
-        this._apps = this._apps || new Map<Target, IApp>();
-        this._apps.set(target, app)
-
-        // Give the caller what they need
-        return app
     }
 
     /**
@@ -209,7 +185,17 @@ export class Product implements IProduct {
             throw Errors.ProductCannotLoad(Strings.StackIsMissingString(stackId))
         }
 
-        // Excellent, tell everyone we're ready for action
+        // Take an initial snapshot
+        this._snapshot = await new Snapshot(this).load()
+
+        if (!this.snapshot) {
+            // Not quiet yet
+            this.changeState(ProductState.UNLOADED)
+            throw Errors.ProductCannotLoad(Strings.CannotTakeSnapshotString())
+        }
+
+        // Prepare the snapshot if necessary and if all good,
+        // then tell everyone we're ready for action
         this.changeState(ProductState.READY)
 
         // Let callers access us directly

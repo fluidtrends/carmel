@@ -1,8 +1,7 @@
 import { 
     IApp,
-    IProduct,
     Target,
-    Dir,
+    ISnapshot,
     IDir
  } from '..'
 
@@ -20,7 +19,7 @@ export class App implements IApp {
     protected _target: Target;
 
     /** @internal */
-    protected _product: IProduct;
+    protected _snapshot: ISnapshot;
 
     /** @internal */
     protected _dir?: IDir;
@@ -30,10 +29,10 @@ export class App implements IApp {
      * @param product 
      * @param target 
      */
-    constructor(product: IProduct, target: Target) {
-        this._product = product;
+    constructor(snapshot: ISnapshot, target: Target) {
+        this._snapshot = snapshot;
         this._target = target;
-        this._dir = this.product.dir.dir(this.target)
+        this._dir = this.snapshot.dir?.dir(this.target)
     }
 
     /**
@@ -46,15 +45,15 @@ export class App implements IApp {
     /**
      * 
      */
-    get product() {
-        return this._product
+    get snapshot() {
+        return this._snapshot
     }
 
     /**
      * 
      */
     get exists() {
-        return this.dir?.exists
+        return this.dir !== undefined && this.dir?.exists
     }
 
     /**
@@ -68,6 +67,6 @@ export class App implements IApp {
      * 
      */
     async load() {
-        return this.exists ? this : undefined
+        return this
     }
 }

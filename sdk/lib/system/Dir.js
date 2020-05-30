@@ -35,6 +35,18 @@ var Dir = /** @class */ (function () {
     Dir.prototype.file = function (filepath) {
         return this.exists ? new __1.File(path_1.default.resolve(this.path, filepath)) : undefined;
     };
+    Dir.prototype.make = function () {
+        this.exists || (this.path && fs_extra_1.default.mkdirsSync(this.path));
+        return this.exists ? this : undefined;
+    };
+    Dir.prototype.link = function (dir) {
+        if (this.exists)
+            return this;
+        if (!this.path || !dir || !dir.exists)
+            return undefined;
+        fs_extra_1.default.symlinkSync(dir.path, this.path, 'dir');
+        return this.exists ? this : undefined;
+    };
     Object.defineProperty(Dir.prototype, "dirs", {
         get: function () {
             var _this = this;

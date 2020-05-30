@@ -34,6 +34,9 @@ export const CommandCannotExecute = (name: string, reason: string): Error => new
 export const PluginCannotLoad = (name: string, reason: string): Error => new Error(Strings.PluginCannotLoadString(name, reason))
 
 /** @category Errors */
+export const CannotTakeSnapshot = (reason: string): Error => new Error(Strings.CannotTakeSnapshotString(reason))
+
+/** @category Errors */
 export const ProductCannotLoad = (reason: string): Error => new Error(Strings.ProductCannotLoadString(reason))
 
 /** @category Errors */
