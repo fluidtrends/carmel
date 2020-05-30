@@ -10,6 +10,7 @@ export * from './core/Session'
 export * from './core/Engine'
 export * from './core/App'
 export * from './core/Chunk'
+export * from './core/Screen'
 
 export * from './system/File'
 export * from './system/Dir'

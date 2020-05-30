@@ -1,4 +1,4 @@
-import { ISnapshot, Name, IChunk, IDir } from '..';
+import { ISnapshot, Name, IChunk, IScreen, IDir } from '..';
 /**
  *
  * {@link https://github.com/fluidtrends/carmel/blob/master/sdk/src/Chunk.ts | Source Code } |
@@ -16,6 +16,8 @@ export declare class Chunk implements IChunk {
     protected _dir?: IDir;
     /** @internal */
     protected _srcDir?: IDir;
+    /** @internal */
+    protected _screens?: Map<Name, IScreen>;
     /**
      *
      * @param product
@@ -33,6 +35,10 @@ export declare class Chunk implements IChunk {
     /**
      *
      */
+    get screens(): Map<string, IScreen> | undefined;
+    /**
+     *
+     */
     get exists(): boolean;
     /**
      *
@@ -42,6 +48,11 @@ export declare class Chunk implements IChunk {
      *
      */
     get srcDir(): IDir | undefined;
+    /**
+     *
+     * @param name
+     */
+    screen(name: Name): Promise<IScreen | undefined>;
     /**
      *
      */
