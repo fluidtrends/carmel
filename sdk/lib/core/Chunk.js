@@ -37,6 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Chunk = void 0;
+var __1 = require("..");
 /**
  *
  * {@link https://github.com/fluidtrends/carmel/blob/master/sdk/src/Chunk.ts | Source Code } |
@@ -77,6 +78,16 @@ var Chunk = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Chunk.prototype, "screens", {
+        /**
+         *
+         */
+        get: function () {
+            return this._screens;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Object.defineProperty(Chunk.prototype, "exists", {
         /**
          *
@@ -109,16 +120,71 @@ var Chunk = /** @class */ (function () {
     });
     /**
      *
+     * @param name
+     */
+    Chunk.prototype.screen = function (name) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function () {
+            var screen;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        screen = (_a = this.screens) === null || _a === void 0 ? void 0 : _a.get(name);
+                        // Looks like it's already loaded
+                        if (screen)
+                            return [2 /*return*/, screen
+                                // Load the screen
+                            ];
+                        return [4 /*yield*/, new __1.Screen(this, name).load()];
+                    case 1:
+                        // Load the screen
+                        screen = _b.sent();
+                        if (!screen)
+                            return [2 /*return*/, undefined
+                                // Keep track of it in memory
+                            ];
+                        // Keep track of it in memory
+                        this._screens = this._screens || new Map();
+                        this._screens.set(name, screen);
+                        // Give the caller what they need
+                        return [2 /*return*/, screen];
+                }
+            });
+        });
+    };
+    /**
+     *
      */
     Chunk.prototype.load = function () {
-        var _a, _b, _c;
+        var _a, _b, _c, _d;
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_d) {
-                if ((_a = this.dir) === null || _a === void 0 ? void 0 : _a.exists)
-                    return [2 /*return*/, this];
-                this._srcDir = (_b = this.snapshot.product.dir.dir('chunks')) === null || _b === void 0 ? void 0 : _b.dir(this.name);
-                (_c = this.dir) === null || _c === void 0 ? void 0 : _c.link(this.srcDir);
-                return [2 /*return*/, this.exists ? this : undefined];
+            var _this = this;
+            return __generator(this, function (_e) {
+                switch (_e.label) {
+                    case 0:
+                        this._srcDir = (_a = this.snapshot.product.dir.dir('chunks')) === null || _a === void 0 ? void 0 : _a.dir(this.name);
+                        (_b = this.dir) === null || _b === void 0 ? void 0 : _b.link(this.srcDir);
+                        if (!this.exists)
+                            return [2 /*return*/, undefined
+                                // Look for screens
+                            ];
+                        // Look for screens
+                        return [4 /*yield*/, Promise.all(((_d = (_c = this.dir) === null || _c === void 0 ? void 0 : _c.dir('screens')) === null || _d === void 0 ? void 0 : _d.dirs.map(function (name) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0: return [4 /*yield*/, this.screen(name)];
+                                    case 1: return [2 /*return*/, _a.sent()];
+                                }
+                            }); }); })) || [])
+                            // No screens, nothing else needed for us to do
+                        ];
+                    case 1:
+                        // Look for screens
+                        _e.sent();
+                        // No screens, nothing else needed for us to do
+                        if (!this.screens)
+                            return [2 /*return*/, this];
+                        return [2 /*return*/, this];
+                }
             });
         });
     };

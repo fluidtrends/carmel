@@ -146,9 +146,19 @@ export interface IChunk extends IClass {
     readonly name: Name;
     readonly snapshot: ISnapshot;
     readonly exists: boolean;
+    readonly screens?: Map<Name, IScreen>;
     readonly dir?: IDir;
     readonly srcDir?: IDir;
     
     load(): Promise<IChunk | undefined>;
+}
+
+export interface IScreen extends IClass {
+    readonly name: Name;
+    readonly chunk: IChunk;
+    readonly exists: boolean;
+    readonly dir?: IDir;
+    
+    load(): Promise<IScreen | undefined>;
 }
 

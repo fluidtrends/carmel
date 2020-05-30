@@ -2,8 +2,11 @@ import {
     ISnapshot,
     Name,
     IChunk,
+    IScreen,
+    Screen,
     IDir
  } from '..'
+import { Product } from './Product';
 
 /**
  * 
@@ -26,6 +29,9 @@ export class Chunk implements IChunk {
 
     /** @internal */
     protected _srcDir?: IDir;
+
+    /** @internal */
+    protected _screens?: Map<Name, IScreen>;
 
     /**
      * 
@@ -55,6 +61,13 @@ export class Chunk implements IChunk {
     /**
      * 
      */
+    get screens() {
+        return this._screens
+    }
+
+    /**
+     * 
+     */
     get exists() {
         return this.dir !== undefined && this.dir.exists
     }
@@ -75,13 +88,42 @@ export class Chunk implements IChunk {
 
     /**
      * 
+     * @param name 
+     */
+    async screen(name: Name) {
+        let screen = this.screens?.get(name)
+
+        // Looks like it's already loaded
+        if (screen) return screen
+
+        // Load the screen
+        screen = await new Screen(this, name).load()
+
+        if (!screen) return undefined
+
+        // Keep track of it in memory
+        this._screens = this._screens || new Map<Name, IScreen>();
+        this._screens.set(name, screen)
+
+        // Give the caller what they need
+        return screen
+    }
+
+    /**
+     * 
      */
     async load() {
-        if (this.dir?.exists) return this
-
         this._srcDir = this.snapshot.product.dir.dir('chunks')?.dir(this.name)
         this.dir?.link(this.srcDir)
 
-        return this.exists ? this : undefined
+        if (!this.exists) return undefined
+
+         // Look for screens
+        await Promise.all(this.dir?.dir('screens')?.dirs.map(async name => await this.screen(name)) || []) 
+
+        // No screens, nothing else needed for us to do
+        if (!this.screens) return this
+
+        return this
     }
 }

@@ -33,6 +33,7 @@ __exportStar(require("./core/Session"), exports);
 __exportStar(require("./core/Engine"), exports);
 __exportStar(require("./core/App"), exports);
 __exportStar(require("./core/Chunk"), exports);
+__exportStar(require("./core/Screen"), exports);
 __exportStar(require("./system/File"), exports);
 __exportStar(require("./system/Dir"), exports);
 __exportStar(require("./system/Data"), exports);
