@@ -23,13 +23,6 @@ jobs:
         npm run build > tmp/build
         cat tmp/build
     - shell: bash
-      name: "Create coverage for the React Stack"
-      run: | 
-        cd stacks/react
-        npm ci
-        npm run coverage
-        ../../tmp/cc-test-reporter format-coverage -t lcov -o ../../tmp/codeclimate.react-stack.json --add-prefix react-stack
-    - shell: bash
       name: "Create coverage for the SDK"
       run: | 
         cd sdk
@@ -42,5 +35,5 @@ jobs:
       env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
       run: | 
-        ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 2 -o tmp/codeclimate.total.json
+        ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 1 -o tmp/codeclimate.total.json
         ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.total.json
