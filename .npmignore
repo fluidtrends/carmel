@@ -7,7 +7,6 @@ coverage
 packer_boxes
 packer_cache
 .eosio
-carmel.token.wasm
-eosio.token.wasm
+*.wasm
 .distro.csv
 .nyc_output

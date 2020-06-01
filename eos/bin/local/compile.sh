@@ -1,22 +1,17 @@
 #!/bin/bash
 
-if ! [ -f "chunky.json" ]; then
+if ! [ -f ".carmel.json" ]; then
   echo "*** [fail] run this from the root project location"
   exit
 fi
 
-if [ -d ".chunky/eos/contracts" ]; then
-  echo "*** cleaning the old carmeltokens contract ..."
-  rm -rf .chunky/eos/contracts/carmeltokens
-fi
+# cd eos/contracts/carmel/carmeltokens
+# echo "*** compiling the carmeltokens contract ..."
+# eosio-cpp "-DLOCAL" -I . -o carmeltokens.wasm carmeltokens.cpp --abigen
 
-cd eos/contracts/carmel/carmeltokens
-echo "*** compiling the carmeltokens contract ..."
-eosio-cpp "-DLOCAL" -o carmeltokens.wasm carmeltokens.cpp --abigen -I.
-
-cd ../../../../
-echo "*** updating the local carmeltokens contract ..."
-cp -r eos/contracts/carmel/carmeltokens .chunky/eos/contracts
-rm -rf eos/contracts/carmel/carmeltokens/carmeltokens.wasm
+# cd ../carmelsystem
+cd eos/contracts/carmel/carmelsystem
+echo "*** compiling the carmelsystem contract ..."
+eosio-cpp "-DLOCAL" -I . -R . -o carmelsystem.wasm carmelsystem.cpp --abigen
 
 echo "*** done."

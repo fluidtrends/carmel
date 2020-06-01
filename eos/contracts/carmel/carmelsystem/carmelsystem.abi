@@ -1,0 +1,173 @@
+{
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT ",
+    "version": "eosio::abi/1.1",
+    "types": [],
+    "structs": [
+        {
+            "name": "effort_table",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "created_on",
+                    "type": "uint64"
+                },
+                {
+                    "name": "quest_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "message",
+                    "type": "string"
+                },
+                {
+                    "name": "status",
+                    "type": "string"
+                },
+                {
+                    "name": "challenge_id",
+                    "type": "int8"
+                },
+                {
+                    "name": "task_id",
+                    "type": "int8"
+                }
+            ]
+        },
+        {
+            "name": "neweffort",
+            "base": "",
+            "fields": [
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "quest_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "challenge_id",
+                    "type": "int8"
+                },
+                {
+                    "name": "task_id",
+                    "type": "int8"
+                },
+                {
+                    "name": "message",
+                    "type": "string"
+                },
+                {
+                    "name": "status",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "newquest",
+            "base": "",
+            "fields": [
+                {
+                    "name": "author",
+                    "type": "name"
+                },
+                {
+                    "name": "uri",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "quest_table",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "author",
+                    "type": "name"
+                },
+                {
+                    "name": "created_on",
+                    "type": "uint64"
+                },
+                {
+                    "name": "started_on",
+                    "type": "uint64"
+                },
+                {
+                    "name": "uri",
+                    "type": "string"
+                },
+                {
+                    "name": "status",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "startquest",
+            "base": "",
+            "fields": [
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "quest_id",
+                    "type": "uint64"
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "name": "neweffort",
+            "type": "neweffort",
+            "ricardian_contract": "Input parameters:\n\n* `user` (the Carmel user that would like to register new effort)\n* `quest_id` (the id of the quest that the user is currently taking)\n* `challenge_id` (the id of the challenge scoped within this quest)\n* `task_id` (the id of the task scoped within the challenge)\n* `message` (a human readable description of the effort)\n* `status` (a way for us to categorize this effort)\n\n### Intent\nINTENT. As a Carmel {{ user }}, I {{ signer }} want to tell the world that I have recently invested effort in working on task {{ task_id }} of the {{ challenge_id }} challenge within the {{ quest_id }} quest.\n\n### Term\nTERM. This Contract expires at the conclusion of code execution. This action changes the token circulating supply."
+        },
+        {
+            "name": "newquest",
+            "type": "newquest",
+            "ricardian_contract": "Input parameters:\n\n* `author` (the author of this quest)\n* `uri` (the Quest URI where Carmel SDK will resolve)\n\n### Intent\nINTENT. I {{ signer }} want to create a new quest, with a particular {{ uri }} that specifies where it resolves. \n\n### Term\nTERM. This Contract expires at the conclusion of code execution. The token will then persist on the chain."
+        },
+        {
+            "name": "startquest",
+            "type": "startquest",
+            "ricardian_contract": "Input parameters:\n\n* `user` (the Carmel user that would like to start this quest)\n* `quest_id` (the id of the quest to start)\n\n### Intent\nINTENT. As a Carmel {{ user }}, I {{ signer }} want to start this {{ quest }} so I can invest effort into developing my skills.\n\n### Term\nTERM. This Contract expires at the conclusion of code execution. This action changes the token circulating supply."
+        }
+    ],
+    "tables": [
+        {
+            "name": "effort",
+            "type": "effort_table",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "quests",
+            "type": "quest_table",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        }
+    ],
+    "ricardian_clauses": [
+        {
+            "id": "Constitution",
+            "body": "This contract and all its actions is subject to the Carmel Constitution at https://carmel.io. The Carmel Constitution constitution is interim and is in effect until a permanent constitution is written and ratified by the Carmel Community."
+        },
+        {
+            "id": "Terms and Conditions",
+            "body": "This contract and all its actions is subject to the Carmel Terms and Conditions at https://carmel.io."
+        }
+    ],
+    "variants": []
+}
