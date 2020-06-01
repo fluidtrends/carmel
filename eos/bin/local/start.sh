@@ -1,18 +1,5 @@
 #!/bin/bash
 
-if ! [ -f "chunky.json" ]; then
-  echo "[fail] run this from the root project location"
-  exit
-fi
-
-if ! [ -d ".chunky" ]; then
-  mkdir .chunky
-fi
-
-if ! [ -d ".chunky/eos" ]; then
-  mkdir .chunky/eos
-fi
-
 if pgrep -x "keosd" > /dev/null
 then
     echo "[ok] keosd is running"
@@ -33,8 +20,8 @@ else
       --plugin eosio::http_plugin \
       --plugin eosio::history_plugin \
       --plugin eosio::history_api_plugin \
-      --data-dir .chunky/eos/contracts/eosio/data \
-      --config-dir .chunky/eos/contracts/eosio/config \
+      --data-dir .carmel/eos/contracts/eosio/data \
+      --config-dir .carmel/eos/contracts/eosio/config \
       --access-control-allow-origin='*' \
       --contracts-console \
       --hard-replay \
