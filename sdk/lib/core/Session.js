@@ -209,15 +209,15 @@ var Session = /** @class */ (function () {
     Session.prototype.findBundle = function (id, version, install) {
         if (install === void 0) { install = true; }
         return __awaiter(this, void 0, void 0, function () {
-            var args, archive, _a, bundle;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var args, archive, _a, _b, bundle;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0: 
                     // Make sure we're ready
                     return [4 /*yield*/, this.makeReady()];
                     case 1:
                         // Make sure we're ready
-                        _b.sent();
+                        _c.sent();
                         if (!this.index.sections.bundles || !this.index.sections.bundles.exists) {
                             // Looks like something's missing here, we need the bundles section
                             return [2 /*return*/, undefined];
@@ -226,18 +226,32 @@ var Session = /** @class */ (function () {
                         if (!install) return [3 /*break*/, 3];
                         return [4 /*yield*/, this.index.sections.bundles.installArchive(args)];
                     case 2:
-                        _a = _b.sent();
+                        _a = _c.sent();
                         return [3 /*break*/, 5];
                     case 3: return [4 /*yield*/, this.index.sections.bundles.findArchive(args)];
                     case 4:
-                        _a = _b.sent();
-                        _b.label = 5;
+                        _a = _c.sent();
+                        _c.label = 5;
                     case 5:
                         archive = _a;
                         if (!archive) {
                             // Doesn't look like it
                             return [2 /*return*/, undefined];
                         }
+                        // Install the deps if needed
+                        _b = install;
+                        if (!_b) 
+                        // Install the deps if needed
+                        return [3 /*break*/, 7];
+                        return [4 /*yield*/, archive.installDependencies()
+                            // Good stuff, found the archive, ok let's build ourselves a bundle
+                        ];
+                    case 6:
+                        _b = (_c.sent());
+                        _c.label = 7;
+                    case 7:
+                        // Install the deps if needed
+                        _b;
                         bundle = new __1.Bundle(archive);
                         // One more thing, let's load this puppy
                         return [2 /*return*/, bundle.load()];

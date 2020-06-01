@@ -186,9 +186,9 @@ var Product = /** @class */ (function () {
     Product.prototype.load = function () {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var stackId, _b, _c;
-            return __generator(this, function (_d) {
-                switch (_d.label) {
+            var stackId, _b;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
                         // No need to re-load this again
                         if (this.isLoaded)
@@ -213,23 +213,19 @@ var Product = /** @class */ (function () {
                         return [4 /*yield*/, ((_a = this.session) === null || _a === void 0 ? void 0 : _a.findStack(stackId))];
                     case 1:
                         // There we go, we have a stack too
-                        _b._stack = _d.sent();
+                        _b._stack = _c.sent();
                         if (!this.stack) {
                             // Not quiet yet
                             this.changeState(__1.ProductState.UNLOADED);
                             throw __1.Errors.ProductCannotLoad(__1.Strings.StackIsMissingString(stackId));
                         }
-                        // Take an initial snapshot
-                        _c = this;
-                        return [4 /*yield*/, new __1.Snapshot(this).load()];
-                    case 2:
-                        // Take an initial snapshot
-                        _c._snapshot = _d.sent();
-                        if (!this.snapshot) {
-                            // Not quiet yet
-                            this.changeState(__1.ProductState.UNLOADED);
-                            throw __1.Errors.ProductCannotLoad(__1.Strings.CannotTakeSnapshotString());
-                        }
+                        // // Take an initial snapshot
+                        // this._snapshot = await new Snapshot(this).load()
+                        // if (!this.snapshot) {
+                        //     // Not quiet yet
+                        //     this.changeState(ProductState.UNLOADED)
+                        //     throw Errors.ProductCannotLoad(Strings.CannotTakeSnapshotString())
+                        // }
                         // Prepare the snapshot if necessary and if all good,
                         // then tell everyone we're ready for action
                         this.changeState(__1.ProductState.READY);
@@ -242,10 +238,10 @@ var Product = /** @class */ (function () {
     /**
      *
      */
-    Product.prototype.create = function () {
+    Product.prototype.create = function (data) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                this.manifest.data.update({});
+                this.manifest.data.update(data);
                 this.manifest.save();
                 return [2 /*return*/, this.manifest.data.json()];
             });

@@ -185,14 +185,14 @@ export class Product implements IProduct {
             throw Errors.ProductCannotLoad(Strings.StackIsMissingString(stackId))
         }
 
-        // Take an initial snapshot
-        this._snapshot = await new Snapshot(this).load()
+        // // Take an initial snapshot
+        // this._snapshot = await new Snapshot(this).load()
 
-        if (!this.snapshot) {
-            // Not quiet yet
-            this.changeState(ProductState.UNLOADED)
-            throw Errors.ProductCannotLoad(Strings.CannotTakeSnapshotString())
-        }
+        // if (!this.snapshot) {
+        //     // Not quiet yet
+        //     this.changeState(ProductState.UNLOADED)
+        //     throw Errors.ProductCannotLoad(Strings.CannotTakeSnapshotString())
+        // }
 
         // Prepare the snapshot if necessary and if all good,
         // then tell everyone we're ready for action
@@ -205,8 +205,8 @@ export class Product implements IProduct {
     /**
      * 
      */
-    async create() {
-        this.manifest.data.update({})
+    async create(data?: any) {
+        this.manifest.data.update(data)
         this.manifest.save()
 
         return this.manifest.data.json()

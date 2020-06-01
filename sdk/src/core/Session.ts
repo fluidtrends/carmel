@@ -183,6 +183,9 @@ export class Session implements ISession {
             return undefined
         }
 
+        // Install the deps if needed
+        install && await archive.installDependencies()
+
         // Good stuff, found the archive, ok let's build ourselves a bundle
         const bundle = new Bundle(archive)
 
@@ -221,7 +224,7 @@ export class Session implements ISession {
 
         // See if the bundle exists
         const bundle = await this.findBundle(bundleId, bundleVersion, install)
-        
+
          // Too bad the bundle does not exist
          if (!bundle || !bundle.exists) return undefined
 

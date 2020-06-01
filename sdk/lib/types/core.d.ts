@@ -56,7 +56,7 @@ export interface IProduct extends IClass {
     readonly isReady: boolean;
     readonly state: ProductState;
     readonly snapshot?: ISnapshot;
-    create(): void;
+    create(data?: any): void;
     load(): Promise<IProduct | undefined>;
     saveContext(context: object): void;
     changeState(state: ProductState): void;

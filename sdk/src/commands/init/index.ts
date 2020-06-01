@@ -5,12 +5,9 @@ import {
   CommandType
 } from '../..'
 
-import fs from 'fs'
-import path from 'path'
-
 const props: CommandProps = {
   id: "init",
-  requiredArgs: ["quest"],
+  requiredArgs: ["name", "stack"],
   type: CommandType.WORKSPACE,
   title: "Creating a new Carmel Product"
 }
@@ -32,9 +29,10 @@ export default class Init extends Command {
       throw Errors.ProductAlreadyExists()
     }
 
-    // Const check on the template
-    const quest = this.arg('quest')
+    const stack = this.arg('stack')
+    const name = this.arg('name')
 
-    console.log(quest)
+    this.product?.create({ name, stack })
+    this.product?.dir.dir('chunks')?.make()
   }
 }

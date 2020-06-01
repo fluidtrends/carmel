@@ -87,7 +87,7 @@ export declare class Product implements IProduct {
     /**
      *
      */
-    create(): Promise<any>;
+    create(data?: any): Promise<any>;
     /**
      *
      * @param context

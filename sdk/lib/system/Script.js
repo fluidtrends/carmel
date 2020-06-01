@@ -149,7 +149,7 @@ var Script = /** @class */ (function () {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_b) {
-                return [2 /*return*/, (_a = this.module) === null || _a === void 0 ? void 0 : _a.default(args)];
+                return [2 /*return*/, (_a = this.module) === null || _a === void 0 ? void 0 : _a.default()];
             });
         });
     };

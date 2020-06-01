@@ -52,7 +52,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var __1 = require("../..");
 var props = {
     id: "init",
-    requiredArgs: ["quest"],
+    requiredArgs: ["name", "stack"],
     type: __1.CommandType.WORKSPACE,
     title: "Creating a new Carmel Product"
 };
@@ -68,16 +68,18 @@ var Init = /** @class */ (function (_super) {
     }
     /** @internal */
     Init.prototype.exec = function () {
-        var _a;
+        var _a, _b, _c, _d;
         return __awaiter(this, void 0, void 0, function () {
-            var quest;
-            return __generator(this, function (_b) {
+            var stack, name;
+            return __generator(this, function (_e) {
                 if ((_a = this.product) === null || _a === void 0 ? void 0 : _a.exists) {
                     // Check to make sure we're even allowed to attempt this
                     throw __1.Errors.ProductAlreadyExists();
                 }
-                quest = this.arg('quest');
-                console.log(quest);
+                stack = this.arg('stack');
+                name = this.arg('name');
+                (_b = this.product) === null || _b === void 0 ? void 0 : _b.create({ name: name, stack: stack });
+                (_d = (_c = this.product) === null || _c === void 0 ? void 0 : _c.dir.dir('chunks')) === null || _d === void 0 ? void 0 : _d.make();
                 return [2 /*return*/];
             });
         });
