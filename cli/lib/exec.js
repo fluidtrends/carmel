@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.installDefaultBundle = exports.installCarmelSDK = void 0;
+exports.installCarmelSDK = void 0;
 var fs_1 = __importDefault(require("fs"));
 var path_1 = __importDefault(require("path"));
 var nodu_1 = require("nodu");
@@ -100,52 +100,26 @@ function installCarmelSDK() {
     });
 }
 exports.installCarmelSDK = installCarmelSDK;
-function installDefaultBundle() {
-    return __awaiter(this, void 0, void 0, function () {
-        var carmelPath, installed;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    carmelPath = path_1.default.resolve(process.env.CARMEL_BUNDLES_ROOT, "@fluidtrends", "bananas", "default");
-                    if (fs_1.default.existsSync(carmelPath)) {
-                        return [2 /*return*/, carmelPath];
-                    }
-                    return [4 /*yield*/, install_1.default({
-                            module: "@fluidtrends/bananas",
-                            to: process.env.CARMEL_BUNDLES_ROOT
-                        })];
-                case 1:
-                    installed = _a.sent();
-                    fs_1.default.symlinkSync(installed.to, carmelPath, 'dir');
-                    return [2 /*return*/, carmelPath];
-            }
-        });
-    });
-}
-exports.installDefaultBundle = installDefaultBundle;
 exports.default = (function (input) { return __awaiter(void 0, void 0, void 0, function () {
-    var sdkPath, bundlePath, command, e_1;
+    var sdkPath, command, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 4, , 5]);
+                _a.trys.push([0, 3, , 4]);
                 init();
                 return [4 /*yield*/, installCarmelSDK()];
             case 1:
                 sdkPath = _a.sent();
-                return [4 /*yield*/, installDefaultBundle()];
-            case 2:
-                bundlePath = _a.sent();
                 command = parseCommand(input);
                 return [4 /*yield*/, runCarmelCommand(command, sdkPath)];
-            case 3:
+            case 2:
                 _a.sent();
-                return [3 /*break*/, 5];
-            case 4:
+                return [3 /*break*/, 4];
+            case 3:
                 e_1 = _a.sent();
                 nodu_1.logError(e_1);
-                return [3 /*break*/, 5];
-            case 5: return [2 /*return*/];
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); });

@@ -71,29 +71,11 @@ export async function installCarmelSDK() {
     return carmelSDKPath
 }
 
-export async function installDefaultBundle() {
-    const carmelPath = path.resolve(process.env.CARMEL_BUNDLES_ROOT!, "@fluidtrends", "bananas", "default")
-
-    if (fs.existsSync(carmelPath)) {
-        return carmelPath
-    }
-
-    const installed = await npmInstall({
-        module: `@fluidtrends/bananas`,
-        to: process.env.CARMEL_BUNDLES_ROOT 
-    })
-
-    fs.symlinkSync(installed!.to, carmelPath, 'dir')
-
-    return carmelPath
-}
-
 export default async (input?: any) => {
     try {
         init()
 
         const sdkPath = await installCarmelSDK()
-        const bundlePath = await installDefaultBundle()
         
         const command = parseCommand(input)
         await runCarmelCommand(command, sdkPath)
