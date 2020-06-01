@@ -1,6 +1,6 @@
 {
   "name": "@carmel/cli",
-  "version": "1.9.0",
+  "version": "1.9.2",
   "description": "The Carmel CLI",
   "scripts": {
     "build": "savor build",

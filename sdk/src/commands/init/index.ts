@@ -5,9 +5,12 @@ import {
   CommandType
 } from '../..'
 
+import fs from 'fs'
+import path from 'path'
+
 const props: CommandProps = {
   id: "init",
-  requiredArgs: ["name", "template"],
+  requiredArgs: ["quest"],
   type: CommandType.WORKSPACE,
   title: "Creating a new Carmel Product"
 }
@@ -30,11 +33,8 @@ export default class Init extends Command {
     }
 
     // Const check on the template
-    const templateId = this.arg('template')
+    const quest = this.arg('quest')
 
-    // And let's see if it loads
-    const template = await this.session?.findTemplate(templateId, true)
-    
-    console.log("using template:", template)
+    console.log(quest)
   }
 }

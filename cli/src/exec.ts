@@ -50,8 +50,9 @@ async function runCarmelCommand(command: any, sdkPath: string) {
     
     const Command = (Carmel.Commands as any)[command.cls]        
     const cmd = new Command(command)
+    const args =  Object.keys(command).map(name => ({ name, value: command[name] }))
     
-    return Carmel.Engine.run(cmd)
+    return Carmel.Engine.run(cmd, args)
 }
 
 export async function installCarmelSDK() {

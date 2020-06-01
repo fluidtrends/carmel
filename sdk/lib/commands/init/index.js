@@ -52,7 +52,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var __1 = require("../..");
 var props = {
     id: "init",
-    requiredArgs: ["name", "template"],
+    requiredArgs: ["quest"],
     type: __1.CommandType.WORKSPACE,
     title: "Creating a new Carmel Product"
 };
@@ -68,23 +68,17 @@ var Init = /** @class */ (function (_super) {
     }
     /** @internal */
     Init.prototype.exec = function () {
-        var _a, _b;
+        var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var templateId, template;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
-                    case 0:
-                        if ((_a = this.product) === null || _a === void 0 ? void 0 : _a.exists) {
-                            // Check to make sure we're even allowed to attempt this
-                            throw __1.Errors.ProductAlreadyExists();
-                        }
-                        templateId = this.arg('template');
-                        return [4 /*yield*/, ((_b = this.session) === null || _b === void 0 ? void 0 : _b.findTemplate(templateId, true))];
-                    case 1:
-                        template = _c.sent();
-                        console.log("using template:", template);
-                        return [2 /*return*/];
+            var quest;
+            return __generator(this, function (_b) {
+                if ((_a = this.product) === null || _a === void 0 ? void 0 : _a.exists) {
+                    // Check to make sure we're even allowed to attempt this
+                    throw __1.Errors.ProductAlreadyExists();
                 }
+                quest = this.arg('quest');
+                console.log(quest);
+                return [2 /*return*/];
             });
         });
     };
