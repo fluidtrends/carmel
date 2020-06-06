@@ -36,7 +36,7 @@ import {
  */
 export class Session implements ISession {
     /** Start with these sections - always */
-    public static DEFAULT_SECTIONS = ["bundles"];
+    public static DEFAULT_SECTIONS = ["bundles", "stacks", "products", "packers", "events"];
 
     /** Use these as mandatory bundles */
     public static DEFAULT_BUNDLES = ["@fluidtrends/bananas"];

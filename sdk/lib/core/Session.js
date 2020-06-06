@@ -410,7 +410,7 @@ var Session = /** @class */ (function () {
         });
     };
     /** Start with these sections - always */
-    Session.DEFAULT_SECTIONS = ["bundles"];
+    Session.DEFAULT_SECTIONS = ["bundles", "stacks", "products", "packers", "events"];
     /** Use these as mandatory bundles */
     Session.DEFAULT_BUNDLES = ["@fluidtrends/bananas"];
     return Session;

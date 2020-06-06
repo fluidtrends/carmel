@@ -52,7 +52,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var __1 = require("../..");
 var props = {
     id: "init",
-    requiredArgs: ["name", "stack"],
+    requiredArgs: [],
     type: __1.CommandType.WORKSPACE,
     title: "Creating a new Carmel Product"
 };
@@ -68,19 +68,26 @@ var Init = /** @class */ (function (_super) {
     }
     /** @internal */
     Init.prototype.exec = function () {
-        var _a, _b, _c, _d;
+        var _a, _b, _c, _d, _e, _f, _g, _h;
         return __awaiter(this, void 0, void 0, function () {
-            var stack, name;
-            return __generator(this, function (_e) {
-                if ((_a = this.product) === null || _a === void 0 ? void 0 : _a.exists) {
-                    // Check to make sure we're even allowed to attempt this
-                    throw __1.Errors.ProductAlreadyExists();
+            var stack, packer;
+            return __generator(this, function (_j) {
+                switch (_j.label) {
+                    case 0:
+                        if ((_a = this.product) === null || _a === void 0 ? void 0 : _a.exists) {
+                            // Check to make sure we're even allowed to attempt this
+                            throw __1.Errors.ProductAlreadyExists();
+                        }
+                        return [4 /*yield*/, ((_c = (_b = this.product) === null || _b === void 0 ? void 0 : _b.session) === null || _c === void 0 ? void 0 : _c.index.installArchive({ id: "jayesse", section: "stacks" }))];
+                    case 1:
+                        stack = _j.sent();
+                        return [4 /*yield*/, ((_e = (_d = this.product) === null || _d === void 0 ? void 0 : _d.session) === null || _e === void 0 ? void 0 : _e.index.installArchive({ id: "papanache", section: "packers" }))];
+                    case 2:
+                        packer = _j.sent();
+                        (_f = this.product) === null || _f === void 0 ? void 0 : _f.create({ stack: stack, packer: packer });
+                        (_h = (_g = this.product) === null || _g === void 0 ? void 0 : _g.dir.dir('chunks')) === null || _h === void 0 ? void 0 : _h.make();
+                        return [2 /*return*/];
                 }
-                stack = this.arg('stack');
-                name = this.arg('name');
-                (_b = this.product) === null || _b === void 0 ? void 0 : _b.create({ name: name, stack: stack });
-                (_d = (_c = this.product) === null || _c === void 0 ? void 0 : _c.dir.dir('chunks')) === null || _d === void 0 ? void 0 : _d.make();
-                return [2 /*return*/];
             });
         });
     };
