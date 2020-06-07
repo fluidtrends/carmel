@@ -40,4 +40,7 @@ export const CannotTakeSnapshot = (reason: string): Error => new Error(Strings.C
 export const ProductCannotLoad = (reason: string): Error => new Error(Strings.ProductCannotLoadString(reason))
 
 /** @category Errors */
+export const ProductCannotCreate = (reason: string): Error => new Error(Strings.ProductCannotCreateString(reason))
+
+/** @category Errors */
 export const StackCannotLoad = (name: string, reason: string): Error => new Error(Strings.StackCannotLoadString(name, reason))

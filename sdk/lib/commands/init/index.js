@@ -68,24 +68,22 @@ var Init = /** @class */ (function (_super) {
     }
     /** @internal */
     Init.prototype.exec = function () {
-        var _a, _b, _c, _d, _e, _f, _g, _h;
+        var _a, _b;
         return __awaiter(this, void 0, void 0, function () {
-            var stack, packer;
-            return __generator(this, function (_j) {
-                switch (_j.label) {
+            var templateId;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
                         if ((_a = this.product) === null || _a === void 0 ? void 0 : _a.exists) {
                             // Check to make sure we're even allowed to attempt this
                             throw __1.Errors.ProductAlreadyExists();
                         }
-                        return [4 /*yield*/, ((_c = (_b = this.product) === null || _b === void 0 ? void 0 : _b.session) === null || _c === void 0 ? void 0 : _c.index.installArchive({ id: "jayesse", section: "stacks" }))];
+                        templateId = this.arg("template");
+                        // Looks good, let's create the product structure from this template
+                        return [4 /*yield*/, ((_b = this.product) === null || _b === void 0 ? void 0 : _b.createFromTemplate(templateId))];
                     case 1:
-                        stack = _j.sent();
-                        return [4 /*yield*/, ((_e = (_d = this.product) === null || _d === void 0 ? void 0 : _d.session) === null || _e === void 0 ? void 0 : _e.index.installArchive({ id: "papanache", section: "packers" }))];
-                    case 2:
-                        packer = _j.sent();
-                        (_f = this.product) === null || _f === void 0 ? void 0 : _f.create({ stack: stack, packer: packer });
-                        (_h = (_g = this.product) === null || _g === void 0 ? void 0 : _g.dir.dir('chunks')) === null || _h === void 0 ? void 0 : _h.make();
+                        // Looks good, let's create the product structure from this template
+                        _c.sent();
                         return [2 /*return*/];
                 }
             });

@@ -24,16 +24,15 @@ export default class Init extends Command {
 
   /** @internal */
   async exec() {
-
     if (this.product?.exists) {
       // Check to make sure we're even allowed to attempt this
       throw Errors.ProductAlreadyExists()
     }
 
-    const stack = await this.product?.session?.index.installArchive({ id: "jayesse", section: "stacks" })
-    const packer = await this.product?.session?.index.installArchive({ id: "papanache", section: "packers" })
-    
-    this.product?.create({ stack, packer })
-    this.product?.dir.dir('chunks')?.make()
+    // Look up the template
+    const templateId = this.arg("template")
+
+    // Looks good, let's create the product structure from this template
+    await this.product?.createFromTemplate(templateId)
   }
 }

@@ -1,4 +1,4 @@
-import { SessionProps, CommandProps, Path, EngineState, IClass, IBundle, Name, ChunkConfig, Id, ILogger, ArtifactsKind, IFile, IDir, CommandType, SessionState, ChunkConfigRoute, Target, Version, ProductState, IScript, CommandArg } from '.';
+import { SessionProps, CommandProps, Path, EngineState, IClass, IBundle, Name, ChunkConfig, Id, ILogger, ArtifactsKind, IFile, JSON, IDir, CommandType, SessionState, ChunkConfigRoute, Target, Version, ProductState, IScript, CommandArg } from '.';
 export interface IEngine extends IClass {
     readonly state: EngineState;
     readonly isStarted: boolean;
@@ -18,6 +18,7 @@ export interface ISession extends IClass {
     readonly isInitialized: boolean;
     readonly isReady: boolean;
     readonly product?: IProduct;
+    readonly pkg: JSON;
     initialize(command?: ICommand): Promise<void>;
     makeReady(): Promise<void>;
     destroy(): Promise<void>;
@@ -25,7 +26,6 @@ export interface ISession extends IClass {
     resolveProduct(target?: Target): Promise<IProduct | undefined>;
     findBundle(id: Id, version: Version, install?: boolean): Promise<IBundle | undefined>;
     findArtifact(id: Id, kind: ArtifactsKind, install?: boolean): Promise<any>;
-    findStack(id: Id, install?: boolean): Promise<IStack | undefined>;
     findTemplate(id: Id, install?: boolean): Promise<ITemplate | undefined>;
 }
 export interface ICommand extends IClass {
@@ -57,6 +57,7 @@ export interface IProduct extends IClass {
     readonly state: ProductState;
     readonly snapshot?: ISnapshot;
     create(data?: any): void;
+    createFromTemplate(id: Id): Promise<IProduct | undefined>;
     load(): Promise<IProduct | undefined>;
     saveContext(context: object): void;
     changeState(state: ProductState): void;
@@ -93,7 +94,9 @@ export interface IStack extends IClass {
     findTargetScript(target: Target, name: Name): Promise<IScript | undefined>;
 }
 export interface ITemplate extends IClass {
-    readonly artifact?: IArtifact;
+    readonly artifact: IArtifact;
+    readonly name: Name;
+    install(dir: IDir, product: IProduct): Promise<void>;
     load(): Promise<ITemplate | undefined>;
 }
 export interface IApp extends IClass {

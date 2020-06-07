@@ -11,7 +11,8 @@ import {
     IStack,
     ISession,
     ISnapshot,
-    Snapshot,
+    ITemplate,
+    Id,
     Errors,
     Strings
 } from '..'
@@ -168,22 +169,22 @@ export class Product implements IProduct {
         this.manifest.load()
 
         // Look for the stack in the manifest
-        const stackId = this.manifest.data.json().stack
+        // const stackId = this.manifest.data.json().stack
     
-        if (!stackId) {
-            // No stack specified - not good, nothing to look for anymore
-            this.changeState(ProductState.UNLOADED)
-            return this
-        }
+        // if (!stackId) {
+        //     // No stack specified - not good, nothing to look for anymore
+        //     this.changeState(ProductState.UNLOADED)
+        //     return this
+        // }
     
-        // There we go, we have a stack too
-        this._stack = await this.session?.findStack(stackId)
+        // // There we go, we have a stack too
+        // this._stack = await this.session?.findStack(stackId)
         
-        if (!this.stack) {
-            // Not quiet yet
-            this.changeState(ProductState.UNLOADED)
-            throw Errors.ProductCannotLoad(Strings.StackIsMissingString(stackId))
-        }
+        // if (!this.stack) {
+        //     // Not quiet yet
+        //     this.changeState(ProductState.UNLOADED)
+        //     throw Errors.ProductCannotLoad(Strings.StackIsMissingString(stackId))
+        // }
 
         // // Take an initial snapshot
         // this._snapshot = await new Snapshot(this).load()
@@ -210,6 +211,18 @@ export class Product implements IProduct {
         this.manifest.save()
 
         return this.manifest.data.json()
+    }
+
+    async createFromTemplate(id: Id) {
+        const template = await this.session?.findTemplate(id)
+
+        if (!template) {
+            throw Errors.ProductCannotCreate(Strings.TemplateIsMissingString(id))
+        }
+
+        await template!.install(this.dir, this)
+
+        return this.load()
     }
 
     /**

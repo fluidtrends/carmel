@@ -53,10 +53,16 @@ export const PluginCannotLoadString = (name: string, reason: string) => `the ${n
 export const ProductCannotLoadString = (reason: string) => `the product cannot load because ${reason}`;
 
 /** @category Strings */
+export const ProductCannotCreateString = (reason: string) => `the product could not be created because ${reason}`;
+
+/** @category Strings */
 export const CannotTakeSnapshotString = (reason?: string) => `a product snapshot could not be taken${reason && ' because ' + reason}`;
 
 /** @category Strings */
 export const StackIsMissingString = (name: string) => `the ${name} stack is missing`;
+
+/** @category Strings */
+export const TemplateIsMissingString = (name: string) => `the ${name} template is missing`;
 
 /** @category Strings */
 export const StackCannotLoadString = (name: string, reason: string) => `the ${name} stack cannot load because ${reason}`;

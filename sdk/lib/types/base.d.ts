@@ -3,8 +3,10 @@ export declare type Version = string;
 export declare type Name = string;
 export declare type Path = string;
 export declare type UTF8 = string;
-export declare type JSON = any;
 export declare type Module = any;
+export declare type JSON = {
+    [key: string]: any;
+};
 export declare type CommandArg = {
     name: string;
     value: any;
@@ -13,9 +15,9 @@ export interface IClass {
 }
 export declare enum ArtifactsKind {
     UNKNOWN = "unknown",
-    STACKS = "stacks",
     TEMPLATES = "templates",
-    ASSETS = "assets"
+    ASSETS = "assets",
+    CHUNKS = "chunks"
 }
 export declare enum ProductState {
     UNKNOWN = 0,

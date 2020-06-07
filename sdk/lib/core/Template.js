@@ -35,9 +35,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Template = void 0;
 var __1 = require("..");
+var path_1 = __importDefault(require("path"));
 /**
  *
  * {@link https://github.com/fluidtrends/carmel/blob/master/sdk/src/Template.ts | Source Code } |
@@ -52,9 +56,21 @@ var Template = /** @class */ (function () {
      * @param name
      * @param bundle
      */
-    function Template(name, bundle) {
-        this._artifact = new __1.Artifact(name, bundle, __1.ArtifactsKind.STACKS);
+    function Template(name, bundle, archive) {
+        this._archive = archive;
+        this._name = name;
+        this._artifact = new __1.Artifact(name, bundle, __1.ArtifactsKind.TEMPLATES);
     }
+    Object.defineProperty(Template.prototype, "archive", {
+        /**
+         *
+         */
+        get: function () {
+            return this._archive;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Object.defineProperty(Template.prototype, "artifact", {
         /**
          *
@@ -65,13 +81,110 @@ var Template = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Template.prototype, "name", {
+        /**
+         *
+         */
+        get: function () {
+            return this._name;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    /**
+     *
+     * @param dir
+     */
+    Template.prototype.install = function (dir, product) {
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
+        return __awaiter(this, void 0, void 0, function () {
+            var packerId, stackId, packer, _p, stack, _q, packerDir, stackDir, rootDir, linkStackDepDir, linkPackerDepDir;
+            var _r;
+            return __generator(this, function (_s) {
+                switch (_s.label) {
+                    case 0:
+                        packerId = (_a = this._tpl) === null || _a === void 0 ? void 0 : _a.content.packer;
+                        stackId = (_b = this._tpl) === null || _b === void 0 ? void 0 : _b.content.stack;
+                        _p = packerId;
+                        if (!_p) return [3 /*break*/, 2];
+                        return [4 /*yield*/, ((_c = product.session) === null || _c === void 0 ? void 0 : _c.index.installArchive({ id: packerId, section: "packers" }))];
+                    case 1:
+                        _p = (_s.sent());
+                        _s.label = 2;
+                    case 2:
+                        packer = _p;
+                        _q = stackId;
+                        if (!_q) return [3 /*break*/, 4];
+                        return [4 /*yield*/, ((_d = product.session) === null || _d === void 0 ? void 0 : _d.index.installArchive({ id: stackId, section: "stacks" }))];
+                    case 3:
+                        _q = (_s.sent());
+                        _s.label = 4;
+                    case 4:
+                        stack = _q;
+                        packerDir = new __1.Dir(path_1.default.resolve((_e = product.session) === null || _e === void 0 ? void 0 : _e.index.sections.packers.path, packer.id, packer.version, packer.id));
+                        stackDir = new __1.Dir(path_1.default.resolve((_f = product.session) === null || _f === void 0 ? void 0 : _f.index.sections.stacks.path, stack.id, stack.version, stack.id)) // dir?.dir('stack')?.link(new Dir(packerPath))
+                        ;
+                        rootDir = (_g = dir.dir('carmel')) === null || _g === void 0 ? void 0 : _g.make();
+                        return [4 /*yield*/, ((_h = this._tpl) === null || _h === void 0 ? void 0 : _h.save(rootDir.path, {}))];
+                    case 5:
+                        _s.sent();
+                        if ((_j = stackDir.dir('node_modules')) === null || _j === void 0 ? void 0 : _j.exists) {
+                            (_k = dir.dir('node_modules')) === null || _k === void 0 ? void 0 : _k.make();
+                            Object.keys(stack.manifest.dependencies).map(function (dep) {
+                                var depDir = new __1.Dir(path_1.default.resolve(stackDir.path, 'node_modules', dep));
+                                var linkDepDir = new __1.Dir(path_1.default.resolve(dir.path, 'node_modules', dep));
+                                linkDepDir === null || linkDepDir === void 0 ? void 0 : linkDepDir.link(depDir);
+                            });
+                            linkStackDepDir = new __1.Dir(path_1.default.resolve(dir.path, 'node_modules', stack.id));
+                            linkStackDepDir === null || linkStackDepDir === void 0 ? void 0 : linkStackDepDir.link(stackDir);
+                            linkPackerDepDir = new __1.Dir(path_1.default.resolve(dir.path, 'node_modules', packer.id));
+                            linkPackerDepDir === null || linkPackerDepDir === void 0 ? void 0 : linkPackerDepDir.link(packerDir);
+                        }
+                        (_l = dir === null || dir === void 0 ? void 0 : dir.file('package.json')) === null || _l === void 0 ? void 0 : _l.update({
+                            dependencies: (_r = {},
+                                _r[packer.id] = packerDir.path,
+                                _r[stack.id] = stackDir.path,
+                                _r)
+                        });
+                        (_m = dir === null || dir === void 0 ? void 0 : dir.file('carmel.code-workspace')) === null || _m === void 0 ? void 0 : _m.update({
+                            folders: [
+                                { path: "carmel/assets" },
+                                { path: "carmel/chunks" }
+                            ],
+                            settings: {}
+                        });
+                        product.create({
+                            carmelVersion: (_o = product.session) === null || _o === void 0 ? void 0 : _o.pkg.version,
+                            template: this.name,
+                            bundle: this.artifact.bundle.id,
+                            bundleVersion: this.artifact.bundle.version,
+                            stack: stack.id,
+                            stackVersion: stack.version,
+                            packer: packer.id,
+                            packerVersion: packer.version,
+                        });
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
     /**
      *
      */
     Template.prototype.load = function () {
+        var _a;
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/, this];
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0: return [4 /*yield*/, this._archive.load()];
+                    case 1:
+                        _b.sent();
+                        this._tpl = this._archive.templates[this.name];
+                        return [4 /*yield*/, ((_a = this._tpl) === null || _a === void 0 ? void 0 : _a.load({}))];
+                    case 2:
+                        _b.sent();
+                        return [2 /*return*/, this];
+                }
             });
         });
     };

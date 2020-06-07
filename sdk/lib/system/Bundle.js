@@ -94,13 +94,28 @@ var Bundle = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Bundle.prototype, "archive", {
+        /**
+         *
+         */
+        get: function () {
+            return this._archive;
+        },
+        enumerable: false,
+        configurable: true
+    });
     /**
      *
      */
     Bundle.prototype.load = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this];
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this._archive.load()];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/, this];
+                }
             });
         });
     };
@@ -113,10 +128,8 @@ var Bundle = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (kind) {
-                    case __1.ArtifactsKind.STACKS:
-                        return [2 /*return*/, new __1.Stack(name, this).load()];
                     case __1.ArtifactsKind.TEMPLATES:
-                        return [2 /*return*/, new __1.Template(name, this).load()];
+                        return [2 /*return*/, new __1.Template(name, this, this._archive).load()];
                     default:
                         return [2 /*return*/, undefined];
                 }

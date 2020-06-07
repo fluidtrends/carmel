@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.StackCannotLoadString = exports.StackIsMissingString = exports.CannotTakeSnapshotString = exports.ProductCannotLoadString = exports.PluginCannotLoadString = exports.CommandCannotExecuteString = exports.CommandAlreadyExistsString = exports.CommandDoesNotExistString = exports.ChunksAreMissingString = exports.ProductIsNotReadyString = exports.ProductAppIsMissingString = exports.StackTargetScriptIsMissingString = exports.TargetNotSupportedString = exports.ProductAlreadyExistsString = exports.ProductIsMissingString = exports.CommandIsMissingString = exports.SessionIsMissingString = exports.ArgumentIsMissingString = exports.DirDoesNotExistString = exports.FileCouldNotBeLoadedString = exports.FileDoesNotExistString = void 0;
+exports.StackCannotLoadString = exports.TemplateIsMissingString = exports.StackIsMissingString = exports.CannotTakeSnapshotString = exports.ProductCannotCreateString = exports.ProductCannotLoadString = exports.PluginCannotLoadString = exports.CommandCannotExecuteString = exports.CommandAlreadyExistsString = exports.CommandDoesNotExistString = exports.ChunksAreMissingString = exports.ProductIsNotReadyString = exports.ProductAppIsMissingString = exports.StackTargetScriptIsMissingString = exports.TargetNotSupportedString = exports.ProductAlreadyExistsString = exports.ProductIsMissingString = exports.CommandIsMissingString = exports.SessionIsMissingString = exports.ArgumentIsMissingString = exports.DirDoesNotExistString = exports.FileCouldNotBeLoadedString = exports.FileDoesNotExistString = void 0;
 /** @category Strings */
 exports.FileDoesNotExistString = function (file) { return "the " + file + " file does not exit"; };
 /** @category Strings */
@@ -38,9 +38,13 @@ exports.PluginCannotLoadString = function (name, reason) { return "the " + name 
 /** @category Strings */
 exports.ProductCannotLoadString = function (reason) { return "the product cannot load because " + reason; };
 /** @category Strings */
+exports.ProductCannotCreateString = function (reason) { return "the product could not be created because " + reason; };
+/** @category Strings */
 exports.CannotTakeSnapshotString = function (reason) { return "a product snapshot could not be taken" + (reason && ' because ' + reason); };
 /** @category Strings */
 exports.StackIsMissingString = function (name) { return "the " + name + " stack is missing"; };
+/** @category Strings */
+exports.TemplateIsMissingString = function (name) { return "the " + name + " template is missing"; };
 /** @category Strings */
 exports.StackCannotLoadString = function (name, reason) { return "the " + name + " stack cannot load because " + reason; };
 //# sourceMappingURL=index.js.map

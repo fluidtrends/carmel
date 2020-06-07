@@ -35,8 +35,12 @@ export declare const PluginCannotLoadString: (name: string, reason: string) => s
 /** @category Strings */
 export declare const ProductCannotLoadString: (reason: string) => string;
 /** @category Strings */
+export declare const ProductCannotCreateString: (reason: string) => string;
+/** @category Strings */
 export declare const CannotTakeSnapshotString: (reason?: string | undefined) => string;
 /** @category Strings */
 export declare const StackIsMissingString: (name: string) => string;
+/** @category Strings */
+export declare const TemplateIsMissingString: (name: string) => string;
 /** @category Strings */
 export declare const StackCannotLoadString: (name: string, reason: string) => string;
