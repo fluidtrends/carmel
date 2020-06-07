@@ -80,22 +80,16 @@ function runCarmelCommand(command, sdkPath) {
 }
 function installCarmelSDK() {
     return __awaiter(this, void 0, void 0, function () {
-        var carmelSDKPath, installed;
+        var installed;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    carmelSDKPath = path_1.default.resolve(process.env.CARMEL_CACHE_ROOT, "@carmel", "sdk", "default");
-                    if (fs_1.default.existsSync(carmelSDKPath)) {
-                        return [2 /*return*/, carmelSDKPath];
-                    }
-                    return [4 /*yield*/, install_1.default({
-                            module: "@carmel/sdk",
-                            to: process.env.CARMEL_CACHE_ROOT
-                        })];
+                case 0: return [4 /*yield*/, install_1.default({
+                        module: "@carmel/sdk",
+                        to: process.env.CARMEL_CACHE_ROOT
+                    })];
                 case 1:
                     installed = _a.sent();
-                    fs_1.default.symlinkSync(installed.to, carmelSDKPath, 'dir');
-                    return [2 /*return*/, carmelSDKPath];
+                    return [2 /*return*/, installed.to];
             }
         });
     });
