@@ -96,40 +96,40 @@ var Template = /** @class */ (function () {
      * @param dir
      */
     Template.prototype.install = function (dir, product) {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
         return __awaiter(this, void 0, void 0, function () {
-            var packerId, stackId, packer, _p, stack, _q, packerDir, stackDir, rootDir, linkStackDepDir, linkPackerDepDir;
-            var _r;
-            return __generator(this, function (_s) {
-                switch (_s.label) {
+            var packerId, stackId, packer, _o, stack, _p, packerDir, stackDir, rootDir, linkStackDepDir, linkPackerDepDir;
+            var _q;
+            return __generator(this, function (_r) {
+                switch (_r.label) {
                     case 0:
                         packerId = (_a = this._tpl) === null || _a === void 0 ? void 0 : _a.content.packer;
                         stackId = (_b = this._tpl) === null || _b === void 0 ? void 0 : _b.content.stack;
-                        _p = packerId;
-                        if (!_p) return [3 /*break*/, 2];
+                        _o = packerId;
+                        if (!_o) return [3 /*break*/, 2];
                         return [4 /*yield*/, ((_c = product.session) === null || _c === void 0 ? void 0 : _c.index.installArchive({ id: packerId, section: "packers" }))];
                     case 1:
-                        _p = (_s.sent());
-                        _s.label = 2;
+                        _o = (_r.sent());
+                        _r.label = 2;
                     case 2:
-                        packer = _p;
-                        _q = stackId;
-                        if (!_q) return [3 /*break*/, 4];
+                        packer = _o;
+                        _p = stackId;
+                        if (!_p) return [3 /*break*/, 4];
                         return [4 /*yield*/, ((_d = product.session) === null || _d === void 0 ? void 0 : _d.index.installArchive({ id: stackId, section: "stacks" }))];
                     case 3:
-                        _q = (_s.sent());
-                        _s.label = 4;
+                        _p = (_r.sent());
+                        _r.label = 4;
                     case 4:
-                        stack = _q;
+                        stack = _p;
                         packerDir = new __1.Dir(path_1.default.resolve((_e = product.session) === null || _e === void 0 ? void 0 : _e.index.sections.packers.path, packer.id, packer.version, packer.id));
                         stackDir = new __1.Dir(path_1.default.resolve((_f = product.session) === null || _f === void 0 ? void 0 : _f.index.sections.stacks.path, stack.id, stack.version, stack.id)) // dir?.dir('stack')?.link(new Dir(packerPath))
                         ;
-                        rootDir = (_g = dir.dir('carmel')) === null || _g === void 0 ? void 0 : _g.make();
-                        return [4 /*yield*/, ((_h = this._tpl) === null || _h === void 0 ? void 0 : _h.save(rootDir.path, {}))];
+                        rootDir = dir;
+                        return [4 /*yield*/, ((_g = this._tpl) === null || _g === void 0 ? void 0 : _g.save(rootDir.path, {}))];
                     case 5:
-                        _s.sent();
-                        if ((_j = stackDir.dir('node_modules')) === null || _j === void 0 ? void 0 : _j.exists) {
-                            (_k = dir.dir('node_modules')) === null || _k === void 0 ? void 0 : _k.make();
+                        _r.sent();
+                        if ((_h = stackDir.dir('node_modules')) === null || _h === void 0 ? void 0 : _h.exists) {
+                            (_j = dir.dir('node_modules')) === null || _j === void 0 ? void 0 : _j.make();
                             Object.keys(stack.manifest.dependencies).map(function (dep) {
                                 var depDir = new __1.Dir(path_1.default.resolve(stackDir.path, 'node_modules', dep));
                                 var linkDepDir = new __1.Dir(path_1.default.resolve(dir.path, 'node_modules', dep));
@@ -140,21 +140,21 @@ var Template = /** @class */ (function () {
                             linkPackerDepDir = new __1.Dir(path_1.default.resolve(dir.path, 'node_modules', packer.id));
                             linkPackerDepDir === null || linkPackerDepDir === void 0 ? void 0 : linkPackerDepDir.link(packerDir);
                         }
-                        (_l = dir === null || dir === void 0 ? void 0 : dir.file('package.json')) === null || _l === void 0 ? void 0 : _l.update({
-                            dependencies: (_r = {},
-                                _r[packer.id] = packerDir.path,
-                                _r[stack.id] = stackDir.path,
-                                _r)
+                        (_k = dir === null || dir === void 0 ? void 0 : dir.file('package.json')) === null || _k === void 0 ? void 0 : _k.update({
+                            dependencies: (_q = {},
+                                _q[packer.id] = packerDir.path,
+                                _q[stack.id] = stackDir.path,
+                                _q)
                         });
-                        (_m = dir === null || dir === void 0 ? void 0 : dir.file('carmel.code-workspace')) === null || _m === void 0 ? void 0 : _m.update({
+                        (_l = dir === null || dir === void 0 ? void 0 : dir.file('carmel.code-workspace')) === null || _l === void 0 ? void 0 : _l.update({
                             folders: [
-                                { path: "carmel/assets" },
-                                { path: "carmel/chunks" }
+                                { path: "assets" },
+                                { path: "chunks" }
                             ],
                             settings: {}
                         });
                         product.create({
-                            carmelVersion: (_o = product.session) === null || _o === void 0 ? void 0 : _o.pkg.version,
+                            carmelVersion: (_m = product.session) === null || _m === void 0 ? void 0 : _m.pkg.version,
                             template: this.name,
                             bundle: this.artifact.bundle.id,
                             bundleVersion: this.artifact.bundle.version,

@@ -85,7 +85,7 @@ export class Template implements ITemplate {
         const packerDir = new Dir(path.resolve(product.session?.index.sections.packers.path, packer.id, packer.version, packer.id))
         const stackDir = new Dir(path.resolve(product.session?.index.sections.stacks.path, stack.id, stack.version, stack.id))        // dir?.dir('stack')?.link(new Dir(packerPath))
 
-        const rootDir = dir.dir('carmel')?.make()
+        const rootDir = dir
         await this._tpl?.save(rootDir!.path!, {})
 
         if (stackDir.dir('node_modules')?.exists) {
@@ -110,8 +110,8 @@ export class Template implements ITemplate {
 
         dir?.file('carmel.code-workspace')?.update({
             folders: [
-                { path: "carmel/assets" },
-                { path: "carmel/chunks" }
+                { path: "assets" },
+                { path: "chunks" }
             ],
             settings: {}
         })
