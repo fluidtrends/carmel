@@ -84,7 +84,7 @@ function installCarmelSDK() {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    carmelSdkPath = path_1.default.resolve(process.env.CARMEL_CACHE_ROOT, ".cache", "@carmel", "sdk", "default");
+                    carmelSdkPath = path_1.default.resolve(process.env.CARMEL_CACHE_ROOT, "@carmel", "sdk", "default");
                     if (fs_1.default.existsSync(carmelSdkPath)) {
                         return [2 /*return*/, carmelSdkPath];
                     }
