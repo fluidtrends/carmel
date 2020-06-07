@@ -46,7 +46,7 @@ function init() {
 
 async function runCarmelCommand(command: any, sdkPath: string) {
     const tsMode = process.env.CARMEL_MODE && process.env.CARMEL_MODE === 'ts'
-    const Carmel = require(path.resolve(sdkPath, "@carmel", "sdk", tsMode ? 'src' : 'lib'))
+    const Carmel = require(path.resolve(sdkPath, tsMode ? 'src' : 'lib'))
     
     const Command = (Carmel.Commands as any)[command.cls]        
     const cmd = new Command(command)
@@ -56,10 +56,18 @@ async function runCarmelCommand(command: any, sdkPath: string) {
 }
 
 export async function installCarmelSDK() {
+    const carmelSdkPath = path.resolve(process.env.CARMEL_CACHE_ROOT!, ".cache", "@carmel", "sdk", "default")
+
+    if (fs.existsSync(carmelSdkPath)) {
+        return carmelSdkPath
+    }
+
     const installed = await npmInstall({
         module: `@carmel/sdk`,
         to: process.env.CARMEL_CACHE_ROOT 
     })
+
+    fs.symlinkSync(installed!.to, carmelSdkPath, 'dir')
 
     return installed!.to
 }
