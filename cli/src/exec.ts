@@ -46,7 +46,7 @@ function init() {
 
 async function runCarmelCommand(command: any, sdkPath: string) {
     const tsMode = process.env.CARMEL_MODE && process.env.CARMEL_MODE === 'ts'
-    const Carmel = require(path.resolve(sdkPath, tsMode ? 'src' : 'lib'))
+    const Carmel = require(path.resolve(sdkPath, "@carmel", "sdk", tsMode ? 'src' : 'lib'))
     
     const Command = (Carmel.Commands as any)[command.cls]        
     const cmd = new Command(command)

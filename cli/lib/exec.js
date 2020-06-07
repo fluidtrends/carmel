@@ -70,7 +70,7 @@ function runCarmelCommand(command, sdkPath) {
         var tsMode, Carmel, Command, cmd, args;
         return __generator(this, function (_a) {
             tsMode = process.env.CARMEL_MODE && process.env.CARMEL_MODE === 'ts';
-            Carmel = require(path_1.default.resolve(sdkPath, tsMode ? 'src' : 'lib'));
+            Carmel = require(path_1.default.resolve(sdkPath, "@carmel", "sdk", tsMode ? 'src' : 'lib'));
             Command = Carmel.Commands[command.cls];
             cmd = new Command(command);
             args = Object.keys(command).map(function (name) { return ({ name: name, value: command[name] }); });
