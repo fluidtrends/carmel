@@ -56,20 +56,12 @@ async function runCarmelCommand(command: any, sdkPath: string) {
 }
 
 export async function installCarmelSDK() {
-    const carmelSDKPath = path.resolve(process.env.CARMEL_CACHE_ROOT!, "@carmel", "sdk", "default")
-
-    if (fs.existsSync(carmelSDKPath)) {
-        return carmelSDKPath
-    }
-
     const installed = await npmInstall({
         module: `@carmel/sdk`,
         to: process.env.CARMEL_CACHE_ROOT 
     })
 
-    fs.symlinkSync(installed!.to, carmelSDKPath, 'dir')
-
-    return carmelSDKPath
+    return installed!.to
 }
 
 export default async (input?: any) => {
