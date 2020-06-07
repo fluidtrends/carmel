@@ -70,7 +70,7 @@ function runCarmelCommand(command, sdkPath) {
         var tsMode, Carmel, Command, cmd, args;
         return __generator(this, function (_a) {
             tsMode = process.env.CARMEL_MODE && process.env.CARMEL_MODE === 'ts';
-            Carmel = require(path_1.default.resolve(sdkPath, "@carmel", "sdk", tsMode ? 'src' : 'lib'));
+            Carmel = require(path_1.default.resolve(sdkPath, tsMode ? 'src' : 'lib'));
             Command = Carmel.Commands[command.cls];
             cmd = new Command(command);
             args = Object.keys(command).map(function (name) { return ({ name: name, value: command[name] }); });
@@ -80,15 +80,21 @@ function runCarmelCommand(command, sdkPath) {
 }
 function installCarmelSDK() {
     return __awaiter(this, void 0, void 0, function () {
-        var installed;
+        var carmelSdkPath, installed;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, install_1.default({
-                        module: "@carmel/sdk",
-                        to: process.env.CARMEL_CACHE_ROOT
-                    })];
+                case 0:
+                    carmelSdkPath = path_1.default.resolve(process.env.CARMEL_CACHE_ROOT, ".cache", "@carmel", "sdk", "default");
+                    if (fs_1.default.existsSync(carmelSdkPath)) {
+                        return [2 /*return*/, carmelSdkPath];
+                    }
+                    return [4 /*yield*/, install_1.default({
+                            module: "@carmel/sdk",
+                            to: process.env.CARMEL_CACHE_ROOT
+                        })];
                 case 1:
                     installed = _a.sent();
+                    fs_1.default.symlinkSync(installed.to, carmelSdkPath, 'dir');
                     return [2 /*return*/, installed.to];
             }
         });
