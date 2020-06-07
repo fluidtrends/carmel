@@ -44,6 +44,7 @@ var Dir = /** @class */ (function () {
             return this;
         if (!this.path || !dir || !dir.exists)
             return undefined;
+        fs_extra_1.default.existsSync(path_1.default.dirname(this.path)) || fs_extra_1.default.mkdirsSync(path_1.default.dirname(this.path));
         fs_extra_1.default.symlinkSync(dir.path, this.path, 'dir');
         return this.exists ? this : undefined;
     };

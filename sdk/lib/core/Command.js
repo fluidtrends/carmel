@@ -225,10 +225,10 @@ var Command = /** @class */ (function () {
             // If we require a script let's make sure the stack has it
             throw __1.Errors.CommandCannotExecute(this.id, __1.Strings.StackTargetScriptIsMissingString(this.target, this.id));
         }
-        if (this.requiresApp && !this.app) {
-            // If we require an app let's make sure the product has it
-            throw __1.Errors.CommandCannotExecute(this.id, __1.Strings.ProductAppIsMissingString(this.target));
-        }
+        // if (this.requiresApp && !this.app) {
+        //     // If we require an app let's make sure the product has it
+        //     throw Errors.CommandCannotExecute(this.id, Strings.ProductAppIsMissingString(this.target))
+        // }
     };
     /** @internal */
     Command.prototype._validateTypeRequirements = function () {
@@ -240,34 +240,32 @@ var Command = /** @class */ (function () {
     };
     /** @internal */
     Command.prototype._resolve = function () {
-        var _a, _b, _c, _d, _e, _f;
+        var _a, _b, _c, _d;
         return __awaiter(this, void 0, void 0, function () {
-            var _g, _h, _j, _k;
-            return __generator(this, function (_l) {
-                switch (_l.label) {
+            var _e, _f, _g;
+            return __generator(this, function (_h) {
+                switch (_h.label) {
                     case 0:
-                        _g = this;
+                        _e = this;
                         return [4 /*yield*/, ((_a = this.session) === null || _a === void 0 ? void 0 : _a.resolveProduct(this.target))];
                     case 1:
-                        _g._product = _l.sent();
-                        _h = this.type;
-                        switch (_h) {
+                        _e._product = _h.sent();
+                        _f = this.type;
+                        switch (_f) {
                             case __1.CommandType.PRODUCT: return [3 /*break*/, 2];
                         }
-                        return [3 /*break*/, 6];
+                        return [3 /*break*/, 5];
                     case 2: return [4 /*yield*/, ((_b = this._product) === null || _b === void 0 ? void 0 : _b.load())];
                     case 3:
-                        _l.sent();
-                        _j = this;
-                        return [4 /*yield*/, ((_d = (_c = this.product) === null || _c === void 0 ? void 0 : _c.snapshot) === null || _d === void 0 ? void 0 : _d.app(this.target))];
+                        _h.sent();
+                        // this._app = await this.product?.snapshot?.app(this.target)
+                        _g = this;
+                        return [4 /*yield*/, ((_d = (_c = this.product) === null || _c === void 0 ? void 0 : _c.stack) === null || _d === void 0 ? void 0 : _d.findTargetScript(this.target, this.id))];
                     case 4:
-                        _j._app = _l.sent();
-                        _k = this;
-                        return [4 /*yield*/, ((_f = (_e = this.product) === null || _e === void 0 ? void 0 : _e.stack) === null || _f === void 0 ? void 0 : _f.findTargetScript(this.target, this.id))];
-                    case 5:
-                        _k._script = _l.sent();
-                        return [3 /*break*/, 6];
-                    case 6: return [2 /*return*/];
+                        // this._app = await this.product?.snapshot?.app(this.target)
+                        _g._script = _h.sent();
+                        return [3 /*break*/, 5];
+                    case 5: return [2 /*return*/];
                 }
             });
         });

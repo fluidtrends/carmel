@@ -2,15 +2,17 @@
 
 ENDPOINT="https://nodes.get-scatter.com:443"
 
-if ! [ -f "chunky.json" ]; then
+if ! [ -f ".carmel.json" ]; then
   echo "*** [fail] run this from the root project location"
   exit
 fi
 
-if ! [ -d ".chunky/eos/mainnet/carmeltokens" ]; then
-  echo "*** [fail] the carmeltokens contract is missing"
+cd
+if ! [ -d ".eos/mainnet/carmelsystem" ]; then
+  echo "*** [fail] the carmelsystem contract is missing"
   exit
 fi
 
 echo "*** deploying to the mainnet ..."
-cleos -u "$ENDPOINT" set contract carmeltokens .chunky/eos/mainnet/carmeltokens --abi carmeltokens.abi -p carmeltokens@active
+cd .eos/mainnet/carmelsystem
+cleos -u "$ENDPOINT" set contract carmelsystem . --abi carmelsystem.abi -p carmelsystem@active

@@ -28,7 +28,7 @@ commands:
   - name: template
     description: The product template to use
     type: string
-    default: npm://fluidtrends:bananas/default
+    default: "@fluidtrends/bananas/starter"
   examples:
   - command: init MyProduct
     description: Create a new product using the default template

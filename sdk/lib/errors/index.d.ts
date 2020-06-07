@@ -25,4 +25,6 @@ export declare const CannotTakeSnapshot: (reason: string) => Error;
 /** @category Errors */
 export declare const ProductCannotLoad: (reason: string) => Error;
 /** @category Errors */
+export declare const ProductCannotCreate: (reason: string) => Error;
+/** @category Errors */
 export declare const StackCannotLoad: (name: string, reason: string) => Error;

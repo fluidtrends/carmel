@@ -2,9 +2,8 @@ import {
     Index 
 } from 'dodi'
 
-import {
-    Archive
-} from 'rara'
+import fs from 'fs'
+import path from 'path'
 
 import {
     ISession,
@@ -17,7 +16,7 @@ import {
     Product,
     EngineState, 
     IProduct,
-    Stack,
+    JSON,
     Target,
     Template,
     Version,
@@ -36,7 +35,7 @@ import {
  */
 export class Session implements ISession {
     /** Start with these sections - always */
-    public static DEFAULT_SECTIONS = ["bundles"];
+    public static DEFAULT_SECTIONS = ["bundles", "stacks", "products", "packers", "events"];
 
     /** Use these as mandatory bundles */
     public static DEFAULT_BUNDLES = ["@fluidtrends/bananas"];
@@ -56,6 +55,9 @@ export class Session implements ISession {
     /** @internal */
     protected _product?: IProduct;
 
+    /** @internal */
+    protected _pkg: JSON;
+
     /**
      * Builds a new Session with the given {@linkcode SessionProps} properties
      * 
@@ -66,6 +68,7 @@ export class Session implements ISession {
         this._logger = new Logger(this.props)
         this._index = new Index(Object.assign({}, { sections: Session.DEFAULT_SECTIONS.map (id => ({ id })) }, this.props, { name: 'carmel' }))
         this._state = SessionState.UNINITIALIZED
+        this._pkg = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../..', 'package.json'), 'utf8'))
     }
 
     /** */
@@ -101,6 +104,11 @@ export class Session implements ISession {
     /** */
     get product() {
         return this._product
+    }
+
+    /** */
+    get pkg() {
+        return this._pkg
     }
 
     /** */
@@ -190,6 +198,31 @@ export class Session implements ISession {
         return bundle.load()
     }
 
+    /** @internal */
+    private parseArtifact(id: Id, kind: ArtifactsKind, install: boolean = true) {
+       // Defaults
+       let bundleVersion = undefined
+       let bundleId = Session.DEFAULT_BUNDLES[0]
+       let artifactName = id
+       let regex = id.charAt(0) === '@' ? /(\@.*\/.*)\/(.*)$/ : /(.*)\/(.*)\/(.*)$/
+
+       // Parse the bundle id and version from the artifact id
+       const info = id.match(regex)?.slice(1,4)!
+
+       if (info && info.length === 3) {
+           // This is is a fully resolved artifact id
+           bundleId = info[0]
+           bundleVersion = info[1]
+           artifactName = info[2]
+       } else if (info && info.length === 2) {
+           // This requires the latest version (no version specified)
+           bundleId = info[0]
+           artifactName = info[1]
+       }
+
+       return { bundleId, bundleVersion, artifactName }
+    }
+
     /**
      * Looks up an artifact in the local index.
 
@@ -200,42 +233,17 @@ export class Session implements ISession {
         // Make sure we're ready
         await this.makeReady()
 
-        // Defaults
-        let bundleVersion = undefined
-        let bundleId = Session.DEFAULT_BUNDLES[0]
-        let artifactName = id
-
-        // Parse the bundle id and version from the artifact id
-        const info = id.match(/(.*)\/(.*)\/(.*)$/)?.slice(1,4)!
-
-        if (info && info.length === 3) {
-            // This is is a fully resolved artifact id
-            bundleId = info[0]
-            bundleVersion = info[1]
-            artifactName = info[2]
-        } else if (info && info.length === 2) {
-            // This requires the latest version (no version specified)
-            bundleId = info[0]
-            artifactName = info[1]
-        }
+        // Parse the artifact
+        const { bundleId, bundleVersion, artifactName } = this.parseArtifact(id, kind, install) 
 
         // See if the bundle exists
         const bundle = await this.findBundle(bundleId, bundleVersion, install)
-        
+
          // Too bad the bundle does not exist
          if (!bundle || !bundle.exists) return undefined
 
          // Load the artifact from the bundle
          return bundle.loadArtifact(artifactName, kind)
-    }
-
-    /**
-     * 
-     * @param id 
-     */
-    async findStack(id: Id, install: boolean = true) {
-        const stack = await this.findArtifact(id, ArtifactsKind.STACKS, install)
-        return stack as Stack
     }
 
     /**
@@ -263,27 +271,27 @@ export class Session implements ISession {
     }
 
     async installSystemBundle(bundleId: string) {
-        const archive = await this.index.installArchive({ section: "system", id: "papanache", silent: true })
-        this.set("papanacheVersion", archive.version)
-        await archive.installDependencies()   
+        // const archive = await this.index.installArchive({ section: "system", id: "papanache", silent: true })
+        // this.set("papanacheVersion", archive.version)
+        // await archive.installDependencies()   
     }
 
     async updateIndex() {
         // this.logger.info('Making sure your development environment is up to date ...')
  
-        return this.index.installArchive({ id: "papanache", silent: true })
-                         .then((archive: Archive) => {
-                            this.set("papanacheVersion", archive.version)
-                            return archive.installDependencies()
-                         })
-                         .then(() => this.index.installArchive({ id: "@fluidtrends/bananas", silent: true }))
-                         .then((archive: Archive) => {
-                            this.set("bananasVersion", archive.version)
-                            return archive.installDependencies()
-                         })
-                         .then(() => {
-                            // this.logger.info('Your development environment is all up to date')
-                         })
+        // return this.index.installArchive({ id: "papanache", silent: true })
+        //                  .then((archive: Archive) => {
+        //                     this.set("papanacheVersion", archive.version)
+        //                     return archive.installDependencies()
+        //                  })
+        //                  .then(() => this.index.installArchive({ id: "@fluidtrends/bananas", silent: true }))
+        //                  .then((archive: Archive) => {
+        //                     this.set("bananasVersion", archive.version)
+        //                     return archive.installDependencies()
+        //                  })
+        //                  .then(() => {
+        //                     // this.logger.info('Your development environment is all up to date')
+        //                  })
     }
 }
 

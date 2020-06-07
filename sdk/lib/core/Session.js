@@ -35,9 +35,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Session = void 0;
 var dodi_1 = require("dodi");
+var fs_1 = __importDefault(require("fs"));
+var path_1 = __importDefault(require("path"));
 var __1 = require("..");
 /**
  * Represents an {@linkcode Engine} Session initiated by a client.
@@ -59,6 +64,7 @@ var Session = /** @class */ (function () {
         this._logger = new __1.Logger(this.props);
         this._index = new dodi_1.Index(Object.assign({}, { sections: Session.DEFAULT_SECTIONS.map(function (id) { return ({ id: id }); }) }, this.props, { name: 'carmel' }));
         this._state = __1.SessionState.UNINITIALIZED;
+        this._pkg = JSON.parse(fs_1.default.readFileSync(path_1.default.resolve(__dirname, '../..', 'package.json'), 'utf8'));
     }
     Object.defineProperty(Session.prototype, "props", {
         /** */
@@ -112,6 +118,14 @@ var Session = /** @class */ (function () {
         /** */
         get: function () {
             return this._product;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Session.prototype, "pkg", {
+        /** */
+        get: function () {
+            return this._pkg;
         },
         enumerable: false,
         configurable: true
@@ -245,6 +259,30 @@ var Session = /** @class */ (function () {
             });
         });
     };
+    /** @internal */
+    Session.prototype.parseArtifact = function (id, kind, install) {
+        var _a;
+        if (install === void 0) { install = true; }
+        // Defaults
+        var bundleVersion = undefined;
+        var bundleId = Session.DEFAULT_BUNDLES[0];
+        var artifactName = id;
+        var regex = id.charAt(0) === '@' ? /(\@.*\/.*)\/(.*)$/ : /(.*)\/(.*)\/(.*)$/;
+        // Parse the bundle id and version from the artifact id
+        var info = (_a = id.match(regex)) === null || _a === void 0 ? void 0 : _a.slice(1, 4);
+        if (info && info.length === 3) {
+            // This is is a fully resolved artifact id
+            bundleId = info[0];
+            bundleVersion = info[1];
+            artifactName = info[2];
+        }
+        else if (info && info.length === 2) {
+            // This requires the latest version (no version specified)
+            bundleId = info[0];
+            artifactName = info[1];
+        }
+        return { bundleId: bundleId, bundleVersion: bundleVersion, artifactName: artifactName };
+    };
     /**
      * Looks up an artifact in the local index.
 
@@ -252,35 +290,20 @@ var Session = /** @class */ (function () {
      * @param kind
      */
     Session.prototype.findArtifact = function (id, kind, install) {
-        var _a;
         if (install === void 0) { install = true; }
         return __awaiter(this, void 0, void 0, function () {
-            var bundleVersion, bundleId, artifactName, info, bundle;
+            var _a, bundleId, bundleVersion, artifactName, bundle;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: 
                     // Make sure we're ready
                     return [4 /*yield*/, this.makeReady()
-                        // Defaults
+                        // Parse the artifact
                     ];
                     case 1:
                         // Make sure we're ready
                         _b.sent();
-                        bundleVersion = undefined;
-                        bundleId = Session.DEFAULT_BUNDLES[0];
-                        artifactName = id;
-                        info = (_a = id.match(/(.*)\/(.*)\/(.*)$/)) === null || _a === void 0 ? void 0 : _a.slice(1, 4);
-                        if (info && info.length === 3) {
-                            // This is is a fully resolved artifact id
-                            bundleId = info[0];
-                            bundleVersion = info[1];
-                            artifactName = info[2];
-                        }
-                        else if (info && info.length === 2) {
-                            // This requires the latest version (no version specified)
-                            bundleId = info[0];
-                            artifactName = info[1];
-                        }
+                        _a = this.parseArtifact(id, kind, install), bundleId = _a.bundleId, bundleVersion = _a.bundleVersion, artifactName = _a.artifactName;
                         return [4 /*yield*/, this.findBundle(bundleId, bundleVersion, install)
                             // Too bad the bundle does not exist
                         ];
@@ -293,24 +316,6 @@ var Session = /** @class */ (function () {
                             ];
                         // Load the artifact from the bundle
                         return [2 /*return*/, bundle.loadArtifact(artifactName, kind)];
-                }
-            });
-        });
-    };
-    /**
-     *
-     * @param id
-     */
-    Session.prototype.findStack = function (id, install) {
-        if (install === void 0) { install = true; }
-        return __awaiter(this, void 0, void 0, function () {
-            var stack;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.findArtifact(id, __1.ArtifactsKind.STACKS, install)];
-                    case 1:
-                        stack = _a.sent();
-                        return [2 /*return*/, stack];
                 }
             });
         });
@@ -359,44 +364,20 @@ var Session = /** @class */ (function () {
     };
     Session.prototype.installSystemBundle = function (bundleId) {
         return __awaiter(this, void 0, void 0, function () {
-            var archive;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.index.installArchive({ section: "system", id: "papanache", silent: true })];
-                    case 1:
-                        archive = _a.sent();
-                        this.set("papanacheVersion", archive.version);
-                        return [4 /*yield*/, archive.installDependencies()];
-                    case 2:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
+                return [2 /*return*/];
             });
         });
     };
     Session.prototype.updateIndex = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
             return __generator(this, function (_a) {
-                // this.logger.info('Making sure your development environment is up to date ...')
-                return [2 /*return*/, this.index.installArchive({ id: "papanache", silent: true })
-                        .then(function (archive) {
-                        _this.set("papanacheVersion", archive.version);
-                        return archive.installDependencies();
-                    })
-                        .then(function () { return _this.index.installArchive({ id: "@fluidtrends/bananas", silent: true }); })
-                        .then(function (archive) {
-                        _this.set("bananasVersion", archive.version);
-                        return archive.installDependencies();
-                    })
-                        .then(function () {
-                        // this.logger.info('Your development environment is all up to date')
-                    })];
+                return [2 /*return*/];
             });
         });
     };
     /** Start with these sections - always */
-    Session.DEFAULT_SECTIONS = ["bundles"];
+    Session.DEFAULT_SECTIONS = ["bundles", "stacks", "products", "packers", "events"];
     /** Use these as mandatory bundles */
     Session.DEFAULT_BUNDLES = ["@fluidtrends/bananas"];
     return Session;

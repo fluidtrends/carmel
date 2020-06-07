@@ -31,6 +31,7 @@ function init() {
     const userRoot = process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME']
     const carmelRoot = path.resolve(userRoot!, '.carmel')
     const carmelCacheRoot = path.resolve(carmelRoot!, 'cache')
+    const carmelBundlesRoot = path.resolve(carmelRoot!, 'bundles')
 
     fs.existsSync(carmelRoot) || fs.mkdirSync(carmelRoot)
     fs.existsSync(carmelCacheRoot) || fs.mkdirSync(carmelCacheRoot)
@@ -38,6 +39,7 @@ function init() {
     process.env.CARMEL_USER_HOME = userRoot
     process.env.CARMEL_HOME = carmelRoot
     process.env.CARMEL_CACHE_ROOT = carmelCacheRoot 
+    process.env.CARMEL_BUNDLES_ROOT = carmelBundlesRoot 
     
     resolveAll()
 }
@@ -48,8 +50,9 @@ async function runCarmelCommand(command: any, sdkPath: string) {
     
     const Command = (Carmel.Commands as any)[command.cls]        
     const cmd = new Command(command)
+    const args =  Object.keys(command).map(name => ({ name, value: command[name] }))
     
-    return Carmel.Engine.run(cmd)
+    return Carmel.Engine.run(cmd, args)
 }
 
 export async function installCarmelSDK() {
@@ -74,6 +77,7 @@ export default async (input?: any) => {
         init()
 
         const sdkPath = await installCarmelSDK()
+        
         const command = parseCommand(input)
         await runCarmelCommand(command, sdkPath)
     } catch (e) {

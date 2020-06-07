@@ -56,22 +56,25 @@ function init() {
     var userRoot = process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME'];
     var carmelRoot = path_1.default.resolve(userRoot, '.carmel');
     var carmelCacheRoot = path_1.default.resolve(carmelRoot, 'cache');
+    var carmelBundlesRoot = path_1.default.resolve(carmelRoot, 'bundles');
     fs_1.default.existsSync(carmelRoot) || fs_1.default.mkdirSync(carmelRoot);
     fs_1.default.existsSync(carmelCacheRoot) || fs_1.default.mkdirSync(carmelCacheRoot);
     process.env.CARMEL_USER_HOME = userRoot;
     process.env.CARMEL_HOME = carmelRoot;
     process.env.CARMEL_CACHE_ROOT = carmelCacheRoot;
+    process.env.CARMEL_BUNDLES_ROOT = carmelBundlesRoot;
     nodu_1.resolveAll();
 }
 function runCarmelCommand(command, sdkPath) {
     return __awaiter(this, void 0, void 0, function () {
-        var tsMode, Carmel, Command, cmd;
+        var tsMode, Carmel, Command, cmd, args;
         return __generator(this, function (_a) {
             tsMode = process.env.CARMEL_MODE && process.env.CARMEL_MODE === 'ts';
             Carmel = require(path_1.default.resolve(sdkPath, tsMode ? 'src' : 'lib'));
             Command = Carmel.Commands[command.cls];
             cmd = new Command(command);
-            return [2 /*return*/, Carmel.Engine.run(cmd)];
+            args = Object.keys(command).map(function (name) { return ({ name: name, value: command[name] }); });
+            return [2 /*return*/, Carmel.Engine.run(cmd, args)];
         });
     });
 }

@@ -1,6 +1,5 @@
 export * from './types';
 export * from './core/Command';
-export * from './core/Stack';
 export * from './core/Artifact';
 export * from './core/Template';
 export * from './core/Product';

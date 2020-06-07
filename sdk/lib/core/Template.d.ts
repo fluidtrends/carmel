@@ -1,4 +1,5 @@
-import { ITemplate, IBundle, Name, IArtifact } from '..';
+import { ITemplate, IBundle, Name, IArtifact, IProduct, IDir } from '..';
+import { Archive, Template as Tpl } from 'rara';
 /**
  *
  * {@link https://github.com/fluidtrends/carmel/blob/master/sdk/src/Template.ts | Source Code } |
@@ -9,17 +10,36 @@ import { ITemplate, IBundle, Name, IArtifact } from '..';
  */
 export declare class Template implements ITemplate {
     /** @internal */
-    protected _artifact?: IArtifact;
+    protected _artifact: IArtifact;
+    /** @internal */
+    protected _archive: Archive;
+    /** @internal */
+    protected _tpl?: Tpl;
+    /** @internal */
+    protected _name: Name;
     /**
      *
      * @param name
      * @param bundle
      */
-    constructor(name: Name, bundle: IBundle);
+    constructor(name: Name, bundle: IBundle, archive: Archive);
     /**
      *
      */
-    get artifact(): IArtifact | undefined;
+    get archive(): Archive;
+    /**
+     *
+     */
+    get artifact(): IArtifact;
+    /**
+     *
+     */
+    get name(): string;
+    /**
+     *
+     * @param dir
+     */
+    install(dir: IDir, product: IProduct): Promise<void>;
     /**
      *
      */

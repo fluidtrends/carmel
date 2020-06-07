@@ -3,8 +3,11 @@ export type Version    = string;
 export type Name       = string;
 export type Path       = string;
 export type UTF8       = string;
-export type JSON       = any;
 export type Module     = any;
+
+export type JSON = {
+    [key: string]: any
+}
 
 export type CommandArg = {
     name: string
@@ -16,9 +19,9 @@ export interface IClass {
 
 export enum ArtifactsKind {
     UNKNOWN   = "unknown",
-    STACKS    = "stacks",
     TEMPLATES = "templates",
-    ASSETS    = "assets"
+    ASSETS    = "assets",
+    CHUNKS    = "chunks"
 }
 
 export enum ProductState {

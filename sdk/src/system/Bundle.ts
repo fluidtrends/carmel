@@ -1,7 +1,6 @@
 import { 
     IBundle,
     Dir,
-    Stack,
     Name,
     Template,
     ArtifactsKind,
@@ -67,7 +66,15 @@ export class Bundle implements IBundle {
     /**
      * 
      */
+    get archive() {
+        return this._archive
+    }
+
+    /**
+     * 
+     */
     async load() {
+        await this._archive.load()
         return this
     }
 
@@ -78,10 +85,8 @@ export class Bundle implements IBundle {
      */
     async loadArtifact(name: Name, kind: ArtifactsKind) {
         switch(kind) {
-            case ArtifactsKind.STACKS:
-                return new Stack(name, this).load()
             case ArtifactsKind.TEMPLATES:
-                return new Template(name, this).load()
+                return new Template(name, this, this._archive).load()
             default:
                 return undefined                 
         }

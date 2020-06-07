@@ -192,10 +192,10 @@ export abstract class Command implements ICommand {
             throw Errors.CommandCannotExecute(this.id, Strings.StackTargetScriptIsMissingString(this.target, this.id))
         }
 
-        if (this.requiresApp && !this.app) {
-            // If we require an app let's make sure the product has it
-            throw Errors.CommandCannotExecute(this.id, Strings.ProductAppIsMissingString(this.target))
-        }
+        // if (this.requiresApp && !this.app) {
+        //     // If we require an app let's make sure the product has it
+        //     throw Errors.CommandCannotExecute(this.id, Strings.ProductAppIsMissingString(this.target))
+        // }
     }
 
     /** @internal */
@@ -214,7 +214,7 @@ export abstract class Command implements ICommand {
         switch(this.type) {
             case CommandType.PRODUCT:
             await this._product?.load()
-            this._app = await this.product?.snapshot?.app(this.target)
+            // this._app = await this.product?.snapshot?.app(this.target)
             this._script = await this.product?.stack?.findTargetScript(this.target, this.id)
             break;                
         }

@@ -113,7 +113,7 @@ export class Script implements IScript {
      * @param args 
      */ 
     async exec(args?: CommandArg[]) {
-      return this.module?.default(args)
+      return this.module?.default()
     }
 
     // get isDev() {
