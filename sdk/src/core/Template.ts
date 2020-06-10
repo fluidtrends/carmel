@@ -13,9 +13,6 @@ import {
 
  import shortid from 'shortid'
 
- import fs from 'fs'
- import path from 'path'
-
  import {
      Archive,
      Template as Tpl
@@ -80,19 +77,12 @@ export class Template implements ITemplate {
      */
     async install(dir: IDir, product: IProduct) {  
         const id = shortid.generate().toLowerCase()
-        // const productDir = new Dir(path.resolve(product.session?.index.sections.products.path, id)).make()
         
         const packerId = this._tpl?.content.packer
         const stackId = this._tpl?.content.stack
 
         const packer = packerId && await product.session?.index.installArchive({ id: packerId, section: "packers" })
         const stack = stackId && await product.session?.index.installArchive({ id: stackId, section: "stacks" })
-
-        const packerDir = new Dir(path.resolve(product.session?.index.sections.packers.path, packer.id, packer.version, packer.id))
-        const stackDir = new Dir(path.resolve(product.session?.index.sections.stacks.path, stack.id, stack.version, stack.id))
-
-        const stackDepsDir = new Dir(path.resolve(stackDir!.path!, 'node_modules'))
-        dir?.dir('node_modules')?.link(stackDepsDir)
 
         const rootDir = dir.dir('carmel')?.make()
         await this._tpl?.save(rootDir!.path!, {})
