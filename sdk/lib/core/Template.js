@@ -96,45 +96,45 @@ var Template = /** @class */ (function () {
      * @param dir
      */
     Template.prototype.install = function (dir, product) {
-        var _a, _b, _c, _d, _e, _f, _g, _h;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
         return __awaiter(this, void 0, void 0, function () {
-            var id, packerId, stackId, packer, _j, stack, _k, rootDir;
-            return __generator(this, function (_l) {
-                switch (_l.label) {
+            var id, packerId, stackId, packer, _p, stack, _q, stackDir;
+            return __generator(this, function (_r) {
+                switch (_r.label) {
                     case 0:
                         id = shortid_1.default.generate().toLowerCase();
                         packerId = (_a = this._tpl) === null || _a === void 0 ? void 0 : _a.content.packer;
                         stackId = (_b = this._tpl) === null || _b === void 0 ? void 0 : _b.content.stack;
-                        _j = packerId;
-                        if (!_j) return [3 /*break*/, 2];
+                        _p = packerId;
+                        if (!_p) return [3 /*break*/, 2];
                         return [4 /*yield*/, ((_c = product.session) === null || _c === void 0 ? void 0 : _c.index.installArchive({ id: packerId, section: "packers" }))];
                     case 1:
-                        _j = (_l.sent());
-                        _l.label = 2;
+                        _p = (_r.sent());
+                        _r.label = 2;
                     case 2:
-                        packer = _j;
-                        _k = stackId;
-                        if (!_k) return [3 /*break*/, 4];
+                        packer = _p;
+                        _q = stackId;
+                        if (!_q) return [3 /*break*/, 4];
                         return [4 /*yield*/, ((_d = product.session) === null || _d === void 0 ? void 0 : _d.index.installArchive({ id: stackId, section: "stacks" }))];
                     case 3:
-                        _k = (_l.sent());
-                        _l.label = 4;
+                        _q = (_r.sent());
+                        _r.label = 4;
                     case 4:
-                        stack = _k;
-                        rootDir = (_e = dir.dir('carmel')) === null || _e === void 0 ? void 0 : _e.make();
-                        return [4 /*yield*/, ((_f = this._tpl) === null || _f === void 0 ? void 0 : _f.save(rootDir.path, {}))];
+                        stack = _q;
+                        return [4 /*yield*/, ((_e = this._tpl) === null || _e === void 0 ? void 0 : _e.save(dir.path, {}))];
                     case 5:
-                        _l.sent();
-                        (_g = dir === null || dir === void 0 ? void 0 : dir.file('carmel.code-workspace')) === null || _g === void 0 ? void 0 : _g.update({
+                        _r.sent();
+                        (_f = dir === null || dir === void 0 ? void 0 : dir.file('carmel.code-workspace')) === null || _f === void 0 ? void 0 : _f.update({
                             folders: [
                                 { path: "carmel/assets" },
                                 { path: "carmel/chunks" }
                             ],
                             settings: {}
                         });
-                        product.create({
+                        product.manifest.load();
+                        product.manifest.data.append({
                             id: id,
-                            carmelSDKVersion: (_h = product.session) === null || _h === void 0 ? void 0 : _h.pkg.version,
+                            carmelSDKVersion: (_g = product.session) === null || _g === void 0 ? void 0 : _g.pkg.version,
                             template: this.name,
                             bundle: this.artifact.bundle.id,
                             bundleVersion: this.artifact.bundle.version,
@@ -143,6 +143,18 @@ var Template = /** @class */ (function () {
                             packer: packer.id,
                             packerVersion: packer.version,
                         });
+                        product.manifest.save();
+                        stackDir = new __1.Dir(stack.path);
+                        if (!((_h = stackDir.dir('node_modules')) === null || _h === void 0 ? void 0 : _h.exists)) {
+                            // If the stack is not a JS stack, forget it
+                            return [2 /*return*/];
+                        }
+                        if (!((_k = (_j = stackDir.dir('node_modules')) === null || _j === void 0 ? void 0 : _j.dir(stackId)) === null || _k === void 0 ? void 0 : _k.exists)) {
+                            // Add the stack to itself, if necessary
+                            (_m = (_l = stackDir.dir('node_modules')) === null || _l === void 0 ? void 0 : _l.dir(stackId)) === null || _m === void 0 ? void 0 : _m.link(stackDir.dir('lib'));
+                        }
+                        // Resolve the stack and its dependencies
+                        (_o = dir.dir('node_modules')) === null || _o === void 0 ? void 0 : _o.link(stackDir.dir('node_modules'));
                         return [2 /*return*/];
                 }
             });

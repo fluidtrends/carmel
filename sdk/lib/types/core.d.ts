@@ -32,7 +32,6 @@ export interface ICommand extends IClass {
     readonly props: CommandProps;
     readonly session?: ISession;
     readonly requiresArgs: boolean;
-    readonly requiresScript: boolean;
     readonly product?: IProduct;
     readonly target: Target;
     readonly type: CommandType;
@@ -40,8 +39,10 @@ export interface ICommand extends IClass {
     readonly args?: CommandArg[];
     run(session: ISession, args?: CommandArg[]): Promise<any>;
     exec(): Promise<any>;
-    runScript(): Promise<void>;
     arg(name: Name): any;
+}
+export interface IPacker extends IClass {
+    pack(callback: (event: any) => void): Promise<any>;
 }
 export interface IProduct extends IClass {
     readonly dir: IDir;
@@ -59,9 +60,9 @@ export interface IProduct extends IClass {
     saveContext(context: object): void;
     changeState(state: ProductState): void;
     loadFile(path: Path): void;
-    runScript(target: Target, id: Id): Promise<void>;
     saveData(data: any): void;
     findDirs(dirpath: Path): Path[];
+    resolvePacker(target: Target, port: number, watch: boolean): Promise<IPacker | undefined>;
 }
 export interface ISnapshot extends IClass {
     readonly id: Id;

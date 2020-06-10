@@ -1,9 +1,7 @@
 import {
   Command,
-  ISession,
   CommandProps,
-  CommandType,
-  CommandArg
+  CommandType
 } from '../..'
 
 const props: CommandProps = {
@@ -26,7 +24,11 @@ export default class Start extends Command {
 
   /** @internal */
   async exec() {
-    // Execute the required script
-    return this.runScript()
+    const packer = await this.product?.resolvePacker(this.target, 9999, true)
+    if (!packer) return 
+
+    packer.pack((event: any) => {
+      console.log(">", event)
+    })
   }
 }

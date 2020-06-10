@@ -76,9 +76,10 @@ export declare class Product implements IProduct {
     /**
      *
      * @param target
-     * @param id
+     * @param port
+     * @param watch
      */
-    runScript(target: Target, id: Id): Promise<void>;
+    resolvePacker(target: Target, port: number, watch: boolean): Promise<any>;
     /**
      * Load this product and all its artifacts, including its manifest
      */
@@ -87,6 +88,10 @@ export declare class Product implements IProduct {
      *
      */
     create(data?: any): Promise<any>;
+    /**
+     *
+     * @param id
+     */
     createFromTemplate(id: Id): Promise<this>;
     /**
      *

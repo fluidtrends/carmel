@@ -172,62 +172,39 @@ var Product = /** @class */ (function () {
     /**
      *
      * @param target
-     * @param id
+     * @param port
+     * @param watch
      */
-    Product.prototype.runScript = function (target, id) {
-        var _a, _b;
+    Product.prototype.resolvePacker = function (target, port, watch) {
+        var _a, _b, _c, _d;
         return __awaiter(this, void 0, void 0, function () {
-            var productId, packerId, packerVersion, stackId, stackVersion, stackDir, packerDir, scriptFile, script, e_1;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
-                    case 0:
-                        productId = this.manifest.data.json().id;
-                        packerId = this.manifest.data.json().packer;
-                        packerVersion = this.manifest.data.json().packerVersion;
-                        if (!packerId || !packerVersion) {
-                            // No packer specified - not good, nothing to look for anymore
-                            this.changeState(__1.ProductState.UNLOADED);
-                            return [2 /*return*/];
-                        }
-                        stackId = this.manifest.data.json().stack;
-                        stackVersion = this.manifest.data.json().stackVersion;
-                        if (!stackId || !stackVersion) {
-                            // No stack specified - not good, nothing to look for anymore
-                            this.changeState(__1.ProductState.UNLOADED);
-                            return [2 /*return*/];
-                        }
-                        stackDir = path_1.default.resolve((_a = this.session) === null || _a === void 0 ? void 0 : _a.index.sections.stacks.path, stackId, stackVersion, stackId);
-                        packerDir = path_1.default.resolve((_b = this.session) === null || _b === void 0 ? void 0 : _b.index.sections.packers.path, packerId, packerVersion, packerId);
-                        process.env.CARMEL_STACK = stackId;
-                        process.env.CARMEL_PACKER = packerId;
-                        process.env.CARMEL_STACK_VERSION = stackVersion;
-                        process.env.CARMEL_PACKER_VERSION = packerVersion;
-                        process.env.CARMEL_STACK_HOME = stackDir;
-                        process.env.CARMEL_PACKER_HOME = packerDir;
-                        process.env.CARMEL_PRODUCT_HOME = this.dir.path;
-                        process.env.CARMEL_PRODUCT_ID = productId;
-                        process.env.CARMEL_TARGET = target;
-                        process.env.CARMEL_SCRIPT_NAME = id;
-                        scriptFile = new __1.File(path_1.default.resolve(stackDir, 'scripts', target, id + ".js"));
-                        if (!(scriptFile === null || scriptFile === void 0 ? void 0 : scriptFile.exists)) {
-                            // No packer specified - not good, nothing to look for anymore
-                            this.changeState(__1.ProductState.UNLOADED);
-                            return [2 /*return*/];
-                        }
-                        _c.label = 1;
-                    case 1:
-                        _c.trys.push([1, 3, , 4]);
-                        script = require(scriptFile.path).default;
-                        return [4 /*yield*/, script()];
-                    case 2:
-                        _c.sent();
-                        return [3 /*break*/, 4];
-                    case 3:
-                        e_1 = _c.sent();
-                        this.changeState(__1.ProductState.UNLOADED);
-                        throw e_1;
-                    case 4: return [2 /*return*/];
+            var packerId, packerVersion, packerDir, stackId, stackVersion, stackDir, packerInstance, stackConfig, packerOptions;
+            return __generator(this, function (_e) {
+                packerId = this.manifest.data.json().packer;
+                packerVersion = this.manifest.data.json().packerVersion;
+                packerDir = new __1.Dir(path_1.default.resolve((_a = this.session) === null || _a === void 0 ? void 0 : _a.index.sections.packers.path, packerId, packerVersion, packerId));
+                stackId = this.manifest.data.json().stack;
+                stackVersion = this.manifest.data.json().stackVersion;
+                stackDir = new __1.Dir(path_1.default.resolve((_b = this.session) === null || _b === void 0 ? void 0 : _b.index.sections.stacks.path, stackId, stackVersion, stackId));
+                if (!((_c = stackDir.dir('node_modules')) === null || _c === void 0 ? void 0 : _c.exists) || !((_d = stackDir.file('carmel.json')) === null || _d === void 0 ? void 0 : _d.exists)) {
+                    return [2 /*return*/, undefined];
                 }
+                packerInstance = require(packerDir.path);
+                stackConfig = require(stackDir.file('carmel.json').path);
+                // Make sure we've got them all
+                if (!packerInstance || !packerInstance[target] || !stackConfig || !stackConfig[target])
+                    return [2 /*return*/];
+                packerOptions = {
+                    contextDir: this.dir.path,
+                    entryFile: stackDir.file(stackConfig[target].entry).path,
+                    destDir: this.dir.dir("." + target).path,
+                    stackDir: stackDir.path,
+                    templateFile: stackDir.file(stackConfig[target].template).path,
+                    watch: watch,
+                    port: port
+                };
+                // Let's send it all back
+                return [2 /*return*/, new packerInstance[target].Packer(packerOptions)];
             });
         });
     };
@@ -269,6 +246,10 @@ var Product = /** @class */ (function () {
             });
         });
     };
+    /**
+     *
+     * @param id
+     */
     Product.prototype.createFromTemplate = function (id) {
         var _a;
         return __awaiter(this, void 0, void 0, function () {

@@ -47,14 +47,6 @@ export declare abstract class Command implements ICommand {
     /**
      *
      */
-    get requiresScript(): boolean;
-    /**
-     *
-     */
-    get requiresApp(): boolean;
-    /**
-     *
-     */
     get product(): IProduct | undefined;
     /**
      *
@@ -85,10 +77,6 @@ export declare abstract class Command implements ICommand {
      * @param args The {@linkcode CommandArg} args used to execute this command, if any
      */
     run(session: ISession, args?: CommandArg[]): Promise<void>;
-    /**
-     *
-     */
-    runScript(): Promise<void | undefined>;
     /**
      * Children need to implement the execution flow.
      */

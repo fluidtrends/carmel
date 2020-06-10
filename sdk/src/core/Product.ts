@@ -1,5 +1,4 @@
 import path from 'path'
-import fs from 'fs'
 
 import { 
     IProduct, 
@@ -140,63 +139,45 @@ export class Product implements IProduct {
         this._state = state
     }
 
-
     /**
      * 
      * @param target 
-     * @param id 
+     * @param port 
+     * @param watch 
      */
-    async runScript(target: Target, id: Id) {
-        // This is the product id 
-        const productId = this.manifest.data.json().id 
-
+    async resolvePacker(target: Target, port: number, watch: boolean) {
         // Look for the packer in the manifest
         const packerId = this.manifest.data.json().packer
         const packerVersion = this.manifest.data.json().packerVersion
-
-        if (!packerId || !packerVersion) {
-            // No packer specified - not good, nothing to look for anymore
-            this.changeState(ProductState.UNLOADED)
-            return
-        }
-        
+        const packerDir = new Dir(path.resolve(this.session?.index.sections.packers.path, packerId, packerVersion, packerId))
         const stackId = this.manifest.data.json().stack
         const stackVersion = this.manifest.data.json().stackVersion
-    
-        if (!stackId || !stackVersion) {
-            // No stack specified - not good, nothing to look for anymore
-            this.changeState(ProductState.UNLOADED)
-            return
+        const stackDir = new Dir(path.resolve(this.session?.index.sections.stacks.path, stackId, stackVersion, stackId))
+
+        if (!stackDir.dir('node_modules')?.exists || !stackDir.file('carmel.json')?.exists) {
+            return undefined
         }
 
-        const stackDir = path.resolve(this.session?.index.sections.stacks.path, stackId, stackVersion, stackId)
-        const packerDir = path.resolve(this.session?.index.sections.packers.path, packerId, packerVersion, packerId)
+        // Look up the packer and the stack config
+        const packerInstance = require(packerDir.path!)
+        const stackConfig = require(stackDir.file('carmel.json')!.path!)
 
-        process.env.CARMEL_STACK = stackId
-        process.env.CARMEL_PACKER = packerId
-        process.env.CARMEL_STACK_VERSION = stackVersion
-        process.env.CARMEL_PACKER_VERSION = packerVersion
-        process.env.CARMEL_STACK_HOME = stackDir
-        process.env.CARMEL_PACKER_HOME = packerDir
-        process.env.CARMEL_PRODUCT_HOME = this.dir.path
-        process.env.CARMEL_PRODUCT_ID = productId
-        process.env.CARMEL_TARGET = target
-        process.env.CARMEL_SCRIPT_NAME = id
+        // Make sure we've got them all
+        if (!packerInstance || !packerInstance[target] || !stackConfig || !stackConfig[target]) return 
 
-        const scriptFile = new File(path.resolve(stackDir, 'scripts', target, `${id}.js`))
-        if (!scriptFile?.exists) {
-            // No packer specified - not good, nothing to look for anymore
-            this.changeState(ProductState.UNLOADED)
-            return
+        // Build the packer options
+        const packerOptions = {
+            contextDir: this.dir.path,
+            entryFile: stackDir.file(stackConfig[target].entry)!.path!,
+            destDir: this.dir.dir(`.${target}`)!.path!,
+            stackDir: stackDir.path,
+            templateFile: stackDir.file(stackConfig[target].template)!.path!,
+            watch, 
+            port
         }
 
-        try {
-            const script = require(scriptFile!.path!).default
-            await script()
-        } catch (e) {
-            this.changeState(ProductState.UNLOADED)
-            throw e
-        }
+        // Let's send it all back
+        return new packerInstance[target].Packer(packerOptions)
     }
 
     /**
@@ -236,6 +217,10 @@ export class Product implements IProduct {
         return this.manifest.data.json()
     }
 
+    /**
+     * 
+     * @param id 
+     */
     async createFromTemplate(id: Id) {
         const template = await this.session?.findTemplate(id)
 

@@ -112,26 +112,6 @@ var Command = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(Command.prototype, "requiresScript", {
-        /**
-         *
-         */
-        get: function () {
-            return this.props.requiresScript !== undefined && this.props.requiresScript;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Command.prototype, "requiresApp", {
-        /**
-         *
-         */
-        get: function () {
-            return this.props.requiresApp !== undefined && this.props.requiresApp;
-        },
-        enumerable: false,
-        configurable: true
-    });
     Object.defineProperty(Command.prototype, "product", {
         /**
          *
@@ -196,10 +176,6 @@ var Command = /** @class */ (function () {
             // Ensure the product is ready  
             throw __1.Errors.CommandCannotExecute(this.id, __1.Strings.ProductIsNotReadyString());
         }
-        // if (this.requiresScript && !this.script) {
-        //     // If we require a script let's make sure the stack has it
-        //     throw Errors.CommandCannotExecute(this.id, Strings.StackTargetScriptIsMissingString(this.target, this.id))
-        // }
     };
     /** @internal */
     Command.prototype._validateTypeRequirements = function () {
@@ -270,20 +246,6 @@ var Command = /** @class */ (function () {
                         result = _a.sent();
                         // Send back the result, if any
                         return [2 /*return*/, result];
-                }
-            });
-        });
-    };
-    /**
-     *
-     */
-    Command.prototype.runScript = function () {
-        var _a;
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0: return [4 /*yield*/, ((_a = this.product) === null || _a === void 0 ? void 0 : _a.runScript(this.target, this.id))];
-                    case 1: return [2 /*return*/, _b.sent()];
                 }
             });
         });

@@ -84,9 +84,8 @@ export class Template implements ITemplate {
         const packer = packerId && await product.session?.index.installArchive({ id: packerId, section: "packers" })
         const stack = stackId && await product.session?.index.installArchive({ id: stackId, section: "stacks" })
 
-        const rootDir = dir.dir('carmel')?.make()
-        await this._tpl?.save(rootDir!.path!, {})
-
+        await this._tpl?.save(dir!.path!, {})
+        
         dir?.file('carmel.code-workspace')?.update({
             folders: [
                 { path: "carmel/assets" },
@@ -94,8 +93,8 @@ export class Template implements ITemplate {
             ],
             settings: {}
         })
-
-        product.create({
+        product.manifest.load()
+        product.manifest.data.append({
             id,
             carmelSDKVersion: product.session?.pkg.version,
             template: this.name,
@@ -106,6 +105,21 @@ export class Template implements ITemplate {
             packer: packer.id,
             packerVersion: packer.version,
         })
+        product.manifest.save()
+
+        const stackDir = new Dir(stack.path)        
+        if (!stackDir.dir('node_modules')?.exists) {
+            // If the stack is not a JS stack, forget it
+            return 
+        }
+
+        if (!stackDir.dir('node_modules')?.dir(stackId)?.exists) {
+            // Add the stack to itself, if necessary
+            stackDir.dir('node_modules')?.dir(stackId)?.link(stackDir.dir('lib'))
+        }
+
+        // Resolve the stack and its dependencies
+        dir.dir('node_modules')?.link(stackDir.dir('node_modules'))
     }
 
     /**

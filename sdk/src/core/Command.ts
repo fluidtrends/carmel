@@ -91,20 +91,6 @@ export abstract class Command implements ICommand {
     /**
      * 
      */
-    get requiresScript() {
-        return this.props.requiresScript !== undefined && this.props.requiresScript
-    }
-
-    /**
-     * 
-     */
-    get requiresApp() {
-        return this.props.requiresApp !== undefined && this.props.requiresApp
-    }
-
-    /**
-     * 
-     */
     get product() {
         return this._product
     }
@@ -161,12 +147,6 @@ export abstract class Command implements ICommand {
             // Ensure the product is ready  
             throw Errors.CommandCannotExecute(this.id, Strings.ProductIsNotReadyString())
         }        
-
-        // if (this.requiresScript && !this.script) {
-        //     // If we require a script let's make sure the stack has it
-        //     throw Errors.CommandCannotExecute(this.id, Strings.StackTargetScriptIsMissingString(this.target, this.id))
-        // }
-
     }
 
     /** @internal */
@@ -217,13 +197,6 @@ export abstract class Command implements ICommand {
 
         // Send back the result, if any
         return result
-    }
-
-    /**
-     * 
-     */
-    async runScript() {
-        return await this.product?.runScript(this.target, this.id)
     }
 
     /**

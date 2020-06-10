@@ -56,13 +56,11 @@ function init() {
     var userRoot = process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME'];
     var carmelRoot = path_1.default.resolve(userRoot, '.carmel');
     var carmelCacheRoot = path_1.default.resolve(carmelRoot, 'cache');
-    var carmelBundlesRoot = path_1.default.resolve(carmelRoot, 'bundles');
     fs_1.default.existsSync(carmelRoot) || fs_1.default.mkdirSync(carmelRoot);
     fs_1.default.existsSync(carmelCacheRoot) || fs_1.default.mkdirSync(carmelCacheRoot);
     process.env.CARMEL_USER_HOME = userRoot;
     process.env.CARMEL_HOME = carmelRoot;
     process.env.CARMEL_CACHE_ROOT = carmelCacheRoot;
-    process.env.CARMEL_BUNDLES_ROOT = carmelBundlesRoot;
     nodu_1.resolveAll();
 }
 function runCarmelCommand(command, sdkPath) {
