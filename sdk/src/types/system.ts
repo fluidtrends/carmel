@@ -7,7 +7,6 @@ import {
     Module,
     ITemplate,
     Version,
-    IStack,
     Id
 } from '.'
 import { Target, ArtifactsKind } from './base';
@@ -36,6 +35,7 @@ export interface IDir extends IClass {
     readonly exists: boolean;
     readonly dirs: Path[];
     
+    copy(dir: IDir): IDir | undefined;
     dir(dirpath: Path): IDir | undefined;
     file(filepath: Path): IFile | undefined;
     make(): IDir | undefined;

@@ -12,5 +12,6 @@ export declare class Dir implements IDir {
     file(filepath: Path): File | undefined;
     make(): this | undefined;
     link(dir?: IDir): this | undefined;
+    copy(dir: IDir): IDir | undefined;
     get dirs(): string[];
 }

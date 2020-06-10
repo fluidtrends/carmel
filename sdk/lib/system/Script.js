@@ -48,11 +48,9 @@ var Script = /** @class */ (function () {
      * @param target
      * @param name
      */
-    function Script(stack, target, name) {
-        this._stack = stack;
+    function Script(target, name) {
         this._target = target;
         this._name = name;
-        this._dir = this.stack.targetScriptDir(this.target, this.name);
     }
     Object.defineProperty(Script.prototype, "name", {
         /**
@@ -70,16 +68,6 @@ var Script = /** @class */ (function () {
          */
         get: function () {
             return this._target;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Script.prototype, "stack", {
-        /**
-         *
-         */
-        get: function () {
-            return this._stack;
         },
         enumerable: false,
         configurable: true
@@ -109,9 +97,7 @@ var Script = /** @class */ (function () {
          *
          */
         get: function () {
-            var _a;
-            return this.stack.artifact !== undefined && ((_a = this.stack.artifact) === null || _a === void 0 ? void 0 : _a.exists) &&
-                this.stack.supportsTargetScript(this.target, this.name);
+            return false;
         },
         enumerable: false,
         configurable: true
@@ -123,19 +109,16 @@ var Script = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 // Don't bother if it's missing
-                if (!this.exists)
-                    return [2 /*return*/, undefined];
-                try {
-                    // Let's see what we've got here
-                    this._module = require(this.dir.path);
-                    // We only care about the default module
-                    if (!this.module.default)
-                        return [2 /*return*/, undefined];
-                }
-                catch (err) {
-                    // Well now, we can't have this can we
-                    return [2 /*return*/, undefined];
-                }
+                // if (!this.exists) return undefined
+                // try {
+                //   // Let's see what we've got here
+                //   this._module = require(this.dir!.path!)
+                //   // We only care about the default module
+                //   if (!this.module.default) return undefined
+                // } catch (err) {
+                //   // Well now, we can't have this can we
+                //   return undefined
+                // }
                 // We should have a nice happy module going by now
                 return [2 /*return*/, this];
             });

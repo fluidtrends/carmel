@@ -53,8 +53,7 @@ var __1 = require("..");
 var Product = /** @class */ (function () {
     /**
      *
-     * @param props
-     * @param target
+     * @param session
      */
     function Product(session) {
         this._dir = new __1.Dir(process.cwd());
@@ -98,16 +97,6 @@ var Product = /** @class */ (function () {
          */
         get: function () {
             return this._dir;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Product.prototype, "stack", {
-        /**
-         *
-         */
-        get: function () {
-            return this._stack;
         },
         enumerable: false,
         configurable: true
@@ -181,6 +170,45 @@ var Product = /** @class */ (function () {
         this._state = state;
     };
     /**
+     *
+     * @param target
+     * @param port
+     * @param watch
+     */
+    Product.prototype.resolvePacker = function (target, port, watch) {
+        var _a, _b, _c, _d;
+        return __awaiter(this, void 0, void 0, function () {
+            var packerId, packerVersion, packerDir, stackId, stackVersion, stackDir, packerInstance, stackConfig, packerOptions;
+            return __generator(this, function (_e) {
+                packerId = this.manifest.data.json().packer;
+                packerVersion = this.manifest.data.json().packerVersion;
+                packerDir = new __1.Dir(path_1.default.resolve((_a = this.session) === null || _a === void 0 ? void 0 : _a.index.sections.packers.path, packerId, packerVersion, packerId));
+                stackId = this.manifest.data.json().stack;
+                stackVersion = this.manifest.data.json().stackVersion;
+                stackDir = new __1.Dir(path_1.default.resolve((_b = this.session) === null || _b === void 0 ? void 0 : _b.index.sections.stacks.path, stackId, stackVersion, stackId));
+                if (!((_c = stackDir.dir('node_modules')) === null || _c === void 0 ? void 0 : _c.exists) || !((_d = stackDir.file('carmel.json')) === null || _d === void 0 ? void 0 : _d.exists)) {
+                    return [2 /*return*/, undefined];
+                }
+                packerInstance = require(packerDir.path);
+                stackConfig = require(stackDir.file('carmel.json').path);
+                // Make sure we've got them all
+                if (!packerInstance || !packerInstance[target] || !stackConfig || !stackConfig[target])
+                    return [2 /*return*/];
+                packerOptions = {
+                    contextDir: this.dir.path,
+                    entryFile: stackDir.file(stackConfig[target].entry).path,
+                    destDir: this.dir.dir("." + target).path,
+                    stackDir: stackDir.path,
+                    templateFile: stackDir.file(stackConfig[target].template).path,
+                    watch: watch,
+                    port: port
+                };
+                // Let's send it all back
+                return [2 /*return*/, new packerInstance[target].Packer(packerOptions)];
+            });
+        });
+    };
+    /**
      * Load this product and all its artifacts, including its manifest
      */
     Product.prototype.load = function () {
@@ -198,27 +226,6 @@ var Product = /** @class */ (function () {
                 this.changeState(__1.ProductState.LOADING);
                 // First things first, let's get the manifest loaded up
                 this.manifest.load();
-                // Look for the stack in the manifest
-                // const stackId = this.manifest.data.json().stack
-                // if (!stackId) {
-                //     // No stack specified - not good, nothing to look for anymore
-                //     this.changeState(ProductState.UNLOADED)
-                //     return this
-                // }
-                // // There we go, we have a stack too
-                // this._stack = await this.session?.findStack(stackId)
-                // if (!this.stack) {
-                //     // Not quiet yet
-                //     this.changeState(ProductState.UNLOADED)
-                //     throw Errors.ProductCannotLoad(Strings.StackIsMissingString(stackId))
-                // }
-                // // Take an initial snapshot
-                // this._snapshot = await new Snapshot(this).load()
-                // if (!this.snapshot) {
-                //     // Not quiet yet
-                //     this.changeState(ProductState.UNLOADED)
-                //     throw Errors.ProductCannotLoad(Strings.CannotTakeSnapshotString())
-                // }
                 // Prepare the snapshot if necessary and if all good,
                 // then tell everyone we're ready for action
                 this.changeState(__1.ProductState.READY);
@@ -239,6 +246,10 @@ var Product = /** @class */ (function () {
             });
         });
     };
+    /**
+     *
+     * @param id
+     */
     Product.prototype.createFromTemplate = function (id) {
         var _a;
         return __awaiter(this, void 0, void 0, function () {

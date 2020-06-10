@@ -50,6 +50,15 @@ export class Dir implements IDir {
         return this.exists ? this : undefined
     }
 
+    copy(dir: IDir) {
+        if (dir.exists) return dir
+        
+        fs.existsSync(path.dirname(dir.path!)) || fs.mkdirsSync(path.dirname(dir.path!))
+        fs.copySync(this.path!, dir.path!)
+        
+        return dir.exists ? dir : undefined
+    }
+
     get dirs() {
         if (!this.exists) {
             return []

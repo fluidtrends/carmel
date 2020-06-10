@@ -1,7 +1,6 @@
 import {
   IScript,
   Target,
-  IStack,
   Name,
   Module,
   IDir,
@@ -22,9 +21,6 @@ export class Script implements IScript {
     protected _name: Name;
 
     /** @internal */
-    protected _stack: IStack;
-
-    /** @internal */
     protected _dir?: IDir;
 
     /** @internal */
@@ -35,11 +31,9 @@ export class Script implements IScript {
      * @param target 
      * @param name 
      */
-    constructor(stack: IStack, target: Target, name: Name) {
-      this._stack = stack
+    constructor(target: Target, name: Name) {
       this._target = target
       this._name = name 
-      this._dir = this.stack.targetScriptDir(this.target, this.name)
     }
 
     /**
@@ -54,13 +48,6 @@ export class Script implements IScript {
      */
     get target() {
       return this._target
-    }
-
-    /**
-     * 
-     */
-    get stack() {
-      return this._stack
     }
 
     /**
@@ -81,9 +68,7 @@ export class Script implements IScript {
      *  
      */ 
     get exists() {
-      return  this.stack.artifact !== undefined &&
-              this.stack.artifact?.exists && 
-              this.stack.supportsTargetScript(this.target, this.name)
+      return false
     }
 
     /**
@@ -91,18 +76,18 @@ export class Script implements IScript {
      */
     async load() {
       // Don't bother if it's missing
-      if (!this.exists) return undefined
+      // if (!this.exists) return undefined
 
-      try {
-        // Let's see what we've got here
-        this._module = require(this.dir!.path!)
+      // try {
+      //   // Let's see what we've got here
+      //   this._module = require(this.dir!.path!)
 
-        // We only care about the default module
-        if (!this.module.default) return undefined
-      } catch (err) {
-        // Well now, we can't have this can we
-        return undefined
-      }
+      //   // We only care about the default module
+      //   if (!this.module.default) return undefined
+      // } catch (err) {
+      //   // Well now, we can't have this can we
+      //   return undefined
+      // }
 
       // We should have a nice happy module going by now
       return this

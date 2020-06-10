@@ -1,4 +1,4 @@
-import { SessionProps, CommandProps, Path, EngineState, IClass, IBundle, Name, ChunkConfig, Id, ILogger, ArtifactsKind, IFile, JSON, IDir, CommandType, SessionState, ChunkConfigRoute, Target, Version, ProductState, IScript, CommandArg } from '.';
+import { SessionProps, CommandProps, Path, EngineState, IClass, IBundle, Name, ChunkConfig, Id, ILogger, ArtifactsKind, IFile, JSON, IDir, CommandType, SessionState, ChunkConfigRoute, Target, Version, ProductState, CommandArg } from '.';
 export interface IEngine extends IClass {
     readonly state: EngineState;
     readonly isStarted: boolean;
@@ -32,18 +32,17 @@ export interface ICommand extends IClass {
     readonly props: CommandProps;
     readonly session?: ISession;
     readonly requiresArgs: boolean;
-    readonly requiresScript: boolean;
     readonly product?: IProduct;
     readonly target: Target;
     readonly type: CommandType;
     readonly id: Id;
-    readonly script?: IScript;
     readonly args?: CommandArg[];
-    readonly app?: IApp;
     run(session: ISession, args?: CommandArg[]): Promise<any>;
     exec(): Promise<any>;
-    runScript(): Promise<any>;
     arg(name: Name): any;
+}
+export interface IPacker extends IClass {
+    pack(callback: (event: any) => void): Promise<any>;
 }
 export interface IProduct extends IClass {
     readonly dir: IDir;
@@ -51,7 +50,6 @@ export interface IProduct extends IClass {
     readonly session?: ISession;
     readonly exists: boolean;
     readonly context?: any;
-    readonly stack?: IStack;
     readonly isLoaded: boolean;
     readonly isReady: boolean;
     readonly state: ProductState;
@@ -64,6 +62,7 @@ export interface IProduct extends IClass {
     loadFile(path: Path): void;
     saveData(data: any): void;
     findDirs(dirpath: Path): Path[];
+    resolvePacker(target: Target, port: number, watch: boolean): Promise<IPacker | undefined>;
 }
 export interface ISnapshot extends IClass {
     readonly id: Id;
@@ -83,15 +82,6 @@ export interface IArtifact extends IClass {
     readonly bundle: IBundle;
     readonly dir?: IDir;
     readonly exists: boolean;
-}
-export interface IStack extends IClass {
-    readonly artifact?: IArtifact;
-    load(): Promise<IStack | undefined>;
-    supportsTarget(target: Target): boolean;
-    supportsTargetScript(target: Target, name: Name): boolean;
-    targetDir(target: Target): IDir | undefined;
-    targetScriptDir(target: Target, name: Name): IDir | undefined;
-    findTargetScript(target: Target, name: Name): Promise<IScript | undefined>;
 }
 export interface ITemplate extends IClass {
     readonly artifact: IArtifact;

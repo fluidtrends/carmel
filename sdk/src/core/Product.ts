@@ -5,13 +5,14 @@ import {
     Path, 
     IFile,
     IDir,
+    Target,
     File,
+    Name,
     Dir,
     ProductState,
-    IStack,
     ISession,
     ISnapshot,
-    ITemplate,
+    ICommand,
     Id,
     Errors,
     Strings
@@ -40,9 +41,6 @@ export class Product implements IProduct {
     protected _manifest: IFile;
 
     /** @internal */
-    protected _stack?: IStack;
-
-    /** @internal */
     protected _state: ProductState;
 
     /** @internal */
@@ -53,8 +51,7 @@ export class Product implements IProduct {
 
     /**
      * 
-     * @param props 
-     * @param target
+     * @param session 
      */
     constructor(session?: ISession) {
         this._dir = new Dir(process.cwd())
@@ -89,13 +86,6 @@ export class Product implements IProduct {
      */
     get dir() { 
         return this._dir 
-    }
-
-    /**
-     * 
-     */
-    get stack() { 
-        return this._stack 
     }
 
     /**
@@ -150,6 +140,47 @@ export class Product implements IProduct {
     }
 
     /**
+     * 
+     * @param target 
+     * @param port 
+     * @param watch 
+     */
+    async resolvePacker(target: Target, port: number, watch: boolean) {
+        // Look for the packer in the manifest
+        const packerId = this.manifest.data.json().packer
+        const packerVersion = this.manifest.data.json().packerVersion
+        const packerDir = new Dir(path.resolve(this.session?.index.sections.packers.path, packerId, packerVersion, packerId))
+        const stackId = this.manifest.data.json().stack
+        const stackVersion = this.manifest.data.json().stackVersion
+        const stackDir = new Dir(path.resolve(this.session?.index.sections.stacks.path, stackId, stackVersion, stackId))
+
+        if (!stackDir.dir('node_modules')?.exists || !stackDir.file('carmel.json')?.exists) {
+            return undefined
+        }
+
+        // Look up the packer and the stack config
+        const packerInstance = require(packerDir.path!)
+        const stackConfig = require(stackDir.file('carmel.json')!.path!)
+
+        // Make sure we've got them all
+        if (!packerInstance || !packerInstance[target] || !stackConfig || !stackConfig[target]) return 
+
+        // Build the packer options
+        const packerOptions = {
+            contextDir: this.dir.path,
+            entryFile: stackDir.file(stackConfig[target].entry)!.path!,
+            destDir: this.dir.dir(`.${target}`)!.path!,
+            stackDir: stackDir.path,
+            templateFile: stackDir.file(stackConfig[target].template)!.path!,
+            watch, 
+            port
+        }
+
+        // Let's send it all back
+        return new packerInstance[target].Packer(packerOptions)
+    }
+
+    /**
      * Load this product and all its artifacts, including its manifest
      */
     async load() {
@@ -167,33 +198,6 @@ export class Product implements IProduct {
 
         // First things first, let's get the manifest loaded up
         this.manifest.load()
-
-        // Look for the stack in the manifest
-        // const stackId = this.manifest.data.json().stack
-    
-        // if (!stackId) {
-        //     // No stack specified - not good, nothing to look for anymore
-        //     this.changeState(ProductState.UNLOADED)
-        //     return this
-        // }
-    
-        // // There we go, we have a stack too
-        // this._stack = await this.session?.findStack(stackId)
-        
-        // if (!this.stack) {
-        //     // Not quiet yet
-        //     this.changeState(ProductState.UNLOADED)
-        //     throw Errors.ProductCannotLoad(Strings.StackIsMissingString(stackId))
-        // }
-
-        // // Take an initial snapshot
-        // this._snapshot = await new Snapshot(this).load()
-
-        // if (!this.snapshot) {
-        //     // Not quiet yet
-        //     this.changeState(ProductState.UNLOADED)
-        //     throw Errors.ProductCannotLoad(Strings.CannotTakeSnapshotString())
-        // }
 
         // Prepare the snapshot if necessary and if all good,
         // then tell everyone we're ready for action
@@ -213,6 +217,10 @@ export class Product implements IProduct {
         return this.manifest.data.json()
     }
 
+    /**
+     * 
+     * @param id 
+     */
     async createFromTemplate(id: Id) {
         const template = await this.session?.findTemplate(id)
 

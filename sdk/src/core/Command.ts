@@ -44,12 +44,6 @@ export abstract class Command implements ICommand {
     /** @internal */
     protected _product?: IProduct;
 
-    /** @internal */
-    protected _script?: IScript;
-
-    /** @internal */
-    protected _app?: IApp; 
-
     /**
      * Construct a new command from the given {@linkcode CommandProps}.
      * 
@@ -86,33 +80,12 @@ export abstract class Command implements ICommand {
     get type () {
         return this.props.type!
     }
-
-    /**
-     *  
-     */  
-    get script() {
-        return this._script
-    }
     
     /**
      * 
      */
     get requiresArgs() {
         return this.props.requiredArgs !== undefined && this.props.requiredArgs.length > 0
-    }
-
-    /**
-     * 
-     */
-    get requiresScript() {
-        return this.props.requiresScript !== undefined && this.props.requiresScript
-    }
-
-    /**
-     * 
-     */
-    get requiresApp() {
-        return this.props.requiresApp !== undefined && this.props.requiresApp
     }
 
     /**
@@ -134,13 +107,6 @@ export abstract class Command implements ICommand {
      */
     get args() {
         return this._args
-    }
-
-    /**
-     * 
-     */
-    get app() {
-        return this._app
     }
 
     /**
@@ -181,21 +147,6 @@ export abstract class Command implements ICommand {
             // Ensure the product is ready  
             throw Errors.CommandCannotExecute(this.id, Strings.ProductIsNotReadyString())
         }        
-
-        if (!this.product.stack?.supportsTarget(this.target)) {
-            // Make sure this target is supported by our stack
-            throw Errors.CommandCannotExecute(this.id, Strings.TargetNotSupportedString(this.target))
-        }
-
-        if (this.requiresScript && !this.script) {
-            // If we require a script let's make sure the stack has it
-            throw Errors.CommandCannotExecute(this.id, Strings.StackTargetScriptIsMissingString(this.target, this.id))
-        }
-
-        // if (this.requiresApp && !this.app) {
-        //     // If we require an app let's make sure the product has it
-        //     throw Errors.CommandCannotExecute(this.id, Strings.ProductAppIsMissingString(this.target))
-        // }
     }
 
     /** @internal */
@@ -214,8 +165,6 @@ export abstract class Command implements ICommand {
         switch(this.type) {
             case CommandType.PRODUCT:
             await this._product?.load()
-            // this._app = await this.product?.snapshot?.app(this.target)
-            this._script = await this.product?.stack?.findTargetScript(this.target, this.id)
             break;                
         }
     }
@@ -248,13 +197,6 @@ export abstract class Command implements ICommand {
 
         // Send back the result, if any
         return result
-    }
-
-    /**
-     * 
-     */
-    async runScript() {
-        return await this.script?.exec(this.args)
     }
 
     /**

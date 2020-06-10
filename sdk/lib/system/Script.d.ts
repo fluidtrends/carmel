@@ -1,4 +1,4 @@
-import { IScript, Target, IStack, Name, Module, IDir, CommandArg } from '..';
+import { IScript, Target, Name, Module, IDir, CommandArg } from '..';
 /**
  *
  * @category System
@@ -10,8 +10,6 @@ export declare class Script implements IScript {
     /** @internal */
     protected _name: Name;
     /** @internal */
-    protected _stack: IStack;
-    /** @internal */
     protected _dir?: IDir;
     /** @internal */
     protected _module: Module;
@@ -20,7 +18,7 @@ export declare class Script implements IScript {
      * @param target
      * @param name
      */
-    constructor(stack: IStack, target: Target, name: Name);
+    constructor(target: Target, name: Name);
     /**
      *
      */
@@ -29,10 +27,6 @@ export declare class Script implements IScript {
      *
      */
     get target(): Target;
-    /**
-     *
-     */
-    get stack(): IStack;
     /**
      *
      */
@@ -48,7 +42,7 @@ export declare class Script implements IScript {
     /**
      *
      */
-    load(): Promise<this | undefined>;
+    load(): Promise<this>;
     /**
      *
      * @param args
