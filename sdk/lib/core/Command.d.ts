@@ -1,4 +1,4 @@
-import { ICommand, ISession, CommandProps, CommandArg, Target, Name, IScript, IProduct, IApp, CommandType } from '..';
+import { ICommand, ISession, CommandProps, CommandArg, Target, Name, IProduct, CommandType } from '..';
 /**
  * The base class representing a single unit of execution.
  * Every Carmel Command extends this class and tweaks the defaults as needed.
@@ -18,10 +18,6 @@ export declare abstract class Command implements ICommand {
     protected _props: CommandProps;
     /** @internal */
     protected _product?: IProduct;
-    /** @internal */
-    protected _script?: IScript;
-    /** @internal */
-    protected _app?: IApp;
     /**
      * Construct a new command from the given {@linkcode CommandProps}.
      *
@@ -44,10 +40,6 @@ export declare abstract class Command implements ICommand {
      *
      */
     get type(): CommandType;
-    /**
-     *
-     */
-    get script(): IScript | undefined;
     /**
      *
      */
@@ -74,10 +66,6 @@ export declare abstract class Command implements ICommand {
     get args(): CommandArg[] | undefined;
     /**
      *
-     */
-    get app(): IApp | undefined;
-    /**
-     *
      * @param name
      */
     arg(name: Name): any;
@@ -100,7 +88,7 @@ export declare abstract class Command implements ICommand {
     /**
      *
      */
-    runScript(): Promise<any>;
+    runScript(): Promise<void | undefined>;
     /**
      * Children need to implement the execution flow.
      */

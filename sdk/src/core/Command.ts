@@ -44,12 +44,6 @@ export abstract class Command implements ICommand {
     /** @internal */
     protected _product?: IProduct;
 
-    /** @internal */
-    protected _script?: IScript;
-
-    /** @internal */
-    protected _app?: IApp; 
-
     /**
      * Construct a new command from the given {@linkcode CommandProps}.
      * 
@@ -85,13 +79,6 @@ export abstract class Command implements ICommand {
      */
     get type () {
         return this.props.type!
-    }
-
-    /**
-     *  
-     */  
-    get script() {
-        return this._script
     }
     
     /**
@@ -138,13 +125,6 @@ export abstract class Command implements ICommand {
 
     /**
      * 
-     */
-    get app() {
-        return this._app
-    }
-
-    /**
-     * 
      * @param name 
      */
     arg(name: Name) {
@@ -182,20 +162,11 @@ export abstract class Command implements ICommand {
             throw Errors.CommandCannotExecute(this.id, Strings.ProductIsNotReadyString())
         }        
 
-        if (!this.product.stack?.supportsTarget(this.target)) {
-            // Make sure this target is supported by our stack
-            throw Errors.CommandCannotExecute(this.id, Strings.TargetNotSupportedString(this.target))
-        }
-
-        if (this.requiresScript && !this.script) {
-            // If we require a script let's make sure the stack has it
-            throw Errors.CommandCannotExecute(this.id, Strings.StackTargetScriptIsMissingString(this.target, this.id))
-        }
-
-        // if (this.requiresApp && !this.app) {
-        //     // If we require an app let's make sure the product has it
-        //     throw Errors.CommandCannotExecute(this.id, Strings.ProductAppIsMissingString(this.target))
+        // if (this.requiresScript && !this.script) {
+        //     // If we require a script let's make sure the stack has it
+        //     throw Errors.CommandCannotExecute(this.id, Strings.StackTargetScriptIsMissingString(this.target, this.id))
         // }
+
     }
 
     /** @internal */
@@ -214,8 +185,6 @@ export abstract class Command implements ICommand {
         switch(this.type) {
             case CommandType.PRODUCT:
             await this._product?.load()
-            // this._app = await this.product?.snapshot?.app(this.target)
-            this._script = await this.product?.stack?.findTargetScript(this.target, this.id)
             break;                
         }
     }
@@ -254,7 +223,7 @@ export abstract class Command implements ICommand {
      * 
      */
     async runScript() {
-        return await this.script?.exec(this.args)
+        return await this.product?.runScript(this.target, this.id)
     }
 
     /**

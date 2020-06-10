@@ -19,6 +19,7 @@ export interface IDir extends IClass {
     readonly path?: Path;
     readonly exists: boolean;
     readonly dirs: Path[];
+    copy(dir: IDir): IDir | undefined;
     dir(dirpath: Path): IDir | undefined;
     file(filepath: Path): IFile | undefined;
     make(): IDir | undefined;

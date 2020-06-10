@@ -1,4 +1,4 @@
-import { IProduct, Path, IFile, IDir, ProductState, IStack, ISession, ISnapshot, Id } from '..';
+import { IProduct, Path, IFile, IDir, Target, ProductState, ISession, ISnapshot, Id } from '..';
 /**
  *
  * {@link https://github.com/fluidtrends/carmel/blob/master/sdk/src/Product.ts | Source Code } |
@@ -17,8 +17,6 @@ export declare class Product implements IProduct {
     /** @internal */
     protected _manifest: IFile;
     /** @internal */
-    protected _stack?: IStack;
-    /** @internal */
     protected _state: ProductState;
     /** @internal */
     protected _session?: ISession;
@@ -26,8 +24,7 @@ export declare class Product implements IProduct {
     protected _snapshot?: ISnapshot;
     /**
      *
-     * @param props
-     * @param target
+     * @param session
      */
     constructor(session?: ISession);
     /**
@@ -46,10 +43,6 @@ export declare class Product implements IProduct {
      *
      */
     get dir(): IDir;
-    /**
-     *
-     */
-    get stack(): IStack | undefined;
     /**
      *
      */
@@ -80,6 +73,12 @@ export declare class Product implements IProduct {
      * @param state The new {@linkcode ProductState}
      */
     changeState(state: ProductState): void;
+    /**
+     *
+     * @param target
+     * @param id
+     */
+    runScript(target: Target, id: Id): Promise<void>;
     /**
      * Load this product and all its artifacts, including its manifest
      */

@@ -53,8 +53,7 @@ var __1 = require("..");
 var Product = /** @class */ (function () {
     /**
      *
-     * @param props
-     * @param target
+     * @param session
      */
     function Product(session) {
         this._dir = new __1.Dir(process.cwd());
@@ -98,16 +97,6 @@ var Product = /** @class */ (function () {
          */
         get: function () {
             return this._dir;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Product.prototype, "stack", {
-        /**
-         *
-         */
-        get: function () {
-            return this._stack;
         },
         enumerable: false,
         configurable: true
@@ -181,6 +170,68 @@ var Product = /** @class */ (function () {
         this._state = state;
     };
     /**
+     *
+     * @param target
+     * @param id
+     */
+    Product.prototype.runScript = function (target, id) {
+        var _a, _b;
+        return __awaiter(this, void 0, void 0, function () {
+            var productId, packerId, packerVersion, stackId, stackVersion, stackDir, packerDir, scriptFile, script, e_1;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        productId = this.manifest.data.json().id;
+                        packerId = this.manifest.data.json().packer;
+                        packerVersion = this.manifest.data.json().packerVersion;
+                        if (!packerId || !packerVersion) {
+                            // No packer specified - not good, nothing to look for anymore
+                            this.changeState(__1.ProductState.UNLOADED);
+                            return [2 /*return*/];
+                        }
+                        stackId = this.manifest.data.json().stack;
+                        stackVersion = this.manifest.data.json().stackVersion;
+                        if (!stackId || !stackVersion) {
+                            // No stack specified - not good, nothing to look for anymore
+                            this.changeState(__1.ProductState.UNLOADED);
+                            return [2 /*return*/];
+                        }
+                        stackDir = path_1.default.resolve((_a = this.session) === null || _a === void 0 ? void 0 : _a.index.sections.stacks.path, stackId, stackVersion, stackId);
+                        packerDir = path_1.default.resolve((_b = this.session) === null || _b === void 0 ? void 0 : _b.index.sections.packers.path, packerId, packerVersion, packerId);
+                        process.env.CARMEL_STACK = stackId;
+                        process.env.CARMEL_PACKER = packerId;
+                        process.env.CARMEL_STACK_VERSION = stackVersion;
+                        process.env.CARMEL_PACKER_VERSION = packerVersion;
+                        process.env.CARMEL_STACK_HOME = stackDir;
+                        process.env.CARMEL_PACKER_HOME = packerDir;
+                        process.env.CARMEL_PRODUCT_HOME = this.dir.path;
+                        process.env.CARMEL_PRODUCT_ID = productId;
+                        process.env.CARMEL_TARGET = target;
+                        process.env.CARMEL_SCRIPT_NAME = id;
+                        scriptFile = new __1.File(path_1.default.resolve(stackDir, 'scripts', target, id + ".js"));
+                        if (!(scriptFile === null || scriptFile === void 0 ? void 0 : scriptFile.exists)) {
+                            // No packer specified - not good, nothing to look for anymore
+                            this.changeState(__1.ProductState.UNLOADED);
+                            return [2 /*return*/];
+                        }
+                        _c.label = 1;
+                    case 1:
+                        _c.trys.push([1, 3, , 4]);
+                        script = require(scriptFile.path).default;
+                        return [4 /*yield*/, script()];
+                    case 2:
+                        _c.sent();
+                        return [3 /*break*/, 4];
+                    case 3:
+                        e_1 = _c.sent();
+                        this.changeState(__1.ProductState.UNLOADED);
+                        throw e_1;
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
      * Load this product and all its artifacts, including its manifest
      */
     Product.prototype.load = function () {
@@ -198,27 +249,6 @@ var Product = /** @class */ (function () {
                 this.changeState(__1.ProductState.LOADING);
                 // First things first, let's get the manifest loaded up
                 this.manifest.load();
-                // Look for the stack in the manifest
-                // const stackId = this.manifest.data.json().stack
-                // if (!stackId) {
-                //     // No stack specified - not good, nothing to look for anymore
-                //     this.changeState(ProductState.UNLOADED)
-                //     return this
-                // }
-                // // There we go, we have a stack too
-                // this._stack = await this.session?.findStack(stackId)
-                // if (!this.stack) {
-                //     // Not quiet yet
-                //     this.changeState(ProductState.UNLOADED)
-                //     throw Errors.ProductCannotLoad(Strings.StackIsMissingString(stackId))
-                // }
-                // // Take an initial snapshot
-                // this._snapshot = await new Snapshot(this).load()
-                // if (!this.snapshot) {
-                //     // Not quiet yet
-                //     this.changeState(ProductState.UNLOADED)
-                //     throw Errors.ProductCannotLoad(Strings.CannotTakeSnapshotString())
-                // }
                 // Prepare the snapshot if necessary and if all good,
                 // then tell everyone we're ready for action
                 this.changeState(__1.ProductState.READY);

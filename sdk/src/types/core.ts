@@ -65,13 +65,11 @@ export interface ICommand extends IClass  {
     readonly target: Target;
     readonly type: CommandType;
     readonly id: Id;
-    readonly script?: IScript;
     readonly args?: CommandArg[];
-    readonly app?: IApp;
 
     run(session: ISession, args?: CommandArg[]): Promise<any>;
     exec(): Promise<any>; 
-    runScript(): Promise<any>;
+    runScript(): Promise<void>;
     arg(name: Name): any;
 }
 
@@ -81,7 +79,6 @@ export interface IProduct extends IClass  {
     readonly session?: ISession;
     readonly exists: boolean;
     readonly context?: any;
-    readonly stack?: IStack;
     readonly isLoaded: boolean;
     readonly isReady: boolean;
     readonly state: ProductState;
@@ -93,6 +90,7 @@ export interface IProduct extends IClass  {
     saveContext(context: object): void;
     changeState(state: ProductState): void;
     loadFile (path: Path): void;
+    runScript(target: Target, id: Id): Promise<void>;
     saveData(data: any): void;
     findDirs(dirpath: Path): Path[]
 }
@@ -118,17 +116,6 @@ export interface IArtifact extends IClass {
     readonly bundle: IBundle;
     readonly dir?: IDir;
     readonly exists: boolean;
-}
-
-export interface IStack extends IClass {
-    readonly artifact?: IArtifact;
-
-    load(): Promise<IStack | undefined>;
-    supportsTarget(target: Target): boolean;
-    supportsTargetScript(target: Target, name: Name): boolean;    
-    targetDir(target: Target): IDir | undefined;
-    targetScriptDir(target: Target, name: Name): IDir | undefined;
-    findTargetScript(target: Target, name: Name): Promise<IScript | undefined>;
 }
 
 export interface ITemplate extends IClass {

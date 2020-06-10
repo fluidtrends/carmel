@@ -102,16 +102,6 @@ var Command = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(Command.prototype, "script", {
-        /**
-         *
-         */
-        get: function () {
-            return this._script;
-        },
-        enumerable: false,
-        configurable: true
-    });
     Object.defineProperty(Command.prototype, "requiresArgs", {
         /**
          *
@@ -172,16 +162,6 @@ var Command = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(Command.prototype, "app", {
-        /**
-         *
-         */
-        get: function () {
-            return this._app;
-        },
-        enumerable: false,
-        configurable: true
-    });
     /**
      *
      * @param name
@@ -208,7 +188,6 @@ var Command = /** @class */ (function () {
     };
     /** @internal */
     Command.prototype._validateProductTypeRequirements = function () {
-        var _a;
         if (!this.product || !this.product.exists) {
             // Ensure the product exists 
             throw __1.Errors.CommandCannotExecute(this.id, __1.Strings.ProductIsMissingString());
@@ -217,17 +196,9 @@ var Command = /** @class */ (function () {
             // Ensure the product is ready  
             throw __1.Errors.CommandCannotExecute(this.id, __1.Strings.ProductIsNotReadyString());
         }
-        if (!((_a = this.product.stack) === null || _a === void 0 ? void 0 : _a.supportsTarget(this.target))) {
-            // Make sure this target is supported by our stack
-            throw __1.Errors.CommandCannotExecute(this.id, __1.Strings.TargetNotSupportedString(this.target));
-        }
-        if (this.requiresScript && !this.script) {
-            // If we require a script let's make sure the stack has it
-            throw __1.Errors.CommandCannotExecute(this.id, __1.Strings.StackTargetScriptIsMissingString(this.target, this.id));
-        }
-        // if (this.requiresApp && !this.app) {
-        //     // If we require an app let's make sure the product has it
-        //     throw Errors.CommandCannotExecute(this.id, Strings.ProductAppIsMissingString(this.target))
+        // if (this.requiresScript && !this.script) {
+        //     // If we require a script let's make sure the stack has it
+        //     throw Errors.CommandCannotExecute(this.id, Strings.StackTargetScriptIsMissingString(this.target, this.id))
         // }
     };
     /** @internal */
@@ -240,32 +211,26 @@ var Command = /** @class */ (function () {
     };
     /** @internal */
     Command.prototype._resolve = function () {
-        var _a, _b, _c, _d;
+        var _a, _b;
         return __awaiter(this, void 0, void 0, function () {
-            var _e, _f, _g;
-            return __generator(this, function (_h) {
-                switch (_h.label) {
+            var _c, _d;
+            return __generator(this, function (_e) {
+                switch (_e.label) {
                     case 0:
-                        _e = this;
+                        _c = this;
                         return [4 /*yield*/, ((_a = this.session) === null || _a === void 0 ? void 0 : _a.resolveProduct(this.target))];
                     case 1:
-                        _e._product = _h.sent();
-                        _f = this.type;
-                        switch (_f) {
+                        _c._product = _e.sent();
+                        _d = this.type;
+                        switch (_d) {
                             case __1.CommandType.PRODUCT: return [3 /*break*/, 2];
                         }
-                        return [3 /*break*/, 5];
+                        return [3 /*break*/, 4];
                     case 2: return [4 /*yield*/, ((_b = this._product) === null || _b === void 0 ? void 0 : _b.load())];
                     case 3:
-                        _h.sent();
-                        // this._app = await this.product?.snapshot?.app(this.target)
-                        _g = this;
-                        return [4 /*yield*/, ((_d = (_c = this.product) === null || _c === void 0 ? void 0 : _c.stack) === null || _d === void 0 ? void 0 : _d.findTargetScript(this.target, this.id))];
-                    case 4:
-                        // this._app = await this.product?.snapshot?.app(this.target)
-                        _g._script = _h.sent();
-                        return [3 /*break*/, 5];
-                    case 5: return [2 /*return*/];
+                        _e.sent();
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
                 }
             });
         });
@@ -317,7 +282,7 @@ var Command = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, ((_a = this.script) === null || _a === void 0 ? void 0 : _a.exec(this.args))];
+                    case 0: return [4 /*yield*/, ((_a = this.product) === null || _a === void 0 ? void 0 : _a.runScript(this.target, this.id))];
                     case 1: return [2 /*return*/, _b.sent()];
                 }
             });

@@ -48,6 +48,13 @@ var Dir = /** @class */ (function () {
         fs_extra_1.default.symlinkSync(dir.path, this.path, 'dir');
         return this.exists ? this : undefined;
     };
+    Dir.prototype.copy = function (dir) {
+        if (dir.exists)
+            return dir;
+        fs_extra_1.default.existsSync(path_1.default.dirname(dir.path)) || fs_extra_1.default.mkdirsSync(path_1.default.dirname(dir.path));
+        fs_extra_1.default.copySync(this.path, dir.path);
+        return dir.exists ? dir : undefined;
+    };
     Object.defineProperty(Dir.prototype, "dirs", {
         get: function () {
             var _this = this;

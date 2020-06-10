@@ -1,17 +1,19 @@
 import path from 'path'
+import fs from 'fs'
 
 import { 
     IProduct, 
     Path, 
     IFile,
     IDir,
+    Target,
     File,
+    Name,
     Dir,
     ProductState,
-    IStack,
     ISession,
     ISnapshot,
-    ITemplate,
+    ICommand,
     Id,
     Errors,
     Strings
@@ -40,9 +42,6 @@ export class Product implements IProduct {
     protected _manifest: IFile;
 
     /** @internal */
-    protected _stack?: IStack;
-
-    /** @internal */
     protected _state: ProductState;
 
     /** @internal */
@@ -53,8 +52,7 @@ export class Product implements IProduct {
 
     /**
      * 
-     * @param props 
-     * @param target
+     * @param session 
      */
     constructor(session?: ISession) {
         this._dir = new Dir(process.cwd())
@@ -89,13 +87,6 @@ export class Product implements IProduct {
      */
     get dir() { 
         return this._dir 
-    }
-
-    /**
-     * 
-     */
-    get stack() { 
-        return this._stack 
     }
 
     /**
@@ -149,6 +140,65 @@ export class Product implements IProduct {
         this._state = state
     }
 
+
+    /**
+     * 
+     * @param target 
+     * @param id 
+     */
+    async runScript(target: Target, id: Id) {
+        // This is the product id 
+        const productId = this.manifest.data.json().id 
+
+        // Look for the packer in the manifest
+        const packerId = this.manifest.data.json().packer
+        const packerVersion = this.manifest.data.json().packerVersion
+
+        if (!packerId || !packerVersion) {
+            // No packer specified - not good, nothing to look for anymore
+            this.changeState(ProductState.UNLOADED)
+            return
+        }
+        
+        const stackId = this.manifest.data.json().stack
+        const stackVersion = this.manifest.data.json().stackVersion
+    
+        if (!stackId || !stackVersion) {
+            // No stack specified - not good, nothing to look for anymore
+            this.changeState(ProductState.UNLOADED)
+            return
+        }
+
+        const stackDir = path.resolve(this.session?.index.sections.stacks.path, stackId, stackVersion, stackId)
+        const packerDir = path.resolve(this.session?.index.sections.packers.path, packerId, packerVersion, packerId)
+
+        process.env.CARMEL_STACK = stackId
+        process.env.CARMEL_PACKER = packerId
+        process.env.CARMEL_STACK_VERSION = stackVersion
+        process.env.CARMEL_PACKER_VERSION = packerVersion
+        process.env.CARMEL_STACK_HOME = stackDir
+        process.env.CARMEL_PACKER_HOME = packerDir
+        process.env.CARMEL_PRODUCT_HOME = this.dir.path
+        process.env.CARMEL_PRODUCT_ID = productId
+        process.env.CARMEL_TARGET = target
+        process.env.CARMEL_SCRIPT_NAME = id
+
+        const scriptFile = new File(path.resolve(stackDir, 'scripts', target, `${id}.js`))
+        if (!scriptFile?.exists) {
+            // No packer specified - not good, nothing to look for anymore
+            this.changeState(ProductState.UNLOADED)
+            return
+        }
+
+        try {
+            const script = require(scriptFile!.path!).default
+            await script()
+        } catch (e) {
+            this.changeState(ProductState.UNLOADED)
+            throw e
+        }
+    }
+
     /**
      * Load this product and all its artifacts, including its manifest
      */
@@ -167,33 +217,6 @@ export class Product implements IProduct {
 
         // First things first, let's get the manifest loaded up
         this.manifest.load()
-
-        // Look for the stack in the manifest
-        // const stackId = this.manifest.data.json().stack
-    
-        // if (!stackId) {
-        //     // No stack specified - not good, nothing to look for anymore
-        //     this.changeState(ProductState.UNLOADED)
-        //     return this
-        // }
-    
-        // // There we go, we have a stack too
-        // this._stack = await this.session?.findStack(stackId)
-        
-        // if (!this.stack) {
-        //     // Not quiet yet
-        //     this.changeState(ProductState.UNLOADED)
-        //     throw Errors.ProductCannotLoad(Strings.StackIsMissingString(stackId))
-        // }
-
-        // // Take an initial snapshot
-        // this._snapshot = await new Snapshot(this).load()
-
-        // if (!this.snapshot) {
-        //     // Not quiet yet
-        //     this.changeState(ProductState.UNLOADED)
-        //     throw Errors.ProductCannotLoad(Strings.CannotTakeSnapshotString())
-        // }
 
         // Prepare the snapshot if necessary and if all good,
         // then tell everyone we're ready for action

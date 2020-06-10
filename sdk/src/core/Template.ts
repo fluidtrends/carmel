@@ -3,12 +3,15 @@ import {
     IBundle,
     Artifact,
     Name,
+    Errors,
     ArtifactsKind,
     IArtifact,
     IProduct,
     IDir,
     Dir
  } from '..'
+
+ import shortid from 'shortid'
 
  import fs from 'fs'
  import path from 'path'
@@ -75,7 +78,10 @@ export class Template implements ITemplate {
      * 
      * @param dir 
      */
-    async install(dir: IDir, product: IProduct) {       
+    async install(dir: IDir, product: IProduct) {  
+        const id = shortid.generate().toLowerCase()
+        // const productDir = new Dir(path.resolve(product.session?.index.sections.products.path, id)).make()
+        
         const packerId = this._tpl?.content.packer
         const stackId = this._tpl?.content.stack
 
@@ -83,41 +89,25 @@ export class Template implements ITemplate {
         const stack = stackId && await product.session?.index.installArchive({ id: stackId, section: "stacks" })
 
         const packerDir = new Dir(path.resolve(product.session?.index.sections.packers.path, packer.id, packer.version, packer.id))
-        const stackDir = new Dir(path.resolve(product.session?.index.sections.stacks.path, stack.id, stack.version, stack.id))        // dir?.dir('stack')?.link(new Dir(packerPath))
+        const stackDir = new Dir(path.resolve(product.session?.index.sections.stacks.path, stack.id, stack.version, stack.id))
 
-        const rootDir = dir
+        const stackDepsDir = new Dir(path.resolve(stackDir!.path!, 'node_modules'))
+        dir?.dir('node_modules')?.link(stackDepsDir)
+
+        const rootDir = dir.dir('carmel')?.make()
         await this._tpl?.save(rootDir!.path!, {})
-
-        if (stackDir.dir('node_modules')?.exists) {
-            dir.dir('node_modules')?.make()
-            Object.keys(stack.manifest.dependencies).map(dep => {            
-                const depDir = new Dir(path.resolve(stackDir!.path!, 'node_modules', dep))
-                const linkDepDir = new Dir(path.resolve(dir.path!, 'node_modules', dep))
-                linkDepDir?.link(depDir)
-            })            
-            const linkStackDepDir = new Dir(path.resolve(dir.path!, 'node_modules', stack.id))
-            linkStackDepDir?.link(stackDir)
-            const linkPackerDepDir = new Dir(path.resolve(dir.path!, 'node_modules', packer.id))
-            linkPackerDepDir?.link(packerDir)
-        }
-
-        dir?.file('package.json')?.update({
-            dependencies: {
-                [packer.id]: packerDir.path,
-                [stack.id]: stackDir.path
-            }
-        })
 
         dir?.file('carmel.code-workspace')?.update({
             folders: [
-                { path: "assets" },
-                { path: "chunks" }
+                { path: "carmel/assets" },
+                { path: "carmel/chunks" }
             ],
             settings: {}
         })
 
         product.create({
-            carmelVersion: product.session?.pkg.version,
+            id,
+            carmelSDKVersion: product.session?.pkg.version,
             template: this.name,
             bundle: this.artifact.bundle.id,
             bundleVersion: this.artifact.bundle.version,
