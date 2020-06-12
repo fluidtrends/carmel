@@ -1,26 +1,22 @@
 {
-    "context": {
-      "start": {
-        "web": {
-          "script": "default"
-        }
-      },
-      "make": {
-        "web": {
-          "script": "default"
-        }
-      },
-      "preview": {
-        "web": {
-          "script": "default"
-        }
-      },
-      "deploy": {
-        "web": {}
-      }
-    },
-    "web": {
-      "domain": "carmel.io"
-    }
-  }
-  
+  "chunks": [
+    "intro",
+    "about"
+  ],
+  "notfound": {
+    "title": "Oops",
+    "subtitle": "Are you sure you really wanna be here?"
+  },
+  "footer": {
+    "watermark": "Built with Carmel."
+  },
+  "id": "qksamxmkz",
+  "carmelSDKVersion": "1.9.27",
+  "template": "starter",
+  "bundle": "@fluidtrends/bananas",
+  "bundleVersion": "1.9.43",
+  "stack": "jayesse",
+  "stackVersion": "1.9.17",
+  "packer": "papanache",
+  "packerVersion": "1.9.23"
+}
