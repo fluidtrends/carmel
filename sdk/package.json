@@ -1,6 +1,6 @@
 {
   "name": "@carmel/sdk",
-  "version": "1.9.27",
+  "version": "1.9.28",
   "description": "The Carmel SDK",
   "scripts": {
     "build": "tsc",

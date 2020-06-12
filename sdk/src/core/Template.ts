@@ -79,9 +79,8 @@ export class Template implements ITemplate {
         const id = shortid.generate().toLowerCase()
         
         const packerId = this._tpl?.content.packer
-        const stackId = this._tpl?.content.stack
-
         const packer = packerId && await product.session?.index.installArchive({ id: packerId, section: "packers" })
+        const stackId = this._tpl?.content.stack
         const stack = stackId && await product.session?.index.installArchive({ id: stackId, section: "stacks" })
 
         await this._tpl?.save(dir!.path!, {})

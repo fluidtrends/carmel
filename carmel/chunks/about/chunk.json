@@ -1,0 +1,10 @@
+{
+    "name": "about",
+    "routes": [{
+        "path": "/me",
+        "screen": "main",
+        "title": "This is me",
+        "name": "About Me",
+        "id": "main"
+    }]
+}

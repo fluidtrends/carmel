@@ -177,6 +177,17 @@ export class Product implements IProduct {
             port
         }
 
+        if (stackDir!.dir('node_modules')?.exists && !this.dir.dir('node_modules')?.exists) {
+            // If the stack is a JS stack, and the dependencies are not linked yet, let's link them
+            if (!stackDir!.dir('node_modules')?.dir(stackId)?.exists) {
+                // Add the stack to itself, if necessary
+                stackDir!.dir('node_modules')?.dir(stackId)?.link(stackDir!.dir('lib'))
+            }
+
+            // Resolve the stack and its dependencies
+            this.dir.dir('node_modules')?.link(stackDir!.dir('node_modules'))
+        }
+
         // Let's send it all back
         return new packerInstance[target].Packer(packerOptions)
     }

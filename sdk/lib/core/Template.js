@@ -98,21 +98,21 @@ var Template = /** @class */ (function () {
     Template.prototype.install = function (dir, product) {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
         return __awaiter(this, void 0, void 0, function () {
-            var id, packerId, stackId, packer, _p, stack, _q, stackDir;
+            var id, packerId, packer, _p, stackId, stack, _q, stackDir;
             return __generator(this, function (_r) {
                 switch (_r.label) {
                     case 0:
                         id = shortid_1.default.generate().toLowerCase();
                         packerId = (_a = this._tpl) === null || _a === void 0 ? void 0 : _a.content.packer;
-                        stackId = (_b = this._tpl) === null || _b === void 0 ? void 0 : _b.content.stack;
                         _p = packerId;
                         if (!_p) return [3 /*break*/, 2];
-                        return [4 /*yield*/, ((_c = product.session) === null || _c === void 0 ? void 0 : _c.index.installArchive({ id: packerId, section: "packers" }))];
+                        return [4 /*yield*/, ((_b = product.session) === null || _b === void 0 ? void 0 : _b.index.installArchive({ id: packerId, section: "packers" }))];
                     case 1:
                         _p = (_r.sent());
                         _r.label = 2;
                     case 2:
                         packer = _p;
+                        stackId = (_c = this._tpl) === null || _c === void 0 ? void 0 : _c.content.stack;
                         _q = stackId;
                         if (!_q) return [3 /*break*/, 4];
                         return [4 /*yield*/, ((_d = product.session) === null || _d === void 0 ? void 0 : _d.index.installArchive({ id: stackId, section: "stacks" }))];
