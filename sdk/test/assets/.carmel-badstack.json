@@ -1,3 +1,7 @@
 {
-    "stack": "oops stack"
+    "stack": "oops stack",
+    "packer": "testpacker",
+    "packerVersion": "1",
+    "stack": "teststack",
+    "stackVersion": "1"
 }

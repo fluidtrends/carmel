@@ -149,18 +149,19 @@ export class Product implements IProduct {
         // Look for the packer in the manifest
         const packerId = this.manifest.data.json().packer
         const packerVersion = this.manifest.data.json().packerVersion
-        const packerDir = new Dir(path.resolve(this.session?.index.sections.packers.path, packerId, packerVersion, packerId))
+        const packerDir = new Dir(this.session?.index.sections.packers.path)?.dir(packerId)?.dir(packerVersion)?.dir(packerId)
+
         const stackId = this.manifest.data.json().stack
         const stackVersion = this.manifest.data.json().stackVersion
-        const stackDir = new Dir(path.resolve(this.session?.index.sections.stacks.path, stackId, stackVersion, stackId))
+        const stackDir = new Dir(this.session?.index.sections.stacks.path)?.dir(stackId)?.dir(stackVersion)?.dir(stackId)
 
-        if (!stackDir.dir('node_modules')?.exists || !stackDir.file('carmel.json')?.exists) {
+        if (!stackDir!.dir('node_modules')?.exists || !stackDir!.file('carmel.json')?.exists) {
             return undefined
         }
 
         // Look up the packer and the stack config
-        const packerInstance = require(packerDir.path!)
-        const stackConfig = require(stackDir.file('carmel.json')!.path!)
+        const packerInstance = require(packerDir!.path!)
+        const stackConfig = require(stackDir!.file('carmel.json')!.path!)
 
         // Make sure we've got them all
         if (!packerInstance || !packerInstance[target] || !stackConfig || !stackConfig[target]) return 
@@ -168,10 +169,10 @@ export class Product implements IProduct {
         // Build the packer options
         const packerOptions = {
             contextDir: this.dir.path,
-            entryFile: stackDir.file(stackConfig[target].entry)!.path!,
+            entryFile: stackDir!.file(stackConfig[target].entry)!.path!,
             destDir: this.dir.dir(`.${target}`)!.path!,
-            stackDir: stackDir.path,
-            templateFile: stackDir.file(stackConfig[target].template)!.path!,
+            stackDir: stackDir!.path,
+            templateFile: stackDir!.file(stackConfig[target].template)!.path!,
             watch, 
             port
         }
