@@ -12,22 +12,22 @@ import fs from 'fs-extra'
 
 savor.
 
-add('should create a default product', (context: Context, done: Completion) => {
-    const product = new Product()
+// add('should create a default product', (context: Context, done: Completion) => {
+//     const product = new Product()
 
-    savor.promiseShouldSucceed(product.create(), done, () => {
-        context.expect(product.data).to.exist
-    })
-}).
+//     savor.promiseShouldSucceed(product.create(), done, () => {
+//         context.expect(product.data).to.exist
+//     })
+// }).
 
-add('should be able to save to the context', (context: Context, done: Completion) => {
-    const product = new Product()
+// add('should be able to save to the context', (context: Context, done: Completion) => {
+//     const product = new Product()
 
-    savor.promiseShouldSucceed(product.create().then(() => product.load()), done, () => {
-        product.saveContext({ hello: "test" })
-        context.expect(product.data.context.hello).to.equal('test')
-    })
-}).
+//     savor.promiseShouldSucceed(product.create().then(() => product.load()), done, () => {
+//         product.saveContext({ hello: "test" })
+//         context.expect(product.data.context.hello).to.equal('test')
+//     })
+// }).
 
 add('should not load a missing file', (context: Context, done: Completion) => {
     const product = new Product()

@@ -7,7 +7,7 @@ import {
 
 const props: CommandProps = {
   id: "init",
-  requiredArgs: [],
+  requiredArgs: ["name", "template"],
   type: CommandType.WORKSPACE,
   title: "Creating a new Carmel Product"
 }
