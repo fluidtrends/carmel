@@ -24,12 +24,12 @@
 
 **Step 4:** Create a new Carmel Product
 
-```carmel init`
+```carmel init```
 
 **Step 5:** Open the code
 
-```code carmel.code-workspace`
+```code carmel.code-workspace```
 
 **Step 6:** Start your Carmel Product Web App
 
-```carmel start`
+```carmel start```
