@@ -52,7 +52,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var __1 = require("../..");
 var props = {
     id: "init",
-    requiredArgs: [],
+    requiredArgs: ["name", "template"],
     type: __1.CommandType.WORKSPACE,
     title: "Creating a new Carmel Product"
 };
