@@ -25,6 +25,10 @@ commands:
   description: Create a new Carmel Product
   executor: lib/exec
   options:
+  - name: name
+    description: The name of your product
+    type: string
+    default: carmel
   - name: template
     description: The product template to use
     type: string
