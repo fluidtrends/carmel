@@ -94,7 +94,7 @@ export interface IProduct extends IClass  {
     loadFile (path: Path): void;
     saveData(data: any): void;
     findDirs(dirpath: Path): Path[];
-    resolvePacker(target: Target, port: number, watch: boolean): Promise<IPacker | undefined>;
+    resolvePacker(target: Target, port: number, watch: boolean): Promise<any>;
 }
 
 export interface ISnapshot extends IClass {
@@ -124,7 +124,7 @@ export interface ITemplate extends IClass {
     readonly artifact: IArtifact;
     readonly name: Name;
 
-    install(dir: IDir, product: IProduct): Promise<void>;
+    install(dir: IDir, product: IProduct): Promise<any>;
     load(): Promise<ITemplate | undefined>;
 }
 

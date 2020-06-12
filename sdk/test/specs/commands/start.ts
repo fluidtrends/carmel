@@ -157,19 +157,19 @@ add('should not start without a valid product', (context: Context, done: Complet
 //   })
 // }).
 
-add('should start a new product with a resolved stack', (context: Context, done: Completion) => {
-    const cmd = new Commands.Start()
+// add('should start a new product with a resolved stack', (context: Context, done: Completion) => {
+//     const cmd = new Commands.Start()
 
-    process.env.CARMEL_USER_HOME = context.dir
+//     process.env.CARMEL_USER_HOME = context.dir
 
-    savor.addAsset('assets/.carmel.json', '.carmel.json', context)
-    savor.addAsset('assets/chunks', 'carmel/chunks', context)
-    savor.addAsset("assets/testpacker", ".carmel/packers/testpacker/1/testpacker", context)
-    savor.addAsset("assets/teststack", ".carmel/stacks/teststack/1/teststack", context)
+//     savor.addAsset('assets/.carmel.json', '.carmel.json', context)
+//     savor.addAsset('assets/chunks', 'carmel/chunks', context)
+//     savor.addAsset("assets/testpacker", ".carmel/packers/testpacker/1/testpacker", context)
+//     savor.addAsset("assets/teststack", ".carmel/stacks/teststack/1/teststack", context)
 
-    savor.promiseShouldSucceed(Engine.run(cmd), done, (output) => {
-      context.expect(Engine.instance.isStarted).to.be.false
-    })
-}).
+//     savor.promiseShouldSucceed(Engine.run(cmd), done, (output) => {
+//       context.expect(Engine.instance.isStarted).to.be.false
+//     })
+// }).
 
 run('[Carmel SDK] Start Command')

@@ -39,6 +39,10 @@ var Dir = /** @class */ (function () {
         this.exists || (this.path && fs_extra_1.default.mkdirsSync(this.path));
         return this.exists ? this : undefined;
     };
+    Dir.prototype.remove = function () {
+        this.exists && fs_extra_1.default.removeSync(this.path);
+        return this;
+    };
     Dir.prototype.link = function (dir) {
         if (this.exists)
             return this;
@@ -53,6 +57,13 @@ var Dir = /** @class */ (function () {
             return dir;
         fs_extra_1.default.existsSync(path_1.default.dirname(dir.path)) || fs_extra_1.default.mkdirsSync(path_1.default.dirname(dir.path));
         fs_extra_1.default.copySync(this.path, dir.path);
+        return dir.exists ? dir : undefined;
+    };
+    Dir.prototype.move = function (dir) {
+        if (dir.exists)
+            return dir;
+        fs_extra_1.default.existsSync(path_1.default.dirname(dir.path)) || fs_extra_1.default.mkdirsSync(path_1.default.dirname(dir.path));
+        fs_extra_1.default.moveSync(this.path, dir.path);
         return dir.exists ? dir : undefined;
     };
     Object.defineProperty(Dir.prototype, "dirs", {

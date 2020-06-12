@@ -141,55 +141,94 @@ export class Product implements IProduct {
 
     /**
      * 
+     * @param id 
+     */
+    async createFromTemplate(id: Id) {
+        const template = await this.session?.findTemplate(id)
+
+        if (!template) {
+            throw Errors.ProductCannotCreate(Strings.TemplateIsMissingString(id))
+        }
+
+        await template!.install(this.dir, this)
+
+        return this.load()
+    }
+
+    /** @internal */
+    private async loadCache() {
+        // Look for the packer and stack in the manifest
+        const packerId = this.manifest.data.json().packer
+        const stackId = this.manifest.data.json().stack
+
+        // Look for the exact versions
+        const packerVersion = this.manifest.data.json().packerVersion
+        const stackVersion = this.manifest.data.json().stackVersion
+
+        // Get the fresh packer and stack
+        const packer = packerId && await this.session?.index.installArchive({ id: packerId, version: packerVersion, section: "packers" })
+        const stack = stackId && await this.session?.index.installArchive({ id: stackId, version: stackVersion, section: "stacks" })
+
+        return { packer, stack }
+    }
+
+    /**
+     * 
      * @param target 
      * @param port 
      * @param watch 
      */
     async resolvePacker(target: Target, port: number, watch: boolean) {
-        // Look for the packer in the manifest
-        const packerId = this.manifest.data.json().packer
-        const packerVersion = this.manifest.data.json().packerVersion
-        const packerDir = new Dir(this.session?.index.sections.packers.path)?.dir(packerId)?.dir(packerVersion)?.dir(packerId)
+        // Start by looking up this product's id and cache
+        const productId = this.manifest.data.json().id
+        const bundle = this.manifest.data.json().bundle
+        const bundleVersion = this.manifest.data.json().bundleVersion
+        const templateName = this.manifest.data.json().template
+        const productCacheDir = new Dir(this.session?.index.sections.products.path)?.dir(productId)
 
-        const stackId = this.manifest.data.json().stack
-        const stackVersion = this.manifest.data.json().stackVersion
-        const stackDir = new Dir(this.session?.index.sections.stacks.path)?.dir(stackId)?.dir(stackVersion)?.dir(stackId)
+        const templateId = `${bundle}/${bundleVersion}/${templateName}`
 
-        if (!stackDir!.dir('node_modules')?.exists || !stackDir!.file('carmel.json')?.exists) {
-            return undefined
+        let cache = undefined
+
+        if (!productCacheDir?.exists) {
+            // Let's setup cache structure
+            const template = await this.session?.findTemplate(templateId)
+            cache = await template!.install(this.dir, this)
         }
+
+        // Make sure we have a product cache available
+        cache = cache === undefined ? await this.loadCache() : cache
+
+        // Figure out the roots
+        const packerDir = new Dir(cache.packer.path)
+        const stackDir = new Dir(cache.stack.path)
 
         // Look up the packer and the stack config
         const packerInstance = require(packerDir!.path!)
         const stackConfig = require(stackDir!.file('carmel.json')!.path!)
 
         // Make sure we've got them all
-        if (!packerInstance || !packerInstance[target] || !stackConfig || !stackConfig[target]) return 
+        if (!packerInstance || !packerInstance[target] || !stackConfig || !stackConfig[target] || !stackDir!.file('carmel.json')?.exists) return
 
         // Build the packer options
-        const packerOptions = {
-            contextDir: this.dir.path,
+        const options = {
+            contextDir: productCacheDir!.path,
+            mainDir: this.dir!.path,
             entryFile: stackDir!.file(stackConfig[target].entry)!.path!,
-            destDir: this.dir.dir(`.${target}`)!.path!,
+            destDir: productCacheDir?.dir(`.${target}`)!.path!,
             stackDir: stackDir!.path,
             templateFile: stackDir!.file(stackConfig[target].template)!.path!,
             watch, 
             port
         }
 
-        if (stackDir!.dir('node_modules')?.exists && !this.dir.dir('node_modules')?.exists) {
-            // If the stack is a JS stack, and the dependencies are not linked yet, let's link them
-            if (!stackDir!.dir('node_modules')?.dir(stackId)?.exists) {
-                // Add the stack to itself, if necessary
-                stackDir!.dir('node_modules')?.dir(stackId)?.link(stackDir!.dir('lib'))
-            }
-
-            // Resolve the stack and its dependencies
-            this.dir.dir('node_modules')?.link(stackDir!.dir('node_modules'))
-        }
+        // The code workspace
+        const workspace = productCacheDir?.file('carmel.code-workspace')
 
         // Let's send it all back
-        return new packerInstance[target].Packer(packerOptions)
+        const packer = new packerInstance[target].Packer(options)
+
+        return { packer, workspace }
     }
 
     /**
@@ -227,22 +266,6 @@ export class Product implements IProduct {
         this.manifest.save()
 
         return this.manifest.data.json()
-    }
-
-    /**
-     * 
-     * @param id 
-     */
-    async createFromTemplate(id: Id) {
-        const template = await this.session?.findTemplate(id)
-
-        if (!template) {
-            throw Errors.ProductCannotCreate(Strings.TemplateIsMissingString(id))
-        }
-
-        await template!.install(this.dir, this)
-
-        return this.load()
     }
 
     /**

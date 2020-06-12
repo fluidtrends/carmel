@@ -11,15 +11,20 @@ export interface IFile extends IClass {
     readonly path?: Path;
     readonly data: IData;
     readonly exists: boolean;
+    remove(): IFile;
     load(): UTF8 | JSON;
     save(): void;
+    move(to: IFile): void;
+    link(file?: IFile): IFile | undefined;
     update(data: UTF8 | object): void;
 }
 export interface IDir extends IClass {
     readonly path?: Path;
     readonly exists: boolean;
     readonly dirs: Path[];
+    remove(): IDir;
     copy(dir: IDir): IDir | undefined;
+    move(dir: IDir): IDir | undefined;
     dir(dirpath: Path): IDir | undefined;
     file(filepath: Path): IFile | undefined;
     make(): IDir | undefined;

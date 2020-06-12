@@ -96,45 +96,69 @@ var Template = /** @class */ (function () {
      * @param dir
      */
     Template.prototype.install = function (dir, product) {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x;
         return __awaiter(this, void 0, void 0, function () {
-            var id, packerId, packer, _p, stackId, stack, _q, stackDir;
-            return __generator(this, function (_r) {
-                switch (_r.label) {
+            var id, productCacheDir, packerId, stackId, packer, _y, stack, _z, packerDir, stackDir;
+            return __generator(this, function (_0) {
+                switch (_0.label) {
                     case 0:
                         id = shortid_1.default.generate().toLowerCase();
-                        packerId = (_a = this._tpl) === null || _a === void 0 ? void 0 : _a.content.packer;
-                        _p = packerId;
-                        if (!_p) return [3 /*break*/, 2];
-                        return [4 /*yield*/, ((_b = product.session) === null || _b === void 0 ? void 0 : _b.index.installArchive({ id: packerId, section: "packers" }))];
+                        if (product.exists) {
+                            // We want to install this in an existing product
+                            product.manifest.load();
+                            id = product.manifest.data.json().id;
+                        }
+                        productCacheDir = (_c = (_b = new __1.Dir((_a = product.session) === null || _a === void 0 ? void 0 : _a.index.sections.products.path)) === null || _b === void 0 ? void 0 : _b.dir(id)) === null || _c === void 0 ? void 0 : _c.make();
+                        packerId = (_d = this._tpl) === null || _d === void 0 ? void 0 : _d.content.packer;
+                        stackId = (_e = this._tpl) === null || _e === void 0 ? void 0 : _e.content.stack;
+                        _y = packerId;
+                        if (!_y) return [3 /*break*/, 2];
+                        return [4 /*yield*/, ((_f = product.session) === null || _f === void 0 ? void 0 : _f.index.installArchive({ id: packerId, section: "packers" }))];
                     case 1:
-                        _p = (_r.sent());
-                        _r.label = 2;
+                        _y = (_0.sent());
+                        _0.label = 2;
                     case 2:
-                        packer = _p;
-                        stackId = (_c = this._tpl) === null || _c === void 0 ? void 0 : _c.content.stack;
-                        _q = stackId;
-                        if (!_q) return [3 /*break*/, 4];
-                        return [4 /*yield*/, ((_d = product.session) === null || _d === void 0 ? void 0 : _d.index.installArchive({ id: stackId, section: "stacks" }))];
+                        packer = _y;
+                        _z = stackId;
+                        if (!_z) return [3 /*break*/, 4];
+                        return [4 /*yield*/, ((_g = product.session) === null || _g === void 0 ? void 0 : _g.index.installArchive({ id: stackId, section: "stacks" }))];
                     case 3:
-                        _q = (_r.sent());
-                        _r.label = 4;
+                        _z = (_0.sent());
+                        _0.label = 4;
                     case 4:
-                        stack = _q;
-                        return [4 /*yield*/, ((_e = this._tpl) === null || _e === void 0 ? void 0 : _e.save(dir.path, {}))];
+                        stack = _z;
+                        packerDir = new __1.Dir(packer.path);
+                        stackDir = new __1.Dir(stack.path);
+                        return [4 /*yield*/, ((_h = this._tpl) === null || _h === void 0 ? void 0 : _h.save(productCacheDir.path, {}))];
                     case 5:
-                        _r.sent();
-                        (_f = dir === null || dir === void 0 ? void 0 : dir.file('carmel.code-workspace')) === null || _f === void 0 ? void 0 : _f.update({
+                        _0.sent();
+                        (_j = productCacheDir === null || productCacheDir === void 0 ? void 0 : productCacheDir.file('carmel.code-workspace')) === null || _j === void 0 ? void 0 : _j.update({
                             folders: [
                                 { path: "carmel/assets" },
                                 { path: "carmel/chunks" }
                             ],
                             settings: {}
                         });
+                        if ((_k = stackDir.dir('node_modules')) === null || _k === void 0 ? void 0 : _k.exists) {
+                            // Link node dependencies if necessary
+                            (_l = stackDir === null || stackDir === void 0 ? void 0 : stackDir.dir('node_modules')) === null || _l === void 0 ? void 0 : _l.copy(productCacheDir.dir('node_modules'));
+                            (_o = (_m = productCacheDir === null || productCacheDir === void 0 ? void 0 : productCacheDir.dir('node_modules')) === null || _m === void 0 ? void 0 : _m.dir(stackId)) === null || _o === void 0 ? void 0 : _o.link(stackDir);
+                        }
+                        if (product.exists) {
+                            (_p = productCacheDir === null || productCacheDir === void 0 ? void 0 : productCacheDir.file('.carmel.json')) === null || _p === void 0 ? void 0 : _p.remove();
+                            (_q = productCacheDir === null || productCacheDir === void 0 ? void 0 : productCacheDir.file('.carmel.json')) === null || _q === void 0 ? void 0 : _q.link(dir.file('.carmel.json'));
+                            (_r = productCacheDir === null || productCacheDir === void 0 ? void 0 : productCacheDir.dir('carmel')) === null || _r === void 0 ? void 0 : _r.remove();
+                            (_s = productCacheDir === null || productCacheDir === void 0 ? void 0 : productCacheDir.dir('carmel')) === null || _s === void 0 ? void 0 : _s.link(dir.dir('carmel'));
+                            return [2 /*return*/];
+                        }
+                        (_t = productCacheDir === null || productCacheDir === void 0 ? void 0 : productCacheDir.file('.carmel.json')) === null || _t === void 0 ? void 0 : _t.move(dir.file('.carmel.json'));
+                        (_u = productCacheDir === null || productCacheDir === void 0 ? void 0 : productCacheDir.file('.carmel.json')) === null || _u === void 0 ? void 0 : _u.link(dir.file('.carmel.json'));
+                        (_v = productCacheDir === null || productCacheDir === void 0 ? void 0 : productCacheDir.dir('carmel')) === null || _v === void 0 ? void 0 : _v.move(dir.dir('carmel'));
+                        (_w = productCacheDir === null || productCacheDir === void 0 ? void 0 : productCacheDir.dir('carmel')) === null || _w === void 0 ? void 0 : _w.link(dir.dir('carmel'));
                         product.manifest.load();
                         product.manifest.data.append({
                             id: id,
-                            carmelSDKVersion: (_g = product.session) === null || _g === void 0 ? void 0 : _g.pkg.version,
+                            carmelSDKVersion: (_x = product.session) === null || _x === void 0 ? void 0 : _x.pkg.version,
                             template: this.name,
                             bundle: this.artifact.bundle.id,
                             bundleVersion: this.artifact.bundle.version,
@@ -144,18 +168,7 @@ var Template = /** @class */ (function () {
                             packerVersion: packer.version,
                         });
                         product.manifest.save();
-                        stackDir = new __1.Dir(stack.path);
-                        if (!((_h = stackDir.dir('node_modules')) === null || _h === void 0 ? void 0 : _h.exists)) {
-                            // If the stack is not a JS stack, forget it
-                            return [2 /*return*/];
-                        }
-                        if (!((_k = (_j = stackDir.dir('node_modules')) === null || _j === void 0 ? void 0 : _j.dir(stackId)) === null || _k === void 0 ? void 0 : _k.exists)) {
-                            // Add the stack to itself, if necessary
-                            (_m = (_l = stackDir.dir('node_modules')) === null || _l === void 0 ? void 0 : _l.dir(stackId)) === null || _m === void 0 ? void 0 : _m.link(stackDir.dir('lib'));
-                        }
-                        // Resolve the stack and its dependencies
-                        (_o = dir.dir('node_modules')) === null || _o === void 0 ? void 0 : _o.link(stackDir.dir('node_modules'));
-                        return [2 /*return*/];
+                        return [2 /*return*/, { packer: packer, stack: stack }];
                 }
             });
         });
