@@ -1,4 +1,4 @@
-import { SessionProps, CommandProps, Path, EngineState, IClass, IBundle, Name, ChunkConfig, Id, ILogger, ArtifactsKind, IFile, JSON, IDir, CommandType, SessionState, ChunkConfigRoute, Target, Version, ProductState, CommandArg } from '.';
+import { SessionProps, CommandProps, Path, EngineState, IClass, IBundle, Name, ChunkConfig, Id, ILogger, ArtifactsKind, ServerState, IFile, JSON, IDir, CommandType, SessionState, ChunkConfigRoute, Target, Version, ProductState, CommandArg } from '.';
 export interface IEngine extends IClass {
     readonly state: EngineState;
     readonly isStarted: boolean;
@@ -46,6 +46,7 @@ export interface IPacker extends IClass {
 }
 export interface IProduct extends IClass {
     readonly dir: IDir;
+    readonly cacheDir?: IDir;
     readonly manifest: IFile;
     readonly session?: ISession;
     readonly exists: boolean;
@@ -54,6 +55,8 @@ export interface IProduct extends IClass {
     readonly isReady: boolean;
     readonly state: ProductState;
     readonly snapshot?: ISnapshot;
+    readonly server?: IServer;
+    readonly id?: Id;
     create(data?: any): void;
     createFromTemplate(id: Id): Promise<IProduct | undefined>;
     load(): Promise<IProduct | undefined>;
@@ -75,6 +78,22 @@ export interface ISnapshot extends IClass {
     load(): Promise<ISnapshot | undefined>;
     app(target: Target): Promise<IApp | undefined>;
     chunk(name: Name): Promise<IChunk | undefined>;
+}
+export interface IServer extends IClass {
+    readonly product: IProduct;
+    readonly isInitialized: boolean;
+    readonly isStarted: boolean;
+    readonly isRunning: boolean;
+    readonly state: ServerState;
+    readonly scriptFile?: IFile;
+    readonly dir?: IDir;
+    readonly pidFile?: IFile;
+    readonly outputFile?: IFile;
+    readonly errorFile?: IFile;
+    initialize(): Promise<any>;
+    start(): Promise<any>;
+    stop(): Promise<any>;
+    changeState(state: ServerState): void;
 }
 export interface IArtifact extends IClass {
     readonly kind: ArtifactsKind;

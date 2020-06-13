@@ -197,6 +197,9 @@ export class Engine implements IEngine {
         // If we only need to run this once, then we're completely finished
         onlyOnce && Engine.instance.stop()
 
+        // Ok, done
+        process.exit(0)
+
         // Send back the result, if any
         return result
     }

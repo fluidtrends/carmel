@@ -1,6 +1,6 @@
 {
   "name": "@carmel/sdk",
-  "version": "1.9.30",
+  "version": "1.9.31",
   "description": "The Carmel SDK",
   "scripts": {
     "build": "tsc",
@@ -29,7 +29,9 @@
     "deepmerge": "^4.2.2",
     "dodi": "^1.9.19",
     "eosjs": "^20.0.3",
+    "express": "^4.17.1",
     "open": "^7.0.4",
+    "pm2": "^4.4.0",
     "shortid": "^2.2.15",
     "url-parse": "^1.4.7"
   },

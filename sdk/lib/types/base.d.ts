@@ -26,6 +26,17 @@ export declare enum ProductState {
     LOADED = 30,
     READY = 40
 }
+export declare enum ServerState {
+    UNKNOWN = 0,
+    UNINITIALIZED = 10,
+    INITIALIZING = 20,
+    INITIALIZED = 30,
+    STOPPED = 40,
+    STARTING = 50,
+    STARTED = 60,
+    READY = 70,
+    RUNNING = 80
+}
 export declare enum SessionState {
     UNKNOWN = 0,
     UNINITIALIZED = 10,

@@ -26,13 +26,14 @@ export default class Start extends Command {
 
   /** @internal */
   async exec() {
-    const { packer, workspace } = await this.product?.resolvePacker(this.target, 9999, true)
-    if (!packer) return 
+    console.log('done?')
+    // const { packer, workspace } = await this.product?.resolvePacker(this.target, 9999, true)
+    // if (!packer) return 
 
-    await open(workspace.path)
+    // await open(workspace.path)
 
-    packer.pack((event: any) => {
-      console.log("Chunky says: ", event)
-    })
+    // packer.pack((event: any) => {
+      // console.log("Chunky says: ", event)
+    // })
   }
 }

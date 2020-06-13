@@ -10,13 +10,13 @@
   "footer": {
     "watermark": "Built with Carmel."
   },
-  "id": "qksamxmkz",
-  "carmelSDKVersion": "1.9.27",
+  "id": "carmelmain",
+  "carmelSDKVersion": "1.9.30",
   "template": "starter",
   "bundle": "@fluidtrends/bananas",
   "bundleVersion": "1.9.43",
   "stack": "jayesse",
   "stackVersion": "1.9.17",
   "packer": "papanache",
-  "packerVersion": "1.9.23"
+  "packerVersion": "1.9.25"
 }

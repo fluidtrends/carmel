@@ -60,6 +60,7 @@ var Product = /** @class */ (function () {
         this._manifest = new __1.File(this.dir.path !== undefined ? path_1.default.resolve(this.dir.path, Product.MANIFEST_FILENAME) : undefined);
         this._state = __1.ProductState.UNLOADED;
         this._session = session;
+        this._server = new __1.Server(this);
     }
     Object.defineProperty(Product.prototype, "session", {
         /**
@@ -77,6 +78,16 @@ var Product = /** @class */ (function () {
          */
         get: function () {
             return this._state;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Product.prototype, "server", {
+        /**
+         *
+         */
+        get: function () {
+            return this._server;
         },
         enumerable: false,
         configurable: true
@@ -107,6 +118,16 @@ var Product = /** @class */ (function () {
          */
         get: function () {
             return this.manifest.data.json();
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Product.prototype, "id", {
+        /**
+         *
+         */
+        get: function () {
+            return this._id;
         },
         enumerable: false,
         configurable: true
@@ -290,29 +311,55 @@ var Product = /** @class */ (function () {
             });
         });
     };
+    Object.defineProperty(Product.prototype, "cacheDir", {
+        /**
+         *
+         */
+        get: function () {
+            return this._cacheDir;
+        },
+        enumerable: false,
+        configurable: true
+    });
     /**
      * Load this product and all its artifacts, including its manifest
      */
     Product.prototype.load = function () {
+        var _a;
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                // No need to re-load this again
-                if (this.isLoaded)
-                    return [2 /*return*/, this];
-                if (!this.manifest.exists) {
-                    // Don't bother without a manifest
-                    this.changeState(__1.ProductState.UNLOADED);
-                    return [2 /*return*/, this];
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        // No need to re-load this again
+                        if (this.isLoaded)
+                            return [2 /*return*/, this];
+                        if (!this.manifest.exists) {
+                            // Don't bother without a manifest
+                            this.changeState(__1.ProductState.UNLOADED);
+                            return [2 /*return*/, this];
+                        }
+                        // Alright, let's do this
+                        this.changeState(__1.ProductState.LOADING);
+                        // First things first, let's get the manifest loaded up
+                        this.manifest.load();
+                        // Keep track of the id
+                        this._id = this.manifest.data.json().id;
+                        // Resolve the cache roo
+                        this._cacheDir = new __1.Dir(path_1.default.resolve((_a = this.session) === null || _a === void 0 ? void 0 : _a.index.sections.products.path, this.id));
+                        // Get this product's server ready
+                        return [4 /*yield*/, this.server.start()
+                            // Prepare the snapshot if necessary and if all good,
+                            // then tell everyone we're ready for action
+                        ];
+                    case 1:
+                        // Get this product's server ready
+                        _b.sent();
+                        // Prepare the snapshot if necessary and if all good,
+                        // then tell everyone we're ready for action
+                        this.changeState(__1.ProductState.READY);
+                        // Let callers access us directly
+                        return [2 /*return*/, this];
                 }
-                // Alright, let's do this
-                this.changeState(__1.ProductState.LOADING);
-                // First things first, let's get the manifest loaded up
-                this.manifest.load();
-                // Prepare the snapshot if necessary and if all good,
-                // then tell everyone we're ready for action
-                this.changeState(__1.ProductState.READY);
-                // Let callers access us directly
-                return [2 /*return*/, this];
             });
         });
     };

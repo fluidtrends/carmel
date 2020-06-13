@@ -7,7 +7,8 @@ import {
     IDir,
     Target,
     File,
-    Name,
+    IServer,
+    Server,
     Dir,
     ProductState,
     ISession,
@@ -30,12 +31,21 @@ export class Product implements IProduct {
 
     /** The default name of the manifest */   
     public static MANIFEST_FILENAME = ".carmel.json"
+    
+    /** @internal */
+    protected _id?: Id;
 
     /** @internal */
     protected _props: any;
 
     /** @internal */
     protected _dir: IDir;
+
+     /** @internal */
+    protected _cacheDir?: IDir;
+
+    /** @internal */
+    protected _server: IServer;
 
     /** @internal */
     protected _manifest: IFile;
@@ -58,6 +68,7 @@ export class Product implements IProduct {
         this._manifest = new File(this.dir.path !== undefined ? path.resolve(this.dir.path!, Product.MANIFEST_FILENAME) : undefined)
         this._state = ProductState.UNLOADED
         this._session = session
+        this._server = new Server(this)
     }
 
     /**
@@ -72,6 +83,13 @@ export class Product implements IProduct {
      */
     get state() {
         return this._state
+    }
+
+    /**
+     * 
+     */
+    get server() {
+        return this._server
     }
 
     /**
@@ -93,6 +111,13 @@ export class Product implements IProduct {
      */
     get data() {
         return this.manifest.data.json()
+    }
+
+    /**
+     * 
+     */
+    get id() {
+        return this._id
     }
 
     /**
@@ -232,6 +257,13 @@ export class Product implements IProduct {
     }
 
     /**
+     * 
+     */
+    get cacheDir() {
+        return this._cacheDir
+    }
+
+    /**
      * Load this product and all its artifacts, including its manifest
      */
     async load() {
@@ -249,6 +281,15 @@ export class Product implements IProduct {
 
         // First things first, let's get the manifest loaded up
         this.manifest.load()
+
+        // Keep track of the id
+        this._id = this.manifest.data.json().id
+
+        // Resolve the cache roo
+        this._cacheDir = new Dir(path.resolve(this.session?.index.sections.products.path, this.id!))
+
+        // Get this product's server ready
+        await this.server.start()
 
         // Prepare the snapshot if necessary and if all good,
         // then tell everyone we're ready for action

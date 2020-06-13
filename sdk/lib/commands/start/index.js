@@ -48,12 +48,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var __1 = require("../..");
-var open_1 = __importDefault(require("open"));
 var props = {
     id: "start",
     type: __1.CommandType.PRODUCT,
@@ -73,24 +69,10 @@ var Start = /** @class */ (function (_super) {
     }
     /** @internal */
     Start.prototype.exec = function () {
-        var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var _b, packer, workspace;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
-                    case 0: return [4 /*yield*/, ((_a = this.product) === null || _a === void 0 ? void 0 : _a.resolvePacker(this.target, 9999, true))];
-                    case 1:
-                        _b = _c.sent(), packer = _b.packer, workspace = _b.workspace;
-                        if (!packer)
-                            return [2 /*return*/];
-                        return [4 /*yield*/, open_1.default(workspace.path)];
-                    case 2:
-                        _c.sent();
-                        packer.pack(function (event) {
-                            console.log("Chunky says: ", event);
-                        });
-                        return [2 /*return*/];
-                }
+            return __generator(this, function (_a) {
+                console.log('done?');
+                return [2 /*return*/];
             });
         });
     };
