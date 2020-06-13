@@ -37,6 +37,15 @@ var File = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    File.prototype.link = function (file) {
+        if (this.exists)
+            return this;
+        if (!this.path || !file || !file.exists)
+            return undefined;
+        fs_extra_1.default.existsSync(path_1.default.dirname(this.path)) || fs_extra_1.default.mkdirsSync(path_1.default.dirname(this.path));
+        fs_extra_1.default.symlinkSync(file.path, this.path, 'file');
+        return this.exists ? this : undefined;
+    };
     File.prototype.load = function () {
         if (!this.exists) {
             throw __1.Errors.FileDoesNotExist(this.path || "");
@@ -49,9 +58,18 @@ var File = /** @class */ (function () {
             throw __1.Errors.FileCouldNotBeLoaded(this.path, e.message);
         }
     };
+    File.prototype.remove = function () {
+        this.exists && fs_extra_1.default.removeSync(this.path);
+        return this;
+    };
     File.prototype.save = function () {
         this.exists || fs_extra_1.default.mkdirsSync(path_1.default.dirname(this.path));
         fs_extra_1.default.writeFileSync(this.path, "" + this.data.raw, 'utf8');
+    };
+    File.prototype.move = function (to) {
+        if (!this.exists)
+            return;
+        fs_extra_1.default.moveSync(this.path, to.path);
     };
     File.prototype.update = function (data) {
         this.data.append(data);

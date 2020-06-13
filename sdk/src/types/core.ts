@@ -10,6 +10,7 @@ import {
     Id,
     ILogger,
     ArtifactsKind,
+    ServerState,
     IFile,
     JSON,
     IDir,
@@ -77,6 +78,7 @@ export interface IPacker extends IClass  {
 
 export interface IProduct extends IClass  {
     readonly dir: IDir;
+    readonly cacheDir?: IDir;
     readonly manifest: IFile;
     readonly session?: ISession;
     readonly exists: boolean;
@@ -85,7 +87,9 @@ export interface IProduct extends IClass  {
     readonly isReady: boolean;
     readonly state: ProductState;
     readonly snapshot?: ISnapshot;
-    
+    readonly server?: IServer;
+    readonly id?: Id;
+
     create(data?: any): void;
     createFromTemplate(id: Id): Promise<IProduct | undefined>;
     load(): Promise<IProduct | undefined>;
@@ -94,7 +98,7 @@ export interface IProduct extends IClass  {
     loadFile (path: Path): void;
     saveData(data: any): void;
     findDirs(dirpath: Path): Path[];
-    resolvePacker(target: Target, port: number, watch: boolean): Promise<IPacker | undefined>;
+    resolvePacker(target: Target, port: number, watch: boolean): Promise<any>;
 }
 
 export interface ISnapshot extends IClass {
@@ -111,6 +115,23 @@ export interface ISnapshot extends IClass {
     chunk(name: Name): Promise<IChunk | undefined>;
 }
 
+export interface IServer extends IClass {
+    readonly product: IProduct;
+    readonly isInitialized: boolean;
+    readonly isStarted: boolean;
+    readonly isRunning: boolean;
+    readonly state: ServerState;
+    readonly scriptFile?: IFile;
+    readonly dir?: IDir;
+    readonly pidFile?: IFile;
+    readonly outputFile?: IFile;
+    readonly errorFile?: IFile;
+
+    initialize(): Promise<any>;
+    start(): Promise<any>;
+    stop(): Promise<any>;
+    changeState(state: ServerState): void;
+}
 
 export interface IArtifact extends IClass {
     readonly kind: ArtifactsKind;
@@ -124,7 +145,7 @@ export interface ITemplate extends IClass {
     readonly artifact: IArtifact;
     readonly name: Name;
 
-    install(dir: IDir, product: IProduct): Promise<void>;
+    install(dir: IDir, product: IProduct): Promise<any>;
     load(): Promise<ITemplate | undefined>;
 }
 
@@ -149,7 +170,6 @@ export interface IChunk extends IClass {
     
     load(): Promise<IChunk | undefined>;
     screen(route: ChunkConfigRoute): Promise<IScreen | undefined>;
-
 }
 
 export interface IScreen extends IClass {

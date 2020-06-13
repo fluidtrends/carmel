@@ -60,6 +60,7 @@ var Product = /** @class */ (function () {
         this._manifest = new __1.File(this.dir.path !== undefined ? path_1.default.resolve(this.dir.path, Product.MANIFEST_FILENAME) : undefined);
         this._state = __1.ProductState.UNLOADED;
         this._session = session;
+        this._server = new __1.Server(this);
     }
     Object.defineProperty(Product.prototype, "session", {
         /**
@@ -77,6 +78,16 @@ var Product = /** @class */ (function () {
          */
         get: function () {
             return this._state;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Product.prototype, "server", {
+        /**
+         *
+         */
+        get: function () {
+            return this._server;
         },
         enumerable: false,
         configurable: true
@@ -107,6 +118,16 @@ var Product = /** @class */ (function () {
          */
         get: function () {
             return this.manifest.data.json();
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Product.prototype, "id", {
+        /**
+         *
+         */
+        get: function () {
+            return this._id;
         },
         enumerable: false,
         configurable: true
@@ -171,92 +192,6 @@ var Product = /** @class */ (function () {
     };
     /**
      *
-     * @param target
-     * @param port
-     * @param watch
-     */
-    Product.prototype.resolvePacker = function (target, port, watch) {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s;
-        return __awaiter(this, void 0, void 0, function () {
-            var packerId, packerVersion, packerDir, stackId, stackVersion, stackDir, packerInstance, stackConfig, packerOptions;
-            return __generator(this, function (_t) {
-                packerId = this.manifest.data.json().packer;
-                packerVersion = this.manifest.data.json().packerVersion;
-                packerDir = (_d = (_c = (_b = new __1.Dir((_a = this.session) === null || _a === void 0 ? void 0 : _a.index.sections.packers.path)) === null || _b === void 0 ? void 0 : _b.dir(packerId)) === null || _c === void 0 ? void 0 : _c.dir(packerVersion)) === null || _d === void 0 ? void 0 : _d.dir(packerId);
-                stackId = this.manifest.data.json().stack;
-                stackVersion = this.manifest.data.json().stackVersion;
-                stackDir = (_h = (_g = (_f = new __1.Dir((_e = this.session) === null || _e === void 0 ? void 0 : _e.index.sections.stacks.path)) === null || _f === void 0 ? void 0 : _f.dir(stackId)) === null || _g === void 0 ? void 0 : _g.dir(stackVersion)) === null || _h === void 0 ? void 0 : _h.dir(stackId);
-                if (!((_j = stackDir.dir('node_modules')) === null || _j === void 0 ? void 0 : _j.exists) || !((_k = stackDir.file('carmel.json')) === null || _k === void 0 ? void 0 : _k.exists)) {
-                    return [2 /*return*/, undefined];
-                }
-                packerInstance = require(packerDir.path);
-                stackConfig = require(stackDir.file('carmel.json').path);
-                // Make sure we've got them all
-                if (!packerInstance || !packerInstance[target] || !stackConfig || !stackConfig[target])
-                    return [2 /*return*/];
-                packerOptions = {
-                    contextDir: this.dir.path,
-                    entryFile: stackDir.file(stackConfig[target].entry).path,
-                    destDir: this.dir.dir("." + target).path,
-                    stackDir: stackDir.path,
-                    templateFile: stackDir.file(stackConfig[target].template).path,
-                    watch: watch,
-                    port: port
-                };
-                if (((_l = stackDir.dir('node_modules')) === null || _l === void 0 ? void 0 : _l.exists) && !((_m = this.dir.dir('node_modules')) === null || _m === void 0 ? void 0 : _m.exists)) {
-                    // If the stack is a JS stack, and the dependencies are not linked yet, let's link them
-                    if (!((_p = (_o = stackDir.dir('node_modules')) === null || _o === void 0 ? void 0 : _o.dir(stackId)) === null || _p === void 0 ? void 0 : _p.exists)) {
-                        // Add the stack to itself, if necessary
-                        (_r = (_q = stackDir.dir('node_modules')) === null || _q === void 0 ? void 0 : _q.dir(stackId)) === null || _r === void 0 ? void 0 : _r.link(stackDir.dir('lib'));
-                    }
-                    // Resolve the stack and its dependencies
-                    (_s = this.dir.dir('node_modules')) === null || _s === void 0 ? void 0 : _s.link(stackDir.dir('node_modules'));
-                }
-                // Let's send it all back
-                return [2 /*return*/, new packerInstance[target].Packer(packerOptions)];
-            });
-        });
-    };
-    /**
-     * Load this product and all its artifacts, including its manifest
-     */
-    Product.prototype.load = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                // No need to re-load this again
-                if (this.isLoaded)
-                    return [2 /*return*/, this];
-                if (!this.manifest.exists) {
-                    // Don't bother without a manifest
-                    this.changeState(__1.ProductState.UNLOADED);
-                    return [2 /*return*/, this];
-                }
-                // Alright, let's do this
-                this.changeState(__1.ProductState.LOADING);
-                // First things first, let's get the manifest loaded up
-                this.manifest.load();
-                // Prepare the snapshot if necessary and if all good,
-                // then tell everyone we're ready for action
-                this.changeState(__1.ProductState.READY);
-                // Let callers access us directly
-                return [2 /*return*/, this];
-            });
-        });
-    };
-    /**
-     *
-     */
-    Product.prototype.create = function (data) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                this.manifest.data.update(data);
-                this.manifest.save();
-                return [2 /*return*/, this.manifest.data.json()];
-            });
-        });
-    };
-    /**
-     *
      * @param id
      */
     Product.prototype.createFromTemplate = function (id) {
@@ -276,6 +211,167 @@ var Product = /** @class */ (function () {
                         _b.sent();
                         return [2 /*return*/, this.load()];
                 }
+            });
+        });
+    };
+    /** @internal */
+    Product.prototype.loadCache = function () {
+        var _a, _b;
+        return __awaiter(this, void 0, void 0, function () {
+            var packerId, stackId, packerVersion, stackVersion, packer, _c, stack, _d;
+            return __generator(this, function (_e) {
+                switch (_e.label) {
+                    case 0:
+                        packerId = this.manifest.data.json().packer;
+                        stackId = this.manifest.data.json().stack;
+                        packerVersion = this.manifest.data.json().packerVersion;
+                        stackVersion = this.manifest.data.json().stackVersion;
+                        _c = packerId;
+                        if (!_c) return [3 /*break*/, 2];
+                        return [4 /*yield*/, ((_a = this.session) === null || _a === void 0 ? void 0 : _a.index.installArchive({ id: packerId, version: packerVersion, section: "packers" }))];
+                    case 1:
+                        _c = (_e.sent());
+                        _e.label = 2;
+                    case 2:
+                        packer = _c;
+                        _d = stackId;
+                        if (!_d) return [3 /*break*/, 4];
+                        return [4 /*yield*/, ((_b = this.session) === null || _b === void 0 ? void 0 : _b.index.installArchive({ id: stackId, version: stackVersion, section: "stacks" }))];
+                    case 3:
+                        _d = (_e.sent());
+                        _e.label = 4;
+                    case 4:
+                        stack = _d;
+                        return [2 /*return*/, { packer: packer, stack: stack }];
+                }
+            });
+        });
+    };
+    /**
+     *
+     * @param target
+     * @param port
+     * @param watch
+     */
+    Product.prototype.resolvePacker = function (target, port, watch) {
+        var _a, _b, _c, _d;
+        return __awaiter(this, void 0, void 0, function () {
+            var productId, bundle, bundleVersion, templateName, productCacheDir, templateId, cache, template, _e, packerDir, stackDir, packerInstance, stackConfig, options, workspace, packer;
+            return __generator(this, function (_f) {
+                switch (_f.label) {
+                    case 0:
+                        productId = this.manifest.data.json().id;
+                        bundle = this.manifest.data.json().bundle;
+                        bundleVersion = this.manifest.data.json().bundleVersion;
+                        templateName = this.manifest.data.json().template;
+                        productCacheDir = (_b = new __1.Dir((_a = this.session) === null || _a === void 0 ? void 0 : _a.index.sections.products.path)) === null || _b === void 0 ? void 0 : _b.dir(productId);
+                        templateId = bundle + "/" + bundleVersion + "/" + templateName;
+                        cache = undefined;
+                        if (!!(productCacheDir === null || productCacheDir === void 0 ? void 0 : productCacheDir.exists)) return [3 /*break*/, 3];
+                        return [4 /*yield*/, ((_c = this.session) === null || _c === void 0 ? void 0 : _c.findTemplate(templateId))];
+                    case 1:
+                        template = _f.sent();
+                        return [4 /*yield*/, template.install(this.dir, this)];
+                    case 2:
+                        cache = _f.sent();
+                        _f.label = 3;
+                    case 3:
+                        if (!(cache === undefined)) return [3 /*break*/, 5];
+                        return [4 /*yield*/, this.loadCache()];
+                    case 4:
+                        _e = _f.sent();
+                        return [3 /*break*/, 6];
+                    case 5:
+                        _e = cache;
+                        _f.label = 6;
+                    case 6:
+                        // Make sure we have a product cache available
+                        cache = _e;
+                        packerDir = new __1.Dir(cache.packer.path);
+                        stackDir = new __1.Dir(cache.stack.path);
+                        packerInstance = require(packerDir.path);
+                        stackConfig = require(stackDir.file('carmel.json').path);
+                        // Make sure we've got them all
+                        if (!packerInstance || !packerInstance[target] || !stackConfig || !stackConfig[target] || !((_d = stackDir.file('carmel.json')) === null || _d === void 0 ? void 0 : _d.exists))
+                            return [2 /*return*/];
+                        options = {
+                            contextDir: productCacheDir.path,
+                            mainDir: this.dir.path,
+                            entryFile: stackDir.file(stackConfig[target].entry).path,
+                            destDir: productCacheDir === null || productCacheDir === void 0 ? void 0 : productCacheDir.dir("." + target).path,
+                            stackDir: stackDir.path,
+                            templateFile: stackDir.file(stackConfig[target].template).path,
+                            watch: watch,
+                            port: port
+                        };
+                        workspace = productCacheDir === null || productCacheDir === void 0 ? void 0 : productCacheDir.file('carmel.code-workspace');
+                        packer = new packerInstance[target].Packer(options);
+                        return [2 /*return*/, { packer: packer, workspace: workspace }];
+                }
+            });
+        });
+    };
+    Object.defineProperty(Product.prototype, "cacheDir", {
+        /**
+         *
+         */
+        get: function () {
+            return this._cacheDir;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    /**
+     * Load this product and all its artifacts, including its manifest
+     */
+    Product.prototype.load = function () {
+        var _a;
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        // No need to re-load this again
+                        if (this.isLoaded)
+                            return [2 /*return*/, this];
+                        if (!this.manifest.exists) {
+                            // Don't bother without a manifest
+                            this.changeState(__1.ProductState.UNLOADED);
+                            return [2 /*return*/, this];
+                        }
+                        // Alright, let's do this
+                        this.changeState(__1.ProductState.LOADING);
+                        // First things first, let's get the manifest loaded up
+                        this.manifest.load();
+                        // Keep track of the id
+                        this._id = this.manifest.data.json().id;
+                        // Resolve the cache roo
+                        this._cacheDir = new __1.Dir(path_1.default.resolve((_a = this.session) === null || _a === void 0 ? void 0 : _a.index.sections.products.path, this.id));
+                        // Get this product's server ready
+                        return [4 /*yield*/, this.server.start()
+                            // Prepare the snapshot if necessary and if all good,
+                            // then tell everyone we're ready for action
+                        ];
+                    case 1:
+                        // Get this product's server ready
+                        _b.sent();
+                        // Prepare the snapshot if necessary and if all good,
+                        // then tell everyone we're ready for action
+                        this.changeState(__1.ProductState.READY);
+                        // Let callers access us directly
+                        return [2 /*return*/, this];
+                }
+            });
+        });
+    };
+    /**
+     *
+     */
+    Product.prototype.create = function (data) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                this.manifest.data.update(data);
+                this.manifest.save();
+                return [2 /*return*/, this.manifest.data.json()];
             });
         });
     };

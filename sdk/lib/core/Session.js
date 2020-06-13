@@ -261,26 +261,21 @@ var Session = /** @class */ (function () {
     };
     /** @internal */
     Session.prototype.parseArtifact = function (id, kind, install) {
-        var _a;
         if (install === void 0) { install = true; }
         // Defaults
         var bundleVersion = undefined;
         var bundleId = Session.DEFAULT_BUNDLES[0];
         var artifactName = id;
-        var regex = id.charAt(0) === '@' ? /(\@.*\/.*)\/(.*)$/ : /(.*)\/(.*)\/(.*)$/;
-        // Parse the bundle id and version from the artifact id
-        var info = (_a = id.match(regex)) === null || _a === void 0 ? void 0 : _a.slice(1, 4);
-        if (info && info.length === 3) {
-            // This is is a fully resolved artifact id
-            bundleId = info[0];
-            bundleVersion = info[1];
-            artifactName = info[2];
-        }
-        else if (info && info.length === 2) {
-            // This requires the latest version (no version specified)
-            bundleId = info[0];
-            artifactName = info[1];
-        }
+        // Look at the all the sections
+        var info = id.split('/');
+        // The artifact name is simple
+        artifactName = info.pop();
+        // Parse the bundle id
+        bundleId = info.shift();
+        // Append if it's scoped
+        bundleId = bundleId.charAt(0) === '@' ? bundleId + "/" + info.shift() : bundleId;
+        // Ready for the version, if any
+        bundleVersion = info && info.length > 0 ? info.shift() : bundleVersion;
         return { bundleId: bundleId, bundleVersion: bundleVersion, artifactName: artifactName };
     };
     /**
@@ -359,20 +354,6 @@ var Session = /** @class */ (function () {
                         // Send it back if found
                         return [2 /*return*/, this.product];
                 }
-            });
-        });
-    };
-    Session.prototype.installSystemBundle = function (bundleId) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/];
-            });
-        });
-    };
-    Session.prototype.updateIndex = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/];
             });
         });
     };

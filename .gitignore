@@ -4,6 +4,7 @@ node_modules
 .chunky.json
 build
 .chunky
+.web
 .carmel
 .gitignore
 \.vagrant

@@ -40,6 +40,11 @@ export class Dir implements IDir {
         return this.exists ? this : undefined
     }
 
+    remove() {
+        this.exists && fs.removeSync(this.path!)
+        return this
+    }
+
     link(dir?: IDir) {
         if (this.exists) return this
         if (!this.path || !dir || !dir.exists) return undefined
@@ -55,6 +60,15 @@ export class Dir implements IDir {
         
         fs.existsSync(path.dirname(dir.path!)) || fs.mkdirsSync(path.dirname(dir.path!))
         fs.copySync(this.path!, dir.path!)
+        
+        return dir.exists ? dir : undefined
+    }
+
+    move(dir: IDir) {
+        if (dir.exists) return dir
+        
+        fs.existsSync(path.dirname(dir.path!)) || fs.mkdirsSync(path.dirname(dir.path!))
+        fs.moveSync(this.path!, dir.path!)
         
         return dir.exists ? dir : undefined
     }

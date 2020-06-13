@@ -1,4 +1,4 @@
-import { IProduct, Path, IFile, IDir, Target, ProductState, ISession, ISnapshot, Id } from '..';
+import { IProduct, Path, IFile, IDir, Target, File, IServer, ProductState, ISession, ISnapshot, Id } from '..';
 /**
  *
  * {@link https://github.com/fluidtrends/carmel/blob/master/sdk/src/Product.ts | Source Code } |
@@ -11,9 +11,15 @@ export declare class Product implements IProduct {
     /** The default name of the manifest */
     static MANIFEST_FILENAME: string;
     /** @internal */
+    protected _id?: Id;
+    /** @internal */
     protected _props: any;
     /** @internal */
     protected _dir: IDir;
+    /** @internal */
+    protected _cacheDir?: IDir;
+    /** @internal */
+    protected _server: IServer;
     /** @internal */
     protected _manifest: IFile;
     /** @internal */
@@ -38,6 +44,10 @@ export declare class Product implements IProduct {
     /**
      *
      */
+    get server(): IServer;
+    /**
+     *
+     */
     get manifest(): IFile;
     /**
      *
@@ -47,6 +57,10 @@ export declare class Product implements IProduct {
      *
      */
     get data(): any;
+    /**
+     *
+     */
+    get id(): string | undefined;
     /**
      *
      */
@@ -75,11 +89,25 @@ export declare class Product implements IProduct {
     changeState(state: ProductState): void;
     /**
      *
+     * @param id
+     */
+    createFromTemplate(id: Id): Promise<this>;
+    /** @internal */
+    private loadCache;
+    /**
+     *
      * @param target
      * @param port
      * @param watch
      */
-    resolvePacker(target: Target, port: number, watch: boolean): Promise<any>;
+    resolvePacker(target: Target, port: number, watch: boolean): Promise<{
+        packer: any;
+        workspace: File | undefined;
+    } | undefined>;
+    /**
+     *
+     */
+    get cacheDir(): IDir | undefined;
     /**
      * Load this product and all its artifacts, including its manifest
      */
@@ -88,11 +116,6 @@ export declare class Product implements IProduct {
      *
      */
     create(data?: any): Promise<any>;
-    /**
-     *
-     * @param id
-     */
-    createFromTemplate(id: Id): Promise<this>;
     /**
      *
      * @param context

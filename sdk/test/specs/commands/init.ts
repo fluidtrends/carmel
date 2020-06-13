@@ -61,22 +61,22 @@ add('should skip creating if a product exists already', (context: Context, done:
     })  
 }).
 
-add('should skip creating if the template bundle does not exist remotely', (context: Context, done: Completion) => {
-  const cmd = new Commands.Init() 
+// add('should skip creating if the template bundle does not exist remotely', (context: Context, done: Completion) => {
+//   const cmd = new Commands.Init() 
 
-  savor.addAsset("assets/dirs/one", ".carmel/bundles/test", context)
-  process.env.CARMEL_USER_HOME = context.dir
-  const stub = context.stub(Section.prototype, 'installArchive').callsFake(() => { throw new TypeError('oh oh') })
+//   savor.addAsset("assets/dirs/one", ".carmel/bundles/test", context)
+//   process.env.CARMEL_USER_HOME = context.dir
+//   const stub = context.stub(Section.prototype, 'installArchive').callsFake(() => { throw new TypeError('oh oh') })
 
-  savor.promiseShouldFail(Engine.run(cmd, [{ 
-    name: "name", value: "hello" 
-  }, { name: "template", value: "default" }
-  ]), done, (error) => {
-    Engine.instance.stop()
-      context.expect(error.message).to.equal("oh oh")
-      stub.restore()
-  })
-}).
+//   savor.promiseShouldFail(Engine.run(cmd, [{ 
+//     name: "name", value: "hello" 
+//   }, { name: "template", value: "default" }
+//   ]), done, (error) => {
+//     Engine.instance.stop()
+//       context.expect(error.message).to.equal("oh oh")
+//       stub.restore()
+//   })
+// }).
 
 // add('should skip creating if the template bundle does not exist remotely', (context: Context, done: Completion) => {
 //   const cmd = new Commands.Init() 

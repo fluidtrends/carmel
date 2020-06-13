@@ -95,6 +95,4 @@ export declare class Session implements ISession {
      * @param productId
      */
     resolveProduct(target?: Target): Promise<IProduct | undefined>;
-    installSystemBundle(bundleId: string): Promise<void>;
-    updateIndex(): Promise<void>;
 }

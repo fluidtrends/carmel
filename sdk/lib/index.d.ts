@@ -4,6 +4,7 @@ export * from './core/Artifact';
 export * from './core/Template';
 export * from './core/Product';
 export * from './core/Snapshot';
+export * from './core/Server';
 export * from './core/Session';
 export * from './core/Engine';
 export * from './core/App';

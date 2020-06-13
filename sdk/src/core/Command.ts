@@ -4,16 +4,13 @@ import {
     Strings,
     ISession,
     CommandProps,
-    Id,
     CommandArg,
     Target,
     Name,
-    IChunk,
-    IScript,
     IProduct,
-    IApp,
     CommandType
 } from '..'
+import { Server } from './Server';
 
 const Defaults = (cls: ICommand) => ({
     id: cls.constructor.name.toLowerCase(),

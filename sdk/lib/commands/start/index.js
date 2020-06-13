@@ -69,21 +69,10 @@ var Start = /** @class */ (function (_super) {
     }
     /** @internal */
     Start.prototype.exec = function () {
-        var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var packer;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0: return [4 /*yield*/, ((_a = this.product) === null || _a === void 0 ? void 0 : _a.resolvePacker(this.target, 9999, true))];
-                    case 1:
-                        packer = _b.sent();
-                        if (!packer)
-                            return [2 /*return*/];
-                        packer.pack(function (event) {
-                            console.log(">", event);
-                        });
-                        return [2 /*return*/];
-                }
+            return __generator(this, function (_a) {
+                console.log('done?');
+                return [2 /*return*/];
             });
         });
     };

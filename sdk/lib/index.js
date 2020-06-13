@@ -28,6 +28,7 @@ __exportStar(require("./core/Artifact"), exports);
 __exportStar(require("./core/Template"), exports);
 __exportStar(require("./core/Product"), exports);
 __exportStar(require("./core/Snapshot"), exports);
+__exportStar(require("./core/Server"), exports);
 __exportStar(require("./core/Session"), exports);
 __exportStar(require("./core/Engine"), exports);
 __exportStar(require("./core/App"), exports);

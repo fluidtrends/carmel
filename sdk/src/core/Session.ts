@@ -204,21 +204,21 @@ export class Session implements ISession {
        let bundleVersion = undefined
        let bundleId = Session.DEFAULT_BUNDLES[0]
        let artifactName = id
-       let regex = id.charAt(0) === '@' ? /(\@.*\/.*)\/(.*)$/ : /(.*)\/(.*)\/(.*)$/
 
-       // Parse the bundle id and version from the artifact id
-       const info = id.match(regex)?.slice(1,4)!
+       // Look at the all the sections
+       const info = id.split('/')
+    
+       // The artifact name is simple
+       artifactName = info.pop()!
 
-       if (info && info.length === 3) {
-           // This is is a fully resolved artifact id
-           bundleId = info[0]
-           bundleVersion = info[1]
-           artifactName = info[2]
-       } else if (info && info.length === 2) {
-           // This requires the latest version (no version specified)
-           bundleId = info[0]
-           artifactName = info[1]
-       }
+       // Parse the bundle id
+       bundleId = info.shift()!
+       
+       // Append if it's scoped
+       bundleId = bundleId.charAt(0) === '@' ? `${bundleId}/${info.shift()}` : bundleId
+
+       // Ready for the version, if any
+       bundleVersion = info && info.length > 0 ? info.shift() : bundleVersion
 
        return { bundleId, bundleVersion, artifactName }
     }
@@ -268,30 +268,6 @@ export class Session implements ISession {
 
         // Send it back if found
         return this.product
-    }
-
-    async installSystemBundle(bundleId: string) {
-        // const archive = await this.index.installArchive({ section: "system", id: "papanache", silent: true })
-        // this.set("papanacheVersion", archive.version)
-        // await archive.installDependencies()   
-    }
-
-    async updateIndex() {
-        // this.logger.info('Making sure your development environment is up to date ...')
- 
-        // return this.index.installArchive({ id: "papanache", silent: true })
-        //                  .then((archive: Archive) => {
-        //                     this.set("papanacheVersion", archive.version)
-        //                     return archive.installDependencies()
-        //                  })
-        //                  .then(() => this.index.installArchive({ id: "@fluidtrends/bananas", silent: true }))
-        //                  .then((archive: Archive) => {
-        //                     this.set("bananasVersion", archive.version)
-        //                     return archive.installDependencies()
-        //                  })
-        //                  .then(() => {
-        //                     // this.logger.info('Your development environment is all up to date')
-        //                  })
     }
 }
 

@@ -6,6 +6,7 @@ import {
     IFile,
     IData,
     Path,
+    IDir,
     UTF8,
     Errors,
 } from '..'
@@ -35,6 +36,16 @@ export class File implements IFile {
         return this.path !== undefined && fs.existsSync(path.resolve(this.path))
     }
 
+    link(file?: IFile) {
+        if (this.exists) return this
+        if (!this.path || !file || !file.exists) return undefined
+        
+        fs.existsSync(path.dirname(this.path)) || fs.mkdirsSync(path.dirname(this.path))
+        fs.symlinkSync(file.path!, this.path, 'file')
+        
+        return this.exists ? this : undefined
+    }
+
     load() {
         if (!this.exists) {
             throw Errors.FileDoesNotExist(this.path || "")
@@ -47,10 +58,20 @@ export class File implements IFile {
             throw Errors.FileCouldNotBeLoaded(this.path!, e.message)
         }
     }
-
+    
+    remove() {
+        this.exists && fs.removeSync(this.path!)
+        return this
+    }
+    
     save() {
         this.exists || fs.mkdirsSync(path.dirname(this.path!))
         fs.writeFileSync(this.path!, `${this.data.raw}`, 'utf8')
+    }
+
+    move(to: IFile) {
+        if (!this.exists) return
+        fs.moveSync(this.path!, to.path!)
     }
 
     update(data: UTF8 | object) {
