@@ -1,4 +1,4 @@
-import { IEngine, ICommand, ISession, EngineState, CommandArg, SessionProps } from '..';
+import { IEngine, ICommand, ISession, IServer, EngineState, CommandArg, SessionProps } from '..';
 /**
  * Solely reponsible for running Carmel Commands.
  * It acts as the main entry point to the Carmel System.
@@ -19,6 +19,8 @@ export declare class Engine implements IEngine {
     /** @internal */
     private static _instance?;
     /** @internal */
+    protected _server?: IServer;
+    /** @internal */
     private constructor();
     /**
      * Makes sure that the Engine has a single instance
@@ -31,9 +33,19 @@ export declare class Engine implements IEngine {
      */
     changeState(state: EngineState): void;
     /**
+     *
+     */
+    get server(): IServer | undefined;
+    /**
      * Retrieves the current {@linkcode EngineState} of the Engine.
      */
     get state(): EngineState;
+    /**
+     *
+     * @param command
+     * @param args
+     */
+    startServer(command: ICommand, args?: CommandArg[]): Promise<void>;
     /**
      *
      */
@@ -68,7 +80,7 @@ export declare class Engine implements IEngine {
      * @param command The {@linkcode ICommand} to execute
      * @param args The {@linkcode CommandArgs} to pass to this command
      */
-    exec(command?: ICommand, args?: CommandArg[]): Promise<any>;
+    exec(command?: ICommand, args?: CommandArg[]): Promise<void>;
     /**
      *
      */
@@ -78,7 +90,16 @@ export declare class Engine implements IEngine {
      *
      * @param command The {@linkcode Command} to run
      * @param args The {@linkcode CommandArgs} to pass to this command
-     * @param onlyOnce Whether we want to allow the Engine to process further commands or not
      */
-    static run(command?: ICommand, args?: CommandArg[], onlyOnce?: boolean): Promise<any>;
+    static run(command?: ICommand, args?: CommandArg[]): Promise<void>;
+    /**
+     *
+     * @param command
+     * @param args
+     */
+    static start(command?: ICommand, args?: CommandArg[]): Promise<void>;
+    /**
+     *
+     */
+    static stop(): Promise<void>;
 }

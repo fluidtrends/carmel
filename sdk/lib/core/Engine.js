@@ -35,9 +35,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Engine = void 0;
 var __1 = require("..");
+var express_1 = __importDefault(require("express"));
+var http_1 = __importDefault(require("http"));
+var socket_io_1 = __importDefault(require("socket.io"));
+var get_port_1 = __importDefault(require("get-port"));
 /**
  * Solely reponsible for running Carmel Commands.
  * It acts as the main entry point to the Carmel System.
@@ -74,6 +81,16 @@ var Engine = /** @class */ (function () {
     Engine.prototype.changeState = function (state) {
         this._state = state;
     };
+    Object.defineProperty(Engine.prototype, "server", {
+        /**
+         *
+         */
+        get: function () {
+            return this._server;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Object.defineProperty(Engine.prototype, "state", {
         /**
          * Retrieves the current {@linkcode EngineState} of the Engine.
@@ -84,6 +101,31 @@ var Engine = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    /**
+     *
+     * @param command
+     * @param args
+     */
+    Engine.prototype.startServer = function (command, args) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function () {
+            var props;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        props = {};
+                        args === null || args === void 0 ? void 0 : args.map(function (arg) { return (props[arg.name] = arg.value); });
+                        process.env.CARMEL_COMMAND = JSON.stringify(props);
+                        this._server = new __1.Server(command, args);
+                        return [4 /*yield*/, ((_a = this.server) === null || _a === void 0 ? void 0 : _a.start())];
+                    case 1:
+                        _b.sent();
+                        process.exit(0);
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
     Object.defineProperty(Engine.prototype, "session", {
         /**
          *
@@ -127,8 +169,8 @@ var Engine = /** @class */ (function () {
                         // Make sure we do have props, even if only defaults
                         props = Object.assign({}, {
                             cwd: process.cwd(),
-                            name: "carmel",
-                            dir: process.env.CARMEL_USER_HOME
+                            name: 'carmel',
+                            dir: process.env.CARMEL_USER_HOME,
                         }, props);
                         // This engine is not started yet, let's begin by assigning a new Session
                         this._session = new __1.Session(props);
@@ -203,7 +245,6 @@ var Engine = /** @class */ (function () {
      */
     Engine.prototype.exec = function (command, args) {
         return __awaiter(this, void 0, void 0, function () {
-            var result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -221,13 +262,14 @@ var Engine = /** @class */ (function () {
                         }
                         // We're about to run it
                         Engine.instance.changeState(__1.EngineState.RUNNING);
-                        return [4 /*yield*/, (command === null || command === void 0 ? void 0 : command.run(this.session, args))];
+                        // Time to let the command do its thing
+                        return [4 /*yield*/, (command === null || command === void 0 ? void 0 : command.exec())];
                     case 1:
-                        result = _a.sent();
+                        // Time to let the command do its thing
+                        _a.sent();
                         // We're done running
                         Engine.instance.changeState(__1.EngineState.READY);
-                        // Send back the result, if any
-                        return [2 /*return*/, result];
+                        return [2 /*return*/];
                 }
             });
         });
@@ -247,33 +289,128 @@ var Engine = /** @class */ (function () {
      *
      * @param command The {@linkcode Command} to run
      * @param args The {@linkcode CommandArgs} to pass to this command
-     * @param onlyOnce Whether we want to allow the Engine to process further commands or not
      */
-    Engine.run = function (command, args, onlyOnce) {
-        if (onlyOnce === void 0) { onlyOnce = true; }
+    Engine.run = function (command, args) {
         return __awaiter(this, void 0, void 0, function () {
-            var result;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!(command === null || command === void 0 ? void 0 : command.isLongRunning)) return [3 /*break*/, 4];
+                        // First, start the engine if necessary
+                        return [4 /*yield*/, Engine.instance.start()
+                            // Prepare the command
+                        ];
+                    case 1:
+                        // First, start the engine if necessary
+                        _a.sent();
+                        // Prepare the command
+                        return [4 /*yield*/, (command === null || command === void 0 ? void 0 : command.initialize(this.session, args))];
+                    case 2:
+                        // Prepare the command
+                        _a.sent();
+                        // Start the server for long running commands
+                        return [4 /*yield*/, Engine.instance.startServer(command, args)];
+                    case 3:
+                        // Start the server for long running commands
+                        _a.sent();
+                        return [2 /*return*/];
+                    case 4: 
+                    // Let's let this command run
+                    return [4 /*yield*/, Engine.start(command, args)
+                        // If we only need to run this once, then we're completely finished
+                    ];
+                    case 5:
+                        // Let's let this command run
+                        _a.sent();
+                        // If we only need to run this once, then we're completely finished
+                        return [4 /*yield*/, Engine.stop()];
+                    case 6:
+                        // If we only need to run this once, then we're completely finished
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     *
+     * @param command
+     * @param args
+     */
+    Engine.start = function (command, args) {
+        return __awaiter(this, void 0, void 0, function () {
+            var port, app, serverInstance, io;
+            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: 
                     // First, start the engine if necessary
                     return [4 /*yield*/, Engine.instance.start()
-                        // Let's let this command run
+                        // Prepare the command
                     ];
                     case 1:
                         // First, start the engine if necessary
                         _a.sent();
-                        return [4 /*yield*/, Engine.instance.exec(command, args)
-                            // If we only need to run this once, then we're completely finished
-                        ];
+                        // Prepare the command
+                        return [4 /*yield*/, (command === null || command === void 0 ? void 0 : command.initialize(this.session, args))];
                     case 2:
-                        result = _a.sent();
-                        // If we only need to run this once, then we're completely finished
-                        onlyOnce && Engine.instance.stop();
-                        // Ok, done
+                        // Prepare the command
+                        _a.sent();
+                        return [4 /*yield*/, get_port_1.default({ port: 3000 })];
+                    case 3:
+                        port = _a.sent();
+                        app = express_1.default();
+                        app.set('port', port);
+                        serverInstance = new http_1.default.Server(app);
+                        io = socket_io_1.default(serverInstance);
+                        app.get('/', function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+                            return __generator(this, function (_a) {
+                                res.send('ok');
+                                return [2 /*return*/];
+                            });
+                        }); });
+                        io.on('connection', function (socket) {
+                            console.log('A user has connected to the socket!');
+                            socket.on('disconnect', function () {
+                                return console.log('A user has disconnected from the socket!');
+                            });
+                            socket.on('request', function (message) {
+                                console.log('>', message);
+                                socket.emit('response', { hello: 'world', message: message });
+                            });
+                        });
+                        serverInstance.listen(port, function () { return __awaiter(_this, void 0, void 0, function () {
+                            return __generator(this, function (_a) {
+                                // Listen for events
+                                console.log('server instance running', port);
+                                return [2 /*return*/];
+                            });
+                        }); });
+                        // Let's let this command run
+                        return [4 /*yield*/, Engine.instance.exec(command, args)];
+                    case 4:
+                        // Let's let this command run
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     *
+     */
+    Engine.stop = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: 
+                    // First, start the engine if necessary
+                    return [4 /*yield*/, Engine.instance.stop()];
+                    case 1:
+                        // First, start the engine if necessary
+                        _a.sent();
                         process.exit(0);
-                        // Send back the result, if any
-                        return [2 /*return*/, result];
+                        return [2 /*return*/];
                 }
             });
         });

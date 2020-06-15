@@ -1,4 +1,4 @@
-import { ISession, SessionProps, ILogger, Id, Bundle, IProduct, JSON, Target, Template, Version, ArtifactsKind, SessionState } from '..';
+import { ISession, SessionProps, ILogger, Id, Bundle, IProduct, JSON, Target, Template, IDir, Version, ArtifactsKind, SessionState } from '..';
 /**
  * Represents an {@linkcode Engine} Session initiated by a client.
  *
@@ -25,6 +25,8 @@ export declare class Session implements ISession {
     protected _product?: IProduct;
     /** @internal */
     protected _pkg: JSON;
+    /** @internal */
+    protected _dir: IDir;
     /**
      * Builds a new Session with the given {@linkcode SessionProps} properties
      *
@@ -47,6 +49,8 @@ export declare class Session implements ISession {
     get product(): IProduct | undefined;
     /** */
     get pkg(): JSON;
+    /** */
+    get dir(): IDir;
     /** */
     set(key: string, val: any): any;
     /** */
@@ -79,11 +83,11 @@ export declare class Session implements ISession {
     /** @internal */
     private parseArtifact;
     /**
-     * Looks up an artifact in the local index.
-
-     * @param id
-     * @param kind
-     */
+       * Looks up an artifact in the local index.
+  
+       * @param id
+       * @param kind
+       */
     findArtifact(id: Id, kind: ArtifactsKind, install?: boolean): Promise<Template | undefined>;
     /**
      *

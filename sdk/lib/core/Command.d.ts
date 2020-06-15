@@ -47,6 +47,10 @@ export declare abstract class Command implements ICommand {
     /**
      *
      */
+    get isLongRunning(): boolean;
+    /**
+     *
+     */
     get product(): IProduct | undefined;
     /**
      *
@@ -76,7 +80,7 @@ export declare abstract class Command implements ICommand {
      * @param session The {@linkcode Session} in which to run this command
      * @param args The {@linkcode CommandArg} args used to execute this command, if any
      */
-    run(session: ISession, args?: CommandArg[]): Promise<void>;
+    initialize(session: ISession, args?: CommandArg[]): Promise<void>;
     /**
      * Children need to implement the execution flow.
      */

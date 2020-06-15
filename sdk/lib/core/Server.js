@@ -41,6 +41,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Server = void 0;
 var pm2_1 = __importDefault(require("pm2"));
+var path_1 = __importDefault(require("path"));
 var __1 = require("..");
 /**
  *
@@ -48,11 +49,16 @@ var __1 = require("..");
 var Server = /** @class */ (function () {
     /**
      *
-     * @param product
+     * @param command
      */
-    function Server(product) {
-        this._product = product;
+    function Server(command, args) {
+        var _a, _b, _c, _d;
+        this._command = command;
+        this._args = args;
         this._state = __1.ServerState.UNINITIALIZED;
+        this._id = "" + command.id + (command.type === __1.CommandType.PRODUCT ? '/' + command.product.id : '');
+        this._dir = (_d = (_c = (_b = (_a = command
+            .session.dir) === null || _a === void 0 ? void 0 : _a.dir('servers')) === null || _b === void 0 ? void 0 : _b.make()) === null || _c === void 0 ? void 0 : _c.dir(this.id)) === null || _d === void 0 ? void 0 : _d.make();
     }
     Object.defineProperty(Server.prototype, "scriptFile", {
         /**
@@ -84,19 +90,32 @@ var Server = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(Server.prototype, "errorFile", {
-        get: function () {
-            return this._errorFile;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Server.prototype, "product", {
+    Object.defineProperty(Server.prototype, "args", {
         /**
          *
          */
         get: function () {
-            return this._product;
+            return this._args;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Server.prototype, "command", {
+        /**
+         *
+         */
+        get: function () {
+            return this._command;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Server.prototype, "errorFile", {
+        /**
+         *
+         */
+        get: function () {
+            return this._errorFile;
         },
         enumerable: false,
         configurable: true
@@ -122,22 +141,61 @@ var Server = /** @class */ (function () {
         configurable: true
     });
     /**
-    * Move the Server into a new {@linkcode ServerState}
-    *
-    * @param state The new {@linkcode ServerState}
-    */
+     * Move the Server into a new {@linkcode ServerState}
+     *
+     * @param state The new {@linkcode ServerState}
+     */
     Server.prototype.changeState = function (state) {
         this._state = state;
     };
+    Object.defineProperty(Server.prototype, "id", {
+        /**
+         *
+         */
+        get: function () {
+            return this._id;
+        },
+        enumerable: false,
+        configurable: true
+    });
     /**
      *
      */
     Server.prototype.initialize = function () {
+        var _a, _b, _c;
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
+            var _this = this;
+            return __generator(this, function (_d) {
                 this.changeState(__1.ServerState.INITIALIZING);
-                this.changeState(__1.ServerState.INITIALIZED);
-                return [2 /*return*/];
+                // Look up the server contents
+                this._outputFile = (_a = this.dir) === null || _a === void 0 ? void 0 : _a.file('output.log');
+                this._errorFile = (_b = this.dir) === null || _b === void 0 ? void 0 : _b.file('error.log');
+                this._pidFile = (_c = this.dir) === null || _c === void 0 ? void 0 : _c.file('pid');
+                this._scriptFile = new __1.File(path_1.default.resolve(path_1.default.dirname(path_1.default.dirname(__dirname)), 'lib', 'server', 'main.js'));
+                return [2 /*return*/, new Promise(function (resolve, reject) {
+                        pm2_1.default.connect(function (err) {
+                            if (err) {
+                                _this.changeState(__1.ServerState.STOPPED);
+                                reject(err);
+                                return;
+                            }
+                            pm2_1.default.describe(_this.id, function (err, instance) {
+                                if (err) {
+                                    _this.changeState(__1.ServerState.STOPPED);
+                                    pm2_1.default.disconnect();
+                                    reject(err);
+                                    return;
+                                }
+                                if (!instance || instance.length === 0) {
+                                    _this.changeState(__1.ServerState.INITIALIZED);
+                                    resolve();
+                                    return;
+                                }
+                                _this.changeState(__1.ServerState.RUNNING);
+                                resolve();
+                            });
+                        });
+                    })];
             });
         });
     };
@@ -171,59 +229,52 @@ var Server = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    /**s
+    /**
      *
      */
     Server.prototype.start = function () {
-        var _a, _b, _c, _d, _e, _f, _g, _h;
         return __awaiter(this, void 0, void 0, function () {
-            var _j;
+            var _a;
             var _this = this;
-            return __generator(this, function (_k) {
-                switch (_k.label) {
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
                         // Make sure we're ready to start
-                        _j = this.isInitialized;
-                        if (_j) 
+                        _a = this.isInitialized;
+                        if (_a) 
                         // Make sure we're ready to start
                         return [3 /*break*/, 2];
-                        return [4 /*yield*/, this.initialize()
-                            // Only start once
-                        ];
+                        return [4 /*yield*/, this.initialize()];
                     case 1:
-                        _j = (_k.sent());
-                        _k.label = 2;
+                        _a = (_b.sent());
+                        _b.label = 2;
                     case 2:
                         // Make sure we're ready to start
-                        _j;
+                        _a;
                         // Only start once
                         if (this.isStarted)
-                            return [2 /*return*/];
+                            return [2 /*return*/, { alreadyStarted: true }
+                                // Ok, let's do this
+                            ];
                         // Ok, let's do this
                         this.changeState(__1.ServerState.STARTING);
-                        // Look up the server contents
-                        this._dir = (_b = (_a = this.product.cacheDir) === null || _a === void 0 ? void 0 : _a.dir('server')) === null || _b === void 0 ? void 0 : _b.make();
-                        this._scriptFile = (_c = this.dir) === null || _c === void 0 ? void 0 : _c.file('script.js');
-                        this._outputFile = (_d = this.dir) === null || _d === void 0 ? void 0 : _d.file('output.log');
-                        this._errorFile = (_e = this.dir) === null || _e === void 0 ? void 0 : _e.file('error.log');
-                        this._pidFile = (_f = this.dir) === null || _f === void 0 ? void 0 : _f.file('pid');
-                        // Create it if necessary
-                        ((_g = this.scriptFile) === null || _g === void 0 ? void 0 : _g.exists) || ((_h = this.scriptFile) === null || _h === void 0 ? void 0 : _h.update("//DO NOT MODIFY. AUTO GENERATED."));
                         return [2 /*return*/, new Promise(function (resolve, reject) {
                                 pm2_1.default.connect(function (err) {
+                                    var _a;
                                     if (err) {
                                         _this.changeState(__1.ServerState.STOPPED);
                                         reject(err);
                                         return;
                                     }
                                     pm2_1.default.start({
-                                        cwd: _this.product.cacheDir.path,
+                                        cwd: (_this.command.type === __1.CommandType.PRODUCT
+                                            ? _this.command.product.cacheDir
+                                            : _this.command.session.dir).path,
                                         pid: _this.pidFile.path,
                                         output: _this.outputFile.path,
                                         error: _this.errorFile.path,
-                                        name: _this.product.id,
-                                        script: _this.scriptFile.path,
-                                        max_memory_restart: '100M'
+                                        name: _this.id,
+                                        script: (_a = _this.scriptFile) === null || _a === void 0 ? void 0 : _a.path,
                                     }, function (err, apps) {
                                         if (err) {
                                             _this.changeState(__1.ServerState.STOPPED);
@@ -232,7 +283,7 @@ var Server = /** @class */ (function () {
                                             return;
                                         }
                                         _this.changeState(__1.ServerState.RUNNING);
-                                        resolve();
+                                        resolve({ started: true });
                                     });
                                 });
                             })];
@@ -269,7 +320,7 @@ var Server = /** @class */ (function () {
                                         reject(err);
                                         return;
                                     }
-                                    pm2_1.default.stop(_this.product.id, function (err) {
+                                    pm2_1.default.stop(_this.id, function (err) {
                                         if (err) {
                                             pm2_1.default.disconnect();
                                             reject(err);

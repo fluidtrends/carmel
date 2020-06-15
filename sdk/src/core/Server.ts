@@ -1,204 +1,281 @@
 import pm2 from 'pm2'
+import path from 'path'
 
-import { IServer, IFile, IProduct, IDir, ServerState } from '..'
+import {
+  IServer,
+  ICommand,
+  IFile,
+  File,
+  CommandType,
+  Id,
+  CommandArg,
+  IDir,
+  ServerState,
+} from '..'
 
 /**
- * 
+ *
  */
 export class Server implements IServer {
-    /** @internal */
-    protected _product: IProduct
+  /** @internal */
+  protected _state: ServerState
 
-    /** @internal */
-    protected _state: ServerState
+  /** @internal */
+  protected _dir: IDir
 
-    /** @internal */
-    protected _dir?: IDir;
+  /** @internal */
+  protected _id: Id
 
-    /** @internal */
-    protected _scriptFile?: IFile;
+  /** @internal */
+  protected _scriptFile?: IFile
 
-    /** @internal */
-    protected _outputFile?: IFile;
+  /** @internal */
+  protected _outputFile?: IFile
 
-    /** @internal */
-    protected _errorFile?: IFile;
+  /** @internal */
+  protected _errorFile?: IFile
 
-    /** @internal */
-    protected _pidFile?: IFile;
+  /** @internal */
+  protected _pidFile?: IFile
 
-    /**
-     * 
-     * @param product 
-     */
-    constructor(product: IProduct) {
-        this._product = product
-        this._state = ServerState.UNINITIALIZED
-    }
+  /** @internal */
+  protected _command: ICommand
 
-    /**
-     * 
-     */
-    get scriptFile() {
-        return this._scriptFile
-    }
+  /** @internal */
+  protected _args?: CommandArg[]
 
-    /**
-     * 
-     */
-    get pidFile() {
-        return this._pidFile
-    }
+  /**
+   *
+   * @param command
+   */
+  constructor(command: ICommand, args?: CommandArg[]) {
+    this._command = command
+    this._args = args
+    this._state = ServerState.UNINITIALIZED
+    this._id = `${command.id}${
+      command.type === CommandType.PRODUCT ? '/' + command.product!.id : ''
+    }`
+    this._dir = command
+      .session!.dir?.dir('servers')
+      ?.make()
+      ?.dir(this.id)
+      ?.make()!
+  }
 
-    /**
-     * 
-     */
-    get outputFile() {
-        return this._outputFile
-    }
+  /**
+   *
+   */
+  get scriptFile() {
+    return this._scriptFile
+  }
 
-    get errorFile() {
-        return this._errorFile
-    }
+  /**
+   *
+   */
+  get pidFile() {
+    return this._pidFile
+  }
 
-    /**
-     * 
-     */
-    get product() {
-        return this._product
-    }
+  /**
+   *
+   */
+  get outputFile() {
+    return this._outputFile
+  }
 
-    /**
-     * 
-     */
-    get dir() {
-        return this._dir
-    }
+  /**
+   *
+   */
+  get args() {
+    return this._args
+  }
 
-    /**
-     * 
-     */
-    get state() {
-        return this._state
-    }
+  /**
+   *
+   */
+  get command() {
+    return this._command
+  }
 
-     /**
-     * Move the Server into a new {@linkcode ServerState}
-     * 
-     * @param state The new {@linkcode ServerState}
-     */
-    public changeState(state: ServerState) {
-        this._state = state
-    }
+  /**
+   *
+   */
+  get errorFile() {
+    return this._errorFile
+  }
 
-    /**
-     * 
-     */
-    async initialize() {
-        this.changeState(ServerState.INITIALIZING)
-        this.changeState(ServerState.INITIALIZED)
-    }
+  /**
+   *
+   */
+  get dir() {
+    return this._dir
+  }
 
+  /**
+   *
+   */
+  get state() {
+    return this._state
+  }
 
-    /**
-     * 
-     */
-    get isInitialized() {
-        return this.state >= ServerState.INITIALIZED
-    }
+  /**
+   * Move the Server into a new {@linkcode ServerState}
+   *
+   * @param state The new {@linkcode ServerState}
+   */
+  public changeState(state: ServerState) {
+    this._state = state
+  }
 
-    /**
-     * 
-     */
-    get isStarted() {
-        return this.state >= ServerState.STARTED
-    }
+  /**
+   *
+   */
+  get id() {
+    return this._id
+  }
 
-    /**
-     * 
-     */
-    get isRunning() {
-        return this.state >= ServerState.RUNNING
-    }
+  /**
+   *
+   */
+  async initialize() {
+    this.changeState(ServerState.INITIALIZING)
 
-    /**s
-     * 
-     */
-    async start() {
-        // Make sure we're ready to start
-        this.isInitialized || await this.initialize()
+    // Look up the server contents
+    this._outputFile = this.dir?.file('output.log')
+    this._errorFile = this.dir?.file('error.log')
+    this._pidFile = this.dir?.file('pid')
+    this._scriptFile = new File(
+      path.resolve(
+        path.dirname(path.dirname(__dirname)),
+        'lib',
+        'server',
+        'main.js'
+      )
+    )
 
-        // Only start once
-        if (this.isStarted) return 
+    return new Promise((resolve, reject) => {
+      pm2.connect((err) => {
+        if (err) {
+          this.changeState(ServerState.STOPPED)
+          reject(err)
+          return
+        }
 
-        // Ok, let's do this
-        this.changeState(ServerState.STARTING)
+        pm2.describe(this.id, (err, instance) => {
+          if (err) {
+            this.changeState(ServerState.STOPPED)
+            pm2.disconnect()
+            reject(err)
+            return
+          }
 
-        // Look up the server contents
-        this._dir = this.product.cacheDir?.dir('server')?.make()
-        this._scriptFile = this.dir?.file('script.js')
-        this._outputFile = this.dir?.file('output.log')
-        this._errorFile = this.dir?.file('error.log')
-        this._pidFile = this.dir?.file('pid')
+          if (!instance || instance.length === 0) {
+            this.changeState(ServerState.INITIALIZED)
+            resolve()
+            return
+          }
 
-        // Create it if necessary
-        this.scriptFile?.exists || this.scriptFile?.update(`//DO NOT MODIFY. AUTO GENERATED.`)
-
-        return new Promise((resolve, reject) => {
-            pm2.connect((err) => {
-                if (err) {
-                    this.changeState(ServerState.STOPPED)
-                    reject(err)
-                    return
-                }
-
-                pm2.start({
-                    cwd: this.product.cacheDir!.path,
-                    pid: this.pidFile!.path,
-                    output: this.outputFile!.path,
-                    error: this.errorFile!.path,
-                    name: this.product.id,
-                    script: this.scriptFile!.path!,
-                    max_memory_restart : '100M'
-                }, (err, apps) => {
-                    if (err) {
-                        this.changeState(ServerState.STOPPED)
-                        pm2.disconnect()
-                        reject(err)
-                        return
-                    }
-                    this.changeState(ServerState.RUNNING)
-                    resolve()
-                })
-            })
+          this.changeState(ServerState.RUNNING)
+          resolve()
         })
-    }
+      })
+    })
+  }
 
-    /**
-     * 
-     */
-    async stop() {
-        // Make sure we're ready to start
-        this.isInitialized || await this.initialize()
+  /**
+   *
+   */
+  get isInitialized() {
+    return this.state >= ServerState.INITIALIZED
+  }
 
-        return new Promise((resolve, reject) => {
-            pm2.connect((err) => {
-                if (err) {
-                    this.changeState(ServerState.STOPPED)
-                    reject(err)
-                    return
-                }
+  /**
+   *
+   */
+  get isStarted() {
+    return this.state >= ServerState.STARTED
+  }
 
-                pm2.stop(this.product.id!, (err) => {
-                    if (err) {
-                        pm2.disconnect()
-                        reject(err)
-                        return
-                    }
-                    this.changeState(ServerState.STOPPED)
-                    resolve()
-                })
-            })
+  /**
+   *
+   */
+  get isRunning() {
+    return this.state >= ServerState.RUNNING
+  }
+
+  /**
+   *
+   */
+  async start() {
+    // Make sure we're ready to start
+    this.isInitialized || (await this.initialize())
+
+    // Only start once
+    if (this.isStarted) return { alreadyStarted: true }
+
+    // Ok, let's do this
+    this.changeState(ServerState.STARTING)
+
+    return new Promise((resolve, reject) => {
+      pm2.connect((err) => {
+        if (err) {
+          this.changeState(ServerState.STOPPED)
+          reject(err)
+          return
+        }
+
+        pm2.start(
+          {
+            cwd: (this.command.type === CommandType.PRODUCT
+              ? this.command.product!.cacheDir!
+              : this.command.session!.dir!
+            ).path,
+            pid: this.pidFile!.path,
+            output: this.outputFile!.path,
+            error: this.errorFile!.path,
+            name: this.id,
+            script: this.scriptFile?.path,
+          },
+          (err, apps) => {
+            if (err) {
+              this.changeState(ServerState.STOPPED)
+              pm2.disconnect()
+              reject(err)
+              return
+            }
+            this.changeState(ServerState.RUNNING)
+            resolve({ started: true })
+          }
+        )
+      })
+    })
+  }
+
+  /**
+   *
+   */
+  async stop() {
+    // Make sure we're ready to start
+    this.isInitialized || (await this.initialize())
+
+    return new Promise((resolve, reject) => {
+      pm2.connect((err) => {
+        if (err) {
+          this.changeState(ServerState.STOPPED)
+          reject(err)
+          return
+        }
+
+        pm2.stop(this.id!, (err) => {
+          if (err) {
+            pm2.disconnect()
+            reject(err)
+            return
+          }
+          this.changeState(ServerState.STOPPED)
+          resolve()
         })
-    }
+      })
+    })
+  }
 }

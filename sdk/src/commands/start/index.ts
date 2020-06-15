@@ -1,39 +1,38 @@
-import {
-  Command,
-  CommandProps,
-  CommandType
-} from '../..'
+import { Command, CommandProps, CommandType } from '../..'
 
 import open from 'open'
 
 const props: CommandProps = {
-  id: "start",
+  id: 'start',
   type: CommandType.PRODUCT,
+  longRunning: true,
   requiresScript: true,
   requiresApp: true,
-  title: "Starting a new Carmel Product"
 }
 
 /**
- * 
+ *
  * @category Commands
  */
 export default class Start extends Command {
   /** @internal */
-  constructor() {
-    super(props)
+  constructor(p?: CommandProps) {
+    super(Object.assign({}, props, p))
   }
 
   /** @internal */
   async exec() {
-    console.log('done?')
-    // const { packer, workspace } = await this.product?.resolvePacker(this.target, 9999, true)
-    // if (!packer) return 
+    const { packer, workspace } = await this.product?.resolvePacker(
+      this.target,
+      true
+    )
 
-    // await open(workspace.path)
+    if (!packer) return
 
-    // packer.pack((event: any) => {
-      // console.log("Chunky says: ", event)
-    // })
+    await open(workspace.path)
+
+    await packer.pack((event: any) => {
+      console.log('Chunky says: ', event)
+    })
   }
 }

@@ -65,6 +65,7 @@ var Session = /** @class */ (function () {
         this._index = new dodi_1.Index(Object.assign({}, { sections: Session.DEFAULT_SECTIONS.map(function (id) { return ({ id: id }); }) }, this.props, { name: 'carmel' }));
         this._state = __1.SessionState.UNINITIALIZED;
         this._pkg = JSON.parse(fs_1.default.readFileSync(path_1.default.resolve(__dirname, '../..', 'package.json'), 'utf8'));
+        this._dir = new __1.Dir(this.index.path);
     }
     Object.defineProperty(Session.prototype, "props", {
         /** */
@@ -130,6 +131,14 @@ var Session = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Session.prototype, "dir", {
+        /** */
+        get: function () {
+            return this._dir;
+        },
+        enumerable: false,
+        configurable: true
+    });
     /** */
     Session.prototype.set = function (key, val) {
         return this.index.sections.system.vault.write(key, val);
@@ -163,9 +172,7 @@ var Session = /** @class */ (function () {
                         if (_a) 
                         // Initialize if necessary
                         return [3 /*break*/, 2];
-                        return [4 /*yield*/, this.initialize()
-                            // Nothing else for now
-                        ];
+                        return [4 /*yield*/, this.initialize()];
                     case 1:
                         _a = (_b.sent());
                         _b.label = 2;
@@ -192,11 +199,15 @@ var Session = /** @class */ (function () {
                             return [2 /*return*/];
                         // Initialize the index first of all, if needed
                         return [4 /*yield*/, this.index.initialize()
+                            // Get the server ready
+                            // await this.server.start()
                             // This session is ready to go
                         ];
                     case 1:
                         // Initialize the index first of all, if needed
                         _a.sent();
+                        // Get the server ready
+                        // await this.server.start()
                         // This session is ready to go
                         this.changeState(__1.SessionState.INITIALIZED);
                         return [2 /*return*/];
@@ -207,11 +218,9 @@ var Session = /** @class */ (function () {
     /**
      */
     Session.prototype.destroy = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/];
-            });
-        });
+        return __awaiter(this, void 0, void 0, function () { return __generator(this, function (_a) {
+            return [2 /*return*/];
+        }); });
     };
     /**
      * Looks up a {@linkcode Bundle} in the local index.
@@ -273,17 +282,18 @@ var Session = /** @class */ (function () {
         // Parse the bundle id
         bundleId = info.shift();
         // Append if it's scoped
-        bundleId = bundleId.charAt(0) === '@' ? bundleId + "/" + info.shift() : bundleId;
+        bundleId =
+            bundleId.charAt(0) === '@' ? bundleId + "/" + info.shift() : bundleId;
         // Ready for the version, if any
         bundleVersion = info && info.length > 0 ? info.shift() : bundleVersion;
         return { bundleId: bundleId, bundleVersion: bundleVersion, artifactName: artifactName };
     };
     /**
-     * Looks up an artifact in the local index.
-
-     * @param id
-     * @param kind
-     */
+       * Looks up an artifact in the local index.
+  
+       * @param id
+       * @param kind
+       */
     Session.prototype.findArtifact = function (id, kind, install) {
         if (install === void 0) { install = true; }
         return __awaiter(this, void 0, void 0, function () {
@@ -358,9 +368,15 @@ var Session = /** @class */ (function () {
         });
     };
     /** Start with these sections - always */
-    Session.DEFAULT_SECTIONS = ["bundles", "stacks", "products", "packers", "events"];
+    Session.DEFAULT_SECTIONS = [
+        'bundles',
+        'stacks',
+        'products',
+        'packers',
+        'events',
+    ];
     /** Use these as mandatory bundles */
-    Session.DEFAULT_BUNDLES = ["@fluidtrends/bananas"];
+    Session.DEFAULT_BUNDLES = ['@fluidtrends/bananas'];
     return Session;
 }());
 exports.Session = Session;

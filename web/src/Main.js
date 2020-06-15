@@ -1,4 +1,4 @@
-class _ {
+class _ { 
     constructor(props) {
         this._props = Object.assign({}, props)
     }
