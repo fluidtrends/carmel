@@ -206,43 +206,48 @@ var Product = /** @class */ (function () {
             });
         });
     };
-    /** @internal */
+    /**
+     *
+     */
     Product.prototype.loadCache = function () {
-        var _a, _b;
+        var _a, _b, _c, _d;
         return __awaiter(this, void 0, void 0, function () {
-            var packerId, stackId, packerVersion, stackVersion, packer, _c, stack, _d;
-            return __generator(this, function (_e) {
-                switch (_e.label) {
+            var id, dir, packerId, stackId, packerVersion, stackVersion, packer, _e, stack, _f;
+            return __generator(this, function (_g) {
+                switch (_g.label) {
                     case 0:
+                        this.manifest.load();
+                        id = this.manifest.data.json().id;
+                        dir = (_b = new __1.Dir((_a = this.session) === null || _a === void 0 ? void 0 : _a.index.sections.products.path)) === null || _b === void 0 ? void 0 : _b.dir(id);
                         packerId = this.manifest.data.json().packer;
                         stackId = this.manifest.data.json().stack;
                         packerVersion = this.manifest.data.json().packerVersion;
                         stackVersion = this.manifest.data.json().stackVersion;
-                        _c = packerId;
-                        if (!_c) return [3 /*break*/, 2];
-                        return [4 /*yield*/, ((_a = this.session) === null || _a === void 0 ? void 0 : _a.index.installArchive({
+                        _e = packerId;
+                        if (!_e) return [3 /*break*/, 2];
+                        return [4 /*yield*/, ((_c = this.session) === null || _c === void 0 ? void 0 : _c.index.installArchive({
                                 id: packerId,
                                 version: packerVersion,
                                 section: 'packers',
                             }))];
                     case 1:
-                        _c = (_e.sent());
-                        _e.label = 2;
+                        _e = (_g.sent());
+                        _g.label = 2;
                     case 2:
-                        packer = _c;
-                        _d = stackId;
-                        if (!_d) return [3 /*break*/, 4];
-                        return [4 /*yield*/, ((_b = this.session) === null || _b === void 0 ? void 0 : _b.index.installArchive({
+                        packer = _e;
+                        _f = stackId;
+                        if (!_f) return [3 /*break*/, 4];
+                        return [4 /*yield*/, ((_d = this.session) === null || _d === void 0 ? void 0 : _d.index.installArchive({
                                 id: stackId,
                                 version: stackVersion,
                                 section: 'stacks',
                             }))];
                     case 3:
-                        _d = (_e.sent());
-                        _e.label = 4;
+                        _f = (_g.sent());
+                        _g.label = 4;
                     case 4:
-                        stack = _d;
-                        return [2 /*return*/, { packer: packer, stack: stack }];
+                        stack = _f;
+                        return [2 /*return*/, { id: id, packer: packer, stack: stack, dir: dir }];
                 }
             });
         });

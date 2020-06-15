@@ -173,8 +173,14 @@ export class Product implements IProduct {
     return this.load()
   }
 
-  /** @internal */
-  private async loadCache() {
+  /**
+   *
+   */
+  async loadCache() {
+    this.manifest.load()
+    const id = this.manifest.data.json().id
+    const dir = new Dir(this.session?.index.sections.products.path)?.dir(id)
+
     // Look for the packer and stack in the manifest
     const packerId = this.manifest.data.json().packer
     const stackId = this.manifest.data.json().stack
@@ -199,7 +205,7 @@ export class Product implements IProduct {
         section: 'stacks',
       }))
 
-    return { packer, stack }
+    return { id, packer, stack, dir }
   }
 
   /**
@@ -213,6 +219,7 @@ export class Product implements IProduct {
     const bundle = this.manifest.data.json().bundle
     const bundleVersion = this.manifest.data.json().bundleVersion
     const templateName = this.manifest.data.json().template
+
     const productCacheDir = new Dir(
       this.session?.index.sections.products.path
     )?.dir(productId)

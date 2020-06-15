@@ -46,7 +46,7 @@ var http_1 = __importDefault(require("http"));
 var socket_io_1 = __importDefault(require("socket.io"));
 var get_port_1 = __importDefault(require("get-port"));
 /**
- * Solely reponsible for running Carmel Commands.
+ * Solely responsible for running Carmel Commands.
  * It acts as the main entry point to the Carmel System.
  * Usually gets invoked by a Carmel Client, such as the Carmel CLI.
  * Only one instance available at all times.
@@ -292,41 +292,55 @@ var Engine = /** @class */ (function () {
      */
     Engine.run = function (command, args) {
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
-                        if (!(command === null || command === void 0 ? void 0 : command.isLongRunning)) return [3 /*break*/, 4];
+                        if (!(command === null || command === void 0 ? void 0 : command.isLongRunning)) return [3 /*break*/, 6];
                         // First, start the engine if necessary
                         return [4 /*yield*/, Engine.instance.start()
                             // Prepare the command
                         ];
                     case 1:
                         // First, start the engine if necessary
-                        _a.sent();
+                        _b.sent();
                         // Prepare the command
                         return [4 /*yield*/, (command === null || command === void 0 ? void 0 : command.initialize(this.session, args))];
                     case 2:
                         // Prepare the command
-                        _a.sent();
+                        _b.sent();
+                        // Make sure the product has a packer
+                        _a = command !== undefined &&
+                            (command === null || command === void 0 ? void 0 : command.product) !== undefined;
+                        if (!_a) 
+                        // Make sure the product has a packer
+                        return [3 /*break*/, 4];
+                        return [4 /*yield*/, command.product.resolvePacker(command.target, true)];
+                    case 3:
+                        _a = (_b.sent());
+                        _b.label = 4;
+                    case 4:
+                        // Make sure the product has a packer
+                        _a;
                         // Start the server for long running commands
                         return [4 /*yield*/, Engine.instance.startServer(command, args)];
-                    case 3:
+                    case 5:
                         // Start the server for long running commands
-                        _a.sent();
+                        _b.sent();
                         return [2 /*return*/];
-                    case 4: 
+                    case 6: 
                     // Let's let this command run
                     return [4 /*yield*/, Engine.start(command, args)
                         // If we only need to run this once, then we're completely finished
                     ];
-                    case 5:
+                    case 7:
                         // Let's let this command run
-                        _a.sent();
+                        _b.sent();
                         // If we only need to run this once, then we're completely finished
                         return [4 /*yield*/, Engine.stop()];
-                    case 6:
+                    case 8:
                         // If we only need to run this once, then we're completely finished
-                        _a.sent();
+                        _b.sent();
                         return [2 /*return*/];
                 }
             });
