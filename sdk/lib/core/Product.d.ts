@@ -1,4 +1,4 @@
-import { IProduct, Path, IFile, IDir, Target, File, IServer, ProductState, ISession, ISnapshot, Id } from '..';
+import { IProduct, Path, IFile, IDir, Target, File, ProductState, ISession, ISnapshot, Id } from '..';
 /**
  *
  * {@link https://github.com/fluidtrends/carmel/blob/master/sdk/src/Product.ts | Source Code } |
@@ -18,8 +18,6 @@ export declare class Product implements IProduct {
     protected _dir: IDir;
     /** @internal */
     protected _cacheDir?: IDir;
-    /** @internal */
-    protected _server: IServer;
     /** @internal */
     protected _manifest: IFile;
     /** @internal */
@@ -41,10 +39,6 @@ export declare class Product implements IProduct {
      *
      */
     get state(): ProductState;
-    /**
-     *
-     */
-    get server(): IServer;
     /**
      *
      */
@@ -97,10 +91,9 @@ export declare class Product implements IProduct {
     /**
      *
      * @param target
-     * @param port
      * @param watch
      */
-    resolvePacker(target: Target, port: number, watch: boolean): Promise<{
+    resolvePacker(target: Target, watch: boolean): Promise<{
         packer: any;
         workspace: File | undefined;
     } | undefined>;

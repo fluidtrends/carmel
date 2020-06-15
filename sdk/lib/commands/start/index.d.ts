@@ -1,11 +1,11 @@
-import { Command } from '../..';
+import { Command, CommandProps } from '../..';
 /**
  *
  * @category Commands
  */
 export default class Start extends Command {
     /** @internal */
-    constructor();
+    constructor(p?: CommandProps);
     /** @internal */
     exec(): Promise<void>;
 }

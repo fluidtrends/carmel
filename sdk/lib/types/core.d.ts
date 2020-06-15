@@ -7,6 +7,7 @@ export interface IEngine extends IClass {
     changeState(state: EngineState): void;
     newSession(props?: SessionProps): Promise<void>;
     start(props?: SessionProps): Promise<ISession>;
+    startServer(command?: ICommand, args?: CommandArg[]): Promise<any>;
     stop(): Promise<void>;
     exec(command?: ICommand, args?: CommandArg[]): Promise<any>;
 }
@@ -19,6 +20,7 @@ export interface ISession extends IClass {
     readonly isReady: boolean;
     readonly product?: IProduct;
     readonly pkg: JSON;
+    readonly dir: IDir;
     initialize(command?: ICommand): Promise<void>;
     makeReady(): Promise<void>;
     destroy(): Promise<void>;
@@ -36,8 +38,9 @@ export interface ICommand extends IClass {
     readonly target: Target;
     readonly type: CommandType;
     readonly id: Id;
+    readonly isLongRunning: boolean;
     readonly args?: CommandArg[];
-    run(session: ISession, args?: CommandArg[]): Promise<any>;
+    initialize(session: ISession, args?: CommandArg[]): Promise<any>;
     exec(): Promise<any>;
     arg(name: Name): any;
 }
@@ -55,7 +58,6 @@ export interface IProduct extends IClass {
     readonly isReady: boolean;
     readonly state: ProductState;
     readonly snapshot?: ISnapshot;
-    readonly server?: IServer;
     readonly id?: Id;
     create(data?: any): void;
     createFromTemplate(id: Id): Promise<IProduct | undefined>;
@@ -65,7 +67,7 @@ export interface IProduct extends IClass {
     loadFile(path: Path): void;
     saveData(data: any): void;
     findDirs(dirpath: Path): Path[];
-    resolvePacker(target: Target, port: number, watch: boolean): Promise<any>;
+    resolvePacker(target: Target, watch: boolean): Promise<any>;
 }
 export interface ISnapshot extends IClass {
     readonly id: Id;
@@ -80,16 +82,19 @@ export interface ISnapshot extends IClass {
     chunk(name: Name): Promise<IChunk | undefined>;
 }
 export interface IServer extends IClass {
-    readonly product: IProduct;
     readonly isInitialized: boolean;
     readonly isStarted: boolean;
     readonly isRunning: boolean;
     readonly state: ServerState;
     readonly scriptFile?: IFile;
-    readonly dir?: IDir;
+    readonly dir: IDir;
     readonly pidFile?: IFile;
     readonly outputFile?: IFile;
     readonly errorFile?: IFile;
+    readonly io?: any;
+    readonly args?: CommandArg[];
+    readonly id: Id;
+    readonly command: ICommand;
     initialize(): Promise<any>;
     start(): Promise<any>;
     stop(): Promise<any>;

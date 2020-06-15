@@ -12,6 +12,7 @@ export interface Props {
 export interface CommandProps extends Props {
     readonly id: Id;
     readonly productName?: string;
+    readonly longRunning?: boolean;
     readonly target?: Target;
     readonly requiresStack?: boolean;
     readonly requiredArgs?: string[];

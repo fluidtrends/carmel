@@ -38,11 +38,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Command = void 0;
 var __1 = require("..");
-var Defaults = function (cls) { return ({
-    id: cls.constructor.name.toLowerCase(),
-    target: __1.Target.WEB,
-    type: __1.CommandType.PRODUCT
-}); };
+var Defaults = function (cls) {
+    return ({
+        id: cls.constructor.name.toLowerCase(),
+        target: __1.Target.WEB,
+        type: __1.CommandType.PRODUCT,
+    });
+};
 /**
  * The base class representing a single unit of execution.
  * Every Carmel Command extends this class and tweaks the defaults as needed.
@@ -107,7 +109,18 @@ var Command = /** @class */ (function () {
          *
          */
         get: function () {
-            return this.props.requiredArgs !== undefined && this.props.requiredArgs.length > 0;
+            return (this.props.requiredArgs !== undefined &&
+                this.props.requiredArgs.length > 0);
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Command.prototype, "isLongRunning", {
+        /**
+         *
+         */
+        get: function () {
+            return this.props.longRunning !== undefined && this.props.longRunning;
         },
         enumerable: false,
         configurable: true
@@ -169,11 +182,11 @@ var Command = /** @class */ (function () {
     /** @internal */
     Command.prototype._validateProductTypeRequirements = function () {
         if (!this.product || !this.product.exists) {
-            // Ensure the product exists 
+            // Ensure the product exists
             throw __1.Errors.CommandCannotExecute(this.id, __1.Strings.ProductIsMissingString());
         }
         if (!this.product.isReady) {
-            // Ensure the product is ready  
+            // Ensure the product is ready
             throw __1.Errors.CommandCannotExecute(this.id, __1.Strings.ProductIsNotReadyString());
         }
     };
@@ -218,9 +231,8 @@ var Command = /** @class */ (function () {
      * @param session The {@linkcode Session} in which to run this command
      * @param args The {@linkcode CommandArg} args used to execute this command, if any
      */
-    Command.prototype.run = function (session, args) {
+    Command.prototype.initialize = function (session, args) {
         return __awaiter(this, void 0, void 0, function () {
-            var result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -239,13 +251,7 @@ var Command = /** @class */ (function () {
                         this._validateArgs(args);
                         // Check that all requirements for this command type are met
                         this._validateTypeRequirements();
-                        return [4 /*yield*/, this.exec()
-                            // Send back the result, if any
-                        ];
-                    case 2:
-                        result = _a.sent();
-                        // Send back the result, if any
-                        return [2 /*return*/, result];
+                        return [2 /*return*/];
                 }
             });
         });

@@ -1,17 +1,4 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -48,55 +35,21 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var __1 = require("../..");
-var open_1 = __importDefault(require("open"));
-var props = {
-    id: 'start',
-    type: __1.CommandType.PRODUCT,
-    longRunning: true,
-    requiresScript: true,
-    requiresApp: true,
-};
-/**
- *
- * @category Commands
- */
-var Start = /** @class */ (function (_super) {
-    __extends(Start, _super);
-    /** @internal */
-    function Start(p) {
-        return _super.call(this, Object.assign({}, props, p)) || this;
-    }
-    /** @internal */
-    Start.prototype.exec = function () {
-        var _a;
-        return __awaiter(this, void 0, void 0, function () {
-            var _b, packer, workspace;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
-                    case 0: return [4 /*yield*/, ((_a = this.product) === null || _a === void 0 ? void 0 : _a.resolvePacker(this.target, true))];
-                    case 1:
-                        _b = _c.sent(), packer = _b.packer, workspace = _b.workspace;
-                        if (!packer)
-                            return [2 /*return*/];
-                        return [4 /*yield*/, open_1.default(workspace.path)];
-                    case 2:
-                        _c.sent();
-                        return [4 /*yield*/, packer.pack(function (event) {
-                                console.log('Chunky says: ', event);
-                            })];
-                    case 3:
-                        _c.sent();
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    return Start;
-}(__1.Command));
-exports.default = Start;
-//# sourceMappingURL=index.js.map
+var __1 = require("..");
+(function () { return __awaiter(void 0, void 0, void 0, function () {
+    var args, Command, command;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                args = JSON.parse(process.env.CARMEL_COMMAND);
+                Command = __1.Commands[args.cls];
+                command = new Command(args);
+                return [4 /*yield*/, __1.Engine.start(command, args)];
+            case 1:
+                _a.sent();
+                return [2 /*return*/];
+        }
+    });
+}); })();
+//# sourceMappingURL=main.js.map

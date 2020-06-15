@@ -1,14 +1,14 @@
-import { IServer, IFile, IProduct, IDir, ServerState } from '..';
+import { IServer, ICommand, IFile, Id, CommandArg, IDir, ServerState } from '..';
 /**
  *
  */
 export declare class Server implements IServer {
     /** @internal */
-    protected _product: IProduct;
-    /** @internal */
     protected _state: ServerState;
     /** @internal */
-    protected _dir?: IDir;
+    protected _dir: IDir;
+    /** @internal */
+    protected _id: Id;
     /** @internal */
     protected _scriptFile?: IFile;
     /** @internal */
@@ -17,11 +17,15 @@ export declare class Server implements IServer {
     protected _errorFile?: IFile;
     /** @internal */
     protected _pidFile?: IFile;
+    /** @internal */
+    protected _command: ICommand;
+    /** @internal */
+    protected _args?: CommandArg[];
     /**
      *
-     * @param product
+     * @param command
      */
-    constructor(product: IProduct);
+    constructor(command: ICommand, args?: CommandArg[]);
     /**
      *
      */
@@ -34,29 +38,40 @@ export declare class Server implements IServer {
      *
      */
     get outputFile(): IFile | undefined;
+    /**
+     *
+     */
+    get args(): CommandArg[] | undefined;
+    /**
+     *
+     */
+    get command(): ICommand;
+    /**
+     *
+     */
     get errorFile(): IFile | undefined;
     /**
      *
      */
-    get product(): IProduct;
-    /**
-     *
-     */
-    get dir(): IDir | undefined;
+    get dir(): IDir;
     /**
      *
      */
     get state(): ServerState;
     /**
-    * Move the Server into a new {@linkcode ServerState}
-    *
-    * @param state The new {@linkcode ServerState}
-    */
+     * Move the Server into a new {@linkcode ServerState}
+     *
+     * @param state The new {@linkcode ServerState}
+     */
     changeState(state: ServerState): void;
     /**
      *
      */
-    initialize(): Promise<void>;
+    get id(): string;
+    /**
+     *
+     */
+    initialize(): Promise<unknown>;
     /**
      *
      */
@@ -69,7 +84,7 @@ export declare class Server implements IServer {
      *
      */
     get isRunning(): boolean;
-    /**s
+    /**
      *
      */
     start(): Promise<unknown>;
