@@ -95,6 +95,7 @@ export interface IProduct extends IClass {
   readonly snapshot?: ISnapshot
   readonly id?: Id
 
+  loadCache(): Promise<any>
   create(data?: any): void
   createFromTemplate(id: Id): Promise<IProduct | undefined>
   load(): Promise<IProduct | undefined>

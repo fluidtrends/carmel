@@ -1,4 +1,4 @@
-import { IProduct, Path, IFile, IDir, Target, File, ProductState, ISession, ISnapshot, Id } from '..';
+import { IProduct, Path, IFile, IDir, Target, File, Dir, ProductState, ISession, ISnapshot, Id } from '..';
 /**
  *
  * {@link https://github.com/fluidtrends/carmel/blob/master/sdk/src/Product.ts | Source Code } |
@@ -86,8 +86,15 @@ export declare class Product implements IProduct {
      * @param id
      */
     createFromTemplate(id: Id): Promise<this>;
-    /** @internal */
-    private loadCache;
+    /**
+     *
+     */
+    loadCache(): Promise<{
+        id: any;
+        packer: any;
+        stack: any;
+        dir: Dir | undefined;
+    }>;
     /**
      *
      * @param target

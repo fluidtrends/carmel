@@ -1,6 +1,6 @@
 import { IEngine, ICommand, ISession, IServer, EngineState, CommandArg, SessionProps } from '..';
 /**
- * Solely reponsible for running Carmel Commands.
+ * Solely responsible for running Carmel Commands.
  * It acts as the main entry point to the Carmel System.
  * Usually gets invoked by a Carmel Client, such as the Carmel CLI.
  * Only one instance available at all times.

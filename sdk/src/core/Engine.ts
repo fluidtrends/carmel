@@ -5,6 +5,7 @@ import {
   Errors,
   Session,
   IServer,
+  Dir,
   Server,
   EngineState,
   CommandArg,
@@ -16,7 +17,7 @@ import socket from 'socket.io'
 import getPort from 'get-port'
 
 /**
- * Solely reponsible for running Carmel Commands.
+ * Solely responsible for running Carmel Commands.
  * It acts as the main entry point to the Carmel System.
  * Usually gets invoked by a Carmel Client, such as the Carmel CLI.
  * Only one instance available at all times.
@@ -225,6 +226,11 @@ export class Engine implements IEngine {
 
       // Prepare the command
       await command?.initialize(this.session!, args)
+
+      // Make sure the product has a packer
+      command !== undefined &&
+        command?.product !== undefined &&
+        (await command!.product.resolvePacker(command!.target, true))
 
       // Start the server for long running commands
       await Engine.instance.startServer(command, args)
