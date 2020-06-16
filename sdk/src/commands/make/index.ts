@@ -1,11 +1,8 @@
 import { Command, CommandProps, CommandType } from '../..'
 
-import open from 'open'
-
 const props: CommandProps = {
-  id: 'start',
+  id: 'make',
   type: CommandType.PRODUCT,
-  longRunning: false,
   requiresScript: true,
   requiresApp: true,
 }
@@ -14,7 +11,7 @@ const props: CommandProps = {
  *
  * @category Commands
  */
-export default class Start extends Command {
+export default class Make extends Command {
   /** @internal */
   constructor(p?: CommandProps) {
     super(Object.assign({}, props, p))
@@ -24,15 +21,13 @@ export default class Start extends Command {
   async exec() {
     const { packer, workspace } = await this.product?.resolvePacker(
       this.target,
-      true
+      false
     )
 
     if (!packer) return
 
-    await open(workspace.path)
-
     await packer.pack((event: any) => {
-      console.log('Chunky says: ', event)
+      console.log(event)
     })
   }
 }

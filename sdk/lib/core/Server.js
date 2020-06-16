@@ -60,6 +60,11 @@ var Server = /** @class */ (function () {
         this._dir = (_d = (_c = (_b = (_a = command
             .session.dir) === null || _a === void 0 ? void 0 : _a.dir('servers')) === null || _b === void 0 ? void 0 : _b.make()) === null || _c === void 0 ? void 0 : _c.dir(this.id)) === null || _d === void 0 ? void 0 : _d.make();
     }
+    /** @internal */
+    Server.prototype.arg = function (name) {
+        var _a;
+        return (_a = this.args) === null || _a === void 0 ? void 0 : _a.find(function (a) { return a.name === name; });
+    };
     Object.defineProperty(Server.prototype, "scriptFile", {
         /**
          *
@@ -229,6 +234,17 @@ var Server = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Server.prototype, "forceStart", {
+        /**
+         *
+         */
+        get: function () {
+            var force = this.arg('force');
+            return force !== undefined && force.value;
+        },
+        enumerable: false,
+        configurable: true
+    });
     /**
      *
      */
@@ -252,7 +268,7 @@ var Server = /** @class */ (function () {
                         // Make sure we're ready to start
                         _a;
                         // Only start once
-                        if (this.isStarted)
+                        if (this.isStarted && !this.arg('force'))
                             return [2 /*return*/, { alreadyStarted: true }
                                 // Ok, let's do this
                             ];
