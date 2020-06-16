@@ -35,12 +35,12 @@
     "notFoundPageText": "local://404"
   },
   "id": "carmelmain",
-  "carmelSDKVersion": "1.9.30",
+  "carmelSDKVersion": "1.9.33",
   "template": "starter",
   "bundle": "@fluidtrends/bananas",
   "bundleVersion": "1.9.43",
   "stack": "jayesse",
   "stackVersion": "1.9.17",
   "packer": "papanache",
-  "packerVersion": "1.9.25"
+  "packerVersion": "1.9.26"
 }
