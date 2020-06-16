@@ -26,6 +26,8 @@ export declare class Server implements IServer {
      * @param command
      */
     constructor(command: ICommand, args?: CommandArg[]);
+    /** @internal */
+    arg(name: string): CommandArg | undefined;
     /**
      *
      */
@@ -84,6 +86,10 @@ export declare class Server implements IServer {
      *
      */
     get isRunning(): boolean;
+    /**
+     *
+     */
+    get forceStart(): any;
     /**
      *
      */

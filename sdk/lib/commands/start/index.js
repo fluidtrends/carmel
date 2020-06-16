@@ -57,7 +57,7 @@ var open_1 = __importDefault(require("open"));
 var props = {
     id: 'start',
     type: __1.CommandType.PRODUCT,
-    longRunning: true,
+    longRunning: false,
     requiresScript: true,
     requiresApp: true,
 };

@@ -135,6 +135,7 @@ export interface IServer extends IClass {
   readonly args?: CommandArg[]
   readonly id: Id
   readonly command: ICommand
+  readonly forceStart: boolean
 
   initialize(): Promise<any>
   start(): Promise<any>

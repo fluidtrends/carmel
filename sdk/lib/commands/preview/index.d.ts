@@ -1,11 +1,11 @@
+import { Command, CommandProps } from '../..';
 /**
  *
- *
- * @category Commands::Workspace
+ * @category Commands
  */
-export class PreviewCommand {
-    constructor(args: any);
-    get id(): any;
-    get title(): any;
-    exec(session: any): any;
+export default class Preview extends Command {
+    /** @internal */
+    constructor(p?: CommandProps);
+    /** @internal */
+    exec(): Promise<void>;
 }

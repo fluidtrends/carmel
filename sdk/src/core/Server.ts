@@ -62,6 +62,11 @@ export class Server implements IServer {
       ?.make()!
   }
 
+  /** @internal */
+  arg(name: string) {
+    return this.args?.find((a) => a.name === name)
+  }
+
   /**
    *
    */
@@ -206,12 +211,20 @@ export class Server implements IServer {
   /**
    *
    */
+  get forceStart() {
+    const force = this.arg('force')
+    return force !== undefined && force.value
+  }
+
+  /**
+   *
+   */
   async start() {
     // Make sure we're ready to start
     this.isInitialized || (await this.initialize())
 
     // Only start once
-    if (this.isStarted) return { alreadyStarted: true }
+    if (this.isStarted && !this.arg('force')) return { alreadyStarted: true }
 
     // Ok, let's do this
     this.changeState(ServerState.STARTING)
