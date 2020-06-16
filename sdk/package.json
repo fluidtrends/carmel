@@ -1,6 +1,6 @@
 {
   "name": "@carmel/sdk",
-  "version": "1.9.33",
+  "version": "1.9.34",
   "description": "The Carmel SDK",
   "scripts": {
     "pretty": "prettier --write \"./**/*.{js,jsx,json}\"",
