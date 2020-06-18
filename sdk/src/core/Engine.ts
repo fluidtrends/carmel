@@ -253,13 +253,13 @@ export class Engine implements IEngine {
     // First, start the engine if necessary
     await Engine.instance.start()
 
-    // Prepare the command
-    await command?.initialize(this.session!, args)
-
     if (command?.requiresAuth && !this.session?.isLoggedIn) {
       // Make sure we authenticate first if we need to
       await this.session?.authenticate()
     }
+
+    // Prepare the command
+    await command?.initialize(this.session!, args)
 
     if (command?.isLongRunning) {
       // Let's let this command run
@@ -291,7 +291,6 @@ export class Engine implements IEngine {
 
     serverInstance.listen(port, async () => {
       // Listen for events
-      console.log('server instance running', port)
     })
 
     // Let's let this command run

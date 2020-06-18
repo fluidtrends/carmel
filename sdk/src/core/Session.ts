@@ -25,11 +25,11 @@ import {
   IAuthenticator,
   AuthStore,
   AuthStoreType,
-  AuthSession,
-  AuthSessionType,
+  AccessTokenType,
+  IKeyStore,
+  KeyStore,
   User,
 } from '..'
-import { AccessTokenType } from '../types'
 
 /**
  * Represents an {@linkcode Engine} Session initiated by a client.
@@ -47,6 +47,7 @@ export class Session implements ISession {
     'stacks',
     'products',
     'auth',
+    'keystore',
     'packers',
     'events',
   ]
@@ -95,6 +96,10 @@ export class Session implements ISession {
 
   /** @internal */
   protected _authenticator: IAuthenticator
+
+  /** @internal */
+  protected _keystore: IKeyStore
+
   /**
    *
    * Builds a new Session with the given {@linkcode SessionProps} properties
@@ -121,11 +126,17 @@ export class Session implements ISession {
     this._id = 'io.carmel.session'
     this._name = 'io.carmel.session'
     this._authenticator = new Authenticator(this)
+    this._keystore = new KeyStore(this)
   }
 
   /** */
   get props() {
     return this._props
+  }
+
+  /** */
+  get keystore() {
+    return this._keystore
   }
 
   /** */
@@ -274,6 +285,9 @@ export class Session implements ISession {
 
     // Initialize the index first of all, if needed
     await this.index.initialize()
+
+    // Prepare the keystore
+    await this.keystore.initialize()
 
     // Get the store ready
     this._store = new AuthStore({

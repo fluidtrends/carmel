@@ -42,6 +42,7 @@
     "@types/shortid": "0.0.29",
     "@types/socket.io": "^2.1.8",
     "@types/socket.io-client": "^1.4.33",
+    "@types/sshpk": "^1.10.4",
     "@types/url-parse": "^1.4.3",
     "@vercel/build-utils": "^2.4.0",
     "@vercel/client": "^8.1.0",
@@ -60,6 +61,7 @@
     "get-port": "^5.1.1",
     "gh": "^2.8.8",
     "http-proxy": "^1.18.1",
+    "isomorphic-git": "^1.5.0",
     "keypair": "^1.0.1",
     "nodemon": "^2.0.4",
     "open": "^7.0.4",
@@ -71,6 +73,7 @@
     "shortid": "^2.2.15",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0",
+    "sshpk": "^1.16.1",
     "url-parse": "^1.4.7"
   },
   "devDependencies": {

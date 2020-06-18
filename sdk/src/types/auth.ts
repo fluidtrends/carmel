@@ -1,4 +1,4 @@
-import { ISession, IDir } from '.'
+import { ISession, IDir, Name, Id } from '.'
 import { RequestHandler, Express } from 'express'
 import expressSession, { Store } from 'express-session'
 import SessionFileStore from 'session-file-store'
@@ -30,6 +30,23 @@ export type User = {
   email: string
   tokens: AccessToken[]
   [key: string]: any
+}
+
+export interface IKeyStore {
+  readonly session: ISession
+
+  initialize(): Promise<any>
+  keys(group: string): Promise<string[]>
+}
+
+export interface IAuthKey {
+  readonly dir: IDir
+  readonly name: Name
+  readonly id?: Id
+  readonly fingerprint?: Id
+
+  generate(): Promise<any>
+  initialize(): Promise<any>
 }
 
 export interface IAuthProvider {

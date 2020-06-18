@@ -7,8 +7,6 @@ import {
   IFile,
   IDir,
   Target,
-  IServer,
-  Server,
   File,
   Dir,
   ProductState,
@@ -16,6 +14,8 @@ import {
   ISnapshot,
   Id,
   Errors,
+  ICode,
+  Code,
   Strings,
 } from '..'
 
@@ -56,6 +56,9 @@ export class Product implements IProduct {
   /** @internal */
   protected _snapshot?: ISnapshot
 
+  /** @internal */
+  protected _code: ICode
+
   /**
    *
    * @param session
@@ -69,6 +72,14 @@ export class Product implements IProduct {
     )
     this._state = ProductState.UNLOADED
     this._session = session
+    this._code = new Code(this)
+  }
+
+  /**
+   *
+   */
+  get code() {
+    return this._code
   }
 
   /**
@@ -312,6 +323,9 @@ export class Product implements IProduct {
     this._cacheDir = new Dir(
       path.resolve(this.session?.index.sections.products.path, this.id!)
     )
+
+    // Get the code ready
+    await this.code.initialize()
 
     // Prepare the snapshot if necessary and if all good,
     // then tell everyone we're ready for action

@@ -15,6 +15,7 @@ import {
   JSON,
   AccessTokenType,
   IDir,
+  IKeyStore,
   CommandType,
   SessionState,
   AuthStoreType,
@@ -43,6 +44,7 @@ export interface IEngine extends IClass {
 
 export interface ISession extends IClass {
   readonly props?: SessionProps
+  readonly keystore: IKeyStore
   readonly logger: ILogger
   readonly index: any
   readonly state: SessionState
@@ -96,6 +98,16 @@ export interface IPacker extends IClass {
   pack(callback: (event: any) => void): Promise<any>
 }
 
+export interface ICode extends IClass {
+  readonly product: IProduct
+  readonly dir?: IDir
+  readonly keystore?: IKeyStore
+  readonly user?: User
+
+  initialize(): Promise<any>
+  status(): Promise<string>
+}
+
 export interface IProduct extends IClass {
   readonly dir: IDir
   readonly cacheDir?: IDir
@@ -108,6 +120,7 @@ export interface IProduct extends IClass {
   readonly state: ProductState
   readonly snapshot?: ISnapshot
   readonly id?: Id
+  readonly code: ICode
 
   loadCache(): Promise<any>
   create(data?: any): void

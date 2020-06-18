@@ -2,10 +2,13 @@ export * from './types'
 
 export * from './auth/Authenticator'
 export * from './auth/GitHubAuth'
+export * from './auth/AuthKey'
+export * from './auth/KeyStore'
 
 export * from './core/Command'
 export * from './core/Artifact'
 export * from './core/Template'
+export * from './core/Code'
 export * from './core/Product'
 export * from './core/Snapshot'
 export * from './core/Server'
