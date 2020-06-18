@@ -8,6 +8,9 @@
             "subtitle": "Wanna know more?"
         },
         "name": "Welcome",
-        "id": "main"
+        "id": "main",
+        "footer": {
+            "watermark": "Cool eh?"
+        }
     }]
 }

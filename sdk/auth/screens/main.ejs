@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Carmel</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="/assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="/assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+		<div id="wrapper">
+			<section id="main">
+				<header>
+					<span class="avatar"><img src="<%= user.avatar_url %>" alt="" /></span>
+					<h1> <%= user.name %> </h1>
+					<h3> <%= user.email %> </h3>
+					<p>  <%= user.location %> </p>
+				</header>
+				<footer>
+					<ul class="icons">
+						<li><a href="<%= user.html_url %>" class="icon brands fa-github">Github</a></li>
+					</ul>
+					<h3><a href="<%= user.html_url %>"> @<%= user.login %></a> </h3>
+				</footer>
+			</section>
+
+			<footer id="footer">
+				<form method="post" action="#">
+					<ul class="actions stacked">
+						<li><a href="/auth/logout">Sign out</a></li>
+					</ul>
+				</form>
+			</footer>
+			</div>
+			<script type="application/javascript" src="/app.js"></script>
+	</body>
+</html>

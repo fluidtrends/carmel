@@ -115,8 +115,19 @@ var Command = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Command.prototype, "requiresAuth", {
+        /**
+         *
+         */
+        get: function () {
+            return this.props.requiresAuth !== undefined && this.props.requiresAuth;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Object.defineProperty(Command.prototype, "isLongRunning", {
         /**
+         *
          *
          */
         get: function () {

@@ -1,4 +1,4 @@
-import { SessionProps, CommandProps, Path, EngineState, IClass, IBundle, Name, ChunkConfig, Id, ILogger, ArtifactsKind, ServerState, IFile, JSON, IDir, CommandType, SessionState, ChunkConfigRoute, Target, Version, ProductState, CommandArg } from '.';
+import { SessionProps, CommandProps, Path, EngineState, IClass, IBundle, Name, ChunkConfig, Id, ILogger, ArtifactsKind, ServerState, IFile, JSON, AccessTokenType, IDir, CommandType, SessionState, AuthStoreType, ChunkConfigRoute, IAuthenticator, Target, Version, ProductState, CommandArg, User } from '.';
 export interface IEngine extends IClass {
     readonly state: EngineState;
     readonly isStarted: boolean;
@@ -21,7 +21,16 @@ export interface ISession extends IClass {
     readonly product?: IProduct;
     readonly pkg: JSON;
     readonly dir: IDir;
+    readonly authDir: IDir;
+    readonly user?: User;
+    readonly isLoggedIn: boolean;
+    readonly id: Id;
+    readonly name: Name;
+    readonly store?: AuthStoreType;
+    readonly authenticator: IAuthenticator;
+    token(type: AccessTokenType): string | undefined;
     initialize(command?: ICommand): Promise<void>;
+    authenticate(): Promise<void>;
     makeReady(): Promise<void>;
     destroy(): Promise<void>;
     changeState(state: SessionState): void;
@@ -34,6 +43,7 @@ export interface ICommand extends IClass {
     readonly props: CommandProps;
     readonly session?: ISession;
     readonly requiresArgs: boolean;
+    readonly requiresAuth: boolean;
     readonly product?: IProduct;
     readonly target: Target;
     readonly type: CommandType;

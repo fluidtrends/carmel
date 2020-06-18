@@ -1,4 +1,6 @@
 export * from './types';
+export * from './auth/Authenticator';
+export * from './auth/GitHubAuth';
 export * from './core/Command';
 export * from './core/Artifact';
 export * from './core/Template';

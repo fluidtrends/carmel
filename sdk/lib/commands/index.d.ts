@@ -3,3 +3,4 @@ export { default as Status } from './status';
 export { default as Start } from './start';
 export { default as Make } from './make';
 export { default as Preview } from './preview';
+export { default as Deploy } from './deploy';

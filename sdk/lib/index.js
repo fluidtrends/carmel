@@ -23,6 +23,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./types"), exports);
+__exportStar(require("./auth/Authenticator"), exports);
+__exportStar(require("./auth/GitHubAuth"), exports);
 __exportStar(require("./core/Command"), exports);
 __exportStar(require("./core/Artifact"), exports);
 __exportStar(require("./core/Template"), exports);
