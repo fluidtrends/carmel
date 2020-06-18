@@ -10,9 +10,10 @@ var make_1 = require("./make");
 Object.defineProperty(exports, "Make", { enumerable: true, get: function () { return make_1.default; } });
 var preview_1 = require("./preview");
 Object.defineProperty(exports, "Preview", { enumerable: true, get: function () { return preview_1.default; } });
+var deploy_1 = require("./deploy");
+Object.defineProperty(exports, "Deploy", { enumerable: true, get: function () { return deploy_1.default; } });
 // export * from './install'
 // export * from './workspace'
-// export * from './deploy'
 // export * from './setup'
 // export * from './cloud'
 // export * from './data'

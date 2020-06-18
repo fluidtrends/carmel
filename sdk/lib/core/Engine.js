@@ -352,11 +352,12 @@ var Engine = /** @class */ (function () {
      * @param args
      */
     Engine.start = function (command, args) {
+        var _a, _b;
         return __awaiter(this, void 0, void 0, function () {
             var port, app, serverInstance, io;
             var _this = this;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0: 
                     // First, start the engine if necessary
                     return [4 /*yield*/, Engine.instance.start()
@@ -364,15 +365,30 @@ var Engine = /** @class */ (function () {
                     ];
                     case 1:
                         // First, start the engine if necessary
-                        _a.sent();
+                        _c.sent();
                         // Prepare the command
                         return [4 /*yield*/, (command === null || command === void 0 ? void 0 : command.initialize(this.session, args))];
                     case 2:
                         // Prepare the command
-                        _a.sent();
-                        return [4 /*yield*/, get_port_1.default({ port: 3000 })];
+                        _c.sent();
+                        if (!((command === null || command === void 0 ? void 0 : command.requiresAuth) && !((_a = this.session) === null || _a === void 0 ? void 0 : _a.isLoggedIn))) return [3 /*break*/, 4];
+                        // Make sure we authenticate first if we need to
+                        return [4 /*yield*/, ((_b = this.session) === null || _b === void 0 ? void 0 : _b.authenticate())];
                     case 3:
-                        port = _a.sent();
+                        // Make sure we authenticate first if we need to
+                        _c.sent();
+                        _c.label = 4;
+                    case 4:
+                        if (!(command === null || command === void 0 ? void 0 : command.isLongRunning)) return [3 /*break*/, 6];
+                        // Let's let this command run
+                        return [4 /*yield*/, Engine.instance.exec(command, args)];
+                    case 5:
+                        // Let's let this command run
+                        _c.sent();
+                        return [2 /*return*/];
+                    case 6: return [4 /*yield*/, get_port_1.default({ port: 3000 })];
+                    case 7:
+                        port = _c.sent();
                         app = express_1.default();
                         app.set('port', port);
                         serverInstance = new http_1.default.Server(app);
@@ -402,9 +418,9 @@ var Engine = /** @class */ (function () {
                         }); });
                         // Let's let this command run
                         return [4 /*yield*/, Engine.instance.exec(command, args)];
-                    case 4:
+                    case 8:
                         // Let's let this command run
-                        _a.sent();
+                        _c.sent();
                         return [2 /*return*/];
                 }
             });

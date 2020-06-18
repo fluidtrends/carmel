@@ -55,17 +55,23 @@ var __1 = require("..");
  */
 var Session = /** @class */ (function () {
     /**
+     *
      * Builds a new Session with the given {@linkcode SessionProps} properties
      *
      * @param props The {@linkcode SessionProps} properties
      */
     function Session(props) {
+        var _a;
         this._props = props;
         this._logger = new __1.Logger(this.props);
         this._index = new dodi_1.Index(Object.assign({}, { sections: Session.DEFAULT_SECTIONS.map(function (id) { return ({ id: id }); }) }, this.props, { name: 'carmel' }));
         this._state = __1.SessionState.UNINITIALIZED;
         this._pkg = JSON.parse(fs_1.default.readFileSync(path_1.default.resolve(__dirname, '../..', 'package.json'), 'utf8'));
         this._dir = new __1.Dir(this.index.path);
+        this._authDir = (_a = this.dir.dir('auth')) === null || _a === void 0 ? void 0 : _a.make();
+        this._id = 'io.carmel.session';
+        this._name = 'io.carmel.session';
+        this._authenticator = new __1.Authenticator(this);
     }
     Object.defineProperty(Session.prototype, "props", {
         /** */
@@ -83,6 +89,22 @@ var Session = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Session.prototype, "authenticator", {
+        /** */
+        get: function () {
+            return this._authenticator;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Session.prototype, "authDir", {
+        /** */
+        get: function () {
+            return this._authDir;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Object.defineProperty(Session.prototype, "state", {
         /** */
         get: function () {
@@ -91,10 +113,34 @@ var Session = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Session.prototype, "isLoggedIn", {
+        /** */
+        get: function () {
+            return this.user !== undefined;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Session.prototype, "user", {
+        /** */
+        get: function () {
+            return this._user;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Object.defineProperty(Session.prototype, "index", {
         /** */
         get: function () {
             return this._index;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Session.prototype, "store", {
+        /** */
+        get: function () {
+            return this._store;
         },
         enumerable: false,
         configurable: true
@@ -139,6 +185,31 @@ var Session = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Session.prototype, "id", {
+        /** */
+        get: function () {
+            return this._id;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Session.prototype, "name", {
+        /** */
+        get: function () {
+            return this._name;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    /**
+     *
+     * @param type
+     */
+    Session.prototype.token = function (type) {
+        var _a, _b;
+        return this.isLoggedIn
+            ? (_b = (_a = this.user) === null || _a === void 0 ? void 0 : _a.tokens.find(function (token) { return token.type === type; })) === null || _b === void 0 ? void 0 : _b.value : undefined;
+    };
     /** */
     Session.prototype.set = function (key, val) {
         return this.index.sections.system.vault.write(key, val);
@@ -154,6 +225,25 @@ var Session = /** @class */ (function () {
      */
     Session.prototype.changeState = function (state) {
         this._state = state;
+    };
+    /**
+     *
+     */
+    Session.prototype.authenticate = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.authenticator.initialize()];
+                    case 1:
+                        _a.sent();
+                        return [4 /*yield*/, this.authenticator.start()];
+                    case 2:
+                        _a.sent();
+                        this._checkAuth();
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     /**
      * Make sure the session is ready for action
@@ -186,28 +276,46 @@ var Session = /** @class */ (function () {
             });
         });
     };
+    /** @internal */
+    Session.prototype._checkAuth = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var sessionData;
+            var _this = this;
+            return __generator(this, function (_a) {
+                sessionData = this.authDir.files
+                    .map(function (f) { var _a; return (_a = _this.authDir.file(f)) === null || _a === void 0 ? void 0 : _a.load(); })
+                    .shift();
+                this._user =
+                    sessionData !== undefined ? sessionData.passport.user : undefined;
+                return [2 /*return*/];
+            });
+        });
+    };
     /**
      *  Initializes the Session and makes sure the index is ready to go.
      */
     Session.prototype.initialize = function () {
+        var _a, _b;
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
                         // No need to re-initialize
                         if (this.isInitialized)
                             return [2 /*return*/];
                         // Initialize the index first of all, if needed
                         return [4 /*yield*/, this.index.initialize()
-                            // Get the server ready
-                            // await this.server.start()
-                            // This session is ready to go
+                            // Get the store ready
                         ];
                     case 1:
                         // Initialize the index first of all, if needed
-                        _a.sent();
-                        // Get the server ready
-                        // await this.server.start()
+                        _c.sent();
+                        // Get the store ready
+                        this._store = new __1.AuthStore({
+                            path: (_b = (_a = this.authDir) === null || _a === void 0 ? void 0 : _a.make()) === null || _b === void 0 ? void 0 : _b.path,
+                        });
+                        // Check to see if we're logged in
+                        this._checkAuth();
                         // This session is ready to go
                         this.changeState(__1.SessionState.INITIALIZED);
                         return [2 /*return*/];
@@ -372,34 +480,15 @@ var Session = /** @class */ (function () {
         'bundles',
         'stacks',
         'products',
+        'auth',
         'packers',
         'events',
     ];
+    /** Default lifetime for a typical session */
+    Session.DEFAULT_EXPIRATION = 24 * 60 * 60 * 1000;
     /** Use these as mandatory bundles */
     Session.DEFAULT_BUNDLES = ['@fluidtrends/bananas'];
     return Session;
 }());
 exports.Session = Session;
-//     findCredentials(session) {
-//         const profile = this.args.profile || 'default'
-//         const v = session.index.sections.safe.vault
-//         if (v.isLocked) {
-//           return Promise.reject(new Error(_.ERRORS.COULD_NOT_EXECUTE('the safe is locked')))
-//         }
-//         session.logger.info(`Looking up AWS credentials [${profile}] ...`)
-//         const credentials = Object.assign({}, { region: "us-east-1" }, v.read(`aws.${profile}`))
-//         if (!credentials || !credentials.key || !credentials.secret) {
-//           return Promise.reject(new Error('No credentials found'))
-//         }
-//         process.env.AWS_SDK_LOAD_CONFIG = null
-//         process.env.AWS_ACCESS_KEY_ID = credentials.key
-//         process.env.AWS_SECRET_ACCESS_KEY = credentials.secret
-//         return Promise.resolve(credentials)
-//     }
-//     prepareCloud(session) {
-//         return this.findCredentials(session).then((credentials) => {
-//             this._cloud = new Cloud(Object.assign({}, credentials, { env: this.env }))
-//             return this.cloud
-//         })
-//     }
 //# sourceMappingURL=Session.js.map

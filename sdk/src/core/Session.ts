@@ -12,16 +12,24 @@ import {
   Dir,
   Logger,
   Product,
-  IServer,
   IProduct,
   JSON,
   Target,
   Template,
   IDir,
+  Name,
   Version,
   ArtifactsKind,
   SessionState,
+  Authenticator,
+  IAuthenticator,
+  AuthStore,
+  AuthStoreType,
+  AuthSession,
+  AuthSessionType,
+  User,
 } from '..'
+import { AccessTokenType } from '../types'
 
 /**
  * Represents an {@linkcode Engine} Session initiated by a client.
@@ -38,9 +46,13 @@ export class Session implements ISession {
     'bundles',
     'stacks',
     'products',
+    'auth',
     'packers',
     'events',
   ]
+
+  /** Default lifetime for a typical session */
+  public static DEFAULT_EXPIRATION: number = 24 * 60 * 60 * 1000
 
   /** Use these as mandatory bundles */
   public static DEFAULT_BUNDLES = ['@fluidtrends/bananas']
@@ -55,6 +67,9 @@ export class Session implements ISession {
   protected _index: any
 
   /** @internal */
+  protected _authDir: IDir
+
+  /** @internal */
   protected _state: SessionState
 
   /** @internal */
@@ -66,7 +81,22 @@ export class Session implements ISession {
   /** @internal */
   protected _dir: IDir
 
+  /** @internal */
+  protected _user?: User
+
+  /** @internal */
+  protected _store?: AuthStoreType
+
+  /** @internal */
+  protected _id: Id
+
+  /** @internal */
+  protected _name: Name
+
+  /** @internal */
+  protected _authenticator: IAuthenticator
   /**
+   *
    * Builds a new Session with the given {@linkcode SessionProps} properties
    *
    * @param props The {@linkcode SessionProps} properties
@@ -87,6 +117,10 @@ export class Session implements ISession {
       fs.readFileSync(path.resolve(__dirname, '../..', 'package.json'), 'utf8')
     )
     this._dir = new Dir(this.index.path)
+    this._authDir = this.dir.dir('auth')?.make()!
+    this._id = 'io.carmel.session'
+    this._name = 'io.carmel.session'
+    this._authenticator = new Authenticator(this)
   }
 
   /** */
@@ -100,13 +134,38 @@ export class Session implements ISession {
   }
 
   /** */
+  get authenticator() {
+    return this._authenticator
+  }
+
+  /** */
+  get authDir() {
+    return this._authDir
+  }
+
+  /** */
   get state() {
     return this._state
   }
 
   /** */
+  get isLoggedIn() {
+    return this.user !== undefined
+  }
+
+  /** */
+  get user() {
+    return this._user
+  }
+
+  /** */
   get index() {
     return this._index
+  }
+
+  /** */
+  get store() {
+    return this._store
   }
 
   /** */
@@ -135,6 +194,26 @@ export class Session implements ISession {
   }
 
   /** */
+  get id() {
+    return this._id
+  }
+
+  /** */
+  get name() {
+    return this._name
+  }
+
+  /**
+   *
+   * @param type
+   */
+  token(type: AccessTokenType) {
+    return this.isLoggedIn
+      ? this.user?.tokens.find((token) => token.type === type)?.value
+      : undefined
+  }
+
+  /** */
   set(key: string, val: any) {
     return this.index.sections.system.vault.write(key, val)
   }
@@ -154,6 +233,15 @@ export class Session implements ISession {
   }
 
   /**
+   *
+   */
+  async authenticate() {
+    await this.authenticator.initialize()
+    await this.authenticator.start()
+    this._checkAuth()
+  }
+
+  /**
    * Make sure the session is ready for action
    */
   async makeReady() {
@@ -167,6 +255,16 @@ export class Session implements ISession {
     this.changeState(SessionState.READY)
   }
 
+  /** @internal */
+  async _checkAuth() {
+    // Look for the logged in user, if any
+    const sessionData = this.authDir.files
+      .map((f) => this.authDir.file(f)?.load())
+      .shift()
+    this._user =
+      sessionData !== undefined ? (sessionData as any).passport.user : undefined
+  }
+
   /**
    *  Initializes the Session and makes sure the index is ready to go.
    */
@@ -177,8 +275,13 @@ export class Session implements ISession {
     // Initialize the index first of all, if needed
     await this.index.initialize()
 
-    // Get the server ready
-    // await this.server.start()
+    // Get the store ready
+    this._store = new AuthStore({
+      path: this.authDir?.make()?.path,
+    })
+
+    // Check to see if we're logged in
+    this._checkAuth()
 
     // This session is ready to go
     this.changeState(SessionState.INITIALIZED)
@@ -300,34 +403,3 @@ export class Session implements ISession {
     return this.product
   }
 }
-
-//     findCredentials(session) {
-//         const profile = this.args.profile || 'default'
-
-//         const v = session.index.sections.safe.vault
-
-//         if (v.isLocked) {
-//           return Promise.reject(new Error(_.ERRORS.COULD_NOT_EXECUTE('the safe is locked')))
-//         }
-
-//         session.logger.info(`Looking up AWS credentials [${profile}] ...`)
-
-//         const credentials = Object.assign({}, { region: "us-east-1" }, v.read(`aws.${profile}`))
-
-//         if (!credentials || !credentials.key || !credentials.secret) {
-//           return Promise.reject(new Error('No credentials found'))
-//         }
-
-//         process.env.AWS_SDK_LOAD_CONFIG = null
-//         process.env.AWS_ACCESS_KEY_ID = credentials.key
-//         process.env.AWS_SECRET_ACCESS_KEY = credentials.secret
-
-//         return Promise.resolve(credentials)
-//     }
-
-//     prepareCloud(session) {
-//         return this.findCredentials(session).then((credentials) => {
-//             this._cloud = new Cloud(Object.assign({}, credentials, { env: this.env }))
-//             return this.cloud
-//         })
-//     }

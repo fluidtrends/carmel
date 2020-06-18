@@ -12,117 +12,94 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DeployCommand = void 0;
-var path = require('path');
-var Command = require('../../core/Command');
-var parseDomain = require("parse-domain");
+var __1 = require("../..");
+var rest_1 = require("@octokit/rest");
+var props = {
+    id: 'deploy',
+    type: __1.CommandType.PRODUCT,
+    requiresScript: true,
+    requiresAuth: true,
+    requiresApp: true,
+};
 /**
  *
- *
- * @category Commands::Workspace
+ * @category Commands
  */
-var DeployCommand = /** @class */ (function (_super) {
-    __extends(DeployCommand, _super);
-    function DeployCommand(args) {
-        return _super.call(this, args) || this;
+var Deploy = /** @class */ (function (_super) {
+    __extends(Deploy, _super);
+    /** @internal */
+    function Deploy(p) {
+        return _super.call(this, Object.assign({}, props, p)) || this;
     }
-    Object.defineProperty(DeployCommand.prototype, "id", {
-        get: function () { return _.ID; },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(DeployCommand.prototype, "title", {
-        get: function () { return _.TITLE; },
-        enumerable: false,
-        configurable: true
-    });
-    DeployCommand.prototype.ensureDomainIsHosted = function (session, domain) {
-        session.logger.info('Ensuring the domain is hosted ...');
-        return new Promise(function (resolve, reject) {
-            domain.isHosted().then(function () {
-                resolve(domain);
-            })
-                .catch(function () {
-                domain.host().then(function () {
-                    resolve();
-                })
-                    .catch(function (e) { return reject(e); });
+    /** @internal */
+    Deploy.prototype.exec = function () {
+        var _a, _b;
+        return __awaiter(this, void 0, void 0, function () {
+            var user, auth, github, me, keys, repos, repoNames;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        user = (_a = this.session) === null || _a === void 0 ? void 0 : _a.user;
+                        auth = (_b = this.session) === null || _b === void 0 ? void 0 : _b.token(__1.AccessTokenType.GITHUB);
+                        github = new rest_1.Octokit({ auth: auth });
+                        return [4 /*yield*/, github.request('/user')];
+                    case 1:
+                        me = _c.sent();
+                        return [4 /*yield*/, github.users.listPublicKeysForUser({
+                                username: user.login,
+                            })];
+                    case 2:
+                        keys = _c.sent();
+                        return [4 /*yield*/, github.repos.listForUser({ username: user.login })];
+                    case 3:
+                        repos = _c.sent();
+                        repoNames = repos.data.map(function (repo) { return repo.name; });
+                        console.log(me.data);
+                        console.log(keys.data);
+                        console.log(repoNames);
+                        return [2 /*return*/];
+                }
             });
         });
     };
-    DeployCommand.prototype.ensureBucketExists = function (session, bucket) {
-        session.logger.info('Ensuring the bucket exists ...');
-        return new Promise(function (resolve, reject) {
-            bucket.exists().then(function () {
-                resolve(bucket);
-            })
-                .catch(function () {
-                bucket.create().then(function () {
-                    resolve(bucket);
-                })
-                    .catch(function (e) { return reject(e); });
-            });
-        });
-    };
-    DeployCommand.prototype.ensureBucketIsLinked = function (session, domain) {
-        session.logger.info('Ensuring bucket and domain are linked ...');
-        return new Promise(function (resolve, reject) {
-            domain.isBucketLinked().then(function () {
-                resolve(domain);
-            })
-                .catch(function () {
-                domain.linkBucket().then(function () {
-                    resolve(domain);
-                })
-                    .catch(function (e) { return reject(e); });
-            });
-        });
-    };
-    DeployCommand.prototype.setupDomainBucket = function (session, domain, bucket) {
-        var _this = this;
-        return this.ensureDomainIsHosted(session, domain)
-            .then(function () { return _this.ensureBucketExists(session, bucket); })
-            .then(function () { return _this.ensureBucketIsLinked(session, domain); });
-    };
-    DeployCommand.prototype.prepareBucket = function (session) {
-        var _this = this;
-        session.workspace.reload();
-        if (!session.workspace.data || !session.workspace.data.web || !session.workspace.data.web || !session.workspace.data.web.domain) {
-            return Promise.reject(new Error(_.ERRORS.COULD_NOT_EXECUTE('the web domain is missing')));
-        }
-        var appDomain = session.workspace.data.web.domain;
-        var dir = path.resolve(this.cwd, '.app', 'web');
-        var domainStats = parseDomain(appDomain);
-        var _a = require('awsome'), Domain = _a.Domain, Bucket = _a.Bucket;
-        var tldDomain = new Domain({ name: domainStats.domain + "." + domainStats.tld });
-        var domain = new Domain({ name: appDomain });
-        var bucket = new Bucket({ name: appDomain, dir: dir, site: true });
-        session.logger.info('Preparing for deployment ...');
-        return this.setupDomainBucket(session, domain, bucket)
-            .then(function () {
-            if (!domainStats.subdomain) {
-                var redirectBucket = new Bucket({ name: "www." + appDomain, site: { redirectTo: appDomain } });
-                var redirectDomain_1 = new Domain({ name: "www." + appDomain });
-                return _this.ensureBucketExists(session, redirectBucket).then(function () { return _this.ensureBucketIsLinked(session, redirectDomain_1); });
-            }
-        })
-            .then(function () { return bucket; });
-    };
-    DeployCommand.prototype.upload = function (session, bucket) {
-        session.logger.info('Uploading files to bucket ...');
-        // return bucket.update()
-    };
-    DeployCommand.prototype.exec = function (session) {
-        var _this = this;
-        return _super.prototype.initialize.call(this, session)
-            .then(function () { return _this.findCredentials(session); })
-            .then(function () { return _this.prepareBucket(session); })
-            .then(function (bucket) { return _this.upload(session, bucket); });
-    };
-    return DeployCommand;
-}(Command));
-exports.DeployCommand = DeployCommand;
-_.TITLE = "Deploying";
-_.ID = 'deploy';
+    return Deploy;
+}(__1.Command));
+exports.default = Deploy;
 //# sourceMappingURL=index.js.map

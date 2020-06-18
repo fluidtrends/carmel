@@ -1,4 +1,7 @@
-export * from './types'    
+export * from './types'
+
+export * from './auth/Authenticator'
+export * from './auth/GitHubAuth'
 
 export * from './core/Command'
 export * from './core/Artifact'
@@ -19,6 +22,6 @@ export * from './system/Bundle'
 export * from './system/Logger'
 export * from './system/Script'
 
-export * as Errors from './errors'    
-export * as Strings from './strings'    
+export * as Errors from './errors'
+export * as Strings from './strings'
 export * as Commands from './commands'

@@ -9,7 +9,7 @@ export default () => {
             flexDirection: "column",
             alignItems: "center"
         }}>
-            <h1> Welcome to my website. </h1>
+            <h1> Welcome to my website :) </h1>
         </div>
     )
 }

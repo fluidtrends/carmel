@@ -10,7 +10,6 @@ import {
   IProduct,
   CommandType,
 } from '..'
-import { Server } from './Server'
 
 const Defaults = (cls: ICommand) =>
   ({
@@ -90,6 +89,14 @@ export abstract class Command implements ICommand {
   }
 
   /**
+   *
+   */
+  get requiresAuth() {
+    return this.props.requiresAuth !== undefined && this.props.requiresAuth
+  }
+
+  /**
+   *
    *
    */
   get isLongRunning() {

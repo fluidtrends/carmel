@@ -256,6 +256,17 @@ export class Engine implements IEngine {
     // Prepare the command
     await command?.initialize(this.session!, args)
 
+    if (command?.requiresAuth && !this.session?.isLoggedIn) {
+      // Make sure we authenticate first if we need to
+      await this.session?.authenticate()
+    }
+
+    if (command?.isLongRunning) {
+      // Let's let this command run
+      await Engine.instance.exec(command, args)
+      return
+    }
+
     const port = await getPort({ port: 3000 })
     const app = express()
     app.set('port', port)

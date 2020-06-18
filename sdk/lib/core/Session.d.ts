@@ -1,4 +1,6 @@
-import { ISession, SessionProps, ILogger, Id, Bundle, IProduct, JSON, Target, Template, IDir, Version, ArtifactsKind, SessionState } from '..';
+/// <reference types="express-session" />
+import { ISession, SessionProps, ILogger, Id, Bundle, IProduct, JSON, Target, Template, IDir, Name, Version, ArtifactsKind, SessionState, IAuthenticator, AuthStoreType, User } from '..';
+import { AccessTokenType } from '../types';
 /**
  * Represents an {@linkcode Engine} Session initiated by a client.
  *
@@ -11,6 +13,8 @@ import { ISession, SessionProps, ILogger, Id, Bundle, IProduct, JSON, Target, Te
 export declare class Session implements ISession {
     /** Start with these sections - always */
     static DEFAULT_SECTIONS: string[];
+    /** Default lifetime for a typical session */
+    static DEFAULT_EXPIRATION: number;
     /** Use these as mandatory bundles */
     static DEFAULT_BUNDLES: string[];
     /** @internal */
@@ -20,6 +24,8 @@ export declare class Session implements ISession {
     /** @internal */
     protected _index: any;
     /** @internal */
+    protected _authDir: IDir;
+    /** @internal */
     protected _state: SessionState;
     /** @internal */
     protected _product?: IProduct;
@@ -27,7 +33,18 @@ export declare class Session implements ISession {
     protected _pkg: JSON;
     /** @internal */
     protected _dir: IDir;
+    /** @internal */
+    protected _user?: User;
+    /** @internal */
+    protected _store?: AuthStoreType;
+    /** @internal */
+    protected _id: Id;
+    /** @internal */
+    protected _name: Name;
+    /** @internal */
+    protected _authenticator: IAuthenticator;
     /**
+     *
      * Builds a new Session with the given {@linkcode SessionProps} properties
      *
      * @param props The {@linkcode SessionProps} properties
@@ -38,9 +55,19 @@ export declare class Session implements ISession {
     /** */
     get logger(): ILogger;
     /** */
+    get authenticator(): IAuthenticator;
+    /** */
+    get authDir(): IDir;
+    /** */
     get state(): SessionState;
     /** */
+    get isLoggedIn(): boolean;
+    /** */
+    get user(): User | undefined;
+    /** */
     get index(): any;
+    /** */
+    get store(): import("express-session").Store | undefined;
     /** */
     get isInitialized(): boolean;
     /** */
@@ -52,6 +79,15 @@ export declare class Session implements ISession {
     /** */
     get dir(): IDir;
     /** */
+    get id(): string;
+    /** */
+    get name(): string;
+    /**
+     *
+     * @param type
+     */
+    token(type: AccessTokenType): string | undefined;
+    /** */
     set(key: string, val: any): any;
     /** */
     get(key: string): any;
@@ -62,9 +98,15 @@ export declare class Session implements ISession {
      */
     changeState(state: SessionState): void;
     /**
+     *
+     */
+    authenticate(): Promise<void>;
+    /**
      * Make sure the session is ready for action
      */
     makeReady(): Promise<void>;
+    /** @internal */
+    _checkAuth(): Promise<void>;
     /**
      *  Initializes the Session and makes sure the index is ready to go.
      */

@@ -21,6 +21,7 @@ export interface IFile extends IClass {
 export interface IDir extends IClass {
     readonly path?: Path;
     readonly exists: boolean;
+    readonly files: Path[];
     readonly dirs: Path[];
     remove(): IDir;
     copy(dir: IDir): IDir | undefined;

@@ -5,7 +5,7 @@ import open from 'open'
 const props: CommandProps = {
   id: 'start',
   type: CommandType.PRODUCT,
-  longRunning: false,
+  longRunning: true,
   requiresScript: true,
   requiresApp: true,
 }

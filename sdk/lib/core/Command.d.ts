@@ -47,6 +47,11 @@ export declare abstract class Command implements ICommand {
     /**
      *
      */
+    get requiresAuth(): boolean;
+    /**
+     *
+     *
+     */
     get isLongRunning(): boolean;
     /**
      *
