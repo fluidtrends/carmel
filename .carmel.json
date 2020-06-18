@@ -35,7 +35,7 @@
     "notFoundPageText": "local://404"
   },
   "id": "carmelmain",
-  "carmelSDKVersion": "1.9.34",
+  "carmelSDKVersion": "1.9.36",
   "template": "starter",
   "bundle": "@fluidtrends/bananas",
   "bundleVersion": "1.9.43",
