@@ -166,7 +166,7 @@ var AuthKey = /** @class */ (function () {
                         this.files.get('public.ssh').update(sshPublicKey.toString('ssh'));
                         this.files
                             .get('private.ssh')
-                            .update(sshPrivateKey.toBuffer('openssh', {}).toString());
+                            .update(sshPrivateKey.toBuffer('openssh', {}).toString(), 400);
                         this.files
                             .get('fingerprint.sha256')
                             .update(sshPublicKey.fingerprint('sha256').toString());

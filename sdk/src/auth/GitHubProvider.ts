@@ -52,15 +52,15 @@ export class GitHubProvider implements IAuthProvider {
 
   async prepareKeys() {
     const { keystore, user, system } = this.authenticator.session
-    const localKeys = keystore.keys.get('github') || []
+    const localKeys: IAuthKey[] = [] //keystore.keys.get('github') || []
 
-    if (localKeys.length === 0) {
-      // Looks like we have no github keys stored, let's create one
-      const newLocalKey = await this.authenticator.session.keystore.addNewKey(
-        'github'
-      )
-      localKeys.push(newLocalKey)
-    }
+    // if (localKeys.length === 0) {
+    // Looks like we have no github keys stored, let's create one
+    const newLocalKey = await this.authenticator.session.keystore.addNewKey(
+      'github'
+    )
+    localKeys.push(newLocalKey)
+    // }
 
     const accessToken = this.authenticator.session.token(AccessTokenType.GITHUB)
     const octokit = new Octokit({

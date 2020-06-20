@@ -95,21 +95,19 @@ var GitHubProvider = /** @class */ (function () {
                 switch (_c.label) {
                     case 0:
                         _b = this.authenticator.session, keystore = _b.keystore, user = _b.user, system = _b.system;
-                        localKeys = keystore.keys.get('github') || [];
-                        if (!(localKeys.length === 0)) return [3 /*break*/, 2];
+                        localKeys = [] //keystore.keys.get('github') || []
+                        ;
                         return [4 /*yield*/, this.authenticator.session.keystore.addNewKey('github')];
                     case 1:
                         newLocalKey = _c.sent();
                         localKeys.push(newLocalKey);
-                        _c.label = 2;
-                    case 2:
                         accessToken = this.authenticator.session.token(__1.AccessTokenType.GITHUB);
                         octokit = new rest_1.Octokit({
                             auth: accessToken,
                         });
                         title = "carmel/" + (system === null || system === void 0 ? void 0 : system.id);
                         return [4 /*yield*/, octokit.users.listPublicSshKeysForAuthenticated()];
-                    case 3:
+                    case 2:
                         remoteKeys = _c.sent();
                         foundKeys = [];
                         foundTitles = [];
@@ -133,7 +131,7 @@ var GitHubProvider = /** @class */ (function () {
                                 title: title,
                                 key: (_a = localKeys[0].files.get('public.ssh')) === null || _a === void 0 ? void 0 : _a.data.raw,
                             })];
-                    case 4:
+                    case 3:
                         _c.sent();
                         return [2 /*return*/];
                 }
