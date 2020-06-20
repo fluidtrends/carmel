@@ -1,4 +1,5 @@
 import { SessionProps, CommandProps, Path, EngineState, IClass, IBundle, Name, ChunkConfig, Id, ILogger, ArtifactsKind, ServerState, IFile, JSON, AccessTokenType, IDir, IKeyStore, CommandType, SessionState, AuthStoreType, ChunkConfigRoute, IAuthenticator, Target, Version, ProductState, CommandArg, User } from '.';
+import { IAuthKey } from './auth';
 export interface IEngine extends IClass {
     readonly state: EngineState;
     readonly isStarted: boolean;
@@ -31,6 +32,7 @@ export interface ISession extends IClass {
     readonly authenticator: IAuthenticator;
     readonly manifest?: IFile;
     readonly system?: JSON;
+    keys(type: AccessTokenType): IAuthKey[] | undefined;
     token(type: AccessTokenType): string | undefined;
     initialize(command?: ICommand): Promise<void>;
     enableSecurity(): Promise<void>;
@@ -61,13 +63,32 @@ export interface ICommand extends IClass {
 export interface IPacker extends IClass {
     pack(callback: (event: any) => void): Promise<any>;
 }
+export interface IRepo extends IClass {
+    readonly code: ICode;
+    readonly dir?: IDir;
+    readonly name?: string;
+    readonly owner?: string;
+    readonly isOpen: boolean;
+    readonly hasRemote: boolean;
+    readonly isRemoteForeign: boolean;
+    open(): Promise<any>;
+    commit(paths: string[], comment: string): Promise<any>;
+    push(): Promise<any>;
+    loadRemote(): Promise<any>;
+    initialize(): Promise<any>;
+}
 export interface ICode extends IClass {
     readonly product: IProduct;
     readonly dir?: IDir;
     readonly keystore?: IKeyStore;
+    readonly keys?: IAuthKey[];
+    readonly credentials?: any;
+    readonly key?: IAuthKey;
     readonly user?: User;
+    readonly deployRepo?: IRepo;
+    readonly service?: any;
     initialize(): Promise<any>;
-    status(): Promise<any>;
+    deploy(target: Target): Promise<any>;
 }
 export interface IProduct extends IClass {
     readonly dir: IDir;
@@ -82,6 +103,9 @@ export interface IProduct extends IClass {
     readonly snapshot?: ISnapshot;
     readonly id?: Id;
     readonly code: ICode;
+    readonly data?: JSON;
+    readonly packer?: IPacker;
+    openCode(): Promise<any>;
     loadCache(): Promise<any>;
     create(data?: any): void;
     createFromTemplate(id: Id): Promise<IProduct | undefined>;
@@ -91,7 +115,7 @@ export interface IProduct extends IClass {
     loadFile(path: Path): void;
     saveData(data: any): void;
     findDirs(dirpath: Path): Path[];
-    resolvePacker(target: Target, watch: boolean): Promise<any>;
+    resolve(target: Target, watch: boolean): Promise<any>;
 }
 export interface ISnapshot extends IClass {
     readonly id: Id;

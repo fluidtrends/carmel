@@ -318,6 +318,14 @@ var Session = /** @class */ (function () {
         });
     };
     /**
+     *
+     * @param type
+     */
+    Session.prototype.keys = function (type) {
+        var _a;
+        return ((_a = this.authenticator.providers.get(__1.AccessTokenType.GITHUB)) === null || _a === void 0 ? void 0 : _a.keys) || [];
+    };
+    /**
      *  Initializes the Session and makes sure the index is ready to go.
      */
     Session.prototype.initialize = function () {

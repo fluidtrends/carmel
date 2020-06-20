@@ -42,6 +42,7 @@ export interface IAuthKey {
     readonly exists: boolean;
     readonly keystore: IKeyStore;
     readonly files: Map<Name, IFile>;
+    readonly data: Map<Name, string>;
     generate(): Promise<any>;
     initialize(): Promise<IAuthKey>;
 }

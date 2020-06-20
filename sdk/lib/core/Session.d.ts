@@ -119,6 +119,11 @@ export declare class Session implements ISession {
     /** @internal */
     _checkAuth(): Promise<void>;
     /**
+     *
+     * @param type
+     */
+    keys(type: AccessTokenType): import("..").IAuthKey[];
+    /**
      *  Initializes the Session and makes sure the index is ready to go.
      */
     initialize(): Promise<void>;

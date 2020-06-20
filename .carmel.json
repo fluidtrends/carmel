@@ -39,6 +39,10 @@
   "template": "starter",
   "bundle": "@fluidtrends/bananas",
   "bundleVersion": "1.9.43",
+  "deployRepo": {
+    "owner": "fluidchunky",
+    "name": "carmel-live"
+  },
   "stack": "jayesse",
   "stackVersion": "1.9.17",
   "packer": "papanache",

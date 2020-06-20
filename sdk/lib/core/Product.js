@@ -42,6 +42,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Product = void 0;
 var path_1 = __importDefault(require("path"));
 var get_port_1 = __importDefault(require("get-port"));
+var open_1 = __importDefault(require("open"));
 var __1 = require("..");
 /**
  *
@@ -65,6 +66,16 @@ var Product = /** @class */ (function () {
         this._session = session;
         this._code = new __1.Code(this);
     }
+    Object.defineProperty(Product.prototype, "packer", {
+        /**
+         *
+         */
+        get: function () {
+            return this._packer;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Object.defineProperty(Product.prototype, "code", {
         /**
          *
@@ -220,6 +231,30 @@ var Product = /** @class */ (function () {
     /**
      *
      */
+    Product.prototype.openCode = function () {
+        var _a;
+        return __awaiter(this, void 0, void 0, function () {
+            var file, _b;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        file = (_a = this.cacheDir) === null || _a === void 0 ? void 0 : _a.file('carmel.code-workspace');
+                        _b = file && file.exists;
+                        if (!_b) return [3 /*break*/, 2];
+                        return [4 /*yield*/, open_1.default(file.path)];
+                    case 1:
+                        _b = (_c.sent());
+                        _c.label = 2;
+                    case 2:
+                        _b;
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     *
+     */
     Product.prototype.loadCache = function () {
         var _a, _b, _c, _d;
         return __awaiter(this, void 0, void 0, function () {
@@ -268,10 +303,10 @@ var Product = /** @class */ (function () {
      * @param target
      * @param watch
      */
-    Product.prototype.resolvePacker = function (target, watch) {
+    Product.prototype.resolve = function (target, watch) {
         var _a, _b, _c, _d;
         return __awaiter(this, void 0, void 0, function () {
-            var productId, bundle, bundleVersion, templateName, productCacheDir, templateId, cache, template, _e, packerDir, stackDir, packerInstance, stackConfig, port, options, workspace, packer;
+            var productId, bundle, bundleVersion, templateName, productCacheDir, templateId, cache, template, _e, packerDir, stackDir, packerInstance, stackConfig, port, options;
             return __generator(this, function (_f) {
                 switch (_f.label) {
                     case 0:
@@ -283,6 +318,8 @@ var Product = /** @class */ (function () {
                         templateId = bundle + "/" + bundleVersion + "/" + templateName;
                         cache = undefined;
                         if (!!(productCacheDir === null || productCacheDir === void 0 ? void 0 : productCacheDir.exists)) return [3 /*break*/, 3];
+                        // Let's setup cache structure
+                        productCacheDir === null || productCacheDir === void 0 ? void 0 : productCacheDir.make();
                         return [4 /*yield*/, ((_c = this.session) === null || _c === void 0 ? void 0 : _c.findTemplate(templateId))];
                     case 1:
                         template = _f.sent();
@@ -328,9 +365,9 @@ var Product = /** @class */ (function () {
                             watch: watch,
                             port: port,
                         };
-                        workspace = productCacheDir === null || productCacheDir === void 0 ? void 0 : productCacheDir.file('carmel.code-workspace');
-                        packer = new packerInstance[target].Packer(options);
-                        return [2 /*return*/, { packer: packer, workspace: workspace }];
+                        // Let's send it all back
+                        this._packer = new packerInstance[target].Packer(options);
+                        return [2 /*return*/];
                 }
             });
         });

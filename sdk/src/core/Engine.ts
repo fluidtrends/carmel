@@ -227,11 +227,6 @@ export class Engine implements IEngine {
       // Prepare the command
       await command?.initialize(this.session!, args)
 
-      // Make sure the product has a packer
-      command !== undefined &&
-        command?.product !== undefined &&
-        (await command!.product.resolvePacker(command!.target, true))
-
       // Start the server for long running commands
       await Engine.instance.startServer(command, args)
       return

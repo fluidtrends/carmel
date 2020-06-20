@@ -68,20 +68,17 @@ var Make = /** @class */ (function (_super) {
     }
     /** @internal */
     Make.prototype.exec = function () {
-        var _a;
+        var _a, _b;
         return __awaiter(this, void 0, void 0, function () {
-            var _b, packer, workspace;
             return __generator(this, function (_c) {
                 switch (_c.label) {
-                    case 0: return [4 /*yield*/, ((_a = this.product) === null || _a === void 0 ? void 0 : _a.resolvePacker(this.target, false))];
-                    case 1:
-                        _b = _c.sent(), packer = _b.packer, workspace = _b.workspace;
-                        if (!packer)
+                    case 0:
+                        if (!((_a = this.product) === null || _a === void 0 ? void 0 : _a.packer))
                             return [2 /*return*/];
-                        return [4 /*yield*/, packer.pack(function (event) {
+                        return [4 /*yield*/, ((_b = this.product) === null || _b === void 0 ? void 0 : _b.packer.pack(function (event) {
                                 console.log(event);
-                            })];
-                    case 2:
+                            }))];
+                    case 1:
                         _c.sent();
                         return [2 /*return*/];
                 }

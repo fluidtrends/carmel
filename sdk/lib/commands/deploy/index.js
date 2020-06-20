@@ -71,13 +71,11 @@ var Deploy = /** @class */ (function (_super) {
     Deploy.prototype.exec = function () {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var status;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, ((_a = this.product) === null || _a === void 0 ? void 0 : _a.code.status())];
+                    case 0: return [4 /*yield*/, ((_a = this.product) === null || _a === void 0 ? void 0 : _a.code.deploy(this.target))];
                     case 1:
-                        status = _b.sent();
-                        console.log(status);
+                        _b.sent();
                         return [2 /*return*/];
                 }
             });

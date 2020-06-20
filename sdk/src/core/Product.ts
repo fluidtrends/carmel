@@ -1,5 +1,6 @@
 import path from 'path'
 import getPort from 'get-port'
+import open from 'open'
 
 import {
   IProduct,
@@ -16,6 +17,7 @@ import {
   Errors,
   ICode,
   Code,
+  IPacker,
   Strings,
 } from '..'
 
@@ -59,6 +61,9 @@ export class Product implements IProduct {
   /** @internal */
   protected _code: ICode
 
+  /** @internal */
+  protected _packer?: IPacker
+
   /**
    *
    * @param session
@@ -73,6 +78,13 @@ export class Product implements IProduct {
     this._state = ProductState.UNLOADED
     this._session = session
     this._code = new Code(this)
+  }
+
+  /**
+   *
+   */
+  get packer() {
+    return this._packer
   }
 
   /**
@@ -187,6 +199,14 @@ export class Product implements IProduct {
   /**
    *
    */
+  async openCode() {
+    const file = this.cacheDir?.file('carmel.code-workspace')
+    file && file.exists && (await open(file.path!))
+  }
+
+  /**
+   *
+   */
   async loadCache() {
     this.manifest.load()
     const id = this.manifest.data.json().id
@@ -224,7 +244,7 @@ export class Product implements IProduct {
    * @param target
    * @param watch
    */
-  async resolvePacker(target: Target, watch: boolean) {
+  async resolve(target: Target, watch: boolean) {
     // Start by looking up this product's id and cache
     const productId = this.manifest.data.json().id
     const bundle = this.manifest.data.json().bundle
@@ -241,6 +261,7 @@ export class Product implements IProduct {
 
     if (!productCacheDir?.exists) {
       // Let's setup cache structure
+      productCacheDir?.make()
       const template = await this.session?.findTemplate(templateId)
       cache = await template!.install(this.dir, this)
     }
@@ -281,13 +302,8 @@ export class Product implements IProduct {
       port,
     }
 
-    // The code workspace
-    const workspace = productCacheDir?.file('carmel.code-workspace')
-
     // Let's send it all back
-    const packer = new packerInstance[target].Packer(options)
-
-    return { packer, workspace }
+    this._packer = new packerInstance[target].Packer(options)
   }
 
   /**

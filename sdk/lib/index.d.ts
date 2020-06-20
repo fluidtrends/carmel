@@ -6,6 +6,7 @@ export * from './auth/KeyStore';
 export * from './core/Command';
 export * from './core/Artifact';
 export * from './core/Template';
+export * from './core/Repo';
 export * from './core/Code';
 export * from './core/Product';
 export * from './core/Snapshot';

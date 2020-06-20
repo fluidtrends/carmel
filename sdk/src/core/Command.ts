@@ -188,6 +188,7 @@ export abstract class Command implements ICommand {
     switch (this.type) {
       case CommandType.PRODUCT:
         await this._product?.load()
+        await this._product?.resolve(this.target, this.isLongRunning)
         break
     }
   }

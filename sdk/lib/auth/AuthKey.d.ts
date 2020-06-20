@@ -15,6 +15,8 @@ export declare class AuthKey implements IAuthKey {
     protected _keystore: IKeyStore;
     /** @internal */
     protected _files: Map<Name, IFile>;
+    /** @internal */
+    protected _data: Map<Name, string>;
     /**
      *
      * @param name
@@ -25,6 +27,10 @@ export declare class AuthKey implements IAuthKey {
      *
      */
     get group(): string;
+    /**
+     *
+     */
+    get data(): Map<string, string>;
     /**
      *
      */

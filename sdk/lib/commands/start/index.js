@@ -48,12 +48,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var __1 = require("../..");
-var open_1 = __importDefault(require("open"));
 var props = {
     id: 'start',
     type: __1.CommandType.PRODUCT,
@@ -73,23 +69,20 @@ var Start = /** @class */ (function (_super) {
     }
     /** @internal */
     Start.prototype.exec = function () {
-        var _a;
+        var _a, _b;
         return __awaiter(this, void 0, void 0, function () {
-            var _b, packer, workspace;
             return __generator(this, function (_c) {
                 switch (_c.label) {
-                    case 0: return [4 /*yield*/, ((_a = this.product) === null || _a === void 0 ? void 0 : _a.resolvePacker(this.target, true))];
-                    case 1:
-                        _b = _c.sent(), packer = _b.packer, workspace = _b.workspace;
-                        if (!packer)
+                    case 0:
+                        if (!((_a = this.product) === null || _a === void 0 ? void 0 : _a.packer))
                             return [2 /*return*/];
-                        return [4 /*yield*/, open_1.default(workspace.path)];
-                    case 2:
+                        return [4 /*yield*/, this.product.openCode()];
+                    case 1:
                         _c.sent();
-                        return [4 /*yield*/, packer.pack(function (event) {
+                        return [4 /*yield*/, ((_b = this.product) === null || _b === void 0 ? void 0 : _b.packer.pack(function (event) {
                                 console.log('Chunky says: ', event);
-                            })];
-                    case 3:
+                            }))];
+                    case 2:
                         _c.sent();
                         return [2 /*return*/];
                 }

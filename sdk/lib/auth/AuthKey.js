@@ -57,6 +57,7 @@ var AuthKey = /** @class */ (function () {
         this._keystore = keystore;
         this._id = id;
         this._files = new Map();
+        this._data = new Map();
     }
     Object.defineProperty(AuthKey.prototype, "group", {
         /**
@@ -64,6 +65,16 @@ var AuthKey = /** @class */ (function () {
          */
         get: function () {
             return this._group;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(AuthKey.prototype, "data", {
+        /**
+         *
+         */
+        get: function () {
+            return this._data;
         },
         enumerable: false,
         configurable: true
@@ -134,6 +145,7 @@ var AuthKey = /** @class */ (function () {
     AuthKey.prototype.generate = function () {
         return __awaiter(this, void 0, void 0, function () {
             var _a, publicKey, privateKey, sshPublicKey, sshPrivateKey;
+            var _this = this;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -173,6 +185,11 @@ var AuthKey = /** @class */ (function () {
                         this.files
                             .get('fingerprint.md5')
                             .update(sshPublicKey.fingerprint('md5').toString());
+                        try {
+                            // Load all files if possible
+                            this.files.forEach(function (file, name) { return file.load() && _this.data.set(name, file.data.raw); });
+                        }
+                        catch (_c) { }
                         return [2 /*return*/];
                 }
             });
@@ -181,6 +198,7 @@ var AuthKey = /** @class */ (function () {
     AuthKey.prototype.initialize = function () {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j;
         return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
             return __generator(this, function (_k) {
                 if (!this.id) {
                     return [2 /*return*/, this];
@@ -194,7 +212,7 @@ var AuthKey = /** @class */ (function () {
                 this.files.set('fingerprint.md5', (_j = this.dir) === null || _j === void 0 ? void 0 : _j.file('fingerprint.md5', true));
                 try {
                     // Load all files if possible
-                    this.files.forEach(function (file) { return file.load(); });
+                    this.files.forEach(function (file, name) { return file.load() && _this.data.set(name, file.data.raw); });
                 }
                 catch (_l) { }
                 return [2 /*return*/, this];

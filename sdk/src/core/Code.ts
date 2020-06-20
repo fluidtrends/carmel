@@ -4,12 +4,15 @@ import {
   IKeyStore,
   User,
   IProduct,
+  Target,
   IDir,
+  Repo,
+  IRepo,
   AccessTokenType,
 } from '..'
 
 import { Octokit } from '@octokit/rest'
-import NodeGit, { Repository } from 'nodegit'
+import NodeGit from 'nodegit'
 
 /**
  *
@@ -19,13 +22,10 @@ export class Code implements ICode {
   protected _product: IProduct
 
   /** @internal */
-  protected _dir?: IDir
-
-  /** @internal */
   protected _keystore?: IKeyStore
 
   /** @internal */
-  protected _github?: Octokit
+  protected _service?: any
 
   /** @internal */
   protected _keys?: IAuthKey[]
@@ -37,19 +37,13 @@ export class Code implements ICode {
   protected _credentials?: any
 
   /** @internal */
-  protected _repo?: Repository
-
-  /** @internal */
-  protected _remoteRepo?: any
-
-  /** @internal */
   protected _user?: User
 
   /** @internal */
-  protected _repoOwner?: string
+  protected _dir?: IDir
 
   /** @internal */
-  protected _repoName?: string
+  protected _deployRepo: IRepo
 
   /**
    *
@@ -57,9 +51,12 @@ export class Code implements ICode {
    */
   constructor(product: IProduct) {
     this._product = product
+    this._deployRepo = new Repo(this)
   }
 
-  /** */
+  /**
+   *
+   */
   get user() {
     return this._user
   }
@@ -67,15 +64,8 @@ export class Code implements ICode {
   /**
    *
    */
-  get repoOwner() {
-    return this._repoOwner
-  }
-
-  /**
-   *
-   */
-  get repoName() {
-    return this._repoName
+  get deployRepo() {
+    return this._deployRepo
   }
 
   /**
@@ -109,6 +99,20 @@ export class Code implements ICode {
   /**
    *
    */
+  get credentials() {
+    return this._credentials
+  }
+
+  /**
+   *
+   */
+  get service() {
+    return this._service
+  }
+
+  /**
+   *
+   */
   get product() {
     return this._product
   }
@@ -117,19 +121,13 @@ export class Code implements ICode {
    *
    */
   async initialize() {
-    this._dir = this.product.cacheDir
     this._keystore = this.product.session?.keystore
     this._user = this.product.session?.user!
     this._keys = this.product.session?.keys(AccessTokenType.GITHUB) || []
     this._key = this.keys![0]
-    this._repoOwner = this.product?.data?.repo?.owner || this.user?.login
-    this._repoName = this.product?.data?.repo?.name || this.repoOwner
+    this._dir = this.product.cacheDir
 
     try {
-      this._github = new Octokit({
-        auth: this.product?.session?.token(AccessTokenType.GITHUB),
-      })
-
       this._credentials = (url: string, username: string) =>
         NodeGit.Cred.sshKeyNew(
           username,
@@ -137,65 +135,30 @@ export class Code implements ICode {
           this.key?.files.get('private.ssh')?.path!,
           ''
         )
-
-      this._repo = this.product.cacheDir?.exists
-        ? await NodeGit.Repository.open(this.product.cacheDir!.path!)
-        : undefined
     } catch {}
 
     try {
-      // Check for the remote repo
-      this._remoteRepo =
-        this._github &&
-        (await this._github.repos.get({
-          owner: this.repoOwner!,
-          repo: this.repoName!,
-        }))
+      this._service = new Octokit({
+        auth: this.product?.session?.token(AccessTokenType.GITHUB),
+      })
     } catch {}
 
-    // We got a local repo, great
-    if (this._repo) return
-
-    if (!this._remoteRepo) {
-      console.log('remote repo does not exist')
-    }
-
-    // Got a remote repo so let's clone it
-    // this._repo = await NodeGit.Clone.clone(
-    //   `git@github.com:${this.repoOwner}/${this.repoName}.git`,
-    //   this.product.cacheDir?.path!,
-    //   {
-    //     fetchOpts: {
-    //       callbacks: {
-    //         certificateCheck: () => 0,
-    //         credentials: this._credentials,
-    //       },
-    //     },
-    //   }
-    // )
+    await this.deployRepo.initialize()
   }
 
-  async status() {
-    // console.log(this._repo?.state())
-    // const keys = this.product.session?.keystore.keys.get('github')
-    // console.log(keys)
-    // const token = this.product.session?.token(AccessTokenType.GITHUB)
-    // const cloneOptions = {
-    //   fetchOpts: {
-    //     callbacks: {
-    //       certificateCheck: function () {
-    //         return 0
-    //       },
-    //       credentials: (url: string, username: string) => {
-    //         return NodeGit.Cred.sshKeyNew(username, key.public, key.private, '')
-    //       },
-    //     },
-    //   },
-    // }
-    // const repo = await NodeGit.Clone.clone(cloneURL, localPath, cloneOptions)
-    // await NodeGit.Repository.open(localPath)
-    // console.log(repo.isBare())
-  }
+  /**
+   *
+   */
+  async deploy(target: Target) {
+    if (this.dir?.dir(target)?.exists) return
 
-  async init() {}
+    const files = ['index.html']
+
+    await this.deployRepo?.commit(
+      files.map((f) => `${target}/${f}`),
+      `New ${target} deployment`
+    )
+
+    await this.deployRepo?.push()
+  }
 }
