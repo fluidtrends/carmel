@@ -20,7 +20,6 @@ export default class Deploy extends Command {
 
   /** @internal */
   async exec() {
-    const status = await this.product?.code.status()
-    console.log(status)
+    await this.product?.code.status()
   }
 }

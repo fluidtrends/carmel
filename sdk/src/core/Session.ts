@@ -295,6 +295,14 @@ export class Session implements ISession {
   }
 
   /**
+   *
+   * @param type
+   */
+  keys(type: AccessTokenType) {
+    return this.authenticator.providers.get(AccessTokenType.GITHUB)?.keys || []
+  }
+
+  /**
    *  Initializes the Session and makes sure the index is ready to go.
    */
   async initialize() {

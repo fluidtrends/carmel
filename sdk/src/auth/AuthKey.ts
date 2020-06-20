@@ -27,6 +27,9 @@ export class AuthKey implements IAuthKey {
   /** @internal */
   protected _files: Map<Name, IFile>
 
+  /** @internal */
+  protected _data: Map<Name, string>
+
   /**
    *
    * @param name
@@ -37,6 +40,7 @@ export class AuthKey implements IAuthKey {
     this._keystore = keystore
     this._id = id
     this._files = new Map<Name, IFile>()
+    this._data = new Map<Name, string>()
   }
 
   /**
@@ -44,6 +48,13 @@ export class AuthKey implements IAuthKey {
    */
   get group() {
     return this._group
+  }
+
+  /**
+   *
+   */
+  get data() {
+    return this._data
   }
 
   /**
@@ -131,6 +142,13 @@ export class AuthKey implements IAuthKey {
     this.files
       .get('fingerprint.md5')!
       .update(sshPublicKey.fingerprint('md5').toString())
+
+    try {
+      // Load all files if possible
+      this.files.forEach(
+        (file, name) => file.load() && this.data.set(name, file.data.raw)
+      )
+    } catch {}
   }
 
   async initialize() {
@@ -152,7 +170,9 @@ export class AuthKey implements IAuthKey {
 
     try {
       // Load all files if possible
-      this.files.forEach((file) => file.load())
+      this.files.forEach(
+        (file, name) => file.load() && this.data.set(name, file.data.raw)
+      )
     } catch {}
 
     return this

@@ -27,6 +27,7 @@ import {
   CommandArg,
   User,
 } from '.'
+import { IAuthKey } from './auth'
 
 export interface IEngine extends IClass {
   readonly state: EngineState
@@ -63,6 +64,7 @@ export interface ISession extends IClass {
   readonly manifest?: IFile
   readonly system?: JSON
 
+  keys(type: AccessTokenType): IAuthKey[] | undefined
   token(type: AccessTokenType): string | undefined
   initialize(command?: ICommand): Promise<void>
   enableSecurity(): Promise<void>
@@ -105,6 +107,10 @@ export interface ICode extends IClass {
   readonly product: IProduct
   readonly dir?: IDir
   readonly keystore?: IKeyStore
+  readonly keys?: IAuthKey[]
+  readonly key?: IAuthKey
+  readonly repoName?: string
+  readonly repoOwner?: string
   readonly user?: User
 
   initialize(): Promise<any>
@@ -124,6 +130,7 @@ export interface IProduct extends IClass {
   readonly snapshot?: ISnapshot
   readonly id?: Id
   readonly code: ICode
+  readonly data?: JSON
 
   loadCache(): Promise<any>
   create(data?: any): void
