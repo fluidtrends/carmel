@@ -83,8 +83,12 @@ export class Code implements ICode {
   async status() {
     const cloneURL = 'git@github.com:idancali/idancali'
     const localPath = this.dir!.path!
-    const key = ''
 
+    const key = this.product.session?.authenticator.providers.get(
+      AccessTokenType.GITHUB
+    )?.keys[0]
+
+    // const auth = NodeGit.Cred.sshKeyNew(username, key.public, key.private, '')
     // const keys = this.product.session?.keystore.keys.get('github')
     // console.log(keys)
 

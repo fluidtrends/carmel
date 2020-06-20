@@ -50,52 +50,80 @@ export class GitHubProvider implements IAuthProvider {
     return this._authenticator
   }
 
-  async prepareKeys() {
-    const { keystore, user, system } = this.authenticator.session
-    const localKeys: IAuthKey[] = [] //keystore.keys.get('github') || []
-
-    // if (localKeys.length === 0) {
+  /**
+   *
+   */
+  async setupNewKey(title: string, service?: any) {
     // Looks like we have no github keys stored, let's create one
     const newLocalKey = await this.authenticator.session.keystore.addNewKey(
       'github'
     )
-    localKeys.push(newLocalKey)
-    // }
 
-    const accessToken = this.authenticator.session.token(AccessTokenType.GITHUB)
-    const octokit = new Octokit({
-      auth: accessToken,
+    // And add it remotely
+    await service.users.createPublicSshKeyForAuthenticated({
+      title,
+      key: newLocalKey.files.get('public.ssh')?.data.raw,
     })
 
-    let title = `carmel/${system?.id}`
-    const remoteKeys = await octokit.users.listPublicSshKeysForAuthenticated()
-    let foundKeys: any = []
-    let foundTitles: string[] = []
+    // Keep track of it
+    this._keys.push(newLocalKey)
 
-    remoteKeys.data.map((remoteKey: any) => {
+    return newLocalKey
+  }
+
+  /**
+   *
+   * @param service
+   */
+  async fetchRemoteKeys(service?: any) {
+    const { data } = await service.users.listPublicSshKeysForAuthenticated()
+
+    return data
+  }
+
+  /**
+   *
+   */
+  async prepareKeys() {
+    if (!this.authenticator.session.isLoggedIn) {
+      return
+    }
+
+    const { keystore, system } = this.authenticator.session
+    const service = new Octokit({
+      auth: this.authenticator.session.token(AccessTokenType.GITHUB),
+    })
+
+    // Let's look up local and remote keys
+    const localKeys: IAuthKey[] = keystore.keys.get('github') || []
+    const remoteKeys = (await this.fetchRemoteKeys(service)) || []
+
+    let title = `carmel/${system?.id}`
+
+    if (localKeys.length === 0) {
+      await this.setupNewKey(`${title}/0`, service)
+      return
+    }
+
+    // Look for key matches
+    let foundTitles: string[] = []
+    remoteKeys.map((remoteKey: any) => {
       localKeys.map((localKey) => {
         const ssh = localKey.files.get('public.ssh')?.data.raw
-        ssh === `${remoteKey.key} carmel` &&
-          foundKeys.push({ localKey, remoteKey })
+        ssh === `${remoteKey.key} carmel` && this.keys.push(localKey)
         remoteKey.title.startsWith(title) &&
           foundTitles.push(remoteKey.title.substring(title.length + 1) || '0')
       })
     })
 
-    if (foundKeys.length > 0) {
-      return
-    }
-
+    // Calculate the next unique title
     foundTitles = foundTitles.map((suffix: string) => `${suffix}`)
     const subId = Array.from(Array(100).keys()).find(
       (id) => !foundTitles.includes(`${id + 1}`)
     )
     title = `${title}/${subId! + 1}`
 
-    await octokit.users.createPublicSshKeyForAuthenticated({
-      title,
-      key: localKeys[0].files.get('public.ssh')?.data.raw,
-    })
+    this.keys.length > 0 || (await this.setupNewKey(title, service))
   }
 
   async initialize() {

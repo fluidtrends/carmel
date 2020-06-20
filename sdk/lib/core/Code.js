@@ -37,6 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Code = void 0;
+var __1 = require("..");
 /**
  *
  */
@@ -101,12 +102,13 @@ var Code = /** @class */ (function () {
         });
     };
     Code.prototype.status = function () {
+        var _a, _b;
         return __awaiter(this, void 0, void 0, function () {
             var cloneURL, localPath, key;
-            return __generator(this, function (_a) {
+            return __generator(this, function (_c) {
                 cloneURL = 'git@github.com:idancali/idancali';
                 localPath = this.dir.path;
-                key = '';
+                key = (_b = (_a = this.product.session) === null || _a === void 0 ? void 0 : _a.authenticator.providers.get(__1.AccessTokenType.GITHUB)) === null || _b === void 0 ? void 0 : _b.keys[0];
                 return [2 /*return*/];
             });
         });

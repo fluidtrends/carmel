@@ -252,6 +252,7 @@ export class Authenticator implements IAuthenticator {
 
     const githubProvider = new GitHubProvider(this)
     await githubProvider.initialize()
+    await githubProvider.prepareKeys()
 
     // Add providers
     this.providers.set(AccessTokenType.GITHUB, githubProvider)

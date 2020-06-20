@@ -48,6 +48,8 @@ export interface IAuthKey {
 export interface IAuthProvider {
     readonly authenticator: IAuthenticator;
     readonly keys: IAuthKey[];
+    setupNewKey(title: string, service?: any): Promise<IAuthKey>;
+    fetchRemoteKeys(service?: any): Promise<any>;
     initialize(): Promise<any>;
     prepareKeys(): Promise<any>;
 }

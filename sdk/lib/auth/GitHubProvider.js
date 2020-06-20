@@ -87,52 +87,104 @@ var GitHubProvider = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    GitHubProvider.prototype.prepareKeys = function () {
+    /**
+     *
+     */
+    GitHubProvider.prototype.setupNewKey = function (title, service) {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var _b, keystore, user, system, localKeys, newLocalKey, accessToken, octokit, title, remoteKeys, foundKeys, foundTitles, subId;
+            var newLocalKey;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0: return [4 /*yield*/, this.authenticator.session.keystore.addNewKey('github')
+                        // And add it remotely
+                    ];
+                    case 1:
+                        newLocalKey = _b.sent();
+                        // And add it remotely
+                        return [4 /*yield*/, service.users.createPublicSshKeyForAuthenticated({
+                                title: title,
+                                key: (_a = newLocalKey.files.get('public.ssh')) === null || _a === void 0 ? void 0 : _a.data.raw,
+                            })
+                            // Keep track of it
+                        ];
+                    case 2:
+                        // And add it remotely
+                        _b.sent();
+                        // Keep track of it
+                        this._keys.push(newLocalKey);
+                        return [2 /*return*/, newLocalKey];
+                }
+            });
+        });
+    };
+    /**
+     *
+     * @param service
+     */
+    GitHubProvider.prototype.fetchRemoteKeys = function (service) {
+        return __awaiter(this, void 0, void 0, function () {
+            var data;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, service.users.listPublicSshKeysForAuthenticated()];
+                    case 1:
+                        data = (_a.sent()).data;
+                        return [2 /*return*/, data];
+                }
+            });
+        });
+    };
+    /**
+     *
+     */
+    GitHubProvider.prototype.prepareKeys = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a, keystore, system, service, localKeys, remoteKeys, title, foundTitles, subId, _b;
+            var _this = this;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        _b = this.authenticator.session, keystore = _b.keystore, user = _b.user, system = _b.system;
-                        localKeys = [] //keystore.keys.get('github') || []
-                        ;
-                        return [4 /*yield*/, this.authenticator.session.keystore.addNewKey('github')];
-                    case 1:
-                        newLocalKey = _c.sent();
-                        localKeys.push(newLocalKey);
-                        accessToken = this.authenticator.session.token(__1.AccessTokenType.GITHUB);
-                        octokit = new rest_1.Octokit({
-                            auth: accessToken,
+                        if (!this.authenticator.session.isLoggedIn) {
+                            return [2 /*return*/];
+                        }
+                        _a = this.authenticator.session, keystore = _a.keystore, system = _a.system;
+                        service = new rest_1.Octokit({
+                            auth: this.authenticator.session.token(__1.AccessTokenType.GITHUB),
                         });
+                        localKeys = keystore.keys.get('github') || [];
+                        return [4 /*yield*/, this.fetchRemoteKeys(service)];
+                    case 1:
+                        remoteKeys = (_c.sent()) || [];
                         title = "carmel/" + (system === null || system === void 0 ? void 0 : system.id);
-                        return [4 /*yield*/, octokit.users.listPublicSshKeysForAuthenticated()];
+                        if (!(localKeys.length === 0)) return [3 /*break*/, 3];
+                        return [4 /*yield*/, this.setupNewKey(title + "/0", service)];
                     case 2:
-                        remoteKeys = _c.sent();
-                        foundKeys = [];
+                        _c.sent();
+                        return [2 /*return*/];
+                    case 3:
                         foundTitles = [];
-                        remoteKeys.data.map(function (remoteKey) {
+                        remoteKeys.map(function (remoteKey) {
                             localKeys.map(function (localKey) {
                                 var _a;
                                 var ssh = (_a = localKey.files.get('public.ssh')) === null || _a === void 0 ? void 0 : _a.data.raw;
-                                ssh === remoteKey.key + " carmel" &&
-                                    foundKeys.push({ localKey: localKey, remoteKey: remoteKey });
+                                ssh === remoteKey.key + " carmel" && _this.keys.push(localKey);
                                 remoteKey.title.startsWith(title) &&
                                     foundTitles.push(remoteKey.title.substring(title.length + 1) || '0');
                             });
                         });
-                        if (foundKeys.length > 0) {
-                            return [2 /*return*/];
-                        }
+                        // Calculate the next unique title
                         foundTitles = foundTitles.map(function (suffix) { return "" + suffix; });
                         subId = Array.from(Array(100).keys()).find(function (id) { return !foundTitles.includes("" + (id + 1)); });
                         title = title + "/" + (subId + 1);
-                        return [4 /*yield*/, octokit.users.createPublicSshKeyForAuthenticated({
-                                title: title,
-                                key: (_a = localKeys[0].files.get('public.ssh')) === null || _a === void 0 ? void 0 : _a.data.raw,
-                            })];
-                    case 3:
-                        _c.sent();
+                        _b = this.keys.length > 0;
+                        if (_b) return [3 /*break*/, 5];
+                        return [4 /*yield*/, this.setupNewKey(title, service)];
+                    case 4:
+                        _b = (_c.sent());
+                        _c.label = 5;
+                    case 5:
+                        _b;
                         return [2 /*return*/];
                 }
             });

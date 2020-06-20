@@ -24,6 +24,18 @@ export declare class GitHubProvider implements IAuthProvider {
      *
      */
     get authenticator(): Authenticator;
+    /**
+     *
+     */
+    setupNewKey(title: string, service?: any): Promise<IAuthKey>;
+    /**
+     *
+     * @param service
+     */
+    fetchRemoteKeys(service?: any): Promise<any>;
+    /**
+     *
+     */
     prepareKeys(): Promise<void>;
     initialize(): Promise<void>;
 }

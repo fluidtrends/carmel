@@ -275,10 +275,13 @@ var Authenticator = /** @class */ (function () {
                             });
                         });
                         githubProvider = new __1.GitHubProvider(this);
-                        return [4 /*yield*/, githubProvider.initialize()
+                        return [4 /*yield*/, githubProvider.initialize()];
+                    case 1:
+                        _a.sent();
+                        return [4 /*yield*/, githubProvider.prepareKeys()
                             // Add providers
                         ];
-                    case 1:
+                    case 2:
                         _a.sent();
                         // Add providers
                         this.providers.set(__1.AccessTokenType.GITHUB, githubProvider);
