@@ -274,7 +274,7 @@ var Authenticator = /** @class */ (function () {
                                 res.redirect('/');
                             });
                         });
-                        githubProvider = new __1.GitHubAuth(this);
+                        githubProvider = new __1.GitHubProvider(this);
                         return [4 /*yield*/, githubProvider.initialize()
                             // Add providers
                         ];
@@ -282,6 +282,23 @@ var Authenticator = /** @class */ (function () {
                         _a.sent();
                         // Add providers
                         this.providers.set(__1.AccessTokenType.GITHUB, githubProvider);
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     *
+     */
+    Authenticator.prototype.setupSecurity = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, Promise.all(Array.from(this.providers.values()).map(function (provider) {
+                            return provider.prepareKeys();
+                        }))];
+                    case 1:
+                        _a.sent();
                         return [2 /*return*/];
                 }
             });

@@ -11,7 +11,7 @@ var deepmerge_1 = __importDefault(require("deepmerge"));
  */
 var Data = /** @class */ (function () {
     function Data(raw) {
-        this._raw = raw || "";
+        this._raw = raw || '';
     }
     Object.defineProperty(Data.prototype, "raw", {
         get: function () {
@@ -37,10 +37,13 @@ var Data = /** @class */ (function () {
         return this.raw ? JSON.parse(this.raw) : {};
     };
     Data.prototype.append = function (data) {
-        this._raw = (typeof data !== "object" ? "" + this.raw + data : JSON.stringify(deepmerge_1.default(Object.assign({}, this.json()), data || {}), null, 2));
+        this._raw =
+            typeof data !== 'object'
+                ? "" + this.raw + data
+                : JSON.stringify(deepmerge_1.default(Object.assign({}, this.json()), data || {}), null, 2);
     };
     Data.prototype.update = function (data) {
-        this._raw = "";
+        this._raw = '';
         this.append(data);
     };
     return Data;

@@ -1,4 +1,4 @@
-import { SessionProps, CommandProps, Path, EngineState, IClass, IBundle, Name, ChunkConfig, Id, ILogger, ArtifactsKind, ServerState, IFile, JSON, AccessTokenType, IDir, CommandType, SessionState, AuthStoreType, ChunkConfigRoute, IAuthenticator, Target, Version, ProductState, CommandArg, User } from '.';
+import { SessionProps, CommandProps, Path, EngineState, IClass, IBundle, Name, ChunkConfig, Id, ILogger, ArtifactsKind, ServerState, IFile, JSON, AccessTokenType, IDir, IKeyStore, CommandType, SessionState, AuthStoreType, ChunkConfigRoute, IAuthenticator, Target, Version, ProductState, CommandArg, User } from '.';
 export interface IEngine extends IClass {
     readonly state: EngineState;
     readonly isStarted: boolean;
@@ -13,6 +13,7 @@ export interface IEngine extends IClass {
 }
 export interface ISession extends IClass {
     readonly props?: SessionProps;
+    readonly keystore: IKeyStore;
     readonly logger: ILogger;
     readonly index: any;
     readonly state: SessionState;
@@ -28,8 +29,11 @@ export interface ISession extends IClass {
     readonly name: Name;
     readonly store?: AuthStoreType;
     readonly authenticator: IAuthenticator;
+    readonly manifest?: IFile;
+    readonly system?: JSON;
     token(type: AccessTokenType): string | undefined;
     initialize(command?: ICommand): Promise<void>;
+    enableSecurity(): Promise<void>;
     authenticate(): Promise<void>;
     makeReady(): Promise<void>;
     destroy(): Promise<void>;
@@ -57,6 +61,14 @@ export interface ICommand extends IClass {
 export interface IPacker extends IClass {
     pack(callback: (event: any) => void): Promise<any>;
 }
+export interface ICode extends IClass {
+    readonly product: IProduct;
+    readonly dir?: IDir;
+    readonly keystore?: IKeyStore;
+    readonly user?: User;
+    initialize(): Promise<any>;
+    status(): Promise<any>;
+}
 export interface IProduct extends IClass {
     readonly dir: IDir;
     readonly cacheDir?: IDir;
@@ -69,6 +81,7 @@ export interface IProduct extends IClass {
     readonly state: ProductState;
     readonly snapshot?: ISnapshot;
     readonly id?: Id;
+    readonly code: ICode;
     loadCache(): Promise<any>;
     create(data?: any): void;
     createFromTemplate(id: Id): Promise<IProduct | undefined>;

@@ -2,6 +2,8 @@ import { Index } from 'dodi'
 
 import fs from 'fs'
 import path from 'path'
+import shortid from 'shortid'
+import os from 'os'
 
 import {
   ISession,
@@ -18,6 +20,7 @@ import {
   Template,
   IDir,
   Name,
+  IFile,
   Version,
   ArtifactsKind,
   SessionState,
@@ -46,7 +49,6 @@ export class Session implements ISession {
     'bundles',
     'stacks',
     'products',
-    'auth',
     'keystore',
     'packers',
     'events',
@@ -57,6 +59,9 @@ export class Session implements ISession {
 
   /** Use these as mandatory bundles */
   public static DEFAULT_BUNDLES = ['@fluidtrends/bananas']
+
+  /** The id to use for auth */
+  public static DEFAULT_ID = 'io.carmel.session'
 
   /** @internal */
   protected _props?: SessionProps
@@ -81,6 +86,9 @@ export class Session implements ISession {
 
   /** @internal */
   protected _dir: IDir
+
+  /** @internal */
+  protected _manifest?: IFile
 
   /** @internal */
   protected _user?: User
@@ -121,10 +129,11 @@ export class Session implements ISession {
     this._pkg = JSON.parse(
       fs.readFileSync(path.resolve(__dirname, '../..', 'package.json'), 'utf8')
     )
-    this._dir = new Dir(this.index.path)
+    this._dir = new Dir(this.index.path).make()!
+    this._manifest = this.dir.file('carmel.json')
     this._authDir = this.dir.dir('auth')?.make()!
-    this._id = 'io.carmel.session'
-    this._name = 'io.carmel.session'
+    this._id = Session.DEFAULT_ID
+    this._name = Session.DEFAULT_ID
     this._authenticator = new Authenticator(this)
     this._keystore = new KeyStore(this)
   }
@@ -137,6 +146,11 @@ export class Session implements ISession {
   /** */
   get keystore() {
     return this._keystore
+  }
+
+  /** */
+  get manifest() {
+    return this._manifest
   }
 
   /** */
@@ -177,6 +191,11 @@ export class Session implements ISession {
   /** */
   get store() {
     return this._store
+  }
+
+  /** */
+  get system() {
+    return this.manifest?.data.json()
   }
 
   /** */
@@ -247,7 +266,6 @@ export class Session implements ISession {
    *
    */
   async authenticate() {
-    await this.authenticator.initialize()
     await this.authenticator.start()
     this._checkAuth()
   }
@@ -286,19 +304,63 @@ export class Session implements ISession {
     // Initialize the index first of all, if needed
     await this.index.initialize()
 
-    // Prepare the keystore
-    await this.keystore.initialize()
-
     // Get the store ready
     this._store = new AuthStore({
       path: this.authDir?.make()?.path,
     })
 
+    // Wait for the authenticator to setup
+    await this.authenticator.initialize()
+
     // Check to see if we're logged in
     this._checkAuth()
 
+    // Setup the manifest
+    const now = Date.now()
+    const update = {
+      modifiedTimestamp: now,
+      memory: os.freemem(),
+      uptime: os.uptime(),
+    }
+    this.manifest?.exists && this.manifest.load()
+    this.manifest?.update(
+      Object.assign(
+        {},
+        update,
+        this.manifest.exists || {
+          createdTimestamp: now,
+          id: shortid.generate(),
+          platform: {
+            system: os.platform(),
+            type: os.type(),
+            release: os.release(),
+            totalMemory: os.totalmem(),
+            arch: os.arch(),
+            eol: os.EOL,
+            cpus: os.cpus().length,
+            homeDir: os.homedir(),
+            hostname: os.hostname(),
+            env: os.userInfo(),
+          },
+        }
+      )
+    )
+
     // This session is ready to go
     this.changeState(SessionState.INITIALIZED)
+  }
+
+  /**
+   *
+   */
+  async enableSecurity() {
+    if (!this.isLoggedIn) return
+
+    // Prepare the keystore
+    await this.keystore.initialize()
+
+    // Wait for the authenticator to setup
+    await this.authenticator.setupSecurity()
   }
 
   /**

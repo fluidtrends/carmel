@@ -43,6 +43,8 @@ exports.Session = void 0;
 var dodi_1 = require("dodi");
 var fs_1 = __importDefault(require("fs"));
 var path_1 = __importDefault(require("path"));
+var shortid_1 = __importDefault(require("shortid"));
+var os_1 = __importDefault(require("os"));
 var __1 = require("..");
 /**
  * Represents an {@linkcode Engine} Session initiated by a client.
@@ -67,16 +69,34 @@ var Session = /** @class */ (function () {
         this._index = new dodi_1.Index(Object.assign({}, { sections: Session.DEFAULT_SECTIONS.map(function (id) { return ({ id: id }); }) }, this.props, { name: 'carmel' }));
         this._state = __1.SessionState.UNINITIALIZED;
         this._pkg = JSON.parse(fs_1.default.readFileSync(path_1.default.resolve(__dirname, '../..', 'package.json'), 'utf8'));
-        this._dir = new __1.Dir(this.index.path);
+        this._dir = new __1.Dir(this.index.path).make();
+        this._manifest = this.dir.file('carmel.json');
         this._authDir = (_a = this.dir.dir('auth')) === null || _a === void 0 ? void 0 : _a.make();
-        this._id = 'io.carmel.session';
-        this._name = 'io.carmel.session';
+        this._id = Session.DEFAULT_ID;
+        this._name = Session.DEFAULT_ID;
         this._authenticator = new __1.Authenticator(this);
+        this._keystore = new __1.KeyStore(this);
     }
     Object.defineProperty(Session.prototype, "props", {
         /** */
         get: function () {
             return this._props;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Session.prototype, "keystore", {
+        /** */
+        get: function () {
+            return this._keystore;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Session.prototype, "manifest", {
+        /** */
+        get: function () {
+            return this._manifest;
         },
         enumerable: false,
         configurable: true
@@ -141,6 +161,15 @@ var Session = /** @class */ (function () {
         /** */
         get: function () {
             return this._store;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Session.prototype, "system", {
+        /** */
+        get: function () {
+            var _a;
+            return (_a = this.manifest) === null || _a === void 0 ? void 0 : _a.data.json();
         },
         enumerable: false,
         configurable: true
@@ -233,11 +262,8 @@ var Session = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.authenticator.initialize()];
+                    case 0: return [4 /*yield*/, this.authenticator.start()];
                     case 1:
-                        _a.sent();
-                        return [4 /*yield*/, this.authenticator.start()];
-                    case 2:
                         _a.sent();
                         this._checkAuth();
                         return [2 /*return*/];
@@ -295,10 +321,11 @@ var Session = /** @class */ (function () {
      *  Initializes the Session and makes sure the index is ready to go.
      */
     Session.prototype.initialize = function () {
-        var _a, _b;
+        var _a, _b, _c, _d;
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_c) {
-                switch (_c.label) {
+            var now, update;
+            return __generator(this, function (_e) {
+                switch (_e.label) {
                     case 0:
                         // No need to re-initialize
                         if (this.isInitialized)
@@ -309,15 +336,72 @@ var Session = /** @class */ (function () {
                         ];
                     case 1:
                         // Initialize the index first of all, if needed
-                        _c.sent();
+                        _e.sent();
                         // Get the store ready
                         this._store = new __1.AuthStore({
                             path: (_b = (_a = this.authDir) === null || _a === void 0 ? void 0 : _a.make()) === null || _b === void 0 ? void 0 : _b.path,
                         });
+                        // Wait for the authenticator to setup
+                        return [4 /*yield*/, this.authenticator.initialize()
+                            // Check to see if we're logged in
+                        ];
+                    case 2:
+                        // Wait for the authenticator to setup
+                        _e.sent();
                         // Check to see if we're logged in
                         this._checkAuth();
+                        now = Date.now();
+                        update = {
+                            modifiedTimestamp: now,
+                            memory: os_1.default.freemem(),
+                            uptime: os_1.default.uptime(),
+                        };
+                        ((_c = this.manifest) === null || _c === void 0 ? void 0 : _c.exists) && this.manifest.load();
+                        (_d = this.manifest) === null || _d === void 0 ? void 0 : _d.update(Object.assign({}, update, this.manifest.exists || {
+                            createdTimestamp: now,
+                            id: shortid_1.default.generate(),
+                            platform: {
+                                system: os_1.default.platform(),
+                                type: os_1.default.type(),
+                                release: os_1.default.release(),
+                                totalMemory: os_1.default.totalmem(),
+                                arch: os_1.default.arch(),
+                                eol: os_1.default.EOL,
+                                cpus: os_1.default.cpus().length,
+                                homeDir: os_1.default.homedir(),
+                                hostname: os_1.default.hostname(),
+                                env: os_1.default.userInfo(),
+                            },
+                        }));
                         // This session is ready to go
                         this.changeState(__1.SessionState.INITIALIZED);
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     *
+     */
+    Session.prototype.enableSecurity = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!this.isLoggedIn)
+                            return [2 /*return*/];
+                        // Prepare the keystore
+                        return [4 /*yield*/, this.keystore.initialize()
+                            // Wait for the authenticator to setup
+                        ];
+                    case 1:
+                        // Prepare the keystore
+                        _a.sent();
+                        // Wait for the authenticator to setup
+                        return [4 /*yield*/, this.authenticator.setupSecurity()];
+                    case 2:
+                        // Wait for the authenticator to setup
+                        _a.sent();
                         return [2 /*return*/];
                 }
             });
@@ -480,7 +564,7 @@ var Session = /** @class */ (function () {
         'bundles',
         'stacks',
         'products',
-        'auth',
+        'keystore',
         'packers',
         'events',
     ];
@@ -488,6 +572,8 @@ var Session = /** @class */ (function () {
     Session.DEFAULT_EXPIRATION = 24 * 60 * 60 * 1000;
     /** Use these as mandatory bundles */
     Session.DEFAULT_BUNDLES = ['@fluidtrends/bananas'];
+    /** The id to use for auth */
+    Session.DEFAULT_ID = 'io.carmel.session';
     return Session;
 }());
 exports.Session = Session;

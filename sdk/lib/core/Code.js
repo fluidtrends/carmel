@@ -1,17 +1,4 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -49,41 +36,87 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var __1 = require("../..");
-var props = {
-    id: 'deploy',
-    type: __1.CommandType.PRODUCT,
-    requiresScript: true,
-    requiresAuth: true,
-    requiresApp: true,
-};
+exports.Code = void 0;
 /**
  *
- * @category Commands
  */
-var Deploy = /** @class */ (function (_super) {
-    __extends(Deploy, _super);
-    /** @internal */
-    function Deploy(p) {
-        return _super.call(this, Object.assign({}, props, p)) || this;
+var Code = /** @class */ (function () {
+    /**
+     *
+     * @param product
+     */
+    function Code(product) {
+        this._product = product;
     }
-    /** @internal */
-    Deploy.prototype.exec = function () {
-        var _a;
+    Object.defineProperty(Code.prototype, "user", {
+        /** */
+        get: function () {
+            return this._user;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Code.prototype, "keystore", {
+        /**
+         *
+         */
+        get: function () {
+            return this._keystore;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Code.prototype, "dir", {
+        /**
+         *
+         */
+        get: function () {
+            return this._dir;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Code.prototype, "product", {
+        /**
+         *
+         */
+        get: function () {
+            return this._product;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    /**
+     *
+     */
+    Code.prototype.initialize = function () {
+        var _a, _b;
         return __awaiter(this, void 0, void 0, function () {
-            var status;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0: return [4 /*yield*/, ((_a = this.product) === null || _a === void 0 ? void 0 : _a.code.status())];
-                    case 1:
-                        status = _b.sent();
-                        console.log(status);
-                        return [2 /*return*/];
-                }
+            return __generator(this, function (_c) {
+                this._dir = this.product.cacheDir;
+                this._keystore = (_a = this.product.session) === null || _a === void 0 ? void 0 : _a.keystore;
+                this._user = (_b = this.product.session) === null || _b === void 0 ? void 0 : _b.user;
+                return [2 /*return*/];
             });
         });
     };
-    return Deploy;
-}(__1.Command));
-exports.default = Deploy;
-//# sourceMappingURL=index.js.map
+    Code.prototype.status = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var cloneURL, localPath, key;
+            return __generator(this, function (_a) {
+                cloneURL = 'git@github.com:idancali/idancali';
+                localPath = this.dir.path;
+                key = '';
+                return [2 /*return*/];
+            });
+        });
+    };
+    Code.prototype.init = function () {
+        return __awaiter(this, void 0, void 0, function () { return __generator(this, function (_a) {
+            return [2 /*return*/];
+        }); });
+    };
+    return Code;
+}());
+exports.Code = Code;
+//# sourceMappingURL=Code.js.map

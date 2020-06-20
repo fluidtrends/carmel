@@ -60,9 +60,12 @@ export interface ISession extends IClass {
   readonly name: Name
   readonly store?: AuthStoreType
   readonly authenticator: IAuthenticator
+  readonly manifest?: IFile
+  readonly system?: JSON
 
   token(type: AccessTokenType): string | undefined
   initialize(command?: ICommand): Promise<void>
+  enableSecurity(): Promise<void>
   authenticate(): Promise<void>
   makeReady(): Promise<void>
   destroy(): Promise<void>
@@ -105,7 +108,7 @@ export interface ICode extends IClass {
   readonly user?: User
 
   initialize(): Promise<any>
-  status(): Promise<string>
+  status(): Promise<any>
 }
 
 export interface IProduct extends IClass {

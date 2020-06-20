@@ -1,4 +1,4 @@
-import { IProduct, Path, IFile, IDir, Target, File, Dir, ProductState, ISession, ISnapshot, Id } from '..';
+import { IProduct, Path, IFile, IDir, Target, File, Dir, ProductState, ISession, ISnapshot, Id, ICode } from '..';
 /**
  *
  * {@link https://github.com/fluidtrends/carmel/blob/master/sdk/src/Product.ts | Source Code } |
@@ -26,11 +26,17 @@ export declare class Product implements IProduct {
     protected _session?: ISession;
     /** @internal */
     protected _snapshot?: ISnapshot;
+    /** @internal */
+    protected _code: ICode;
     /**
      *
      * @param session
      */
     constructor(session?: ISession);
+    /**
+     *
+     */
+    get code(): ICode;
     /**
      *
      */

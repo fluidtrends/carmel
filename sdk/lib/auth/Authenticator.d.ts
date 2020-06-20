@@ -90,5 +90,9 @@ export declare class Authenticator implements IAuthenticator {
     /**
      *
      */
+    setupSecurity(): Promise<void>;
+    /**
+     *
+     */
     start(): Promise<unknown>;
 }

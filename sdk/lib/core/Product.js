@@ -63,7 +63,18 @@ var Product = /** @class */ (function () {
             : undefined);
         this._state = __1.ProductState.UNLOADED;
         this._session = session;
+        this._code = new __1.Code(this);
     }
+    Object.defineProperty(Product.prototype, "code", {
+        /**
+         *
+         */
+        get: function () {
+            return this._code;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Object.defineProperty(Product.prototype, "session", {
         /**
          *
@@ -341,27 +352,38 @@ var Product = /** @class */ (function () {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_b) {
-                // No need to re-load this again
-                if (this.isLoaded)
-                    return [2 /*return*/, this];
-                if (!this.manifest.exists) {
-                    // Don't bother without a manifest
-                    this.changeState(__1.ProductState.UNLOADED);
-                    return [2 /*return*/, this];
+                switch (_b.label) {
+                    case 0:
+                        // No need to re-load this again
+                        if (this.isLoaded)
+                            return [2 /*return*/, this];
+                        if (!this.manifest.exists) {
+                            // Don't bother without a manifest
+                            this.changeState(__1.ProductState.UNLOADED);
+                            return [2 /*return*/, this];
+                        }
+                        // Alright, let's do this
+                        this.changeState(__1.ProductState.LOADING);
+                        // First things first, let's get the manifest loaded up
+                        this.manifest.load();
+                        // Keep track of the id
+                        this._id = this.manifest.data.json().id;
+                        // Resolve the cache roo
+                        this._cacheDir = new __1.Dir(path_1.default.resolve((_a = this.session) === null || _a === void 0 ? void 0 : _a.index.sections.products.path, this.id));
+                        // Get the code ready
+                        return [4 /*yield*/, this.code.initialize()
+                            // Prepare the snapshot if necessary and if all good,
+                            // then tell everyone we're ready for action
+                        ];
+                    case 1:
+                        // Get the code ready
+                        _b.sent();
+                        // Prepare the snapshot if necessary and if all good,
+                        // then tell everyone we're ready for action
+                        this.changeState(__1.ProductState.READY);
+                        // Let callers access us directly
+                        return [2 /*return*/, this];
                 }
-                // Alright, let's do this
-                this.changeState(__1.ProductState.LOADING);
-                // First things first, let's get the manifest loaded up
-                this.manifest.load();
-                // Keep track of the id
-                this._id = this.manifest.data.json().id;
-                // Resolve the cache roo
-                this._cacheDir = new __1.Dir(path_1.default.resolve((_a = this.session) === null || _a === void 0 ? void 0 : _a.index.sections.products.path, this.id));
-                // Prepare the snapshot if necessary and if all good,
-                // then tell everyone we're ready for action
-                this.changeState(__1.ProductState.READY);
-                // Let callers access us directly
-                return [2 /*return*/, this];
             });
         });
     };

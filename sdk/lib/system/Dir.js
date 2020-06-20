@@ -32,10 +32,9 @@ var Dir = /** @class */ (function () {
     Dir.prototype.dir = function (dirpath) {
         return this.exists ? new Dir(path_1.default.resolve(this.path, dirpath)) : undefined;
     };
-    Dir.prototype.file = function (filepath) {
-        return this.exists
-            ? new __1.File(path_1.default.resolve(this.path, filepath))
-            : undefined;
+    Dir.prototype.file = function (filepath, skip) {
+        var f = new __1.File(path_1.default.resolve(this.path, filepath));
+        return skip ? f : this.exists ? f : undefined;
     };
     Dir.prototype.make = function () {
         this.exists || (this.path && fs_extra_1.default.mkdirsSync(this.path));

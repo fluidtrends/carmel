@@ -1,7 +1,7 @@
 export * from './types'
 
 export * from './auth/Authenticator'
-export * from './auth/GitHubAuth'
+export * from './auth/GitHubProvider'
 export * from './auth/AuthKey'
 export * from './auth/KeyStore'
 

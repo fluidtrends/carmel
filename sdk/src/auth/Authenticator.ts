@@ -4,7 +4,7 @@ import {
   Session,
   ISession,
   User,
-  GitHubAuth,
+  GitHubProvider,
   Dir,
   IDir,
   AccessTokenType,
@@ -250,11 +250,22 @@ export class Authenticator implements IAuthenticator {
       })
     })
 
-    const githubProvider = new GitHubAuth(this)
+    const githubProvider = new GitHubProvider(this)
     await githubProvider.initialize()
 
     // Add providers
     this.providers.set(AccessTokenType.GITHUB, githubProvider)
+  }
+
+  /**
+   *
+   */
+  async setupSecurity() {
+    await Promise.all(
+      Array.from(this.providers.values()).map((provider) =>
+        provider.prepareKeys()
+      )
+    )
   }
 
   /**

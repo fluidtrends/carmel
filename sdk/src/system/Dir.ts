@@ -26,10 +26,9 @@ export class Dir implements IDir {
     return this.exists ? new Dir(path.resolve(this.path!, dirpath)) : undefined
   }
 
-  file(filepath: Path) {
-    return this.exists
-      ? new File(path.resolve(this.path!, filepath))
-      : undefined
+  file(filepath: Path, skip?: boolean) {
+    const f = new File(path.resolve(this.path!, filepath))
+    return skip ? f : this.exists ? f : undefined
   }
 
   make() {

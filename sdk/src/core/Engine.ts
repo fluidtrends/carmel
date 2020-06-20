@@ -258,6 +258,9 @@ export class Engine implements IEngine {
       await this.session?.authenticate()
     }
 
+    // Make sure session security is up and running
+    await this.session?.enableSecurity()
+
     // Prepare the command
     await command?.initialize(this.session!, args)
 

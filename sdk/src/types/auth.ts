@@ -1,4 +1,4 @@
-import { ISession, IDir, Name, Id } from '.'
+import { ISession, IDir, Name, Id, IFile } from '.'
 import { RequestHandler, Express } from 'express'
 import expressSession, { Store } from 'express-session'
 import SessionFileStore from 'session-file-store'
@@ -34,25 +34,32 @@ export type User = {
 
 export interface IKeyStore {
   readonly session: ISession
+  readonly dir?: IDir
+  readonly keys: Map<Name, IAuthKey[]>
 
   initialize(): Promise<any>
-  keys(group: string): Promise<string[]>
+  addNewKey(group: string): Promise<IAuthKey>
 }
 
 export interface IAuthKey {
-  readonly dir: IDir
-  readonly name: Name
+  readonly dir?: IDir
+  readonly group: Name
   readonly id?: Id
   readonly fingerprint?: Id
+  readonly exists: boolean
+  readonly keystore: IKeyStore
+  readonly files: Map<Name, IFile>
 
   generate(): Promise<any>
-  initialize(): Promise<any>
+  initialize(): Promise<IAuthKey>
 }
 
 export interface IAuthProvider {
   readonly authenticator: IAuthenticator
+  readonly keys: IAuthKey[]
 
   initialize(): Promise<any>
+  prepareKeys(): Promise<any>
 }
 
 export interface IAuthenticator {
@@ -69,6 +76,7 @@ export interface IAuthenticator {
   openBrowser(): Promise<void>
   endpoint(uri: string): string
   initialize(): Promise<void>
+  setupSecurity(): Promise<void>
   start(): Promise<any>
   stop(when: number): Promise<any>
 }

@@ -1,9 +1,11 @@
 import { ICode, IKeyStore, User, IProduct, IDir, AccessTokenType } from '..'
 import { Octokit } from '@octokit/rest'
 
-import git from 'isomorphic-git'
-import http from 'isomorphic-git/http/node'
-import fs from 'fs'
+// import git from 'isomorphic-git'
+// import http from 'isomorphic-git/http/node'
+// import fs from 'fs'
+
+import NodeGit from 'nodegit'
 
 /**
  *
@@ -66,27 +68,45 @@ export class Code implements ICode {
     this._keystore = this.product.session?.keystore
     this._user = this.product.session?.user!
 
-    const localKeys = await this.keystore?.keys('github')
-
-    const auth = this.product.session?.token(AccessTokenType.GITHUB)
-    this._github = new Octokit({ auth })
-
-    const remoteKeys = (
-      await this._github.users.listPublicKeysForUser({
-        username: this.user?.login,
-      })
-    ).data.map(({ key }) => key)
-
-    console.log('remoteKeys', remoteKeys)
-    console.log('localKeys', localKeys)
+    // const localKeys = await this.keystore?.keys('github')
+    // const auth = this.product.session?.token(AccessTokenType.GITHUB)
+    // this._github = new Octokit({ auth })
+    // const remoteKeys = (
+    //   await this._github.users.listPublicKeysForUser({
+    //     username: this.user?.login,
+    //   })
+    // ).data.map(({ key }) => key)
+    // console.log('remoteKeys', remoteKeys)
+    // console.log('localKeys', localKeys)
   }
 
   async status() {
-    return git.status({
-      fs,
-      dir: this.dir!.path!,
-      filepath: '.',
-    })
+    const cloneURL = 'git@github.com:idancali/idancali'
+    const localPath = this.dir!.path!
+    const key = ''
+
+    // const keys = this.product.session?.keystore.keys.get('github')
+    // console.log(keys)
+
+    // const token = this.product.session?.token(AccessTokenType.GITHUB)
+
+    // const cloneOptions = {
+    //   fetchOpts: {
+    //     callbacks: {
+    //       certificateCheck: function () {
+    //         return 0
+    //       },
+
+    //       credentials: (url: string, username: string) => {
+    //         return NodeGit.Cred.sshKeyNew(username, key.public, key.private, '')
+    //       },
+    //     },
+    //   },
+    // }
+    // const repo = await NodeGit.Clone.clone(cloneURL, localPath, cloneOptions)
+    // await NodeGit.Repository.open(localPath)
+
+    // console.log(repo.isBare())
   }
 
   async init() {}
