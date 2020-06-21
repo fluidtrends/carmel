@@ -184,6 +184,22 @@ var Code = /** @class */ (function () {
     /**
      *
      */
+    Code.prototype.setupDeployment = function () {
+        var _a;
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0: return [4 /*yield*/, ((_a = this.deployRepo) === null || _a === void 0 ? void 0 : _a.setupHosting())];
+                    case 1:
+                        _b.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     *
+     */
     Code.prototype.deploy = function (target) {
         var _a, _b, _c, _d;
         return __awaiter(this, void 0, void 0, function () {

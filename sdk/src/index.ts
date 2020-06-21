@@ -2,6 +2,7 @@ export * from './types'
 
 export * from './auth/Authenticator'
 export * from './auth/GitHubProvider'
+export * from './auth/VercelProvider'
 export * from './auth/AuthKey'
 export * from './auth/KeyStore'
 

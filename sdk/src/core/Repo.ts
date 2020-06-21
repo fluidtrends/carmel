@@ -25,7 +25,7 @@ export class Repo implements IRepo {
 
   /**
    *
-   * @param product
+   * @param code
    */
   constructor(code: ICode) {
     this._code = code
@@ -137,6 +137,8 @@ export class Repo implements IRepo {
    *
    */
   async push() {
+    if (!this.isOpen) return
+
     let remote = await this.local?.getRemote('origin')
 
     if (!remote) {
@@ -152,6 +154,22 @@ export class Repo implements IRepo {
         credentials: this.code.credentials,
       },
     })
+  }
+
+  /**
+   *
+   */
+  async setupHosting() {
+    // if (this.hasSite) return
+    // try {
+    //   const site = await this.code.service?.repos.createPagesSite({
+    //     owner: this.owner,
+    //     repo: this.name,
+    //   })
+    //   console.log(site)
+    // } catch (e) {
+    //   console.log(e)
+    // }
   }
 
   /**

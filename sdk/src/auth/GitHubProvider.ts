@@ -5,6 +5,7 @@ import { createTokenAuth } from '@octokit/auth-token'
 
 import {
   Authenticator,
+  VercelProvider,
   IAuthKey,
   User,
   IAuthProvider,
@@ -144,7 +145,7 @@ export class GitHubProvider implements IAuthProvider {
         },
         (accessToken: any, refreshToken: any, profile: any, done: any) => {
           process.nextTick(() => {
-            done(null, {
+            const user = {
               ...profile._json,
               tokens: [
                 {
@@ -152,7 +153,9 @@ export class GitHubProvider implements IAuthProvider {
                   value: accessToken,
                 },
               ],
-            })
+            }
+            this.authenticator.update(user)
+            done(null, user)
           })
         }
       )
@@ -171,7 +174,7 @@ export class GitHubProvider implements IAuthProvider {
         failureRedirect: '/login',
       }),
       (req, res) => {
-        res.redirect('/')
+        res.redirect('/auth/vercel')
       }
     )
   }

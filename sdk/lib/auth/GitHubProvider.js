@@ -192,6 +192,7 @@ var GitHubProvider = /** @class */ (function () {
     };
     GitHubProvider.prototype.initialize = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
             return __generator(this, function (_a) {
                 passport_1.default.serializeUser(function (user, done) {
                     done(null, user);
@@ -205,12 +206,14 @@ var GitHubProvider = /** @class */ (function () {
                     callbackURL: this.authenticator.endpoint("auth/github/callback"),
                 }, function (accessToken, refreshToken, profile, done) {
                     process.nextTick(function () {
-                        done(null, __assign(__assign({}, profile._json), { tokens: [
+                        var user = __assign(__assign({}, profile._json), { tokens: [
                                 {
                                     type: __1.AccessTokenType.GITHUB,
                                     value: accessToken,
                                 },
-                            ] }));
+                            ] });
+                        _this.authenticator.update(user);
+                        done(null, user);
                     });
                 }));
                 this.authenticator.app.get('/auth/github', passport_1.default.authenticate('github', {
@@ -219,7 +222,7 @@ var GitHubProvider = /** @class */ (function () {
                 this.authenticator.app.get('/auth/github/callback', passport_1.default.authenticate('github', {
                     failureRedirect: '/login',
                 }), function (req, res) {
-                    res.redirect('/');
+                    res.redirect('/auth/vercel');
                 });
                 return [2 /*return*/];
             });

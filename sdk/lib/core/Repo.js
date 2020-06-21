@@ -47,7 +47,7 @@ var nodegit_1 = __importDefault(require("nodegit"));
 var Repo = /** @class */ (function () {
     /**
      *
-     * @param product
+     * @param code
      */
     function Repo(code) {
         this._code = code;
@@ -235,7 +235,10 @@ var Repo = /** @class */ (function () {
             var remote;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, ((_a = this.local) === null || _a === void 0 ? void 0 : _a.getRemote('origin'))];
+                    case 0:
+                        if (!this.isOpen)
+                            return [2 /*return*/];
+                        return [4 /*yield*/, ((_a = this.local) === null || _a === void 0 ? void 0 : _a.getRemote('origin'))];
                     case 1:
                         remote = _b.sent();
                         if (!!remote) return [3 /*break*/, 3];
@@ -252,6 +255,16 @@ var Repo = /** @class */ (function () {
                         _b.sent();
                         return [2 /*return*/];
                 }
+            });
+        });
+    };
+    /**
+     *
+     */
+    Repo.prototype.setupHosting = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/];
             });
         });
     };

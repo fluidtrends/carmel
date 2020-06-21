@@ -25,6 +25,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./types"), exports);
 __exportStar(require("./auth/Authenticator"), exports);
 __exportStar(require("./auth/GitHubProvider"), exports);
+__exportStar(require("./auth/VercelProvider"), exports);
 __exportStar(require("./auth/AuthKey"), exports);
 __exportStar(require("./auth/KeyStore"), exports);
 __exportStar(require("./core/Command"), exports);

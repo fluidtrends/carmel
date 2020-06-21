@@ -76,6 +76,7 @@ export interface IRepo extends IClass {
     push(): Promise<any>;
     loadRemote(): Promise<any>;
     initialize(): Promise<any>;
+    setupHosting(): Promise<any>;
 }
 export interface ICode extends IClass {
     readonly product: IProduct;
@@ -89,6 +90,7 @@ export interface ICode extends IClass {
     readonly service?: any;
     initialize(): Promise<any>;
     deploy(target: Target): Promise<any>;
+    setupDeployment(): Promise<any>;
 }
 export interface IProduct extends IClass {
     readonly dir: IDir;

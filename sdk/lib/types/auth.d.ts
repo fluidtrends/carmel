@@ -55,6 +55,7 @@ export interface IAuthProvider {
     prepareKeys(): Promise<any>;
 }
 export interface IAuthenticator {
+    user?: User;
     readonly session: ISession;
     readonly port: number;
     readonly host: string;
@@ -64,6 +65,7 @@ export interface IAuthenticator {
     readonly app: Express;
     readonly browser: AuthBrowserType;
     readonly providers: Map<AccessTokenType, IAuthProvider>;
+    update(user: User): void;
     openBrowser(): Promise<void>;
     endpoint(uri: string): string;
     initialize(): Promise<void>;

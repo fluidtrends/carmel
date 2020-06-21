@@ -18,7 +18,7 @@ export declare class Repo implements IRepo {
     protected _dir?: IDir;
     /**
      *
-     * @param product
+     * @param code
      */
     constructor(code: ICode);
     /**
@@ -73,6 +73,10 @@ export declare class Repo implements IRepo {
      *
      */
     push(): Promise<void>;
+    /**
+     *
+     */
+    setupHosting(): Promise<void>;
     /**
      *
      */

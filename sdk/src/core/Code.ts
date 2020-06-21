@@ -149,6 +149,13 @@ export class Code implements ICode {
   /**
    *
    */
+  async setupDeployment() {
+    await this.deployRepo?.setupHosting()
+  }
+
+  /**
+   *
+   */
   async deploy(target: Target) {
     if (this.dir?.dir(target)?.exists) return
 
