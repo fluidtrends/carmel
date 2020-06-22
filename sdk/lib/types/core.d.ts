@@ -108,6 +108,7 @@ export interface IProduct extends IClass {
     readonly data?: JSON;
     readonly packer?: IPacker;
     openCode(): Promise<any>;
+    openWeb(): Promise<any>;
     loadCache(): Promise<any>;
     create(data?: any): void;
     createFromTemplate(id: Id): Promise<IProduct | undefined>;

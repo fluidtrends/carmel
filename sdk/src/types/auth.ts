@@ -1,4 +1,4 @@
-import { ISession, IDir, Name, Id, IFile } from '.'
+import { ISession, IDir, Name, IRepo, Id, IFile } from '.'
 import { RequestHandler, Express } from 'express'
 import expressSession, { Store } from 'express-session'
 import SessionFileStore from 'session-file-store'
@@ -58,7 +58,11 @@ export interface IAuthKey {
 export interface IAuthProvider {
   readonly authenticator: IAuthenticator
   readonly keys: IAuthKey[]
+  readonly token?: string
+  readonly isLoggedIn: boolean
 
+  push(name: string, repo: IRepo): Promise<any>
+  request(uri: string, options?: any, patch?: boolean): Promise<any>
   setupNewKey(title: string, service?: any): Promise<IAuthKey>
   fetchRemoteKeys(service?: any): Promise<any>
   initialize(): Promise<any>

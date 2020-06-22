@@ -105,6 +105,10 @@ export declare class Product implements IProduct {
     /**
      *
      */
+    openWeb(): Promise<void>;
+    /**
+     *
+     */
     loadCache(): Promise<{
         id: any;
         packer: any;

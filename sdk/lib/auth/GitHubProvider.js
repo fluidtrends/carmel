@@ -87,6 +87,55 @@ var GitHubProvider = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(GitHubProvider.prototype, "token", {
+        /**
+         *
+         */
+        get: function () {
+            return this.authenticator.session.token(__1.AccessTokenType.GITHUB);
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(GitHubProvider.prototype, "isLoggedIn", {
+        /**
+         *
+         */
+        get: function () {
+            return this.token !== undefined;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    /**
+     *
+     * @param uri
+     * @param options
+     * @param patch
+     */
+    GitHubProvider.prototype.request = function (uri, options, patch) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                if (!this.isLoggedIn)
+                    return [2 /*return*/];
+                return [2 /*return*/];
+            });
+        });
+    };
+    /**
+     *
+     * @param name
+     * @param repo
+     */
+    GitHubProvider.prototype.push = function (name, repo) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                if (!this.isLoggedIn)
+                    return [2 /*return*/];
+                return [2 /*return*/];
+            });
+        });
+    };
     /**
      *
      */

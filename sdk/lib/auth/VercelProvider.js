@@ -35,6 +35,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __asyncValues = (this && this.__asyncValues) || function (o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -42,6 +49,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.VercelProvider = void 0;
 var passport_1 = __importDefault(require("passport"));
 var passport_oauth2_1 = __importDefault(require("passport-oauth2"));
+var client_1 = require("@vercel/client");
+var axios_1 = __importDefault(require("axios"));
 var __1 = require("..");
 /**
  *
@@ -65,12 +74,32 @@ var VercelProvider = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(VercelProvider.prototype, "token", {
+        /**
+         *
+         */
+        get: function () {
+            return this.authenticator.session.token(__1.AccessTokenType.VERCEL);
+        },
+        enumerable: false,
+        configurable: true
+    });
     Object.defineProperty(VercelProvider.prototype, "authenticator", {
         /**
          *
          */
         get: function () {
             return this._authenticator;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(VercelProvider.prototype, "isLoggedIn", {
+        /**
+         *
+         */
+        get: function () {
+            return this.token !== undefined;
         },
         enumerable: false,
         configurable: true
@@ -120,7 +149,7 @@ var VercelProvider = /** @class */ (function () {
                             return [2 /*return*/];
                         }
                         _a = this.authenticator.session, keystore = _a.keystore, system = _a.system;
-                        localKeys = keystore.keys.get('github') || [];
+                        localKeys = keystore.keys.get('vercel') || [];
                         if (!(localKeys.length === 0)) return [3 /*break*/, 2];
                         return [4 /*yield*/, this.setupNewKey("")];
                     case 1:
@@ -129,6 +158,129 @@ var VercelProvider = /** @class */ (function () {
                     case 2:
                         localKeys.map(function (k) { return _this.keys.push(k); });
                         return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     *
+     * @param name
+     * @param repo
+     */
+    VercelProvider.prototype.push = function (name, repo) {
+        var e_1, _a;
+        return __awaiter(this, void 0, void 0, function () {
+            var project, deploymentGenerator, deployment, _b, _c, event_1, e_1_1;
+            var _this = this;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
+                    case 0:
+                        if (!this.isLoggedIn)
+                            return [2 /*return*/];
+                        return [4 /*yield*/, this.request("v1/projects/ensure-project", {
+                                name: name,
+                            })];
+                    case 1:
+                        project = _d.sent();
+                        return [4 /*yield*/, this.request("v2/projects/" + name, {
+                                publicSource: true,
+                                framework: null,
+                                buildCommand: null,
+                                devCommand: null,
+                                outputDirectory: '.web',
+                                rootDirectory: null,
+                            }, true)];
+                    case 2:
+                        project = _d.sent();
+                        if (!project)
+                            return [2 /*return*/];
+                        deploymentGenerator = function () {
+                            return client_1.createDeployment({
+                                token: _this.token,
+                                path: repo.dir.path,
+                            }, {
+                                name: name,
+                                version: 2,
+                            });
+                        };
+                        _d.label = 3;
+                    case 3:
+                        _d.trys.push([3, 8, 9, 14]);
+                        _b = __asyncValues(deploymentGenerator());
+                        _d.label = 4;
+                    case 4: return [4 /*yield*/, _b.next()];
+                    case 5:
+                        if (!(_c = _d.sent(), !_c.done)) return [3 /*break*/, 7];
+                        event_1 = _c.value;
+                        switch (event_1.type) {
+                            case 'error':
+                                console.log(event_1.payload);
+                                break;
+                            case 'ready':
+                                deployment = event_1.payload;
+                                break;
+                        }
+                        _d.label = 6;
+                    case 6: return [3 /*break*/, 4];
+                    case 7: return [3 /*break*/, 14];
+                    case 8:
+                        e_1_1 = _d.sent();
+                        e_1 = { error: e_1_1 };
+                        return [3 /*break*/, 14];
+                    case 9:
+                        _d.trys.push([9, , 12, 13]);
+                        if (!(_c && !_c.done && (_a = _b.return))) return [3 /*break*/, 11];
+                        return [4 /*yield*/, _a.call(_b)];
+                    case 10:
+                        _d.sent();
+                        _d.label = 11;
+                    case 11: return [3 /*break*/, 13];
+                    case 12:
+                        if (e_1) throw e_1.error;
+                        return [7 /*endfinally*/];
+                    case 13: return [7 /*endfinally*/];
+                    case 14: return [2 /*return*/, deployment];
+                }
+            });
+        });
+    };
+    /**
+     *
+     * @param uri
+     * @param options
+     * @param patch
+     */
+    VercelProvider.prototype.request = function (uri, options, patch) {
+        return __awaiter(this, void 0, void 0, function () {
+            var url, header, data, e_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!this.isLoggedIn)
+                            return [2 /*return*/];
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        url = "https://api.vercel.com/" + uri;
+                        header = {
+                            headers: {
+                                Authorization: "Bearer " + this.token,
+                                'Content-Type': 'application/json',
+                            },
+                        };
+                        return [4 /*yield*/, (options
+                                ? patch
+                                    ? axios_1.default.patch(url, options || {}, header)
+                                    : axios_1.default.post(url, options || {}, header)
+                                : axios_1.default.get(url, header))];
+                    case 2:
+                        data = (_a.sent()).data;
+                        return [2 /*return*/, data];
+                    case 3:
+                        e_2 = _a.sent();
+                        console.log(e_2);
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
                 }
             });
         });

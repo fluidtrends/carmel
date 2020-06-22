@@ -40,6 +40,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Repo = void 0;
+var __1 = require("..");
 var nodegit_1 = __importDefault(require("nodegit"));
 /**
  *
@@ -262,9 +263,22 @@ var Repo = /** @class */ (function () {
      *
      */
     Repo.prototype.setupHosting = function () {
+        var _a;
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/];
+            var cwd, vercel, name, deployment;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        cwd = process.cwd();
+                        process.chdir(this.dir.path);
+                        vercel = (_a = this.code.product.session) === null || _a === void 0 ? void 0 : _a.authenticator.providers.get(__1.AccessTokenType.VERCEL);
+                        name = "carmel-" + this.code.product.id;
+                        return [4 /*yield*/, (vercel === null || vercel === void 0 ? void 0 : vercel.push(name, this))];
+                    case 1:
+                        deployment = _b.sent();
+                        process.chdir(cwd);
+                        return [2 /*return*/, deployment];
+                }
             });
         });
     };

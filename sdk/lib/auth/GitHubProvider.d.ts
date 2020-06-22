@@ -1,4 +1,4 @@
-import { Authenticator, IAuthKey, IAuthProvider } from '..';
+import { Authenticator, IRepo, IAuthKey, IAuthProvider } from '..';
 /**
  *
  */
@@ -24,6 +24,27 @@ export declare class GitHubProvider implements IAuthProvider {
      *
      */
     get authenticator(): Authenticator;
+    /**
+     *
+     */
+    get token(): string | undefined;
+    /**
+     *
+     */
+    get isLoggedIn(): boolean;
+    /**
+     *
+     * @param uri
+     * @param options
+     * @param patch
+     */
+    request(uri: string, options?: any, patch?: boolean): Promise<void>;
+    /**
+     *
+     * @param name
+     * @param repo
+     */
+    push(name: string, repo: IRepo): Promise<void>;
     /**
      *
      */

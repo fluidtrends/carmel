@@ -1,4 +1,4 @@
-import { IRepo, ICode, IDir } from '..'
+import { IRepo, ICode, AccessTokenType, IDir } from '..'
 import NodeGit from 'nodegit'
 
 /**
@@ -160,16 +160,18 @@ export class Repo implements IRepo {
    *
    */
   async setupHosting() {
-    // if (this.hasSite) return
-    // try {
-    //   const site = await this.code.service?.repos.createPagesSite({
-    //     owner: this.owner,
-    //     repo: this.name,
-    //   })
-    //   console.log(site)
-    // } catch (e) {
-    //   console.log(e)
-    // }
+    const cwd = process.cwd()
+    process.chdir(this.dir!.path!)
+
+    const vercel = this.code.product.session?.authenticator.providers.get(
+      AccessTokenType.VERCEL
+    )
+
+    const name = `carmel-${this.code.product.id}`
+    const deployment: any = await vercel?.push(name, this)
+
+    process.chdir(cwd)
+    return deployment
   }
 
   /**

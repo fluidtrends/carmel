@@ -5,7 +5,7 @@ import { createTokenAuth } from '@octokit/auth-token'
 
 import {
   Authenticator,
-  VercelProvider,
+  IRepo,
   IAuthKey,
   User,
   IAuthProvider,
@@ -49,6 +49,39 @@ export class GitHubProvider implements IAuthProvider {
    */
   get authenticator() {
     return this._authenticator
+  }
+
+  /**
+   *
+   */
+  get token() {
+    return this.authenticator.session.token(AccessTokenType.GITHUB)
+  }
+
+  /**
+   *
+   */
+  get isLoggedIn() {
+    return this.token !== undefined
+  }
+
+  /**
+   *
+   * @param uri
+   * @param options
+   * @param patch
+   */
+  async request(uri: string, options?: any, patch?: boolean) {
+    if (!this.isLoggedIn) return
+  }
+
+  /**
+   *
+   * @param name
+   * @param repo
+   */
+  async push(name: string, repo: IRepo) {
+    if (!this.isLoggedIn) return
   }
 
   /**

@@ -207,6 +207,13 @@ export class Product implements IProduct {
   /**
    *
    */
+  async openWeb() {
+    await open(`https://carmel-${this.id}.vercel.app`)
+  }
+
+  /**
+   *
+   */
   async loadCache() {
     this.manifest.load()
     const id = this.manifest.data.json().id
