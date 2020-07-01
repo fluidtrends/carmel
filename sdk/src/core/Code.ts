@@ -121,51 +121,51 @@ export class Code implements ICode {
    *
    */
   async initialize() {
-    this._keystore = this.product.session?.keystore
-    this._user = this.product.session?.user!
-    this._keys = this.product.session?.keys(AccessTokenType.GITHUB) || []
-    this._key = this.keys![0]
-    this._dir = this.product.cacheDir
+    // this._keystore = this.product.session?.keystore
+    // this._user = this.product.session?.user!
+    // this._keys = this.product.session?.keys(AccessTokenType.GITHUB) || []
+    // this._key = this.keys![0]
+    // this._dir = this.product.cacheDir
 
-    try {
-      this._credentials = (url: string, username: string) =>
-        NodeGit.Cred.sshKeyNew(
-          username,
-          this.key?.files.get('public.ssh')?.path!,
-          this.key?.files.get('private.ssh')?.path!,
-          ''
-        )
-    } catch {}
+    // try {
+    //   this._credentials = (url: string, username: string) =>
+    //     NodeGit.Cred.sshKeyNew(
+    //       username,
+    //       this.key?.files.get('public.ssh')?.path!,
+    //       this.key?.files.get('private.ssh')?.path!,
+    //       ''
+    //     )
+    // } catch {}
 
-    try {
-      this._service = new Octokit({
-        auth: this.product?.session?.token(AccessTokenType.GITHUB),
-      })
-    } catch {}
+    // try {
+    //   this._service = new Octokit({
+    //     auth: this.product?.session?.token(AccessTokenType.GITHUB),
+    //   })
+    // } catch {}
 
-    await this.deployRepo.initialize()
+    // await this.deployRepo.initialize()
   }
 
   /**
    *
    */
   async setupDeployment() {
-    await this.deployRepo?.setupHosting()
+    // await this.deployRepo?.setupHosting()
   }
 
   /**
    *
    */
   async deploy(target: Target) {
-    if (this.dir?.dir(target)?.exists) return
+    // if (this.dir?.dir(target)?.exists) return
 
-    const files = ['index.html']
+    // const files = ['index.html']
 
-    await this.deployRepo?.commit(
-      files.map((f) => `${target}/${f}`),
-      `New ${target} deployment`
-    )
+    // await this.deployRepo?.commit(
+    //   files.map((f) => `${target}/${f}`),
+    //   `New ${target} deployment`
+    // )
 
-    await this.deployRepo?.push()
+    // await this.deployRepo?.push()
   }
 }

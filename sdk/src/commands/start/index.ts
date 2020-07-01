@@ -3,7 +3,7 @@ import { Command, CommandProps, CommandType } from '../..'
 const props: CommandProps = {
   id: 'start',
   type: CommandType.PRODUCT,
-  longRunning: false,
+  longRunning: true,
   requiresScript: true,
   requiresApp: true,
 }

@@ -8,13 +8,13 @@
             "subtitle": "Zero Experience Required.",
             "action": {
                 "title": "Get Started",
-                "link": "/start"
+                "link": "/docs"
             }
         },
         "name": "Welcome",
         "id": "main",
         "footer": {
-            "watermark": "Cool ehjhhhhhhh?"
+            "watermark": "Build with Carmel"
         }
     }]
 }

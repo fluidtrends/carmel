@@ -76,7 +76,7 @@ export declare class Repo implements IRepo {
     /**
      *
      */
-    setupHosting(): Promise<any>;
+    setupHosting(): Promise<void>;
     /**
      *
      */

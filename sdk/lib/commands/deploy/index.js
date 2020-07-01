@@ -54,7 +54,6 @@ var props = {
     id: 'deploy',
     type: __1.CommandType.PRODUCT,
     requiresScript: true,
-    requiresAuth: true,
     requiresApp: true,
 };
 /**
