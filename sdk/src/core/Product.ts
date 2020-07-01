@@ -1,5 +1,6 @@
 import path from 'path'
 import getPort from 'get-port'
+import open from 'open'
 
 import {
   IProduct,
@@ -7,8 +8,6 @@ import {
   IFile,
   IDir,
   Target,
-  IServer,
-  Server,
   File,
   Dir,
   ProductState,
@@ -16,6 +15,9 @@ import {
   ISnapshot,
   Id,
   Errors,
+  ICode,
+  Code,
+  IPacker,
   Strings,
 } from '..'
 
@@ -56,6 +58,12 @@ export class Product implements IProduct {
   /** @internal */
   protected _snapshot?: ISnapshot
 
+  /** @internal */
+  protected _code: ICode
+
+  /** @internal */
+  protected _packer?: IPacker
+
   /**
    *
    * @param session
@@ -69,6 +77,21 @@ export class Product implements IProduct {
     )
     this._state = ProductState.UNLOADED
     this._session = session
+    this._code = new Code(this)
+  }
+
+  /**
+   *
+   */
+  get packer() {
+    return this._packer
+  }
+
+  /**
+   *
+   */
+  get code() {
+    return this._code
   }
 
   /**
@@ -176,6 +199,21 @@ export class Product implements IProduct {
   /**
    *
    */
+  async openCode() {
+    const file = this.cacheDir?.file('carmel.code-workspace')
+    file && file.exists && (await open(file.path!))
+  }
+
+  /**
+   *
+   */
+  async openWeb() {
+    await open(`https://carmel-${this.id}.vercel.app`)
+  }
+
+  /**
+   *
+   */
   async loadCache() {
     this.manifest.load()
     const id = this.manifest.data.json().id
@@ -213,7 +251,7 @@ export class Product implements IProduct {
    * @param target
    * @param watch
    */
-  async resolvePacker(target: Target, watch: boolean) {
+  async resolve(target: Target, watch: boolean) {
     // Start by looking up this product's id and cache
     const productId = this.manifest.data.json().id
     const bundle = this.manifest.data.json().bundle
@@ -230,6 +268,7 @@ export class Product implements IProduct {
 
     if (!productCacheDir?.exists) {
       // Let's setup cache structure
+      productCacheDir?.make()
       const template = await this.session?.findTemplate(templateId)
       cache = await template!.install(this.dir, this)
     }
@@ -239,7 +278,9 @@ export class Product implements IProduct {
 
     // Figure out the roots
     const packerDir = new Dir(cache.packer.path)
-    const stackDir = new Dir(cache.stack.path)
+    const stackDir = productCacheDir?.dir('node_modules')?.exists
+      ? productCacheDir?.dir('node_modules')?.dir(cache.stack.id)
+      : new Dir(cache.stack.path)
 
     // Look up the packer and the stack config
     const packerInstance = require(packerDir!.path!)
@@ -264,19 +305,15 @@ export class Product implements IProduct {
       mainDir: this.dir!.path,
       entryFile: stackDir!.file(stackConfig[target].entry)!.path!,
       destDir: productCacheDir?.dir(`.${target}`)!.path!,
-      stackDir: stackDir!.path,
+      stackDir: stackDir?.path!,
       templateFile: stackDir!.file(stackConfig[target].template)!.path!,
-      watch,
+      watch: true,
       port,
+      ...this.data,
     }
 
-    // The code workspace
-    const workspace = productCacheDir?.file('carmel.code-workspace')
-
     // Let's send it all back
-    const packer = new packerInstance[target].Packer(options)
-
-    return { packer, workspace }
+    this._packer = new packerInstance[target].Packer(options)
   }
 
   /**
@@ -312,6 +349,9 @@ export class Product implements IProduct {
     this._cacheDir = new Dir(
       path.resolve(this.session?.index.sections.products.path, this.id!)
     )
+
+    // Get the code ready
+    await this.code.initialize()
 
     // Prepare the snapshot if necessary and if all good,
     // then tell everyone we're ready for action

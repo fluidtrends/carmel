@@ -2,6 +2,8 @@ import { Index } from 'dodi'
 
 import fs from 'fs'
 import path from 'path'
+import shortid from 'shortid'
+import os from 'os'
 
 import {
   ISession,
@@ -18,6 +20,7 @@ import {
   Template,
   IDir,
   Name,
+  IFile,
   Version,
   ArtifactsKind,
   SessionState,
@@ -25,11 +28,11 @@ import {
   IAuthenticator,
   AuthStore,
   AuthStoreType,
-  AuthSession,
-  AuthSessionType,
+  AccessTokenType,
+  IKeyStore,
+  KeyStore,
   User,
 } from '..'
-import { AccessTokenType } from '../types'
 
 /**
  * Represents an {@linkcode Engine} Session initiated by a client.
@@ -46,7 +49,7 @@ export class Session implements ISession {
     'bundles',
     'stacks',
     'products',
-    'auth',
+    'keystore',
     'packers',
     'events',
   ]
@@ -56,6 +59,9 @@ export class Session implements ISession {
 
   /** Use these as mandatory bundles */
   public static DEFAULT_BUNDLES = ['@fluidtrends/bananas']
+
+  /** The id to use for auth */
+  public static DEFAULT_ID = 'io.carmel.session'
 
   /** @internal */
   protected _props?: SessionProps
@@ -82,6 +88,9 @@ export class Session implements ISession {
   protected _dir: IDir
 
   /** @internal */
+  protected _manifest?: IFile
+
+  /** @internal */
   protected _user?: User
 
   /** @internal */
@@ -95,6 +104,10 @@ export class Session implements ISession {
 
   /** @internal */
   protected _authenticator: IAuthenticator
+
+  /** @internal */
+  protected _keystore: IKeyStore
+
   /**
    *
    * Builds a new Session with the given {@linkcode SessionProps} properties
@@ -116,16 +129,28 @@ export class Session implements ISession {
     this._pkg = JSON.parse(
       fs.readFileSync(path.resolve(__dirname, '../..', 'package.json'), 'utf8')
     )
-    this._dir = new Dir(this.index.path)
+    this._dir = new Dir(this.index.path).make()!
+    this._manifest = this.dir.file('carmel.json')
     this._authDir = this.dir.dir('auth')?.make()!
-    this._id = 'io.carmel.session'
-    this._name = 'io.carmel.session'
+    this._id = Session.DEFAULT_ID
+    this._name = Session.DEFAULT_ID
     this._authenticator = new Authenticator(this)
+    this._keystore = new KeyStore(this)
   }
 
   /** */
   get props() {
     return this._props
+  }
+
+  /** */
+  get keystore() {
+    return this._keystore
+  }
+
+  /** */
+  get manifest() {
+    return this._manifest
   }
 
   /** */
@@ -166,6 +191,11 @@ export class Session implements ISession {
   /** */
   get store() {
     return this._store
+  }
+
+  /** */
+  get system() {
+    return this.manifest?.data.json()
   }
 
   /** */
@@ -236,7 +266,6 @@ export class Session implements ISession {
    *
    */
   async authenticate() {
-    await this.authenticator.initialize()
     await this.authenticator.start()
     this._checkAuth()
   }
@@ -266,6 +295,14 @@ export class Session implements ISession {
   }
 
   /**
+   *
+   * @param type
+   */
+  keys(type: AccessTokenType) {
+    return this.authenticator.providers.get(AccessTokenType.GITHUB)?.keys || []
+  }
+
+  /**
    *  Initializes the Session and makes sure the index is ready to go.
    */
   async initialize() {
@@ -280,11 +317,58 @@ export class Session implements ISession {
       path: this.authDir?.make()?.path,
     })
 
+    // Wait for the authenticator to setup
+    await this.authenticator.initialize()
+
     // Check to see if we're logged in
     this._checkAuth()
 
+    // Setup the manifest
+    const now = Date.now()
+    const update = {
+      modifiedTimestamp: now,
+      memory: os.freemem(),
+      uptime: os.uptime(),
+    }
+    this.manifest?.exists && this.manifest.load()
+    this.manifest?.update(
+      Object.assign(
+        {},
+        update,
+        this.manifest.exists || {
+          createdTimestamp: now,
+          id: shortid.generate(),
+          platform: {
+            system: os.platform(),
+            type: os.type(),
+            release: os.release(),
+            totalMemory: os.totalmem(),
+            arch: os.arch(),
+            eol: os.EOL,
+            cpus: os.cpus().length,
+            homeDir: os.homedir(),
+            hostname: os.hostname(),
+            env: os.userInfo(),
+          },
+        }
+      )
+    )
+
     // This session is ready to go
     this.changeState(SessionState.INITIALIZED)
+  }
+
+  /**
+   *
+   */
+  async enableSecurity() {
+    if (!this.isLoggedIn) return
+
+    // Prepare the keystore
+    await this.keystore.initialize()
+
+    // Wait for the authenticator to setup
+    await this.authenticator.setupSecurity()
   }
 
   /**

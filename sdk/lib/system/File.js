@@ -42,13 +42,14 @@ var File = /** @class */ (function () {
             return this;
         if (!this.path || !file || !file.exists)
             return undefined;
-        fs_extra_1.default.existsSync(path_1.default.dirname(this.path)) || fs_extra_1.default.mkdirsSync(path_1.default.dirname(this.path));
+        fs_extra_1.default.existsSync(path_1.default.dirname(this.path)) ||
+            fs_extra_1.default.mkdirsSync(path_1.default.dirname(this.path));
         fs_extra_1.default.symlinkSync(file.path, this.path, 'file');
         return this.exists ? this : undefined;
     };
     File.prototype.load = function () {
         if (!this.exists) {
-            throw __1.Errors.FileDoesNotExist(this.path || "");
+            throw __1.Errors.FileDoesNotExist(this.path || '');
         }
         try {
             this.data.update(fs_extra_1.default.readFileSync(path_1.default.resolve(this.path), 'utf8'));
@@ -71,9 +72,10 @@ var File = /** @class */ (function () {
             return;
         fs_extra_1.default.moveSync(this.path, to.path);
     };
-    File.prototype.update = function (data) {
+    File.prototype.update = function (data, mode) {
         this.data.append(data);
         this.save();
+        mode && fs_extra_1.default.chmodSync(this.path, mode);
     };
     return File;
 }());

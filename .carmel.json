@@ -1,7 +1,7 @@
 {
   "chunks": [
     "intro",
-    "about"
+    "product"
   ],
   "notfound": {
     "title": "Oops",
@@ -10,35 +10,27 @@
   "footer": {
     "watermark": "Built with Carmel."
   },
+  "header": {
+    "action": {
+      "title": "Account",
+      "link": "/me",
+      "icon": "UserOutlined"
+    }
+  },
   "theme": {
     "logoImage": "logo-white.png",
     "logoLightImage": "logo.png",
-    "headerColor": "#FF5722",
-    "textColor": "#546E7A",
-    "linkColor": "#0288D1",
-    "linkHoverColor": "#64B5F6",
-    "linkHoverBackgroundColor": "#F5F5F5",
-    "progressColor": "rgba(50,50,50,0.9)",
-    "primaryColor": "#00bcd4",
-    "secondaryColor": "#00BFA5",
-    "statusBarLight": false,
-    "navigationColor": "#FFFFFF",
-    "navigationTintColor": "#37474F",
-    "nanvigationTextButton": "#FFFFFF",
-    "backgroundColor": "#999999",
-    "footerTintColor": "#CFD8DC",
-    "footerHeaderColor": "#90A4AE",
-    "footerColor": "#546E7A",
-    "footerBottomColor": "#37474F",
-    "footerSocialIconsColor": "#CFD8DC",
-    "footerSocialIconsColorHover": "#0097A7",
-    "notFoundPageText": "local://404"
+    "primary-color": "#00bcd4"
   },
   "id": "carmelmain",
-  "carmelSDKVersion": "1.9.34",
+  "carmelSDKVersion": "1.9.36",
   "template": "starter",
   "bundle": "@fluidtrends/bananas",
   "bundleVersion": "1.9.43",
+  "deployRepo": {
+    "owner": "fluidchunky",
+    "name": "carmel-live"
+  },
   "stack": "jayesse",
   "stackVersion": "1.9.17",
   "packer": "papanache",

@@ -4,7 +4,8 @@ import {
   Session,
   ISession,
   User,
-  GitHubAuth,
+  GitHubProvider,
+  VercelProvider,
   Dir,
   IDir,
   AccessTokenType,
@@ -58,6 +59,9 @@ export class Authenticator implements IAuthenticator {
   /** @internal */
   protected _providers: Map<AccessTokenType, IAuthProvider>
 
+  /** @internal */
+  protected _user?: User
+
   /**
    *
    * @param session
@@ -71,6 +75,13 @@ export class Authenticator implements IAuthenticator {
     this._app = express()
     this._browser = browserSync.create()
     this._providers = new Map<AccessTokenType, IAuthProvider>()
+  }
+
+  /**
+   *
+   */
+  get user() {
+    return this._user
   }
 
   /**
@@ -209,6 +220,14 @@ export class Authenticator implements IAuthenticator {
 
   /**
    *
+   * @param user
+   */
+  update(user: User) {
+    this._user = user
+  }
+
+  /**
+   *
    */
   async initialize() {
     this._initializeApp()
@@ -250,11 +269,28 @@ export class Authenticator implements IAuthenticator {
       })
     })
 
-    const githubProvider = new GitHubAuth(this)
+    const githubProvider = new GitHubProvider(this)
     await githubProvider.initialize()
+    await githubProvider.prepareKeys()
+
+    const vercelProvider = new VercelProvider(this)
+    await vercelProvider.initialize()
+    await vercelProvider.prepareKeys()
 
     // Add providers
     this.providers.set(AccessTokenType.GITHUB, githubProvider)
+    this.providers.set(AccessTokenType.VERCEL, vercelProvider)
+  }
+
+  /**
+   *
+   */
+  async setupSecurity() {
+    await Promise.all(
+      Array.from(this.providers.values()).map((provider) =>
+        provider.prepareKeys()
+      )
+    )
   }
 
   /**

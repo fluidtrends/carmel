@@ -211,26 +211,29 @@ var Command = /** @class */ (function () {
     };
     /** @internal */
     Command.prototype._resolve = function () {
-        var _a, _b;
+        var _a, _b, _c;
         return __awaiter(this, void 0, void 0, function () {
-            var _c, _d;
-            return __generator(this, function (_e) {
-                switch (_e.label) {
+            var _d, _e;
+            return __generator(this, function (_f) {
+                switch (_f.label) {
                     case 0:
-                        _c = this;
+                        _d = this;
                         return [4 /*yield*/, ((_a = this.session) === null || _a === void 0 ? void 0 : _a.resolveProduct(this.target))];
                     case 1:
-                        _c._product = _e.sent();
-                        _d = this.type;
-                        switch (_d) {
+                        _d._product = _f.sent();
+                        _e = this.type;
+                        switch (_e) {
                             case __1.CommandType.PRODUCT: return [3 /*break*/, 2];
                         }
-                        return [3 /*break*/, 4];
+                        return [3 /*break*/, 5];
                     case 2: return [4 /*yield*/, ((_b = this._product) === null || _b === void 0 ? void 0 : _b.load())];
                     case 3:
-                        _e.sent();
-                        return [3 /*break*/, 4];
-                    case 4: return [2 /*return*/];
+                        _f.sent();
+                        return [4 /*yield*/, ((_c = this._product) === null || _c === void 0 ? void 0 : _c.resolve(this.target, this.isLongRunning))];
+                    case 4:
+                        _f.sent();
+                        return [3 /*break*/, 5];
+                    case 5: return [2 /*return*/];
                 }
             });
         });

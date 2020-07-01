@@ -16,7 +16,7 @@ export interface IFile extends IClass {
     save(): void;
     move(to: IFile): void;
     link(file?: IFile): IFile | undefined;
-    update(data: UTF8 | object): void;
+    update(data: UTF8 | object, mode?: number): void;
 }
 export interface IDir extends IClass {
     readonly path?: Path;
@@ -27,7 +27,7 @@ export interface IDir extends IClass {
     copy(dir: IDir): IDir | undefined;
     move(dir: IDir): IDir | undefined;
     dir(dirpath: Path): IDir | undefined;
-    file(filepath: Path): IFile | undefined;
+    file(filepath: Path, check?: boolean): IFile | undefined;
     make(): IDir | undefined;
     link(dir?: IDir): IDir | undefined;
 }

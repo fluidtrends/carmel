@@ -50,7 +50,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var __1 = require("../..");
-var rest_1 = require("@octokit/rest");
 var props = {
     id: 'deploy',
     type: __1.CommandType.PRODUCT,
@@ -70,30 +69,16 @@ var Deploy = /** @class */ (function (_super) {
     }
     /** @internal */
     Deploy.prototype.exec = function () {
-        var _a, _b;
+        var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var user, auth, github, me, keys, repos, repoNames;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
-                    case 0:
-                        user = (_a = this.session) === null || _a === void 0 ? void 0 : _a.user;
-                        auth = (_b = this.session) === null || _b === void 0 ? void 0 : _b.token(__1.AccessTokenType.GITHUB);
-                        github = new rest_1.Octokit({ auth: auth });
-                        return [4 /*yield*/, github.request('/user')];
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0: 
+                    // await this.product?.code.deploy(this.target)
+                    return [4 /*yield*/, ((_a = this.product) === null || _a === void 0 ? void 0 : _a.code.setupDeployment())];
                     case 1:
-                        me = _c.sent();
-                        return [4 /*yield*/, github.users.listPublicKeysForUser({
-                                username: user.login,
-                            })];
-                    case 2:
-                        keys = _c.sent();
-                        return [4 /*yield*/, github.repos.listForUser({ username: user.login })];
-                    case 3:
-                        repos = _c.sent();
-                        repoNames = repos.data.map(function (repo) { return repo.name; });
-                        console.log(me.data);
-                        console.log(keys.data);
-                        console.log(repoNames);
+                        // await this.product?.code.deploy(this.target)
+                        _b.sent();
                         return [2 /*return*/];
                 }
             });

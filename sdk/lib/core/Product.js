@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -42,6 +53,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Product = void 0;
 var path_1 = __importDefault(require("path"));
 var get_port_1 = __importDefault(require("get-port"));
+var open_1 = __importDefault(require("open"));
 var __1 = require("..");
 /**
  *
@@ -63,7 +75,28 @@ var Product = /** @class */ (function () {
             : undefined);
         this._state = __1.ProductState.UNLOADED;
         this._session = session;
+        this._code = new __1.Code(this);
     }
+    Object.defineProperty(Product.prototype, "packer", {
+        /**
+         *
+         */
+        get: function () {
+            return this._packer;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Product.prototype, "code", {
+        /**
+         *
+         */
+        get: function () {
+            return this._code;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Object.defineProperty(Product.prototype, "session", {
         /**
          *
@@ -209,6 +242,45 @@ var Product = /** @class */ (function () {
     /**
      *
      */
+    Product.prototype.openCode = function () {
+        var _a;
+        return __awaiter(this, void 0, void 0, function () {
+            var file, _b;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        file = (_a = this.cacheDir) === null || _a === void 0 ? void 0 : _a.file('carmel.code-workspace');
+                        _b = file && file.exists;
+                        if (!_b) return [3 /*break*/, 2];
+                        return [4 /*yield*/, open_1.default(file.path)];
+                    case 1:
+                        _b = (_c.sent());
+                        _c.label = 2;
+                    case 2:
+                        _b;
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     *
+     */
+    Product.prototype.openWeb = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, open_1.default("https://carmel-" + this.id + ".vercel.app")];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     *
+     */
     Product.prototype.loadCache = function () {
         var _a, _b, _c, _d;
         return __awaiter(this, void 0, void 0, function () {
@@ -257,12 +329,12 @@ var Product = /** @class */ (function () {
      * @param target
      * @param watch
      */
-    Product.prototype.resolvePacker = function (target, watch) {
-        var _a, _b, _c, _d;
+    Product.prototype.resolve = function (target, watch) {
+        var _a, _b, _c, _d, _e, _f;
         return __awaiter(this, void 0, void 0, function () {
-            var productId, bundle, bundleVersion, templateName, productCacheDir, templateId, cache, template, _e, packerDir, stackDir, packerInstance, stackConfig, port, options, workspace, packer;
-            return __generator(this, function (_f) {
-                switch (_f.label) {
+            var productId, bundle, bundleVersion, templateName, productCacheDir, templateId, cache, template, _g, packerDir, stackDir, packerInstance, stackConfig, port, options;
+            return __generator(this, function (_h) {
+                switch (_h.label) {
                     case 0:
                         productId = this.manifest.data.json().id;
                         bundle = this.manifest.data.json().bundle;
@@ -272,27 +344,29 @@ var Product = /** @class */ (function () {
                         templateId = bundle + "/" + bundleVersion + "/" + templateName;
                         cache = undefined;
                         if (!!(productCacheDir === null || productCacheDir === void 0 ? void 0 : productCacheDir.exists)) return [3 /*break*/, 3];
+                        // Let's setup cache structure
+                        productCacheDir === null || productCacheDir === void 0 ? void 0 : productCacheDir.make();
                         return [4 /*yield*/, ((_c = this.session) === null || _c === void 0 ? void 0 : _c.findTemplate(templateId))];
                     case 1:
-                        template = _f.sent();
+                        template = _h.sent();
                         return [4 /*yield*/, template.install(this.dir, this)];
                     case 2:
-                        cache = _f.sent();
-                        _f.label = 3;
+                        cache = _h.sent();
+                        _h.label = 3;
                     case 3:
                         if (!(cache === undefined)) return [3 /*break*/, 5];
                         return [4 /*yield*/, this.loadCache()];
                     case 4:
-                        _e = _f.sent();
+                        _g = _h.sent();
                         return [3 /*break*/, 6];
                     case 5:
-                        _e = cache;
-                        _f.label = 6;
+                        _g = cache;
+                        _h.label = 6;
                     case 6:
                         // Make sure we have a product cache available
-                        cache = _e;
+                        cache = _g;
                         packerDir = new __1.Dir(cache.packer.path);
-                        stackDir = new __1.Dir(cache.stack.path);
+                        stackDir = ((_d = productCacheDir === null || productCacheDir === void 0 ? void 0 : productCacheDir.dir('node_modules')) === null || _d === void 0 ? void 0 : _d.exists) ? (_e = productCacheDir === null || productCacheDir === void 0 ? void 0 : productCacheDir.dir('node_modules')) === null || _e === void 0 ? void 0 : _e.dir(cache.stack.id) : new __1.Dir(cache.stack.path);
                         packerInstance = require(packerDir.path);
                         stackConfig = require(stackDir.file('carmel.json').path);
                         // Make sure we've got them all
@@ -300,26 +374,17 @@ var Product = /** @class */ (function () {
                             !packerInstance[target] ||
                             !stackConfig ||
                             !stackConfig[target] ||
-                            !((_d = stackDir.file('carmel.json')) === null || _d === void 0 ? void 0 : _d.exists))
+                            !((_f = stackDir.file('carmel.json')) === null || _f === void 0 ? void 0 : _f.exists))
                             return [2 /*return*/];
                         return [4 /*yield*/, get_port_1.default({ port: 9000 })
                             // Build the packer options
                         ];
                     case 7:
-                        port = _f.sent();
-                        options = {
-                            contextDir: productCacheDir.path,
-                            mainDir: this.dir.path,
-                            entryFile: stackDir.file(stackConfig[target].entry).path,
-                            destDir: productCacheDir === null || productCacheDir === void 0 ? void 0 : productCacheDir.dir("." + target).path,
-                            stackDir: stackDir.path,
-                            templateFile: stackDir.file(stackConfig[target].template).path,
-                            watch: watch,
-                            port: port,
-                        };
-                        workspace = productCacheDir === null || productCacheDir === void 0 ? void 0 : productCacheDir.file('carmel.code-workspace');
-                        packer = new packerInstance[target].Packer(options);
-                        return [2 /*return*/, { packer: packer, workspace: workspace }];
+                        port = _h.sent();
+                        options = __assign({ contextDir: productCacheDir.path, mainDir: this.dir.path, entryFile: stackDir.file(stackConfig[target].entry).path, destDir: productCacheDir === null || productCacheDir === void 0 ? void 0 : productCacheDir.dir("." + target).path, stackDir: stackDir === null || stackDir === void 0 ? void 0 : stackDir.path, templateFile: stackDir.file(stackConfig[target].template).path, watch: true, port: port }, this.data);
+                        // Let's send it all back
+                        this._packer = new packerInstance[target].Packer(options);
+                        return [2 /*return*/];
                 }
             });
         });
@@ -341,27 +406,38 @@ var Product = /** @class */ (function () {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_b) {
-                // No need to re-load this again
-                if (this.isLoaded)
-                    return [2 /*return*/, this];
-                if (!this.manifest.exists) {
-                    // Don't bother without a manifest
-                    this.changeState(__1.ProductState.UNLOADED);
-                    return [2 /*return*/, this];
+                switch (_b.label) {
+                    case 0:
+                        // No need to re-load this again
+                        if (this.isLoaded)
+                            return [2 /*return*/, this];
+                        if (!this.manifest.exists) {
+                            // Don't bother without a manifest
+                            this.changeState(__1.ProductState.UNLOADED);
+                            return [2 /*return*/, this];
+                        }
+                        // Alright, let's do this
+                        this.changeState(__1.ProductState.LOADING);
+                        // First things first, let's get the manifest loaded up
+                        this.manifest.load();
+                        // Keep track of the id
+                        this._id = this.manifest.data.json().id;
+                        // Resolve the cache roo
+                        this._cacheDir = new __1.Dir(path_1.default.resolve((_a = this.session) === null || _a === void 0 ? void 0 : _a.index.sections.products.path, this.id));
+                        // Get the code ready
+                        return [4 /*yield*/, this.code.initialize()
+                            // Prepare the snapshot if necessary and if all good,
+                            // then tell everyone we're ready for action
+                        ];
+                    case 1:
+                        // Get the code ready
+                        _b.sent();
+                        // Prepare the snapshot if necessary and if all good,
+                        // then tell everyone we're ready for action
+                        this.changeState(__1.ProductState.READY);
+                        // Let callers access us directly
+                        return [2 /*return*/, this];
                 }
-                // Alright, let's do this
-                this.changeState(__1.ProductState.LOADING);
-                // First things first, let's get the manifest loaded up
-                this.manifest.load();
-                // Keep track of the id
-                this._id = this.manifest.data.json().id;
-                // Resolve the cache roo
-                this._cacheDir = new __1.Dir(path_1.default.resolve((_a = this.session) === null || _a === void 0 ? void 0 : _a.index.sections.products.path, this.id));
-                // Prepare the snapshot if necessary and if all good,
-                // then tell everyone we're ready for action
-                this.changeState(__1.ProductState.READY);
-                // Let callers access us directly
-                return [2 /*return*/, this];
             });
         });
     };

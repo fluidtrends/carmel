@@ -15,6 +15,7 @@ import {
   JSON,
   AccessTokenType,
   IDir,
+  IKeyStore,
   CommandType,
   SessionState,
   AuthStoreType,
@@ -26,6 +27,7 @@ import {
   CommandArg,
   User,
 } from '.'
+import { IAuthKey } from './auth'
 
 export interface IEngine extends IClass {
   readonly state: EngineState
@@ -43,6 +45,7 @@ export interface IEngine extends IClass {
 
 export interface ISession extends IClass {
   readonly props?: SessionProps
+  readonly keystore: IKeyStore
   readonly logger: ILogger
   readonly index: any
   readonly state: SessionState
@@ -58,9 +61,13 @@ export interface ISession extends IClass {
   readonly name: Name
   readonly store?: AuthStoreType
   readonly authenticator: IAuthenticator
+  readonly manifest?: IFile
+  readonly system?: JSON
 
+  keys(type: AccessTokenType): IAuthKey[] | undefined
   token(type: AccessTokenType): string | undefined
   initialize(command?: ICommand): Promise<void>
+  enableSecurity(): Promise<void>
   authenticate(): Promise<void>
   makeReady(): Promise<void>
   destroy(): Promise<void>
@@ -96,6 +103,39 @@ export interface IPacker extends IClass {
   pack(callback: (event: any) => void): Promise<any>
 }
 
+export interface IRepo extends IClass {
+  readonly code: ICode
+  readonly dir?: IDir
+  readonly name?: string
+  readonly owner?: string
+  readonly isOpen: boolean
+  readonly hasRemote: boolean
+  readonly isRemoteForeign: boolean
+
+  open(): Promise<any>
+  commit(paths: string[], comment: string): Promise<any>
+  push(): Promise<any>
+  loadRemote(): Promise<any>
+  initialize(): Promise<any>
+  setupHosting(): Promise<any>
+}
+
+export interface ICode extends IClass {
+  readonly product: IProduct
+  readonly dir?: IDir
+  readonly keystore?: IKeyStore
+  readonly keys?: IAuthKey[]
+  readonly credentials?: any
+  readonly key?: IAuthKey
+  readonly user?: User
+  readonly deployRepo?: IRepo
+  readonly service?: any
+
+  initialize(): Promise<any>
+  deploy(target: Target): Promise<any>
+  setupDeployment(): Promise<any>
+}
+
 export interface IProduct extends IClass {
   readonly dir: IDir
   readonly cacheDir?: IDir
@@ -108,7 +148,12 @@ export interface IProduct extends IClass {
   readonly state: ProductState
   readonly snapshot?: ISnapshot
   readonly id?: Id
+  readonly code: ICode
+  readonly data?: JSON
+  readonly packer?: IPacker
 
+  openCode(): Promise<any>
+  openWeb(): Promise<any>
   loadCache(): Promise<any>
   create(data?: any): void
   createFromTemplate(id: Id): Promise<IProduct | undefined>
@@ -118,7 +163,7 @@ export interface IProduct extends IClass {
   loadFile(path: Path): void
   saveData(data: any): void
   findDirs(dirpath: Path): Path[]
-  resolvePacker(target: Target, watch: boolean): Promise<any>
+  resolve(target: Target, watch: boolean): Promise<any>
 }
 
 export interface ISnapshot extends IClass {

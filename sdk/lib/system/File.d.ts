@@ -15,5 +15,5 @@ export declare class File implements IFile {
     remove(): this;
     save(): void;
     move(to: IFile): void;
-    update(data: UTF8 | object): void;
+    update(data: UTF8 | object, mode?: number): void;
 }

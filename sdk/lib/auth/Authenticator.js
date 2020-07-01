@@ -67,6 +67,16 @@ var Authenticator = /** @class */ (function () {
         this._browser = browser_sync_1.default.create();
         this._providers = new Map();
     }
+    Object.defineProperty(Authenticator.prototype, "user", {
+        /**
+         *
+         */
+        get: function () {
+            return this._user;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Object.defineProperty(Authenticator.prototype, "session", {
         /**
          *
@@ -234,10 +244,17 @@ var Authenticator = /** @class */ (function () {
     };
     /**
      *
+     * @param user
+     */
+    Authenticator.prototype.update = function (user) {
+        this._user = user;
+    };
+    /**
+     *
      */
     Authenticator.prototype.initialize = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var githubProvider;
+            var githubProvider, vercelProvider;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -274,14 +291,42 @@ var Authenticator = /** @class */ (function () {
                                 res.redirect('/');
                             });
                         });
-                        githubProvider = new __1.GitHubAuth(this);
-                        return [4 /*yield*/, githubProvider.initialize()
+                        githubProvider = new __1.GitHubProvider(this);
+                        return [4 /*yield*/, githubProvider.initialize()];
+                    case 1:
+                        _a.sent();
+                        return [4 /*yield*/, githubProvider.prepareKeys()];
+                    case 2:
+                        _a.sent();
+                        vercelProvider = new __1.VercelProvider(this);
+                        return [4 /*yield*/, vercelProvider.initialize()];
+                    case 3:
+                        _a.sent();
+                        return [4 /*yield*/, vercelProvider.prepareKeys()
                             // Add providers
                         ];
-                    case 1:
+                    case 4:
                         _a.sent();
                         // Add providers
                         this.providers.set(__1.AccessTokenType.GITHUB, githubProvider);
+                        this.providers.set(__1.AccessTokenType.VERCEL, vercelProvider);
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     *
+     */
+    Authenticator.prototype.setupSecurity = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, Promise.all(Array.from(this.providers.values()).map(function (provider) {
+                            return provider.prepareKeys();
+                        }))];
+                    case 1:
+                        _a.sent();
                         return [2 /*return*/];
                 }
             });

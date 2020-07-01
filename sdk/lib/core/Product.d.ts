@@ -1,4 +1,4 @@
-import { IProduct, Path, IFile, IDir, Target, File, Dir, ProductState, ISession, ISnapshot, Id } from '..';
+import { IProduct, Path, IFile, IDir, Target, Dir, ProductState, ISession, ISnapshot, Id, ICode, IPacker } from '..';
 /**
  *
  * {@link https://github.com/fluidtrends/carmel/blob/master/sdk/src/Product.ts | Source Code } |
@@ -26,11 +26,23 @@ export declare class Product implements IProduct {
     protected _session?: ISession;
     /** @internal */
     protected _snapshot?: ISnapshot;
+    /** @internal */
+    protected _code: ICode;
+    /** @internal */
+    protected _packer?: IPacker;
     /**
      *
      * @param session
      */
     constructor(session?: ISession);
+    /**
+     *
+     */
+    get packer(): IPacker | undefined;
+    /**
+     *
+     */
+    get code(): ICode;
     /**
      *
      */
@@ -89,6 +101,14 @@ export declare class Product implements IProduct {
     /**
      *
      */
+    openCode(): Promise<void>;
+    /**
+     *
+     */
+    openWeb(): Promise<void>;
+    /**
+     *
+     */
     loadCache(): Promise<{
         id: any;
         packer: any;
@@ -100,10 +120,7 @@ export declare class Product implements IProduct {
      * @param target
      * @param watch
      */
-    resolvePacker(target: Target, watch: boolean): Promise<{
-        packer: any;
-        workspace: File | undefined;
-    } | undefined>;
+    resolve(target: Target, watch: boolean): Promise<void>;
     /**
      *
      */

@@ -19,14 +19,9 @@ export default class Make extends Command {
 
   /** @internal */
   async exec() {
-    const { packer, workspace } = await this.product?.resolvePacker(
-      this.target,
-      false
-    )
+    if (!this.product?.packer) return
 
-    if (!packer) return
-
-    await packer.pack((event: any) => {
+    await this.product?.packer.pack((event: any) => {
       console.log(event)
     })
   }

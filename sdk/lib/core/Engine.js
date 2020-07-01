@@ -292,55 +292,37 @@ var Engine = /** @class */ (function () {
      */
     Engine.run = function (command, args) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0:
-                        if (!(command === null || command === void 0 ? void 0 : command.isLongRunning)) return [3 /*break*/, 6];
+                        if (!(command === null || command === void 0 ? void 0 : command.isLongRunning)) return [3 /*break*/, 4];
                         // First, start the engine if necessary
                         return [4 /*yield*/, Engine.instance.start()
                             // Prepare the command
                         ];
                     case 1:
                         // First, start the engine if necessary
-                        _b.sent();
+                        _a.sent();
                         // Prepare the command
                         return [4 /*yield*/, (command === null || command === void 0 ? void 0 : command.initialize(this.session, args))];
                     case 2:
                         // Prepare the command
-                        _b.sent();
-                        // Make sure the product has a packer
-                        _a = command !== undefined &&
-                            (command === null || command === void 0 ? void 0 : command.product) !== undefined;
-                        if (!_a) 
-                        // Make sure the product has a packer
-                        return [3 /*break*/, 4];
-                        return [4 /*yield*/, command.product.resolvePacker(command.target, true)];
-                    case 3:
-                        _a = (_b.sent());
-                        _b.label = 4;
-                    case 4:
-                        // Make sure the product has a packer
-                        _a;
+                        _a.sent();
                         // Start the server for long running commands
                         return [4 /*yield*/, Engine.instance.startServer(command, args)];
-                    case 5:
+                    case 3:
                         // Start the server for long running commands
-                        _b.sent();
+                        _a.sent();
                         return [2 /*return*/];
-                    case 6: 
+                    case 4: 
                     // Let's let this command run
                     return [4 /*yield*/, Engine.start(command, args)
                         // If we only need to run this once, then we're completely finished
+                        // await Engine.stop()
                     ];
-                    case 7:
+                    case 5:
                         // Let's let this command run
-                        _b.sent();
-                        // If we only need to run this once, then we're completely finished
-                        return [4 /*yield*/, Engine.stop()];
-                    case 8:
-                        // If we only need to run this once, then we're completely finished
-                        _b.sent();
+                        _a.sent();
                         return [2 /*return*/];
                 }
             });
@@ -352,43 +334,46 @@ var Engine = /** @class */ (function () {
      * @param args
      */
     Engine.start = function (command, args) {
-        var _a, _b;
+        var _a, _b, _c;
         return __awaiter(this, void 0, void 0, function () {
             var port, app, serverInstance, io;
             var _this = this;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
+            return __generator(this, function (_d) {
+                switch (_d.label) {
                     case 0: 
                     // First, start the engine if necessary
-                    return [4 /*yield*/, Engine.instance.start()
-                        // Prepare the command
-                    ];
+                    return [4 /*yield*/, Engine.instance.start()];
                     case 1:
                         // First, start the engine if necessary
-                        _c.sent();
-                        // Prepare the command
-                        return [4 /*yield*/, (command === null || command === void 0 ? void 0 : command.initialize(this.session, args))];
-                    case 2:
-                        // Prepare the command
-                        _c.sent();
-                        if (!((command === null || command === void 0 ? void 0 : command.requiresAuth) && !((_a = this.session) === null || _a === void 0 ? void 0 : _a.isLoggedIn))) return [3 /*break*/, 4];
+                        _d.sent();
+                        if (!((command === null || command === void 0 ? void 0 : command.requiresAuth) && !((_a = this.session) === null || _a === void 0 ? void 0 : _a.isLoggedIn))) return [3 /*break*/, 3];
                         // Make sure we authenticate first if we need to
                         return [4 /*yield*/, ((_b = this.session) === null || _b === void 0 ? void 0 : _b.authenticate())];
-                    case 3:
+                    case 2:
                         // Make sure we authenticate first if we need to
-                        _c.sent();
-                        _c.label = 4;
+                        _d.sent();
+                        _d.label = 3;
+                    case 3: 
+                    // Make sure session security is up and running
+                    return [4 /*yield*/, ((_c = this.session) === null || _c === void 0 ? void 0 : _c.enableSecurity())];
                     case 4:
-                        if (!(command === null || command === void 0 ? void 0 : command.isLongRunning)) return [3 /*break*/, 6];
+                        // Make sure session security is up and running
+                        _d.sent();
+                        // Prepare the command
+                        return [4 /*yield*/, (command === null || command === void 0 ? void 0 : command.initialize(this.session, args))];
+                    case 5:
+                        // Prepare the command
+                        _d.sent();
+                        if (!(command === null || command === void 0 ? void 0 : command.isLongRunning)) return [3 /*break*/, 7];
                         // Let's let this command run
                         return [4 /*yield*/, Engine.instance.exec(command, args)];
-                    case 5:
+                    case 6:
                         // Let's let this command run
-                        _c.sent();
+                        _d.sent();
                         return [2 /*return*/];
-                    case 6: return [4 /*yield*/, get_port_1.default({ port: 3000 })];
-                    case 7:
-                        port = _c.sent();
+                    case 7: return [4 /*yield*/, get_port_1.default({ port: 3000 })];
+                    case 8:
+                        port = _d.sent();
                         app = express_1.default();
                         app.set('port', port);
                         serverInstance = new http_1.default.Server(app);
@@ -411,16 +396,14 @@ var Engine = /** @class */ (function () {
                         });
                         serverInstance.listen(port, function () { return __awaiter(_this, void 0, void 0, function () {
                             return __generator(this, function (_a) {
-                                // Listen for events
-                                console.log('server instance running', port);
                                 return [2 /*return*/];
                             });
                         }); });
                         // Let's let this command run
                         return [4 /*yield*/, Engine.instance.exec(command, args)];
-                    case 8:
+                    case 9:
                         // Let's let this command run
-                        _c.sent();
+                        _d.sent();
                         return [2 /*return*/];
                 }
             });

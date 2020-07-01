@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Introduction",
+    "id": "root",
+    "path": "/docs",
+    "file": "README.md"
+  },
+  {
+    "name": "Installation",
+    "id": "install",
+    "path": "/docs/install",
+    "file": "install/README.md"
+  }
+]
