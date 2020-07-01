@@ -1,11 +1,11 @@
 {
-    "name": "product",
+    "name": "docs",
     "routes": [{
         "path": "/docs",
         "variant": "section",
         "screen": "main",
-        "title": "This is me",
-        "name": "Get Started",
+        "title": "Documentation",
+        "name": "Documentation",
         "id": "main"
     }]
 }

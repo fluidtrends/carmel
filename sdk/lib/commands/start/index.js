@@ -53,7 +53,7 @@ var __1 = require("../..");
 var props = {
     id: 'start',
     type: __1.CommandType.PRODUCT,
-    longRunning: false,
+    longRunning: true,
     requiresScript: true,
     requiresApp: true,
 };

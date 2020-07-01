@@ -4,7 +4,6 @@ const props: CommandProps = {
   id: 'deploy',
   type: CommandType.PRODUCT,
   requiresScript: true,
-  requiresAuth: true,
   requiresApp: true,
 }
 

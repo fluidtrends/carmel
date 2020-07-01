@@ -1,7 +1,7 @@
 {
   "chunks": [
     "intro",
-    "product"
+    "docs"
   ],
   "notfound": {
     "title": "Oops",
@@ -23,16 +23,12 @@
     "primary-color": "#00bcd4"
   },
   "id": "carmelmain",
-  "carmelSDKVersion": "1.9.36",
+  "carmelSDKVersion": "1.9.40",
   "template": "starter",
   "bundle": "@fluidtrends/bananas",
   "bundleVersion": "1.9.43",
-  "deployRepo": {
-    "owner": "fluidchunky",
-    "name": "carmel-live"
-  },
   "stack": "jayesse",
-  "stackVersion": "1.9.17",
+  "stackVersion": "1.9.20",
   "packer": "papanache",
-  "packerVersion": "1.9.26"
+  "packerVersion": "1.9.30"
 }
