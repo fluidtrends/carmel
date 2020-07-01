@@ -278,7 +278,9 @@ export class Product implements IProduct {
 
     // Figure out the roots
     const packerDir = new Dir(cache.packer.path)
-    const stackDir = new Dir(cache.stack.path)
+    const stackDir = productCacheDir?.dir('node_modules')?.exists
+      ? productCacheDir?.dir('node_modules')?.dir(cache.stack.id)
+      : new Dir(cache.stack.path)
 
     // Look up the packer and the stack config
     const packerInstance = require(packerDir!.path!)
@@ -303,10 +305,11 @@ export class Product implements IProduct {
       mainDir: this.dir!.path,
       entryFile: stackDir!.file(stackConfig[target].entry)!.path!,
       destDir: productCacheDir?.dir(`.${target}`)!.path!,
-      stackDir: stackDir!.path,
+      stackDir: stackDir?.path!,
       templateFile: stackDir!.file(stackConfig[target].template)!.path!,
-      watch,
+      watch: true,
       port,
+      ...this.data,
     }
 
     // Let's send it all back

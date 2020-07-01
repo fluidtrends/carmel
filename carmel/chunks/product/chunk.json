@@ -1,0 +1,11 @@
+{
+    "name": "product",
+    "routes": [{
+        "path": "/docs",
+        "variant": "section",
+        "screen": "main",
+        "title": "This is me",
+        "name": "Get Started",
+        "id": "main"
+    }]
+}

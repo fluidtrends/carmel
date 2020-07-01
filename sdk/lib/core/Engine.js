@@ -318,14 +318,10 @@ var Engine = /** @class */ (function () {
                     // Let's let this command run
                     return [4 /*yield*/, Engine.start(command, args)
                         // If we only need to run this once, then we're completely finished
+                        // await Engine.stop()
                     ];
                     case 5:
                         // Let's let this command run
-                        _a.sent();
-                        // If we only need to run this once, then we're completely finished
-                        return [4 /*yield*/, Engine.stop()];
-                    case 6:
-                        // If we only need to run this once, then we're completely finished
                         _a.sent();
                         return [2 /*return*/];
                 }

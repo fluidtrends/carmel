@@ -4,8 +4,12 @@
         "path": "/",
         "screen": "main",
         "cover": {
-            "title": "Welcome to my web",
-            "subtitle": "Wanna know more?"
+            "title": "Grow Your Tech Skillset And Build A Better Future.",
+            "subtitle": "Zero Experience Required.",
+            "action": {
+                "title": "Get Started",
+                "link": "/start"
+            }
         },
         "name": "Welcome",
         "id": "main",

@@ -236,7 +236,7 @@ export class Engine implements IEngine {
     await Engine.start(command, args)
 
     // If we only need to run this once, then we're completely finished
-    await Engine.stop()
+    // await Engine.stop()
   }
 
   /**
