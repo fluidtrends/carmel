@@ -3,7 +3,7 @@ import { Command, CommandProps, CommandType } from '../..'
 const props: CommandProps = {
   id: 'start',
   type: CommandType.PRODUCT,
-  longRunning: true,
+  longRunning: false,
   requiresScript: true,
   requiresApp: true,
 }
@@ -22,10 +22,10 @@ export default class Start extends Command {
   async exec() {
     if (!this.product?.packer) return
 
-    // await this.product.openCode()
-
     await this.product?.packer.pack((event: any) => {
       console.log('Chunky says: ', event)
     })
+
+    await this.product.openCode()
   }
 }

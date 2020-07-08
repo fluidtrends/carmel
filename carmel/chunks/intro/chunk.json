@@ -1,11 +1,13 @@
 {
     "name": "intro",
+    "path": "/",
     "routes": [{
         "path": "/",
         "screen": "main",
         "cover": {
             "title": "Grow Your Tech Skillset And Build A Better Future.",
             "subtitle": "Zero Experience Required.",
+            "image": "main",
             "action": {
                 "title": "Get Started",
                 "link": "/docs"

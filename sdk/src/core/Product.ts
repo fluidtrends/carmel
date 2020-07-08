@@ -297,17 +297,23 @@ export class Product implements IProduct {
       return
 
     // Look for a port
-    const port = await getPort({ port: 9000 })
+    const port = await getPort()
 
+    const isStatic = true 
+    
     // Build the packer options
     const options = {
       contextDir: productCacheDir!.path,
       mainDir: this.dir!.path,
-      entryFile: stackDir!.file(stackConfig[target].entry)!.path!,
       destDir: productCacheDir?.dir(`.${target}`)!.path!,
       stackDir: stackDir?.path!,
+      stackConfig,
+      entryFile: stackDir!.file(stackConfig[target].entry[isStatic ? 'static' : 'dom'])!.path!,
+      target,
+      entry: stackConfig[target].entry,
       templateFile: stackDir!.file(stackConfig[target].template)!.path!,
-      watch: true,
+      watch,
+      isStatic,
       port,
       ...this.data,
     }

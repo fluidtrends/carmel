@@ -61,7 +61,7 @@
               "entryPoints": [
                 {
                   "html": "./src/index.html",
-                  "js": "./src/renderer.ts",
+                  "js": "./src/renderer.tsx",
                   "name": "main_window"
                 }
               ]
@@ -93,6 +93,22 @@
     "typescript": "^3.7.0"
   },
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
+    "@carmel/cli": "^1.9.11",
+    "@types/command-exists": "^1.2.0",
+    "@types/execa": "^2.0.0",
+    "@types/node-notifier": "^6.0.1",
+    "@types/react": "^16.9.41",
+    "@types/react-dom": "^16.9.8",
+    "@types/react-router-dom": "^5.1.5",
+    "antd": "^4.4.1",
+    "command-exists": "^1.2.9",
+    "electron-squirrel-startup": "^1.0.0",
+    "execa": "^4.0.3",
+    "node-notifier": "^7.0.1",
+    "nodu": "^1.9.1",
+    "react": "^16.13.1",
+    "react-awesome-reveal": "^2.4.2",
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0"
   }
 }

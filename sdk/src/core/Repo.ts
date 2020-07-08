@@ -1,5 +1,10 @@
 import { IRepo, ICode, AccessTokenType, IDir } from '..'
 import NodeGit from 'nodegit'
+import listDir from 'recursive-readdir'
+import fs from 'fs'
+import path from 'path'
+import shortid from 'shortid'
+import axios from 'axios'
 
 /**
  *
@@ -133,10 +138,100 @@ export class Repo implements IRepo {
     // await this.local?.createCommitOnHead(paths, signature, signature, comment)
   }
 
+  /** @internal */
+  async shorten(url: string) {
+
+  }
+
   /**
    *
    */
   async push() {
+    if (!this.dir?.exists) return
+
+    const { createFactory, createController, createServer } = require('ipfsd-ctl')
+    process.env.IPFS_PATH = this.code.product.session!.dir.dir('ipfs')?.make()?.path    
+    const deploymentId = shortid.generate()
+
+    const deploymentRoot = `/deployments/${deploymentId}`                      
+
+    const ignores = ['.DS_Store']
+    let files: any[] = await listDir(this.dir!.path!)
+    files = files.filter(file => !ignores.includes(path.basename(file))).map(file => {
+      const info = fs.statSync(file)
+      
+      return {
+          path: `${deploymentRoot}/${path.relative(this.dir!.path!, file)}`,
+          content: fs.readFileSync(file),
+          mtime: info.mtime
+      }
+    })
+
+    if (!files || files.length === 0) return 
+
+    console.log('starting ipfs node ...')
+
+    // const node = await createController({
+    //   type: 'js',
+    //   ipfsModule: require('ipfs'),
+    //   ipfsHttpModule: require('ipfs-http-client'),
+    //   ipfsBin: path.join(__dirname, '../../node_modules/ipfs/src/cli/bin.js'),
+    //   init: true, 
+    //   start: true,
+    //   ipfsOptions: { start: true, init: true, repo: process.env.IPFS_PATH }
+    // })
+
+    // const localGatewayUrl = `http://${node.api.gatewayHost}:${node.api.gatewayPort}`
+    const publicGatewayUrl = `https://cloudflare-ipfs.com`
+
+    console.log('done. pushing files ...')
+
+    // await Promise.all(files.map(async file => await node.api.files.write(file.path, file.content, {
+    //   parents: true, create: true, mtime: file.mtime  
+    // })))
+
+
+    const hash = 'Qmed19uXaxrhNFwEhmPm8zyz9vnF7TaqstJ4BiXvZ6ZuUb'
+
+    console.log('done. publishing web ...')
+
+    const ipfsUrl = `${publicGatewayUrl}/ipfs/${hash}`
+    console.log(ipfsUrl)
+
+    const shorten = await axios.post(`https://rel.ink/api/links/`,  {
+      url: ipfsUrl
+    }, { 
+      headers: { 'Content-Type': 'application/json' }
+    })
+
+    if (!shorten || !shorten.data || !shorten.data.hashid) {
+      return 
+    }
+
+    const shortUrl = `https://rel.ink/${shorten.data.hashid}`
+    console.log(shortUrl)
+
+    // const deployed = []
+    // for await (const result of node.api.files.ls(deploymentRoot)) deployed.push(result)
+    // const deployedWeb = deployed.find(d => d.name === 'web')
+    // const deployedWebNamed = await node.api.name.publish(deployedWeb.cid)
+    
+    // const deployedWebNamed = await node.api.name.publish(`/ipfs/${hash}`)
+
+    // console.log(deployedWebNamed)
+    // const deployedWebUrls = {
+    //   // localRaw: `${localGatewayUrl}/ipfs/${deployedWeb.cid}`,
+    //   localNamed: `${localGatewayUrl}/ipns/${deployedWebNamed.name}`,
+    //   // publicRaw: `${publicGatewayUrl}/ipfs/${deployedWeb.cid}`,
+    //   publicNamed: `${publicGatewayUrl}/ipns/${deployedWebNamed.name}`
+    // }
+
+    console.log('done.')
+    // console.log(deployedWebUrls)
+
+    // await node.stop()
+    console.log('node stopped')
+
     // if (!this.isOpen) return
 
     // let remote = await this.local?.getRemote('origin')
@@ -163,6 +258,13 @@ export class Repo implements IRepo {
     // const cwd = process.cwd()
     // process.chdir(this.dir!.path!)
 
+    const webDir = this.code?.dir?.dir('.web')
+    
+    const deployWebDir = this.dir?.dir('web')
+    deployWebDir?.exists && deployWebDir.remove()
+
+    webDir?.exists && webDir.copy(deployWebDir!)
+
     // const vercel = this.code.product.session?.authenticator.providers.get(
     //   AccessTokenType.VERCEL
     // )
@@ -179,7 +281,7 @@ export class Repo implements IRepo {
    */
   async initialize() {
     // Always start with a fresh location
-    // this._dir = this.code?.dir?.dir('deploy')?.make()
+    this._dir = this.code?.dir?.dir('deploy')?.make()
 
     // this._owner =
     //   this.code?.product?.data?.deployRepo?.owner || this.code.user?.login
