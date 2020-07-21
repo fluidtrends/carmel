@@ -332,7 +332,7 @@ var Product = /** @class */ (function () {
     Product.prototype.resolve = function (target, watch) {
         var _a, _b, _c, _d, _e, _f;
         return __awaiter(this, void 0, void 0, function () {
-            var productId, bundle, bundleVersion, templateName, productCacheDir, templateId, cache, template, _g, packerDir, stackDir, packerInstance, stackConfig, port, options;
+            var productId, bundle, bundleVersion, templateName, productCacheDir, templateId, cache, template, _g, packerDir, stackDir, packerInstance, stackConfig, port, isStatic, options;
             return __generator(this, function (_h) {
                 switch (_h.label) {
                     case 0:
@@ -376,12 +376,13 @@ var Product = /** @class */ (function () {
                             !stackConfig[target] ||
                             !((_f = stackDir.file('carmel.json')) === null || _f === void 0 ? void 0 : _f.exists))
                             return [2 /*return*/];
-                        return [4 /*yield*/, get_port_1.default({ port: 9000 })
-                            // Build the packer options
-                        ];
+                        return [4 /*yield*/, get_port_1.default()];
                     case 7:
                         port = _h.sent();
-                        options = __assign({ contextDir: productCacheDir.path, mainDir: this.dir.path, entryFile: stackDir.file(stackConfig[target].entry).path, destDir: productCacheDir === null || productCacheDir === void 0 ? void 0 : productCacheDir.dir("." + target).path, stackDir: stackDir === null || stackDir === void 0 ? void 0 : stackDir.path, templateFile: stackDir.file(stackConfig[target].template).path, watch: true, port: port }, this.data);
+                        isStatic = true;
+                        options = __assign({ contextDir: productCacheDir.path, mainDir: this.dir.path, destDir: productCacheDir === null || productCacheDir === void 0 ? void 0 : productCacheDir.dir("." + target).path, stackDir: stackDir === null || stackDir === void 0 ? void 0 : stackDir.path, stackConfig: stackConfig, entryFile: stackDir.file(stackConfig[target].entry[isStatic ? 'static' : 'dom']).path, target: target, entry: stackConfig[target].entry, templateFile: stackDir.file(stackConfig[target].template).path, watch: watch,
+                            isStatic: isStatic,
+                            port: port }, this.data);
                         // Let's send it all back
                         this._packer = new packerInstance[target].Packer(options);
                         return [2 /*return*/];

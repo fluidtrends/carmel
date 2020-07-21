@@ -1,5 +1,4 @@
-import { IAuthenticator, ISession, User, IDir, AccessTokenType, AuthBrowserType, IAuthProvider } from '..';
-import browserSync from 'browser-sync';
+import { IAuthenticator, ISession, User, IDir, AccessTokenType, IAuthProvider } from '..';
 import express, { Express } from 'express';
 /**
  *
@@ -23,8 +22,6 @@ export declare class Authenticator implements IAuthenticator {
     protected _dir: IDir;
     /** @internal */
     protected _app: Express;
-    /** @internal */
-    protected _browser: AuthBrowserType;
     /** @internal */
     protected _providers: Map<AccessTokenType, IAuthProvider>;
     /** @internal */
@@ -50,10 +47,6 @@ export declare class Authenticator implements IAuthenticator {
      *
      */
     get app(): express.Express;
-    /**
-     *
-     */
-    get browser(): browserSync.BrowserSyncInstance;
     /**
      *
      */

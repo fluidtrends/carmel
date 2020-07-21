@@ -40,7 +40,7 @@ export function init() {
     resolveAll()
 }
 
-async function runCarmelCommand(command: any, sdkPath: string) {
+export async function runCarmelCommand(command: any, sdkPath: string) {
     const tsMode = process.env.CARMEL_MODE && process.env.CARMEL_MODE === 'ts'
     const Carmel = require(path.resolve(sdkPath, tsMode ? 'src' : 'lib'))
 

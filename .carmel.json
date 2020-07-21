@@ -23,6 +23,7 @@
     "primary-color": "#00bcd4"
   },
   "id": "carmelmain",
+  "name": "Carmel",
   "carmelSDKVersion": "1.9.40",
   "template": "starter",
   "bundle": "@fluidtrends/bananas",

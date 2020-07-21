@@ -69,6 +69,7 @@ var Status = /** @class */ (function (_super) {
     Status.prototype.exec = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
+                console.log("STATUS OK");
                 return [2 /*return*/];
             });
         });

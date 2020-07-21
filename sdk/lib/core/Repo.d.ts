@@ -69,6 +69,8 @@ export declare class Repo implements IRepo {
      *
      */
     commit(paths: string[], comment: string): Promise<void>;
+    /** @internal */
+    shorten(url: string): Promise<void>;
     /**
      *
      */

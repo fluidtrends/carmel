@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.installCarmelSDK = void 0;
+exports.installCarmelSDK = exports.runCarmelCommand = exports.init = void 0;
 var fs_1 = __importDefault(require("fs"));
 var path_1 = __importDefault(require("path"));
 var nodu_1 = require("nodu");
@@ -63,6 +63,7 @@ function init() {
     process.env.CARMEL_CACHE_ROOT = carmelCacheRoot;
     nodu_1.resolveAll();
 }
+exports.init = init;
 function runCarmelCommand(command, sdkPath) {
     return __awaiter(this, void 0, void 0, function () {
         var tsMode, Carmel, Command, cmd, args;
@@ -76,6 +77,7 @@ function runCarmelCommand(command, sdkPath) {
         });
     });
 }
+exports.runCarmelCommand = runCarmelCommand;
 function installCarmelSDK() {
     return __awaiter(this, void 0, void 0, function () {
         var carmelSdkPath, installed;
@@ -104,21 +106,24 @@ exports.default = (function (input) { return __awaiter(void 0, void 0, void 0, f
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 3, , 4]);
+                console.log(input);
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 4, , 5]);
                 init();
                 return [4 /*yield*/, installCarmelSDK()];
-            case 1:
+            case 2:
                 sdkPath = _a.sent();
                 command = parseCommand(input);
                 return [4 /*yield*/, runCarmelCommand(command, sdkPath)];
-            case 2:
-                _a.sent();
-                return [3 /*break*/, 4];
             case 3:
+                _a.sent();
+                return [3 /*break*/, 5];
+            case 4:
                 e_1 = _a.sent();
                 nodu_1.logError(e_1);
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
+                return [3 /*break*/, 5];
+            case 5: return [2 /*return*/];
         }
     });
 }); });

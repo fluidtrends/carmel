@@ -35,8 +35,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Repo = void 0;
+var recursive_readdir_1 = __importDefault(require("recursive-readdir"));
+var fs_1 = __importDefault(require("fs"));
+var path_1 = __importDefault(require("path"));
+var shortid_1 = __importDefault(require("shortid"));
+var axios_1 = __importDefault(require("axios"));
 /**
  *
  */
@@ -169,10 +177,8 @@ var Repo = /** @class */ (function () {
             });
         });
     };
-    /**
-     *
-     */
-    Repo.prototype.push = function () {
+    /** @internal */
+    Repo.prototype.shorten = function (url) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/];
@@ -182,9 +188,86 @@ var Repo = /** @class */ (function () {
     /**
      *
      */
-    Repo.prototype.setupHosting = function () {
+    Repo.prototype.push = function () {
+        var _a, _b, _c;
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
+            var _d, createFactory, createController, createServer, deploymentId, deploymentRoot, ignores, files, publicGatewayUrl, hash, ipfsUrl, shorten, shortUrl;
+            var _this = this;
+            return __generator(this, function (_e) {
+                switch (_e.label) {
+                    case 0:
+                        if (!((_a = this.dir) === null || _a === void 0 ? void 0 : _a.exists))
+                            return [2 /*return*/];
+                        _d = require('ipfsd-ctl'), createFactory = _d.createFactory, createController = _d.createController, createServer = _d.createServer;
+                        process.env.IPFS_PATH = (_c = (_b = this.code.product.session.dir.dir('ipfs')) === null || _b === void 0 ? void 0 : _b.make()) === null || _c === void 0 ? void 0 : _c.path;
+                        deploymentId = shortid_1.default.generate();
+                        deploymentRoot = "/deployments/" + deploymentId;
+                        ignores = ['.DS_Store'];
+                        return [4 /*yield*/, recursive_readdir_1.default(this.dir.path)];
+                    case 1:
+                        files = _e.sent();
+                        files = files.filter(function (file) { return !ignores.includes(path_1.default.basename(file)); }).map(function (file) {
+                            var info = fs_1.default.statSync(file);
+                            return {
+                                path: deploymentRoot + "/" + path_1.default.relative(_this.dir.path, file),
+                                content: fs_1.default.readFileSync(file),
+                                mtime: info.mtime
+                            };
+                        });
+                        if (!files || files.length === 0)
+                            return [2 /*return*/];
+                        console.log('starting ipfs node ...');
+                        publicGatewayUrl = "https://cloudflare-ipfs.com";
+                        console.log('done. pushing files ...');
+                        hash = 'Qmed19uXaxrhNFwEhmPm8zyz9vnF7TaqstJ4BiXvZ6ZuUb';
+                        console.log('done. publishing web ...');
+                        ipfsUrl = publicGatewayUrl + "/ipfs/" + hash;
+                        console.log(ipfsUrl);
+                        return [4 /*yield*/, axios_1.default.post("https://rel.ink/api/links/", {
+                                url: ipfsUrl
+                            }, {
+                                headers: { 'Content-Type': 'application/json' }
+                            })];
+                    case 2:
+                        shorten = _e.sent();
+                        if (!shorten || !shorten.data || !shorten.data.hashid) {
+                            return [2 /*return*/];
+                        }
+                        shortUrl = "https://rel.ink/" + shorten.data.hashid;
+                        console.log(shortUrl);
+                        // const deployed = []
+                        // for await (const result of node.api.files.ls(deploymentRoot)) deployed.push(result)
+                        // const deployedWeb = deployed.find(d => d.name === 'web')
+                        // const deployedWebNamed = await node.api.name.publish(deployedWeb.cid)
+                        // const deployedWebNamed = await node.api.name.publish(`/ipfs/${hash}`)
+                        // console.log(deployedWebNamed)
+                        // const deployedWebUrls = {
+                        //   // localRaw: `${localGatewayUrl}/ipfs/${deployedWeb.cid}`,
+                        //   localNamed: `${localGatewayUrl}/ipns/${deployedWebNamed.name}`,
+                        //   // publicRaw: `${publicGatewayUrl}/ipfs/${deployedWeb.cid}`,
+                        //   publicNamed: `${publicGatewayUrl}/ipns/${deployedWebNamed.name}`
+                        // }
+                        console.log('done.');
+                        // console.log(deployedWebUrls)
+                        // await node.stop()
+                        console.log('node stopped');
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     *
+     */
+    Repo.prototype.setupHosting = function () {
+        var _a, _b, _c;
+        return __awaiter(this, void 0, void 0, function () {
+            var webDir, deployWebDir;
+            return __generator(this, function (_d) {
+                webDir = (_b = (_a = this.code) === null || _a === void 0 ? void 0 : _a.dir) === null || _b === void 0 ? void 0 : _b.dir('.web');
+                deployWebDir = (_c = this.dir) === null || _c === void 0 ? void 0 : _c.dir('web');
+                (deployWebDir === null || deployWebDir === void 0 ? void 0 : deployWebDir.exists) && deployWebDir.remove();
+                (webDir === null || webDir === void 0 ? void 0 : webDir.exists) && webDir.copy(deployWebDir);
                 return [2 /*return*/];
             });
         });
@@ -193,8 +276,11 @@ var Repo = /** @class */ (function () {
      *
      */
     Repo.prototype.initialize = function () {
+        var _a, _b, _c;
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
+            return __generator(this, function (_d) {
+                // Always start with a fresh location
+                this._dir = (_c = (_b = (_a = this.code) === null || _a === void 0 ? void 0 : _a.dir) === null || _b === void 0 ? void 0 : _b.dir('deploy')) === null || _c === void 0 ? void 0 : _c.make();
                 return [2 /*return*/];
             });
         });

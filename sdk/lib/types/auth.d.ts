@@ -67,7 +67,6 @@ export interface IAuthenticator {
     readonly baseUrl: string;
     readonly dir: IDir;
     readonly app: Express;
-    readonly browser: AuthBrowserType;
     readonly providers: Map<AccessTokenType, IAuthProvider>;
     update(user: User): void;
     openBrowser(): Promise<void>;
