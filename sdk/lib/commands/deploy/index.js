@@ -72,11 +72,8 @@ var Deploy = /** @class */ (function (_super) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: 
-                    // await this.product?.code.deploy(this.target)
-                    return [4 /*yield*/, ((_a = this.product) === null || _a === void 0 ? void 0 : _a.code.setupDeployment())];
+                    case 0: return [4 /*yield*/, ((_a = this.product) === null || _a === void 0 ? void 0 : _a.code.deploy(this.target))];
                     case 1:
-                        // await this.product?.code.deploy(this.target)
                         _b.sent();
                         return [2 /*return*/];
                 }

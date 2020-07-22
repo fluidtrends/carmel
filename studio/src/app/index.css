@@ -1,0 +1,15 @@
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.ant-carousel2 .slick-slide {
+  text-align: center;
+  height: 100%;
+  line-height: 100%;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.ant-carousel .slick-slide h3 {
+  color: #444;
+}

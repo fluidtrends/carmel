@@ -76,13 +76,12 @@ var Start = /** @class */ (function (_super) {
                     case 0:
                         if (!((_a = this.product) === null || _a === void 0 ? void 0 : _a.packer))
                             return [2 /*return*/];
-                        // await this.product.openCode()
                         return [4 /*yield*/, ((_b = this.product) === null || _b === void 0 ? void 0 : _b.packer.pack(function (event) {
                                 console.log('Chunky says: ', event);
                             }))];
                     case 1:
-                        // await this.product.openCode()
                         _c.sent();
+                        console.log("port:", this.product.packerPort);
                         return [2 /*return*/];
                 }
             });

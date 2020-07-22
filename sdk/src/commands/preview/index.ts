@@ -1,5 +1,5 @@
 import { Command, CommandProps, CommandType } from '../..'
-import browserSync from 'browser-sync'
+// import browserSync from 'browser-sync'
 
 const props: CommandProps = {
   id: 'make',
@@ -20,9 +20,9 @@ export default class Preview extends Command {
 
   /** @internal */
   async exec() {
-    const browser = browserSync.create()
-    const server = this.product!.cacheDir!.dir('.web')!.path!
-    browser.init({ server })
-    browser.reload('index.html')
+    // const browser = browserSync.create()
+    // const server = this.product!.cacheDir!.dir('.web')!.path!
+    // browser.init({ server })
+    // browser.reload('index.html')
   }
 }

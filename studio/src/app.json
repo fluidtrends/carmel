@@ -1,0 +1,29 @@
+{
+    "name": "Carmel",
+    "routes": [{
+        "path": "/",
+        "id": "start",
+        "screen": "Start",
+        "container": "Simple"
+    }, {
+        "path": "/welcome",
+        "id": "welcome",
+        "screen": "Welcome",
+        "container": "Simple"
+    }, {
+        "path": "/products",
+        "id": "products",
+        "screen": "Products",
+        "container": "Main"
+    }, {
+        "path": "/product",
+        "id": "product",
+        "screen": "Product",
+        "container": "Main"
+    }],
+    "events": [{
+        "id": "start"
+    }, {
+        "id": "started"
+    }]
+}

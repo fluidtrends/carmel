@@ -13,6 +13,8 @@ export declare class Product implements IProduct {
     /** @internal */
     protected _id?: Id;
     /** @internal */
+    protected _packerPort?: number;
+    /** @internal */
     protected _props: any;
     /** @internal */
     protected _dir: IDir;
@@ -39,6 +41,10 @@ export declare class Product implements IProduct {
      *
      */
     get packer(): IPacker | undefined;
+    /**
+     *
+     */
+    get packerPort(): number | undefined;
     /**
      *
      */
@@ -120,7 +126,7 @@ export declare class Product implements IProduct {
      * @param target
      * @param watch
      */
-    resolve(target: Target, watch: boolean): Promise<void>;
+    resolve(target: Target, watch: boolean): Promise<any>;
     /**
      *
      */

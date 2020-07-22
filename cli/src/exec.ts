@@ -25,7 +25,7 @@ function parseCommand(input: any): Command {
     ) as Command
 }
 
-function init() {
+export function init() {
     const userRoot = process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME']
     const carmelRoot = path.resolve(userRoot!, '.carmel')
     const carmelCacheRoot = path.resolve(carmelRoot!, 'cache')
@@ -40,7 +40,7 @@ function init() {
     resolveAll()
 }
 
-async function runCarmelCommand(command: any, sdkPath: string) {
+export async function runCarmelCommand(command: any, sdkPath: string) {
     const tsMode = process.env.CARMEL_MODE && process.env.CARMEL_MODE === 'ts'
     const Carmel = require(path.resolve(sdkPath, tsMode ? 'src' : 'lib'))
 

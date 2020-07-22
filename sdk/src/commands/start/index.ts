@@ -22,10 +22,10 @@ export default class Start extends Command {
   async exec() {
     if (!this.product?.packer) return
 
-    // await this.product.openCode()
-
     await this.product?.packer.pack((event: any) => {
       console.log('Chunky says: ', event)
     })
+
+    console.log("port:", this.product.packerPort)
   }
 }

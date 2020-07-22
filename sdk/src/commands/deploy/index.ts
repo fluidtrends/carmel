@@ -19,7 +19,6 @@ export default class Deploy extends Command {
 
   /** @internal */
   async exec() {
-    // await this.product?.code.deploy(this.target)
-    await this.product?.code.setupDeployment()
+    await this.product?.code.deploy(this.target)
   }
 }

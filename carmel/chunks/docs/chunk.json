@@ -1,7 +1,8 @@
 {
     "name": "docs",
+    "path": "/docs",
     "routes": [{
-        "path": "/docs",
+        "path": "/",
         "variant": "section",
         "screen": "main",
         "title": "Documentation",

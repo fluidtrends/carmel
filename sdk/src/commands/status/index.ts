@@ -25,5 +25,6 @@ export default class Status extends Command {
 
   /** @internal */
   async exec() {
+    console.log("STATUS OK")
   }
 }

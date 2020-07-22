@@ -125,7 +125,7 @@ export class Code implements ICode {
     // this._user = this.product.session?.user!
     // this._keys = this.product.session?.keys(AccessTokenType.GITHUB) || []
     // this._key = this.keys![0]
-    // this._dir = this.product.cacheDir
+    this._dir = this.product.cacheDir
 
     // try {
     //   this._credentials = (url: string, username: string) =>
@@ -143,20 +143,23 @@ export class Code implements ICode {
     //   })
     // } catch {}
 
-    // await this.deployRepo.initialize()
+    await this.deployRepo.initialize() 
   }
 
   /**
    *
    */
   async setupDeployment() {
-    // await this.deployRepo?.setupHosting()
+    await this.deployRepo?.setupHosting()
   }
 
   /**
    *
    */
   async deploy(target: Target) {
+    await this.setupDeployment()
+    await this.deployRepo?.push()
+    
     // if (this.dir?.dir(target)?.exists) return
 
     // const files = ['index.html']

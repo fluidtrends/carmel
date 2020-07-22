@@ -23,12 +23,13 @@
     "primary-color": "#00bcd4"
   },
   "id": "carmelmain",
-  "carmelSDKVersion": "1.9.40",
+  "name": "Carmel",
+  "carmelSDKVersion": "1.9.41",
   "template": "starter",
   "bundle": "@fluidtrends/bananas",
   "bundleVersion": "1.9.43",
   "stack": "jayesse",
-  "stackVersion": "1.9.20",
+  "stackVersion": "1.9.22",
   "packer": "papanache",
-  "packerVersion": "1.9.30"
+  "packerVersion": "1.9.31"
 }

@@ -38,6 +38,9 @@ export class Product implements IProduct {
   protected _id?: Id
 
   /** @internal */
+  protected _packerPort?: number
+
+  /** @internal */
   protected _props: any
 
   /** @internal */
@@ -85,6 +88,13 @@ export class Product implements IProduct {
    */
   get packer() {
     return this._packer
+  }
+
+  /**
+   * 
+   */
+  get packerPort () {
+    return this._packerPort
   }
 
   /**
@@ -297,23 +307,31 @@ export class Product implements IProduct {
       return
 
     // Look for a port
-    const port = await getPort({ port: 9000 })
+    this._packerPort = await getPort()
 
+    const isStatic = !watch 
+    
     // Build the packer options
     const options = {
       contextDir: productCacheDir!.path,
       mainDir: this.dir!.path,
-      entryFile: stackDir!.file(stackConfig[target].entry)!.path!,
       destDir: productCacheDir?.dir(`.${target}`)!.path!,
       stackDir: stackDir?.path!,
+      stackConfig,
+      entryFile: stackDir!.file(stackConfig[target].entry[isStatic ? 'static' : 'dom'])!.path!,
+      target,
+      entry: stackConfig[target].entry,
       templateFile: stackDir!.file(stackConfig[target].template)!.path!,
-      watch: true,
-      port,
+      watch,
+      isStatic,
+      port: this.packerPort,
       ...this.data,
     }
 
     // Let's send it all back
     this._packer = new packerInstance[target].Packer(options)
+
+    return options
   }
 
   /**

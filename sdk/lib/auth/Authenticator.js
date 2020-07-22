@@ -41,7 +41,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Authenticator = void 0;
 var __1 = require("..");
-var browser_sync_1 = __importDefault(require("browser-sync"));
+// import browserSync, { BrowserSyncInstance } from 'browser-sync'
 var passport_1 = __importDefault(require("passport"));
 var express_1 = __importDefault(require("express"));
 var body_parser_1 = __importDefault(require("body-parser"));
@@ -64,7 +64,7 @@ var Authenticator = /** @class */ (function () {
         this._protocol = Authenticator.AUTH_PROTOCOL;
         this._dir = new __1.Dir(path_1.default.resolve(__dirname, '../../auth'));
         this._app = express_1.default();
-        this._browser = browser_sync_1.default.create();
+        // this._browser = browserSync.create()
         this._providers = new Map();
     }
     Object.defineProperty(Authenticator.prototype, "user", {
@@ -107,17 +107,13 @@ var Authenticator = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(Authenticator.prototype, "browser", {
-        /**
-         *
-         */
-        get: function () {
-            return this._browser;
-        },
-        enumerable: false,
-        configurable: true
-    });
     Object.defineProperty(Authenticator.prototype, "port", {
+        // /**
+        //  *
+        //  */
+        // get browser() {
+        //   return this._browser
+        // }
         /**
          *
          */
@@ -180,14 +176,6 @@ var Authenticator = /** @class */ (function () {
     Authenticator.prototype.openBrowser = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                this.browser.init({
-                    startPath: '/',
-                    notify: true,
-                    logLevel: 'silent',
-                    ui: false,
-                    host: this.host,
-                    proxy: this.baseUrl,
-                });
                 return [2 /*return*/];
             });
         });
@@ -233,10 +221,9 @@ var Authenticator = /** @class */ (function () {
      */
     Authenticator.prototype.stop = function (when) {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
             return __generator(this, function (_a) {
                 setTimeout(function () {
-                    _this.browser.exit();
+                    // this.browser.exit()
                 }, when);
                 return [2 /*return*/];
             });
@@ -342,7 +329,7 @@ var Authenticator = /** @class */ (function () {
             return __generator(this, function (_a) {
                 serverInstance = new http_1.default.Server(this.app);
                 return [2 /*return*/, new Promise(function (resolve, reject) {
-                        _this.browser.emitter.on('service:exit', function () { return resolve(); });
+                        // this.browser.emitter.on('service:exit', () => resolve())
                         serverInstance.listen(_this.port, function () { return __awaiter(_this, void 0, void 0, function () {
                             return __generator(this, function (_a) {
                                 this.openBrowser();

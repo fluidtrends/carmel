@@ -146,7 +146,46 @@ var Code = /** @class */ (function () {
     Code.prototype.initialize = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0:
+                        // this._keystore = this.product.session?.keystore
+                        // this._user = this.product.session?.user!
+                        // this._keys = this.product.session?.keys(AccessTokenType.GITHUB) || []
+                        // this._key = this.keys![0]
+                        this._dir = this.product.cacheDir;
+                        // try {
+                        //   this._credentials = (url: string, username: string) =>
+                        //     NodeGit.Cred.sshKeyNew(
+                        //       username,
+                        //       this.key?.files.get('public.ssh')?.path!,
+                        //       this.key?.files.get('private.ssh')?.path!,
+                        //       ''
+                        //     )
+                        // } catch {}
+                        // try {
+                        //   this._service = new Octokit({
+                        //     auth: this.product?.session?.token(AccessTokenType.GITHUB),
+                        //   })
+                        // } catch {}
+                        return [4 /*yield*/, this.deployRepo.initialize()];
+                    case 1:
+                        // try {
+                        //   this._credentials = (url: string, username: string) =>
+                        //     NodeGit.Cred.sshKeyNew(
+                        //       username,
+                        //       this.key?.files.get('public.ssh')?.path!,
+                        //       this.key?.files.get('private.ssh')?.path!,
+                        //       ''
+                        //     )
+                        // } catch {}
+                        // try {
+                        //   this._service = new Octokit({
+                        //     auth: this.product?.session?.token(AccessTokenType.GITHUB),
+                        //   })
+                        // } catch {}
+                        _a.sent();
+                        return [2 /*return*/];
+                }
             });
         });
     };
@@ -154,9 +193,15 @@ var Code = /** @class */ (function () {
      *
      */
     Code.prototype.setupDeployment = function () {
+        var _a;
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/];
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0: return [4 /*yield*/, ((_a = this.deployRepo) === null || _a === void 0 ? void 0 : _a.setupHosting())];
+                    case 1:
+                        _b.sent();
+                        return [2 /*return*/];
+                }
             });
         });
     };
@@ -164,9 +209,18 @@ var Code = /** @class */ (function () {
      *
      */
     Code.prototype.deploy = function (target) {
+        var _a;
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/];
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0: return [4 /*yield*/, this.setupDeployment()];
+                    case 1:
+                        _b.sent();
+                        return [4 /*yield*/, ((_a = this.deployRepo) === null || _a === void 0 ? void 0 : _a.push())];
+                    case 2:
+                        _b.sent();
+                        return [2 /*return*/];
+                }
             });
         });
     };

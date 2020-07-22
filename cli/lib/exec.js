@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.installCarmelSDK = void 0;
+exports.installCarmelSDK = exports.runCarmelCommand = exports.init = void 0;
 var fs_1 = __importDefault(require("fs"));
 var path_1 = __importDefault(require("path"));
 var nodu_1 = require("nodu");
@@ -63,6 +63,7 @@ function init() {
     process.env.CARMEL_CACHE_ROOT = carmelCacheRoot;
     nodu_1.resolveAll();
 }
+exports.init = init;
 function runCarmelCommand(command, sdkPath) {
     return __awaiter(this, void 0, void 0, function () {
         var tsMode, Carmel, Command, cmd, args;
@@ -76,6 +77,7 @@ function runCarmelCommand(command, sdkPath) {
         });
     });
 }
+exports.runCarmelCommand = runCarmelCommand;
 function installCarmelSDK() {
     return __awaiter(this, void 0, void 0, function () {
         var carmelSdkPath, installed;

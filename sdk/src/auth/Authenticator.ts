@@ -13,7 +13,7 @@ import {
   IAuthProvider,
 } from '..'
 
-import browserSync, { BrowserSyncInstance } from 'browser-sync'
+// import browserSync, { BrowserSyncInstance } from 'browser-sync'
 import passport from 'passport'
 import express, { Express } from 'express'
 import bodyParser from 'body-parser'
@@ -53,8 +53,8 @@ export class Authenticator implements IAuthenticator {
   /** @internal */
   protected _app: Express
 
-  /** @internal */
-  protected _browser: AuthBrowserType
+  // /** @internal */
+  // protected _browser: AuthBrowserType
 
   /** @internal */
   protected _providers: Map<AccessTokenType, IAuthProvider>
@@ -73,7 +73,7 @@ export class Authenticator implements IAuthenticator {
     this._protocol = Authenticator.AUTH_PROTOCOL
     this._dir = new Dir(path.resolve(__dirname, '../../auth'))
     this._app = express()
-    this._browser = browserSync.create()
+    // this._browser = browserSync.create()
     this._providers = new Map<AccessTokenType, IAuthProvider>()
   }
 
@@ -105,12 +105,12 @@ export class Authenticator implements IAuthenticator {
     return this._app
   }
 
-  /**
-   *
-   */
-  get browser() {
-    return this._browser
-  }
+  // /**
+  //  *
+  //  */
+  // get browser() {
+  //   return this._browser
+  // }
 
   /**
    *
@@ -159,14 +159,14 @@ export class Authenticator implements IAuthenticator {
    *
    */
   async openBrowser() {
-    this.browser.init({
-      startPath: '/',
-      notify: true,
-      logLevel: 'silent',
-      ui: false,
-      host: this.host,
-      proxy: this.baseUrl,
-    })
+    // this.browser.init({
+    //   startPath: '/',
+    //   notify: true,
+    //   logLevel: 'silent',
+    //   ui: false,
+    //   host: this.host,
+    //   proxy: this.baseUrl,
+    // })
   }
 
   /** @internal */
@@ -214,7 +214,7 @@ export class Authenticator implements IAuthenticator {
    */
   async stop(when: number) {
     setTimeout(() => {
-      this.browser.exit()
+      // this.browser.exit()
     }, when)
   }
 
@@ -300,7 +300,7 @@ export class Authenticator implements IAuthenticator {
     const serverInstance = new http.Server(this.app)
 
     return new Promise((resolve, reject) => {
-      this.browser.emitter.on('service:exit', () => resolve())
+      // this.browser.emitter.on('service:exit', () => resolve())
 
       serverInstance.listen(this.port, async () => {
         this.openBrowser()
