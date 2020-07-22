@@ -30,7 +30,10 @@ export const Start: React.FC<StartScreenProps> = (props) => {
 
     const { modifiedTimestamp, createdTimestamp } = session
     setTimeout(() => {
-      if (modifiedTimestamp === createdTimestamp) dispatch(replace('/welcome'))
+      if (modifiedTimestamp !== createdTimestamp) {
+        dispatch(replace('/welcome'))
+        return 
+      }
       dispatch(replace(session.productId ? '/product' : '/products'))
     }, 1000)
   }, [session])

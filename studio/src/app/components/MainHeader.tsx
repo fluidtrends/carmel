@@ -27,8 +27,6 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
     const notifications: any = {
         carmel: [],
         main: [],
-        vault: [],
-        settings: [],
         user: []
       }
       
@@ -47,8 +45,11 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
     const asset = (id: string) => require(`../../../assets/${id}`).default
     
     const accountMenu = <Menu onClick={onAccountSelect}>
-      <Menu.Item key="1" icon={<UserOutlined />}>
-        Sign In
+      <Menu.Item key="vault" icon={<LockOutlined />}>
+        Vault
+      </Menu.Item>
+      <Menu.Item key="settings" icon={<SettingOutlined />}>
+        Settings
       </Menu.Item>
     </Menu>
 
@@ -77,15 +78,15 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
         }}>
         <Dropdown overlay={accountMenu}>
             <Badge count={notifications.carmel.length} overflowCount={5} offset={[3, 2]}>
-            <Button shape="circle" size='large' style={{
-                backgroundColor: "#00BCD4",
-                boxShadow: "0px 0px 3px #00695C",
-                padding: 0
-            }}>
-                <img src={asset('icon-32.png')} style={{
-                width: 28, height: 28 
-                }}/>
-            </Button>
+              <Button shape="circle" size='large' style={{
+                  backgroundColor: "#00BCD4",
+                  boxShadow: "0px 0px 3px #00695C",
+                  padding: 0
+              }}>
+                  <img src={asset('icon-32.png')} style={{
+                    width: 28, height: 28 
+                  }}/>
+              </Button>
             </Badge>
         </Dropdown>
         </div>
@@ -107,23 +108,13 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
           justifyContent: "flex-end"
         }}>
 
-        <Badge count={notifications.vault.length} overflowCount={5} offset={[0, 2]}>
-          <Button shape="circle" icon={<LockOutlined />} size='large' style={{
-            marginLeft: 10
-          }}/>
-        </Badge>
-
-        <Badge count={notifications.settings.length} overflowCount={5} offset={[0, 2]}>
-          <Button shape="circle" icon={<SettingOutlined />} size='large' style={{
-            marginLeft: 10
-          }}/>
-        </Badge>
-
         <Dropdown overlay={accountMenu}>
             <Badge count={notifications.user.length} overflowCount={5} offset={[0, 2]}>
-              <Button shape="circle" icon={<UserOutlined />} size='large' style={{
+              <Button icon={<UserOutlined />} size='large' style={{
                   marginLeft: 10
-                }}/>
+                }}>
+                  <CaretDownOutlined/>
+              </Button>
             </Badge>
         </Dropdown>
         </div>  

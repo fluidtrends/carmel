@@ -151,7 +151,8 @@ export interface IProduct extends IClass {
   readonly code: ICode
   readonly data?: JSON
   readonly packer?: IPacker
-
+  readonly packerPort?: number
+ 
   openCode(): Promise<any>
   openWeb(): Promise<any>
   loadCache(): Promise<any>

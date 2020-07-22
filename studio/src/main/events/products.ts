@@ -38,9 +38,13 @@ export const loadSelectedProduct = async (data: any) => {
     const rootDir = path.resolve(env.home.path, 'products', productId, 'carmel')
     const files = (await readdir(rootDir, ['.git', 'node_modules'])).map(file => path.relative(rootDir, file))
 
+    const serverPath = path.resolve(env.home.path, 'servers', 'start', productId)
+    const started = fs.existsSync(serverPath)
+
     await send({ 
         id: data.id,
         type: 'selectedProductloaded', 
+        started,
         rootDir, 
         files
     })

@@ -48,12 +48,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var __1 = require("../..");
+var pm2_1 = __importDefault(require("pm2"));
 var props = {
     id: 'start',
     type: __1.CommandType.PRODUCT,
-    longRunning: true,
+    longRunning: false,
     requiresScript: true,
     requiresApp: true,
 };
@@ -61,33 +65,58 @@ var props = {
  *
  * @category Commands
  */
-var Start = /** @class */ (function (_super) {
-    __extends(Start, _super);
+var Stop = /** @class */ (function (_super) {
+    __extends(Stop, _super);
     /** @internal */
-    function Start(p) {
+    function Stop(p) {
         return _super.call(this, Object.assign({}, props, p)) || this;
     }
-    /** @internal */
-    Start.prototype.exec = function () {
-        var _a, _b;
+    Stop.prototype.stopServer = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_c) {
-                switch (_c.label) {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, new Promise(function (resolve, reject) {
+                        pm2_1.default.connect(function (err) {
+                            if (err) {
+                                reject(err);
+                                return;
+                            }
+                            pm2_1.default.delete(id, function (err) {
+                                if (err) {
+                                    pm2_1.default.disconnect();
+                                    reject(err);
+                                    return;
+                                }
+                                resolve();
+                            });
+                        });
+                    })];
+            });
+        });
+    };
+    /** @internal */
+    Stop.prototype.exec = function () {
+        var _a, _b, _c, _d, _e;
+        return __awaiter(this, void 0, void 0, function () {
+            var serverId, serverDir;
+            return __generator(this, function (_f) {
+                switch (_f.label) {
                     case 0:
-                        if (!((_a = this.product) === null || _a === void 0 ? void 0 : _a.packer))
+                        serverId = "start/" + this.product.id;
+                        serverDir = (_e = (_d = (_c = (_b = (_a = this.product) === null || _a === void 0 ? void 0 : _a.session) === null || _b === void 0 ? void 0 : _b.dir) === null || _c === void 0 ? void 0 : _c.dir('servers')) === null || _d === void 0 ? void 0 : _d.make()) === null || _e === void 0 ? void 0 : _e.dir(serverId);
+                        if (!(serverDir === null || serverDir === void 0 ? void 0 : serverDir.exists)) {
+                            console.log('not started');
                             return [2 /*return*/];
-                        return [4 /*yield*/, ((_b = this.product) === null || _b === void 0 ? void 0 : _b.packer.pack(function (event) {
-                                console.log('Chunky says: ', event);
-                            }))];
+                        }
+                        return [4 /*yield*/, this.stopServer(serverId)];
                     case 1:
-                        _c.sent();
-                        console.log("port:", this.product.packerPort);
+                        _f.sent();
+                        serverDir.remove();
                         return [2 /*return*/];
                 }
             });
         });
     };
-    return Start;
+    return Stop;
 }(__1.Command));
-exports.default = Start;
+exports.default = Stop;
 //# sourceMappingURL=index.js.map

@@ -18,8 +18,8 @@ import {
   MailOutlined
 } from '@ant-design/icons'
 import { replace } from 'connected-react-router'
-import { unselectProduct } from '../data'
-import { useEvent } from '../hooks'
+import { unselectProduct, selectProduct } from '../data'
+import { useEvent, useCommand } from '../hooks'
 import { ProductHeader, ProductChunks, ProductAssets } from '../components'
 
 const { Paragraph, Title } = Typography
@@ -39,19 +39,30 @@ export const Product: React.FC<ProductScreenProps> = (props) => {
   const product = useSelector((state: State) => state.product) 
   const dispatch = useDispatch()
   const unselectEvent: any = useEvent() 
-  const loadProductEvent: any = useEvent() 
+  let loadProductEvent: any = useEvent() 
   const loadFileEvent: any = useEvent() 
+  const command: any = useCommand()
   const sections: any = useRef(null)
 
   const [expandedChunks, setExpandedChunks] = useState([])
   const [rootDir, setRootDir] = useState()
   const [files, setFiles] = useState({})
   const [section, setSection] = useState('chunks')
+  const [commandResponse, setCommandResponse] = useState({})
   const [openFile, setOpenFile] = useState("")
 
   useEffect(() => {
     loadProductEvent.send({ type: 'loadSelectedProduct' })
   }, [])
+
+  useEffect(() => {
+    if (!command.received.id) return 
+    setCommandResponse(command.received)
+
+    if (command.received.message && command.received.message.done) {
+      loadProductEvent.send({ type: 'loadSelectedProduct' })
+    }
+  }, [command.received])
 
   useEffect(() => {
     if (!loadFileEvent.received.id) return 
@@ -83,7 +94,10 @@ export const Product: React.FC<ProductScreenProps> = (props) => {
 
     setRootDir(loadProductEvent.received.rootDir)
     setFiles(parsedFiles)
-
+    dispatch(selectProduct({
+      ...product,
+      started: loadProductEvent.received.started
+    }))
   }, [loadProductEvent.received])
 
   const onBack = () => {
@@ -100,12 +114,20 @@ export const Product: React.FC<ProductScreenProps> = (props) => {
     setExpandedChunks(keys)
   }
 
+  const onCommand = (commandId: string) => {
+      command.send({ commandId, productId: product.id })
+  }
+
   const onChunkSelect = (path: any) => {
       loadFileEvent.send({ 
             type: "loadFile",
             productId: product.id, 
             path 
           })    
+  }
+
+  const onTogglePreview = () => {
+    console.log("PREVIEW TOGGLE")
   }
 
   return (
@@ -120,7 +142,13 @@ export const Product: React.FC<ProductScreenProps> = (props) => {
       height: "100%",
       justifyContent: "flex-start"
     }}>
-        <ProductHeader product={product} onBack={onBack} onSectionChanged={onSectionChanged} />
+        <ProductHeader 
+          onTogglePreview={onTogglePreview}
+          product={product} 
+          commandResponse={commandResponse}
+          onCommand={onCommand}
+          onBack={onBack} 
+          onSectionChanged={onSectionChanged} />
         <Carousel 
           ref={sections}
           dots={false}

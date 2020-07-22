@@ -236,7 +236,7 @@ export class Engine implements IEngine {
     await Engine.start(command, args)
 
     // If we only need to run this once, then we're completely finished
-    // await Engine.stop()
+    await Engine.stop()
   }
 
   /**
@@ -259,37 +259,37 @@ export class Engine implements IEngine {
     // Prepare the command
     await command?.initialize(this.session!, args)
 
-    if (command?.isLongRunning) {
-      // Let's let this command run
-      await Engine.instance.exec(command, args)
-      return
-    }
+    // if (command?.isLongRunning) {
+    //   // Let's let this command run
+    //   await Engine.instance.exec(command, args)
+    //   return
+    // }
 
-    const port = await getPort({ port: 3000 })
-    const app = express()
-    app.set('port', port)
+    // const port = await getPort({ port: 3000 })
+    // const app = express()
+    // app.set('port', port)
 
-    const serverInstance = new http.Server(app)
-    const io = socket(serverInstance)
+    // const serverInstance = new http.Server(app)
+    // const io = socket(serverInstance)
 
-    app.get('/', async (req: any, res: any) => {
-      res.send('ok')
-    })
+    // app.get('/', async (req: any, res: any) => {
+    //   res.send('ok')
+    // })
 
-    io.on('connection', (socket) => {
-      console.log('A user has connected to the socket!')
-      socket.on('disconnect', () =>
-        console.log('A user has disconnected from the socket!')
-      )
-      socket.on('request', (message: any) => {
-        console.log('>', message)
-        socket.emit('response', { hello: 'world', message })
-      })
-    })
+    // io.on('connection', (socket) => {
+    //   console.log('A user has connected to the socket!')
+    //   socket.on('disconnect', () =>
+    //     console.log('A user has disconnected from the socket!')
+    //   )
+    //   socket.on('request', (message: any) => {
+    //     console.log('>', message)
+    //     socket.emit('response', { hello: 'world', message })
+    //   })
+    // })
 
-    serverInstance.listen(port, async () => {
-      // Listen for events
-    })
+    // serverInstance.listen(port, async () => {
+    //   // Listen for events
+    // })
 
     // Let's let this command run
     await Engine.instance.exec(command, args)

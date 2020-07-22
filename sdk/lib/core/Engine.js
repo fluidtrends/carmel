@@ -35,16 +35,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Engine = void 0;
 var __1 = require("..");
-var express_1 = __importDefault(require("express"));
-var http_1 = __importDefault(require("http"));
-var socket_io_1 = __importDefault(require("socket.io"));
-var get_port_1 = __importDefault(require("get-port"));
 /**
  * Solely responsible for running Carmel Commands.
  * It acts as the main entry point to the Carmel System.
@@ -318,10 +311,14 @@ var Engine = /** @class */ (function () {
                     // Let's let this command run
                     return [4 /*yield*/, Engine.start(command, args)
                         // If we only need to run this once, then we're completely finished
-                        // await Engine.stop()
                     ];
                     case 5:
                         // Let's let this command run
+                        _a.sent();
+                        // If we only need to run this once, then we're completely finished
+                        return [4 /*yield*/, Engine.stop()];
+                    case 6:
+                        // If we only need to run this once, then we're completely finished
                         _a.sent();
                         return [2 /*return*/];
                 }
@@ -336,8 +333,6 @@ var Engine = /** @class */ (function () {
     Engine.start = function (command, args) {
         var _a, _b, _c;
         return __awaiter(this, void 0, void 0, function () {
-            var port, app, serverInstance, io;
-            var _this = this;
             return __generator(this, function (_d) {
                 switch (_d.label) {
                     case 0: 
@@ -364,44 +359,61 @@ var Engine = /** @class */ (function () {
                     case 5:
                         // Prepare the command
                         _d.sent();
-                        if (!(command === null || command === void 0 ? void 0 : command.isLongRunning)) return [3 /*break*/, 7];
+                        // if (command?.isLongRunning) {
+                        //   // Let's let this command run
+                        //   await Engine.instance.exec(command, args)
+                        //   return
+                        // }
+                        // const port = await getPort({ port: 3000 })
+                        // const app = express()
+                        // app.set('port', port)
+                        // const serverInstance = new http.Server(app)
+                        // const io = socket(serverInstance)
+                        // app.get('/', async (req: any, res: any) => {
+                        //   res.send('ok')
+                        // })
+                        // io.on('connection', (socket) => {
+                        //   console.log('A user has connected to the socket!')
+                        //   socket.on('disconnect', () =>
+                        //     console.log('A user has disconnected from the socket!')
+                        //   )
+                        //   socket.on('request', (message: any) => {
+                        //     console.log('>', message)
+                        //     socket.emit('response', { hello: 'world', message })
+                        //   })
+                        // })
+                        // serverInstance.listen(port, async () => {
+                        //   // Listen for events
+                        // })
                         // Let's let this command run
                         return [4 /*yield*/, Engine.instance.exec(command, args)];
                     case 6:
-                        // Let's let this command run
-                        _d.sent();
-                        return [2 /*return*/];
-                    case 7: return [4 /*yield*/, get_port_1.default({ port: 3000 })];
-                    case 8:
-                        port = _d.sent();
-                        app = express_1.default();
-                        app.set('port', port);
-                        serverInstance = new http_1.default.Server(app);
-                        io = socket_io_1.default(serverInstance);
-                        app.get('/', function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-                            return __generator(this, function (_a) {
-                                res.send('ok');
-                                return [2 /*return*/];
-                            });
-                        }); });
-                        io.on('connection', function (socket) {
-                            console.log('A user has connected to the socket!');
-                            socket.on('disconnect', function () {
-                                return console.log('A user has disconnected from the socket!');
-                            });
-                            socket.on('request', function (message) {
-                                console.log('>', message);
-                                socket.emit('response', { hello: 'world', message: message });
-                            });
-                        });
-                        serverInstance.listen(port, function () { return __awaiter(_this, void 0, void 0, function () {
-                            return __generator(this, function (_a) {
-                                return [2 /*return*/];
-                            });
-                        }); });
-                        // Let's let this command run
-                        return [4 /*yield*/, Engine.instance.exec(command, args)];
-                    case 9:
+                        // if (command?.isLongRunning) {
+                        //   // Let's let this command run
+                        //   await Engine.instance.exec(command, args)
+                        //   return
+                        // }
+                        // const port = await getPort({ port: 3000 })
+                        // const app = express()
+                        // app.set('port', port)
+                        // const serverInstance = new http.Server(app)
+                        // const io = socket(serverInstance)
+                        // app.get('/', async (req: any, res: any) => {
+                        //   res.send('ok')
+                        // })
+                        // io.on('connection', (socket) => {
+                        //   console.log('A user has connected to the socket!')
+                        //   socket.on('disconnect', () =>
+                        //     console.log('A user has disconnected from the socket!')
+                        //   )
+                        //   socket.on('request', (message: any) => {
+                        //     console.log('>', message)
+                        //     socket.emit('response', { hello: 'world', message })
+                        //   })
+                        // })
+                        // serverInstance.listen(port, async () => {
+                        //   // Listen for events
+                        // })
                         // Let's let this command run
                         _d.sent();
                         return [2 /*return*/];

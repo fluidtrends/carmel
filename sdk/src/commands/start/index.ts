@@ -3,7 +3,7 @@ import { Command, CommandProps, CommandType } from '../..'
 const props: CommandProps = {
   id: 'start',
   type: CommandType.PRODUCT,
-  longRunning: false,
+  longRunning: true,
   requiresScript: true,
   requiresApp: true,
 }
@@ -26,6 +26,6 @@ export default class Start extends Command {
       console.log('Chunky says: ', event)
     })
 
-    await this.product.openCode()
+    console.log("port:", this.product.packerPort)
   }
 }

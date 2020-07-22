@@ -62,6 +62,14 @@ commands:
   - command: start mobile --mobile-port 9200
     description: Start the mobile packager only, using a custom mobile port
 
+- name: stop [platform]
+  description: Stop the packager for a specific platform
+  more: The supported platforms are web, mobile and desktop
+  executor: lib/exec.js
+  examples:
+  - command: stop
+    description: Stop all the packagers, using the default ports
+
 - name: make [platform]
   description: Build for a specific platform
   more: The supported platforms are web, mobile and desktop

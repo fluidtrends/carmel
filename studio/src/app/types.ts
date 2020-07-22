@@ -9,6 +9,8 @@ export interface Product {
     id: string
     name: string
     cover: string
+    status: string
+    [key: string]: any
     chunks: string[]
 }
 
@@ -80,7 +82,10 @@ export interface MainHeaderComponentProps {
 export interface ProductHeaderComponentProps {
     product: Product
     onBack: () => any
+    commandResponse: any
     onSectionChanged: (section: string) => any
+    onCommand: (command: any) => any
+    onTogglePreview: () => any
 }
 
 export interface ProductChunksComponentProps {
