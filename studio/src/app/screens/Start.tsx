@@ -26,16 +26,29 @@ export const Start: React.FC<StartScreenProps> = (props) => {
   }, [loadEvent])
 
   useEffect(() => {
-    if (!session.modifiedTimestamp) return
 
-    const { modifiedTimestamp, createdTimestamp } = session
     setTimeout(() => {
-      if (modifiedTimestamp !== createdTimestamp) {
-        dispatch(replace('/welcome'))
-        return 
-      }
-      dispatch(replace(session.productId ? '/product' : '/products'))
+        dispatch(replace(session.notInstalled ? '/welcome' : session.productId ? '/product' : '/products'))
     }, 1000)
+
+    // console.log(session)
+    // if (session.notInstalled) {
+    //   setTimeout(() => {
+    //       dispatch(replace('/welcome'))
+    //   }, 1000)
+    //   return 
+    // }
+
+    // if (!session.modifiedTimestamp) return
+
+    // const { modifiedTimestamp, createdTimestamp } = session
+    // setTimeout(() => {
+    //   if (modifiedTimestamp !== createdTimestamp) {
+    //     dispatch(replace('/welcome'))
+    //     return 
+    //   }
+    //   dispatch(replace(session.productId ? '/product' : '/products'))
+    // }, 1000)
   }, [session])
   
   return (<div style={styles.screen}>

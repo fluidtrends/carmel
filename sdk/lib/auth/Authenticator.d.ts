@@ -1,5 +1,5 @@
 import { IAuthenticator, ISession, User, IDir, AccessTokenType, IAuthProvider } from '..';
-import express, { Express } from 'express';
+import { Express } from 'express';
 /**
  *
  */
@@ -46,7 +46,7 @@ export declare class Authenticator implements IAuthenticator {
     /**
      *
      */
-    get app(): express.Express;
+    get app(): any;
     /**
      *
      */

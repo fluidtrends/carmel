@@ -14,8 +14,11 @@ import { replace } from 'connected-react-router'
  */
 export const Welcome: React.FC<WelcomeScreenProps> = (props) => {
   const setupEvent: any = useEvent() 
-  const [status, setStatus] = useState('')
+  const [status, setStatus] = useState('Preparing to setup ...')
   const [progress, setProgress] = useState(0)
+  const [estimatedTime, setEstimatedTime] = useState(0)
+  const [timer, setTimer] = useState(undefined)
+  
   const session = useSelector((state: State) => state.session)
 
   const dispatch = useDispatch()
@@ -26,23 +29,41 @@ export const Welcome: React.FC<WelcomeScreenProps> = (props) => {
 
   useEffect(() => {
     if (!setupEvent.received.id) return 
-    setProgress(setupEvent.received.progress)
-    setStatus(setupEvent.received.status)
 
-    if (setupEvent.received.progress >= 100) {
-      setTimeout(() => {
-        dispatch(replace(session.productId ? '/product' : '/products'))
-      }, 1000)
+    if (setupEvent.received.estimatedTime) {
+      if (estimatedTime > 0) return
+      setEstimatedTime(setupEvent.received.estimatedTime)
+      setStatus("Setting up your environment  ...")
+      setProgress(5)  
+      const ticker = 95 / setupEvent.received.estimatedTime
+      setTimer(setInterval(() => {
+        setProgress((prog) => prog + ticker)
+      }, 1000))
+      return 
     }
+
+    if (setupEvent.received.done) {
+      clearInterval(timer)
+      setStatus("Ready")
+      setProgress(100)
+      setTimer(undefined)
+      setTimeout(() => {
+        dispatch(replace('/newProduct'))
+      }, 2000)
+      return 
+    }
+
+    setProgress(2)  
  }, [setupEvent])
 
   return (<div style={styles.screen}>
-      <Title> Welcome </Title>
+      <Title> Welcome to Carmel </Title>
       
       <div style={{
         width: 600
       }}>
         <Progress
+          showInfo={false}
           strokeColor={{
             from: '#108ee9',
             to: '#87d068',
@@ -52,6 +73,5 @@ export const Welcome: React.FC<WelcomeScreenProps> = (props) => {
         />
       </div>
       <Text> { status } </Text>
-
   </div>)
 }

@@ -43,7 +43,7 @@ export interface ProductsScreenProps extends AppProps {
 export interface ProductScreenProps extends AppProps {
 }
 
-export interface EditorScreenProps extends AppProps {
+export interface NewProductScreenProps extends AppProps {
 }
 
 export interface MainContainerProps extends AppProps {

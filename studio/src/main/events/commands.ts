@@ -7,14 +7,14 @@ import { send } from './main'
 export const runCommand = async(data: any) => {
     const env = system.env()
     const nodeRoot = path.resolve(env.cache.path, 'node', 'default')
-    const productDir = path.resolve(env.home.path, 'products', data.productId)
+    const cwd = data.productId ? path.resolve(env.home.path, 'products', data.productId) : env.home.path
 
     const nodeBin = path.resolve(nodeRoot, 'bin', 'node')
     const carmelBin = path.resolve('bin', 'cli.js')
 
     const exe = proc.spawn(nodeBin, [carmelBin, data.commandId, ...(data.args || [])], { 
         stdio: [ 'pipe', 'pipe', 'pipe', 'ipc' ],
-        cwd: productDir 
+        cwd 
     })
 
     exe.on('message', async (message) => {

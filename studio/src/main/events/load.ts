@@ -5,8 +5,19 @@ import path from 'path'
 
 export const load = async (data: any) => {
     const env = system.env()
-    const session = system.session
-     
+    const session = system.session || { notInstalled: true }
+
+     if (session.notInstalled) {
+        await send({ 
+            id: data.id, 
+            type: 'loaded', 
+            session,
+            products: [],
+            env,
+        })
+        return 
+     }
+
     const products = fs.readdirSync(path.resolve(env.home.path, 'products'))
                         .filter(id => !id.startsWith('.'))
                         .map(id => JSON.parse(fs.readFileSync(path.resolve(env.home.path, 'products', id, '.carmel.json'), 'utf8')))

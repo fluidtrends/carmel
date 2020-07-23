@@ -1,10 +1,9 @@
 import { ISession, IDir, Name, IRepo, Id, IFile } from '.';
 import { RequestHandler, Express } from 'express';
-import expressSession, { Store } from 'express-session';
-import SessionFileStore from 'session-file-store';
+import { Store } from 'express-session';
 import { BrowserSyncInstance } from 'browser-sync';
-export declare const AuthSession: typeof expressSession;
-export declare const AuthStore: SessionFileStore.FileStore;
+export declare const AuthSession: any;
+export declare const AuthStore: any;
 export declare type AuthStoreType = Store;
 export declare type AuthSessionType = RequestHandler;
 export declare type AuthBrowserType = BrowserSyncInstance;

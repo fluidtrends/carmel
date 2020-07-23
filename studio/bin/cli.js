@@ -13,15 +13,18 @@
     init()
 
     const commandArgs = [].concat(process.argv).slice(2)
-    console.log(commandArgs)
     const commandId = commandArgs[0].toLowerCase()
     const command = {
       id: commandId,
       cls: commandId[0].toUpperCase() + commandId.substring(1),
     }
-    process.chdir(path.resolve('/Users/idancali/idancali/dev/carmel'))
+
+    console.log(command)
 
     const sdkPath = await installCarmelSDK()
+
+    console.log(sdkPath)
+
     const tsMode = process.env.CARMEL_MODE && process.env.CARMEL_MODE === 'ts'
     const Carmel = require(path.resolve(sdkPath, tsMode ? 'src' : 'lib'))
     const Command = Carmel.Commands[command.cls]

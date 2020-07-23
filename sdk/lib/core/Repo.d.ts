@@ -28,7 +28,7 @@ export declare class Repo implements IRepo {
     /**
      *
      */
-    get local(): NodeGit.Repository | undefined;
+    get local(): any;
     /**
      *
      */

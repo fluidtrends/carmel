@@ -1,4 +1,3 @@
-/// <reference types="express-session" />
 import { ISession, SessionProps, ILogger, Id, Bundle, IProduct, JSON, Target, Template, IDir, Name, IFile, Version, ArtifactsKind, SessionState, IAuthenticator, AuthStoreType, AccessTokenType, IKeyStore, User } from '..';
 /**
  * Represents an {@linkcode Engine} Session initiated by a client.
@@ -76,7 +75,7 @@ export declare class Session implements ISession {
     /** */
     get index(): any;
     /** */
-    get store(): import("express-session").Store | undefined;
+    get store(): any;
     /** */
     get system(): any;
     /** */
