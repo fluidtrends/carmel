@@ -40,6 +40,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Repo = void 0;
+// import NodeGit from 'nodegit'
 var recursive_readdir_1 = __importDefault(require("recursive-readdir"));
 var fs_1 = __importDefault(require("fs"));
 var path_1 = __importDefault(require("path"));
@@ -66,17 +67,13 @@ var Repo = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(Repo.prototype, "local", {
-        /**
-         *
-         */
-        get: function () {
-            return this._local;
-        },
-        enumerable: false,
-        configurable: true
-    });
     Object.defineProperty(Repo.prototype, "remote", {
+        // /**
+        //  *
+        //  */
+        // get local() {
+        //   return this._local
+        // }
         /**
          *
          */
@@ -116,17 +113,13 @@ var Repo = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(Repo.prototype, "isOpen", {
-        /**
-         *
-         */
-        get: function () {
-            return this._local !== undefined;
-        },
-        enumerable: false,
-        configurable: true
-    });
     Object.defineProperty(Repo.prototype, "hasRemote", {
+        // /**
+        //  *
+        //  */
+        // get isOpen() {
+        //   return this._local !== undefined
+        // }
         /**
          *
          */

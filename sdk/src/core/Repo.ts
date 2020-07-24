@@ -1,5 +1,5 @@
 import { IRepo, ICode, AccessTokenType, IDir } from '..'
-import NodeGit from 'nodegit'
+// import NodeGit from 'nodegit'
 import listDir from 'recursive-readdir'
 import fs from 'fs'
 import path from 'path'
@@ -14,7 +14,7 @@ export class Repo implements IRepo {
   protected _code: ICode
 
   /** @internal */
-  protected _local?: NodeGit.Repository
+  // protected _local?: NodeGit.Repository
 
   /** @internal */
   protected _remote?: any
@@ -43,12 +43,12 @@ export class Repo implements IRepo {
     return this._code
   }
 
-  /**
-   *
-   */
-  get local() {
-    return this._local
-  }
+  // /**
+  //  *
+  //  */
+  // get local() {
+  //   return this._local
+  // }
 
   /**
    *
@@ -78,12 +78,12 @@ export class Repo implements IRepo {
     return this._name
   }
 
-  /**
-   *
-   */
-  get isOpen() {
-    return this._local !== undefined
-  }
+  // /**
+  //  *
+  //  */
+  // get isOpen() {
+  //   return this._local !== undefined
+  // }
 
   /**
    *

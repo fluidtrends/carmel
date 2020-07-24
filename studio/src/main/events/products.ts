@@ -1,8 +1,36 @@
 import { send } from './main'
+import { carmel } from './commands'
 import * as system from '../system'
-import fs from 'fs'
+import fs from 'fs-extra'
 import path from 'path'
 import readdir from "recursive-readdir"
+
+export const createProduct = async (data: any) => {
+    const env = system.env()
+    const cwd = path.resolve(env.workspace.path, data.name.replace(/\s/g, ''))
+    
+    if (fs.existsSync(cwd)) {
+        await send({ 
+            id: data.id,
+            type: 'createdProduct', 
+            error: 'The name is taken, please choose another name'
+        })
+        return
+    }
+
+    fs.mkdirsSync(cwd)
+   
+    await carmel({ 
+        cmd: `init --template=${data.template} --name="${data.name}"`, 
+        cwd
+    })
+
+    await send({ 
+        id: data.id,
+        type: 'createdProduct', 
+        done: true
+    })
+}
 
 export const selectProduct = async (data: any) => {
     system.update({ productId: data.product.id })

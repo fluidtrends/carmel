@@ -1,4 +1,5 @@
 import { IProduct, Path, IFile, IDir, Target, Dir, ProductState, ISession, ISnapshot, Id, ICode, IPacker } from '..';
+import { Name } from '../types';
 /**
  *
  * {@link https://github.com/fluidtrends/carmel/blob/master/sdk/src/Product.ts | Source Code } |
@@ -103,7 +104,7 @@ export declare class Product implements IProduct {
      *
      * @param id
      */
-    createFromTemplate(id: Id): Promise<this>;
+    createFromTemplate(id: Id, name: Name): Promise<this>;
     /**
      *
      */

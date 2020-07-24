@@ -12,7 +12,6 @@ import {
 } from '..'
 
 import { Octokit } from '@octokit/rest'
-import NodeGit from 'nodegit'
 
 /**
  *

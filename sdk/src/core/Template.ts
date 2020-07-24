@@ -75,7 +75,7 @@ export class Template implements ITemplate {
      * 
      * @param dir 
      */
-    async install(dir: IDir, product: IProduct) {
+    async install(dir: IDir, name: Name, product: IProduct) {
         let id = shortid.generate().toLowerCase()
         
         if (product.exists) {
@@ -131,6 +131,7 @@ export class Template implements ITemplate {
         product.manifest.load()
         product.manifest.data.append({
             id,
+            name,
             carmelSDKVersion: product.session?.pkg.version,
             template: this.name,
             bundle: this.artifact.bundle.id,

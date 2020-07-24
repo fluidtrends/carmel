@@ -95,7 +95,7 @@ var Template = /** @class */ (function () {
      *
      * @param dir
      */
-    Template.prototype.install = function (dir, product) {
+    Template.prototype.install = function (dir, name, product) {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x;
         return __awaiter(this, void 0, void 0, function () {
             var id, productCacheDir, packerId, stackId, packer, _y, stack, _z, packerDir, stackDir;
@@ -158,6 +158,7 @@ var Template = /** @class */ (function () {
                         product.manifest.load();
                         product.manifest.data.append({
                             id: id,
+                            name: name,
                             carmelSDKVersion: (_x = product.session) === null || _x === void 0 ? void 0 : _x.pkg.version,
                             template: this.name,
                             bundle: this.artifact.bundle.id,

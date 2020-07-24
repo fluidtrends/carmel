@@ -70,7 +70,7 @@ var Init = /** @class */ (function (_super) {
     Init.prototype.exec = function () {
         var _a, _b;
         return __awaiter(this, void 0, void 0, function () {
-            var templateId;
+            var templateId, name;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
@@ -79,8 +79,9 @@ var Init = /** @class */ (function (_super) {
                             throw __1.Errors.ProductAlreadyExists();
                         }
                         templateId = this.arg("template");
+                        name = this.arg("name");
                         // Looks good, let's create the product structure from this template
-                        return [4 /*yield*/, ((_b = this.product) === null || _b === void 0 ? void 0 : _b.createFromTemplate(templateId))];
+                        return [4 /*yield*/, ((_b = this.product) === null || _b === void 0 ? void 0 : _b.createFromTemplate(templateId, name))];
                     case 1:
                         // Looks good, let's create the product structure from this template
                         _c.sent();

@@ -22,9 +22,9 @@ export const ProductAssets: React.FC<ProductAssetsComponentProps> = (props) => {
   }
 
   useEffect(() => {
-    if (!files.assets) return 
+    if (!files.assets) return
 
-    setImages(files.assets.images.__files.map((name: string) => ({
+    setImages(files.assets.__files.map((name: string) => ({
       id: name,
       name,
       path: name

@@ -16,39 +16,28 @@ export const Start: React.FC<StartScreenProps> = (props) => {
   const loadEvent: any = useEvent() 
   const dispatch = useDispatch()
   const session = useSelector((state: State) => state.session)
+  const products = useSelector((state: State) => state.products)
 
   useEffect(() => {
     loadEvent.send({ type: 'load' })
   }, [])
 
   useEffect(() => {
+    if (!loadEvent.received.id) return
+  
+    if (loadEvent.received.type === 'firstTime') {
+      dispatch(replace('/welcome'))
+      return 
+    }
+
     loadEvent.received.type === 'loaded' && dispatch(initialize(loadEvent.received)) 
-  }, [loadEvent])
+  }, [loadEvent.received])
 
   useEffect(() => {
+    if (!session.loadedTimestamp) return
 
-    setTimeout(() => {
-        dispatch(replace(session.notInstalled ? '/welcome' : session.productId ? '/product' : '/products'))
-    }, 1000)
-
-    // console.log(session)
-    // if (session.notInstalled) {
-    //   setTimeout(() => {
-    //       dispatch(replace('/welcome'))
-    //   }, 1000)
-    //   return 
-    // }
-
-    // if (!session.modifiedTimestamp) return
-
-    // const { modifiedTimestamp, createdTimestamp } = session
-    // setTimeout(() => {
-    //   if (modifiedTimestamp !== createdTimestamp) {
-    //     dispatch(replace('/welcome'))
-    //     return 
-    //   }
-    //   dispatch(replace(session.productId ? '/product' : '/products'))
-    // }, 1000)
+    const screen = session.productId ? '/product' : products.length === 0 ? '/newProduct' : '/products'  
+    dispatch(replace(screen))
   }, [session])
   
   return (<div style={styles.screen}>

@@ -14,6 +14,12 @@ export interface Product {
     chunks: string[]
 }
 
+export interface Template {
+    name: string,
+    bundle: string,
+    bundleVersion?: string
+}
+
 export interface Asset {
     name: string 
     path: string
@@ -61,6 +67,12 @@ export interface ChallengesComponentProps {
 export interface ProductListItemComponentProps {
     product: Product,
     onSelected: (product: Product) => any
+}
+
+
+export interface TemplateListItemComponentProps {
+    template: Template,
+    onSelected: (template: Template) => any
 }
 
 export interface ChunkListItemComponentProps {

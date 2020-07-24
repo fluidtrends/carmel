@@ -73,7 +73,6 @@ export const Product: React.FC<ProductScreenProps> = (props) => {
     if (!loadProductEvent.received.id) return 
 
     let parsedFiles: any = {}
-
     loadProductEvent.received.files.map((file: string) => {
       const dirs = file.split('/')
       const filename = dirs.pop()
@@ -87,6 +86,7 @@ export const Product: React.FC<ProductScreenProps> = (props) => {
         dir[d].__path = path
         dir = dir[d]
       })
+
 
       dir.__files = dir.__files || []
       dir.__files.push(filename)

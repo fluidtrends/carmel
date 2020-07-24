@@ -1,18 +1,68 @@
 import * as system from '../system'
-import fs from 'fs'
 import path from 'path'
-import proc from 'child_process'
+import { spawn } from 'child_process'
 import { send } from './main'
+import execa from 'execa'
+
+export const carmel = async(data: any) => {
+    const nodeVersion = '12.18.3'
+    const carmelSDKVersion = '1.9.42'
+
+    const env = system.env()
+    const cli = path.resolve('bin', 'cli.js')
+    const nodeHome = path.resolve(env.cache.path, 'node', nodeVersion, 'node')
+    const cwd = data.cwd || env.home.path
+    const args = data.cmd.split(' ')
+
+    const exe = path.resolve(nodeHome, 'bin', 'node')
+
+    try {
+        return await execa(exe, [cli, ...args], { 
+            cwd, 
+            extendEnv: true,
+            env: {
+                CARMEL_HOME: env.home.path,
+                CARMEL_SDK_HOME: path.resolve(
+                    env.cache.path,
+                    '@carmel',
+                    'sdk',
+                    carmelSDKVersion,
+                    '@carmel',
+                    'sdk'
+                  )
+            } 
+        })
+    } catch (error) {
+        return error
+    }
+}
+
+export const shell = async(data: any) => {
+    const env = system.env()
+    const nodeHome = path.resolve(env.cache.path, 'node', '12.18.3', 'node')
+    const cwd = data.cwd || env.home.path
+    const args = data.cmd.split(' ')
+    const cmd: string = args.shift()
+
+    const exe = path.resolve(nodeHome, 'bin', 'node')
+    const exeArgs = [path.resolve(nodeHome, 'bin', cmd)].concat(cmd === 'npm' ? ['--prefix', nodeHome, ...args] : args)
+
+    try {
+        return await execa(exe, exeArgs, { cwd })
+    } catch (error) {
+        return error
+    }
+}
 
 export const runCommand = async(data: any) => {
     const env = system.env()
-    const nodeRoot = path.resolve(env.cache.path, 'node', 'default')
+    const nodeRoot = path.resolve(env.home.path, 'archive', 'node', 'default')
     const cwd = data.productId ? path.resolve(env.home.path, 'products', data.productId) : env.home.path
 
     const nodeBin = path.resolve(nodeRoot, 'bin', 'node')
     const carmelBin = path.resolve('bin', 'cli.js')
 
-    const exe = proc.spawn(nodeBin, [carmelBin, data.commandId, ...(data.args || [])], { 
+    const exe = spawn(nodeBin, [carmelBin, data.commandId, ...(data.args || [])], { 
         stdio: [ 'pipe', 'pipe', 'pipe', 'ipc' ],
         cwd 
     })
