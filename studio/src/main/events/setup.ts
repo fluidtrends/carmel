@@ -40,13 +40,19 @@ export const installDependency = async (data: any) => {
     const manifest = await pacote.manifest(data.id)
     const cwd = path.resolve(env.home.path, data.type, manifest.name, manifest.version, manifest.name)
 
-    if (fs.existsSync(cwd)) return 
+    if (fs.existsSync(cwd)) return {
+        version: manifest.version
+    }
   
     await pacote.extract(manifest._resolved, cwd)
 
     if (!fs.existsSync(path.resolve(cwd, 'package.json'))) return
 
     await shell({ cmd: 'yarn install --production --silent', cwd })
+
+    return {
+        version: manifest.version
+    }
 }
 
 export const installArchive = async (data: any) => {
@@ -74,21 +80,35 @@ export const setup = async (data: any) => {
 
     await installArchive({ name: 'node', version: nodeVersion, type: "cache" })
     await shell({ cmd: 'npm i -g yarn' })
-    await installDependency({ id: '@carmel/sdk', type: "cache" })
+    const sdk = await installDependency({ id: '@carmel/sdk', type: "cache" })
 
-    await installDependency({ id: 'papanache', type: "packers" })
-    await installDependency({ id: 'jayesse', type: "stacks" })
-    await installDependency({ id: '@fluidtrends/bananas', type: "bundles" })
+    const papanache = await installDependency({ id: 'papanache', type: "packers" })
+    const jayesse = await installDependency({ id: 'jayesse', type: "stacks" })
+    const bananas = await installDependency({ id: '@fluidtrends/bananas', type: "bundles" })
    
     const env = system.env()
     const cwd = path.resolve(env.workspace.path, 'MyFirstProduct')
     fs.mkdirsSync(cwd)
    
-    await carmel({ cmd: 'init --name="My First Product" --template=@fluidtrends/bananas/starter', cwd })
+    const product = await carmel({ 
+        node: nodeVersion,
+        sdk: sdk.version,
+        cmd: "init",
+        args: [
+            { name: 'name', value: "My First Product" },
+            { name: 'template', value: "@fluidtrends/bananas/starter" }
+        ], 
+        cwd 
+    })
+
     const productData: any = JSON.parse(fs.readFileSync(path.resolve(cwd, '.carmel.json'), 'utf8'))
 
     system.init({
-        productId: productData.id
+        productId: productData.id,
+        sdk, 
+        packers: { papanache },
+        stacks: { jayesse },
+        bundles: { bananas }
     })
     
     await send({ id: data.id, type: 'settingUp', done: true })    

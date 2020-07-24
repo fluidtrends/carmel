@@ -5,14 +5,14 @@ import { send } from './main'
 import execa from 'execa'
 
 export const carmel = async(data: any) => {
-    const nodeVersion = '12.18.3'
-    const carmelSDKVersion = '1.9.42'
+    const nodeVersion = data.node
+    const carmelSDKVersion = data.sdk
 
     const env = system.env()
     const cli = path.resolve('bin', 'cli.js')
     const nodeHome = path.resolve(env.cache.path, 'node', nodeVersion, 'node')
     const cwd = data.cwd || env.home.path
-    const args = data.cmd.split(' ')
+    const args = [data.cmd, JSON.stringify(data.args)]
 
     const exe = path.resolve(nodeHome, 'bin', 'node')
 

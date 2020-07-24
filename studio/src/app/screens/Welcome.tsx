@@ -47,7 +47,8 @@ export const Welcome: React.FC<WelcomeScreenProps> = (props) => {
 
   useEffect(() => {
     if (!session.loadedTimestamp) return
-    dispatch(replace('/products'))
+    console.log(session)
+    dispatch(replace('/product'))
   }, [session])
 
   return (<div style={styles.screen}>
