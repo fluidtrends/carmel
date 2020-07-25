@@ -1,7 +1,7 @@
 {
   "name": "carmel",
   "productName": "carmel",
-  "version": "1.0.0",
+  "version": "1.10.0",
   "description": "Carmel Studio",
   "main": ".webpack/main",
   "scripts": {
