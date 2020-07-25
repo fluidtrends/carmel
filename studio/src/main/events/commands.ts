@@ -12,7 +12,7 @@ export const carmel = async(data: any) => {
     const cli = path.resolve('bin', 'cli.js')
     const nodeHome = path.resolve(env.cache.path, 'node', nodeVersion, 'node')
     const cwd = data.cwd || env.home.path
-    const args = [data.cmd, JSON.stringify(data.args)]
+    const args = [data.cmd].concat(data.args ? [JSON.stringify(data.args)] : [])
 
     const exe = path.resolve(nodeHome, 'bin', 'node')
 

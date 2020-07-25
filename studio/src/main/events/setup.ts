@@ -90,14 +90,24 @@ export const setup = async (data: any) => {
     const cwd = path.resolve(env.workspace.path, 'MyFirstProduct')
     fs.mkdirsSync(cwd)
    
-    const product = await carmel({ 
+    await carmel({ 
         node: nodeVersion,
         sdk: sdk.version,
         cmd: "init",
-        args: [
-            { name: 'name', value: "My First Product" },
-            { name: 'template', value: "@fluidtrends/bananas/starter" }
-        ], 
+        args: [{
+            name: "name",
+            value: "My First Product"
+        }, {
+            name: "template",
+            value: "@fluidtrends/bananas/starter"
+        }], 
+        cwd 
+    })
+
+    await carmel({ 
+        node: nodeVersion,
+        sdk: sdk.version,
+        cmd: "start",
         cwd 
     })
 
@@ -108,7 +118,7 @@ export const setup = async (data: any) => {
         sdk, 
         packers: { papanache },
         stacks: { jayesse },
-        bundles: { bananas }
+        bundles: { "@fluidtrends/bananas": bananas }
     })
     
     await send({ id: data.id, type: 'settingUp', done: true })    

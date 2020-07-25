@@ -81,7 +81,9 @@ var Start = /** @class */ (function (_super) {
                             }))];
                     case 1:
                         _c.sent();
-                        console.log("port:", this.product.packerPort);
+                        this.product.manifest.data.append({
+                            packerPort: this.product.packerPort
+                        });
                         return [2 /*return*/];
                 }
             });

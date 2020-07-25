@@ -14,7 +14,15 @@
   const Command = Carmel.Commands[command.cls]
   const cmd = new Command(command)
 
-  const args = JSON.parse(commandArgs[1])
+  const args = (commandArgs.length > 1
+    ? JSON.parse(commandArgs[1])
+    : []
+  ).concat([
+    {
+      name: 'cls',
+      value: command.cls,
+    },
+  ])
 
   const output = await Carmel.Engine.run(cmd, args)
   console.log(output)
