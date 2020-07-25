@@ -84,6 +84,7 @@ var Start = /** @class */ (function (_super) {
                         this.product.manifest.data.append({
                             packerPort: this.product.packerPort
                         });
+                        this.product.manifest.save();
                         return [2 /*return*/];
                 }
             });

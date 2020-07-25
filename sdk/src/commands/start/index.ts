@@ -29,5 +29,6 @@ export default class Start extends Command {
     this.product.manifest.data.append({
       packerPort: this.product.packerPort
     })
+    this.product.manifest.save()
   }
 }

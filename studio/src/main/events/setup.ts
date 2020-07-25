@@ -90,7 +90,7 @@ export const setup = async (data: any) => {
     const cwd = path.resolve(env.workspace.path, 'MyFirstProduct')
     fs.mkdirsSync(cwd)
    
-    await carmel({ 
+    const init = await carmel({ 
         node: nodeVersion,
         sdk: sdk.version,
         cmd: "init",
@@ -104,12 +104,16 @@ export const setup = async (data: any) => {
         cwd 
     })
 
-    await carmel({ 
+    await send({ id: data.id, type: 'settingUp', status: init })    
+
+    const started = await carmel({ 
         node: nodeVersion,
         sdk: sdk.version,
         cmd: "start",
         cwd 
     })
+
+    await send({ id: data.id, type: 'settingUp', status: started })    
 
     const productData: any = JSON.parse(fs.readFileSync(path.resolve(cwd, '.carmel.json'), 'utf8'))
 

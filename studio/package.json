@@ -8,7 +8,6 @@
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "build": "theia build --mode development",
     "publish": "electron-forge publish",
     "lint": "eslint --ext .ts ."
   },
@@ -34,7 +33,8 @@
           }
         ],
         "extraResource": [
-          "./assets/"
+          "./assets/",
+          "./bin/"
         ]
       },
       "makers": [
@@ -154,6 +154,7 @@
     "recursive-readdir": "^2.2.2",
     "redux": "^4.0.5",
     "redux-persist": "^6.0.0",
+    "shebang-loader": "0.0.1",
     "shortid": "^2.2.15",
     "ts-import-plugin": "^1.6.6",
     "url-loader": "^4.1.0"

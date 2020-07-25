@@ -54,8 +54,16 @@ module.exports = [
     ],
   },
   {
+    test: /node-gyp\.js$/,
+    use: [
+      {
+        loader: 'shebang-loader',
+      },
+    ],
+  },
+  {
     test: /\.ts(x?)$/,
-    exclude: /(node_modules|\.webpack|node_modules\/browser-sync)/,
+    exclude: /(node_modules|\.webpack)/,
     use: [
       {
         loader: 'ts-loader',

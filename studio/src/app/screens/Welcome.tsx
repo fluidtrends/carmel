@@ -30,6 +30,8 @@ export const Welcome: React.FC<WelcomeScreenProps> = (props) => {
   useEffect(() => {
     if (!setupEvent.received.id) return 
 
+    console.log(setupEvent.received)
+    
     const { status } = setupEvent.received
     setStatus(`${status}`)
 

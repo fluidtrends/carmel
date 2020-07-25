@@ -1,5 +1,7 @@
 import * as system from '../system'
 import path from 'path'
+import { app } from 'electron'
+import { script } from '../assets'
 import { spawn } from 'child_process'
 import { send } from './main'
 import execa from 'execa'
@@ -9,7 +11,7 @@ export const carmel = async(data: any) => {
     const carmelSDKVersion = data.sdk
 
     const env = system.env()
-    const cli = path.resolve('bin', 'cli.js')
+    const cli = script('cli.js')
     const nodeHome = path.resolve(env.cache.path, 'node', nodeVersion, 'node')
     const cwd = data.cwd || env.home.path
     const args = [data.cmd].concat(data.args ? [JSON.stringify(data.args)] : [])
