@@ -50,8 +50,7 @@ export const create = () => {
     }
   })
 
-  // isDevMode && window.webContents.openDevTools()
-  window.webContents.openDevTools()
+  isDevMode && window.webContents.openDevTools()
   window.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
 
   window.on('close', () => {
