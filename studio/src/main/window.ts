@@ -36,8 +36,8 @@ export const create = () => {
   window = new BrowserWindow({
     width: 960,
     minWidth: 960,
-    height: 600,
-    minHeight: 600,
+    height: 560,
+    minHeight: 560,
     show: false,
     frame: true,
     fullscreenable: true,
