@@ -67,20 +67,10 @@ export const downloadDependency = async (data: any) => {
 }
 
 export const installDependencies = async (data: any) => {
-
     const env = system.env()
-    const yarnFile = path.resolve(env.home.path, '.yarnrc')
-
-    if (!fs.existsSync(yarnFile)) {
-        fs.writeFileSync(yarnFile, `registry "https://registry.npmjs.org/"
-yarn-offline-mirror-pruning true
-yarn-offline-mirror ./cache/yarnmirror/1
---cache-folder ./cache/yarncache/1`, 'utf8')
-    }
-
     const cwd = path.resolve(env.home.path, data.type, data.name, data.version, data.name)
 
-    return await shell({ cmd: `yarn --production --silent --prefer-offline install`, cwd })
+    return await shell({ cmd: `yarn install`, cwd })
 }
 
 export const installArchive = async (data: any) => {
@@ -120,20 +110,11 @@ export const installArchive = async (data: any) => {
 export const installMirror = async (data: any) => {
     const now = Date.now()
     const env = system.env()
-    const name = 'yarnmirror'
     const { version } = data
-    const filename = `${name}-${version}.tar.gz`
-    const dir = path.resolve(env.home.path, data.type, name, version)
-    const dest = path.resolve(dir, name)
+    const dir = env.cache.path
 
-    if (fs.existsSync(dest)) {
-        return {
-            dest, 
-            time: 0
-        }
-    }
-
-    fs.mkdirsSync(dir)
+    fs.existsSync(dir) || fs.mkdirsSync(dir)
+    const filename = `yarnmirror-${version}.tar.gz`
 
     const url = `http://store.carmel.io/archives/${filename}`
     console.log(url)
@@ -148,7 +129,6 @@ export const installMirror = async (data: any) => {
     })
 
     return {
-        dest,
         time: Math.round((Date.now() - now) / 1000),
     }
 }
@@ -156,52 +136,70 @@ export const installMirror = async (data: any) => {
 export const setup = async (data: any) => {
     const nodeVersion = '12.18.3'
     let totalTime = 0
+    const env = system.env()
 
-    const mirror = await installMirror({ name: 'yarnmirror', version: '1', type: "cache" })
-    totalTime = totalTime + mirror.time 
-    console.log("mirror", mirror.time, totalTime)
+    fs.existsSync(env.cache.path) || fs.mkdirsSync(env.cache.path)
 
-    // const node = await installArchive({ name: 'node', version: nodeVersion, type: "cache" })
-    // totalTime = totalTime + node.time 
-    // console.log("node", node.time, totalTime)
+    const yarnFile = path.resolve(env.home.path, '.yarnrc')
 
-    // const yarn = await shell({ cmd: 'npm i -g yarn' })
-    // totalTime = totalTime + yarn.time
-    // console.log("yarn", yarn.time, totalTime)
+    if (!fs.existsSync(yarnFile)) {
+        fs.writeFileSync(yarnFile, `registry "https://registry.npmjs.org/"
+yarn-offline-mirror-pruning true
+yarn-offline-mirror ./cache/yarnmirror
+--install.production true
+--install.silent true
+--install.prefer-offline true
+--cache-folder ./cache/yarncache`, 'utf8')
+    }
 
-    // const sdk = await downloadDependency({ id: '@carmel/sdk', type: "cache" })
-    // totalTime = totalTime + sdk.time
-    // console.log("sdk", sdk.time, totalTime)
+    const baseMirror = await installMirror({ version: 'base' })
+    totalTime = totalTime + baseMirror.time 
+    console.log("base mirror", baseMirror.time, totalTime)
 
-    // const papanache = await downloadDependency({ id: 'papanache', type: "packers" })
-    // totalTime = totalTime + papanache.time
-    // console.log("papanache", papanache.time, totalTime)
+    // const mirror2 = await installMirror({ version: 'base' })
+    // totalTime = totalTime + mirror2.time 
+    // console.log("mirror2", mirror2.time, totalTime)
 
-    // const jayesse = await downloadDependency({ id: 'jayesse', type: "stacks" })
-    // totalTime = totalTime + jayesse.time
-    // console.log("jayesse", jayesse.time, totalTime)
+    const node = await installArchive({ name: 'node', version: nodeVersion, type: "cache" })
+    totalTime = totalTime + node.time 
+    console.log("node", node.time, totalTime)
 
-    // const bananas = await downloadDependency({ id: '@fluidtrends/bananas', type: "bundles" })
-    // totalTime = totalTime + jayesse.time
-    // console.log("bananas", bananas.time, totalTime)
+    const yarn = await shell({ cmd: 'npm i -g yarn' })
+    totalTime = totalTime + yarn.time
+    console.log("yarn", yarn.time, totalTime)
 
-    // const bananasDeps = await installDependencies({ name: bananas.name, version: bananas.version, type: "bundles" })
-    // totalTime = totalTime + bananasDeps.time
-    // console.log("bananas deps", bananasDeps.time, totalTime)
+    const sdk = await downloadDependency({ id: '@carmel/sdk', type: "cache" })
+    totalTime = totalTime + sdk.time
+    console.log("sdk", sdk.time, totalTime)
 
-    // const papanacheDeps = await installDependencies({ name: papanache.name, version: papanache.version, type: "packers" })
-    // totalTime = totalTime + papanacheDeps.time
-    // console.log("papanache deps", papanacheDeps.time, totalTime)
+    const papanache = await downloadDependency({ id: 'papanache', type: "packers" })
+    totalTime = totalTime + papanache.time
+    console.log("papanache", papanache.time, totalTime)
 
-    // const jayesseDeps = await installDependencies({ name: jayesse.name, version: jayesse.version, type: "stacks" })
-    // totalTime = totalTime + jayesseDeps.time
-    // console.log("jayesse deps", jayesseDeps.time, totalTime)
+    const jayesse = await downloadDependency({ id: 'jayesse', type: "stacks" })
+    totalTime = totalTime + jayesse.time
+    console.log("jayesse", jayesse.time, totalTime)
 
-    // const sdkDeps = await installDependencies({ name: sdk.name, version: sdk.version, type: "cache" })
-    // totalTime = totalTime + sdkDeps.time
-    // console.log("sdk deps", sdkDeps.time, totalTime)
+    const bananas = await downloadDependency({ id: '@fluidtrends/bananas', type: "bundles" })
+    totalTime = totalTime + jayesse.time
+    console.log("bananas", bananas.time, totalTime)
 
-    // const env = system.env()
+    const bananasDeps = await installDependencies({ name: bananas.name, version: bananas.version, type: "bundles" })
+    totalTime = totalTime + bananasDeps.time
+    console.log("bananas deps", bananasDeps.time, totalTime)
+
+    const papanacheDeps = await installDependencies({ name: papanache.name, version: papanache.version, type: "packers" })
+    totalTime = totalTime + papanacheDeps.time
+    console.log("papanache deps", papanacheDeps.time, totalTime)
+
+    const jayesseDeps = await installDependencies({ name: jayesse.name, version: jayesse.version, type: "stacks" })
+    totalTime = totalTime + jayesseDeps.time
+    console.log("jayesse deps", jayesseDeps.time, totalTime)
+
+    const sdkDeps = await installDependencies({ name: sdk.name, version: sdk.version, type: "cache" })
+    totalTime = totalTime + sdkDeps.time
+    console.log("sdk deps", sdkDeps.time, totalTime)
+
     // const cwd = path.resolve(env.workspace.path, 'MyFirstProduct')
     // fs.mkdirsSync(cwd)
    

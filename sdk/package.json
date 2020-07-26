@@ -1,6 +1,6 @@
 {
   "name": "@carmel/sdk",
-  "version": "1.10.3",
+  "version": "1.10.4",
   "description": "The Carmel SDK",
   "scripts": {
     "pretty": "prettier --write \"./**/*.{js,jsx,json}\"",
@@ -23,6 +23,7 @@
     "auth/**/*",
     "lib/**/*",
     "local/**/**",
+    "yarn.lock",
     "src/**/*"
   ],
   "homepage": "http://www.carmel.io",
