@@ -14,7 +14,7 @@ export const carmel = async(data: any) => {
     const cli = script('cli.js')
     const nodeHome = path.resolve(env.cache.path, 'node', nodeVersion, 'node')
     const cwd = data.cwd || env.home.path
-    const args = [data.cmd].concat(data.args ? [JSON.stringify(data.args)] : [])
+    const args = [data.cmd].concat(data.args && data.args.length > 0 ? [JSON.stringify(data.args)] : [])
 
     const exe = path.resolve(nodeHome, 'bin', 'node')
 
@@ -67,10 +67,12 @@ export const shell = async(data: any) => {
 }
 
 export const runCommand = async(data: any) => {
-    const node = data.node || '12.18.3'
-    const sdk = data.sdk || '1.10.2'
-
     const env = system.env()
+    const session = system.session
+
+    const sdk = data.node || session.sdk.versions[0]
+    const node = data.sdk || session.node.versions[0]
+
     const cwd = data.productId ? path.resolve(env.home.path, 'products', data.productId) : env.home.path
     
     await send({ 
@@ -79,18 +81,18 @@ export const runCommand = async(data: any) => {
         status: data.progress || 'Working ...'
     })
 
-    const result = await carmel({
-        ...data,
-        cwd,
-        node,
-        sdk
+    const result = await carmel({ 
+        node, sdk,
+        cmd: data.cmd,
+        args: data.args || [],
+        cwd 
     })
 
     await send({ 
         id: data.id, 
         type: 'commandResult', 
-        done: true,
+        ...result,
         status: 'Done',
-        ...result
+        done: true,
     })
 } 

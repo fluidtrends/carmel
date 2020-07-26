@@ -35,6 +35,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __asyncValues = (this && this.__asyncValues) || function (o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -182,23 +189,25 @@ var Repo = /** @class */ (function () {
      *
      */
     Repo.prototype.push = function () {
-        var _a, _b, _c;
+        var e_1, _a;
+        var _b, _c, _d;
         return __awaiter(this, void 0, void 0, function () {
-            var _d, createFactory, createController, createServer, deploymentId, deploymentRoot, ignores, files, publicGatewayUrl, hash, ipfsUrl, shorten, shortUrl;
+            var _e, createFactory, createController, createServer, deploymentId, deploymentRoot, ignores, files, deployment, node, localGatewayUrl, publicGatewayUrl, deployed, _f, _g, result, e_1_1, deployedWeb, deployedWebNamed, shorten, check;
             var _this = this;
-            return __generator(this, function (_e) {
-                switch (_e.label) {
+            return __generator(this, function (_h) {
+                switch (_h.label) {
                     case 0:
-                        if (!((_a = this.dir) === null || _a === void 0 ? void 0 : _a.exists))
+                        if (!((_b = this.dir) === null || _b === void 0 ? void 0 : _b.exists))
                             return [2 /*return*/];
-                        _d = require('ipfsd-ctl'), createFactory = _d.createFactory, createController = _d.createController, createServer = _d.createServer;
-                        process.env.IPFS_PATH = (_c = (_b = this.code.product.session.dir.dir('ipfs')) === null || _b === void 0 ? void 0 : _b.make()) === null || _c === void 0 ? void 0 : _c.path;
+                        _e = require('ipfsd-ctl'), createFactory = _e.createFactory, createController = _e.createController, createServer = _e.createServer;
+                        process.env.IPFS_PATH = (_d = (_c = this.code.product.session.dir.dir('ipfs')) === null || _c === void 0 ? void 0 : _c.make()) === null || _d === void 0 ? void 0 : _d.path;
+                        console.log(process.env.IPFS_PATH);
                         deploymentId = shortid_1.default.generate();
                         deploymentRoot = "/deployments/" + deploymentId;
                         ignores = ['.DS_Store'];
                         return [4 /*yield*/, recursive_readdir_1.default(this.dir.path)];
                     case 1:
-                        files = _e.sent();
+                        files = _h.sent();
                         files = files.filter(function (file) { return !ignores.includes(path_1.default.basename(file)); }).map(function (file) {
                             var info = fs_1.default.statSync(file);
                             return {
@@ -207,44 +216,148 @@ var Repo = /** @class */ (function () {
                                 mtime: info.mtime
                             };
                         });
+                        deployment = {
+                            timestamp: Date.now(),
+                            id: deploymentId,
+                            files: files.length
+                        };
                         if (!files || files.length === 0)
-                            return [2 /*return*/];
+                            return [2 /*return*/, deployment];
                         console.log('starting ipfs node ...');
-                        publicGatewayUrl = "https://cloudflare-ipfs.com";
+                        return [4 /*yield*/, createController({
+                                type: 'js',
+                                ipfsModule: require('ipfs'),
+                                ipfsHttpModule: require('ipfs-http-client'),
+                                ipfsBin: path_1.default.join(__dirname, '../../node_modules/ipfs/src/cli/bin.js'),
+                                init: true,
+                                start: true,
+                                ipfsOptions: { start: true, init: true, repo: process.env.IPFS_PATH }
+                            })];
+                    case 2:
+                        node = _h.sent();
+                        localGatewayUrl = "http://" + node.api.gatewayHost + ":" + node.api.gatewayPort;
+                        publicGatewayUrl = "https://ipfs.io" //cloudflare-ipfs.com`
+                        ;
                         console.log('done. pushing files ...');
-                        hash = 'Qmed19uXaxrhNFwEhmPm8zyz9vnF7TaqstJ4BiXvZ6ZuUb';
+                        return [4 /*yield*/, Promise.all(files.map(function (file) { return node.api.files.write(file.path, file.content, {
+                                parents: true, create: true, mtime: file.mtime
+                            }); }))];
+                    case 3:
+                        _h.sent();
+                        console.log('done. checking files ...');
+                        deployed = [];
+                        _h.label = 4;
+                    case 4:
+                        _h.trys.push([4, 9, 10, 15]);
+                        _f = __asyncValues(node.api.files.ls(deploymentRoot));
+                        _h.label = 5;
+                    case 5: return [4 /*yield*/, _f.next()];
+                    case 6:
+                        if (!(_g = _h.sent(), !_g.done)) return [3 /*break*/, 8];
+                        result = _g.value;
+                        deployed.push(result);
+                        _h.label = 7;
+                    case 7: return [3 /*break*/, 5];
+                    case 8: return [3 /*break*/, 15];
+                    case 9:
+                        e_1_1 = _h.sent();
+                        e_1 = { error: e_1_1 };
+                        return [3 /*break*/, 15];
+                    case 10:
+                        _h.trys.push([10, , 13, 14]);
+                        if (!(_g && !_g.done && (_a = _f.return))) return [3 /*break*/, 12];
+                        return [4 /*yield*/, _a.call(_f)];
+                    case 11:
+                        _h.sent();
+                        _h.label = 12;
+                    case 12: return [3 /*break*/, 14];
+                    case 13:
+                        if (e_1) throw e_1.error;
+                        return [7 /*endfinally*/];
+                    case 14: return [7 /*endfinally*/];
+                    case 15:
+                        deployedWeb = deployed.find(function (d) { return d.name === 'web'; });
+                        console.log(deployedWeb.cid);
                         console.log('done. publishing web ...');
-                        ipfsUrl = publicGatewayUrl + "/ipfs/" + hash;
-                        console.log(ipfsUrl);
+                        return [4 /*yield*/, node.api.name.publish(deployedWeb.cid)];
+                    case 16:
+                        deployedWebNamed = _h.sent();
+                        deployment.urls = {
+                            publicRaw: publicGatewayUrl + "/ipfs/" + deployedWeb.cid,
+                            publicNamed: publicGatewayUrl + "/ipns/" + deployedWebNamed.name
+                        };
+                        console.log(deployment.urls);
+                        console.log('done. shortening ...');
                         return [4 /*yield*/, axios_1.default.post("https://rel.ink/api/links/", {
-                                url: ipfsUrl
+                                url: deployment.urls.publicRaw
                             }, {
                                 headers: { 'Content-Type': 'application/json' }
                             })];
-                    case 2:
-                        shorten = _e.sent();
+                    case 17:
+                        shorten = _h.sent();
                         if (!shorten || !shorten.data || !shorten.data.hashid) {
-                            return [2 /*return*/];
+                            return [2 /*return*/, deployment];
                         }
-                        shortUrl = "https://rel.ink/" + shorten.data.hashid;
-                        console.log(shortUrl);
-                        // const deployed = []
-                        // for await (const result of node.api.files.ls(deploymentRoot)) deployed.push(result)
-                        // const deployedWeb = deployed.find(d => d.name === 'web')
-                        // const deployedWebNamed = await node.api.name.publish(deployedWeb.cid)
-                        // const deployedWebNamed = await node.api.name.publish(`/ipfs/${hash}`)
-                        // console.log(deployedWebNamed)
-                        // const deployedWebUrls = {
-                        //   // localRaw: `${localGatewayUrl}/ipfs/${deployedWeb.cid}`,
-                        //   localNamed: `${localGatewayUrl}/ipns/${deployedWebNamed.name}`,
-                        //   // publicRaw: `${publicGatewayUrl}/ipfs/${deployedWeb.cid}`,
-                        //   publicNamed: `${publicGatewayUrl}/ipns/${deployedWebNamed.name}`
-                        // }
-                        console.log('done.');
-                        // console.log(deployedWebUrls)
-                        // await node.stop()
-                        console.log('node stopped');
-                        return [2 /*return*/];
+                        deployment.urls.short = "https://rel.ink/" + shorten.data.hashid;
+                        console.log('done. waiting to go live ...');
+                        console.log(deployment.urls);
+                        check = function () { return __awaiter(_this, void 0, void 0, function () {
+                            var _a;
+                            return __generator(this, function (_b) {
+                                switch (_b.label) {
+                                    case 0:
+                                        _b.trys.push([0, 2, , 3]);
+                                        console.log('checking ...');
+                                        return [4 /*yield*/, axios_1.default.get(deployment.urls.publicRaw)];
+                                    case 1: return [2 /*return*/, _b.sent()];
+                                    case 2:
+                                        _a = _b.sent();
+                                        return [3 /*break*/, 3];
+                                    case 3: return [2 /*return*/];
+                                }
+                            });
+                        }); };
+                        return [4 /*yield*/, new Promise(function (done) {
+                                (function () { return __awaiter(_this, void 0, void 0, function () {
+                                    var checked;
+                                    return __generator(this, function (_a) {
+                                        switch (_a.label) {
+                                            case 0:
+                                                if (!(!checked || checked.status !== 200)) return [3 /*break*/, 2];
+                                                return [4 /*yield*/, check()];
+                                            case 1:
+                                                checked = _a.sent();
+                                                return [3 /*break*/, 0];
+                                            case 2:
+                                                done();
+                                                return [2 /*return*/];
+                                        }
+                                    });
+                                }); })();
+                            })];
+                    case 18:
+                        _h.sent();
+                        console.log('done. stopping ipfs node ...');
+                        return [4 /*yield*/, node.stop()];
+                    case 19:
+                        _h.sent();
+                        console.log('ipfs node stopped.');
+                        return [2 /*return*/, deployment
+                            // if (!this.isOpen) return
+                            // let remote = await this.local?.getRemote('origin')
+                            // if (!remote) {
+                            //   remote = await NodeGit.Remote.create(
+                            //     this.local!,
+                            //     'origin',
+                            //     `git@github.com:${this.owner}/${this.name}.git`
+                            //   )
+                            // }
+                            // await remote?.push(['refs/heads/master:refs/heads/master'], {
+                            //   callbacks: {
+                            //     credentials: this.code.credentials,
+                            //   },
+                            // })
+                        ];
                 }
             });
         });

@@ -39,6 +39,7 @@ export const ProductHeader: React.FC<ProductHeaderComponentProps> = (props) => {
   const [status, setStatus] = useState<any>({})
   
   useEffect(() => {
+    console.log(commandResponse)
     if (!commandResponse.id) return 
     setStatus({
         icon: <Badge status={"processing" }/>,
@@ -78,7 +79,7 @@ export const ProductHeader: React.FC<ProductHeaderComponentProps> = (props) => {
         icon: "CaretRightOutlined",
         tooltip: "Start running"
     }, {
-        id: "publish",
+        id: "deploy",
         name: "PUBLISH",
         icon: "CloudUploadOutlined",
         tooltip: "Publish online"

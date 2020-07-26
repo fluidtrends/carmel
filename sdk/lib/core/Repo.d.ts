@@ -64,7 +64,7 @@ export declare class Repo implements IRepo {
     /**
      *
      */
-    push(): Promise<void>;
+    push(): Promise<any>;
     /**
      *
      */

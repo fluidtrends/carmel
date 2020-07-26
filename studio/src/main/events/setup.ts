@@ -168,6 +168,7 @@ export const setup = async (data: any) => {
 yarn-offline-mirror-pruning true
 yarn-offline-mirror ./cache/yarnmirror
 --install.production true
+--install.no-progress true
 --install.silent true
 --install.prefer-offline true
 --cache-folder ./cache/yarncache`, 'utf8')
@@ -190,6 +191,7 @@ yarn-offline-mirror ./cache/yarnmirror
     const node = await installArchive({ name: 'node', version: nodeVersion, type: "cache" })
     totalTime = totalTime + node.time 
     console.log("node", node.time, totalTime)
+    fs.symlinkSync(path.resolve(env.cache.path, 'node', nodeVersion), path.resolve(env.cache.path, 'node', 'default'), 'dir')
 
     await send({ id: data.id, type: 'settingUp', status: 'Installing yarn ...' })    
 
@@ -206,6 +208,7 @@ yarn-offline-mirror ./cache/yarnmirror
     const sdkDeps = await installDependencies({ name: sdk.name, version: sdk.version, type: "cache" })
     totalTime = totalTime + sdkDeps.time
     console.log("sdk deps", sdkDeps.time, totalTime)
+    fs.symlinkSync(path.resolve(env.cache.path, sdk.name, sdk.version), path.resolve(env.cache.path, sdk.name, 'default'), 'dir')
 
     await send({ id: data.id, type: 'settingUp', status: 'Installing The Default Packer (papanache)...' })    
 
@@ -245,9 +248,11 @@ yarn-offline-mirror ./cache/yarnmirror
         productId: product.id,
         yarn: true,
         node: {
+            default: nodeVersion,
             versions: [nodeVersion]
         },
         sdk: {
+            default: sdk.version,
             versions: [sdk.version]
         },
         packers: {
