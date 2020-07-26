@@ -130,6 +130,27 @@ export const installMirror = async (data: any) => {
     }
 }
 
+export const installBundle = async (data: any) => {
+    const archive = await downloadDependency({ id: data.id, type: "bundles" })
+    await installDependencies({ name: archive.name, version: archive.version, type: "bundles" })
+
+    return archive    
+}
+
+export const installPacker = async (data: any) => {
+    const archive = await downloadDependency({ id: data.id, type: "packers" })
+    await installDependencies({ name: archive.name, version: archive.version, type: "packers" })
+
+    return archive    
+}
+
+export const installStack = async (data: any) => {
+    const archive = await downloadDependency({ id: data.id, type: "stacks" })
+    await installDependencies({ name: archive.name, version: archive.version, type: "stacks" })
+
+    return archive
+}
+
 export const setup = async (data: any) => {
     const nodeVersion = '12.18.3'
     let totalTime = 0
@@ -185,6 +206,24 @@ yarn-offline-mirror ./cache/yarnmirror
     totalTime = totalTime + sdkDeps.time
     console.log("sdk deps", sdkDeps.time, totalTime)
 
+    await send({ id: data.id, type: 'settingUp', status: 'Installing The Default Packer (papanache)...' })    
+
+    const papanache = await installPacker({ id: "papanache" })
+    totalTime = totalTime + papanache.time
+    console.log("papanache", papanache.time, totalTime)
+    
+    await send({ id: data.id, type: 'settingUp', status: 'Installing The Default Stack (jayesse)...' })    
+
+    const jayesse = await installStack({ id: "jayesse" })
+    totalTime = totalTime + jayesse.time
+    console.log("jayesse", jayesse.time, totalTime)
+
+    await send({ id: data.id, type: 'settingUp', status: 'Installing The Default Bundle (@fluidtrends/bananas)...' })    
+
+    const bananas = await installBundle({ id: "@fluidtrends/bananas" })
+    totalTime = totalTime + bananas.time
+    console.log("bananas", bananas.time, totalTime)
+
     await send({ id: data.id, type: 'settingUp', status: 'Initializing Your System ...' })    
 
     system.init({
@@ -194,25 +233,4 @@ yarn-offline-mirror ./cache/yarnmirror
     })
     
     await send({ id: data.id, type: 'settingUp', status: 'Your Carmel Environment Is Ready', done: true })    
-}
-
-export const installBundle = async (data: any) => {
-    const archive = await downloadDependency({ id: data.id, type: "bundles" })
-    await installDependencies({ name: archive.name, version: archive.version, type: "bundles" })
-
-    await send({ id: data.id, type: 'bundleInstalled', done: true })    
-}
-
-export const installPacker = async (data: any) => {
-    const archive = await downloadDependency({ id: data.id, type: "packers" })
-    await installDependencies({ name: archive.name, version: archive.version, type: "packers" })
-
-    await send({ id: data.id, type: 'packerInstalled', done: true })    
-}
-
-export const installStack = async (data: any) => {
-    const archive = await downloadDependency({ id: data.id, type: "stacks" })
-    await installDependencies({ name: archive.name, version: archive.version, type: "stacks" })
-
-    await send({ id: data.id, type: 'stackInstalled', done: true })    
 }
