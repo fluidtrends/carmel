@@ -37,6 +37,10 @@ export interface AppProps {
     [key: string]: any
 }
 
+export interface BrowserProps {
+    
+}
+
 export interface StartScreenProps extends AppProps {
 }
 

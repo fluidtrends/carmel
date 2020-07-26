@@ -168,7 +168,10 @@ export const Welcome: React.FC<WelcomeScreenProps> = (props) => {
     height="100%"
   />)
 
+  // return (<div style={styles.screen}>      
+  //   { timer ? <IntroSlides/> : <IntroVideo/> }
+  // </div>)
+
   return (<div style={styles.screen}>      
-    { timer ? <IntroSlides/> : <IntroVideo/> }
   </div>)
 }

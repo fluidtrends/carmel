@@ -1,7 +1,7 @@
 {
   "name": "carmel",
   "productName": "carmel",
-  "version": "1.10.0",
+  "version": "1.10.2",
   "description": "Carmel Studio",
   "main": ".webpack/main",
   "scripts": {
@@ -76,6 +76,11 @@
                   "html": "./src/app/index.html",
                   "js": "./src/app/index.tsx",
                   "name": "main_window"
+                },
+                {
+                  "html": "./src/app/browser.html",
+                  "js": "./src/app/browserIndex.tsx",
+                  "name": "browser_window"
                 }
               ]
             }
@@ -105,22 +110,28 @@
     "node-loader": "^0.6.0",
     "style-loader": "^0.23.1",
     "ts-loader": "^6.2.1",
-    "typescript": "^3.7.0"
+    "ts-import-plugin": "^1.6.6",
+    "url-loader": "^4.1.0",
+    "typescript": "^3.7.0",
+    "file-loader": "^6.0.0",
+    "less-loader": "^6.2.0",
+    "shebang-loader": "0.0.1"
   },
   "dependencies": {
-    "@ant-design/dark-theme": "^2.0.2",
-    "@carmel/cli": "^1.9.13",
     "@react-native-community/async-storage": "^1.11.0",
     "@types/axios": "^0.14.0",
     "@types/command-exists": "^1.2.0",
     "@types/deep-extend": "^0.4.31",
     "@types/execa": "^2.0.0",
+    "@types/pacote": "^11.1.0",
     "@types/react-dom": "^16.9.8",
     "@types/react-redux": "^7.1.9",
     "@types/react-router-dom": "^5.1.5",
     "@types/react-slick": "^0.23.4",
     "@types/recursive-readdir": "^2.2.0",
     "@types/shortid": "0.0.29",
+    "@types/yauzl": "^2.9.1",
+    "@yarnpkg/cli": "^2.1.1",
     "ace-builds": "^1.4.12",
     "antd": "^4.4.1",
     "axios": "^0.19.2",
@@ -128,7 +139,6 @@
     "command-exists": "^1.2.9",
     "connected-react-router": "^6.8.0",
     "decompress": "^4.2.1",
-    "decompress-tarbz2": "^4.1.1",
     "decompress-targz": "^4.1.1",
     "deep-extend": "^0.6.0",
     "electron-dl": "^3.0.1",
@@ -136,28 +146,23 @@
     "eosjs": "^21.0.2",
     "eosjs-api": "^7.0.4",
     "execa": "^4.0.3",
-    "file-loader": "^6.0.0",
-    "less-loader": "^6.2.0",
-    "monaco-editor-webpack-plugin": "^1.9.0",
-    "nvexeca": "^6.0.1",
+    "got": "^11.5.1",
+    "lali": "^1.0.0",
+    "pacote": "^11.1.11",
     "react": "^16.13.1",
     "react-ace": "^9.1.1",
     "react-awesome-reveal": "^2.4.2",
-    "react-codemirror2": "^7.2.1",
     "react-dom": "^16.13.1",
     "react-hot-loader": "^4.12.21",
-    "react-monaco-editor": "^0.39.1",
     "react-player": "^2.6.0",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
-    "react-slick": "^0.27.0",
-    "react-treebeard": "^3.2.4",
     "recursive-readdir": "^2.2.2",
     "redux": "^4.0.5",
     "redux-persist": "^6.0.0",
-    "shebang-loader": "0.0.1",
     "shortid": "^2.2.15",
-    "ts-import-plugin": "^1.6.6",
-    "url-loader": "^4.1.0"
+    "tar": "^6.0.2",
+    "yauzl": "^2.10.0",
+    "zlib": "^1.0.5"
   }
 }

@@ -43,8 +43,8 @@ export const ProductHeader: React.FC<ProductHeaderComponentProps> = (props) => {
     setStatus({
         icon: <Badge status={"processing" }/>,
         color: "processing",
-        processing: !commandResponse.message.done,
-        text: commandResponse.message.status
+        processing: !commandResponse.done,
+        text: commandResponse.status
     })
   }, [commandResponse])
 
@@ -89,7 +89,6 @@ export const ProductHeader: React.FC<ProductHeaderComponentProps> = (props) => {
         tooltip: "Visit website"
     }]
 
-
     const renderStatus = () => {
         if (status.processing) {
             return <div key="status" style={{ 
@@ -120,22 +119,22 @@ export const ProductHeader: React.FC<ProductHeaderComponentProps> = (props) => {
             justifyContent: "center",
             height: "100%"
         }}>
-            <div key="container" style={{
-                marginTop: 20
-            }}>
-                { commands.map((command: any) => {
-                    const Icon = require(`@ant-design/icons/lib/icons/${command.icon}.js`).default
-                    return <Tooltip placement="bottomRight" key={command.id} title={command.tooltip}>
-                    <Button disabled={status.processing} onClick={() => onPanelCommand(command)} style={{
-                        marginLeft: 10,
-                    }} icon={<Icon style={{
-                    }}/>} loading={false}>
-                        { command.name }
-                    </Button>
-                    </Tooltip>
-                })}
-            </div>
-        </div>)
+        <div key="container" style={{
+            marginTop: 20
+        }}>
+            { commands.map((command: any) => {
+                const Icon = require(`@ant-design/icons/lib/icons/${command.icon}.js`).default
+                return <Tooltip placement="bottomRight" key={command.id} title={command.tooltip}>
+                <Button disabled={status.processing} onClick={() => onPanelCommand(command)} style={{
+                    marginLeft: 10,
+                }} icon={<Icon style={{
+                }}/>} loading={false}>
+                    { command.name }
+                </Button>
+                </Tooltip>
+            })}
+        </div>
+    </div>)
 
   
     const title = (<div key="main" style={{
@@ -208,12 +207,16 @@ export const ProductHeader: React.FC<ProductHeaderComponentProps> = (props) => {
                 justifyContent: "flex-end",
                 alignItems: "flex-end"
             }}>
-                <Text style={{ marginRight: 5 }}> Preview </Text>
-                <Switch 
-                    checkedChildren="on"
-                    onChange={onTogglePreview} 
-                    unCheckedChildren="off" 
-                    defaultChecked />
+                { product.started && 
+                    <div>
+                        <Text style={{ marginRight: 5 }}> Preview </Text>
+                        <Switch 
+                            checkedChildren="on"
+                            onChange={onTogglePreview} 
+                            unCheckedChildren="off" 
+                            defaultChecked={false} />
+                    </div>
+                }
             </div>
         </div>
     </PageHeader>

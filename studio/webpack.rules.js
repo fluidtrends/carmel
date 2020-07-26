@@ -41,6 +41,10 @@ module.exports = [
     use: ['file-loader'],
   },
   {
+    test: /json\/utils$/,
+    use: ['file-loader'],
+  },
+  {
     test: /\.node$/,
     use: 'node-loader',
   },

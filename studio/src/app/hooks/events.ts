@@ -27,21 +27,3 @@ export const useEvent = () => {
 
     return { send, id, received }
 }
-
-export const useCommand = () => {
-    let [received, setReceived] = useState({})
- 
-    const send = (command: any) => ipcRenderer.send('carmel', { id: 'command', type: 'runCommand', ...command })
-  
-    useEffect(() => {
-        const listener = (e: any, data: any) => {
-            data.type === 'commandResult' && setReceived(data)
-        }
-
-        ipcRenderer.on('carmel', listener)
-
-        // return () => ipcRenderer.removeListener('carmel', listener)
-    }, [])
-
-    return { send, received }
-  }
