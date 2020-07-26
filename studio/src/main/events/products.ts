@@ -86,6 +86,8 @@ export const loadSelectedProduct = async (data: any) => {
 
     if (!productId) return 
 
+    const cwd = path.resolve(env.home.path, 'products', productId)
+    const manifest = JSON.parse(fs.readFileSync(path.resolve(cwd, '.carmel.json'), 'utf8'))
     const rootDir = path.resolve(env.home.path, 'products', productId, 'carmel')
     const files = (await readdir(rootDir, ['.git', 'node_modules'])).map(file => path.relative(rootDir, file))
 
@@ -95,6 +97,7 @@ export const loadSelectedProduct = async (data: any) => {
     await send({ 
         id: data.id,
         type: 'selectedProductloaded', 
+        manifest,
         started,
         rootDir, 
         files

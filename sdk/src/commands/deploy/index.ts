@@ -25,14 +25,11 @@ export default class Deploy extends Command {
       console.log(event)
     })
 
-    this.product.manifest.load()
-    let deployments = this.product.manifest.data.json().deployments || []
-
     const deployment = await this.product?.code.deploy(this.target)
-    deployments.push(deployment)
 
+    this.product.manifest.load()
     this.product.manifest.data.append({
-      deployments
+      deployments: [deployment]
     })
 
     this.product.manifest.save()

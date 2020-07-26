@@ -116,15 +116,41 @@ export const installMirror = async (data: any) => {
     const filename = `yarnmirror-${version}.tar.gz`
 
     const url = `http://store.carmel.io/archives/${filename}`
+    console.log("getting mirror", url)
     const stream = await axios({ method: 'get', url, responseType: 'stream' })
+    console.log("got stream")
 
     await new Promise((resolve, reject) => {
             stream.data
-                .pipe(require('zlib').createGunzip({ fromBase: false }))
-                .pipe(require('tar').x({ strip: 0, C: dir }))
-               .on('end', () => resolve())
-               .on('error', (error: any) => console.log(error))
+            .pipe(require('zlib').createGunzip())
+                // .on('data', function (data: any) {
+                    // console.log(".....zbli", data.length)
+                // })
+                // .on('error', function(err: any) {
+                    // console.log('ERROR: Failed to gunzip ' + ': ' + err.message);
+                // })
+                .pipe(require('tar').extract({ cwd: dir }))
+                // .on('data', function (data: any) {
+                    // console.log(".....x")
+                // })
+                // .on('error', function(err: any) {
+                    // console.log('ERROR: Failed to untar ' + ': ' + err.message);
+                // })
+                // .on('end', () => {
+                    // console.log("END")
+                    // resolve()
+                // })
+                .on('close', function() {
+                    console.log('Download and extract of ' + ' finished.');
+                    resolve()
+                });
+            //     .pipe(require('zlib').createGunzip({ fromBase: false }))
+            //     .pipe(require('tar').x({ strip: 0, C: dir }))
+            //    .on('end', () => resolve())
+            //    .on('error', (error: any) => console.log(error))
     })
+
+    console.log("got mirror", url)
 
     return {
         time: Math.round((Date.now() - now) / 1000),
@@ -150,14 +176,12 @@ export const installStack = async (data: any) => {
     await installDependencies({ name: archive.name, version: archive.version, type: "stacks" })
 
     return archive
-}
+} 
 
 export const setup = async (data: any) => {
     const nodeVersion = '12.18.3'
     let totalTime = 0
     const env = system.env()
-
-    const MIRRORS = [0, 1, 2, 3]
 
     await send({ id: data.id, type: 'settingUp', status: 'Setting Up Your Environment ...' })    
 
@@ -176,12 +200,25 @@ yarn-offline-mirror ./cache/yarnmirror
 --cache-folder ./cache/yarncache`, 'utf8')
     }
 
-    MIRRORS.map(async mirror => {
-        await send({ id: data.id, type: 'settingUp', status: `Installing mirror ${mirror} ...` })    
-        const baseMirror = await installMirror({ version: `${mirror}` })
-        totalTime = totalTime + baseMirror.time 
-        console.log("mirror", mirror, baseMirror.time, totalTime)
-    })    
+    await send({ id: data.id, type: 'settingUp', status: `Installing mirrors ...` })  
+
+    const mirror0 = await installMirror({ version: 0 })
+    totalTime = totalTime + mirror0.time 
+    console.log("mirror0", mirror0.time, totalTime)
+
+    const mirror1 = await installMirror({ version: 1 })
+    totalTime = totalTime + mirror1.time 
+    console.log("mirror1", mirror1.time, totalTime)
+
+    const mirror2 = await installMirror({ version: 2 })
+    totalTime = totalTime + mirror2.time 
+    console.log("mirror2", mirror2.time, totalTime)
+
+    const mirror3 = await installMirror({ version: 3 })
+    totalTime = totalTime + mirror3.time 
+    console.log("mirror3", mirror3.time, totalTime)
+
+    console.log("mirrors installed")
 
     await send({ id: data.id, type: 'settingUp', status: 'Installing Node.js ...' })    
 
@@ -212,20 +249,21 @@ yarn-offline-mirror ./cache/yarnmirror
     const papanache = await installPacker({ id: "papanache" })
     totalTime = totalTime + papanache.time
     console.log("papanache", papanache.time, totalTime)
-    fs.symlinkSync(path.resolve(env.cache.path, papanache.name, papanache.version), path.resolve(env.cache.path, papanache.name, 'default'), 'dir')
+    fs.symlinkSync(path.resolve(env.home.path, 'packers', papanache.name, papanache.version), path.resolve(env.home.path, 'packers', papanache.name, 'default'), 'dir')
 
     await send({ id: data.id, type: 'settingUp', status: 'Installing The Default Stack (jayesse)...' })    
 
     const jayesse = await installStack({ id: "jayesse" })
     totalTime = totalTime + jayesse.time
     console.log("jayesse", jayesse.time, totalTime)
-    fs.symlinkSync(path.resolve(env.cache.path, jayesse.name, jayesse.version), path.resolve(env.cache.path, jayesse.name, 'default'), 'dir')
+    fs.symlinkSync(path.resolve(env.home.path, 'stacks', jayesse.name, jayesse.version), path.resolve(env.home.path, 'stacks', jayesse.name, 'default'), 'dir')
 
     await send({ id: data.id, type: 'settingUp', status: 'Installing The Default Bundle (@fluidtrends/bananas)...' })    
 
     const bananas = await installBundle({ id: "@fluidtrends/bananas" })
     totalTime = totalTime + bananas.time
     console.log("bananas", bananas.time, totalTime)
+    fs.symlinkSync(path.resolve(env.home.path, 'bundles', bananas.name, bananas.version), path.resolve(env.home.path, 'bundles', bananas.name, 'default'), 'dir')
 
     await send({ id: data.id, type: 'settingUp', status: 'Creating A Sample Product ...' })    
 
@@ -233,7 +271,7 @@ yarn-offline-mirror ./cache/yarnmirror
 
     const product: any = await createProduct({ 
         node: nodeVersion, 
-        sdk: '1.10.4',//sdk.version, 
+        sdk: sdk.version, 
         name: "My First Product",
         template: "@fluidtrends/bananas/starter"
     })
@@ -243,7 +281,6 @@ yarn-offline-mirror ./cache/yarnmirror
     await send({ id: data.id, type: 'settingUp', status: 'Initializing Your System ...' })    
 
     system.init({
-        mirrors: MIRRORS,
         productId: product.id,
         yarn: true,
         node: {

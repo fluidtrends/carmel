@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { ProductHeaderComponentProps } from '../types'
-import { Card, Button, Tag, Switch, Tooltip, Badge, PageHeader, Menu, Typography } from 'antd'
+import { Card, Button, Tag, Dropdown, Switch, Tooltip, Badge, PageHeader, Menu, Typography } from 'antd'
 import { 
     GlobalOutlined, 
+    LinkOutlined,
     BlockOutlined, 
     PauseCircleFilled,
     CodeOutlined,
@@ -24,6 +25,8 @@ import {
     PictureOutlined,  
 } from '@ant-design/icons'
 import { useEvent } from '../hooks'
+import moment from 'moment'
+import { shell } from 'electron'
 
 const { Meta } = Card
 const { Title, Text } = Typography
@@ -68,6 +71,33 @@ export const ProductHeader: React.FC<ProductHeaderComponentProps> = (props) => {
         onCommand(command.id)
     }
 
+    const onViewLive = (e: any) => {
+        const deployment = product.deployments.find(d => d.id === e.key)
+        shell.openExternal(deployment.urls.short)
+    }
+
+    const LiveMenu = () => {
+        if (!product.deployments || product.deployments.length === 0) return <div/>
+        return (<Menu onClick={onViewLive}>
+            { product.deployments.map((d: any, i: number) => (
+            <Menu.Item key={d.id} icon={<LinkOutlined />} style={{
+                color: i > 0 ? "#d9d9d9" : "#333333",
+                backgroundColor: i > 0 ? "#eeeeee" : "#ffffff"
+            }}>
+                { moment(d.timestamp).fromNow() } { i === 0 && "(latest)"} 
+            </Menu.Item>))}
+        </Menu>)
+    }
+    const LiveButton = () => {
+       if (!product.deployments || product.deployments.length === 0) return <div/>
+        
+        return (<Dropdown overlay={<LiveMenu/>}>
+            <Button type="link" style={{ marginLeft: 0 }}>
+                {product.deployments.length} Live Versions <DownOutlined />
+            </Button>
+        </Dropdown>)
+    }
+
     let commands = [product.started ? {
         id: "stop",
         name: "STOP",
@@ -83,11 +113,6 @@ export const ProductHeader: React.FC<ProductHeaderComponentProps> = (props) => {
         name: "PUBLISH",
         icon: "CloudUploadOutlined",
         tooltip: "Publish online"
-    }, {
-        id: "visit",
-        name: "VISIT",
-        icon: "GlobalOutlined",
-        tooltip: "Visit website"
     }]
 
     const renderStatus = () => {
@@ -126,17 +151,17 @@ export const ProductHeader: React.FC<ProductHeaderComponentProps> = (props) => {
             { commands.map((command: any) => {
                 const Icon = require(`@ant-design/icons/lib/icons/${command.icon}.js`).default
                 return <Tooltip placement="bottomRight" key={command.id} title={command.tooltip}>
-                <Button disabled={status.processing} onClick={() => onPanelCommand(command)} style={{
-                    marginLeft: 10,
-                }} icon={<Icon style={{
-                }}/>} loading={false}>
-                    { command.name }
-                </Button>
+                    <Button disabled={status.processing} onClick={() => onPanelCommand(command)} style={{
+                        marginLeft: 10,
+                    }} icon={<Icon style={{
+                    }}/>} loading={false}>
+                        { command.name }
+                    </Button>
                 </Tooltip>
             })}
+            { product.deployments && product.deployments.length > 0 && <LiveButton/>}
         </div>
     </div>)
-
   
     const title = (<div key="main" style={{
       display: "flex", 

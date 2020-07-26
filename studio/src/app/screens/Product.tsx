@@ -61,6 +61,7 @@ export const Product: React.FC<ProductScreenProps> = (props) => {
     setCommandResponse(command.received)
 
     if (command.received.done) {
+      console.log("command done")
       loadProductEvent.send({ type: 'loadSelectedProduct' })
     }
   }, [command.received])
@@ -72,7 +73,7 @@ export const Product: React.FC<ProductScreenProps> = (props) => {
 
   useEffect(() => {
     if (!loadProductEvent.received.id) return 
-
+    
     let parsedFiles: any = {}
     loadProductEvent.received.files.map((file: string) => {
       const dirs = file.split('/')
@@ -96,8 +97,7 @@ export const Product: React.FC<ProductScreenProps> = (props) => {
     setRootDir(loadProductEvent.received.rootDir)
     setFiles(parsedFiles)
     dispatch(selectProduct({
-      ...product,
-      started: loadProductEvent.received.started
+      ...loadProductEvent.received.manifest
     }))
   }, [loadProductEvent.received])
 

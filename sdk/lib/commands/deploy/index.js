@@ -70,7 +70,7 @@ var Deploy = /** @class */ (function (_super) {
     Deploy.prototype.exec = function () {
         var _a, _b, _c;
         return __awaiter(this, void 0, void 0, function () {
-            var deployments, deployment;
+            var deployment;
             return __generator(this, function (_d) {
                 switch (_d.label) {
                     case 0:
@@ -81,14 +81,12 @@ var Deploy = /** @class */ (function (_super) {
                             }))];
                     case 1:
                         _d.sent();
-                        this.product.manifest.load();
-                        deployments = this.product.manifest.data.json().deployments || [];
                         return [4 /*yield*/, ((_c = this.product) === null || _c === void 0 ? void 0 : _c.code.deploy(this.target))];
                     case 2:
                         deployment = _d.sent();
-                        deployments.push(deployment);
+                        this.product.manifest.load();
                         this.product.manifest.data.append({
-                            deployments: deployments
+                            deployments: [deployment]
                         });
                         this.product.manifest.save();
                         return [2 /*return*/];
