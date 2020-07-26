@@ -7,7 +7,8 @@ import path from 'path'
 import shortid from 'shortid'
 import os from 'os'
 import axios from 'axios'
-import { shell, carmel } from './commands'
+import { shell } from './commands'
+import { createProduct } from './products'
 import * as pacote from 'pacote'
 
 export const downloadFile = async (data: any) => {
@@ -224,11 +225,36 @@ yarn-offline-mirror ./cache/yarnmirror
     totalTime = totalTime + bananas.time
     console.log("bananas", bananas.time, totalTime)
 
+    await send({ id: data.id, type: 'settingUp', status: 'Creating A Sample Product ...' })    
+
+    const product: any = await createProduct({ 
+        node: nodeVersion, 
+        sdk: sdk.version, 
+        name: "My First Product",
+        template: "@fluidtrends/bananas/starter"
+    })
+    console.log("sample product ok", product)
+
     await send({ id: data.id, type: 'settingUp', status: 'Initializing Your System ...' })    
 
     system.init({
+        mirrors: ['base', 'ipfs'],
+        productId: product.id,
+        yarn: true,
+        node: {
+            versions: [nodeVersion]
+        },
         sdk: {
-            version: sdk.version
+            versions: [sdk.version]
+        },
+        packers: {
+            papanache: { versions: [papanache.version] }
+        },
+        stacks: {
+            jayesse: { versions: [jayesse.version] }
+        },
+        bundles: {
+            "@fluidtrends/bananas": { versions: [bananas.version] }
         }
     })
     

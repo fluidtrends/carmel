@@ -6,10 +6,6 @@ import path from 'path'
 import readdir from "recursive-readdir"
 
 // export const installTemplate = async (data: any) => {
-
-// }
-
-// export const installTemplate = async (data: any) => {
 //     const info = data.id.split('/')
 
 //     let bundleVersion = undefined
@@ -65,32 +61,41 @@ import readdir from "recursive-readdir"
 //     // await send({ id: data.id, type: 'settingUp', done: true })    
 // }
 
-// export const createProduct = async (data: any) => {
-//     const env = system.env()
-//     const cwd = path.resolve(env.workspace.path, data.name.replace(/\s/g, ''))
+export const createProduct = async (data: any) => {
+    const env = system.env()
+    const cwd = path.resolve(env.workspace.path, data.name.replace(/\s/g, ''))
     
-//     if (fs.existsSync(cwd)) {
-//         await send({ 
-//             id: data.id,
-//             type: 'createdProduct', 
-//             error: 'The name is taken, please choose another name'
-//         })
-//         return
-//     }
+    if (fs.existsSync(cwd)) {
+        await send({ 
+            id: data.id,
+            type: 'createdProduct', 
+            error: 'The name is taken, please choose another name'
+        })
+        return
+    }
 
-//     fs.mkdirsSync(cwd)
-   
-//     await carmel({ 
-//         cmd: `init --template=${data.template} --name="${data.name}"`, 
-//         cwd
-//     })
+    fs.mkdirsSync(cwd)
 
-//     await send({ 
-//         id: data.id,
-//         type: 'createdProduct', 
-//         done: true
-//     })
-// }
+    const result = await carmel({ 
+        node: data.node,
+        sdk: data.sdk,
+        cmd: "init",
+        args: [{
+            name: "name",
+            value: data.name
+        }, {
+            name: "template",
+            value: data.template
+        }], 
+        cwd 
+    })
+
+    const manifest: any = JSON.parse(fs.readFileSync(path.resolve(cwd, '.carmel.json'), 'utf8'))
+    return {
+        ...result,
+        ...manifest
+    }
+}
 
 export const selectProduct = async (data: any) => {
     system.update({ productId: data.product.id })
