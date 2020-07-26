@@ -227,13 +227,16 @@ yarn-offline-mirror ./cache/yarnmirror
 
     await send({ id: data.id, type: 'settingUp', status: 'Creating A Sample Product ...' })    
 
+    console.log("creating.....")
+
     const product: any = await createProduct({ 
         node: nodeVersion, 
-        sdk: sdk.version, 
+        sdk: '1.10.4',//sdk.version, 
         name: "My First Product",
         template: "@fluidtrends/bananas/starter"
     })
-    console.log("sample product ok", product)
+
+    console.log("sample product ok")
 
     await send({ id: data.id, type: 'settingUp', status: 'Initializing Your System ...' })    
 

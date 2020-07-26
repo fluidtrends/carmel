@@ -36,7 +36,7 @@ export const Start: React.FC<StartScreenProps> = (props) => {
   useEffect(() => {
     if (!session.loadedTimestamp) return
 
-    const screen = session.productId ? '/product' : products.length === 0 ? '/newProduct' : '/products'  
+    const screen = session.productId ? '/product' : '/products'  
     dispatch(replace(screen))
   }, [session])
   

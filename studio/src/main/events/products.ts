@@ -18,49 +18,6 @@ import readdir from "recursive-readdir"
 //     bundleVersion = info && info.length > 0 ? info.shift() : bundleVersion
 // }
 
-// export const installd = async (data: any) => {
-//     const env = system.env()
-//     const cwd = path.resolve(env.workspace.path, 'MyFirstProduct')
-//     // fs.mkdirsSync(cwd)
-   
-//     // const init = await carmel({ 
-//     //     node: nodeVersion,
-//     //     sdk: sdk.version,
-//     //     cmd: "init",
-//     //     args: [{
-//     //         name: "name",
-//     //         value: "My First Product"
-//     //     }, {
-//     //         name: "template",
-//     //         value: "@fluidtrends/bananas/starter"
-//     //     }], 
-//     //     cwd 
-//     // })
-
-//     // await send({ id: data.id, type: 'settingUp', status: init })    
-
-//     // const started = await carmel({ 
-//     //     node: nodeVersion,
-//     //     sdk: sdk.version,
-//     //     cmd: "start",
-//     //     cwd 
-//     // })
-
-//     // await send({ id: data.id, type: 'settingUp', status: started })    
-
-//     // const productData: any = JSON.parse(fs.readFileSync(path.resolve(cwd, '.carmel.json'), 'utf8'))
-
-//     // system.init({
-//     //     productId: productData.id,
-//     //     sdk, 
-//     //     packers: { papanache },
-//     //     stacks: { jayesse },
-//     //     bundles: { "@fluidtrends/bananas": bananas }
-//     // })
-    
-//     // await send({ id: data.id, type: 'settingUp', done: true })    
-// }
-
 export const createProduct = async (data: any) => {
     const env = system.env()
     const cwd = path.resolve(env.workspace.path, data.name.replace(/\s/g, ''))
@@ -91,6 +48,7 @@ export const createProduct = async (data: any) => {
     })
 
     const manifest: any = JSON.parse(fs.readFileSync(path.resolve(cwd, '.carmel.json'), 'utf8'))
+
     return {
         ...result,
         ...manifest

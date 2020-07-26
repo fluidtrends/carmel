@@ -83,7 +83,7 @@ export const Welcome: React.FC<WelcomeScreenProps> = (props) => {
 
   const onStart = () => {
     clearInterval(timer)
-    dispatch(replace('/newProduct'))
+    dispatch(replace('/product'))
   }
 
   const Slide = (slide: any) => {
