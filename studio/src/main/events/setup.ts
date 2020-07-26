@@ -157,6 +157,8 @@ export const setup = async (data: any) => {
     let totalTime = 0
     const env = system.env()
 
+    const MIRRORS = [0, 1, 2, 3]
+
     await send({ id: data.id, type: 'settingUp', status: 'Setting Up Your Environment ...' })    
 
     fs.existsSync(env.cache.path) || fs.mkdirsSync(env.cache.path)
@@ -174,17 +176,12 @@ yarn-offline-mirror ./cache/yarnmirror
 --cache-folder ./cache/yarncache`, 'utf8')
     }
 
-    await send({ id: data.id, type: 'settingUp', status: 'Installing base mirror ...' })    
-
-    const baseMirror = await installMirror({ version: 'base' })
-    totalTime = totalTime + baseMirror.time 
-    console.log("base mirror", baseMirror.time, totalTime)
-
-    await send({ id: data.id, type: 'settingUp', status: 'Installing ipfs mirror ...' })    
-
-    const ipfsMirror = await installMirror({ version: 'base' })
-    totalTime = totalTime + ipfsMirror.time 
-    console.log("ipfs mirror", ipfsMirror.time, totalTime)
+    MIRRORS.map(async mirror => {
+        await send({ id: data.id, type: 'settingUp', status: `Installing mirror ${mirror} ...` })    
+        const baseMirror = await installMirror({ version: `${mirror}` })
+        totalTime = totalTime + baseMirror.time 
+        console.log("mirror", mirror, baseMirror.time, totalTime)
+    })    
 
     await send({ id: data.id, type: 'settingUp', status: 'Installing Node.js ...' })    
 
@@ -215,12 +212,14 @@ yarn-offline-mirror ./cache/yarnmirror
     const papanache = await installPacker({ id: "papanache" })
     totalTime = totalTime + papanache.time
     console.log("papanache", papanache.time, totalTime)
-    
+    fs.symlinkSync(path.resolve(env.cache.path, papanache.name, papanache.version), path.resolve(env.cache.path, papanache.name, 'default'), 'dir')
+
     await send({ id: data.id, type: 'settingUp', status: 'Installing The Default Stack (jayesse)...' })    
 
     const jayesse = await installStack({ id: "jayesse" })
     totalTime = totalTime + jayesse.time
     console.log("jayesse", jayesse.time, totalTime)
+    fs.symlinkSync(path.resolve(env.cache.path, jayesse.name, jayesse.version), path.resolve(env.cache.path, jayesse.name, 'default'), 'dir')
 
     await send({ id: data.id, type: 'settingUp', status: 'Installing The Default Bundle (@fluidtrends/bananas)...' })    
 
@@ -244,7 +243,7 @@ yarn-offline-mirror ./cache/yarnmirror
     await send({ id: data.id, type: 'settingUp', status: 'Initializing Your System ...' })    
 
     system.init({
-        mirrors: ['base', 'ipfs'],
+        mirrors: MIRRORS,
         productId: product.id,
         yarn: true,
         node: {
