@@ -68,6 +68,11 @@ export interface ProductsComponentProps  {
 export interface ChallengesComponentProps {
 }
 
+export interface VideoComponentProps {
+    url: string
+    onDone: () => any
+}
+
 export interface ProductListItemComponentProps {
     product: Product,
     onSelected: (product: Product) => any

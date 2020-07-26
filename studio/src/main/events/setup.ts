@@ -1,5 +1,4 @@
 import { send } from './main'
-import { createProduct } from './products'
 import { window } from '../window'
 import * as system from '../system'
 import { download } from 'electron-dl'
@@ -10,7 +9,6 @@ import os from 'os'
 import axios from 'axios'
 import { shell, carmel } from './commands'
 import * as pacote from 'pacote'
-import * as yarn from "@yarnpkg/cli"
 
 export const downloadFile = async (data: any) => {
     const now = Date.now()
@@ -117,7 +115,6 @@ export const installMirror = async (data: any) => {
     const filename = `yarnmirror-${version}.tar.gz`
 
     const url = `http://store.carmel.io/archives/${filename}`
-    console.log(url)
     const stream = await axios({ method: 'get', url, responseType: 'stream' })
 
     await new Promise((resolve, reject) => {
@@ -138,6 +135,8 @@ export const setup = async (data: any) => {
     let totalTime = 0
     const env = system.env()
 
+    await send({ id: data.id, type: 'settingUp', status: 'Setting Up Your Environment ...' })    
+
     fs.existsSync(env.cache.path) || fs.mkdirsSync(env.cache.path)
 
     const yarnFile = path.resolve(env.home.path, '.yarnrc')
@@ -152,91 +151,68 @@ yarn-offline-mirror ./cache/yarnmirror
 --cache-folder ./cache/yarncache`, 'utf8')
     }
 
+    await send({ id: data.id, type: 'settingUp', status: 'Installing base mirror ...' })    
+
     const baseMirror = await installMirror({ version: 'base' })
     totalTime = totalTime + baseMirror.time 
     console.log("base mirror", baseMirror.time, totalTime)
 
-    // const mirror2 = await installMirror({ version: 'base' })
-    // totalTime = totalTime + mirror2.time 
-    // console.log("mirror2", mirror2.time, totalTime)
+    await send({ id: data.id, type: 'settingUp', status: 'Installing ipfs mirror ...' })    
+
+    const ipfsMirror = await installMirror({ version: 'base' })
+    totalTime = totalTime + ipfsMirror.time 
+    console.log("ipfs mirror", ipfsMirror.time, totalTime)
+
+    await send({ id: data.id, type: 'settingUp', status: 'Installing Node.js ...' })    
 
     const node = await installArchive({ name: 'node', version: nodeVersion, type: "cache" })
     totalTime = totalTime + node.time 
     console.log("node", node.time, totalTime)
 
+    await send({ id: data.id, type: 'settingUp', status: 'Installing yarn ...' })    
+
     const yarn = await shell({ cmd: 'npm i -g yarn' })
     totalTime = totalTime + yarn.time
     console.log("yarn", yarn.time, totalTime)
+
+    await send({ id: data.id, type: 'settingUp', status: 'Installing Carmel Dependencies ...' })    
 
     const sdk = await downloadDependency({ id: '@carmel/sdk', type: "cache" })
     totalTime = totalTime + sdk.time
     console.log("sdk", sdk.time, totalTime)
 
-    const papanache = await downloadDependency({ id: 'papanache', type: "packers" })
-    totalTime = totalTime + papanache.time
-    console.log("papanache", papanache.time, totalTime)
-
-    const jayesse = await downloadDependency({ id: 'jayesse', type: "stacks" })
-    totalTime = totalTime + jayesse.time
-    console.log("jayesse", jayesse.time, totalTime)
-
-    const bananas = await downloadDependency({ id: '@fluidtrends/bananas', type: "bundles" })
-    totalTime = totalTime + jayesse.time
-    console.log("bananas", bananas.time, totalTime)
-
-    const bananasDeps = await installDependencies({ name: bananas.name, version: bananas.version, type: "bundles" })
-    totalTime = totalTime + bananasDeps.time
-    console.log("bananas deps", bananasDeps.time, totalTime)
-
-    const papanacheDeps = await installDependencies({ name: papanache.name, version: papanache.version, type: "packers" })
-    totalTime = totalTime + papanacheDeps.time
-    console.log("papanache deps", papanacheDeps.time, totalTime)
-
-    const jayesseDeps = await installDependencies({ name: jayesse.name, version: jayesse.version, type: "stacks" })
-    totalTime = totalTime + jayesseDeps.time
-    console.log("jayesse deps", jayesseDeps.time, totalTime)
-
     const sdkDeps = await installDependencies({ name: sdk.name, version: sdk.version, type: "cache" })
     totalTime = totalTime + sdkDeps.time
     console.log("sdk deps", sdkDeps.time, totalTime)
 
-    // const cwd = path.resolve(env.workspace.path, 'MyFirstProduct')
-    // fs.mkdirsSync(cwd)
-   
-    // const init = await carmel({ 
-    //     node: nodeVersion,
-    //     sdk: sdk.version,
-    //     cmd: "init",
-    //     args: [{
-    //         name: "name",
-    //         value: "My First Product"
-    //     }, {
-    //         name: "template",
-    //         value: "@fluidtrends/bananas/starter"
-    //     }], 
-    //     cwd 
-    // })
+    await send({ id: data.id, type: 'settingUp', status: 'Initializing Your System ...' })    
 
-    // await send({ id: data.id, type: 'settingUp', status: init })    
-
-    // const started = await carmel({ 
-    //     node: nodeVersion,
-    //     sdk: sdk.version,
-    //     cmd: "start",
-    //     cwd 
-    // })
-
-    // await send({ id: data.id, type: 'settingUp', status: started })    
-
-    // const productData: any = JSON.parse(fs.readFileSync(path.resolve(cwd, '.carmel.json'), 'utf8'))
-
-    // system.init({
-    //     productId: productData.id,
-    //     sdk, 
-    //     packers: { papanache },
-    //     stacks: { jayesse },
-    //     bundles: { "@fluidtrends/bananas": bananas }
-    // })
+    system.init({
+        sdk: {
+            version: sdk.version
+        }
+    })
     
-    // await send({ id: data.id, type: 'settingUp', done: true })    
+    await send({ id: data.id, type: 'settingUp', status: 'Your Carmel Environment Is Ready', done: true })    
+}
+
+export const installBundle = async (data: any) => {
+    const archive = await downloadDependency({ id: data.id, type: "bundles" })
+    await installDependencies({ name: archive.name, version: archive.version, type: "bundles" })
+
+    await send({ id: data.id, type: 'bundleInstalled', done: true })    
+}
+
+export const installPacker = async (data: any) => {
+    const archive = await downloadDependency({ id: data.id, type: "packers" })
+    await installDependencies({ name: archive.name, version: archive.version, type: "packers" })
+
+    await send({ id: data.id, type: 'packerInstalled', done: true })    
+}
+
+export const installStack = async (data: any) => {
+    const archive = await downloadDependency({ id: data.id, type: "stacks" })
+    await installDependencies({ name: archive.name, version: archive.version, type: "stacks" })
+
+    await send({ id: data.id, type: 'stackInstalled', done: true })    
 }

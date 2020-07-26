@@ -5,32 +5,92 @@ import fs from 'fs-extra'
 import path from 'path'
 import readdir from "recursive-readdir"
 
-export const createProduct = async (data: any) => {
-    const env = system.env()
-    const cwd = path.resolve(env.workspace.path, data.name.replace(/\s/g, ''))
-    
-    if (fs.existsSync(cwd)) {
-        await send({ 
-            id: data.id,
-            type: 'createdProduct', 
-            error: 'The name is taken, please choose another name'
-        })
-        return
-    }
+// export const installTemplate = async (data: any) => {
 
-    fs.mkdirsSync(cwd)
+// }
+
+// export const installTemplate = async (data: any) => {
+//     const info = data.id.split('/')
+
+//     let bundleVersion = undefined
+//     let bundleId = data.id
+//     let name = data.id
+
+//     name = info.pop()!
+//     bundleId = info.shift()!
+//     bundleId = bundleId.charAt(0) === '@' ? `${bundleId}/${info.shift()}` : bundleId
+//     bundleVersion = info && info.length > 0 ? info.shift() : bundleVersion
+// }
+
+// export const installd = async (data: any) => {
+//     const env = system.env()
+//     const cwd = path.resolve(env.workspace.path, 'MyFirstProduct')
+//     // fs.mkdirsSync(cwd)
    
-    await carmel({ 
-        cmd: `init --template=${data.template} --name="${data.name}"`, 
-        cwd
-    })
+//     // const init = await carmel({ 
+//     //     node: nodeVersion,
+//     //     sdk: sdk.version,
+//     //     cmd: "init",
+//     //     args: [{
+//     //         name: "name",
+//     //         value: "My First Product"
+//     //     }, {
+//     //         name: "template",
+//     //         value: "@fluidtrends/bananas/starter"
+//     //     }], 
+//     //     cwd 
+//     // })
 
-    await send({ 
-        id: data.id,
-        type: 'createdProduct', 
-        done: true
-    })
-}
+//     // await send({ id: data.id, type: 'settingUp', status: init })    
+
+//     // const started = await carmel({ 
+//     //     node: nodeVersion,
+//     //     sdk: sdk.version,
+//     //     cmd: "start",
+//     //     cwd 
+//     // })
+
+//     // await send({ id: data.id, type: 'settingUp', status: started })    
+
+//     // const productData: any = JSON.parse(fs.readFileSync(path.resolve(cwd, '.carmel.json'), 'utf8'))
+
+//     // system.init({
+//     //     productId: productData.id,
+//     //     sdk, 
+//     //     packers: { papanache },
+//     //     stacks: { jayesse },
+//     //     bundles: { "@fluidtrends/bananas": bananas }
+//     // })
+    
+//     // await send({ id: data.id, type: 'settingUp', done: true })    
+// }
+
+// export const createProduct = async (data: any) => {
+//     const env = system.env()
+//     const cwd = path.resolve(env.workspace.path, data.name.replace(/\s/g, ''))
+    
+//     if (fs.existsSync(cwd)) {
+//         await send({ 
+//             id: data.id,
+//             type: 'createdProduct', 
+//             error: 'The name is taken, please choose another name'
+//         })
+//         return
+//     }
+
+//     fs.mkdirsSync(cwd)
+   
+//     await carmel({ 
+//         cmd: `init --template=${data.template} --name="${data.name}"`, 
+//         cwd
+//     })
+
+//     await send({ 
+//         id: data.id,
+//         type: 'createdProduct', 
+//         done: true
+//     })
+// }
 
 export const selectProduct = async (data: any) => {
     system.update({ productId: data.product.id })

@@ -1,21 +1,21 @@
 import React, { memo, useEffect, useCallback, useState, useRef } from 'react'
-import { Typography, Progress } from 'antd'
+import { Typography, Progress, Button, Badge } from 'antd'
 import { useDispatch, useSelector } from "react-redux"
 import { WelcomeScreenProps, State } from '../types'
 import { useEvent } from '../hooks'
 import * as styles from '../styles'
 import { replace } from 'connected-react-router'
-// import { setup } from 'src/main/events'
 import { initialize } from '../data'
 import Player from 'react-player'
 import { Fade } from 'react-awesome-reveal'
+import { CheckOutlined, SettingOutlined } from "@ant-design/icons"
+import { Video } from '../components'
 
 const { Title, Text } = Typography
 
 const TICK = 300
 const TICKS = 100
 
-import { asset } from '../../main/assets'
 import intro from '../../intro.json'
 const introVideo = require(`../../../assets/${(intro as any).video}`).default
 
@@ -28,15 +28,25 @@ export const Welcome: React.FC<WelcomeScreenProps> = (props) => {
   const player = useRef(null)
   const setupEvent: any = useEvent() 
   const loadEvent: any = useEvent() 
-  const [status, setStatus] = useState('Setting up your environment ...')
+  const [status, setStatus] = useState('Setting Up Your Carmel Environment ...')
   const [timer, setTimer] = useState<any>()
   const [slideId, setSlideId] = useState(0)
   const [time, setTime] = useState(0)
-  
+  const [isDone, setDone] = useState(false)
+  const [videoIsDone, setVideoIsDone] = useState(false)
+
   const session = useSelector((state: State) => state.session)
-  // const products = useSelector((state: State) => state.products)
 
   const dispatch = useDispatch()
+  
+  const onVideoDone = () => {
+    setVideoIsDone(true)
+    startSlides()
+  }
+
+  const startSlides = () => {
+    setTimer(setInterval(() => setTime(t => t + 1), TICK))
+  }
   
   useEffect(() => {
     setupEvent.send({ type: "setup" })
@@ -53,32 +63,28 @@ export const Welcome: React.FC<WelcomeScreenProps> = (props) => {
   useEffect(() => {
     if (!setupEvent.received.id) return 
 
-    console.log("setupEvent", setupEvent.received)
-    
     const { status } = setupEvent.received
-    setStatus(`${status}`)
+    timer && setStatus(`${status}`)
 
     if (setupEvent.received.done) {
       loadEvent.send({ type: 'load' })
     }
  }, [setupEvent.received])
 
-  const onVideoDone = () => {
-    setTimer(setInterval(() => setTime(t => t + 1), TICK))
-  }
-
   useEffect(() => {
     if (!loadEvent.received.id) return
-    console.log("loadEvent", loadEvent.received)
     loadEvent.received.type === 'loaded' && dispatch(initialize(loadEvent.received)) 
   }, [loadEvent.received])
 
   useEffect(() => {
     if (!session.loadedTimestamp) return
-    console.log("session", session)
-    clearInterval(timer)
-    dispatch(replace('/product'))
+    setDone(true)
   }, [session])
+
+  const onStart = () => {
+    clearInterval(timer)
+    dispatch(replace('/newProduct'))
+  }
 
   const Slide = (slide: any) => {
     return (<div style={{
@@ -137,7 +143,7 @@ export const Welcome: React.FC<WelcomeScreenProps> = (props) => {
           opacity: (((TICKS - time)*1.5)/(TICKS)),
       }}/>
       <Slide key={slide.id} {...slide} style={{
-        display: "flex", 
+        display: "flex",
         height: "100%",
         flex: 1
       }}/>
@@ -153,25 +159,27 @@ export const Welcome: React.FC<WelcomeScreenProps> = (props) => {
         percent={time}
         status="active"
     />
+      <Title level={4} style={{ marginBottom: 20 }}>
+        { status }
+      </Title>
     </div>)
   }
 
-  const IntroVideo = () => (<Player 
-    ref={player}
-    onEnded={onVideoDone}
-    url={introVideo}
-    playing
-    style={{
-      background: "#fffff",
-    }}
-    width="100%"
-    height="100%"
-  />)
-
-  // return (<div style={styles.screen}>      
-  //   { timer ? <IntroSlides/> : <IntroVideo/> }
-  // </div>)
+  if (!videoIsDone) {
+    return <Video onDone={onVideoDone} url={introVideo}/>
+  }
 
   return (<div style={styles.screen}>      
+    <IntroSlides/>
+    { isDone && <Button 
+        type="primary" 
+        onClick={onStart}
+        icon={<CheckOutlined />}
+        style={{
+          marginBottom: 20
+        }}>
+            Get Started Now
+        </Button>
+    }
   </div>)
 }
