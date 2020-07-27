@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { ProductHeaderComponentProps } from '../types'
-import { Card, Button, Tag, Switch, Tooltip, Badge, PageHeader, Menu, Typography } from 'antd'
+import { Card, Button, Tag, Dropdown, Switch, Tooltip, Badge, PageHeader, Menu, Typography } from 'antd'
 import { 
     GlobalOutlined, 
+    LinkOutlined,
     BlockOutlined, 
     PauseCircleFilled,
     CodeOutlined,
@@ -24,6 +25,8 @@ import {
     PictureOutlined,  
 } from '@ant-design/icons'
 import { useEvent } from '../hooks'
+import moment from 'moment'
+import { shell } from 'electron'
 
 const { Meta } = Card
 const { Title, Text } = Typography
@@ -43,8 +46,8 @@ export const ProductHeader: React.FC<ProductHeaderComponentProps> = (props) => {
     setStatus({
         icon: <Badge status={"processing" }/>,
         color: "processing",
-        processing: !commandResponse.message.done,
-        text: commandResponse.message.status
+        processing: !commandResponse.done,
+        text: commandResponse.status
     })
   }, [commandResponse])
 
@@ -67,6 +70,34 @@ export const ProductHeader: React.FC<ProductHeaderComponentProps> = (props) => {
         onCommand(command.id)
     }
 
+    const onViewLive = (e: any) => {
+        const deployment = product.deployments.find((d: any) => d.id === e.key)
+        shell.openExternal(deployment.urls.short)
+    }
+
+    const LiveMenu = () => {
+        if (!product.deployments || product.deployments.length === 0) return <div/>
+        return (<Menu onClick={onViewLive}>
+            { product.deployments.sort((a: any, b: any) => b.timestamp - a.timestamp).map((d: any, i: number) => (
+            <Menu.Item key={d.id} icon={<LinkOutlined />} style={{
+                color: i > 0 ? "#d9d9d9" : "#333333",
+                backgroundColor: i > 0 ? "#eeeeee" : "#ffffff"
+            }}>
+                { moment(d.timestamp).fromNow() } { i === 0 && "(latest)"} 
+            </Menu.Item>))}
+        </Menu>)
+    }
+    
+    const LiveButton = () => {
+       if (!product.deployments || product.deployments.length === 0) return <div/>
+        
+        return (<Dropdown overlay={<LiveMenu/>}>
+            <Button type="link" style={{ marginLeft: 0 }}>
+                {product.deployments.length} Live Versions <DownOutlined />
+            </Button>
+        </Dropdown>)
+    }
+
     let commands = [product.started ? {
         id: "stop",
         name: "STOP",
@@ -78,17 +109,11 @@ export const ProductHeader: React.FC<ProductHeaderComponentProps> = (props) => {
         icon: "CaretRightOutlined",
         tooltip: "Start running"
     }, {
-        id: "publish",
+        id: "deploy",
         name: "PUBLISH",
         icon: "CloudUploadOutlined",
         tooltip: "Publish online"
-    }, {
-        id: "visit",
-        name: "VISIT",
-        icon: "GlobalOutlined",
-        tooltip: "Visit website"
     }]
-
 
     const renderStatus = () => {
         if (status.processing) {
@@ -120,23 +145,23 @@ export const ProductHeader: React.FC<ProductHeaderComponentProps> = (props) => {
             justifyContent: "center",
             height: "100%"
         }}>
-            <div key="container" style={{
-                marginTop: 20
-            }}>
-                { commands.map((command: any) => {
-                    const Icon = require(`@ant-design/icons/lib/icons/${command.icon}.js`).default
-                    return <Tooltip placement="bottomRight" key={command.id} title={command.tooltip}>
+        <div key="container" style={{
+            marginTop: 20
+        }}>
+            { commands.map((command: any) => {
+                const Icon = require(`@ant-design/icons/lib/icons/${command.icon}.js`).default
+                return <Tooltip placement="bottomRight" key={command.id} title={command.tooltip}>
                     <Button disabled={status.processing} onClick={() => onPanelCommand(command)} style={{
                         marginLeft: 10,
                     }} icon={<Icon style={{
                     }}/>} loading={false}>
                         { command.name }
                     </Button>
-                    </Tooltip>
-                })}
-            </div>
-        </div>)
-
+                </Tooltip>
+            })}
+            { product.deployments && product.deployments.length > 0 && <LiveButton/>}
+        </div>
+    </div>)
   
     const title = (<div key="main" style={{
       display: "flex", 
@@ -208,12 +233,16 @@ export const ProductHeader: React.FC<ProductHeaderComponentProps> = (props) => {
                 justifyContent: "flex-end",
                 alignItems: "flex-end"
             }}>
-                <Text style={{ marginRight: 5 }}> Preview </Text>
-                <Switch 
-                    checkedChildren="on"
-                    onChange={onTogglePreview} 
-                    unCheckedChildren="off" 
-                    defaultChecked />
+                { product.started && 
+                    <div>
+                        <Text style={{ marginRight: 5 }}> Preview </Text>
+                        <Switch 
+                            checkedChildren="on"
+                            onChange={onTogglePreview} 
+                            unCheckedChildren="off" 
+                            defaultChecked={false} />
+                    </div>
+                }
             </div>
         </div>
     </PageHeader>

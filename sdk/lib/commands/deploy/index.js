@@ -68,13 +68,27 @@ var Deploy = /** @class */ (function (_super) {
     }
     /** @internal */
     Deploy.prototype.exec = function () {
-        var _a;
+        var _a, _b, _c;
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0: return [4 /*yield*/, ((_a = this.product) === null || _a === void 0 ? void 0 : _a.code.deploy(this.target))];
+            var deployment;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
+                    case 0:
+                        if (!((_a = this.product) === null || _a === void 0 ? void 0 : _a.packer))
+                            return [2 /*return*/];
+                        return [4 /*yield*/, ((_b = this.product) === null || _b === void 0 ? void 0 : _b.packer.pack(function (event) {
+                                console.log(event);
+                            }))];
                     case 1:
-                        _b.sent();
+                        _d.sent();
+                        return [4 /*yield*/, ((_c = this.product) === null || _c === void 0 ? void 0 : _c.code.deploy(this.target))];
+                    case 2:
+                        deployment = _d.sent();
+                        this.product.manifest.load();
+                        this.product.manifest.data.append({
+                            deployments: [deployment]
+                        });
+                        this.product.manifest.save();
                         return [2 /*return*/];
                 }
             });

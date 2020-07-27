@@ -26,6 +26,11 @@ export default class Start extends Command {
       console.log('Chunky says: ', event)
     })
 
-    console.log("port:", this.product.packerPort)
+    this.product.manifest.load()
+    this.product.manifest.data.append({
+      packerPort: this.product.packerPort,
+      started: true,
+    })
+    this.product.manifest.save()
   }
 }

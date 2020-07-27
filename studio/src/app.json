@@ -11,6 +11,11 @@
         "screen": "Welcome",
         "container": "Simple"
     }, {
+        "path": "/newProduct",
+        "id": "newProduct",
+        "screen": "NewProduct",
+        "container": "Simple"
+    }, {
         "path": "/products",
         "id": "products",
         "screen": "Products",
@@ -20,10 +25,5 @@
         "id": "product",
         "screen": "Product",
         "container": "Main"
-    }],
-    "events": [{
-        "id": "start"
-    }, {
-        "id": "started"
     }]
 }

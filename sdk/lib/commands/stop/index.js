@@ -95,22 +95,29 @@ var Stop = /** @class */ (function (_super) {
     };
     /** @internal */
     Stop.prototype.exec = function () {
-        var _a, _b, _c, _d, _e;
+        var _a, _b, _c, _d, _e, _f;
         return __awaiter(this, void 0, void 0, function () {
             var serverId, serverDir;
-            return __generator(this, function (_f) {
-                switch (_f.label) {
+            return __generator(this, function (_g) {
+                switch (_g.label) {
                     case 0:
+                        if (!((_a = this.product) === null || _a === void 0 ? void 0 : _a.packer))
+                            return [2 /*return*/];
                         serverId = "start/" + this.product.id;
-                        serverDir = (_e = (_d = (_c = (_b = (_a = this.product) === null || _a === void 0 ? void 0 : _a.session) === null || _b === void 0 ? void 0 : _b.dir) === null || _c === void 0 ? void 0 : _c.dir('servers')) === null || _d === void 0 ? void 0 : _d.make()) === null || _e === void 0 ? void 0 : _e.dir(serverId);
+                        serverDir = (_f = (_e = (_d = (_c = (_b = this.product) === null || _b === void 0 ? void 0 : _b.session) === null || _c === void 0 ? void 0 : _c.dir) === null || _d === void 0 ? void 0 : _d.dir('servers')) === null || _e === void 0 ? void 0 : _e.make()) === null || _f === void 0 ? void 0 : _f.dir(serverId);
                         if (!(serverDir === null || serverDir === void 0 ? void 0 : serverDir.exists)) {
                             console.log('not started');
                             return [2 /*return*/];
                         }
                         return [4 /*yield*/, this.stopServer(serverId)];
                     case 1:
-                        _f.sent();
+                        _g.sent();
                         serverDir.remove();
+                        this.product.manifest.load();
+                        this.product.manifest.data.append({
+                            started: false,
+                        });
+                        this.product.manifest.save();
                         return [2 /*return*/];
                 }
             });

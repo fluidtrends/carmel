@@ -5,10 +5,12 @@ import shortid from 'shortid'
 export const useEvent = () => {
     let [received, setReceived] = useState({})
     let [id, setId] = useState('')
+    let [type, setType] = useState('')
  
     const send = (event: any) => {
         const newId = shortid.generate()
         setId(newId)
+        setType(type || event.type)
         ipcRenderer.send('carmel', { id: newId, ...event })
         return newId
     }
@@ -16,7 +18,7 @@ export const useEvent = () => {
     useEffect(() => {
         const listener = (e: any, data: any) => {
             if (data.id === id) {
-                 setReceived(data) 
+                setReceived(data) 
             }
         }
 
@@ -27,21 +29,3 @@ export const useEvent = () => {
 
     return { send, id, received }
 }
-
-export const useCommand = () => {
-    let [received, setReceived] = useState({})
- 
-    const send = (command: any) => ipcRenderer.send('carmel', { id: 'command', type: 'runCommand', ...command })
-  
-    useEffect(() => {
-        const listener = (e: any, data: any) => {
-            data.type === 'commandResult' && setReceived(data)
-        }
-
-        ipcRenderer.on('carmel', listener)
-
-        // return () => ipcRenderer.removeListener('carmel', listener)
-    }, [])
-
-    return { send, received }
-  }

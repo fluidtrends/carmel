@@ -33,7 +33,15 @@ module.exports = [
     },
   },
   {
+    test: /\.mp4$/,
+    use: 'file-loader?name=videos/[name].[ext]',
+  },
+  {
     test: /\.ttf$/,
+    use: ['file-loader'],
+  },
+  {
+    test: /json\/utils$/,
     use: ['file-loader'],
   },
   {
@@ -54,8 +62,16 @@ module.exports = [
     ],
   },
   {
+    test: /node-gyp\.js$/,
+    use: [
+      {
+        loader: 'shebang-loader',
+      },
+    ],
+  },
+  {
     test: /\.ts(x?)$/,
-    exclude: /(node_modules|\.webpack|node_modules\/browser-sync)/,
+    exclude: /(node_modules|\.webpack)/,
     use: [
       {
         loader: 'ts-loader',

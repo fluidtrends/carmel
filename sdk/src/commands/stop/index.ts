@@ -41,6 +41,8 @@ export default class Stop extends Command {
 
   /** @internal */
   async exec() {
+    if (!this.product?.packer) return
+
     const serverId = `start/${this.product!.id}`
     const serverDir = this.product?.session?.dir?.dir('servers')?.make()?.dir(serverId)
 
@@ -51,5 +53,11 @@ export default class Stop extends Command {
 
     await this.stopServer(serverId)
     serverDir.remove()
+
+    this.product.manifest.load()
+    this.product.manifest.data.append({
+      started: false,
+    })
+    this.product.manifest.save()
   }
 }

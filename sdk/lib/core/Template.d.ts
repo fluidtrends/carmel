@@ -39,7 +39,7 @@ export declare class Template implements ITemplate {
      *
      * @param dir
      */
-    install(dir: IDir, product: IProduct): Promise<{
+    install(dir: IDir, name: Name, product: IProduct): Promise<{
         packer: any;
         stack: any;
     } | undefined>;

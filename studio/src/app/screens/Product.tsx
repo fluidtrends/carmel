@@ -19,7 +19,7 @@ import {
 } from '@ant-design/icons'
 import { replace } from 'connected-react-router'
 import { unselectProduct, selectProduct } from '../data'
-import { useEvent, useCommand } from '../hooks'
+import { useEvent } from '../hooks'
 import { ProductHeader, ProductChunks, ProductAssets } from '../components'
 
 const { Paragraph, Title } = Typography
@@ -41,7 +41,8 @@ export const Product: React.FC<ProductScreenProps> = (props) => {
   const unselectEvent: any = useEvent() 
   let loadProductEvent: any = useEvent() 
   const loadFileEvent: any = useEvent() 
-  const command: any = useCommand()
+  const command: any = useEvent()
+  const browser: any = useEvent()
   const sections: any = useRef(null)
 
   const [expandedChunks, setExpandedChunks] = useState([])
@@ -55,11 +56,11 @@ export const Product: React.FC<ProductScreenProps> = (props) => {
     loadProductEvent.send({ type: 'loadSelectedProduct' })
   }, [])
 
-  useEffect(() => {
+  useEffect(() => { 
     if (!command.received.id) return 
     setCommandResponse(command.received)
 
-    if (command.received.message && command.received.message.done) {
+    if (command.received.done) {
       loadProductEvent.send({ type: 'loadSelectedProduct' })
     }
   }, [command.received])
@@ -73,7 +74,6 @@ export const Product: React.FC<ProductScreenProps> = (props) => {
     if (!loadProductEvent.received.id) return 
 
     let parsedFiles: any = {}
-
     loadProductEvent.received.files.map((file: string) => {
       const dirs = file.split('/')
       const filename = dirs.pop()
@@ -95,8 +95,7 @@ export const Product: React.FC<ProductScreenProps> = (props) => {
     setRootDir(loadProductEvent.received.rootDir)
     setFiles(parsedFiles)
     dispatch(selectProduct({
-      ...product,
-      started: loadProductEvent.received.started
+      ...loadProductEvent.received.manifest
     }))
   }, [loadProductEvent.received])
 
@@ -114,8 +113,8 @@ export const Product: React.FC<ProductScreenProps> = (props) => {
     setExpandedChunks(keys)
   }
 
-  const onCommand = (commandId: string) => {
-      command.send({ commandId, productId: product.id })
+  const onCommand = (cmd: string) => {
+      command.send({ type: "runCommand", cmd, args: [], productId: product.id })
   }
 
   const onChunkSelect = (path: any) => {
@@ -127,7 +126,7 @@ export const Product: React.FC<ProductScreenProps> = (props) => {
   }
 
   const onTogglePreview = () => {
-    console.log("PREVIEW TOGGLE")
+    browser.send({ type: 'toggleBrowser', product: product })
   }
 
   return (

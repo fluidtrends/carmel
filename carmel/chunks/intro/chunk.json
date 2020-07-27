@@ -6,7 +6,7 @@
         "screen": "main",
         "cover": {
             "title": "Grow Your Tech Skillset And Build A Better Future.",
-            "subtitle": "Hi My LOVEsdfgsdfgsdfgdfgdsfgsdfgsdfgdsfgsdf!!!! :)",
+            "subtitle": " :)",
             "image": "main",
             "action": {
                 "title": "Get Started",
@@ -16,7 +16,7 @@
         "name": "Hello",
         "id": "main",
         "footer": {
-            "watermark": "Build with Carmekkkkkkkkl"
+            "watermark": "Build with Carme"
         }
     }]
 }

@@ -1,5 +1,4 @@
 import { IRepo, ICode, IDir } from '..';
-import NodeGit from 'nodegit';
 /**
  *
  */
@@ -7,7 +6,6 @@ export declare class Repo implements IRepo {
     /** @internal */
     protected _code: ICode;
     /** @internal */
-    protected _local?: NodeGit.Repository;
     /** @internal */
     protected _remote?: any;
     /** @internal */
@@ -28,10 +26,6 @@ export declare class Repo implements IRepo {
     /**
      *
      */
-    get local(): NodeGit.Repository | undefined;
-    /**
-     *
-     */
     get remote(): any;
     /**
      *
@@ -45,10 +39,6 @@ export declare class Repo implements IRepo {
      *
      */
     get name(): string | undefined;
-    /**
-     *
-     */
-    get isOpen(): boolean;
     /**
      *
      */
@@ -74,7 +64,7 @@ export declare class Repo implements IRepo {
     /**
      *
      */
-    push(): Promise<void>;
+    push(): Promise<any>;
     /**
      *
      */

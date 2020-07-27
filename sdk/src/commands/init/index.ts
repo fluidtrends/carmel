@@ -31,8 +31,9 @@ export default class Init extends Command {
 
     // Look up the template
     const templateId = this.arg("template")
+    const name = this.arg("name")
 
     // Looks good, let's create the product structure from this template
-    await this.product?.createFromTemplate(templateId)
+    await this.product?.createFromTemplate(templateId, name)
   }
 }

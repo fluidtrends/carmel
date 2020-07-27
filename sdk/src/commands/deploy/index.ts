@@ -19,6 +19,19 @@ export default class Deploy extends Command {
 
   /** @internal */
   async exec() {
-    await this.product?.code.deploy(this.target)
+    if (!this.product?.packer) return
+
+    await this.product?.packer.pack((event: any) => {
+      console.log(event)
+    })
+
+    const deployment = await this.product?.code.deploy(this.target)
+
+    this.product.manifest.load()
+    this.product.manifest.data.append({
+      deployments: [deployment]
+    })
+
+    this.product.manifest.save()
   }
 }

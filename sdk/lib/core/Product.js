@@ -229,7 +229,7 @@ var Product = /** @class */ (function () {
      *
      * @param id
      */
-    Product.prototype.createFromTemplate = function (id) {
+    Product.prototype.createFromTemplate = function (id, name) {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
             var template;
@@ -241,7 +241,7 @@ var Product = /** @class */ (function () {
                         if (!template) {
                             throw __1.Errors.ProductCannotCreate(__1.Strings.TemplateIsMissingString(id));
                         }
-                        return [4 /*yield*/, template.install(this.dir, this)];
+                        return [4 /*yield*/, template.install(this.dir, name, this)];
                     case 2:
                         _b.sent();
                         return [2 /*return*/, this.load()];
@@ -342,11 +342,12 @@ var Product = /** @class */ (function () {
     Product.prototype.resolve = function (target, watch) {
         var _a, _b, _c, _d, _e, _f;
         return __awaiter(this, void 0, void 0, function () {
-            var productId, bundle, bundleVersion, templateName, productCacheDir, templateId, cache, template, _g, packerDir, stackDir, packerInstance, stackConfig, _h, isStatic, options;
+            var productId, productName, bundle, bundleVersion, templateName, productCacheDir, templateId, cache, template, _g, packerDir, stackDir, packerInstance, stackConfig, _h, isStatic, options;
             return __generator(this, function (_j) {
                 switch (_j.label) {
                     case 0:
                         productId = this.manifest.data.json().id;
+                        productName = this.manifest.data.json().name;
                         bundle = this.manifest.data.json().bundle;
                         bundleVersion = this.manifest.data.json().bundleVersion;
                         templateName = this.manifest.data.json().template;
@@ -359,7 +360,7 @@ var Product = /** @class */ (function () {
                         return [4 /*yield*/, ((_c = this.session) === null || _c === void 0 ? void 0 : _c.findTemplate(templateId))];
                     case 1:
                         template = _j.sent();
-                        return [4 /*yield*/, template.install(this.dir, this)];
+                        return [4 /*yield*/, template.install(this.dir, productName, this)];
                     case 2:
                         cache = _j.sent();
                         _j.label = 3;

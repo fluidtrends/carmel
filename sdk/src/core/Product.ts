@@ -20,6 +20,7 @@ import {
   IPacker,
   Strings,
 } from '..'
+import { Name } from '../types'
 
 /**
  *
@@ -194,14 +195,14 @@ export class Product implements IProduct {
    *
    * @param id
    */
-  async createFromTemplate(id: Id) {
+  async createFromTemplate(id: Id, name: Name) {
     const template = await this.session?.findTemplate(id)
 
     if (!template) {
       throw Errors.ProductCannotCreate(Strings.TemplateIsMissingString(id))
     }
 
-    await template!.install(this.dir, this)
+    await template!.install(this.dir, name, this)
 
     return this.load()
   }
@@ -264,6 +265,7 @@ export class Product implements IProduct {
   async resolve(target: Target, watch: boolean) {
     // Start by looking up this product's id and cache
     const productId = this.manifest.data.json().id
+    const productName= this.manifest.data.json().name
     const bundle = this.manifest.data.json().bundle
     const bundleVersion = this.manifest.data.json().bundleVersion
     const templateName = this.manifest.data.json().template
@@ -280,7 +282,7 @@ export class Product implements IProduct {
       // Let's setup cache structure
       productCacheDir?.make()
       const template = await this.session?.findTemplate(templateId)
-      cache = await template!.install(this.dir, this)
+      cache = await template!.install(this.dir, productName, this)
     }
 
     // Make sure we have a product cache available

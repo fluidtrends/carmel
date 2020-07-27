@@ -9,3 +9,9 @@ export const newUrl = async (url: any) => {
     await send({ type: 'url', url })
     window.show()
 }
+
+export const toggleBrowser = async (data: any) => {
+    const sender = window.browserContent()
+    sender && sender.send('carmel', data)
+    window.toggleBrowser()
+}

@@ -14,6 +14,12 @@ export interface Product {
     chunks: string[]
 }
 
+export interface Template {
+    name: string,
+    bundle: string,
+    bundleVersion?: string
+}
+
 export interface Asset {
     name: string 
     path: string
@@ -31,6 +37,10 @@ export interface AppProps {
     [key: string]: any
 }
 
+export interface BrowserProps {
+    
+}
+
 export interface StartScreenProps extends AppProps {
 }
 
@@ -43,7 +53,7 @@ export interface ProductsScreenProps extends AppProps {
 export interface ProductScreenProps extends AppProps {
 }
 
-export interface EditorScreenProps extends AppProps {
+export interface NewProductScreenProps extends AppProps {
 }
 
 export interface MainContainerProps extends AppProps {
@@ -58,9 +68,20 @@ export interface ProductsComponentProps  {
 export interface ChallengesComponentProps {
 }
 
+export interface VideoComponentProps {
+    url: string
+    onDone: () => any
+}
+
 export interface ProductListItemComponentProps {
     product: Product,
     onSelected: (product: Product) => any
+}
+
+
+export interface TemplateListItemComponentProps {
+    template: Template,
+    onSelected: (template: Template) => any
 }
 
 export interface ChunkListItemComponentProps {

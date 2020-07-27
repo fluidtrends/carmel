@@ -12,7 +12,6 @@ import {
 } from '..'
 
 import { Octokit } from '@octokit/rest'
-import NodeGit from 'nodegit'
 
 /**
  *
@@ -158,7 +157,7 @@ export class Code implements ICode {
    */
   async deploy(target: Target) {
     await this.setupDeployment()
-    await this.deployRepo?.push()
+    return this.deployRepo?.push()
     
     // if (this.dir?.dir(target)?.exists) return
 

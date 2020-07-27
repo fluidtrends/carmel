@@ -73,5 +73,5 @@ export declare class Code implements ICode {
     /**
      *
      */
-    deploy(target: Target): Promise<void>;
+    deploy(target: Target): Promise<any>;
 }

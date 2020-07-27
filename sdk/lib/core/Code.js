@@ -216,10 +216,7 @@ var Code = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.setupDeployment()];
                     case 1:
                         _b.sent();
-                        return [4 /*yield*/, ((_a = this.deployRepo) === null || _a === void 0 ? void 0 : _a.push())];
-                    case 2:
-                        _b.sent();
-                        return [2 /*return*/];
+                        return [2 /*return*/, (_a = this.deployRepo) === null || _a === void 0 ? void 0 : _a.push()];
                 }
             });
         });

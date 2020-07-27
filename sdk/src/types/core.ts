@@ -108,7 +108,7 @@ export interface IRepo extends IClass {
   readonly dir?: IDir
   readonly name?: string
   readonly owner?: string
-  readonly isOpen: boolean
+  // readonly isOpen: boolean
   readonly hasRemote: boolean
   readonly isRemoteForeign: boolean
 
@@ -157,7 +157,7 @@ export interface IProduct extends IClass {
   openWeb(): Promise<any>
   loadCache(): Promise<any>
   create(data?: any): void
-  createFromTemplate(id: Id): Promise<IProduct | undefined>
+  createFromTemplate(id: Id, name: Name): Promise<IProduct | undefined>
   load(): Promise<IProduct | undefined>
   saveContext(context: object): void
   changeState(state: ProductState): void
@@ -215,7 +215,7 @@ export interface ITemplate extends IClass {
   readonly artifact: IArtifact
   readonly name: Name
 
-  install(dir: IDir, product: IProduct): Promise<any>
+  install(dir: IDir, name: Name, product: IProduct): Promise<any>
   load(): Promise<ITemplate | undefined>
 }
 
