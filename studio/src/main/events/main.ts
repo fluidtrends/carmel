@@ -11,5 +11,7 @@ export const newUrl = async (url: any) => {
 }
 
 export const toggleBrowser = async (data: any) => {
+    const sender = window.browserContent()
+    sender && sender.send('carmel', data)
     window.toggleBrowser()
 }

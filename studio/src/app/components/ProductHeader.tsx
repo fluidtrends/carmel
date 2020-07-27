@@ -42,7 +42,6 @@ export const ProductHeader: React.FC<ProductHeaderComponentProps> = (props) => {
   const [status, setStatus] = useState<any>({})
   
   useEffect(() => {
-    console.log(commandResponse)
     if (!commandResponse.id) return 
     setStatus({
         icon: <Badge status={"processing" }/>,
@@ -72,14 +71,14 @@ export const ProductHeader: React.FC<ProductHeaderComponentProps> = (props) => {
     }
 
     const onViewLive = (e: any) => {
-        const deployment = product.deployments.find(d => d.id === e.key)
+        const deployment = product.deployments.find((d: any) => d.id === e.key)
         shell.openExternal(deployment.urls.short)
     }
 
     const LiveMenu = () => {
         if (!product.deployments || product.deployments.length === 0) return <div/>
         return (<Menu onClick={onViewLive}>
-            { product.deployments.map((d: any, i: number) => (
+            { product.deployments.sort((a: any, b: any) => b.timestamp - a.timestamp).map((d: any, i: number) => (
             <Menu.Item key={d.id} icon={<LinkOutlined />} style={{
                 color: i > 0 ? "#d9d9d9" : "#333333",
                 backgroundColor: i > 0 ? "#eeeeee" : "#ffffff"
@@ -88,6 +87,7 @@ export const ProductHeader: React.FC<ProductHeaderComponentProps> = (props) => {
             </Menu.Item>))}
         </Menu>)
     }
+    
     const LiveButton = () => {
        if (!product.deployments || product.deployments.length === 0) return <div/>
         

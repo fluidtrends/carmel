@@ -61,7 +61,6 @@ export const Product: React.FC<ProductScreenProps> = (props) => {
     setCommandResponse(command.received)
 
     if (command.received.done) {
-      console.log("command done")
       loadProductEvent.send({ type: 'loadSelectedProduct' })
     }
   }, [command.received])
@@ -73,7 +72,7 @@ export const Product: React.FC<ProductScreenProps> = (props) => {
 
   useEffect(() => {
     if (!loadProductEvent.received.id) return 
-    
+
     let parsedFiles: any = {}
     loadProductEvent.received.files.map((file: string) => {
       const dirs = file.split('/')
@@ -88,7 +87,6 @@ export const Product: React.FC<ProductScreenProps> = (props) => {
         dir[d].__path = path
         dir = dir[d]
       })
-
 
       dir.__files = dir.__files || []
       dir.__files.push(filename)
@@ -128,8 +126,7 @@ export const Product: React.FC<ProductScreenProps> = (props) => {
   }
 
   const onTogglePreview = () => {
-    console.log("PREVIEW TOGGLE")
-    browser.send({ type: 'toggleBrowser' })
+    browser.send({ type: 'toggleBrowser', product: product })
   }
 
   return (

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { BrowserProps, State } from './types'
-import { useWindowSize } from './hooks'
+import { useWindowSize, useEvent } from './hooks'
 import * as styles from './styles'
 import { Typography, Select, Input, Button} from 'antd'
 import { 
@@ -9,11 +9,12 @@ import {
     RedoOutlined
 } from '@ant-design/icons';
 import { changeConfirmLocale } from 'antd/lib/modal/locale'
+import { ipcRenderer } from 'electron'
 
 const { Title } = Typography
 const { Option } = Select
 
-const PROTOCOLS = ['http', 'https']
+const PROTOCOLS = ['http', 'https', 'carmel']
 
 /**
  * 
@@ -21,6 +22,7 @@ const PROTOCOLS = ['http', 'https']
  */
 export const Browser = (BrowserProps: any) => {
     const view: any = useRef(null)
+    const urlInput: any = useRef(null)
     const [width, height] = useWindowSize()
     const [url, setUrl] = useState("carmel.io")
     const [protocol, setProtocol] = useState("http")
@@ -30,12 +32,10 @@ export const Browser = (BrowserProps: any) => {
     }
 
     const onPressEnter = () => {
-        console.log('go', url)
         view.current && view.current.loadURL(`${protocol}://${url}`)
     }
 
     const onRefresh = () => {
-        console.log("Refresh", url)
         view.current && view.current.loadURL(`${protocol}://${url}`)
     }
 
@@ -48,15 +48,26 @@ export const Browser = (BrowserProps: any) => {
     }
 
     const onProtocolChange = (
-        <Select defaultValue={PROTOCOLS[0]} className="select-before">
+        <Select defaultValue={PROTOCOLS[0]} value={protocol} className="select-before">
             { PROTOCOLS.map(p => (
-                 <Option value={p}> {p}:// </Option>
+                 <Option key={p} value={p}> {p}:// </Option>
             ))}    
         </Select>
     )
 
     useEffect(() => {
-        console.log(view.current)
+        const listener = (e: any, data: any) => {
+            if (data.product && data.product.started && data.product.packerPort) {
+                setUrl(`0.0.0.0:${data.product.packerPort}`)
+                setProtocol('http')
+                view.current && view.current.loadURL(`http://0.0.0.0:${data.product.packerPort}`)
+            }
+        }
+        ipcRenderer.on('carmel', listener)
+    }, [])
+
+    useEffect(() => {
+        // console.log(view.current)
     }, [view])
 
     return (<div style={{
@@ -122,6 +133,7 @@ export const Browser = (BrowserProps: any) => {
                 flex: 1 
             }}>
                 <Input 
+                value={url}
                 onPressEnter={onPressEnter}
                 onChange={onUrlChange}
                 addonBefore={onProtocolChange} 

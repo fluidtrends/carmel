@@ -10,6 +10,7 @@ export let browser: BrowserWindow
 
 export const hasWindow = BrowserWindow.getAllWindows().length > 0
 export const content = () => window ? window.webContents : undefined
+export const browserContent = () => browser ? browser.webContents : undefined
 
 export const hide = () => {
   if (!window || !window.isVisible()) return
@@ -34,13 +35,12 @@ export const toggle = () => {
   window.isVisible() ? hide() : show()
 }
 
-
 export const toggleBrowser = () => {
   if (!browser) return
 
   if (browser.isVisible()) {
     browser.hide()
-    return 
+    return
   }
 
   const { x, y, width, height } = window.getBounds()
@@ -103,6 +103,10 @@ export const create = () => {
 
   window.on('close', () => {
     hide()
+  })
+
+  browser.on('close', () => {
+    browser.hide()
   })
 
   window.once('ready-to-show', () => {
