@@ -23,8 +23,9 @@ export const ProductAssets: React.FC<ProductAssetsComponentProps> = (props) => {
 
   useEffect(() => {
     if (!files.assets) return
+    const locale = props.product.locale || 'en'
 
-    setImages(files.assets.__files.map((name: string) => ({
+    setImages(files.assets[locale].images.__files.map((name: string) => ({
       id: name,
       name,
       path: name

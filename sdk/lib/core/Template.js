@@ -41,7 +41,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Template = void 0;
 var __1 = require("..");
+var jimp_1 = __importDefault(require("jimp"));
+var path_1 = __importDefault(require("path"));
 var shortid_1 = __importDefault(require("shortid"));
+var HORIZONTAL_ALIGN_CENTER = jimp_1.default.HORIZONTAL_ALIGN_CENTER, VERTICAL_ALIGN_MIDDLE = jimp_1.default.VERTICAL_ALIGN_MIDDLE;
 /**
  *
  * {@link https://github.com/fluidtrends/carmel/blob/master/sdk/src/Template.ts | Source Code } |
@@ -91,6 +94,63 @@ var Template = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Template.prototype.generateCovers = function (productCacheDir) {
+        return __awaiter(this, void 0, void 0, function () {
+            var coversRoot, covers;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        coversRoot = productCacheDir === null || productCacheDir === void 0 ? void 0 : productCacheDir.dir('carmel/assets/en/images/covers');
+                        covers = (coversRoot === null || coversRoot === void 0 ? void 0 : coversRoot.dirs) || [];
+                        return [4 /*yield*/, Promise.all(covers.map(function (cover) { return __awaiter(_this, void 0, void 0, function () {
+                                var coverRoot, images, original, image, ext;
+                                var _a, _b, _c, _d, _e, _f, _g, _h;
+                                return __generator(this, function (_j) {
+                                    switch (_j.label) {
+                                        case 0:
+                                            coverRoot = coversRoot === null || coversRoot === void 0 ? void 0 : coversRoot.dir(cover);
+                                            images = coverRoot === null || coverRoot === void 0 ? void 0 : coverRoot.files;
+                                            if ((images === null || images === void 0 ? void 0 : images.includes('portrait@3x.png')) || (images === null || images === void 0 ? void 0 : images.includes('portrait@3x.jpg'))) {
+                                                return [2 /*return*/];
+                                            }
+                                            original = (images === null || images === void 0 ? void 0 : images.includes('landscape@3x.png')) ? (_a = coversRoot === null || coversRoot === void 0 ? void 0 : coversRoot.dir(cover)) === null || _a === void 0 ? void 0 : _a.file('landscape@3x.png') : (_b = coversRoot === null || coversRoot === void 0 ? void 0 : coversRoot.dir(cover)) === null || _b === void 0 ? void 0 : _b.file('landscape@3x.jpg');
+                                            if (!original || !original.exists) {
+                                                return [2 /*return*/];
+                                            }
+                                            return [4 /*yield*/, jimp_1.default.read(original.path)];
+                                        case 1:
+                                            image = _j.sent();
+                                            ext = path_1.default.extname(original.path).substring(1);
+                                            return [4 /*yield*/, image.scaleToFit(2560, 1440).quality(100).writeAsync((_c = coverRoot === null || coverRoot === void 0 ? void 0 : coverRoot.file("landscape@2x." + ext)) === null || _c === void 0 ? void 0 : _c.path)];
+                                        case 2:
+                                            _j.sent();
+                                            return [4 /*yield*/, image.scaleToFit(1920, 1080).quality(100).writeAsync((_d = coverRoot === null || coverRoot === void 0 ? void 0 : coverRoot.file("landscape@1x." + ext)) === null || _d === void 0 ? void 0 : _d.path)];
+                                        case 3:
+                                            _j.sent();
+                                            return [4 /*yield*/, image.cover(2160, 3840, HORIZONTAL_ALIGN_CENTER | VERTICAL_ALIGN_MIDDLE).quality(100).writeAsync((_e = coverRoot === null || coverRoot === void 0 ? void 0 : coverRoot.file("portrait@3x." + ext)) === null || _e === void 0 ? void 0 : _e.path)];
+                                        case 4:
+                                            _j.sent();
+                                            return [4 /*yield*/, image.cover(1440, 2560, HORIZONTAL_ALIGN_CENTER | VERTICAL_ALIGN_MIDDLE).quality(100).writeAsync((_f = coverRoot === null || coverRoot === void 0 ? void 0 : coverRoot.file("portrait@2x." + ext)) === null || _f === void 0 ? void 0 : _f.path)];
+                                        case 5:
+                                            _j.sent();
+                                            return [4 /*yield*/, image.cover(1080, 1920, HORIZONTAL_ALIGN_CENTER | VERTICAL_ALIGN_MIDDLE).quality(100).writeAsync((_g = coverRoot === null || coverRoot === void 0 ? void 0 : coverRoot.file("portrait@1x." + ext)) === null || _g === void 0 ? void 0 : _g.path)];
+                                        case 6:
+                                            _j.sent();
+                                            return [4 /*yield*/, image.cover(120, 120, HORIZONTAL_ALIGN_CENTER | VERTICAL_ALIGN_MIDDLE).quality(100).writeAsync((_h = coverRoot === null || coverRoot === void 0 ? void 0 : coverRoot.file("placeholder." + ext)) === null || _h === void 0 ? void 0 : _h.path)];
+                                        case 7:
+                                            _j.sent();
+                                            return [2 /*return*/];
+                                    }
+                                });
+                            }); }))];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
     /**
      *
      * @param dir
@@ -169,6 +229,9 @@ var Template = /** @class */ (function () {
                             packerVersion: packer.version,
                         });
                         product.manifest.save();
+                        return [4 /*yield*/, this.generateCovers(productCacheDir)];
+                    case 6:
+                        _0.sent();
                         return [2 /*return*/, { packer: packer, stack: stack }];
                 }
             });

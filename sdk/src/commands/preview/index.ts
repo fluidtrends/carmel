@@ -1,5 +1,9 @@
 import { Command, CommandProps, CommandType } from '../..'
-// import browserSync from 'browser-sync'
+
+import getPort from 'get-port'
+import express from 'express'
+import http from 'http'
+import open from 'open'
 
 const props: CommandProps = {
   id: 'make',
@@ -20,9 +24,19 @@ export default class Preview extends Command {
 
   /** @internal */
   async exec() {
-    // const browser = browserSync.create()
-    // const server = this.product!.cacheDir!.dir('.web')!.path!
-    // browser.init({ server })
-    // browser.reload('index.html')
+    const serverPath = this.product!.cacheDir!.dir('.web')!.path!
+    const app = express()
+
+    app.use('/', express.static(serverPath))
+
+    const port = await getPort()
+
+    const server = new http.Server(app)
+
+    await new Promise((done) => {
+      server.listen(port, async () => {
+        await open(`http://0.0.0.0:${port}/`)
+      })
+    })
   }
 }

@@ -11,10 +11,6 @@ import {
   CommandArg,
   SessionProps,
 } from '..'
-import express from 'express'
-import http from 'http'
-import socket from 'socket.io'
-import getPort from 'get-port'
 
 /**
  * Solely responsible for running Carmel Commands.

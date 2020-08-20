@@ -340,11 +340,11 @@ var Product = /** @class */ (function () {
      * @param watch
      */
     Product.prototype.resolve = function (target, watch) {
-        var _a, _b, _c, _d, _e, _f;
+        var _a, _b, _c, _d;
         return __awaiter(this, void 0, void 0, function () {
-            var productId, productName, bundle, bundleVersion, templateName, productCacheDir, templateId, cache, template, _g, packerDir, stackDir, packerInstance, stackConfig, _h, isStatic, options;
-            return __generator(this, function (_j) {
-                switch (_j.label) {
+            var productId, productName, bundle, bundleVersion, templateName, productCacheDir, templateId, cache, template, _e, packerDir, stackDir, packerInstance, stackConfig, _f, isStatic, options;
+            return __generator(this, function (_g) {
+                switch (_g.label) {
                     case 0:
                         productId = this.manifest.data.json().id;
                         productName = this.manifest.data.json().name;
@@ -359,25 +359,25 @@ var Product = /** @class */ (function () {
                         productCacheDir === null || productCacheDir === void 0 ? void 0 : productCacheDir.make();
                         return [4 /*yield*/, ((_c = this.session) === null || _c === void 0 ? void 0 : _c.findTemplate(templateId))];
                     case 1:
-                        template = _j.sent();
+                        template = _g.sent();
                         return [4 /*yield*/, template.install(this.dir, productName, this)];
                     case 2:
-                        cache = _j.sent();
-                        _j.label = 3;
+                        cache = _g.sent();
+                        _g.label = 3;
                     case 3:
                         if (!(cache === undefined)) return [3 /*break*/, 5];
                         return [4 /*yield*/, this.loadCache()];
                     case 4:
-                        _g = _j.sent();
+                        _e = _g.sent();
                         return [3 /*break*/, 6];
                     case 5:
-                        _g = cache;
-                        _j.label = 6;
+                        _e = cache;
+                        _g.label = 6;
                     case 6:
                         // Make sure we have a product cache available
-                        cache = _g;
+                        cache = _e;
                         packerDir = new __1.Dir(cache.packer.path);
-                        stackDir = ((_d = productCacheDir === null || productCacheDir === void 0 ? void 0 : productCacheDir.dir('node_modules')) === null || _d === void 0 ? void 0 : _d.exists) ? (_e = productCacheDir === null || productCacheDir === void 0 ? void 0 : productCacheDir.dir('node_modules')) === null || _e === void 0 ? void 0 : _e.dir(cache.stack.id) : new __1.Dir(cache.stack.path);
+                        stackDir = new __1.Dir(cache.stack.path);
                         packerInstance = require(packerDir.path);
                         stackConfig = require(stackDir.file('carmel.json').path);
                         // Make sure we've got them all
@@ -385,16 +385,16 @@ var Product = /** @class */ (function () {
                             !packerInstance[target] ||
                             !stackConfig ||
                             !stackConfig[target] ||
-                            !((_f = stackDir.file('carmel.json')) === null || _f === void 0 ? void 0 : _f.exists))
+                            !((_d = stackDir.file('carmel.json')) === null || _d === void 0 ? void 0 : _d.exists))
                             return [2 /*return*/];
                         // Look for a port
-                        _h = this;
+                        _f = this;
                         return [4 /*yield*/, get_port_1.default()];
                     case 7:
                         // Look for a port
-                        _h._packerPort = _j.sent();
+                        _f._packerPort = _g.sent();
                         isStatic = !watch;
-                        options = __assign({ contextDir: productCacheDir.path, mainDir: this.dir.path, destDir: productCacheDir === null || productCacheDir === void 0 ? void 0 : productCacheDir.dir("." + target).path, stackDir: stackDir === null || stackDir === void 0 ? void 0 : stackDir.path, stackConfig: stackConfig, entryFile: stackDir.file(stackConfig[target].entry[isStatic ? 'static' : 'dom']).path, target: target, entry: stackConfig[target].entry, templateFile: stackDir.file(stackConfig[target].template).path, watch: watch,
+                        options = __assign({ contextDir: productCacheDir.path, mainDir: this.dir.path, destDir: productCacheDir === null || productCacheDir === void 0 ? void 0 : productCacheDir.dir("." + target).path, stackDir: stackDir === null || stackDir === void 0 ? void 0 : stackDir.path, packerDir: packerDir === null || packerDir === void 0 ? void 0 : packerDir.path, stackConfig: stackConfig, entryFile: stackDir.file(stackConfig[target].entry[isStatic ? 'static' : 'dom']).path, target: target, entry: stackConfig[target].entry, templateFile: stackDir.file(stackConfig[target].template).path, watch: watch,
                             isStatic: isStatic, port: this.packerPort }, this.data);
                         // Let's send it all back
                         this._packer = new packerInstance[target].Packer(options);

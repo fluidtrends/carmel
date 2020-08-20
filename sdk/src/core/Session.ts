@@ -392,7 +392,7 @@ export class Session implements ISession {
     }
 
     // Cool, let's see if our bundle archive is in there,
-    // and just install it firs if necessary
+    // and just install it first if necessary
     const args = Object.assign({}, { id }, version && { version })
     const archive = install
       ? await this.index.sections.bundles.installArchive(args)

@@ -48,9 +48,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var __1 = require("../..");
-// import browserSync from 'browser-sync'
+var get_port_1 = __importDefault(require("get-port"));
+var express_1 = __importDefault(require("express"));
+var http_1 = __importDefault(require("http"));
+var open_1 = __importDefault(require("open"));
 var props = {
     id: 'make',
     type: __1.CommandType.PRODUCT,
@@ -70,8 +76,34 @@ var Preview = /** @class */ (function (_super) {
     /** @internal */
     Preview.prototype.exec = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var serverPath, app, port, server;
+            var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0:
+                        serverPath = this.product.cacheDir.dir('.web').path;
+                        app = express_1.default();
+                        app.use('/', express_1.default.static(serverPath));
+                        return [4 /*yield*/, get_port_1.default()];
+                    case 1:
+                        port = _a.sent();
+                        server = new http_1.default.Server(app);
+                        return [4 /*yield*/, new Promise(function (done) {
+                                server.listen(port, function () { return __awaiter(_this, void 0, void 0, function () {
+                                    return __generator(this, function (_a) {
+                                        switch (_a.label) {
+                                            case 0: return [4 /*yield*/, open_1.default("http://0.0.0.0:" + port + "/")];
+                                            case 1:
+                                                _a.sent();
+                                                return [2 /*return*/];
+                                        }
+                                    });
+                                }); });
+                            })];
+                    case 2:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
             });
         });
     };

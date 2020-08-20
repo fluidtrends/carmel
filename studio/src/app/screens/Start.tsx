@@ -7,6 +7,9 @@ import { useEvent } from '../hooks'
 import { replace } from 'connected-react-router'
 import { useDispatch, useSelector } from "react-redux"
 import { initialize } from '../data'
+const { JsonRpc } = require('eosjs');
+
+const eos = new JsonRpc('http://api.eosn.io')
 
 /**
  * 
@@ -36,8 +39,27 @@ export const Start: React.FC<StartScreenProps> = (props) => {
   useEffect(() => {
     if (!session.loadedTimestamp) return
 
-    const screen = session.productId ? '/product' : '/products'  
-    dispatch(replace(screen))
+    (async () => {
+          // const resp = await eos.get_table_rows({
+          //   json: true,              
+          //   code: 'eosio.token',     
+          //   scope: 'dancalinescu',
+          //   table: 'accounts',       
+          //   limit: 1             
+          // })
+          const resp = await eos.get_table_rows({
+            json: true,              
+            code: 'carmelsystem',        
+            scope: 'carmelsystem',    
+            table: 'quests',        
+            table_key: 'id',     
+            limit: 10             
+          })
+          console.log(resp.rows)
+      })()
+
+    // const screen = session.productId ? '/product' : '/products'  
+    // dispatch(replace(screen))
   }, [session])
   
   return (<div style={styles.screen}>
