@@ -15,6 +15,10 @@ export const Products: React.FC<ProductsScreenProps> = (props) => {
   const dispatch = useDispatch()
   const selectEvent: any = useEvent() 
 
+  const onAddProduct = () => {
+    dispatch(replace('/newProduct'))
+  }
+  
   const onProductSelected = (product: Product) => {
     selectEvent.send({ type: 'selectProduct', product })
     dispatch(selectProduct(product)) && dispatch(replace('/product'))
@@ -29,6 +33,7 @@ export const Products: React.FC<ProductsScreenProps> = (props) => {
     justifyContent: "flex-start",
     flexWrap: "wrap"
   }}>
+    <ProductListItem key={'add'} onSelected={onAddProduct} isButton title={'New Product'}/>
     { products && products.map (product => <ProductListItem key={product.id} onSelected={onProductSelected} product={product}/>) }
   </div>)
 }

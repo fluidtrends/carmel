@@ -1,32 +1,11 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { ProductScreenProps, State, Chunk } from '../types'
 import { useSelector, useDispatch } from "react-redux"
-import { PageHeader, Menu, Tabs, Carousel, Spin, Tree, Dropdown, Button, Tag, Typography, Row, Layout } from 'antd'
-import {
-  EllipsisOutlined, TagOutlined,  
-  AppstoreOutlined,
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-  LayoutFilled,
-  UserOutlined,
-  DownOutlined,
-  PieChartOutlined,
-  DesktopOutlined,
-  LaptopOutlined,
-  NotificationOutlined,
-  ContainerOutlined,
-  MailOutlined
-} from '@ant-design/icons'
+import { Carousel, Layout } from 'antd'
 import { replace } from 'connected-react-router'
 import { unselectProduct, selectProduct } from '../data'
 import { useEvent } from '../hooks'
-import { ProductHeader, ProductChunks, ProductAssets } from '../components'
-
-const { Paragraph, Title } = Typography
-const { TabPane } = Tabs
-const { SubMenu } = Menu
-const { Header, Content, Sider } = Layout
-const { TreeNode, DirectoryTree } = Tree
+import { ProductHeader, ProductChunks, ProductAssets, ProductChallenge } from '../components'
 
 /**
  * 
@@ -34,7 +13,8 @@ const { TreeNode, DirectoryTree } = Tree
  */
 export const Product: React.FC<ProductScreenProps> = (props) => {
   const { width, height } = props
-  const SECTIONS = ['chunks', 'assets']
+  const SECTIONS = ['assets', 'chunks']
+  const [productDetails, setProductDetails] = useState("")
 
   const product = useSelector((state: State) => state.product) 
   const dispatch = useDispatch()
@@ -48,7 +28,7 @@ export const Product: React.FC<ProductScreenProps> = (props) => {
   const [expandedChunks, setExpandedChunks] = useState([])
   const [rootDir, setRootDir] = useState()
   const [files, setFiles] = useState({})
-  const [section, setSection] = useState('chunks')
+  const [section, setSection] = useState('assets')
   const [commandResponse, setCommandResponse] = useState({})
   const [openFile, setOpenFile] = useState("")
 
@@ -58,6 +38,7 @@ export const Product: React.FC<ProductScreenProps> = (props) => {
 
   useEffect(() => { 
     if (!command.received.id) return 
+
     setCommandResponse(command.received)
 
     if (command.received.done) {
@@ -94,9 +75,15 @@ export const Product: React.FC<ProductScreenProps> = (props) => {
 
     setRootDir(loadProductEvent.received.rootDir)
     setFiles(parsedFiles)
-    dispatch(selectProduct({
-      ...loadProductEvent.received.manifest
-    }))
+
+    const selectedProduct = {
+      ...loadProductEvent.received.manifest,
+      dir: loadProductEvent.received.rootDir,
+      staticPort: loadProductEvent.received.staticServerPort,
+      started: loadProductEvent.received.hasStartServer
+    }
+    setProductDetails(selectedProduct)
+    dispatch(selectProduct(selectedProduct))
   }, [loadProductEvent.received])
 
   const onBack = () => {
@@ -105,8 +92,9 @@ export const Product: React.FC<ProductScreenProps> = (props) => {
   }
 
   const onSectionChanged = (section: string) => {
+    const index = SECTIONS.indexOf(section)
+    sections.current.goTo(index)
     setSection(section)
-    sections.current.goTo(SECTIONS.indexOf(section))
   }
 
   const onExpandChunks = (keys: string[]) => {
@@ -117,12 +105,12 @@ export const Product: React.FC<ProductScreenProps> = (props) => {
       command.send({ type: "runCommand", cmd, args: [], productId: product.id })
   }
 
-  const onChunkSelect = (path: any) => {
-      loadFileEvent.send({ 
-            type: "loadFile",
-            productId: product.id, 
-            path 
-          })    
+  const onFileSelect = (file: any) => {
+    loadFileEvent.send({ 
+      type: "loadFile",
+      productId: product.id, 
+      path: file 
+    })    
   }
 
   const onTogglePreview = () => {
@@ -130,6 +118,19 @@ export const Product: React.FC<ProductScreenProps> = (props) => {
   }
 
   return (
+
+    <Layout style={{ 
+      display: "flex",
+      flexDirection: "row",
+      backgroundColor: "#f5f5f5",
+      alignItems: "flex-start",
+      padding: 0,
+      margin: 0,
+      width: "100%",
+      height: "100%",
+      justifyContent: "flex-start"
+    }}>
+
     <Layout style={{ 
       display: "flex",
       flexDirection: "column",
@@ -141,44 +142,66 @@ export const Product: React.FC<ProductScreenProps> = (props) => {
       height: "100%",
       justifyContent: "flex-start"
     }}>
-        <ProductHeader 
+      <ProductHeader 
           onTogglePreview={onTogglePreview}
           product={product} 
           commandResponse={commandResponse}
           onCommand={onCommand}
           onBack={onBack} 
           onSectionChanged={onSectionChanged} />
+       
         <Carousel 
           ref={sections}
           dots={false}
           effect={"fade"}
           style={{
             boxShadow: "0px 0px 8px #999999",
-            width: 940,
+            width: 840,
             display: "flex",
             flex: 1,
             flexDirection: "column",
             backgroundColor: "#ffffff",
             marginTop: 10,
             padding: 0,
-            height: height - 210
           }}>
-           <ProductChunks
-              onSelect={onChunkSelect}
-              height={height - 210}
+            <ProductAssets
+              onSelect={onFileSelect}
+              height={height - 230}
+              product={product} 
+              rootDir={rootDir} 
+              visible={section === SECTIONS[0]}
+              openFile={openFile}
+              files={files}/>
+            <ProductChunks
+              onSelect={onFileSelect}
+              height={height - 230}
               openFile={openFile}
               expanded={expandedChunks}
               onExpand={onExpandChunks}
+              visible={section === SECTIONS[1]}
               product={product} 
               rootDir={rootDir} 
               files={files}
             />
-            <ProductAssets 
-              height={height}
-              product={product} 
-              rootDir={rootDir} 
-              files={files}/>
-      </Carousel>     
+      </Carousel>   
+      </Layout>
+      <div style={{
+        backgroundColor: "#f5f5f5", 
+        borderLeft: "1px solid  #c7c7c7",
+        paddingLeft: 20,
+        margin: 0,
+        marginLeft: 20,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        width: 480,
+        height: (height - 120 )
+      }}>
+        <ProductChallenge 
+           productDetails={productDetails}
+        /> 
+      </div>  
   </Layout>)
 }
 

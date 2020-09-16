@@ -24,7 +24,7 @@ export const Browser = (BrowserProps: any) => {
     const view: any = useRef(null)
     const urlInput: any = useRef(null)
     const [width, height] = useWindowSize()
-    const [url, setUrl] = useState("carmel.io")
+    const [url, setUrl] = useState("")
     const [protocol, setProtocol] = useState("http")
 
     const onUrlChange = (val: any) => {
@@ -40,11 +40,11 @@ export const Browser = (BrowserProps: any) => {
     }
 
     const onBack = () => {
-        console.log("Back")
+        view.current && view.current.canGoBack() && view.current.goBack()
     }
 
     const onNext = () => {
-        console.log("Next")
+        view.current && view.current.canGoForward() && view.current.goForward()
     }
 
     const onProtocolChange = (
@@ -142,7 +142,6 @@ export const Browser = (BrowserProps: any) => {
         </div>
         <webview id="carmel" 
             ref={view}
-            src="https://www.github.com/" 
             style={{ 
                 display: "flex",
                 flex: 1,

@@ -1,43 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import { ProductHeaderComponentProps } from '../types'
-import { Card, Button, Tag, Dropdown, Switch, Tooltip, Badge, PageHeader, Menu, Typography } from 'antd'
+import { Button, Tag, Dropdown, Switch, Tooltip, Badge, PageHeader, Menu, Typography } from 'antd'
 import { 
-    GlobalOutlined, 
     LinkOutlined,
-    BlockOutlined, 
-    PauseCircleFilled,
-    CodeOutlined,
-    PlayCircleFilled,
-    CaretDownOutlined,
-    RiseOutlined,
     ExclamationCircleOutlined,
-    CodeFilled,
-    SyncOutlined,
-    CheckCircleOutlined,
-    TrophyOutlined,
-    RocketOutlined, 
-    PauseOutlined,
-    CaretRightOutlined,
-    CloudUploadOutlined,
-    FileTextOutlined,
-    FormOutlined, 
-    DownOutlined, 
-    PictureOutlined,  
+    DownOutlined
 } from '@ant-design/icons'
-import { useEvent } from '../hooks'
 import moment from 'moment'
 import { shell } from 'electron'
 
-const { Meta } = Card
 const { Title, Text } = Typography
-const { SubMenu } = Menu
 
 /**
  * 
  * @param props 
  */
 export const ProductHeader: React.FC<ProductHeaderComponentProps> = (props) => {
-  const [section, setSection] = useState('chunks')
+  const [section, setSection] = useState('assets')
   const { onBack, product, onCommand, commandResponse, onTogglePreview } = props
   const [status, setStatus] = useState<any>({})
   
@@ -57,13 +36,13 @@ export const ProductHeader: React.FC<ProductHeaderComponentProps> = (props) => {
   }
 
   const sections = [{
-        icon: "BlockOutlined",
-        name: "Chunks",
-        id: "chunks"
-    }, {
-        icon: "PictureOutlined",
+        icon: "CopyOutlined",
         name: "Assets",
         id: "assets"
+    }, {
+        icon: "AppstoreOutlined",
+        name: "Chunks",
+        id: "chunks"
     }]
 
     const onPanelCommand = (command: any) => {
@@ -163,6 +142,58 @@ export const ProductHeader: React.FC<ProductHeaderComponentProps> = (props) => {
         </div>
     </div>)
   
+    const renderCommandPanel = () => (
+        (<div key="web" style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            height: "100%"
+        }}>
+        <div key="container" style={{
+            marginTop: 20
+        }}>
+            { commands.map((command: any) => {
+                const Icon = require(`@ant-design/icons/lib/icons/${command.icon}.js`).default
+                return <Tooltip placement="bottomRight" key={command.id} title={command.tooltip}>
+                    <Button disabled={status.processing} onClick={() => onPanelCommand(command)} style={{
+                        marginLeft: 10,
+                    }} icon={<Icon style={{
+                    }}/>} loading={false}>
+                        { command.name }
+                    </Button>
+                </Tooltip>
+            })}
+            { product.deployments && product.deployments.length > 0 && <LiveButton/>}
+        </div>
+    </div>)
+    )
+
+
+  const renderTop = () => (<div key="main" style={{
+    display: "flex", 
+    flex: 1, 
+    flexDirection: "row", 
+    height: 40,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center"
+}}>
+    <div key="main" style={{
+      display: "flex", 
+      flex: 1, 
+      flexDirection: "column", 
+      height: 40,
+      width: "100%",
+      alignItems: "center",
+      justifyContent: "center"
+     }}>
+        <Title key="title" level={3} style={{ margin: 0 }}>
+            { product.name}
+        </Title>
+        { renderStatus() }
+    </div>
+</div>)
+
     const title = (<div key="main" style={{
       display: "flex", 
       flex: 1, 
@@ -171,7 +202,7 @@ export const ProductHeader: React.FC<ProductHeaderComponentProps> = (props) => {
       width: "100%",
       alignItems: "center",
       justifyContent: "center"
-  }}>
+     }}>
     <Title key="title" level={3} style={{ margin: 0 }}>
         { product.name}
     </Title>

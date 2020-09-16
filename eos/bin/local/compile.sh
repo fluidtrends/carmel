@@ -5,13 +5,17 @@ if ! [ -f ".carmel.json" ]; then
   exit
 fi
 
-# cd eos/contracts/carmel/carmeltokens
-# echo "*** compiling the carmeltokens contract ..."
-# eosio-cpp "-DLOCAL" -I . -o carmeltokens.wasm carmeltokens.cpp --abigen
+rm -rf eos/contracts/carmel/carmeltokens/carmeltokens.abi
+rm -rf eos/contracts/carmel/carmeltokens/carmeltokens.wasm
+rm -rf eos/contracts/carmel/carmelsystem/carmelsystem.abi
+rm -rf eos/contracts/carmel/carmelsystem/carmelsystem.wasm
 
-# cd ../carmelsystem
-cd eos/contracts/carmel/carmelsystem
+cd eos/contracts/carmel/carmeltokens
+echo "*** compiling the carmeltokens contract ..."
+eosio-cpp -I=. -R=. -abigen -contract=carmeltokens -o=carmeltokens.wasm carmeltokens.cpp
+
+cd ../carmelsystem
 echo "*** compiling the carmelsystem contract ..."
-eosio-cpp "-DLOCAL" -I . -R . -o carmelsystem.wasm carmelsystem.cpp --abigen
+eosio-cpp -I=. -R=. -abigen -contract=carmelsystem -o=carmelsystem.wasm carmelsystem.cpp
 
 echo "*** done."

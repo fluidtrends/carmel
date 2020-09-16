@@ -14,7 +14,6 @@ export const load = () => {
     return JSON.parse(fs.readFileSync(path.resolve(system.env().home.path, sessionFile), 'utf8'))
 }
 
-
 export const create = () => {
     if (exists()) return
     

@@ -287,12 +287,10 @@ export class Product implements IProduct {
 
     // Make sure we have a product cache available
     cache = cache === undefined ? await this.loadCache() : cache
-
+    
     // Figure out the roots
     const packerDir = new Dir(cache.packer.path)
-    const stackDir = productCacheDir?.dir('node_modules')?.exists
-      ? productCacheDir?.dir('node_modules')?.dir(cache.stack.id)
-      : new Dir(cache.stack.path)
+    const stackDir = new Dir(cache.stack.path)
 
     // Look up the packer and the stack config
     const packerInstance = require(packerDir!.path!)
@@ -319,6 +317,7 @@ export class Product implements IProduct {
       mainDir: this.dir!.path,
       destDir: productCacheDir?.dir(`.${target}`)!.path!,
       stackDir: stackDir?.path!,
+      packerDir: packerDir?.path!,
       stackConfig,
       entryFile: stackDir!.file(stackConfig[target].entry[isStatic ? 'static' : 'dom'])!.path!,
       target,

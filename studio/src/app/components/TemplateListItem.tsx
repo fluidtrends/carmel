@@ -12,7 +12,7 @@ const { Title } = Typography
  */
 export const TemplateListItem: React.FC<TemplateListItemComponentProps> = (props) => {
   const { template, onSelected } = props
-  
+    
   return (<div onClick={() => onSelected(template)}>
     <Card
       hoverable
@@ -26,10 +26,7 @@ export const TemplateListItem: React.FC<TemplateListItemComponentProps> = (props
         border: "1px solid #dddddd",
         justifyContent: "center",
         textAlign: "center"
-      }}
-      cover={
-        <Title level={4}> { template.name } </Title>
-    }> 
-    
+      }}>
+      <Title level={4}> { template.name } </Title>    
   </Card></div>)
 }

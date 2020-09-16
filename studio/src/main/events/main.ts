@@ -6,6 +6,12 @@ export const send = async (data: any) => {
 }
 
 export const newUrl = async (url: any) => {
+    console.log("!!!!!", url)
+    await send({ type: 'url', url })
+    window.show()
+}
+
+export const login = async (url: any) => {
     await send({ type: 'url', url })
     window.show()
 }

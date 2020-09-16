@@ -1,22 +1,67 @@
 {
-    "name": "intro",
     "path": "/",
+    "name": "intro",
     "routes": [{
         "path": "/",
-        "screen": "main",
+        "name": "Welcome",
+        "id": "main",
+        "type": "main",
         "cover": {
-            "title": "Grow Your Tech Skillset And Build A Better Future.",
-            "subtitle": " :)",
+            "title": "heading",
+            "subtitle": "summary",
             "image": "main",
             "action": {
-                "title": "Get Started",
-                "link": "/docs"
+                "title": "start",
+                "link": "/me"
             }
         },
-        "name": "Hello",
-        "id": "main",
+        "components": [
+            {
+                "id": "SlideSet",
+                "slides": [{
+                    "text": "chris",
+                    "image": "chris.png",
+                    "layout": {
+                        "backgroundColor": "#F5F5F5",
+                        "color": "#263238"
+                    },
+                    "action": {
+                        "label": "getStarted",
+                        "link": "/download"
+                    },
+                    "depth": false,
+                    "imageFirst": false
+                }, 
+                {
+                    "text": "era",
+                    "image": "era.png",
+                    "layout": {
+                        "backgroundColor": "#ffffff",
+                        "color": "#263238"
+                    },
+                    "action": {
+                        "label": "startLearning",
+                        "link": "/download"
+                    },
+                    "depth": false,
+                    "imageFirst": true
+                }, 
+                {
+                    "text": "download",
+                    "layout": {
+                        "backgroundColor": "#81C784",
+                        "color": "#ffffff"
+                    },
+                    "action": {
+                        "label": "download",
+                        "link": "/download"
+                    },
+                    "depth": false
+                }]
+            }
+        ],
         "footer": {
-            "watermark": "Build with Carme"
+            "watermark": "Built with Carmel"
         }
     }]
 }

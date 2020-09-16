@@ -4,6 +4,8 @@ import * as styles from '../styles'
 import strings from '../strings.json'
 import { Layout, Radio, Dropdown, Tabs, Badge, Spin, Menu, Button } from 'antd'
 import { MainHeader } from '../components'
+import { State } from '../types'
+import { useSelector, useDispatch } from "react-redux"
 
 import { UserOutlined, LaptopOutlined, DownOutlined, CaretDownOutlined, NotificationOutlined } from '@ant-design/icons'
 
@@ -16,6 +18,7 @@ const { SubMenu } = Menu;
  * @param props 
  */
 export const Main: React.FC<MainContainerProps> = (props) => {
+  // const [session, setSession] = useState<any>(useSelector((state: State) => state.session))
 
   return (<Layout style={{
       display: "flex",
@@ -39,9 +42,18 @@ export const Main: React.FC<MainContainerProps> = (props) => {
           padding: 10,
           flex: 1,
           margin: 0,
-          width: 960,
+          width: 1200,
         }}>
           { props.children }
      </Layout>
+     <div style={{
+         display: "flex",
+         flexDirection: "column",
+         alignItems: "center",
+         justifyContent: "center",
+         width: "100%",
+         height: 20,
+     }}>
+     </div>
   </Layout>)
 }

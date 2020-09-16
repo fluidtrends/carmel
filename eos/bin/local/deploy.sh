@@ -5,11 +5,13 @@ if ! [ -f ".carmel.json" ]; then
   exit
 fi
 
-# cd eos/contracts/carmel/carmeltokens
-# echo "*** deploying the carmeltokens contract locally ..."
-# cleos set contract carmeltokens . --abi carmeltokens.abi -p carmeltokens@active
+echo "*** unlock the wallet ..."
+cat ~/.eos/wallet.password | cleos wallet unlock
 
-cd eos/contracts/carmel/carmelsystem
-# cd ../carmelsystem
+cd eos/contracts/carmel/carmeltokens
+echo "*** deploying the carmeltokens contract locally ..."
+cleos set contract carmeltokens . --abi carmeltokens.abi -p carmeltokens@active
+
+cd ../carmelsystem
 echo "*** deploying the carmelsystem contract locally ..."
 cleos set contract carmelsystem . --abi carmelsystem.abi -p carmelsystem@active

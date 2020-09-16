@@ -570,6 +570,8 @@ var Session = /** @class */ (function () {
     /** Start with these sections - always */
     Session.DEFAULT_SECTIONS = [
         'bundles',
+        'secrets',
+        'settings',
         'stacks',
         'products',
         'keystore',

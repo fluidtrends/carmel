@@ -71,6 +71,7 @@ var Start = /** @class */ (function (_super) {
     Start.prototype.exec = function () {
         var _a, _b;
         return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
@@ -78,6 +79,7 @@ var Start = /** @class */ (function (_super) {
                             return [2 /*return*/];
                         return [4 /*yield*/, ((_b = this.product) === null || _b === void 0 ? void 0 : _b.packer.pack(function (event) {
                                 console.log('Chunky says: ', event);
+                                console.log("http://0.0.0.0:" + _this.product.packerPort);
                             }))];
                     case 1:
                         _c.sent();

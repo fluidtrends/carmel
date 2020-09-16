@@ -1,21 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { ProductChunksComponentProps, Chunk } from '../types'
-import { Card, Menu, Layout, Typography, Spin, Tree } from 'antd';
-import {
-  AppstoreOutlined,
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-  PieChartOutlined,
-  DesktopOutlined,
-  ContainerOutlined,
-  MailOutlined,
-} from '@ant-design/icons';
+import { ProductChunksComponentProps } from '../types'
+import { Layout, Menu, Tree } from 'antd';
+import { PictureOutlined, BlockOutlined, FolderOutlined, FileTextOutlined, FontSizeOutlined } from '@ant-design/icons'
 
-import { DataNode } from 'antd/lib/tree';
 import { Editor } from './Editor'
 
-const { Content, Sider, Header, Footer } = Layout
-const { DirectoryTree } = Tree
+const { Content, Sider } = Layout
 const { SubMenu } = Menu
 
 /**
@@ -23,11 +13,17 @@ const { SubMenu } = Menu
  * @param props 
  */
 export const ProductChunks: React.FC<ProductChunksComponentProps> = (props) => {
-  const { product, height, openFile, files, expanded, onSelect, onExpand } = props
+  const { product, height, openFile, files, visible, onSelect } = props
   const [data, setData] = useState([])
   const [chunk, setChunk] = useState()
+  const [chunks, setChunks] = useState([])
   const [asset, setAsset] = useState()
   const [tree, setTree] = useState([])
+  const [selectedFile, setSelectedFile] = useState("")
+
+  const onMenuItemSelected = (value: any) => {
+    setSelectedFile(`carmel/chunks/${value.key}`)
+  }
 
   const parseChunksData = (root: any, id = 'chunks') => {
     const shadow = Object.assign({}, root)
@@ -35,38 +31,64 @@ export const ProductChunks: React.FC<ProductChunksComponentProps> = (props) => {
     const { __path, __files } = shadow
     delete shadow.__path && delete shadow.__files
 
-    let children: any = Object.keys(shadow).filter(k => !['__path'].includes(k)).map(name => ({
-      title: name,
-      key: `${id}/${name}`,
-      children: parseChunksData(shadow[name], `${id}/${name}`)
+    const chunksData = Object.keys(shadow).map((id: string) => ({
+      id,
+      files: shadow[id].__files
     }))
-
-    if (__files) {
-      __files.map((file: string) => {
-        setTree(tree => [...tree, `${id}/${file}`])
-        children.push({
-          key: `${id}/${file}`,
-          title: file, 
-          isLeaf: true
-        })
-      })
-    }
-
-    return children
+    setChunks(chunksData)
   }
 
-  const onFileSelect = (file: any) => {
-    const fileData = tree.find(f => f === file[0])
-    setAsset(fileData)
-    fileData && onSelect(fileData)
+  const renderChunksMenu = () => {
+    return chunks.map((chunk: any) => (<SubMenu
+        key="chunk"
+        title={
+          <span>
+            <BlockOutlined/>
+            <span> 
+              { chunk.id }
+            </span>
+          </span>
+        }>
+        { chunk.files.map((i: string) =>  <Menu.Item key={`${chunk.id}/${i}`} icon={<FileTextOutlined />}>{ i }</Menu.Item>)}       
+      </SubMenu>))
+ }
+
+  const renderMenu = () => {
+    return <Menu
+      mode="inline"
+      onSelect={onMenuItemSelected}
+      style={{ width: "100%", border: "none" }}>
+        { renderChunksMenu() }
+    </Menu>
   }
 
   useEffect(() => {
     if (!files.chunks) return 
 
-    setData(parseChunksData(files.chunks))
+    parseChunksData(files.chunks)
   }, [files])
+
+  useEffect(() => {
+    if (!selectedFile) return 
+    onSelect(selectedFile)
+  }, [selectedFile])
+
+  useEffect(() => {
+    if (!selectedFile || !visible) return 
+    onSelect(selectedFile)
+  }, [visible])
  
+  const renderEditor = () => {
+     if (!selectedFile) {
+       return <div/>
+     }
+
+     return <Editor 
+          product={product} 
+          openFile={openFile}
+          selectedFile={selectedFile}/>
+  }
+
   return (<Layout style={{ 
       display: "flex",
       flexDirection: "row",
@@ -74,7 +96,7 @@ export const ProductChunks: React.FC<ProductChunksComponentProps> = (props) => {
       margin: 0,
       flex: 1,
       padding: 0,
-      backgroundColor: "#ffffff",
+      backgroundColor: "#eeeeee",
       alignItems: 'stretch',
       alignSelf: "stretch",
       width: "100%",
@@ -82,19 +104,13 @@ export const ProductChunks: React.FC<ProductChunksComponentProps> = (props) => {
     }}>
         <Sider style={{
           backgroundColor: "#ffffff",
+          padding: "10px",
           borderRight: "1px solid #ffffff"
         }}>
-          <DirectoryTree
-            onSelect={onFileSelect}
-            treeData={data}
-          />
+           { renderMenu() }
         </Sider>
         <Content style={{ margin: 0 }}>
-            <Editor 
-              product={product} 
-              chunk={chunk}
-              openFile={openFile}
-              asset={asset}/>
+            { renderEditor() }
         </Content>
     </Layout>)
 }

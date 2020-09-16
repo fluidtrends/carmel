@@ -22,18 +22,11 @@
 #include <eosio/system.hpp>
 #include <string>
 
-#ifdef MAINNET
-  #define CARMEL_SYMBOL symbol("CARMEL", 4)
-  #define EOS_SYMBOL symbol("EOS", 4)
-#elif TESTNET
-  #define CARMEL_SYMBOL symbol("CARMELZ", 4)
-  #define EOS_SYMBOL symbol("EOS", 4)
-#else
-  #define CARMEL_SYMBOL symbol("CARMELD", 4)
-  #define EOS_SYMBOL symbol("EOS", 4)
-#endif
+#define CARMEL_SYMBOL symbol("CARMEL", 4)
+#define EOS_SYMBOL symbol("EOS", 4)
 
 using namespace eosio;
+using namespace std;
 
 namespace eosiosystem {
    class system_contract;
@@ -61,7 +54,10 @@ namespace carmel {
          void transfer(name from, name to, asset quantity, string memo);
 
          [[eosio::action]]
-         void retire( asset quantity, string memo );
+         void retire(asset quantity, string memo);
+
+         [[eosio::action]]
+         void credit(name from);
 
          static asset get_supply(name token_contract_account, symbol_code sym_code)
          {
@@ -76,6 +72,12 @@ namespace carmel {
             const auto& ac = accountstable.get(sym_code.raw());
             return ac.balance;
          }
+
+         using create_action     = action_wrapper<"create"_n, &tokens::create>;
+         using issue_action      = action_wrapper<"issue"_n, &tokens::issue>;
+         using transfer_action   = action_wrapper<"transfer"_n, &tokens::transfer>;
+         using retire_action     = action_wrapper<"retire"_n, &tokens::retire>;
+         using credit_action     = action_wrapper<"credit"_n, &tokens::credit>;
 
       private:
          struct [[eosio::table]] account {

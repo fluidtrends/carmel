@@ -7,16 +7,20 @@ import { send } from './main'
 import execa from 'execa'
 import fs from 'fs'
 
-export const carmel = async(data: any) => {
-    const nodeVersion = data.node
-    const carmelSDKVersion = data.sdk
+export const carmel = async(data: any) => {  
+    system.reload()
 
     const env = system.env()
     const cli = script('cli.js')
+    const session = system.session
+
+    const nodeVersion = data.node || session.node.default
+    const carmelSDKVersion = data.sdk || session.sdk.default
+
     const nodeHome = path.resolve(env.cache.path, 'node', nodeVersion, 'node')
     const cwd = data.cwd || env.home.path
     const args = [data.cmd].concat(data.args && data.args.length > 0 ? [JSON.stringify(data.args)] : [])
-
+ 
     const exe = path.resolve(nodeHome, 'bin', 'node')
 
     try {

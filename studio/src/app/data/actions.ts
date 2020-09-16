@@ -4,6 +4,7 @@ export const SELECT_PRODUCT = 'SELECT_PRODUCT'
 export const UNSELECT_PRODUCT = 'UNSELECT_PRODUCT'
 export const LOAD_SELECTED_PRODUCT = 'LOAD_SELECTED_PRODUCT'
 export const INITIALIZE = 'INITIALIZE'
+export const REGISTER = 'REGISTER'
 
 export const unselectProduct = () => ({
     type: UNSELECT_PRODUCT
@@ -12,6 +13,11 @@ export const unselectProduct = () => ({
 export const selectProduct = (product: Product) => ({
     type: SELECT_PRODUCT,
     product
+})
+
+export const register = (user: any) => ({
+    type: REGISTER,
+    user
 })
 
 export const loadSelectedProduct = (productId: string) => ({

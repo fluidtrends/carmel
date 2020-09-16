@@ -1,12 +1,14 @@
 import { app, ipcMain } from 'electron'
 import path from 'path'
 import fs from 'fs'
+import { Server } from './node'
 
 import * as window from './window'
 import * as events from './events'
 import * as _session from './session'
 
 export let session: any = undefined
+export let server: Server = undefined
 
 export const quit = () => {
   app.quit()
@@ -32,6 +34,7 @@ export const env = () => {
 
 export const reload = () => {
   session = _session.load()
+  server = server || new Server(env())
 }
 
 export const update = (data: any) => {
@@ -62,10 +65,11 @@ export const start = () => {
     events.newUrl(url)
   })
 
-  app.on('ready', () => {
+  app.on('ready', async () => {
     app.setAsDefaultProtocolClient('carmel')
-    window.hasWindow || window.create()
     reload()
+    await server.start()
+    window.hasWindow || window.create()
   })
 
   app.on('window-all-closed', () => {

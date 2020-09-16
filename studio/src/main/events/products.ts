@@ -1,6 +1,7 @@
 import { send } from './main'
 import { carmel } from './commands'
 import * as system from '../system'
+import * as window from '../window'
 import fs from 'fs-extra'
 import path from 'path'
 import readdir from "recursive-readdir"
@@ -21,7 +22,7 @@ import readdir from "recursive-readdir"
 export const createProduct = async (data: any) => {
     const env = system.env()
     const cwd = path.resolve(env.workspace.path, data.name.replace(/\s/g, ''))
-    
+
     if (fs.existsSync(cwd)) {
         await send({ 
             id: data.id,
@@ -49,10 +50,13 @@ export const createProduct = async (data: any) => {
 
     const manifest: any = JSON.parse(fs.readFileSync(path.resolve(cwd, '.carmel.json'), 'utf8'))
 
-    return {
-        ...result,
-        ...manifest
-    }
+    system.update({ productId: manifest.id })
+
+    await send({ 
+        id: data.id,
+        type: 'createdProduct', 
+        product: manifest
+    })
 }
 
 export const selectProduct = async (data: any) => {
@@ -61,16 +65,25 @@ export const selectProduct = async (data: any) => {
 
 export const saveFile = async (data: any) => {
     const env = system.env()
-    const rootDir = path.resolve(env.home.path, 'products', data.productId, 'carmel')
-    const file = path.resolve(rootDir, data.path)
+    const cwd = path.resolve(env.home.path, 'products', data.productId)
+    const file = path.resolve(cwd, data.path)
 
     fs.writeFileSync(file, data.content, 'utf8')
+
+    const manifestFile = path.resolve(cwd, '.carmel.json')
+    const manifest: any = JSON.parse(fs.readFileSync(manifestFile, 'utf8'))
+
+    fs.writeFileSync(manifestFile, JSON.stringify({ ...manifest, timestamp: `${Date.now()}` }, null, 2), 'utf8')
+ 
+    // const ext: string = path.extname(file).substring(1).toUpperCase()
+    // const needsReload = ["MD"].includes(ext)
+    // needsReload && window.browser.reload()
 }
 
 export const loadFile = async (data: any) => {
     const env = system.env()
-    const rootDir = path.resolve(env.home.path, 'products', data.productId, 'carmel')
-    const file = path.resolve(rootDir, data.path)
+    const cwd = path.resolve(env.home.path, 'products', data.productId)
+    const file = path.resolve(cwd, data.path)
     const content = fs.readFileSync(file, 'utf8')
 
     await send({ 
@@ -82,6 +95,7 @@ export const loadFile = async (data: any) => {
 
 export const loadSelectedProduct = async (data: any) => {
     const env = system.env()
+    const server = system.server
     const productId = system.session.productId
 
     if (!productId) return 
@@ -99,6 +113,7 @@ export const loadSelectedProduct = async (data: any) => {
         type: 'selectedProductLoaded', 
         manifest,
         hasStartServer,
+        staticServerPort: server.port,
         rootDir, 
         files
     })

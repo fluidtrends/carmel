@@ -7,7 +7,6 @@ namespace carmel {
   //////////////////////////////////////////////////////////////
 
   void tokens::create(name issuer, asset maximum_supply) {
-
     // Make sure that only the owner of the contract can call this action
     require_auth(_self);
 
@@ -41,7 +40,6 @@ namespace carmel {
   }
 
   void tokens::issue(name to, asset quantity, string memo) {
-
     // Start by ensuring the symbol is valid
     auto sym = quantity.symbol;
     check(sym.is_valid(), "invalid symbol name");
@@ -78,7 +76,6 @@ namespace carmel {
   }
 
   void tokens::retire(asset quantity, string memo) {
-
     // Start by ensuring the symbol is valid
     auto sym = quantity.symbol;
     check(sym.is_valid(), "invalid symbol name");
@@ -108,8 +105,11 @@ namespace carmel {
     sub_balance(st.issuer, quantity);
   }
 
-  void tokens::transfer(name from, name to, asset quantity, string memo) {
+  void tokens::credit(name from) {
+    print("######", from);
+  }
 
+  void tokens::transfer(name from, name to, asset quantity, string memo) {
     // First of all, don't allow holders to transfer tokens to themselves
     check(from != to, "cannot transfer to self");
 
@@ -178,49 +178,49 @@ namespace carmel {
   void tokens::validate_transfer(name from, asset quantity) {
 
     // if (from != "carmelorigin"_n && from != "carmelgrowth"_n && from != "carmelfamily"_n) {
-    if (from != "alice"_n && from != "bob"_n) {
+    // if (from != "alice"_n && from != "bob"_n) {
       // Vesting only applies to the three core Carmel accounts
-      return;
-    }
+      // return;
+    // }
 
     // We want to check how many tokens the account has left
-    accounts from_acnts(_self, from.value);
-    const auto& owner = from_acnts.get(quantity.symbol.code().raw(), "no balance object found");
-    long double total_unvested = owner.balance.amount;
+    // accounts from_acnts(_self, from.value);
+    // const auto& owner = from_acnts.get(quantity.symbol.code().raw(), "no balance object found");
+    // long double total_unvested = owner.balance.amount;
 
-    // Let's take a look at how much time elapsed
-    int64_t seconds_per_day = 86400;
-    int64_t seconds_per_period = seconds_per_day * 30;
-    int64_t start_time = 1554076800;
-    int64_t now = current_time_point().sec_since_epoch();
-    int64_t seconds_elapsed = now - start_time;
-    int64_t current_period = (int64_t)(seconds_elapsed / seconds_per_period);
+    // // Let's take a look at how much time elapsed
+    // int64_t seconds_per_day = 86400;
+    // int64_t seconds_per_period = seconds_per_day * 30;
+    // int64_t start_time = 1554076800;
+    // int64_t now = current_time_point().sec_since_epoch();
+    // int64_t seconds_elapsed = now - start_time;
+    // int64_t current_period = (int64_t)(seconds_elapsed / seconds_per_period);
 
-    if (current_period > 24) {
-      // The vesting periods have ended
-      return;
-    }
+    // if (current_period > 24) {
+    //   // The vesting periods have ended
+    //   return;
+    // }
 
-    // A simple factor to distinguish between base metrics
-    int factor = (from == "carmelorigin"_n ? 2 : 1);
+    // // A simple factor to distinguish between base metrics
+    // int factor = (from == "carmelorigin"_n ? 2 : 1);
 
-    // This is how much we started with
-    // long double base_tokens = 7000000000 * factor;
-    long double base_tokens = 50000000 * factor;
+    // // This is how much we started with
+    // // long double base_tokens = 7000000000 * factor;
+    // long double base_tokens = 50000000 * factor;
 
-    // This is how many tokens vest per period
-    long double base_period_amount = base_tokens / 25;
+    // // This is how many tokens vest per period
+    // long double base_period_amount = base_tokens / 25;
 
-    // This is how many tokens should still be unvested per period
-    long double base_expected_unvested = base_tokens - (base_period_amount * (current_period + 1));
+    // // This is how many tokens should still be unvested per period
+    // long double base_expected_unvested = base_tokens - (base_period_amount * (current_period + 1));
 
-    // This is how many tokens can be transferred right now
-    long double total_vested_for_period = total_unvested - base_expected_unvested;
+    // // This is how many tokens can be transferred right now
+    // long double total_vested_for_period = total_unvested - base_expected_unvested;
 
-    print_f("total_vested_for_period: %, base_expected_unvested: %", total_vested_for_period, base_expected_unvested);
+    // print_f("total_vested_for_period: %, base_expected_unvested: %", total_vested_for_period, base_expected_unvested);
 
-    // Let's check if there are any tokens available for us to transfer
-    check(total_vested_for_period > quantity.amount, "The tokens have not vested yet for this period");
+    // // Let's check if there are any tokens available for us to transfer
+    // check(total_vested_for_period > quantity.amount, "The tokens have not vested yet for this period");
   }
 
   void tokens::validate_issuance(asset quantity, currency_stats st) {
@@ -259,7 +259,6 @@ namespace carmel {
   }
 
   void tokens::add_balance(name owner, asset value, name ram_payer) {
-
     // Find the account for the given owner and the given token value
     accounts to_acnts(_self, owner.value);
     auto to = to_acnts.find(value.symbol.code().raw());

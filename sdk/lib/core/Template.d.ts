@@ -35,6 +35,7 @@ export declare class Template implements ITemplate {
      *
      */
     get name(): string;
+    generateCovers(productCacheDir: IDir): Promise<void>;
     /**
      *
      * @param dir

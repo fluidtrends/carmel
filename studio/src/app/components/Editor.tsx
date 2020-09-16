@@ -17,46 +17,45 @@ import "ace-builds/src-noconflict/theme-monokai"
  * @param props 
  */
 export const Editor: React.FC<EditorComponentProps> = (props) => {
-  const { asset, product, openFile } = props
+  const { selectedFile, product, openFile } = props
   const [content, setContent] = useState("")
-  const [savedContent, setSavedContent] = useState("")
+  const [dirty, setDirty] = useState(0)
   const saveEvent = useEvent()
 
   function onChange(newValue: any) {
-      setContent(newValue)
+    setContent(newValue)
+    setDirty((prev: number) => (prev + 1))
   }
 
   useEffect(() => {
       setContent(openFile)
-      setSavedContent(openFile)
   }, [openFile])
 
   const save = () => {
-    setSavedContent(content)
     saveEvent.send({
         type: 'saveFile',
-        path: asset,
+        path: selectedFile,
         content,
         productId: product.id
     })
-}
+  }
 
   useEffect(() => {
-      const timer = setInterval(() => {
-            if (content === savedContent) return 
-            save()
-      }, 1000)
+    const timer = setTimeout(() => {
+        dirty > 0 && save()
+        setDirty(0)
+    }, 1000)
 
-      return () => clearInterval(timer)
-  }, [content, savedContent])
+    return () => clearTimeout(timer)
+  }, [dirty])
 
   return (<AceEditor
           mode="javascript"
-          theme="xcode"
+          theme="monokai"
           onChange={onChange}
           style={{
-           width: "100%",
-           height: "100%",
+            width: "100%",
+            height: "100%"
           }}
           value={content}
           editorProps={{ $blockScrolling: true }}

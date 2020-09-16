@@ -28,6 +28,16 @@
             ]
         },
         {
+            "name": "credit",
+            "base": "",
+            "fields": [
+                {
+                    "name": "from",
+                    "type": "name"
+                }
+            ]
+        },
+        {
             "name": "currency_stats",
             "base": "",
             "fields": [
@@ -104,22 +114,27 @@
         {
             "name": "create",
             "type": "create",
-            "ricardian_contract": "Input parameters:\n\n* `issuer` (the author of this contract)\n* `maximum_supply` (total available token supply)\n\n### Intent\nINTENT. As the author and {{ owner }} of this contract, I {{ signer }} want to create a new token, with a total available supply of {{ maximum_supply }} tokens. Only I {{ signer }}, as the author, {{ issuer }} and {{ owner }}, am allowed to invoke this action.\n\n### Term\nTERM. This Contract expires at the conclusion of code execution. The token will then persist on the chain."
+            "ricardian_contract": ""
+        },
+        {
+            "name": "credit",
+            "type": "credit",
+            "ricardian_contract": ""
         },
         {
             "name": "issue",
             "type": "issue",
-            "ricardian_contract": "Input parameters:\n\n* `to` (the account receiving the tokens)\n* `quantity` (how many tokens to issue)\n* `memo` (a reason for issuing the tokens)\n\n### Intent\nINTENT. As the original {{ owner }} and {{ issuer }} of this contract, I {{ signer }} want to mint {{ quantity }} new tokens\nand give them to {{ to }} for a reason explained by {{ memo }}. Only I {{ signer }}, as the author, {{ issuer }} and {{ owner }}, am allowed to invoke this action.\n\n### Term\nTERM. This Contract expires at the conclusion of code execution. This action changes the token circulating supply."
+            "ricardian_contract": ""
         },
         {
             "name": "retire",
             "type": "retire",
-            "ricardian_contract": "Input parameters:\n\n* `quantity` (how many tokens to retire)\n* `memo` (a reason for retiring the tokens)\n\n### Intent\nINTENT. As the original {{ owner }} and {{ issuer }} of this contract, I {{ signer }} want to burn {{ quantity }} exiting tokens and remove them from circulation for a reason explained by {{ memo }}. Only I {{ signer }}, as the author, {{ issuer }} and {{ owner }}, am allowed to invoke this action.\n\n### Term\nTERM. This Contract expires at the conclusion of code execution. This action changes the token circulating supply."
+            "ricardian_contract": ""
         },
         {
             "name": "transfer",
             "type": "transfer",
-            "ricardian_contract": "Input parameters:\n\n* `from` (the account sending the tokens)\n* `to` (the account receiving the tokens)\n* `quantity` (how many tokens to send)\n* `memo` (a reason for sending the tokens)\n\n### Intent\nINTENT. As a token holder, I {{ signer }} want to send {{ quantity }} of my own tokens to {{ to }} for a reason explained by {{ memo }}. Only I {{ signer }}, am allowed to transfer my own tokens.\n\n### Term\nTERM. This Contract expires at the conclusion of code execution. This action changes the token balances of the sender and receiver accounts."
+            "ricardian_contract": ""
         }
     ],
     "tables": [
@@ -138,15 +153,6 @@
             "key_types": []
         }
     ],
-    "ricardian_clauses": [
-        {
-            "id": "Constitution",
-            "body": "This contract and all its actions is subject to the Carmel Constitution at https://carmel.io. The Carmel Constitution constitution is interim and is in effect until a permanent constitution is written and ratified by the Carmel Community."
-        },
-        {
-            "id": "Terms and Conditions",
-            "body": "This contract and all its actions is subject to the Carmel Terms and Conditions at https://carmel.io."
-        }
-    ],
+    "ricardian_clauses": [],
     "variants": []
 }

@@ -24,6 +24,7 @@ export default class Start extends Command {
 
     await this.product?.packer.pack((event: any) => {
       console.log('Chunky says: ', event)
+      console.log(`http://0.0.0.0:${this.product!.packerPort}`)
     })
 
     this.product.manifest.load()
