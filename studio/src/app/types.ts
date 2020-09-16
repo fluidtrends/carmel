@@ -56,10 +56,18 @@ export interface ProductScreenProps extends AppProps {
 export interface NewProductScreenProps extends AppProps {
 }
 
+export interface LoginScreenProps extends AppProps {
+
+}
+
 export interface MainContainerProps extends AppProps {
 }
 
 export interface SimpleContainerProps extends AppProps {
+}
+
+export interface PlansComponentProps {
+    selectPlan: (plan: any) => any
 }
 
 export interface ProductsComponentProps  {
@@ -74,7 +82,9 @@ export interface VideoComponentProps {
 }
 
 export interface ProductListItemComponentProps {
-    product: Product,
+    product?: Product
+    isButton?: boolean
+    title?: string
     onSelected: (product: Product) => any
 }
 
@@ -115,6 +125,7 @@ export interface ProductChunksComponentProps {
     files: any
     openFile: any
     height: number
+    visible: boolean
     expanded: string[]
     onExpand: (keys: string[]) => any
     onSelect: (item: any) => any
@@ -124,7 +135,10 @@ export interface ProductAssetsComponentProps {
     product: Product
     rootDir: string
     height: number
+    openFile: any
+    visible: boolean
     files: any
+    onSelect: (item: any) => any
 }
 
 export interface AssetListItemComponentProps {
@@ -135,7 +149,10 @@ export interface AssetListItemComponentProps {
 
 export interface EditorComponentProps {
     product: Product
-    chunk: Chunk
     openFile: any
-    asset: Asset
+    selectedFile: string
+}
+
+export interface ProductChallengeComponentProps {
+    productDetails: any
 }

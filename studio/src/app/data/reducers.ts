@@ -7,7 +7,8 @@ import {
   UNSELECT_PRODUCT, 
   LOAD_SELECTED_PRODUCT,
   SELECT_PRODUCT, 
-  INITIALIZE 
+  INITIALIZE,
+  REGISTER
 } from './actions'
 
 const products = (state: any = [], action: any) => {
@@ -49,6 +50,8 @@ const session = (state: any = {}, action: any) => {
   switch(action.type) {
     case INITIALIZE: 
       return action.data.session
+    case REGISTER: 
+      return { user: action.user }
     default:
       return state
   }

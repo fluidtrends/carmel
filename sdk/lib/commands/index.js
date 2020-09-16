@@ -14,4 +14,6 @@ var preview_1 = require("./preview");
 Object.defineProperty(exports, "Preview", { enumerable: true, get: function () { return preview_1.default; } });
 var deploy_1 = require("./deploy");
 Object.defineProperty(exports, "Deploy", { enumerable: true, get: function () { return deploy_1.default; } });
+var data_1 = require("./data");
+Object.defineProperty(exports, "Data", { enumerable: true, get: function () { return data_1.default; } });
 //# sourceMappingURL=index.js.map

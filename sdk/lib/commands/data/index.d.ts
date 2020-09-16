@@ -1,18 +1,13 @@
+import { Command } from '../..';
 /**
  *
- *
- * @category Commands::Environment
+ * @category Commands
  */
-export class DataCommand {
-    constructor(args: any);
-    get id(): any;
-    get requiresContext(): any;
-    get title(): any;
-    vault(session: any): any;
-    lock(session: any): any;
-    unlock(session: any): any;
-    save(session: any): Promise<void>;
-    read(session: any): Promise<void>;
-    defaults(session: any): Promise<void>;
-    exec(session: any): any;
+export default class Data extends Command {
+    /** @internal */
+    constructor();
+    get secretsVault(): any;
+    get settingsVault(): any;
+    /** @internal */
+    exec(): Promise<void>;
 }

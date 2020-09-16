@@ -11,6 +11,7 @@
   }
 
   const Carmel = require(path.resolve(carmelSDKHome, 'lib'))
+
   const Command = Carmel.Commands[command.cls]
   const cmd = new Command(command)
 

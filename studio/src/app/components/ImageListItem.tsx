@@ -1,17 +1,15 @@
 import React from 'react'
 import { AssetListItemComponentProps } from '../types'
-import { Card, Button, Avatar, Typography } from 'antd';
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
+import { Card, Typography } from 'antd';
 
-const { Meta } = Card
 const { Text } = Typography
 
 /**
  * 
  * @param props 
  */
-export const AssetListItem: React.FC<AssetListItemComponentProps> = (props) => {
-  const { product, asset, onSelected } = props
+export const ImageListItem: React.FC<AssetListItemComponentProps> = (props) => {
+  const { asset, onSelected } = props
 
   return (<div onClick={() => onSelected(asset)}>
     <Card
@@ -27,7 +25,7 @@ export const AssetListItem: React.FC<AssetListItemComponentProps> = (props) => {
         textAlign: "center"
       }}
       cover={
-        <Text> { asset.name } </Text>
+        <Text> IMAGE: { asset.name } </Text>
     }> 
     
   </Card></div>)

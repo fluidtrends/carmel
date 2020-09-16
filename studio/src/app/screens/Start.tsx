@@ -7,9 +7,6 @@ import { useEvent } from '../hooks'
 import { replace } from 'connected-react-router'
 import { useDispatch, useSelector } from "react-redux"
 import { initialize } from '../data'
-const { JsonRpc } = require('eosjs');
-
-const eos = new JsonRpc('http://api.eosn.io')
 
 /**
  * 
@@ -21,12 +18,18 @@ export const Start: React.FC<StartScreenProps> = (props) => {
   const session = useSelector((state: State) => state.session)
   const products = useSelector((state: State) => state.products)
 
+  console.log("!start!!")
+
   useEffect(() => {
+    console.log("START LOAD")
     loadEvent.send({ type: 'load' })
   }, [])
 
   useEffect(() => {
+    console.log("START:", loadEvent.received)
+
     if (!loadEvent.received.id) return
+
   
     if (loadEvent.received.type === 'firstTime') {
       dispatch(replace('/welcome'))
@@ -37,29 +40,11 @@ export const Start: React.FC<StartScreenProps> = (props) => {
   }, [loadEvent.received])
 
   useEffect(() => {
+    console.log("start sess", session)
     if (!session.loadedTimestamp) return
 
-    (async () => {
-          // const resp = await eos.get_table_rows({
-          //   json: true,              
-          //   code: 'eosio.token',     
-          //   scope: 'dancalinescu',
-          //   table: 'accounts',       
-          //   limit: 1             
-          // })
-          const resp = await eos.get_table_rows({
-            json: true,              
-            code: 'carmelsystem',        
-            scope: 'carmelsystem',    
-            table: 'quests',        
-            table_key: 'id',     
-            limit: 10             
-          })
-          console.log(resp.rows)
-      })()
-
-    // const screen = session.productId ? '/product' : '/products'  
-    // dispatch(replace(screen))
+    const screen = session.productId ? '/product' : '/products'  
+    dispatch(replace(screen))
   }, [session])
   
   return (<div style={styles.screen}>

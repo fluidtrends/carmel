@@ -47,6 +47,8 @@ export class Session implements ISession {
   /** Start with these sections - always */
   public static DEFAULT_SECTIONS = [
     'bundles',
+    'secrets',
+    'settings',
     'stacks',
     'products',
     'keystore',

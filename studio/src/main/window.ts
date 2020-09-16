@@ -1,6 +1,10 @@
 import { BrowserWindow, webContents } from 'electron'
 import { isDevMode } from './utils'
 import * as tray from './tray'
+import path from 'path'
+import serve from 'electron-serve'
+
+const USERHOME = process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME']
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: any
 declare const BROWSER_WINDOW_WEBPACK_ENTRY: any
@@ -56,10 +60,10 @@ export const toggleBrowser = () => {
 
 export const create = () => {
   window = new BrowserWindow({
-    width: 960,
-    minWidth: 960,
-    height: 560,
-    minHeight: 560,
+    width: 1240,
+    minWidth: 1240,
+    height: 840,
+    minHeight: 840,
     show: false,
     frame: true,
     fullscreenable: true,

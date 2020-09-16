@@ -25,5 +25,10 @@
         "id": "product",
         "screen": "Product",
         "container": "Main"
+    }, {
+        "path": "/auth",
+        "id": "auth",
+        "screen": "Auth",
+        "container": "Simple"
     }]
 }

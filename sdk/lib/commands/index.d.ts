@@ -5,3 +5,4 @@ export { default as Start } from './start';
 export { default as Make } from './make';
 export { default as Preview } from './preview';
 export { default as Deploy } from './deploy';
+export { default as Data } from './data';

@@ -1,5 +1,6 @@
 {
     "initializing": "Starting up, just a sec please...",
+    "signingUp": "Creating your Carmel account, just a sec please...",
     "settingUp": "Setting you up, hold on tight ...",
     "creatingProduct": "Creating your product, hold on ...",
     "loadingTemplates": "Looking for available templates, just a sec ..."

@@ -4,6 +4,292 @@
     "types": [],
     "structs": [
         {
+            "name": "addartifactv",
+            "base": "",
+            "fields": [
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "author",
+                    "type": "name"
+                },
+                {
+                    "name": "artifactname",
+                    "type": "name"
+                },
+                {
+                    "name": "version",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "addchallenge",
+            "base": "",
+            "fields": [
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "author",
+                    "type": "name"
+                },
+                {
+                    "name": "bundle",
+                    "type": "name"
+                },
+                {
+                    "name": "stack",
+                    "type": "name"
+                },
+                {
+                    "name": "name",
+                    "type": "name"
+                },
+                {
+                    "name": "total_tasks",
+                    "type": "uint16"
+                },
+                {
+                    "name": "skills",
+                    "type": "string[]"
+                },
+                {
+                    "name": "details",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "addchvers",
+            "base": "",
+            "fields": [
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "author",
+                    "type": "name"
+                },
+                {
+                    "name": "bundle",
+                    "type": "name"
+                },
+                {
+                    "name": "name",
+                    "type": "name"
+                },
+                {
+                    "name": "version",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "addeffort",
+            "base": "",
+            "fields": [
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "challenge_name",
+                    "type": "name"
+                },
+                {
+                    "name": "successful",
+                    "type": "bool"
+                },
+                {
+                    "name": "results",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "addsetting",
+            "base": "",
+            "fields": [
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "key",
+                    "type": "name"
+                },
+                {
+                    "name": "value",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "addtemplate",
+            "base": "",
+            "fields": [
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "author",
+                    "type": "name"
+                },
+                {
+                    "name": "bundle",
+                    "type": "name"
+                },
+                {
+                    "name": "name",
+                    "type": "name"
+                },
+                {
+                    "name": "details",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "addtemplatev",
+            "base": "",
+            "fields": [
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "author",
+                    "type": "name"
+                },
+                {
+                    "name": "bundle",
+                    "type": "name"
+                },
+                {
+                    "name": "name",
+                    "type": "name"
+                },
+                {
+                    "name": "version",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "artifacts_table",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "created_timestamp",
+                    "type": "uint64"
+                },
+                {
+                    "name": "modified_timestamp",
+                    "type": "uint64"
+                },
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "author",
+                    "type": "name"
+                },
+                {
+                    "name": "artifactname",
+                    "type": "name"
+                },
+                {
+                    "name": "type",
+                    "type": "name"
+                },
+                {
+                    "name": "versions",
+                    "type": "string[]"
+                },
+                {
+                    "name": "status",
+                    "type": "string"
+                },
+                {
+                    "name": "details",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "challenges_table",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "created_timestamp",
+                    "type": "uint64"
+                },
+                {
+                    "name": "modified_timestamp",
+                    "type": "uint64"
+                },
+                {
+                    "name": "total_tasks",
+                    "type": "uint16"
+                },
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "author",
+                    "type": "name"
+                },
+                {
+                    "name": "bundle",
+                    "type": "name"
+                },
+                {
+                    "name": "stack",
+                    "type": "name"
+                },
+                {
+                    "name": "skills",
+                    "type": "string[]"
+                },
+                {
+                    "name": "versions",
+                    "type": "string[]"
+                },
+                {
+                    "name": "name",
+                    "type": "name"
+                },
+                {
+                    "name": "status",
+                    "type": "string"
+                },
+                {
+                    "name": "details",
+                    "type": "string"
+                }
+            ]
+        },
+        {
             "name": "effort_table",
             "base": "",
             "fields": [
@@ -12,77 +298,159 @@
                     "type": "uint64"
                 },
                 {
-                    "name": "created_on",
-                    "type": "uint64"
-                },
-                {
-                    "name": "quest_id",
-                    "type": "uint64"
-                },
-                {
-                    "name": "message",
-                    "type": "string"
-                },
-                {
-                    "name": "status",
-                    "type": "string"
-                },
-                {
                     "name": "challenge_id",
-                    "type": "int8"
+                    "type": "uint64"
                 },
                 {
-                    "name": "task_id",
-                    "type": "int8"
-                }
-            ]
-        },
-        {
-            "name": "neweffort",
-            "base": "",
-            "fields": [
+                    "name": "task_index",
+                    "type": "uint16"
+                },
+                {
+                    "name": "verifications",
+                    "type": "uint16"
+                },
+                {
+                    "name": "created_timestamp",
+                    "type": "uint64"
+                },
+                {
+                    "name": "modified_timestamp",
+                    "type": "uint64"
+                },
+                {
+                    "name": "challenge_name",
+                    "type": "name"
+                },
+                {
+                    "name": "account",
+                    "type": "name"
+                },
                 {
                     "name": "user",
                     "type": "name"
                 },
                 {
-                    "name": "quest_id",
-                    "type": "uint64"
-                },
-                {
-                    "name": "challenge_id",
-                    "type": "int8"
-                },
-                {
-                    "name": "task_id",
-                    "type": "int8"
-                },
-                {
-                    "name": "message",
+                    "name": "status",
                     "type": "string"
                 },
                 {
-                    "name": "status",
+                    "name": "successful",
+                    "type": "bool"
+                },
+                {
+                    "name": "results",
                     "type": "string"
                 }
             ]
         },
         {
-            "name": "newquest",
+            "name": "newadmin",
             "base": "",
             "fields": [
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "superadmin",
+                    "type": "name"
+                },
+                {
+                    "name": "username",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "newartifact",
+            "base": "",
+            "fields": [
+                {
+                    "name": "account",
+                    "type": "name"
+                },
                 {
                     "name": "author",
                     "type": "name"
                 },
                 {
-                    "name": "uri",
+                    "name": "artifactname",
+                    "type": "name"
+                },
+                {
+                    "name": "type",
+                    "type": "name"
+                },
+                {
+                    "name": "details",
                     "type": "string"
                 }
             ]
         },
         {
-            "name": "quest_table",
+            "name": "newplan",
+            "base": "",
+            "fields": [
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "plan_name",
+                    "type": "name"
+                },
+                {
+                    "name": "duration",
+                    "type": "int32"
+                },
+                {
+                    "name": "price",
+                    "type": "int32"
+                },
+                {
+                    "name": "min_seats",
+                    "type": "int32"
+                }
+            ]
+        },
+        {
+            "name": "newsysadmin",
+            "base": "",
+            "fields": [
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "username",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "newuser",
+            "base": "",
+            "fields": [
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "username",
+                    "type": "name"
+                },
+                {
+                    "name": "fullname",
+                    "type": "string"
+                },
+                {
+                    "name": "details",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "plans_table",
             "base": "",
             "fields": [
                 {
@@ -90,20 +458,74 @@
                     "type": "uint64"
                 },
                 {
-                    "name": "author",
+                    "name": "plan_name",
                     "type": "name"
                 },
                 {
-                    "name": "created_on",
+                    "name": "duration",
+                    "type": "int32"
+                },
+                {
+                    "name": "created_timestamp",
                     "type": "uint64"
                 },
                 {
-                    "name": "started_on",
+                    "name": "modified_timestamp",
                     "type": "uint64"
                 },
                 {
-                    "name": "uri",
-                    "type": "string"
+                    "name": "price",
+                    "type": "int32"
+                },
+                {
+                    "name": "min_seats",
+                    "type": "int32"
+                }
+            ]
+        },
+        {
+            "name": "progress_table",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "challenge_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "started_timestamp",
+                    "type": "uint64"
+                },
+                {
+                    "name": "updated_timestamp",
+                    "type": "uint64"
+                },
+                {
+                    "name": "task_index",
+                    "type": "uint16"
+                },
+                {
+                    "name": "total_tasks",
+                    "type": "uint16"
+                },
+                {
+                    "name": "challenge_name",
+                    "type": "name"
+                },
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "done",
+                    "type": "bool"
                 },
                 {
                     "name": "status",
@@ -112,38 +534,274 @@
             ]
         },
         {
-            "name": "startquest",
+            "name": "settings_table",
             "base": "",
             "fields": [
+                {
+                    "name": "id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "key",
+                    "type": "name"
+                },
+                {
+                    "name": "value",
+                    "type": "string"
+                },
+                {
+                    "name": "created_timestamp",
+                    "type": "uint64"
+                },
+                {
+                    "name": "modified_timestamp",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "templates_table",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "created_timestamp",
+                    "type": "uint64"
+                },
+                {
+                    "name": "modified_timestamp",
+                    "type": "uint64"
+                },
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "author",
+                    "type": "name"
+                },
+                {
+                    "name": "bundle",
+                    "type": "name"
+                },
+                {
+                    "name": "versions",
+                    "type": "string[]"
+                },
+                {
+                    "name": "name",
+                    "type": "name"
+                },
+                {
+                    "name": "status",
+                    "type": "string"
+                },
+                {
+                    "name": "details",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "trychallenge",
+            "base": "",
+            "fields": [
+                {
+                    "name": "account",
+                    "type": "name"
+                },
                 {
                     "name": "user",
                     "type": "name"
                 },
                 {
-                    "name": "quest_id",
+                    "name": "challenge_name",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "users_table",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
                     "type": "uint64"
+                },
+                {
+                    "name": "created_timestamp",
+                    "type": "uint64"
+                },
+                {
+                    "name": "modified_timestamp",
+                    "type": "uint64"
+                },
+                {
+                    "name": "level",
+                    "type": "uint16"
+                },
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "username",
+                    "type": "name"
+                },
+                {
+                    "name": "plan_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "plan_start_timestamp",
+                    "type": "uint64"
+                },
+                {
+                    "name": "plan_expire_timestamp",
+                    "type": "uint64"
+                },
+                {
+                    "name": "plan_seats_available",
+                    "type": "int32"
+                },
+                {
+                    "name": "fullname",
+                    "type": "string"
+                },
+                {
+                    "name": "status",
+                    "type": "string"
+                },
+                {
+                    "name": "details",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "validations_table",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "created_timestamp",
+                    "type": "uint64"
+                },
+                {
+                    "name": "modified_timestamp",
+                    "type": "uint64"
+                },
+                {
+                    "name": "effort_id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "passes",
+                    "type": "uint16"
+                },
+                {
+                    "name": "fails",
+                    "type": "uint16"
+                },
+                {
+                    "name": "expected_success",
+                    "type": "bool"
+                },
+                {
+                    "name": "status",
+                    "type": "string"
                 }
             ]
         }
     ],
     "actions": [
         {
-            "name": "neweffort",
-            "type": "neweffort",
-            "ricardian_contract": "Input parameters:\n\n* `user` (the Carmel user that would like to register new effort)\n* `quest_id` (the id of the quest that the user is currently taking)\n* `challenge_id` (the id of the challenge scoped within this quest)\n* `task_id` (the id of the task scoped within the challenge)\n* `message` (a human readable description of the effort)\n* `status` (a way for us to categorize this effort)\n\n### Intent\nINTENT. As a Carmel {{ user }}, I {{ signer }} want to tell the world that I have recently invested effort in working on task {{ task_id }} of the {{ challenge_id }} challenge within the {{ quest_id }} quest.\n\n### Term\nTERM. This Contract expires at the conclusion of code execution. This action changes the token circulating supply."
+            "name": "addartifactv",
+            "type": "addartifactv",
+            "ricardian_contract": ""
         },
         {
-            "name": "newquest",
-            "type": "newquest",
-            "ricardian_contract": "Input parameters:\n\n* `author` (the author of this quest)\n* `uri` (the Quest URI where Carmel SDK will resolve)\n\n### Intent\nINTENT. I {{ signer }} want to create a new quest, with a particular {{ uri }} that specifies where it resolves. \n\n### Term\nTERM. This Contract expires at the conclusion of code execution. The token will then persist on the chain."
+            "name": "addchallenge",
+            "type": "addchallenge",
+            "ricardian_contract": ""
         },
         {
-            "name": "startquest",
-            "type": "startquest",
-            "ricardian_contract": "Input parameters:\n\n* `user` (the Carmel user that would like to start this quest)\n* `quest_id` (the id of the quest to start)\n\n### Intent\nINTENT. As a Carmel {{ user }}, I {{ signer }} want to start this {{ quest }} so I can invest effort into developing my skills.\n\n### Term\nTERM. This Contract expires at the conclusion of code execution. This action changes the token circulating supply."
+            "name": "addchvers",
+            "type": "addchvers",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "addeffort",
+            "type": "addeffort",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "addsetting",
+            "type": "addsetting",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "addtemplate",
+            "type": "addtemplate",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "addtemplatev",
+            "type": "addtemplatev",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "newadmin",
+            "type": "newadmin",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "newartifact",
+            "type": "newartifact",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "newplan",
+            "type": "newplan",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "newsysadmin",
+            "type": "newsysadmin",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "newuser",
+            "type": "newuser",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "trychallenge",
+            "type": "trychallenge",
+            "ricardian_contract": ""
         }
     ],
     "tables": [
+        {
+            "name": "artifacts",
+            "type": "artifacts_table",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "challenges",
+            "type": "challenges_table",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
         {
             "name": "effort",
             "type": "effort_table",
@@ -152,22 +810,48 @@
             "key_types": []
         },
         {
-            "name": "quests",
-            "type": "quest_table",
+            "name": "plans",
+            "type": "plans_table",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "progress",
+            "type": "progress_table",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "settings",
+            "type": "settings_table",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "templates",
+            "type": "templates_table",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "users",
+            "type": "users_table",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "validations",
+            "type": "validations_table",
             "index_type": "i64",
             "key_names": [],
             "key_types": []
         }
     ],
-    "ricardian_clauses": [
-        {
-            "id": "Constitution",
-            "body": "This contract and all its actions is subject to the Carmel Constitution at https://carmel.io. The Carmel Constitution constitution is interim and is in effect until a permanent constitution is written and ratified by the Carmel Community."
-        },
-        {
-            "id": "Terms and Conditions",
-            "body": "This contract and all its actions is subject to the Carmel Terms and Conditions at https://carmel.io."
-        }
-    ],
+    "ricardian_clauses": [],
     "variants": []
 }
