@@ -121,9 +121,53 @@ namespace carmel {
         return make_tuple(templates_idx, template_result);
     }
 
+    [[eosio::on_notify("eosio.token::transfer")]]
+    void system::topup(name from, name to, asset quantity, string memo) {
+      if (to != CARMEL_SYS) {
+          return;
+      }
+
+      check(quantity.symbol == EOS_SYMBOL, "Invalid currency");
+      check(quantity.amount >= 100000, "At least 10 EOS required");
+
+      topups_index topups(get_self(), get_self().value);
+      long carmelusd = stol(getsetting("carmelusd"_n));
+      long usdeos = stol(getsetting("usdeos"_n));
+      long credits = long(((double)carmelusd * ((double)quantity.amount / 10000) * (double)((double)usdeos / 10000)));
+
+      // Keep track of the topup
+      uint64_t timestamp = now();
+      topups.emplace(get_self(), [&](auto &item) {
+        item.id = topups.available_primary_key();;
+        item.created_timestamp = timestamp;
+        item.carmelusd = carmelusd;
+        item.usdeos = usdeos;
+        item.carmel = credits;
+        item.account = from;
+        item.eos = quantity.amount;
+      });
+
+      // Transfer the Carmel tokens
+      action(
+          permission_level{get_self(), "active"_n},
+          CARMEL_TOK,
+          "transfer"_n,
+          std::make_tuple(get_self(), from, asset(credits, CARMEL_SYMBOL), string("new topup"))
+       ).send();
+
+      // Update the token price
+      settings_index settings(get_self(), get_self().value);
+      auto settings_index = settings.get_index<"keyidx"_n>();
+      auto carmelusd_setting = settings_index.find("carmelusd"_n.value);
+      settings_index.modify(carmelusd_setting, get_self(), [&](auto &item) {
+        item.modified_timestamp = timestamp;
+        item.value = to_string(carmelusd - 10);
+      });
+    }
+
     [[eosio::on_notify("carmeltokens::transfer")]]
     void system::newpayment(name from, name to, asset quantity, string memo) {
-      if (to != CARMEL_SYS) {
+      if (to != CARMEL_SYS || from == CARMEL_TOK) {
           return;
       }
 
@@ -143,6 +187,7 @@ namespace carmel {
       check (seats_pos > 0, "Invalid purchase, seats is not a number");
 
       users_index users(get_self(), get_self().value);
+      payments_index payments(get_self(), get_self().value);
 
       // Ensure the user and plan exist
       auto u = getuser(&users, name{username}, true);
@@ -156,8 +201,8 @@ namespace carmel {
       }
       int plan_seats_available = stoi(seats) - 1;
 
-      double tokenprice = stol(getsetting("tokenprice"_n)) / 10000;
-      double required_tokens = (p->price) * stoi(seats) * tokenprice;
+      double carmelusd = stol(getsetting("carmelusd"_n)) / 10000;
+      double required_tokens = (p->price) * stoi(seats) * carmelusd;
       double creditshare = stol(getsetting("creditshare"_n));
       
       check (stoi(seats) >= p->min_seats, "Invalid purchase, too few seats");
@@ -169,18 +214,22 @@ namespace carmel {
       (get<0>(u)).modify(get<1>(u), get_self(), [&](auto &item) {
             item.modified_timestamp = timestamp;
             item.plan_id = p->id;
+            item.plan_name = p->plan_name;
             item.plan_start_timestamp = timestamp;
             item.plan_expire_timestamp = plan_expire_timestamp;
             item.plan_seats_available = plan_seats_available;
        });
 
-       // Transfer the Carmel Credit
-        action(
-            permission_level{get_self(), "active"_n},
-            CARMEL_TOK,
-            "transfer"_n,
-            std::make_tuple(get_self(), CARMEL_CRE, asset(credits, CARMEL_SYMBOL), string("new credit"))
-       ).send();
+       // Keep track of the payment
+       payments.emplace(from, [&](auto &item) {
+            item.id = payments.available_primary_key();;
+            item.created_timestamp = timestamp;
+            item.username = name{username};
+            item.account = from;
+            item.price = required_tokens;
+            item.seats = stoi(seats);
+            item.plan_name = name{plan};
+        });
     }
 
     /**
@@ -200,16 +249,29 @@ namespace carmel {
 
         settings_index settings(get_self(), get_self().value);
       
-        // Ready to add the setting
+        // Let's take a look at the plans we have on file
+        auto settings_index = settings.get_index<"keyidx"_n>();
+
+        // Look up the requested setting
+        auto setting = settings_index.find(key.value);
+
         uint64_t timestamp = now();
-        uint64_t id = settings.available_primary_key();
-        settings.emplace(account, [&](auto &item) {
-            item.id = id;
-            item.created_timestamp = timestamp;
-            item.modified_timestamp = timestamp;
-            item.key = key;
-            item.value = value;
-        });
+        if(setting == settings_index.end()) {
+            // Ready to add the setting
+            uint64_t id = settings.available_primary_key();
+            settings.emplace(account, [&](auto &item) {
+                item.id = id;
+                item.created_timestamp = timestamp;
+                item.modified_timestamp = timestamp;
+                item.key = key;
+                item.value = value;
+            });
+        } else {
+             settings_index.modify(setting, get_self(), [&](auto &item) {
+                item.modified_timestamp = timestamp;
+                item.value = value;
+            });
+        }
     }
 
     /**
@@ -243,6 +305,7 @@ namespace carmel {
             item.fullname = fullname;
             item.username = username;
             item.plan_id = 0;
+            item.plan_name = "free"_n;
             item.plan_start_timestamp = timestamp;
             item.plan_expire_timestamp = timestamp + CARMEL_FOREVER;
             item.plan_seats_available = 0;

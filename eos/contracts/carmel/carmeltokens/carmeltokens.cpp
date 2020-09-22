@@ -40,6 +40,9 @@ namespace carmel {
   }
 
   void tokens::issue(name to, asset quantity, string memo) {
+    // Make sure that only the owner of the contract can call this action
+    require_auth(_self);
+    
     // Start by ensuring the symbol is valid
     auto sym = quantity.symbol;
     check(sym.is_valid(), "invalid symbol name");
@@ -103,10 +106,6 @@ namespace carmel {
 
     // One last thing, let's just
     sub_balance(st.issuer, quantity);
-  }
-
-  void tokens::credit(name from) {
-    print("######", from);
   }
 
   void tokens::transfer(name from, name to, asset quantity, string memo) {

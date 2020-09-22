@@ -28,16 +28,6 @@
             ]
         },
         {
-            "name": "credit",
-            "base": "",
-            "fields": [
-                {
-                    "name": "from",
-                    "type": "name"
-                }
-            ]
-        },
-        {
             "name": "currency_stats",
             "base": "",
             "fields": [
@@ -114,11 +104,6 @@
         {
             "name": "create",
             "type": "create",
-            "ricardian_contract": ""
-        },
-        {
-            "name": "credit",
-            "type": "credit",
             "ricardian_contract": ""
         },
         {

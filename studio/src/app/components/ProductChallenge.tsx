@@ -82,7 +82,7 @@ export const ProductChallenge: React.FC<ProductChallengeComponentProps> = (props
 
     const onChallengeStart = (c: any) => {
         if (!session.user) {
-            dispatch(replace('/auth'))
+            dispatch(replace('/register'))
             return
         }
 

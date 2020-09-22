@@ -1,7 +1,17 @@
 {
     "initializing": "Starting up, just a sec please...",
     "signingUp": "Creating your Carmel account, just a sec please...",
+    "signingIn": "Logging you back in, just a sec please ...",
     "settingUp": "Setting you up, hold on tight ...",
+    "loadingProfile": "Loading your profile, hold on a sec ...",
+    "updatingProfile": "Updating your profile, hold on a sec ...",
     "creatingProduct": "Creating your product, hold on ...",
-    "loadingTemplates": "Looking for available templates, just a sec ..."
+    "loadingTemplates": "Looking for available templates, just a sec ...",
+    "noAccountYet": "I don't have an account yet",
+    "alreadyAnAccount": "I already have an account",
+    "insufficientTokens": "Insufficient tokens. Switching to the Free Plan.",
+    "locked": "Your vault is locked",
+    "unlocked": "You vault is unlocked",
+    "lock": "Enter your password to lock it",
+    "unlock": "Enter your password to unlock it"
 }

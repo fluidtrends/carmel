@@ -450,6 +450,40 @@
             ]
         },
         {
+            "name": "payments_table",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "plan_name",
+                    "type": "name"
+                },
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "username",
+                    "type": "name"
+                },
+                {
+                    "name": "price",
+                    "type": "int32"
+                },
+                {
+                    "name": "seats",
+                    "type": "int32"
+                },
+                {
+                    "name": "created_timestamp",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
             "name": "plans_table",
             "base": "",
             "fields": [
@@ -606,6 +640,40 @@
             ]
         },
         {
+            "name": "topups_table",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "eos",
+                    "type": "int32"
+                },
+                {
+                    "name": "carmel",
+                    "type": "int32"
+                },
+                {
+                    "name": "carmelusd",
+                    "type": "int32"
+                },
+                {
+                    "name": "usdeos",
+                    "type": "int32"
+                },
+                {
+                    "name": "created_timestamp",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
             "name": "trychallenge",
             "base": "",
             "fields": [
@@ -649,6 +717,10 @@
                 },
                 {
                     "name": "username",
+                    "type": "name"
+                },
+                {
+                    "name": "plan_name",
                     "type": "name"
                 },
                 {
@@ -810,6 +882,13 @@
             "key_types": []
         },
         {
+            "name": "payments",
+            "type": "payments_table",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
             "name": "plans",
             "type": "plans_table",
             "index_type": "i64",
@@ -833,6 +912,13 @@
         {
             "name": "templates",
             "type": "templates_table",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "topups",
+            "type": "topups_table",
             "index_type": "i64",
             "key_names": [],
             "key_types": []

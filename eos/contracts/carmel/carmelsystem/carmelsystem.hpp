@@ -33,6 +33,7 @@
 #define CARMEL_CRE "carmelcredit"_n
 
 #define CARMEL_SYMBOL symbol("CARMEL", 4)
+#define EOS_SYMBOL symbol("EOS", 4)
 
 #define CARMEL_ACCESS_LEVEL_SYS      900
 #define CARMEL_ACCESS_LEVEL_SYSADMIN 800
@@ -100,6 +101,9 @@ namespace carmel {
         [[eosio::action]]
         void addeffort(name account, name user, name challenge_name, bool successful, string results);
      
+        [[eosio::on_notify("eosio.token::transfer")]]
+        void topup(name from, name to, asset quantity, string memo);
+
         [[eosio::on_notify("carmeltokens::transfer")]]
         void newpayment(name from, name to, asset quantity, string memo);
 
@@ -115,10 +119,37 @@ namespace carmel {
         using trychallenge_action   = action_wrapper<"trychallenge"_n, &system::trychallenge>;
         using addeffort_action      = action_wrapper<"addeffort"_n, &system::addeffort>;
         using newplan_action        = action_wrapper<"newplan"_n, &system::newplan>;
+        using topup_action          = action_wrapper<"topup"_n, &system::topup>;
 
       private:
 
-        struct [[eosio::table]] plans_table {
+        struct [[eosio::table]] payments_table {
+            uint64_t id;
+            name plan_name;
+            name account;
+            name username;
+            long price;
+            int seats;
+            uint64_t created_timestamp;
+
+            uint64_t primary_key() const { return id; }
+            uint64_t secondary_key() const { return username.value; }
+        };
+
+        struct [[eosio::table]] topups_table {
+            uint64_t id;
+            name account;
+            long eos;
+            long carmel;
+            long carmelusd;
+            long usdeos;
+            uint64_t created_timestamp;
+
+            uint64_t primary_key() const { return id; }
+            uint64_t secondary_key() const { return account.value; }
+        };
+
+         struct [[eosio::table]] plans_table {
             uint64_t id;
             name plan_name;
             int duration;
@@ -150,6 +181,7 @@ namespace carmel {
             uint16_t level;
             name account;
             name username;
+            name plan_name;
             uint64_t plan_id;
             uint64_t plan_start_timestamp;
             uint64_t plan_expire_timestamp;
@@ -271,6 +303,8 @@ namespace carmel {
         typedef eosio::multi_index<"validations"_n, validations_table, indexed_by<"effortidx"_n, const_mem_fun<validations_table, uint64_t, &validations_table::secondary_key>>> validations_index;
         typedef eosio::multi_index<"plans"_n, plans_table, indexed_by<"nameidx"_n, const_mem_fun<plans_table, uint64_t, &plans_table::secondary_key>>> plans_index;
         typedef eosio::multi_index<"settings"_n, settings_table, indexed_by<"keyidx"_n, const_mem_fun<settings_table, uint64_t, &settings_table::secondary_key>>> settings_index;
+        typedef eosio::multi_index<"payments"_n, payments_table, indexed_by<"usernameidx"_n, const_mem_fun<payments_table, uint64_t, &payments_table::secondary_key>>> payments_index;
+        typedef eosio::multi_index<"topups"_n, topups_table, indexed_by<"acccountidx"_n, const_mem_fun<topups_table, uint64_t, &topups_table::secondary_key>>> topups_index;
 
         uint64_t now();
         auto getplan(name plan_name);

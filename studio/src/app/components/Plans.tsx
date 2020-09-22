@@ -1,22 +1,33 @@
 import React, { useEffect, useState } from 'react'
 import { PlansComponentProps } from '../types'
 import { useEvent } from '../hooks'
-import { Switch, Card, Tag, Divider, Button, Typography } from 'antd';
+import { Switch, Card, Tag, Divider, Spin, Button, Typography } from 'antd';
 import { CheckOutlined } from "@ant-design/icons"
+import { ArrowLeftOutlined, ArrowRightOutlined } from "@ant-design/icons"
+import { useDispatch } from "react-redux"
+import { replace } from 'connected-react-router'
 
 const { Meta } = Card
 const { Title, Paragraph } = Typography
 
-/**
- * 
- * @param props 
- */
-export const Plans: React.FC<PlansComponentProps> = (props) => {
-    const { selectPlan } = props
-    const [yearly, setYearly] = useState(true)
+const makePlans = (yearly: boolean, pricing: any) => {
+    const freePlan = pricing.find((p: any) => p.plan_name === `free`)
+    const proPlanM = pricing.find((p: any) => p.plan_name === `pro.m`)
+    const proPlanY = pricing.find((p: any) => p.plan_name === `pro.y`)
+    const teamPlanM = pricing.find((p: any) => p.plan_name === `team.m`)
+    const teamPlanY = pricing.find((p: any) => p.plan_name === `team.y`)
+   
+    const proPlan = yearly ? proPlanY : proPlanM
+    const teamPlan = yearly ? teamPlanY : teamPlanM
 
-    const plans = [{
-        id: "starter",
+    const proPrice = proPlan.price / 10000 / (yearly ? 12 : 1)
+    const teamPrice = teamPlan.price / 10000 / (yearly ? 12 : 1)
+
+    const proSave = Math.round((1 - ((proPlanY.price / 12) / proPlanM.price)) * 100)
+    const teamSave = Math.round((1 - ((teamPlanY.price / 12) / teamPlanM.price)) * 100)
+
+    return [{
+        id: freePlan.plan_name,
         name: "STARTER",
         benefits: [
             "Connect your EOS account",
@@ -28,12 +39,15 @@ export const Plans: React.FC<PlansComponentProps> = (props) => {
             "Build your public profile",
         ],
         price: "FREE",
+        free: true,
+        requiredPrice: 0,
         confirm: "Free Forever",
-        action: "Choose Plan",
-    }, {
-        id: "pro",
+        action: "Choose Plan",    
+    },
+    {
+        id: proPlan.plan_name,
         name: "PRO",
-        save: "17%",
+        save: `${proSave}%`,
         benefits: [
             "Get unlimited access to challenges", 
             "Amazon Web Services Integration",
@@ -41,13 +55,17 @@ export const Plans: React.FC<PlansComponentProps> = (props) => {
             "Host websites in your own cloud",
             "Online and email support"
         ],
-        price: yearly ? "$24 / month" : "$29 / month",
+        price: `$${proPrice} / month`,
+        requiredPrice: proPlan.price,
         action: "Choose Plan",
         confirm: "Downgrade Anytime",
-        top: "Includes STARTER Plan Benefits"
-    }, {
-        id: "enterprise",
-        save: "22%",
+        top: "Includes STARTER Plan Benefits"    
+    },
+    {
+        id: teamPlan.plan_name,
+        name: "ENTERPRISE",
+        disabled: true,
+        save: `${teamSave}%`,
         benefits: [
             "Create and manage private teams",
             "Track team growth goals",
@@ -55,19 +73,65 @@ export const Plans: React.FC<PlansComponentProps> = (props) => {
             "Access to a dedicated account manager",
             "Priority support"
         ],
-        name: "ENTERPRISE",
-        price: yearly ? "$7 per team member / month" : "$9 per user / month",
+        price: `$${teamPrice} / team members / month`,
+        requiredPrice: teamPlan.price,
         action: "Choose Plan",
         confirm: "Minimum 5 Team Members",
-        top: "Includes PRO Plan Benefits"
+        top: "Includes PRO Plan Benefits"    
     }]
-    
+}
+
+/**
+ * 
+ * @param props 
+ */
+export const Plans: React.FC<PlansComponentProps> = (props) => {
+    const { selectPlan } = props
+    const [plans, setPlans] = useState([])
+    const [pricing, setPricing] = useState([])
+    const [yearly, setYearly] = useState(true)   
+    const [settings, setSettings] = useState([])
+
+    const dispatch = useDispatch()
+
+    const planEvent: any = useEvent()
+
+    useEffect(() => {
+        planEvent.send({ type: "listPlans" })
+    }, [])
+
+    useEffect(() => {
+        if (!planEvent.received.id) return 
+        setPricing(planEvent.received.plans)
+        setSettings(planEvent.received.settings)
+        console.log(planEvent.received)
+        setPlans(makePlans(yearly, planEvent.received.plans))
+    }, [planEvent.received])
+
     const choosePlan = (plan: any) => () => {
+        const tokenPrice: number = parseFloat(settings.find((s: any) => s.key === 'carmelusd').value)
+        const requiredTokens: number = (tokenPrice * parseInt(plan.requiredPrice) / 10000)
+
         selectPlan ({ 
+            name: plan.name,
             id: plan.id,
-            yearly 
+            requiredPrice: plan.requiredPrice,
+            requiredTokens
+        }, {
+            name: plans[0].name,
+            id: plans[0].id,
+            requiredPrice: 0,
+            requiredTokens: 0
         })
     }
+
+    const onBack = () => {
+        dispatch(replace("/"))
+      }
+  
+      const onLogin = () => {
+        dispatch(replace("login"))
+      }
     
     const renderPlan = (plan: any) => {
         return (<Card key={plan.id}
@@ -75,10 +139,13 @@ export const Plans: React.FC<PlansComponentProps> = (props) => {
                 width: 450, 
                 margin: 10,
                 height: 600,
+                opacity: plan.disabled ? 0.4 : 1.0,
                 boxShadow: "0px 0px 8px #dddddd",
             }}
             cover={
-                <div>
+                <div style={{
+                    
+                }}>
                     <Title level={2} style={{ marginTop: 40 }}> { plan.name }  </Title>
                     { plan.save ? yearly ? <Tag color="green" style={{ fontSize: 20, padding: 5, marginBottom: 10 }}> Save { plan.save } </Tag> : 
                     <div>
@@ -101,11 +168,10 @@ export const Plans: React.FC<PlansComponentProps> = (props) => {
                     flexDirection: "column",
                     justifyContent: "align-start",
                 }}>
-                    { plan.benefits.map((benefit: any) => (
-                        <div style={{
+                    { plan.benefits.map((benefit: any, i: number) => (
+                        <div key={i} style={{
                             textAlign: "left"
                         }}>
-                          
                          <Title level={4} style={{ marginTop: 20, fontSize: 16 }}> 
                             <CheckOutlined style={{
                                 color: "#03A9F4", fontWeight: 700, fontSize: 18, marginRight: 10,
@@ -125,7 +191,9 @@ export const Plans: React.FC<PlansComponentProps> = (props) => {
                         marginTop: 20,
                        color:"#03A9F4"
                     }}> { plan.price } </Title>
-                    <Button type="primary" size="large" onClick={choosePlan(plan)} style={{
+                    <Button type={plan.free || "primary"} size="large" onClick={choosePlan(plan)} 
+                        disabled={plan.disabled}
+                    style={{
                         margin: 10, marginTop: 0,
                     }}> 
                         { plan.action } 
@@ -140,42 +208,73 @@ export const Plans: React.FC<PlansComponentProps> = (props) => {
     }
 
     const toggle = () => {
+        setPlans(makePlans(!yearly, pricing))
         setYearly((y: boolean) => !y)
     }
 
-    return (<div style={{ 
-        display: "flex",
-        flex: 1,
-        padding: 10,
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#f5f5f5",
-        maxHeight: "100vh",
-        width: "100%",
-      }}>
-        <Title level={2} style={{marginTop: 30 }}>
-            Choose a Carmel Plan:
-        </Title>
-
-        <Paragraph style={{fontSize: 16}}>
-            Monthly 
-            <Switch onClick={toggle} defaultChecked checked={yearly} style={{ margin: 10 }}/> 
-            Yearly 
-        </Paragraph>   
-        
-        <div style={{ 
-            margin: 0,
-            height: "100%",
-            width: "100%",
+    const renderPlans = () => (
+        <div key="plans" style={{ 
             display: "flex",
             flex: 1,
-            flexDirection: "row",
+            padding: 10,
+            flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-        }}>
-            { plans.map((plan: any) => renderPlan(plan)) }
-        </div>
-      </div>)
+            backgroundColor: "#f5f5f5",
+            maxHeight: "90vh",
+            width: "100%",
+          }}>
+            <Title key="title" level={2} style={{marginTop: 30 }}>
+                Choose a Carmel Plan:
+            </Title>
 
+            <Paragraph key="top" style={{fontSize: 16}}>
+                Monthly 
+                <Switch onClick={toggle} defaultChecked checked={yearly} style={{ margin: 10 }}/> 
+                Yearly 
+            </Paragraph>   
+            
+            <div key="all" style={{ 
+                margin: 0,
+                height: "100%",
+                width: "100%",
+                display: "flex",
+                flex: 1,
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+            }}>
+                { plans.map((plan: any) => renderPlan(plan)) }
+            </div>
+            <div style={{
+              marginBottom: 20,
+              display: "flex",
+              flex: 1,
+              flexDirection: "row",
+              width: "100%"
+            }}>
+                <Button onClick={onBack} size="large" type="link" style={{
+                    marginTop: 0,
+                    marginLeft: 20,
+                    display: "flex",
+                    flex: 1,
+                    alignSelf: "flex-start"
+                }}>
+                    <ArrowLeftOutlined style={{ marginTop: 5}} /> Go back 
+                </Button>
+
+                <Button onClick={onLogin} type="link" size="large" style={{
+                    marginTop: 0,
+                    marginRight: 20,
+                    display: "flex",
+                    flex: 1,
+                    justifyContent: "flex-end"
+                }}>
+                    I already have an account <ArrowRightOutlined style={{ marginTop: 5}}/>
+                </Button>
+            </div>
+        </div>
+    )
+
+    return plans.length > 0 ? renderPlans() : <Spin/>
 }

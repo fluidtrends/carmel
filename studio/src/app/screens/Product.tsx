@@ -118,7 +118,6 @@ export const Product: React.FC<ProductScreenProps> = (props) => {
   }
 
   return (
-
     <Layout style={{ 
       display: "flex",
       flexDirection: "row",
