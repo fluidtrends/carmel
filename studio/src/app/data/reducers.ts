@@ -5,6 +5,7 @@ import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import { 
   UNSELECT_PRODUCT, 
+  TOGGLE_VAULT_STATUS,  
   LOAD_SELECTED_PRODUCT,
   SELECT_PRODUCT, 
   INITIALIZE,
@@ -52,6 +53,8 @@ const session = (state: any = {}, action: any) => {
       return action.data.session
     case REGISTER: 
       return { user: action.user }
+    case TOGGLE_VAULT_STATUS:
+      return { isVaultLocked: !state.session }
     default:
       return state
   }

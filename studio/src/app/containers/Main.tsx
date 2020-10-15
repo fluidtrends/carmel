@@ -18,8 +18,6 @@ const { SubMenu } = Menu;
  * @param props 
  */
 export const Main: React.FC<MainContainerProps> = (props) => {
-  // const [session, setSession] = useState<any>(useSelector((state: State) => state.session))
-
   return (<Layout style={{
       display: "flex",
       flexDirection: "column",

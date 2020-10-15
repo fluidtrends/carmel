@@ -55,7 +55,7 @@
                 },
                 {
                     "name": "skills",
-                    "type": "string[]"
+                    "type": "pair_string_int32[]"
                 },
                 {
                     "name": "details",
@@ -269,7 +269,7 @@
                 },
                 {
                     "name": "skills",
-                    "type": "string[]"
+                    "type": "pair_string_int32[]"
                 },
                 {
                     "name": "versions",
@@ -286,6 +286,20 @@
                 {
                     "name": "details",
                     "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "claimrewards",
+            "base": "",
+            "fields": [
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "user",
+                    "type": "name"
                 }
             ]
         },
@@ -444,8 +458,60 @@
                     "type": "string"
                 },
                 {
+                    "name": "machine_id",
+                    "type": "string"
+                },
+                {
                     "name": "details",
                     "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "pair_string_int32",
+            "base": "",
+            "fields": [
+                {
+                    "name": "key",
+                    "type": "string"
+                },
+                {
+                    "name": "value",
+                    "type": "int32"
+                }
+            ]
+        },
+        {
+            "name": "payments_table",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "plan_name",
+                    "type": "name"
+                },
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "username",
+                    "type": "name"
+                },
+                {
+                    "name": "price",
+                    "type": "int32"
+                },
+                {
+                    "name": "seats",
+                    "type": "int32"
+                },
+                {
+                    "name": "created_timestamp",
+                    "type": "uint64"
                 }
             ]
         },
@@ -516,6 +582,18 @@
                     "type": "name"
                 },
                 {
+                    "name": "product_id",
+                    "type": "string"
+                },
+                {
+                    "name": "bundle_name",
+                    "type": "name"
+                },
+                {
+                    "name": "challenge_version",
+                    "type": "string"
+                },
+                {
                     "name": "account",
                     "type": "name"
                 },
@@ -529,6 +607,44 @@
                 },
                 {
                     "name": "status",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "rewards_table",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "created_timestamp",
+                    "type": "uint64"
+                },
+                {
+                    "name": "modified_timestamp",
+                    "type": "uint64"
+                },
+                {
+                    "name": "challenge_name",
+                    "type": "name"
+                },
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "claimed",
+                    "type": "bool"
+                },
+                {
+                    "name": "details",
                     "type": "string"
                 }
             ]
@@ -606,6 +722,40 @@
             ]
         },
         {
+            "name": "topups_table",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "eos",
+                    "type": "int32"
+                },
+                {
+                    "name": "carmel",
+                    "type": "int32"
+                },
+                {
+                    "name": "carmelusd",
+                    "type": "int32"
+                },
+                {
+                    "name": "usdeos",
+                    "type": "int32"
+                },
+                {
+                    "name": "created_timestamp",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
             "name": "trychallenge",
             "base": "",
             "fields": [
@@ -620,6 +770,14 @@
                 {
                     "name": "challenge_name",
                     "type": "name"
+                },
+                {
+                    "name": "challenge_version",
+                    "type": "string"
+                },
+                {
+                    "name": "product_id",
+                    "type": "string"
                 }
             ]
         },
@@ -652,6 +810,10 @@
                     "type": "name"
                 },
                 {
+                    "name": "plan_name",
+                    "type": "name"
+                },
+                {
                     "name": "plan_id",
                     "type": "uint64"
                 },
@@ -662,6 +824,10 @@
                 {
                     "name": "plan_expire_timestamp",
                     "type": "uint64"
+                },
+                {
+                    "name": "skills",
+                    "type": "pair_string_int32[]"
                 },
                 {
                     "name": "plan_seats_available",
@@ -677,6 +843,10 @@
                 },
                 {
                     "name": "details",
+                    "type": "string"
+                },
+                {
+                    "name": "machine_id",
                     "type": "string"
                 }
             ]
@@ -757,6 +927,11 @@
             "ricardian_contract": ""
         },
         {
+            "name": "claimrewards",
+            "type": "claimrewards",
+            "ricardian_contract": ""
+        },
+        {
             "name": "newadmin",
             "type": "newadmin",
             "ricardian_contract": ""
@@ -810,6 +985,13 @@
             "key_types": []
         },
         {
+            "name": "payments",
+            "type": "payments_table",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
             "name": "plans",
             "type": "plans_table",
             "index_type": "i64",
@@ -824,6 +1006,13 @@
             "key_types": []
         },
         {
+            "name": "rewards",
+            "type": "rewards_table",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
             "name": "settings",
             "type": "settings_table",
             "index_type": "i64",
@@ -833,6 +1022,13 @@
         {
             "name": "templates",
             "type": "templates_table",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "topups",
+            "type": "topups_table",
             "index_type": "i64",
             "key_names": [],
             "key_types": []

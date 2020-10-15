@@ -36,12 +36,30 @@ export default class Data extends Command {
     const password = this.arg("password")
     const save = this.arg("save")
     const read = this.arg("read")
+    const lock = this.arg("lock")
+    const unlock = this.arg("unlock")
     const key = this.arg("key")
     const values =  this.arg("values")
 
     const vault = secure ? this.secretsVault : this.settingsVault
 
     try {
+      if (unlock)  {
+        if (!this.secretsVault.isLocked) { 
+          return
+        }
+        await this.secretsVault.unlock(password)
+        return
+      }
+
+      if (lock)  {
+        if (this.secretsVault.isLocked) { 
+          return
+        }
+        await this.secretsVault.lock(password)
+        return
+      }
+
       if (secure && vault.isLocked) {
         await vault.unlock(password)
       }
@@ -54,9 +72,9 @@ export default class Data extends Command {
         })
       }
 
-      if (secure) {
-        await vault.lock(password)
-      }
+      // if (secure) {
+      //   await vault.lock(password)
+      // }
 
     } catch (e) {
       console.error(e.message)

@@ -13,32 +13,29 @@ cleos push action eosio.token issue '["bob", "1000.0000 EOS", "initial" ]' -p eo
 echo "*** give carmeltokens 5000 EOS ..."
 cleos push action eosio.token issue '["carmeltokens", "5000.0000 EOS", "initial" ]' -p eosio@active
 
-echo "*** give carmelsystem 5000 EOS ..."
-cleos push action eosio.token issue '["carmelsystem", "5000.0000 EOS", "initial" ]' -p eosio@active
-
-echo "*** give everyone 10000 CARMEL ..."
-cleos push action carmeltokens issue '["alice", "10000.0000 CARMEL", "initial" ]' -p carmeltokens@active
-cleos push action carmeltokens issue '["bob", "10000.0000 CARMEL", "initial" ]' -p carmeltokens@active
+echo "*** issue system CARMEL ..."
+cleos push action carmeltokens issue '["carmelsystem", "1000000.0000 CARMEL", "initial" ]' -p carmeltokens@active
 
 echo "*** add settings ..."
-cleos push action carmelsystem addsetting '["carmelsystem", "tokenprice", "1000000"]' -p carmelsystem@active
+cleos push action carmelsystem addsetting '["carmelsystem", "carmelusd", "1000000"]' -p carmelsystem@active
+cleos push action carmelsystem addsetting '["carmelsystem", "usdeos", "35000"]' -p carmelsystem@active
 cleos push action carmelsystem addsetting '["carmelsystem", "creditshare", "10"]' -p carmelsystem@active
 cleos get table carmelsystem carmelsystem settings
 
 echo "*** transfer 50 EOS from alice to bob ..."
 cleos push action eosio.token transfer '["alice", "bob", "25.0000 EOS", "m" ]' -p alice@active
 
-echo "*** transfer 50 CARMEL from alice to bob ..."
-cleos push action carmeltokens transfer '["alice", "bob", "25.0000 CARMEL", "m" ]' -p alice@active
+echo "*** topup CARMEL ..."
+cleos push action eosio.token transfer '["alice", "carmelsystem", "10.0000 EOS", "topup" ]' -p alice@active
 
 echo "*** bob signs up..."
-cleos push action carmelsystem newuser '["bob", "bobuser1", "Bob 1", "{}"]' -p bob@active
+cleos push action carmelsystem newuser '["bob", "bobuser1", "Bob 1", "1234", "{}"]' -p bob@active
 
 echo "*** bob signs up a second user..."
-cleos push action carmelsystem newuser '["bob", "bobuser2", "Bob 2", "{}"]' -p bob@active
+cleos push action carmelsystem newuser '["bob", "bobuser2", "Bob 2", "1235", "{}"]' -p bob@active
 
 echo "*** alice signs up..."
-cleos push action carmelsystem newuser '["alice", "aliceuser1", "Alice 1", "{}"]' -p alice@active
+cleos push action carmelsystem newuser '["alice", "aliceuser1", "Alice 1", "1236", "{}"]' -p alice@active
 
 echo "*** make bob a sysadmin ..."
 cleos push action carmelsystem newsysadmin '["carmelsystem", "bobuser1"]' -p carmelsystem@active
@@ -57,7 +54,7 @@ cleos push action carmelsystem newartifact '["bob", "bobuser1", "traista", "bund
 cleos push action carmelsystem addartifactv '["bob", "bobuser1", "traista", "1.0.0"]' -p bob@active
 
 echo "*** bob creates a challenge ..."
-cleos push action carmelsystem addchallenge '["bob", "bobuser1", "traista", "jayesse", "firstwebsite", 3, ["markdown 2", "json 1"], "{\"title\":\"Your First Site\", \"summary\": \"Learn to build a website\"}"]' -p bob@active
+cleos push action carmelsystem addchallenge '["bob", "bobuser1", "traista", "jayesse", "firstwebsite", 5, [["markdown", 1], ["json", 2]], "{\"title\":\"Your First Site\", \"summary\": \"Learn to build a website\"}"]' -p bob@active
 cleos push action carmelsystem addchvers '["bob", "bobuser1", "traista", "firstwebsite", "1.0.0"]' -p bob@active
 
 echo "*** bob creates a template ..."

@@ -24,7 +24,7 @@ namespace carmel {
         return plan;
     }
 
-    /** @private **/    
+    /** @private **/
     auto system::getsetting(name key) {
         settings_index settings(get_self(), get_self().value);
 
@@ -101,6 +101,22 @@ namespace carmel {
         return make_tuple(challenges_idx, challenge_result);
     }
 
+     /** @private **/
+    auto system::addskills(map<string, int> original, map<string, int> additions) {
+        map<string, int> result;
+
+        for (auto& i: additions) {
+            map<string, int>::iterator found = original.find(i.first);
+            if (found != original.end()) {
+                result.emplace(i.first, i.second + found->second);
+            } else {
+                result.emplace(i.first, i.second);
+            }
+        }
+
+        return result;
+    }
+
     /** @private **/
     auto system::gettemplate (templates_index *templates, name name, bool expect_exists) {
         // Let's take a look at the template names we have on file
@@ -121,9 +137,53 @@ namespace carmel {
         return make_tuple(templates_idx, template_result);
     }
 
+    [[eosio::on_notify("eosio.token::transfer")]]
+    void system::topup(name from, name to, asset quantity, string memo) {
+      if (to != CARMEL_SYS) {
+          return;
+      }
+
+      check(quantity.symbol == EOS_SYMBOL, "Invalid currency");
+      check(quantity.amount >= 100000, "At least 10 EOS required");
+
+      topups_index topups(get_self(), get_self().value);
+      long carmelusd = stol(getsetting("carmelusd"_n));
+      long usdeos = stol(getsetting("usdeos"_n));
+      long credits = long(((double)carmelusd * ((double)quantity.amount / 10000) * (double)((double)usdeos / 10000)));
+
+      // Keep track of the topup
+      uint64_t timestamp = now();
+      topups.emplace(get_self(), [&](auto &item) {
+        item.id = topups.available_primary_key();;
+        item.created_timestamp = timestamp;
+        item.carmelusd = carmelusd;
+        item.usdeos = usdeos;
+        item.carmel = credits;
+        item.account = from;
+        item.eos = quantity.amount;
+      });
+
+      // Transfer the Carmel tokens
+      action(
+          permission_level{get_self(), "active"_n},
+          CARMEL_TOK,
+          "transfer"_n,
+          std::make_tuple(get_self(), from, asset(credits, CARMEL_SYMBOL), string("new topup"))
+       ).send();
+
+      // Update the token price
+      settings_index settings(get_self(), get_self().value);
+      auto settings_index = settings.get_index<"keyidx"_n>();
+      auto carmelusd_setting = settings_index.find("carmelusd"_n.value);
+      settings_index.modify(carmelusd_setting, get_self(), [&](auto &item) {
+        item.modified_timestamp = timestamp;
+        item.value = to_string(carmelusd - 10);
+      });
+    }
+
     [[eosio::on_notify("carmeltokens::transfer")]]
     void system::newpayment(name from, name to, asset quantity, string memo) {
-      if (to != CARMEL_SYS) {
+      if (to != CARMEL_SYS || from == CARMEL_TOK) {
           return;
       }
 
@@ -143,6 +203,7 @@ namespace carmel {
       check (seats_pos > 0, "Invalid purchase, seats is not a number");
 
       users_index users(get_self(), get_self().value);
+      payments_index payments(get_self(), get_self().value);
 
       // Ensure the user and plan exist
       auto u = getuser(&users, name{username}, true);
@@ -156,10 +217,10 @@ namespace carmel {
       }
       int plan_seats_available = stoi(seats) - 1;
 
-      double tokenprice = stol(getsetting("tokenprice"_n)) / 10000;
-      double required_tokens = (p->price) * stoi(seats) * tokenprice;
+      double carmelusd = stol(getsetting("carmelusd"_n));
+      double required_tokens = ((p->price) * stoi(seats) * carmelusd) / 10000;
       double creditshare = stol(getsetting("creditshare"_n));
-      
+
       check (stoi(seats) >= p->min_seats, "Invalid purchase, too few seats");
       check(quantity.amount == required_tokens, "Wrong amount of tokens");
 
@@ -169,18 +230,22 @@ namespace carmel {
       (get<0>(u)).modify(get<1>(u), get_self(), [&](auto &item) {
             item.modified_timestamp = timestamp;
             item.plan_id = p->id;
+            item.plan_name = p->plan_name;
             item.plan_start_timestamp = timestamp;
             item.plan_expire_timestamp = plan_expire_timestamp;
             item.plan_seats_available = plan_seats_available;
        });
 
-       // Transfer the Carmel Credit
-        action(
-            permission_level{get_self(), "active"_n},
-            CARMEL_TOK,
-            "transfer"_n,
-            std::make_tuple(get_self(), CARMEL_CRE, asset(credits, CARMEL_SYMBOL), string("new credit"))
-       ).send();
+       // Keep track of the payment
+       payments.emplace(CARMEL_SYS, [&](auto &item) {
+            item.id = payments.available_primary_key();;
+            item.created_timestamp = timestamp;
+            item.username = name{username};
+            item.account = from;
+            item.price = required_tokens;
+            item.seats = stoi(seats);
+            item.plan_name = name{plan};
+        });
     }
 
     /**
@@ -200,16 +265,29 @@ namespace carmel {
 
         settings_index settings(get_self(), get_self().value);
       
-        // Ready to add the setting
+        // Let's take a look at the plans we have on file
+        auto settings_index = settings.get_index<"keyidx"_n>();
+
+        // Look up the requested setting
+        auto setting = settings_index.find(key.value);
+
         uint64_t timestamp = now();
-        uint64_t id = settings.available_primary_key();
-        settings.emplace(account, [&](auto &item) {
-            item.id = id;
-            item.created_timestamp = timestamp;
-            item.modified_timestamp = timestamp;
-            item.key = key;
-            item.value = value;
-        });
+        if(setting == settings_index.end()) {
+            // Ready to add the setting
+            uint64_t id = settings.available_primary_key();
+            settings.emplace(account, [&](auto &item) {
+                item.id = id;
+                item.created_timestamp = timestamp;
+                item.modified_timestamp = timestamp;
+                item.key = key;
+                item.value = value;
+            });
+        } else {
+             settings_index.modify(setting, get_self(), [&](auto &item) {
+                item.modified_timestamp = timestamp;
+                item.value = value;
+            });
+        }
     }
 
     /**
@@ -221,7 +299,7 @@ namespace carmel {
      
      @accessLevel USER
     */
-    void system::newuser(name account, name username, string fullname, string details) {        
+    void system::newuser(name account, name username, string fullname, string machine_id, string details) {        
         // We want to make sure the account owner invokes this
         require_auth(account);
 
@@ -243,6 +321,8 @@ namespace carmel {
             item.fullname = fullname;
             item.username = username;
             item.plan_id = 0;
+            item.machine_id = machine_id;
+            item.plan_name = "free"_n;
             item.plan_start_timestamp = timestamp;
             item.plan_expire_timestamp = timestamp + CARMEL_FOREVER;
             item.plan_seats_available = 0;
@@ -419,7 +499,7 @@ namespace carmel {
      
      @accessLevel USER
      */
-    void system::addchallenge(name account, name author, name bundle, name stack, name name, uint16_t total_tasks, vector<string> skills, string details) {
+    void system::addchallenge(name account, name author, name bundle, name stack, name name, uint16_t total_tasks, map<string, int> skills, string details) {
         // We want to make sure the account owner invokes this
         require_auth(account);
 
@@ -591,7 +671,7 @@ namespace carmel {
         });
     }      
 
-    /**
+   /**
      trychallenge
 
      The user is ready to try a Carmel Challenge.
@@ -599,7 +679,7 @@ namespace carmel {
      
      @accessLevel USER
      */
-    void system::trychallenge(name account, name user, name challenge_name) {
+    void system::trychallenge(name account, name user, name challenge_name, string challenge_version, string product_id, bool finish) {
         require_auth(account);
 
         users_index users(get_self(), get_self().value);
@@ -614,16 +694,17 @@ namespace carmel {
         check(challenge_result != challenge_names_idx.end(), "The challenge does not exist");
 
         progress_index progress(get_self(), account.value);
-        auto progress_challenge_idx = progress.get_index<"challengeidx"_n>();
-        auto progress_challenge_result = progress_challenge_idx.find(challenge_result->id);
+        auto progress_user_idx = progress.get_index<"usernameidx"_n>();
+        auto progress_user_result = progress_user_idx.find(user.value);
 
-        if (progress_challenge_result != progress_challenge_idx.end()) {
-            while (progress_challenge_result != progress_challenge_idx.end())
+        if (progress_user_result != progress_user_idx.end()) {
+            while (progress_user_result != progress_user_idx.end())
             {
-                if (progress_challenge_result->user == user) {
-                    check(false, "The user has already taken this challenge");
+                if (progress_user_result->challenge_name == challenge_name && 
+                    progress_user_result->product_id == product_id) {
+                    check(false, "The user has already taken this challenge for this product");
                 }
-                progress_challenge_result++;
+                progress_user_result++;
             }
         } 
 
@@ -634,6 +715,9 @@ namespace carmel {
             item.challenge_name = challenge_name;
             item.started_timestamp = now;
             item.updated_timestamp = now;
+            item.product_id = product_id;
+            item.challenge_version = challenge_version;
+            item.bundle_name = challenge_result->bundle;
             item.status = "unverified";
             item.task_index = 0;
             item.total_tasks = challenge_result->total_tasks;
@@ -641,6 +725,24 @@ namespace carmel {
             item.user = user;
             item.done = false;
         });
+    }
+
+    /**
+     claimrewards
+
+     The Carmel User claims the rewards they earned, if any.
+     Any EOS account can perform this action.
+     
+     @accessLevel USER
+     */
+    void system::claimrewards(name account, name user) {
+        require_auth(account);
+
+        users_index users(get_self(), get_self().value);
+        auto usernames_idx = users.get_index<"usernameidx"_n>();
+
+        auto username_result = usernames_idx.find(user.value);
+        check(username_result != usernames_idx.end(), "The user does not exist");
     }
 
     /**
@@ -666,23 +768,23 @@ namespace carmel {
         check(challenge_result != challenge_names_idx.end(), "The challenge does not exist");
 
         progress_index progress(get_self(), account.value);
-        auto progress_challenge_idx = progress.get_index<"challengeidx"_n>();
-        auto progress_challenge_result = progress_challenge_idx.find(challenge_result->id);
+        auto progress_user_idx = progress.get_index<"usernameidx"_n>();
+        auto progress_user_result = progress_user_idx.find(user.value);
 
         effort_index effort(get_self(), account.value);
         validations_index validations(get_self(), get_self().value);
 
         bool found = false;
 
-        if (progress_challenge_result != progress_challenge_idx.end()) {
-            while (progress_challenge_result != progress_challenge_idx.end())
+        if (progress_user_result != progress_user_idx.end()) {
+            while (progress_user_result != progress_user_idx.end())
             {
-                if (progress_challenge_result->user == user) {
-                    check(!progress_challenge_result->done, "This user already completed this challenge");
+                if (progress_user_result->user == user) {
+                    check(!progress_user_result->done, "This user already completed this challenge");
 
                     uint64_t now = current_time_point().sec_since_epoch();
-                    bool done = successful && progress_challenge_result->task_index == progress_challenge_result->total_tasks - 1;
-                    uint16_t index = progress_challenge_result->task_index;
+                    bool done = successful && progress_user_result->task_index == progress_user_result->total_tasks - 1;
+                    uint16_t index = progress_user_result->task_index;
                     found = true;
 
                     uint64_t effort_id = effort.available_primary_key();
@@ -691,8 +793,8 @@ namespace carmel {
                         item.created_timestamp = now;
                         item.modified_timestamp = now;
                         item.status = "unverified";
-                        item.challenge_id = progress_challenge_result->id;
-                        item.challenge_name = progress_challenge_result->challenge_name;
+                        item.challenge_id = progress_user_result->challenge_id;
+                        item.challenge_name = progress_user_result->challenge_name;
                         item.successful = successful;
                         item.task_index = index;
                         item.verifications = 0;
@@ -714,13 +816,20 @@ namespace carmel {
 
                     if (successful) { index++; }
 
-                    progress_challenge_idx.modify(progress_challenge_result, account, [&](auto &item) {
+                    progress_user_idx.modify(progress_user_result, account, [&](auto &item) {
                         item.updated_timestamp = now;
                         item.task_index = index;
                         item.done = done;
                     });
+
+                    if (done) {
+                        usernames_idx.modify(username_result, get_self(), [&](auto &item) {
+                            item.modified_timestamp = now;
+                            item.skills = addskills(item.skills, challenge_result->skills);
+                        });
+                    }
                 }
-                progress_challenge_result++;
+                progress_user_result++;
             }
         } 
 

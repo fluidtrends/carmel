@@ -33,6 +33,7 @@
 #define CARMEL_CRE "carmelcredit"_n
 
 #define CARMEL_SYMBOL symbol("CARMEL", 4)
+#define EOS_SYMBOL symbol("EOS", 4)
 
 #define CARMEL_ACCESS_LEVEL_SYS      900
 #define CARMEL_ACCESS_LEVEL_SYSADMIN 800
@@ -53,6 +54,8 @@ namespace carmel {
 
    using std::string;
    using std::vector;
+   using std::map;
+   using std::make_pair;
 
    class [[eosio::contract("carmelsystem")]] system : public contract {
       public:
@@ -62,7 +65,7 @@ namespace carmel {
          : contract(receiver, code, ds) {}
 
         [[eosio::action]]
-        void newuser(name account, name username, string fullname, string details);
+        void newuser(name account, name username, string fullname, string machine_id, string details);
 
         [[eosio::action]]
         void newsysadmin(name account, name username);
@@ -83,7 +86,7 @@ namespace carmel {
         void addartifactv(name account, name author, name artifactname, string version);
 
         [[eosio::action]]
-        void addchallenge(name account, name author, name bundle, name stack, name name, uint16_t total_tasks, vector<string> skills, string details);
+        void addchallenge(name account, name author, name bundle, name stack, name name, uint16_t total_tasks, map<string, int> skills, string details);
  
         [[eosio::action]]
         void addchvers(name account, name author, name bundle, name name, string version);
@@ -95,11 +98,17 @@ namespace carmel {
         void addtemplatev(name account, name author, name bundle, name name, string version);
 
         [[eosio::action]]
-        void trychallenge(name account, name user, name challenge_name);
+        void trychallenge(name account, name user, name challenge_name, string challenge_version, string product_id, bool finish);
 
         [[eosio::action]]
         void addeffort(name account, name user, name challenge_name, bool successful, string results);
      
+        [[eosio::action]]
+        void claimrewards(name account, name user);
+
+        [[eosio::on_notify("eosio.token::transfer")]]
+        void topup(name from, name to, asset quantity, string memo);
+
         [[eosio::on_notify("carmeltokens::transfer")]]
         void newpayment(name from, name to, asset quantity, string memo);
 
@@ -115,10 +124,38 @@ namespace carmel {
         using trychallenge_action   = action_wrapper<"trychallenge"_n, &system::trychallenge>;
         using addeffort_action      = action_wrapper<"addeffort"_n, &system::addeffort>;
         using newplan_action        = action_wrapper<"newplan"_n, &system::newplan>;
+        using topup_action          = action_wrapper<"topup"_n, &system::topup>;
+        using claimrewards_action   = action_wrapper<"claimrewards"_n, &system::claimrewards>;
 
       private:
 
-        struct [[eosio::table]] plans_table {
+        struct [[eosio::table]] payments_table {
+            uint64_t id;
+            name plan_name;
+            name account;
+            name username;
+            long price;
+            int seats;
+            uint64_t created_timestamp;
+
+            uint64_t primary_key() const { return id; }
+            uint64_t secondary_key() const { return username.value; }
+        };
+
+        struct [[eosio::table]] topups_table {
+            uint64_t id;
+            name account;
+            long eos;
+            long carmel;
+            long carmelusd;
+            long usdeos;
+            uint64_t created_timestamp;
+
+            uint64_t primary_key() const { return id; }
+            uint64_t secondary_key() const { return account.value; }
+        };
+
+         struct [[eosio::table]] plans_table {
             uint64_t id;
             name plan_name;
             int duration;
@@ -142,7 +179,6 @@ namespace carmel {
             uint64_t secondary_key() const { return key.value; }
         };
 
-
         struct [[eosio::table]] users_table {
             uint64_t id;
             uint64_t created_timestamp;
@@ -150,13 +186,16 @@ namespace carmel {
             uint16_t level;
             name account;
             name username;
+            name plan_name;
             uint64_t plan_id;
             uint64_t plan_start_timestamp;
             uint64_t plan_expire_timestamp;
+            map<string, int> skills;
             int plan_seats_available;
             string fullname;
             string status;
             string details;
+            string machine_id;
  
             uint64_t primary_key() const { return id; }
             uint64_t secondary_key() const { return username.value; }
@@ -187,7 +226,7 @@ namespace carmel {
             name author;
             name bundle;
             name stack;
-            vector<string> skills;
+            map<string, int> skills;
             vector<string> versions;
             name name;
             string status;
@@ -221,14 +260,18 @@ namespace carmel {
             uint16_t task_index;
             uint16_t total_tasks;
             name challenge_name;
+            string product_id;
+            name bundle_name;
+            string challenge_version;
             name account;
             name user;
             bool done;
+            bool finished;
             string status;
  
             uint64_t primary_key() const { return id; }
-            uint64_t secondary_key() const { return challenge_id; }
-        };                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+            uint64_t secondary_key() const { return user.value; }
+        };                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 
         struct [[eosio::table]] effort_table {
             uint64_t id;
@@ -262,15 +305,32 @@ namespace carmel {
             uint64_t secondary_key() const { return effort_id; }
         }; 
 
+        struct [[eosio::table]] rewards_table {
+            uint64_t id;
+            uint64_t created_timestamp;
+            uint64_t modified_timestamp;
+            name challenge_name;
+            name account;
+            name user;
+            bool claimed;
+            string details;
+ 
+            uint64_t primary_key() const { return id; }
+            uint64_t secondary_key() const { return user.value; }
+        };
+
         typedef eosio::multi_index<"artifacts"_n, artifacts_table, indexed_by<"nameidx"_n, const_mem_fun<artifacts_table, uint64_t, &artifacts_table::secondary_key>>> artifacts_index;
         typedef eosio::multi_index<"users"_n, users_table, indexed_by<"usernameidx"_n, const_mem_fun<users_table, uint64_t, &users_table::secondary_key>>> users_index;
         typedef eosio::multi_index<"challenges"_n, challenges_table, indexed_by<"nameidx"_n, const_mem_fun<challenges_table, uint64_t, &challenges_table::secondary_key>>> challenges_index;
         typedef eosio::multi_index<"templates"_n, templates_table, indexed_by<"nameidx"_n, const_mem_fun<templates_table, uint64_t, &templates_table::secondary_key>>> templates_index;
-        typedef eosio::multi_index<"progress"_n, progress_table, indexed_by<"challengeidx"_n, const_mem_fun<progress_table, uint64_t, &progress_table::secondary_key>>> progress_index;
+        typedef eosio::multi_index<"progress"_n, progress_table, indexed_by<"usernameidx"_n, const_mem_fun<progress_table, uint64_t, &progress_table::secondary_key>>> progress_index;
         typedef eosio::multi_index<"effort"_n, effort_table, indexed_by<"challengeidx"_n, const_mem_fun<effort_table, uint64_t, &effort_table::secondary_key>>> effort_index;
         typedef eosio::multi_index<"validations"_n, validations_table, indexed_by<"effortidx"_n, const_mem_fun<validations_table, uint64_t, &validations_table::secondary_key>>> validations_index;
         typedef eosio::multi_index<"plans"_n, plans_table, indexed_by<"nameidx"_n, const_mem_fun<plans_table, uint64_t, &plans_table::secondary_key>>> plans_index;
         typedef eosio::multi_index<"settings"_n, settings_table, indexed_by<"keyidx"_n, const_mem_fun<settings_table, uint64_t, &settings_table::secondary_key>>> settings_index;
+        typedef eosio::multi_index<"payments"_n, payments_table, indexed_by<"usernameidx"_n, const_mem_fun<payments_table, uint64_t, &payments_table::secondary_key>>> payments_index;
+        typedef eosio::multi_index<"topups"_n, topups_table, indexed_by<"acccountidx"_n, const_mem_fun<topups_table, uint64_t, &topups_table::secondary_key>>> topups_index;
+        typedef eosio::multi_index<"rewards"_n, rewards_table, indexed_by<"usernameidx"_n, const_mem_fun<rewards_table, uint64_t, &rewards_table::secondary_key>>> rewards_index;
 
         uint64_t now();
         auto getplan(name plan_name);
@@ -279,5 +339,7 @@ namespace carmel {
         auto getchallenge (challenges_index *challenges, name name, bool expect_exists);
         auto gettemplate (templates_index *templates, name name, bool expect_exists);
         auto getsetting (name key);
+        auto addskills(map<string, int> original, map<string, int> additions);
+
    };
 } /// namespace carmel

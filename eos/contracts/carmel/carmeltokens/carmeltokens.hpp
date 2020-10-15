@@ -56,9 +56,6 @@ namespace carmel {
          [[eosio::action]]
          void retire(asset quantity, string memo);
 
-         [[eosio::action]]
-         void credit(name from);
-
          static asset get_supply(name token_contract_account, symbol_code sym_code)
          {
             stats statstable(token_contract_account, sym_code.raw());
@@ -77,7 +74,6 @@ namespace carmel {
          using issue_action      = action_wrapper<"issue"_n, &tokens::issue>;
          using transfer_action   = action_wrapper<"transfer"_n, &tokens::transfer>;
          using retire_action     = action_wrapper<"retire"_n, &tokens::retire>;
-         using credit_action     = action_wrapper<"credit"_n, &tokens::credit>;
 
       private:
          struct [[eosio::table]] account {

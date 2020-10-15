@@ -1,5 +1,6 @@
 export interface State {
     router?: any 
+    env?: any
     product?: Product
     products?: Product[]
     session?: any
@@ -56,6 +57,10 @@ export interface ProductScreenProps extends AppProps {
 export interface NewProductScreenProps extends AppProps {
 }
 
+export interface ProfileScreenProps extends AppProps {
+    
+}
+
 export interface LoginScreenProps extends AppProps {
 
 }
@@ -67,13 +72,29 @@ export interface SimpleContainerProps extends AppProps {
 }
 
 export interface PlansComponentProps {
-    selectPlan: (plan: any) => any
+    selectPlan: (plan: any, freePlan: any) => any
+}
+
+export interface VaultLockComponentProps {
+    show: boolean
+    locked: boolean
+    onDone: (done: boolean) => any
 }
 
 export interface ProductsComponentProps  {
 }
 
 export interface ChallengesComponentProps {
+}
+
+export interface TaskTutorialComponentProps {
+    content: string
+}
+
+export interface AuthFormComponentProps {
+    plan?: any
+    freePlan?: any
+    login: boolean
 }
 
 export interface VideoComponentProps {

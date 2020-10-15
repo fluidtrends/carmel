@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { ProductHeaderComponentProps } from '../types'
 import { Button, Tag, Dropdown, Switch, Tooltip, Badge, PageHeader, Menu, Typography } from 'antd'
 import { 
     LinkOutlined,
@@ -15,7 +14,7 @@ const { Title, Text } = Typography
  * 
  * @param props 
  */
-export const ProductHeader: React.FC<ProductHeaderComponentProps> = (props) => {
+export const Header: React.FC<any> = (props) => {
   const [section, setSection] = useState('assets')
   const { onBack, product, onCommand, commandResponse, onTogglePreview } = props
   const [status, setStatus] = useState<any>({})

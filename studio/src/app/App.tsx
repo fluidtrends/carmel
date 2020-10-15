@@ -16,7 +16,7 @@ import * as styles from './styles'
 
 const store = initializeStore({})
 const persistor = persistStore(store)
-persistor.purge()
+// persistor.purge()
 
 /**
  * 

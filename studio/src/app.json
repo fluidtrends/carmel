@@ -26,9 +26,19 @@
         "screen": "Product",
         "container": "Main"
     }, {
-        "path": "/auth",
-        "id": "auth",
-        "screen": "Auth",
+        "path": "/register",
+        "id": "register",
+        "screen": "Register",
+        "container": "Simple"
+    }, {
+        "path": "/login",
+        "id": "login",
+        "screen": "Login",
+        "container": "Simple"
+    }, {
+        "path": "/profile",
+        "id": "profile",
+        "screen": "Profile",
         "container": "Simple"
     }]
 }

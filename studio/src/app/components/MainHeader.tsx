@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { MainHeaderComponentProps, State } from '../types'
-import { Layout, Radio, Dropdown, Typography, Tabs, Badge, Spin, Menu, Button } from 'antd'
+import { Layout, Radio, Tag, Dropdown, Typography, Tabs, Badge, Spin, Menu, Button } from 'antd'
 import { useDispatch, useSelector } from "react-redux"
 import { replace } from 'connected-react-router'
 
@@ -9,6 +9,7 @@ import {
   WalletOutlined, 
   SolutionOutlined, 
   LockOutlined,
+  UnlockOutlined,
   SyncOutlined,
   SettingOutlined,
   CaretDownOutlined, 
@@ -29,7 +30,9 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
   const [section, setSection] = useState("products")
   const dispatch = useDispatch()
   const session = useSelector((state: State) => state.session)
-
+  const env = useSelector((state: State) => state.env)
+  const vaultIsLocked = useSelector((state: State) => state.env.lock && state.env.lock.exists)
+    
     const notifications: any = {
         carmel: [],
         main: [],
@@ -46,7 +49,11 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
         
       function onAccountSelect(e: any) {
         const { key } = e
-        console.log(key)
+        switch(key) {
+          case 'profile': 
+            dispatch(replace('/profile'))
+            break
+        }
       }
 
       function onAppSelect(e: any) {
@@ -55,21 +62,19 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
       }
 
       const onSignUp = () => {
-          dispatch(replace('/auth'))
+          dispatch(replace('/register'))
       }
-    
+
+      const onSignIn = () => {
+        dispatch(replace('/login'))
+      }
+  
     const asset = (id: string) => require(`../../../assets/${id}`).default
     
     const accountMenu = <Menu onClick={onAccountSelect}>
       <Menu.Item key="profile" icon={<SolutionOutlined />}>
         Your Profile
       </Menu.Item>
-      <Menu.Item key="wallet" icon={<WalletOutlined />}>
-        Your Wallet
-      </Menu.Item>
-      <Menu.Item key="settings" icon={<SettingOutlined />}>
-        Settings
-      </Menu.Item>      
     </Menu>
 
     const appMenu = <Menu onClick={onAppSelect}>
@@ -135,17 +140,21 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
           justifyContent: "flex-end"
         }}>
 
-          { session && session.user ? 
+        { session && session.user ? 
         <Dropdown overlay={accountMenu}>
             <Badge count={notifications.user.length} overflowCount={5} offset={[0, 2]}>
-              <Button icon={<UserOutlined />} size='large' style={{
+              <Button icon={<UserOutlined/>} size='large' style={{
                   marginLeft: 10
                 }}>
-                  { session.user.username }
+                  { session.user.username } 
                   <CaretDownOutlined/>
               </Button>
+              { session.user.plan_name !== "free" && <Tag color="green" style={{margin: 10}}> { session.user.plan_name.split('.')[0].toUpperCase() } </Tag> }
             </Badge>
-        </Dropdown> : <Button type="primary" onClick={onSignUp}> Sign Up</Button> 
+          </Dropdown> : <div>
+              <Button type="primary" onClick={onSignUp}> Sign Up</Button> 
+              <Button type="link" onClick={onSignIn}> Sign In</Button> 
+          </div>
         }
         </div>  
     </div>
