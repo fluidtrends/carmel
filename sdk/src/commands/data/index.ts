@@ -44,8 +44,6 @@ export default class Data extends Command {
     const vault = secure ? this.secretsVault : this.settingsVault
 
     try {
-      console.log("------>", this.secretsVault.isLocked)
-
       if (unlock)  {
         if (!this.secretsVault.isLocked) { 
           return
@@ -74,12 +72,12 @@ export default class Data extends Command {
         })
       }
 
-      if (secure) {
-        await vault.lock(password)
-      }
+      // if (secure) {
+      //   await vault.lock(password)
+      // }
 
     } catch (e) {
-      console.error("!!!!!", e.message)
+      console.error(e.message)
     }
   }
 }

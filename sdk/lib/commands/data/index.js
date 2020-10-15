@@ -100,8 +100,7 @@ var Data = /** @class */ (function (_super) {
                         vault = secure ? this.secretsVault : this.settingsVault;
                         _a.label = 1;
                     case 1:
-                        _a.trys.push([1, 10, , 11]);
-                        console.log(this.secretsVault.isLocked);
+                        _a.trys.push([1, 8, , 9]);
                         if (!unlock) return [3 /*break*/, 3];
                         if (!this.secretsVault.isLocked) {
                             return [2 /*return*/];
@@ -134,17 +133,12 @@ var Data = /** @class */ (function (_super) {
                                 data: vault.read(key)
                             });
                         }
-                        if (!secure) return [3 /*break*/, 9];
-                        return [4 /*yield*/, vault.lock(password)];
+                        return [3 /*break*/, 9];
                     case 8:
-                        _a.sent();
-                        _a.label = 9;
-                    case 9: return [3 /*break*/, 11];
-                    case 10:
                         e_1 = _a.sent();
-                        console.error("!!!!!", e_1.message);
-                        return [3 /*break*/, 11];
-                    case 11: return [2 /*return*/];
+                        console.error(e_1.message);
+                        return [3 /*break*/, 9];
+                    case 9: return [2 /*return*/];
                 }
             });
         });

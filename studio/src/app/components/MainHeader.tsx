@@ -9,6 +9,7 @@ import {
   WalletOutlined, 
   SolutionOutlined, 
   LockOutlined,
+  UnlockOutlined,
   SyncOutlined,
   SettingOutlined,
   CaretDownOutlined, 
@@ -29,7 +30,9 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
   const [section, setSection] = useState("products")
   const dispatch = useDispatch()
   const session = useSelector((state: State) => state.session)
-
+  const env = useSelector((state: State) => state.env)
+  const vaultIsLocked = useSelector((state: State) => state.env.lock && state.env.lock.exists)
+    
     const notifications: any = {
         carmel: [],
         main: [],
@@ -140,7 +143,7 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
         { session && session.user ? 
         <Dropdown overlay={accountMenu}>
             <Badge count={notifications.user.length} overflowCount={5} offset={[0, 2]}>
-              <Button icon={<UserOutlined />} size='large' style={{
+              <Button icon={<UserOutlined/>} size='large' style={{
                   marginLeft: 10
                 }}>
                   { session.user.username } 

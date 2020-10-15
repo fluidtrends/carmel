@@ -1,5 +1,6 @@
 export interface State {
     router?: any 
+    env?: any
     product?: Product
     products?: Product[]
     session?: any
@@ -84,6 +85,10 @@ export interface ProductsComponentProps  {
 }
 
 export interface ChallengesComponentProps {
+}
+
+export interface TaskTutorialComponentProps {
+    content: string
 }
 
 export interface AuthFormComponentProps {

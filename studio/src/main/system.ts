@@ -23,14 +23,16 @@ export const env = () => {
   const cache = path.resolve(home, 'cache')
   const sdk = path.resolve(cache, '@carmel', 'sdk', 'default')
   const node = path.resolve(cache, 'node', 'default')
- 
+  const machineId = session ? `${session.id}:${session.platform.system}` : ''
+
   return {
     home: { path: home, exists: fs.existsSync(home) },
     workspace: { path: workspace, exists: fs.existsSync(workspace) },
     cache: { path: cache, exists: fs.existsSync(cache) },
     sdk: { path: sdk, exists: fs.existsSync(sdk) },
     node: { path: node, exists: fs.existsSync(node) },
-    lock: { path: lock, exists: fs.existsSync(lock) }
+    lock: { path: lock, exists: fs.existsSync(lock) },
+    machine: { id: machineId }
   }
 }
 

@@ -1,3 +1,7 @@
+const path = require('path')
+const userHome =
+  process.env[process.platform === 'win32' ? 'USERPROFILE' : 'HOME']
+
 module.exports = {
   entry: './src/main/index.ts',
   module: {
@@ -5,5 +9,8 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json'],
+    alias: {
+      carmel: path.resolve(userHome, '.carmel'),
+    },
   },
 }

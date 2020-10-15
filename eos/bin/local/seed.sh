@@ -29,13 +29,13 @@ echo "*** topup CARMEL ..."
 cleos push action eosio.token transfer '["alice", "carmelsystem", "10.0000 EOS", "topup" ]' -p alice@active
 
 echo "*** bob signs up..."
-cleos push action carmelsystem newuser '["bob", "bobuser1", "Bob 1", "{}"]' -p bob@active
+cleos push action carmelsystem newuser '["bob", "bobuser1", "Bob 1", "1234", "{}"]' -p bob@active
 
 echo "*** bob signs up a second user..."
-cleos push action carmelsystem newuser '["bob", "bobuser2", "Bob 2", "{}"]' -p bob@active
+cleos push action carmelsystem newuser '["bob", "bobuser2", "Bob 2", "1235", "{}"]' -p bob@active
 
 echo "*** alice signs up..."
-cleos push action carmelsystem newuser '["alice", "aliceuser1", "Alice 1", "{}"]' -p alice@active
+cleos push action carmelsystem newuser '["alice", "aliceuser1", "Alice 1", "1236", "{}"]' -p alice@active
 
 echo "*** make bob a sysadmin ..."
 cleos push action carmelsystem newsysadmin '["carmelsystem", "bobuser1"]' -p carmelsystem@active
@@ -54,7 +54,7 @@ cleos push action carmelsystem newartifact '["bob", "bobuser1", "traista", "bund
 cleos push action carmelsystem addartifactv '["bob", "bobuser1", "traista", "1.0.0"]' -p bob@active
 
 echo "*** bob creates a challenge ..."
-cleos push action carmelsystem addchallenge '["bob", "bobuser1", "traista", "jayesse", "firstwebsite", 3, ["markdown 2", "json 1"], "{\"title\":\"Your First Site\", \"summary\": \"Learn to build a website\"}"]' -p bob@active
+cleos push action carmelsystem addchallenge '["bob", "bobuser1", "traista", "jayesse", "firstwebsite", 5, [["markdown", 1], ["json", 2]], "{\"title\":\"Your First Site\", \"summary\": \"Learn to build a website\"}"]' -p bob@active
 cleos push action carmelsystem addchvers '["bob", "bobuser1", "traista", "firstwebsite", "1.0.0"]' -p bob@active
 
 echo "*** bob creates a template ..."

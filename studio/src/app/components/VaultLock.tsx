@@ -4,6 +4,7 @@ import { Input, Typography, Modal, Form, Spin, Alert } from 'antd'
 import { CheckOutlined, UnlockOutlined, LockOutlined, UserOutlined } from "@ant-design/icons"
 import strings from '../strings.json'
 import { useEvent } from '../hooks'
+import { useSelector, useDispatch } from "react-redux"
 
 const { Title } = Typography
 
@@ -16,6 +17,7 @@ export const VaultLock: React.FC<VaultLockComponentProps> = (props) => {
     const { show, onDone, locked } = props
     const [warning, setWarning] = useState("")
     const lockEvent: any = useEvent()
+    const dispatch = useDispatch()
 
     const [form] = Form.useForm()
 
@@ -30,9 +32,12 @@ export const VaultLock: React.FC<VaultLockComponentProps> = (props) => {
     useEffect(() => {
       if (!lockEvent.received.id) return
 
+      form.resetFields()
+      setWorking(false)
+      setWarning("")
+      
       if (lockEvent.received.error) {
         setWarning(lockEvent.received.error)
-        setWorking(false)
         return
       }
 

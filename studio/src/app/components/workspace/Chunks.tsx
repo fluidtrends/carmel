@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { ProductChunksComponentProps } from '../types'
 import { Layout, Menu, Tree } from 'antd';
 import { PictureOutlined, BlockOutlined, FolderOutlined, FileTextOutlined, FontSizeOutlined } from '@ant-design/icons'
 
@@ -12,7 +11,7 @@ const { SubMenu } = Menu
  * 
  * @param props 
  */
-export const ProductChunks: React.FC<ProductChunksComponentProps> = (props) => {
+export const Chunks: React.FC<any> = (props) => {
   const { product, height, openFile, files, visible, onSelect } = props
   const [data, setData] = useState([])
   const [chunk, setChunk] = useState()

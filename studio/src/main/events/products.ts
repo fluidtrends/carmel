@@ -94,9 +94,12 @@ export const loadFile = async (data: any) => {
 }
 
 export const loadSelectedProduct = async (data: any) => {
+    system.reload()
     const env = system.env()
     const server = system.server
     const productId = system.session.productId
+
+    const isLocked = env.lock.exists
 
     if (!productId) return 
 
@@ -112,6 +115,7 @@ export const loadSelectedProduct = async (data: any) => {
         id: data.id,
         type: 'selectedProductLoaded', 
         manifest,
+        isLocked,
         hasStartServer,
         staticServerPort: server.port,
         rootDir, 

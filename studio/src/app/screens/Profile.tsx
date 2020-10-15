@@ -3,8 +3,8 @@ import { ProfileScreenProps } from '../types'
 import * as styles from '../styles'
 import { Plans, VaultLock } from '../components'
 import { replace } from 'connected-react-router'
-import { Spin, Button, Form, Tag, Input, Typography, Modal, Alert } from 'antd'
-import { CheckOutlined, CaretDownOutlined, UnlockOutlined, LockOutlined, UserOutlined } from "@ant-design/icons"
+import { Spin, Button, Form, Tag, Input, Typography, Divider, Alert } from 'antd'
+import { UnlockOutlined, LockOutlined, UserOutlined } from "@ant-design/icons"
 import strings from '../strings.json'
 import moment from 'moment'
 
@@ -12,7 +12,7 @@ import { State } from '../types'
 import { useSelector, useDispatch } from "react-redux"
 import { useEvent } from '../hooks'
 
-const { Title, Paragraph } = Typography
+const { Title, Text, Paragraph } = Typography
 const { Search } = Input
 
 /**
@@ -42,7 +42,6 @@ export const Profile: React.FC<ProfileScreenProps> = (props) => {
 
   const onLockVault = () => {
     setSecurityCheck(true)
-
   }
 
   const onUnlockVault = () => {
@@ -55,7 +54,6 @@ export const Profile: React.FC<ProfileScreenProps> = (props) => {
 
     const newLock = !locked
     setLocked(newLock)
-    console.log("READY", newLock)
     // password && topupEvent.send({ type: "topup", account: user.account, password })
   }
 
@@ -121,14 +119,12 @@ export const Profile: React.FC<ProfileScreenProps> = (props) => {
     wrapperCol: {  span: 24 },
   }
 
-
   const onSkip = () => {
     dispatch(replace('/'))
   }
 
   const [form] = Form.useForm()
 
- 
   const renderFormField = (label: string, content: any, actions: any) => (
     <Form.Item key={label} label={label.toUpperCase()} style={{
       width: "100%",
@@ -162,7 +158,11 @@ export const Profile: React.FC<ProfileScreenProps> = (props) => {
            marginLeft: 20,
            flex: 1
          }}>
-         { title }
+           <span style={{
+             width: 120
+           }}>
+            { title }
+           </span>
       </Button>
   }
 
@@ -183,9 +183,8 @@ export const Profile: React.FC<ProfileScreenProps> = (props) => {
   }
   
   const renderBalanceField = () => {
-    return renderFormField("carmel tokens", [
-      renderTag("green", `${profile.balance.carmel.toFixed(4).toLocaleString('en-US')} CARMEL`, 1),
-      renderTag("", `${profile.balance.eos.toFixed(4).toLocaleString('en-US')} EOS`, 2)
+    return renderFormField("tokens", [
+      renderTag("green", `${profile.balance.carmel.toFixed(4).toLocaleString('en-US')} CARMEL`, 1)
     ], [
       renderActionButton("Top Up", "primary", onTopUp, 10)
     ])
@@ -212,7 +211,7 @@ export const Profile: React.FC<ProfileScreenProps> = (props) => {
     if (working) {
       return (<Spin tip={ strings.updatingProfile }/>)
     }
-
+    
     if (warning) {
       return (<Alert
           message={warning}
@@ -270,7 +269,11 @@ export const Profile: React.FC<ProfileScreenProps> = (props) => {
               </Title>
               { renderInfo() }
           </Form.Item>
-  
+
+          <Divider style={{
+            color: "#999999"
+          }}/>
+
           <div style={{
             display: "flex", 
             flex: 1,

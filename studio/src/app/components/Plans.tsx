@@ -102,6 +102,7 @@ export const Plans: React.FC<PlansComponentProps> = (props) => {
 
     useEffect(() => {
         if (!planEvent.received.id) return 
+        console.log(planEvent.received)
         setPricing(planEvent.received.plans)
         setSettings(planEvent.received.settings)
         console.log(planEvent.received)
@@ -111,6 +112,11 @@ export const Plans: React.FC<PlansComponentProps> = (props) => {
     const choosePlan = (plan: any) => () => {
         const tokenPrice: number = parseFloat(settings.find((s: any) => s.key === 'carmelusd').value)
         const requiredTokens: number = (tokenPrice * parseInt(plan.requiredPrice) / 10000)
+     
+        console.log("tokenPrice:", tokenPrice)
+        console.log("plan.requiredPrice:", plan.requiredPrice)
+        console.log("plan.requiredPrice:", parseInt(plan.requiredPrice))
+        console.log("requiredTokens:", requiredTokens)
 
         selectPlan ({ 
             name: plan.name,

@@ -4,6 +4,7 @@ import fs from 'fs'
 import path from 'path'
 
 export const load = async (data: any) => {
+    system.reload()
     const env = system.env()
     system.update({ loadedTimestamp: Date.now() })
     const session = system.session
@@ -40,7 +41,7 @@ export const load = async (data: any) => {
                         })
 
     const product = session.productId ? products.find(p => p.id === session.productId) : undefined
-
+    
     await send(Object.assign({}, { 
         id: data.id, 
         type: 'loaded', 

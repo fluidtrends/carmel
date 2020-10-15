@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { EditorComponentProps } from '../types'
 import "ace-builds"
 import AceEditor from "react-ace"
-import { useEvent } from '../hooks'
+import { useEvent } from '../../hooks'
 
 import 'ace-builds/webpack-resolver'
 import "ace-builds/src-noconflict/mode-javascript"
@@ -16,7 +15,7 @@ import "ace-builds/src-noconflict/theme-monokai"
  * 
  * @param props 
  */
-export const Editor: React.FC<EditorComponentProps> = (props) => {
+export const Editor: React.FC<any> = (props) => {
   const { selectedFile, product, openFile } = props
   const [content, setContent] = useState("")
   const [dirty, setDirty] = useState(0)

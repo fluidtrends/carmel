@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react'
-import { ProductAssetsComponentProps, Asset } from '../types'
-import { Layout, Menu, Tree, Select, Typography } from 'antd';
+import { Asset } from '../../types'
+import { Layout, Menu, Tree, Select, Typography } from 'antd'
 import { PictureOutlined, FileImageOutlined, FolderOutlined, FileTextOutlined, FontSizeOutlined } from '@ant-design/icons'
 
 import { Editor } from './Editor'
@@ -16,7 +16,7 @@ const { SubMenu } = Menu
  * 
  * @param props 
  */
-export const ProductAssets: React.FC<ProductAssetsComponentProps> = (props) => {
+export const Assets: React.FC<any> = (props) => {
   const { product, height, openFile, files, visible, onSelect } = props
   const [images, setImages] = useState([])
   const [covers, setCovers] = useState([])

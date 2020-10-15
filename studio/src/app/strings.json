@@ -13,5 +13,12 @@
     "locked": "Your vault is locked",
     "unlocked": "You vault is unlocked",
     "lock": "Enter your password to lock it",
-    "unlock": "Enter your password to unlock it"
+    "unlock": "Enter your password to unlock it",
+    "startingChallenge": "Starting challenge, just a sec ...",
+    "loadingProgress": "Loading your progress, just a sec ...",
+    "updatingProgress": "Updating your progress, just a sec ...",    
+    "validatingTask": "Checking your work, just a sec ...",
+    "invalidWork": "Looks like that didn't quite work",
+    "challengeCompleted": "Congrats, you did it!",
+    "validWork": "Amazing, you got it!"
 }
