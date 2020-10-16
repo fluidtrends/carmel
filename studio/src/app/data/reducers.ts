@@ -5,9 +5,11 @@ import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import { 
   UNSELECT_PRODUCT, 
+  UNSELECT_CHALLENGE,
   TOGGLE_VAULT_STATUS,  
   LOAD_SELECTED_PRODUCT,
   SELECT_PRODUCT, 
+  SELECT_CHALLENGE,
   INITIALIZE,
   REGISTER
 } from './actions'
@@ -38,10 +40,31 @@ const product = (state: any = {}, action: any) => {
   }
 }
 
+const challenge = (state: any = {}, action: any) => {
+  switch(action.type) {
+    case SELECT_CHALLENGE: 
+      return action.challenge
+    case UNSELECT_CHALLENGE: 
+      return {}
+    default:
+      return state
+  }
+}
+
 const env = (state: any = {}, action: any) => {
   switch(action.type) {
     case INITIALIZE: 
       return action.data.env
+    default:
+      return state
+  }
+}
+
+
+const profile = (state: any = {}, action: any) => {
+  switch(action.type) {
+    case INITIALIZE: 
+      return action.data.profile
     default:
       return state
   }
@@ -65,9 +88,12 @@ export const initializeReducers = (history: any) => persistReducer({
    storage,
  }, 
   combineReducers({
-  router: connectRouter(history),
-  products,
-  product,
-  session,
-  env,
-}))
+    router: connectRouter(history),
+    products,
+    product,
+    challenge,
+    session,
+    profile,
+    env,
+  })
+)

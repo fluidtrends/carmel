@@ -20,9 +20,9 @@ const ctx = (product: any, original: any) => ({
 })
 
 export const main = async (props: any) => {
-    const { product, challenge } = props 
-    const { dir, taskIndex, bundle, name } = challenge
-    const validate = require(`carmel/bundles/${bundle.id}/${bundle.version}/${bundle.id}/challenges/${name}/tasks/${taskIndex}/validate.ts`).default
+    const { product, challenge, progress } = props
+    const { dir, task_index, bundle, name } = progress
+    const validate = require(`carmel/bundles/${bundle.id}/${bundle.version}/${bundle.id}/challenges/${name}/tasks/${task_index}/validate.ts`).default
     
     const mocha = new Mocha({
         reporter: 'list'
@@ -44,7 +44,7 @@ export const main = async (props: any) => {
     }
 
     const testSuite = suite('carmel')
-    testSuite.addTest(new Test(`task ${taskIndex}`, (done: any) => validate(ctx(product, original), done)))
+    testSuite.addTest(new Test(`task ${task_index}`, (done: any) => validate(ctx(product, original), done)))
 
     await runTest()
 }

@@ -106,6 +106,14 @@
                     "type": "name"
                 },
                 {
+                    "name": "challenge_version",
+                    "type": "string"
+                },
+                {
+                    "name": "product_id",
+                    "type": "string"
+                },
+                {
                     "name": "successful",
                     "type": "bool"
                 },
@@ -345,6 +353,14 @@
                 },
                 {
                     "name": "status",
+                    "type": "string"
+                },
+                {
+                    "name": "product_id",
+                    "type": "string"
+                },
+                {
+                    "name": "challenge_version",
                     "type": "string"
                 },
                 {

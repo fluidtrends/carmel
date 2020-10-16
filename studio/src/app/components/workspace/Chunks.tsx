@@ -12,7 +12,9 @@ const { SubMenu } = Menu
  * @param props 
  */
 export const Chunks: React.FC<any> = (props) => {
-  const { product, height, openFile, files, visible, onSelect } = props
+  const { product, height, openFile, visible, onSelect } = props
+  const { files } = product
+  
   const [data, setData] = useState([])
   const [chunk, setChunk] = useState()
   const [chunks, setChunks] = useState([])

@@ -17,7 +17,9 @@ const { SubMenu } = Menu
  * @param props 
  */
 export const Assets: React.FC<any> = (props) => {
-  const { product, height, openFile, files, visible, onSelect } = props
+  const { product, height, openFile, visible, onSelect } = props
+  const { files } = product
+
   const [images, setImages] = useState([])
   const [covers, setCovers] = useState([])
   const [text, setText] = useState([])
@@ -33,7 +35,6 @@ export const Assets: React.FC<any> = (props) => {
   const onMenuItemSelected = async (value: any) => {
     const [type, path] = value.key.split("|")
    
-    console.log(value)
       switch(type) {
         case 'image':
           setSelectedImage(`http://0.0.0.0:${product.staticPort}/products/${product.id}/carmel/assets/${locale}/images/${path}`)

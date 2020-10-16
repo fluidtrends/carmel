@@ -16,7 +16,6 @@ export const Start: React.FC<StartScreenProps> = (props) => {
   const loadEvent: any = useEvent() 
   const dispatch = useDispatch()
   const session = useSelector((state: State) => state.session)
-  const products = useSelector((state: State) => state.products)
 
   useEffect(() => {
     loadEvent.send({ type: 'load' })

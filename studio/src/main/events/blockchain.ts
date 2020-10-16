@@ -172,70 +172,70 @@ export const checkEOSKey = async (data: any) => {
     }
 }
 
-export const _getProgress = async (data: any) => {
-    system.reload()
-    const env: any = system.env()
+// export const _getProgress = async (data: any) => {
+//     system.reload()
+//     const env: any = system.env()
 
-    const rpc = new JsonRpc('http://0.0.0.0:8888', { fetch })
-    const result = await rpc.get_table_rows({
-        json: true,              
-        code: 'carmelsystem',     
-        scope: data.account,
-        table: 'progress',       
-        limit: 100,
-        reverse: false,
-        show_payer: false,
-        key_type: 'name',
-        index_position: 'secondary',
-        upper_bound: data.username,
-        lower_bound: data.username
-    })
+//     const rpc = new JsonRpc('http://0.0.0.0:8888', { fetch })
+//     const result = await rpc.get_table_rows({
+//         json: true,              
+//         code: 'carmelsystem',     
+//         scope: data.account,
+//         table: 'progress',       
+//         limit: 100,
+//         reverse: false,
+//         show_payer: false,
+//         key_type: 'name',
+//         index_position: 'secondary',
+//         upper_bound: data.username,
+//         lower_bound: data.username
+//     })
 
-    if (!result || !result.rows || result.rows.length === 0) {
-        throw new Error("No progress yet")
-    }
+//     if (!result || !result.rows || result.rows.length === 0) {
+//         throw new Error("No progress yet")
+//     }
 
-    const challenges: any = result.rows.map((row: any) => {
-        const challenge = {
-            id: row.challenge_id,
-            name: row.challenge_name,
-            bundle: row.bundle_name,
-            isCompleted: row.done,
-            startTimestamp: row.started_timestamp,
-            updatedTimestamp: row.updated_timestamp,
-            challengeVersion: row.challenge_version,
-            status: row.status, 
-            taskIndex: row.task_index
-        }
+//     const challenges: any = result.rows.map((row: any) => {
+//         const challenge = {
+//             id: row.challenge_id,
+//             name: row.challenge_name,
+//             bundle: row.bundle_name,
+//             isCompleted: row.done,
+//             startTimestamp: row.started_timestamp,
+//             updatedTimestamp: row.updated_timestamp,
+//             challengeVersion: row.challenge_version,
+//             status: row.status, 
+//             taskIndex: row.task_index
+//         }
 
-        const data = _resolveChallenge(env, challenge, challenge.challengeVersion)
+//         const data = _resolveChallenge(env, challenge, challenge.challengeVersion)
         
-        return data
-    })
+//         return data
+//     })
 
-    if (!challenges || challenges.length === 0) {
-        throw new Error("No progress yet")
-    }
+//     if (!challenges || challenges.length === 0) {
+//         throw new Error("No progress yet")
+//     }
 
-    return { challenges }
-}
+//     return { challenges }
+// }
 
-export const getProgress = async (data: any) => {
-    try {
-        const progress = await _getProgress(data)
-        await send({ 
-            id: data.id,
-            type: "getProgress",
-            progress
-        })
-    } catch (e) {
-        await send({ 
-            id: data.id,
-            type: "getProgress",
-            error: e.message
-        })
-    }
-}
+// export const getProgress = async (data: any) => {
+//     try {
+//         const progress = await _getProgress(data)
+//         await send({ 
+//             id: data.id,
+//             type: "getProgress",
+//             progress
+//         })
+//     } catch (e) {
+//         await send({ 
+//             id: data.id,
+//             type: "getProgress",
+//             error: e.message
+//         })
+//     }
+// }
 
 export const _addEffort = async (data: any) => {
     const rpc = new JsonRpc('http://0.0.0.0:8888', { fetch })
@@ -266,34 +266,6 @@ export const _addEffort = async (data: any) => {
     return result
 }
 
-export const _tryChallenge = async (data: any) => {
-    const rpc = new JsonRpc('http://0.0.0.0:8888', { fetch })
-    const signatureProvider = new JsSignatureProvider([data.privateKey])
-    const api = new Api({ rpc, signatureProvider, textDecoder: new TextDecoder(), textEncoder: new TextEncoder() })
-    
-    const result = await api.transact({
-        actions: [{
-          account: 'carmelsystem',
-          name: 'trychallenge',
-          authorization: [{
-            actor: data.user.account,
-            permission: 'active',
-          }],
-          data: {
-              account: data.user.account,
-              user: data.user.username,
-              challenge_name: data.challenge.name,
-              challenge_version: data.challengeVersion,
-              product_id: data.productId
-          },
-        }]
-    }, {
-        blocksBehind: 3,
-        expireSeconds: 30,
-    })
-
-    return result
-}
 
 export const findUser = async (data: any) => {
     try {

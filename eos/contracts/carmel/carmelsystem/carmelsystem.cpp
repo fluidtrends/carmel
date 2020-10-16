@@ -679,7 +679,7 @@ namespace carmel {
      
      @accessLevel USER
      */
-    void system::trychallenge(name account, name user, name challenge_name, string challenge_version, string product_id, bool finish) {
+    void system::trychallenge(name account, name user, name challenge_name, string challenge_version, string product_id) {
         require_auth(account);
 
         users_index users(get_self(), get_self().value);
@@ -753,7 +753,7 @@ namespace carmel {
      
      @accessLevel USER
      */
-    void system::addeffort(name account, name user, name challenge_name, bool successful, string results) {
+    void system::addeffort(name account, name user, name challenge_name, string challenge_version, string product_id, bool successful, string results) {
         require_auth(account);
 
         users_index users(get_self(), get_self().value);
@@ -779,8 +779,11 @@ namespace carmel {
         if (progress_user_result != progress_user_idx.end()) {
             while (progress_user_result != progress_user_idx.end())
             {
-                if (progress_user_result->user == user) {
-                    check(!progress_user_result->done, "This user already completed this challenge");
+                if (progress_user_result->user == user &&
+                    progress_user_result->challenge_name == challenge_name && 
+                    progress_user_result->challenge_version == challenge_version && 
+                    progress_user_result->product_id == product_id) {
+                    check(!progress_user_result->done, "This user already completed this challenge for this products");
 
                     uint64_t now = current_time_point().sec_since_epoch();
                     bool done = successful && progress_user_result->task_index == progress_user_result->total_tasks - 1;
@@ -795,6 +798,7 @@ namespace carmel {
                         item.status = "unverified";
                         item.challenge_id = progress_user_result->challenge_id;
                         item.challenge_name = progress_user_result->challenge_name;
+                        item.challenge_version = progress_user_result->challenge_version;
                         item.successful = successful;
                         item.task_index = index;
                         item.verifications = 0;

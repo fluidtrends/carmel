@@ -2,6 +2,7 @@ import { app, ipcMain } from 'electron'
 import path from 'path'
 import fs from 'fs'
 import { Server } from './node'
+import { send } from '../main/events'
 
 import * as window from './window'
 import * as events from './events'
@@ -55,9 +56,17 @@ export const start = () => {
   reload()
   
   ipcMain.on('carmel', async (e, data) => {
-    const eventType: keyof typeof events = data.type
-    const event = events[eventType] 
-    event && await event(data)     
+    try {
+      const eventType: keyof typeof events = data.type
+      const event = events[eventType] 
+      event && await event(data)     
+    } catch (e) {
+      await send({ 
+          id: data.id,
+          type: data.type,
+          error: e.message
+      })
+    }
   })
   
   app.on('activate', () => {

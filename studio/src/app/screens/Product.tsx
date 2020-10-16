@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { ProductScreenProps, State, Chunk } from '../types'
 import { useSelector, useDispatch } from "react-redux"
 import { Carousel, Layout } from 'antd'
-import { unselectProduct, selectProduct } from '../data'
+import { unselectProduct, selectProduct, initialize } from '../data'
 import { useEvent } from '../hooks'
 import { Challenges } from '../components/challenges'
 import { Workspace } from '../components/workspace'
@@ -13,67 +13,33 @@ import { Workspace } from '../components/workspace'
  */
 export const Product: React.FC<ProductScreenProps> = (props) => {
   const { width, height } = props
-  const product = useSelector((state: State) => state.product) 
+  const [challenge, product, session, profile] = useSelector((state: State) => [state.challenge, state.product, state.session, state.profile]) 
+  const [commandResponse, setCommandResponse] = useState({})
   const dispatch = useDispatch()
 
-  const loadProductEvent: any = useEvent() 
+  const loadEvent: any = useEvent() 
   const command: any = useEvent()
+  const listChallengesEvent: any = useEvent() 
 
-  const [productDetails, setProductDetails] = useState("")
-  const [rootDir, setRootDir] = useState()
-  const [files, setFiles] = useState({})
-  const [commandResponse, setCommandResponse] = useState({})
+  const onReload = () => {
+    loadEvent.send({ type: 'load' })
+  }
+
+  useEffect(() => {
+    onReload()
+  }, [])
+
+  useEffect(() => {
+    if(!loadEvent.received.id) return
+    dispatch(initialize(loadEvent.received))
+  }, [loadEvent.received])
 
   useEffect(() => { 
     if (!command.received.id) return 
 
     setCommandResponse(command.received)
-
-    if (command.received.done) {
-        loadProductEvent.send({ type: 'loadSelectedProduct' })
-    }
+    command.received.done && onReload()
   }, [command.received])
-
-  useEffect(() => {
-    loadProductEvent.send({ type: 'loadSelectedProduct' })
-  }, [])
-
-  useEffect(() => {
-      if (!loadProductEvent.received.id) return 
-
-      let parsedFiles: any = {}
-      loadProductEvent.received.files.map((file: string) => {
-      const dirs = file.split('/')
-      const filename = dirs.pop()
-
-      let dir: any = parsedFiles
-      let path = ""
-
-      dirs.map((d: string) => {
-          dir[d] = dir[d] || {}
-          path = `${path}/${d}`
-          dir[d].__path = path
-          dir = dir[d]
-      })
-
-      dir.__files = dir.__files || []
-      dir.__files.push(filename)
-      })
-
-      setRootDir(loadProductEvent.received.rootDir)
-      setFiles(parsedFiles)
-
-      const selectedProduct = {
-        ...loadProductEvent.received.manifest,
-        dir: loadProductEvent.received.rootDir,
-        isLocked: loadProductEvent.received.isLocked,
-        staticPort: loadProductEvent.received.staticServerPort,
-        started: loadProductEvent.received.hasStartServer
-      }
-      
-      setProductDetails(selectedProduct)
-      dispatch(selectProduct(selectedProduct))
-  }, [loadProductEvent.received])
 
   return (
     <Layout style={{ 
@@ -89,15 +55,22 @@ export const Product: React.FC<ProductScreenProps> = (props) => {
     }}>
       <Workspace
         height={height}
-        files={files}
-        rootDir={rootDir}
         command={command}
+        challenge={challenge}
+        profile={profile}
+        onReload={onReload}
+        session={session}
         commandResponse={commandResponse}
-        product={productDetails}/>
+        product={product}/>
 
       <Challenges 
+        listChallengesEvent={listChallengesEvent}
         height={height}
-        product={productDetails} />
+        onReload={onReload}
+        challenge={challenge}
+        profile={profile}
+        session={session}
+        product={product} />
   </Layout>)
 }
 
