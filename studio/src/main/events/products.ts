@@ -4,7 +4,6 @@ import * as system from '../system'
 import * as window from '../window'
 import fs from 'fs-extra'
 import path from 'path'
-import readdir from "recursive-readdir"
 
 // export const installTemplate = async (data: any) => {
 //     const info = data.id.split('/')
@@ -74,10 +73,6 @@ export const saveFile = async (data: any) => {
     const manifest: any = JSON.parse(fs.readFileSync(manifestFile, 'utf8'))
 
     fs.writeFileSync(manifestFile, JSON.stringify({ ...manifest, timestamp: `${Date.now()}` }, null, 2), 'utf8')
- 
-    // const ext: string = path.extname(file).substring(1).toUpperCase()
-    // const needsReload = ["MD"].includes(ext)
-    // needsReload && window.browser.reload()
 }
 
 export const loadFile = async (data: any) => {
@@ -90,36 +85,6 @@ export const loadFile = async (data: any) => {
         id: data.id,
         type: 'fileLoaded', 
         content
-    })
-}
-
-export const loadSelectedProduct = async (data: any) => {
-    system.reload()
-    const env = system.env()
-    const server = system.server
-    const productId = system.session.productId
-
-    const isLocked = env.lock.exists
-
-    if (!productId) return 
-
-    const cwd = path.resolve(env.home.path, 'products', productId)
-    const manifest = JSON.parse(fs.readFileSync(path.resolve(cwd, '.carmel.json'), 'utf8'))
-    const rootDir = path.resolve(env.home.path, 'products', productId, 'carmel')
-    const files = (await readdir(rootDir, ['.git', 'node_modules'])).map(file => path.relative(rootDir, file))
-
-    const serverPath = path.resolve(env.home.path, 'servers', 'start', productId)
-    const hasStartServer = fs.existsSync(serverPath)
-
-    await send({ 
-        id: data.id,
-        type: 'selectedProductLoaded', 
-        manifest,
-        isLocked,
-        hasStartServer,
-        staticServerPort: server.port,
-        rootDir, 
-        files
     })
 }
 

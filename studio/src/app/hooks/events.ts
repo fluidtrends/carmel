@@ -7,7 +7,7 @@ export const useEvent = () => {
     let [id, setId] = useState('')
     let [type, setType] = useState('')
  
-    const send = (event: any) => {
+    const send = (event: any) => {        
         const newId = shortid.generate()
         setId(newId)
         setType(type || event.type)
@@ -17,7 +17,7 @@ export const useEvent = () => {
   
     useEffect(() => {
         const listener = (e: any, data: any) => {
-            if (data.id === id) {
+            if (id === data.id) {
                 setReceived(data) 
             }
         }

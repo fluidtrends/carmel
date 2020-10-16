@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { TaskTutorialComponentProps } from '../types'
 import ReactMarkdown from 'react-markdown'
 import { Layout, Skeleton, Typography } from 'antd'
 import highlightStyle from "react-syntax-highlighter/dist/cjs/styles/prism/okaidia"
@@ -12,7 +11,7 @@ const { Content } = Layout
  * 
  * @param props 
  */
-export const TaskTutorial: React.FC<TaskTutorialComponentProps> = (props) => {
+export const TaskTutorial: any = (props: any) => {
     const { content } = props
 
     const plugins = [require('remark-shortcodes')]

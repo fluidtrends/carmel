@@ -13,7 +13,7 @@ const { Text, Title, Paragraph } = Typography
 const SECTIONS = ['assets', 'chunks']
 
 export const Workspace: any = (props: any) => {
-    const { product, height, files, rootDir, command, commandResponse } = props
+    const { product, height, command, commandResponse } = props
 
     const dispatch = useDispatch()
     const unselectEvent: any = useEvent() 
@@ -99,10 +99,8 @@ export const Workspace: any = (props: any) => {
                   onSelect={onFileSelect}
                   height={height - 230}
                   product={product} 
-                  rootDir={rootDir} 
                   visible={section === SECTIONS[0]}
-                  openFile={openFile}
-                  files={files}/>
+                  openFile={openFile}/>
                 <ProductComps.Chunks
                   onSelect={onFileSelect}
                   height={height - 230}
@@ -111,8 +109,6 @@ export const Workspace: any = (props: any) => {
                   onExpand={onExpandChunks}
                   visible={section === SECTIONS[1]}
                   product={product} 
-                  rootDir={rootDir} 
-                  files={files}
                 />
           </Carousel>   
         </Layout>)

@@ -1,7 +1,9 @@
-import { Product } from '../types'
+import { Product, Challenge } from '../types'
 
 export const SELECT_PRODUCT = 'SELECT_PRODUCT'
+export const SELECT_CHALLENGE = 'SELECT_CHALLENGE'
 export const UNSELECT_PRODUCT = 'UNSELECT_PRODUCT'
+export const UNSELECT_CHALLENGE  = 'UNSELECT_CHALLENGE'
 export const LOAD_SELECTED_PRODUCT = 'LOAD_SELECTED_PRODUCT'
 export const INITIALIZE = 'INITIALIZE'
 export const TOGGLE_VAULT_STATUS = 'TOGGLE_VAULT_STATUS'
@@ -14,6 +16,15 @@ export const unselectProduct = () => ({
 export const selectProduct = (product: Product) => ({
     type: SELECT_PRODUCT,
     product
+})
+
+export const unselectChallenge = () => ({
+    type: UNSELECT_CHALLENGE
+})
+
+export const selectChallenge = (challenge: Challenge) => ({
+    type: SELECT_CHALLENGE,
+    challenge
 })
 
 export const register = (user: any) => ({

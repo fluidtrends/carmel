@@ -98,10 +98,10 @@ namespace carmel {
         void addtemplatev(name account, name author, name bundle, name name, string version);
 
         [[eosio::action]]
-        void trychallenge(name account, name user, name challenge_name, string challenge_version, string product_id, bool finish);
+        void trychallenge(name account, name user, name challenge_name, string challenge_version, string product_id);
 
         [[eosio::action]]
-        void addeffort(name account, name user, name challenge_name, bool successful, string results);
+        void addeffort(name account, name user, name challenge_name, string challenge_version, string product_id, bool successful, string results);
      
         [[eosio::action]]
         void claimrewards(name account, name user);
@@ -266,7 +266,6 @@ namespace carmel {
             name account;
             name user;
             bool done;
-            bool finished;
             string status;
  
             uint64_t primary_key() const { return id; }
@@ -284,6 +283,8 @@ namespace carmel {
             name account;
             name user;
             string status;
+            string product_id;
+            string challenge_version;
             bool successful;
             string results;
  

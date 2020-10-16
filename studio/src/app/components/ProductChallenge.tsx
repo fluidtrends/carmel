@@ -10,7 +10,6 @@ import { CheckSquareOutlined, BorderOutlined, ArrowLeftOutlined, ArrowRightOutli
 import { replace } from 'connected-react-router'
 import strings from '../strings.json'
 import { VaultLock } from './VaultLock'
-import { TaskTutorial } from './TaskTutorial'
 import * as Challenges from './challenges'
 
 const { Meta } = Card
@@ -349,7 +348,6 @@ export const ProductChallenge: React.FC<ProductChallengeComponentProps> = (props
                     title={task.title}               
                     description={`Task ${taskIndex + 1} of ${ch.tasks.length}`}
                 />
-                <TaskTutorial content={ch.tutorials[taskIndex]}/>
             </Card>
 
             <Button

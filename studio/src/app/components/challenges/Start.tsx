@@ -12,10 +12,14 @@ export const Start: any = (props: any) => {
       onBrowse && onBrowse()
     }
 
-    return (<Card 
+    return (<div 
                 key={"main"} style={{ 
                   width: 300, 
-                  marginTop: 8, 
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flex: 1,
                   textAlign: "center",
                   padding: 10 
                 }}>
@@ -30,5 +34,5 @@ export const Start: any = (props: any) => {
                     }}>
                     Browse Challenges
                 </Button>
-    </Card>)
+    </div>)
 }

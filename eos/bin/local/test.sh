@@ -8,11 +8,12 @@
   # echo "*** unlock the wallet ..."
   # cat ~/.eos/wallet.password | cleos wallet unlock
 
-  cleos push action carmelsystem trychallenge '["alice", "aliceuser1", "firstwebsite", "1.0.0", "hello"]' -p alice@active
-  cleos push action carmelsystem addeffort '["alice", "aliceuser1", "firstwebsite", true, "{}"]' -p alice@active
+  # cleos push action carmelsystem trychallenge '["alice", "aliceuser1", "firstwebsite", "1.0.0", "hello"]' -p alice@active
+  # cleos push action carmelsystem addeffort '["alice", "aliceuser1", "firstwebsite", true, "{}"]' -p alice@active
+
+  cleos get table carmelsystem carmelsystem users
   cleos get table carmelsystem alice progress
   cleos get table carmelsystem alice effort
-  cleos get table carmelsystem carmelsystem users
 
   # echo "*** check bob's effort ..."
   # cleos get table carmelsystem bob effort

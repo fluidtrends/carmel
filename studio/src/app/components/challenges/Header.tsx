@@ -1,19 +1,20 @@
 import React, { useEffect, useCallback, useState } from 'react'
 import { Card, Typography, Button, Radio } from 'antd'
+import { ArrowDownOutlined } from '@ant-design/icons'
 
 const { Meta } = Card
 const { Text, Title, Paragraph } = Typography
 
 export const Header: any = (props: any) => {
-    const { onBrowse } = props
+    const { title } = props
 
-    return (<Card 
+    return (<div 
                 key={"top"} style={{ 
-                  width: 300, 
+                  width: 300,
+                  margin: 0,
                   textAlign: "center",
-                  marginTop: 16, 
-                  padding: 10 }} loading={false}>
-                <Title level={4}> Product Challenges </Title>
-                <Paragraph> You didn't take any challenges relating to this product. </Paragraph>
-            </Card>)
+                  paddingTop: 10 }}>
+                <Title level={4} style={{color: "#42A5F5"}}> { title } </Title>
+                <ArrowDownOutlined style={{fontSize: 20, color: "#42A5F5"}} />
+            </div>)
 }

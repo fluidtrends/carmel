@@ -1,16 +1,119 @@
 import React, { useEffect, useCallback, useState } from 'react'
-import { Card, Typography } from 'antd'
-import { Start, Browser } from '.'
+import { Card, Typography, Spin } from 'antd'
+import { Auth, Browser, Tasks } from '.'
+import { useSelector, useDispatch } from "react-redux"
+import { useRemote, useEvent } from '../../hooks'
+import { State } from '../../types'
+import { selectChallenge, unselectChallenge } from '../../data'
 
 const { Meta } = Card
 const { Text, Title, Paragraph } = Typography
 
 export const Challenges: React.FC<any> = (props) => {
-    const { product, height } = props
-    const [ browse, setBrowse ] = useState(false)
+    const { product, onReload, session, profile, challenge, listChallengesEvent } = props
+    const [needAuth, setNeedAuth] = useState(false)
+    const [starting, setStarting] = useState(false)
+    const [progress, setProgress] = useState<any>()
+    const startChallenge: any = useEvent()
+    const validateTask: any = useEvent()
+    const updateProgress: any = useEvent()
+    const dispatch = useDispatch()
 
-    const onBrowse = () => {
-      setBrowse(true)
+    const onValidate = () => {
+      validateTask.send({
+          type: "validateTask",
+          product,
+          progress,
+          challenge
+      })
+    }
+
+    const onDone = () => {
+      setStarting(false)
+
+    }
+
+    const onStart = () => {
+      if (!session.user) {
+        setNeedAuth(true)
+        return
+      }
+
+      setStarting(true)
+      startChallenge.send({
+          type: "startChallenge",
+          product,
+          challenge
+      })
+    }
+
+    const onCancelAuth = () => {
+      setNeedAuth(false)
+    }
+
+    useEffect(() => {
+      if (!startChallenge.received.id) return
+       dispatch(unselectChallenge())
+       onReload && onReload()
+    }, [startChallenge.received])
+
+    useEffect(() => {
+      if (!validateTask.received.id) return
+
+      updateProgress.send({
+        type: "updateProgress",
+        product,
+        challenge,
+        progress,
+        error: validateTask.received.error,
+        results: {}
+      })
+
+    }, [validateTask.received])
+
+    useEffect(() => {
+      if (!updateProgress.received.id) return
+      onReload && onReload()
+    }, [updateProgress.received])
+
+    useEffect(() => {
+      setProgress('')
+
+      console.log(profile)
+
+      if (!profile || !profile.challenges || !profile.challenges[product.id]) {
+        // No progress for this product 
+        return
+      }
+
+      const { completed, inProgress } = profile.challenges[product.id]
+
+      if (inProgress.length === 0) {
+        // Nothing in progress for this product
+        return
+      }
+
+      setProgress(inProgress[0])
+    }, [profile])    
+
+    const showWork = () => {
+      return <div style={{ 
+        display: 'flex',
+        flexDirection: "column",
+        alignItems: "center",
+        width: "100%",
+        height: "100%",
+        justifyContent: "center",
+      }}>
+        <Spin/>
+      </div>
+    }
+
+    const showContents = () => {
+      return progress ? <Tasks progress={progress} onDone={onDone} onValidate={onValidate}/> 
+                      : starting ? showWork()
+                      : needAuth ? <Auth onBack={onCancelAuth}/> 
+                      : <Browser onStart={onStart} product={product} listChallengesEvent={listChallengesEvent}/> 
     }
 
     return (<div
@@ -19,16 +122,16 @@ export const Challenges: React.FC<any> = (props) => {
           margin: 0, 
           display: 'flex',
           flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
+          alignItems: "flex-start",
+          justifyContent: "flex-start",
           textAlign: "justify",
           backgroundColor: "#f5f5f5", 
-          borderLeft: "1px solid  #c7c7c7",
+          borderLeft: "1px solid  #D7D7D7",
           paddingLeft: 20,
-          marginLeft: 20,
-          width: 480,
-          height: (height - 120 )
-        }}>
-          { browse ? <Browser product={product}/> : <Start onBrowse={onBrowse}/> }
+          marginLeft: 10,
+          width: 500,
+          height: "100%"
+        }}> 
+          { showContents() }
         </div>)
 }

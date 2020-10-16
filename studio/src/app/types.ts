@@ -2,8 +2,15 @@ export interface State {
     router?: any 
     env?: any
     product?: Product
+    challenge?: Challenge
+    profile?: Profile
     products?: Product[]
     session?: any
+}
+
+export interface Profile {
+    progress: any
+    [key: string]: any
 }
 
 export interface Product {
@@ -13,6 +20,20 @@ export interface Product {
     status: string
     [key: string]: any
     chunks: string[]
+}
+
+export interface Challenge {
+    [key: string]: any
+    title: string
+    name: string
+    summary: string 
+    stack: string,
+    status: string,
+    author: string,
+    skills: any
+    total_tasks: number
+    versions: [string]
+    id: number
 }
 
 export interface Template {

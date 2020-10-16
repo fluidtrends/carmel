@@ -53,9 +53,11 @@ echo "*** bob creates a bundle ..."
 cleos push action carmelsystem newartifact '["bob", "bobuser1", "traista", "bundle", "{}"]' -p bob@active
 cleos push action carmelsystem addartifactv '["bob", "bobuser1", "traista", "1.0.0"]' -p bob@active
 
-echo "*** bob creates a challenge ..."
-cleos push action carmelsystem addchallenge '["bob", "bobuser1", "traista", "jayesse", "firstwebsite", 5, [["markdown", 1], ["json", 2]], "{\"title\":\"Your First Site\", \"summary\": \"Learn to build a website\"}"]' -p bob@active
-cleos push action carmelsystem addchvers '["bob", "bobuser1", "traista", "firstwebsite", "1.0.0"]' -p bob@active
+echo "*** bob creates challenges ..."
+cleos push action carmelsystem addchallenge '["bob", "bobuser1", "traista", "jayesse", "tweaktext", 5, [["markdown", 2]], "{\"title\":\"Change blocks of text on a web page\", \"summary\": \"Locate some blocks of text and change them\"}"]' -p bob@active
+cleos push action carmelsystem addchvers '["bob", "bobuser1", "traista", "tweaktext", "1.0.0"]' -p bob@active
+cleos push action carmelsystem addchallenge '["bob", "bobuser1", "traista", "jayesse", "tweakstrings", 5, [["json", 2]], "{\"title\":\"Change calls to action\", \"summary\": \"Identify some calls to action and change the displayed text\"}"]' -p bob@active
+cleos push action carmelsystem addchvers '["bob", "bobuser1", "traista", "tweakstrings", "1.0.0"]' -p bob@active
 
 echo "*** bob creates a template ..."
 cleos push action carmelsystem addtemplate '["bob", "bobuser1", "traista", "starter", "{}"]' -p bob@active
