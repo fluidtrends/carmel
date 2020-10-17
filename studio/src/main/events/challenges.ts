@@ -1,7 +1,6 @@
 import { send } from './main'
 import { carmel } from './commands'
 import { installBundle } from './setup'
-import { _addEffort } from './blockchain'
 import * as validators from '../validators'
 import * as system from '../system'
 import * as window from '../window'
@@ -52,7 +51,6 @@ export const _resolveChallenge = (data: any) => {
 
         return result
     } catch (e) {
-        console.log(e)
         return {
             ...challenge,
             bundle,
@@ -105,7 +103,7 @@ export const startChallenge = async (data: any) => {
         latest = _resolveChallenge({ env, challenge: data.challenge, version: latest.bundle.version })
     }
 
-    await eos.system("trychallenge", {
+    await eos.system.call("trychallenge", {
         account: session.user.account,
         user: session.user.username,
         challenge_name: latest.name,
@@ -138,14 +136,12 @@ export const validateTask = async (data: any) => {
 }
 
 export const updateProgress = async (data: any) => { 
-    console.log("updateProgress:", data)
-
     system.reload()
     const env = system.env()
     const { session } = system
     const { challenge, product, progress } = data 
 
-    await eos.system("addeffort", {
+    await eos.system.call("addeffort", {
         account: session.user.account,
         user: session.user.username,
         challenge_name: progress.name,
@@ -160,58 +156,3 @@ export const updateProgress = async (data: any) => {
         type: 'updateProgress'
     })
 }
-
-////////
-
-// const loadSecrets = (env: any) => {
-//     try {
-//         const file = path.resolve(env.home.path, 'secrets', '.data', 'index.json')
-//         const secrets: any = JSON.parse(fs.readFileSync(file, 'utf8'))
-//         return secrets
-//     } catch {
-//     }
-// }
-
-// export const updateProgress = async (data: any) => {    
-//     system.reload()
-//     const env = system.env()
-//     let latest: any
-
-//     if (env.lock.exists) {
-//         await send({ 
-//             id: data.id,
-//             type: "updateProgressError",
-//             error: "The vault is locked"
-//         })
-//         return 
-//     }
-    
-//     try {
-//         const secrets = loadSecrets(env)
-//         const { privateKey } = secrets.user
-
-//         if (!privateKey || !system.session.user) {
-//             throw new Error('Not logged in yet')
-//         }
-
-//         await _addEffort({ 
-//             privateKey, 
-//             user: system.session.user, 
-//             challenge: data.challenge,
-//             details: data.details,
-//             account: system.session.account 
-//         })
-
-//         await send({ 
-//             id: data.id,
-//             type: "updateProgressOk"
-//         })
-
-//     } catch (e) {
-//         await send({ 
-//             id: data.id,
-//             type: "updateProgressError",
-//             error: e.message
-//         })
-//     }
-// }

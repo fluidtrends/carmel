@@ -118,7 +118,7 @@ export const AuthForm: React.FC<AuthFormComponentProps> = (props) => {
               privateKey: v.privateKey,
               username,
               publicKey,
-              account,
+              account: account.id,
               password
           })
           return
@@ -130,7 +130,7 @@ export const AuthForm: React.FC<AuthFormComponentProps> = (props) => {
         username,
         plan, 
         publicKey,
-        account,
+        account: account.id,
         password
       })
     }
@@ -160,12 +160,6 @@ export const AuthForm: React.FC<AuthFormComponentProps> = (props) => {
     useEffect(() => {
       if (!checkUsernameEvent.received.id) return
     
-      if (checkUsernameEvent.received.error) {
-        setWarning(checkUsernameEvent.received.error)
-        setWorking(false)
-        return 
-      }
-
       if (checkUsernameEvent.received.user && !login) {
         setWarning('The username is already taken')
         setWorking(false)

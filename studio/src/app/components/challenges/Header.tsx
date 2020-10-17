@@ -14,7 +14,7 @@ export const Header: any = (props: any) => {
                   margin: 0,
                   textAlign: "center",
                   paddingTop: 10 }}>
-                <Title level={4} style={{color: "#42A5F5"}}> { title } </Title>
+                <Title level={4} style={{}}> { title } </Title>
                 <ArrowDownOutlined style={{fontSize: 20, color: "#42A5F5"}} />
             </div>)
 }

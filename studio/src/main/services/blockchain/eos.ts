@@ -5,8 +5,52 @@ import fs from 'fs-extra'
 import path from 'path'
 import * as sys from '../../system'
 
-const CARMEL_SYSTEM = 'carmelsystem'
-const NET_URL = 'http://0.0.0.0:8888' // 'http://api.eosn.io'
+export const CARMEL_SYSTEM = 'carmelsystem'
+export const CARMEL_TOKENS = 'carmeltokens'
+export const EOS_TOKENS = 'eosio.token'
+
+export const NET_URL = 'http://0.0.0.0:8888' // 'http://api.eosn.io'
+
+export const balances = async (data: any) => {
+    const rpc = new JsonRpc(NET_URL, { fetch })
+
+    const carmel = await rpc.get_currency_balance(CARMEL_TOKENS, data.account)
+    const eos = await rpc.get_currency_balance(EOS_TOKENS, data.account)
+
+    return {
+        eos: eos[0] ? parseFloat(eos[0].split()[0]) : 0,
+        carmel: carmel[0] ? parseFloat(carmel[0].split()[0]) : 0
+    }
+}
+
+export const checkKey = async (data: any) => {
+    const signatureProvider = new JsSignatureProvider([data.privateKey])
+    const getAvailableKeys = await signatureProvider.getAvailableKeys()
+    const publicKey = getAvailableKeys[0]
+
+    const rpc = new JsonRpc(NET_URL, { fetch })
+    let result = await rpc.history_get_key_accounts(publicKey)
+
+    if (!result || !result.account_names) {
+        throw new Error('Invalid private key')
+    }
+
+    const { account_names } = result
+
+    const balances: any = await Promise.all(account_names.map((a: string) => (
+        rpc.get_currency_balance(CARMEL_TOKENS, a)
+    )))
+
+    const accounts = account_names.map((id: string, i: number) => {
+        const balance = balances[i][0] ? parseFloat(balances[i][0].split()[0]) : 0
+        return { id, balance }
+    })
+
+    return {
+        publicKey,
+        accounts
+    }
+}
 
 export const credentials = (environment?: any) => {
     let env = environment 
@@ -18,10 +62,6 @@ export const credentials = (environment?: any) => {
 
     if (env.lock.exists) {
         throw new Error('The vault is locked')
-    }
-
-    if (!sys.session.user) {
-        throw new Error('The user is not signed in')
     }
 
     try {
@@ -66,36 +106,45 @@ export const action = (contract: string, name: string, data: any) => {
     }
 }
 
+export const transaction = async (contract: string, name: string, data: any, privateKey?: string) => {   
+    let key = privateKey
 
-export const call = async (contract: string, name: string, data: any) => {    
-    const { user } = credentials()
+    if (!key) {
+        const { user } = credentials()
 
-    if (!user) {
-        throw new Error('User credentials missing')
+        if (!user) {
+            throw new Error('User credentials missing')
+        }
+
+        key = user.privateKey
     }
 
     const actions = [action(contract, name, data)]
 
     const rpc = new JsonRpc(NET_URL, { fetch })
-    const signatureProvider = new JsSignatureProvider([user.privateKey])
+    const signatureProvider = new JsSignatureProvider([key])
     const api = new Api({ rpc, signatureProvider, textDecoder: new TextDecoder(), textEncoder: new TextEncoder() })
-    
-    console.log(contract, name, data)
-    
-    const result = await api.transact({ actions }, {
-        blocksBehind: 3,
-        expireSeconds: 30,
-    })
 
-    console.log(result)
-
-    if (!result.transaction_id || !result.processed || 
-        !result.processed.receipt || !result.processed.receipt.status || 
-        result.processed.receipt.status !== 'executed') {
-            throw new Error('Call did not succeed')
+    try {
+        const result = await api.transact({ actions }, {
+            blocksBehind: 3,
+            expireSeconds: 30,
+        })
+        
+        if (!result.transaction_id || !result.processed || 
+            !result.processed.receipt || !result.processed.receipt.status || 
+            result.processed.receipt.status !== 'executed') {
+                throw new Error('Call did not succeed')
+        }
+    } catch (e) {
+        console.log(e)
     }
 }
 
-export const system = async (name: string, data: any) => {
-   return call(CARMEL_SYSTEM, name, data)
-}
+export const system = ({
+    call: async (name: string, data: any, privateKey?: string) => transaction(CARMEL_SYSTEM, name, data, privateKey)
+})
+
+export const tokens = ({
+    call: async (name: string, data: any, privateKey?: string) => transaction(CARMEL_TOKENS, name, data, privateKey)
+})

@@ -22,21 +22,24 @@ export const Summary: any = (props: any) => {
     return <Card 
             hoverable
             onClick={onChallengeSelected}
-            key={id} style={{ width: 300, marginTop: 16, padding: 10 }} loading={false}>
+            key={id} style={{ width: 300, marginTop: 16, padding: 10, paddingTop: 20 }} loading={false}>
             <Meta
                 title={title}
                 description={summary}
         />
 
-        <Divider orientation="center" style={{ marginTop: 12 }}>Skills:</Divider>
+        <Divider orientation="center" style={{ marginTop: 32 }}></Divider>
+        <Paragraph> Complete to unlock the following skills: </Paragraph>
         <div style={{ marginBottom: 4, textAlign: "center" }}>
         { Object.keys(skills).map((skill: any, i: number) => (
-            <Tag color="green" key={i} style={{ marginTop: 0, padding: 4, paddingLeft: 10, paddingRight: 10, fontSize: 13 }}> { skill } 
+            <Tag key={i} style={{
+                 marginTop: 0, borderRadius: 8, padding: 4, paddingLeft: 10, paddingRight: 10, fontSize: 13 
+                 }}> { skill } 
                 <Badge count={skills[skill]} style={{ 
-                    marginTop: -4,
+                    marginTop: -3,
                     marginLeft: 5, 
                     fontSize: 10,
-                    backgroundColor: '#52c41a' 
+                    backgroundColor: '#8BC34A' 
                 }}/>
             </Tag>
         ))}

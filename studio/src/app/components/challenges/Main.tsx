@@ -14,6 +14,7 @@ export const Challenges: React.FC<any> = (props) => {
     const [needAuth, setNeedAuth] = useState(false)
     const [starting, setStarting] = useState(false)
     const [progress, setProgress] = useState<any>()
+    const [completed, setCompleted] = useState<any>([])
     const startChallenge: any = useEvent()
     const validateTask: any = useEvent()
     const updateProgress: any = useEvent()
@@ -30,7 +31,6 @@ export const Challenges: React.FC<any> = (props) => {
 
     const onDone = () => {
       setStarting(false)
-
     }
 
     const onStart = () => {
@@ -54,6 +54,7 @@ export const Challenges: React.FC<any> = (props) => {
     useEffect(() => {
       if (!startChallenge.received.id) return
        dispatch(unselectChallenge())
+       setStarting(false)
        onReload && onReload()
     }, [startChallenge.received])
 
@@ -79,15 +80,14 @@ export const Challenges: React.FC<any> = (props) => {
     useEffect(() => {
       setProgress('')
 
-      console.log(profile)
-
       if (!profile || !profile.challenges || !profile.challenges[product.id]) {
         // No progress for this product 
         return
       }
 
       const { completed, inProgress } = profile.challenges[product.id]
-
+      setCompleted(completed)
+      
       if (inProgress.length === 0) {
         // Nothing in progress for this product
         return
@@ -113,7 +113,7 @@ export const Challenges: React.FC<any> = (props) => {
       return progress ? <Tasks progress={progress} onDone={onDone} onValidate={onValidate}/> 
                       : starting ? showWork()
                       : needAuth ? <Auth onBack={onCancelAuth}/> 
-                      : <Browser onStart={onStart} product={product} listChallengesEvent={listChallengesEvent}/> 
+                      : <Browser completed={completed} onStart={onStart} product={product} listChallengesEvent={listChallengesEvent}/> 
     }
 
     return (<div

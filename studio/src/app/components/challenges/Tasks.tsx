@@ -93,7 +93,7 @@ export const Tasks: any = (props: any) => {
                 style={{
                     marginTop: 16
                 }}>
-                { showTask ? 'Complete Task' : isCompleted ? 'Take another Challenge' : 'Continue Challenge' }
+                { showTask ? 'Complete Task' : isCompleted ? 'Take another Challenge' : 'Next Task' }
             </Button>)
     }
 

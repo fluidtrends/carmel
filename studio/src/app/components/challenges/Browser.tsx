@@ -11,7 +11,7 @@ const { Meta } = Card
 const { Text, Title, Paragraph } = Typography
 
 export const Browser: any = (props: any) => {
-    const { product, listChallengesEvent, onStart } = props
+    const { product, listChallengesEvent, onStart, completed } = props
     const [ challenges, setChallenges] = useState([{}, {}, {}])
     const dispatch = useDispatch()
     const [ challenge, setChallenge ] = useState<any>(useSelector((state: State) => state.challenge))
@@ -72,5 +72,5 @@ export const Browser: any = (props: any) => {
     return challenge.name ? (<Details onBack={onDeselected} onStart={onStartChallenge} challenge={challenge} product={product}> 
                                 { showSummary (challenge)}
                             </Details>)
-                          : browse ? showList() : <Start onBrowse={onBrowse}/>
+                          : browse ? showList() : <Start completed={completed} onBrowse={onBrowse}/>
 }

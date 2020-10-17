@@ -23,13 +23,47 @@ export const toggleBrowser = async (data: any) => {
     window.toggleBrowser()
 }
 
+export const _loadUser = async (data: any) => {
+    const now = Date.now()
+    let sys: any = data.system
+    let env: any
+
+    if (!sys) {
+        system.reload()
+        env = system.env()
+        sys = system
+    }
+
+    const result = await eos.read("carmelsystem", "carmelsystem", "users", ["name", "secondary", data.username])
+
+    if (!result || !result.rows || result.rows.length === 0) {
+        throw new Error("User not found")
+    }
+
+    const tokens = await eos.balances({ account: data.account })
+
+    let user = {
+        ...result.rows[0],
+        tokens
+    }
+
+    let skills = { } as any
+    (user.skills || []).map((s: any) => skills[s.key] = s.value)
+   
+    user.skills = skills
+
+    sys.update({ 
+        loadedTimestamp: now,
+        user
+    })
+
+    return user
+}
+
 const _loadProfile = async (user: any, env: any, product?: any) => {    
     let result = await eos.read("carmelsystem", user.account, "progress", ['name', 'secondary', user.username])
     let all = (result && result.rows && result.rows.length > 0) ? result.rows : []
  
-    let completed: any = []
-    let inProgress: any = []
-
     let sorted: any = {}
 
     // Resolve local challenges
@@ -54,10 +88,9 @@ const _loadProfile = async (user: any, env: any, product?: any) => {
         sorted[c.product_id][(c.isCompleted ? "completed" : "inProgress")].push(c)
     })
 
-    console.log("all", all)
-    console.log("sorted", sorted)
+    const data = await _loadUser({ username: user.username })
 
-    return { challenges: sorted }
+    return { challenges: sorted, ...data }
 }
 
 const _parseProductFiles = (files: any) => {
@@ -107,6 +140,8 @@ const _loadProduct = async (productId: any, system: any, env: any) => {
         files
     }
 }
+
+/////
 
 export const load = async (data: any) => {
     system.reload()
