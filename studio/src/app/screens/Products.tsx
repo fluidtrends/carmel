@@ -21,8 +21,12 @@ export const Products: React.FC<ProductsScreenProps> = (props) => {
   
   const onProductSelected = (product: Product) => {
     selectEvent.send({ type: 'selectProduct', product })
-    dispatch(selectProduct(product)) && dispatch(replace('/product'))
   }
+
+  useEffect(() => {
+    if (!selectEvent.received.id) return 
+    dispatch(replace('/product'))
+  }, [selectEvent.received])
 
   return (<div style={{
     display: "flex",

@@ -18,7 +18,6 @@ const { SubMenu } = Menu
  */
 export const Assets: React.FC<any> = (props) => {
   const { product, height, openFile, visible, onSelect } = props
-  const { files } = product
 
   const [images, setImages] = useState([])
   const [covers, setCovers] = useState([])
@@ -52,11 +51,11 @@ export const Assets: React.FC<any> = (props) => {
   }
 
   const updateFiles = () => {
-    if (!files.assets) return
+    if (!product.files.assets) return
 
-    const textFiles = files.assets[locale].text.__files || []
-    const imageFiles = files.assets[locale].images.__files || []
-    const coverFilesRaw = files.assets[locale].images.covers
+    const textFiles = product.files.assets[locale].text.__files || []
+    const imageFiles = product.files.assets[locale].images.__files || []
+    const coverFilesRaw = product.files.assets[locale].images.covers
     delete coverFilesRaw.__path
     const coverFiles = Object.keys(coverFilesRaw)
 
@@ -66,12 +65,12 @@ export const Assets: React.FC<any> = (props) => {
   }
 
   useEffect(() => {
-    if (!files.assets) return
-    let l: any = Object.keys(files.assets)
+    if (!product || !product.files.assets) return
+    let l: any = Object.keys(product.files.assets)
     l.shift()
     setLocales(l.map((id: string) => ({ id, language: id })))
     updateFiles()
-  }, [files])
+  }, [product])
 
   useEffect(() => {
     if (!selectedFile) return 
