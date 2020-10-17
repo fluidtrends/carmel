@@ -53,6 +53,10 @@ export const NewProduct: React.FC<NewProductScreenProps> = (props) => {
 
   }
 
+  const onCancel = () => {
+    dispatch(replace('/products'))
+  }
+
   useEffect(() => {
     listTemplates.send({ type: "listTemplates" })
   }, [])
@@ -149,7 +153,7 @@ export const NewProduct: React.FC<NewProductScreenProps> = (props) => {
       </Form>
       </Card>
       
-      <Button disabled={false} type="link" htmlType="button" style={{ margin: 20 }}>
+      <Button disabled={false} type="link" htmlType="button"  onClick={onCancel} style={{ margin: 20 }}>
             Never mind
       </Button> 
     </div>)

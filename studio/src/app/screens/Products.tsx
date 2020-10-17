@@ -33,6 +33,7 @@ export const Products: React.FC<ProductsScreenProps> = (props) => {
     flexDirection: "row",
     width: "100%",
     height: "100%",
+    overflow: "auto",
     alignItems: "flex-start",
     justifyContent: "flex-start",
     flexWrap: "wrap"
