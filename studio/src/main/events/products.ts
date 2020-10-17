@@ -5,19 +5,6 @@ import * as window from '../window'
 import fs from 'fs-extra'
 import path from 'path'
 
-// export const installTemplate = async (data: any) => {
-//     const info = data.id.split('/')
-
-//     let bundleVersion = undefined
-//     let bundleId = data.id
-//     let name = data.id
-
-//     name = info.pop()!
-//     bundleId = info.shift()!
-//     bundleId = bundleId.charAt(0) === '@' ? `${bundleId}/${info.shift()}` : bundleId
-//     bundleVersion = info && info.length > 0 ? info.shift() : bundleVersion
-// }
-
 export const createProduct = async (data: any) => {
     const env = system.env()
     const cwd = path.resolve(env.workspace.path, data.name.replace(/\s/g, ''))
@@ -59,7 +46,13 @@ export const createProduct = async (data: any) => {
 }
 
 export const selectProduct = async (data: any) => {
+    system.reload()
     system.update({ productId: data.product.id })
+
+    await send({ 
+        id: data.id,
+        type: 'selectProduct' 
+    })
 }
 
 export const saveFile = async (data: any) => {
@@ -89,5 +82,11 @@ export const loadFile = async (data: any) => {
 }
 
 export const unselectProduct = async (data: any) => {
+    system.reload()
     system.update({ productId: undefined })
+
+    await send({ 
+        id: data.id,
+        type: 'unselectProduct' 
+    })
 }

@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { ProductScreenProps, State, Chunk } from '../types'
 import { useSelector, useDispatch } from "react-redux"
-import { Carousel, Layout } from 'antd'
+import { Carousel, Layout, Spin } from 'antd'
 import { unselectProduct, selectProduct, initialize } from '../data'
 import { useEvent } from '../hooks'
 import { Challenges } from '../components/challenges'
 import { Workspace } from '../components/workspace'
+import { seed } from 'shortid'
 
 /**
  * 
@@ -13,7 +14,8 @@ import { Workspace } from '../components/workspace'
  */
 export const Product: React.FC<ProductScreenProps> = (props) => {
   const { width, height } = props
-  const [challenge, product, session, profile] = useSelector((state: State) => [state.challenge, state.product, state.session, state.profile]) 
+  const [working, setWorking] = useState(true)
+  let [challenge, product, session, profile] = useSelector((state: State) => [state.challenge, state.product, state.session, state.profile]) 
   const [commandResponse, setCommandResponse] = useState({})
   const dispatch = useDispatch()
 
@@ -22,6 +24,8 @@ export const Product: React.FC<ProductScreenProps> = (props) => {
   const listChallengesEvent: any = useEvent() 
 
   const onReload = () => {
+    console.log("reload...")
+    setWorking(true)
     loadEvent.send({ type: 'load' })
   }
 
@@ -34,12 +38,21 @@ export const Product: React.FC<ProductScreenProps> = (props) => {
     dispatch(initialize(loadEvent.received))
   }, [loadEvent.received])
 
+  useEffect(() => {
+    if (!product.id) return
+    setWorking(false)
+  }, [product])
+
   useEffect(() => { 
     if (!command.received.id) return 
 
     setCommandResponse(command.received)
     command.received.done && onReload()
   }, [command.received])
+
+  if (working) {
+    return <Spin/>
+  }
 
   return (
     <Layout style={{ 
