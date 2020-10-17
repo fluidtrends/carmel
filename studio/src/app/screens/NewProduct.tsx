@@ -3,7 +3,7 @@ import { NewProductScreenProps, State, Template } from '../types'
 import { Spin, Button, Form, Input, Typography } from 'antd'
 import * as styles from '../styles'
 import strings from '../strings.json'
-import { useEvent, useBlockchain } from '../hooks'
+import { useEvent } from '../hooks'
 import { useDispatch, useSelector } from "react-redux"
 import { initialize } from '../data'
 import axios from 'axios'
@@ -20,39 +20,36 @@ export const NewProduct: React.FC<NewProductScreenProps> = (props) => {
   const [isCreating, setIsCreating] = useState(false)
   const [name, setName] = useState('')
   const createEvent: any = useEvent() 
+  const listTemplates: any = useEvent() 
+  const [templates, setTemplates] = useState([])
   const dispatch = useDispatch()
-  const session = useSelector((state: State) => state.session)
-  const products = useSelector((state: State) => state.products)
   
-  const blockchain = useBlockchain()
-
   useEffect(() => {
-    (async () => {
-      await blockchain.getTemplates()
-    })()
+    listTemplates.send({ type: "listTemplates" })
   }, [])
 
   useEffect(() => { 
     if (!createEvent.received.id) return 
     dispatch(replace('/product'))
-    // setCommandResponse(command.received)
-    // if (command.received.done) {
-      // loadProductEvent.send({ type: 'loadSelectedProduct' })
-    // }
   }, [createEvent.received])
+
+  useEffect(() => {
+    if (!listTemplates.received.id) return 
+    listTemplates.received.templates && setTemplates(listTemplates.received.templates)
+  }, [listTemplates.received])
 
   const onTemplateSelected = (template: Template) => {
     if (name.trim().length === 0) return
 
+    setIsCreating(true)
     createEvent.send({ 
       type: 'createProduct', 
       name, 
       template: `${template.bundle}/${template.name}`
      })
-    setIsCreating(true)
   }
 
-  if (!isCreating && blockchain.templates.length === 0) {
+  if (!isCreating && templates.length === 0) {
       return <div style={styles.screen}>
           <Spin tip={strings.loadingTemplates}/>
     </div>
@@ -70,7 +67,7 @@ export const NewProduct: React.FC<NewProductScreenProps> = (props) => {
   
   return (<div style={styles.screen}>
     <Title>
-      { products.length === 0 ? 'Create Your First Carmel Product' : 'Create a new Carmel Product' }
+      { 'Create a new Carmel Product' }
     </Title>
 
         <Form>
@@ -95,7 +92,7 @@ export const NewProduct: React.FC<NewProductScreenProps> = (props) => {
       justifyContent: "center",
       flexWrap: "wrap"
     }}>
-      { blockchain.templates.map ((template, idx) => <TemplateListItem key={idx} onSelected={onTemplateSelected} template={template}/>) }
+      { templates.map ((template, idx) => <TemplateListItem key={idx} onSelected={onTemplateSelected} template={template}/>) }
     </div>
   </div>)
 }

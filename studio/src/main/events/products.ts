@@ -5,7 +5,20 @@ import * as window from '../window'
 import fs from 'fs-extra'
 import path from 'path'
 
+import { eos } from '../services/blockchain'
+
+export const listTemplates = async (data: any) => {
+    const result = await eos.read("carmelsystem", "carmelsystem", "templates")
+
+    await send({ 
+        id: data.id,
+        type: 'listTemplates',
+        templates: result.rows
+    })
+}
+
 export const createProduct = async (data: any) => {
+    system.reload()
     const env = system.env()
     const cwd = path.resolve(env.workspace.path, data.name.replace(/\s/g, ''))
 
