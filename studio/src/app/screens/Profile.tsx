@@ -75,7 +75,7 @@ export const Profile: React.FC<ProfileScreenProps> = (props) => {
     setProfile(data.received.profile)
     setLocked(data.received.session.isLocked)
     setWorking(false)
-}, [data.received])
+  }, [data.received])
 
   const onUpdate= (v: any) => {
     if (!v.username) {
@@ -207,7 +207,6 @@ export const Profile: React.FC<ProfileScreenProps> = (props) => {
   }
 
   const showSkills = () => {
-    console.log(profile)
     if (!profile.skills || Object.keys(profile.skills).length === 0) {
       return <div style={{ marginBottom: 4, textAlign: "center" }}>
           <Paragraph> You have not collected any skills yet. </Paragraph>

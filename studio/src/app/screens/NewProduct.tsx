@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { NewProductScreenProps, State, Template } from '../types'
-import { Spin, Button, Form, Input, Typography } from 'antd'
+import { Spin, Button, Form, Input, Divider, Typography, Card } from 'antd'
 import * as styles from '../styles'
 import strings from '../strings.json'
 import { useEvent } from '../hooks'
@@ -9,8 +9,9 @@ import { initialize } from '../data'
 import axios from 'axios'
 import { TemplateListItem } from '../components'
 import { replace } from 'connected-react-router'
+import { PlusOutlined, LockOutlined, UserOutlined } from "@ant-design/icons"
 
-const { Title, Text } = Typography
+const { Title, Paragraph } = Typography
 
 /**
  * 
@@ -24,6 +25,38 @@ export const NewProduct: React.FC<NewProductScreenProps> = (props) => {
   const [templates, setTemplates] = useState([])
   const dispatch = useDispatch()
   
+  const layout = {
+    wrapperCol: { span: 24 },
+  }
+
+  const formItemLayoutWithOutLabel = {
+    wrapperCol: {
+      xs: { span: 24, offset: 0 },
+      sm: { span: 19, offset: 5 },
+    },
+  }
+
+  const formItemLayout = {
+    labelCol: {
+      xs: { span: 24 },
+      sm: { span: 5 },
+    },
+    wrapperCol: {
+      xs: { span: 24 },
+      sm: { span: 19 },
+    },
+  }
+
+  const [form] = Form.useForm()
+
+  const onDone = () => {
+
+  }
+
+  const onCancel = () => {
+    dispatch(replace('/products'))
+  }
+
   useEffect(() => {
     listTemplates.send({ type: "listTemplates" })
   }, [])
@@ -65,34 +98,97 @@ export const NewProduct: React.FC<NewProductScreenProps> = (props) => {
     setName(e.target.value)
   }
   
-  return (<div style={styles.screen}>
-    <Title>
-      { 'Create a new Carmel Product' }
-    </Title>
+  return (<div style={{
+      ...styles.screen,
+      backgroundColor: "#f5f5f5",
+      ...layout
+    }}>       
+      <Card style={{
+        backgroundColor: "#ffffff",
+        boxShadow: "0px 0px 8px #999999",
+        minWidth: 700,
+        marginTop: 16,
+        padding: 40,
+      }}>
+              <PlusOutlined style={{ fontSize: 40, margin: 20 }} />
+              <Title level={3}>
+                  Create a new Carmel Product
+              </Title>
 
-        <Form>
-            <Form.Item
-          label="Name:"
-          name="name"
-          rules={[{ required: true, message: 'Please enter a name' }]}
-        >
-          <Input onChange={onNameChanged}/>
-        </Form.Item>
+      <Form {...formItemLayoutWithOutLabel} key="form" form={form} name="control-hooks" onFinish={onDone} style={{
+          marginTop: 20,
+          padding: 20,
+      }}> 
+
+          <div style={{
+            display: "flex", 
+            flex: 1,
+            marginTop: 20,
+            width: "100%",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}>            
+              
+              <Form.Item key={"name"} label={"name".toUpperCase()} style={{
+                  width: "100%",
+                  margin: 20,
+              }} {...formItemLayout}>
+                  <Input onChange={onNameChanged} style={{ border: "none", borderBottom: "1px solid #c7c7c7"}}/>
+              </Form.Item>
+
+              <Divider orientation="center" style={{marginTop: 20}}>Choose a template:</Divider>
+
+              <div style={{
+                display: "flex",
+                flexDirection: "row",
+                width: "100%",
+                alignItems: "center",
+                justifyContent: "center",
+                flexWrap: "wrap"
+              }}>
+                { templates.map ((template, idx) => <TemplateListItem key={idx} onSelected={onTemplateSelected} template={template}/>) }
+              </div>    
+          </div>
       </Form>
-
-      <Title level={3}>
-        Select a template: 
-      </Title>  
-
-    <div style={{
-      display: "flex",
-      flexDirection: "row",
-      width: "100%",
-      alignItems: "center",
-      justifyContent: "center",
-      flexWrap: "wrap"
-    }}>
-      { templates.map ((template, idx) => <TemplateListItem key={idx} onSelected={onTemplateSelected} template={template}/>) }
-    </div>
-  </div>)
+      </Card>
+      
+      <Button disabled={false} type="link" htmlType="button"  onClick={onCancel} style={{ margin: 20 }}>
+            Never mind
+      </Button> 
+    </div>)
 }
+
+// return (<div style={styles.screen}>
+//   <Title>
+//     { 'Create a new Carmel Product' }
+//   </Title>
+
+//   <Card style={{
+//     minWidth: 700
+//   }}>
+//       <Form>
+//           <Form.Item
+//         label="Name:"
+//         name="name"
+//         rules={[{ required: true, message: 'Please enter a name' }]}
+//       >
+//         <Input onChange={onNameChanged}/>
+//       </Form.Item>
+//     </Form>
+//     </Card>
+//     <Title level={3}>
+//       Select a template: 
+//     </Title>  
+
+//   <div style={{
+//     display: "flex",
+//     flexDirection: "row",
+//     width: "100%",
+//     alignItems: "center",
+//     justifyContent: "center",
+//     flexWrap: "wrap"
+//   }}>
+//     { templates.map ((template, idx) => <TemplateListItem key={idx} onSelected={onTemplateSelected} template={template}/>) }
+//   </div>
+// </div>)
