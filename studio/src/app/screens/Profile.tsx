@@ -3,7 +3,7 @@ import { ProfileScreenProps } from '../types'
 import * as styles from '../styles'
 import { Plans, VaultLock } from '../components'
 import { replace } from 'connected-react-router'
-import { Spin, Button, Form, Tag, Input, Typography, Divider, Alert } from 'antd'
+import { Spin, Button, Form, Tag, Input, Typography, Badge, Divider, Alert, Card } from 'antd'
 import { UnlockOutlined, LockOutlined, UserOutlined } from "@ant-design/icons"
 import strings from '../strings.json'
 import moment from 'moment'
@@ -62,7 +62,7 @@ export const Profile: React.FC<ProfileScreenProps> = (props) => {
   }
 
   useEffect(() => {
-    data.send({ type: "syncProfile", user })
+    data.send({ type: "load" })
   }, [])
 
   useEffect(() => {
@@ -72,9 +72,8 @@ export const Profile: React.FC<ProfileScreenProps> = (props) => {
 
   useEffect(() => {
     if (!data.received.id) return
-    
-    setProfile(data.received)
-    setLocked(data.received.isLocked)
+    setProfile(data.received.profile)
+    setLocked(data.received.session.isLocked)
     setWorking(false)
 }, [data.received])
 
@@ -184,7 +183,7 @@ export const Profile: React.FC<ProfileScreenProps> = (props) => {
   
   const renderBalanceField = () => {
     return renderFormField("tokens", [
-      renderTag("green", `${profile.balance.carmel.toFixed(4).toLocaleString('en-US')} CARMEL`, 1)
+      renderTag("green", `${profile.tokens.carmel.toFixed(4).toLocaleString('en-US')} CARMEL`, 1)
     ], [
       renderActionButton("Top Up", "primary", onTopUp, 10)
     ])
@@ -205,6 +204,30 @@ export const Profile: React.FC<ProfileScreenProps> = (props) => {
       renderPlanField(),
       renderBalanceField(),
     ]
+  }
+
+  const showSkills = () => {
+    console.log(profile)
+    if (!profile.skills || Object.keys(profile.skills).length === 0) {
+      return <div style={{ marginBottom: 4, textAlign: "center" }}>
+          <Paragraph> You have not collected any skills yet. </Paragraph>
+      </div>
+    }
+
+    return <div style={{ marginBottom: 4, textAlign: "center" }}>
+        { Object.keys(profile.skills).map((skill: any, i: number) => (
+            <Tag key={i} style={{
+                 marginTop: 0, borderRadius: 8, padding: 4, paddingLeft: 10, paddingRight: 10, fontSize: 13 
+                 }}> { skill } 
+                <Badge count={profile.skills[skill]} style={{ 
+                    marginTop: -3,
+                    marginLeft: 5, 
+                    fontSize: 10,
+                    backgroundColor: '#8BC34A' 
+                }}/>
+            </Tag>
+        ))}
+        </div>
   }
 
   const renderInfo = () => {
@@ -256,36 +279,48 @@ export const Profile: React.FC<ProfileScreenProps> = (props) => {
       ...layout
     }}>       
       <VaultLock key="check" show={securityCheck} locked={locked} onDone={onSecurityCheck}/>
+      <Card style={{
+         backgroundColor: "#ffffff",
+         boxShadow: "0px 0px 8px #999999",
+         minWidth: 700,
+         marginTop: 16,
+         padding: 40,
+      }}>
+              <UserOutlined style={{ fontSize: 40, margin: 20 }} />
+              <Title level={1}>
+                  @{ user.username  }
+              </Title>
+              <Divider orientation="center" style={{marginTop: 20}}>Skills:</Divider>
+              { showSkills() }
+
+      </Card>
+
       <Form {...formItemLayoutWithOutLabel} key="form" form={form} name="control-hooks" onFinish={onUpdate} style={{
           backgroundColor: "#ffffff",
           boxShadow: "0px 0px 8px #999999",
           minWidth: 700,
-          padding: 40,
-      }}>
-         <Form.Item {...tailLayout}>
-              <UserOutlined style={{ fontSize: 40, margin: 20 }} />
-              <Title level={2}>
-                  { user.username  }
-              </Title>
-              { renderInfo() }
-          </Form.Item>
-
-          <Divider style={{
-            color: "#999999"
-          }}/>
-
+          marginTop: 20,
+          padding: 20,
+      }}> 
+    
           <div style={{
             display: "flex", 
             flex: 1,
-            marginTop: 30,
+            marginTop: 20,
             width: "100%",
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
           }}>            
             { renderFields() }
+          
+            <Divider style={{marginBottom: 30}}/>
+            
+            { renderInfo() }
           </div>
       </Form>
+      
+
       <Button disabled={working} type="link" htmlType="button" onClick={onSkip} style={{ margin: 20 }}>
             Go back
       </Button> 
