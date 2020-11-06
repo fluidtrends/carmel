@@ -8,7 +8,6 @@ import {
     CaretRightOutlined,
     RedoOutlined
 } from '@ant-design/icons';
-import { changeConfirmLocale } from 'antd/lib/modal/locale'
 import { ipcRenderer } from 'electron'
 
 const { Title } = Typography
@@ -24,8 +23,10 @@ export const Browser = (BrowserProps: any) => {
     const view: any = useRef(null)
     const urlInput: any = useRef(null)
     const [width, height] = useWindowSize()
+    const [ready, setReady] = useState(false)
     const [url, setUrl] = useState("")
     const [protocol, setProtocol] = useState("http")
+    const [product, setProduct] = useState<any>("")
 
     const onUrlChange = (val: any) => {
         setUrl(val.target.value)
@@ -56,19 +57,28 @@ export const Browser = (BrowserProps: any) => {
     )
 
     useEffect(() => {
+        view.current.addEventListener('dom-ready', () => {
+            setReady(true)
+        })
+
         const listener = (e: any, data: any) => {
-            if (data.product && data.product.started && data.product.packerPort) {
-                setUrl(`0.0.0.0:${data.product.packerPort}`)
-                setProtocol('http')
-                view.current && view.current.loadURL(`http://0.0.0.0:${data.product.packerPort}`)
-            }
+            data.product && setProduct(data.product)
         }
+
         ipcRenderer.on('carmel', listener)
     }, [])
 
     useEffect(() => {
-        // console.log(view.current)
-    }, [view])
+        if (!view || !view.current.loadURL || !url || !protocol || !ready) return 
+        view.current.loadURL(`${protocol}://${url}`)
+    }, [view, url, protocol])
+
+    useEffect(() => {
+        if (!product || !product.started || !product.packerPort) return 
+
+        setUrl(`0.0.0.0:${product.packerPort}`)
+        setProtocol('http')
+    }, [product])
 
     return (<div style={{
         backgroundColor: "#252526",
@@ -133,15 +143,16 @@ export const Browser = (BrowserProps: any) => {
                 flex: 1 
             }}>
                 <Input 
-                value={url}
-                onPressEnter={onPressEnter}
-                onChange={onUrlChange}
-                addonBefore={onProtocolChange} 
-                defaultValue={url} />
+                    value={url}
+                    onPressEnter={onPressEnter}
+                    onChange={onUrlChange}
+                    addonBefore={onProtocolChange} 
+                    defaultValue={url} />
             </div>
         </div>
         <webview id="carmel" 
             ref={view}
+            src="http://github.com"
             style={{ 
                 display: "flex",
                 flex: 1,

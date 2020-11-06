@@ -112,6 +112,12 @@ namespace carmel {
         [[eosio::on_notify("carmeltokens::transfer")]]
         void newpayment(name from, name to, asset quantity, string memo);
 
+        [[eosio::action]]
+        void info();
+
+        [[eosio::action]]
+        void rev2();
+
         using newuser_action        = action_wrapper<"newuser"_n, &system::newuser>;
         using newsysadmin_action    = action_wrapper<"newsysadmin"_n, &system::newsysadmin>;
         using newadmin_action       = action_wrapper<"newadmin"_n, &system::newadmin>;
@@ -126,6 +132,7 @@ namespace carmel {
         using newplan_action        = action_wrapper<"newplan"_n, &system::newplan>;
         using topup_action          = action_wrapper<"topup"_n, &system::topup>;
         using claimrewards_action   = action_wrapper<"claimrewards"_n, &system::claimrewards>;
+        using info_action           = action_wrapper<"info"_n, &system::info>;
 
       private:
 

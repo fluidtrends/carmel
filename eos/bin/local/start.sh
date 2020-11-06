@@ -1,22 +1,5 @@
 #!/bin/bash
 
-DEV_PUBLIC_KEY=EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
-DEV_PRIVATE_KEY=5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3
-
-MAIN_PUBLIC_KEY=EOS5JDNoKr1jNByPikvE1U8aQcWt37bNuRQV38hKCya4SVCzSwdx8
-MAIN_PRIVATE_KEY=5KPfzbvLXbjxmngYH7hD22X5LEQsBZMAXvczCPZxDYVcuJ9TXLY
-
-CONTRACT_PUBLIC_KEY=EOS8NUnZgzYy7gncPzWxmAaZtfKCMPfAWFreDkQ6mMVjbM6FrJZ5N
-CONTRACT_PRIVATE_KEY=5HyopF2qX88SfrEyHmZKXQwtqxYxNHmBEsL4sKTeoZG9jjwyGqx
-
-CONTRACT2_PUBLIC_KEY=EOS7XPrxoJoChR1L8oPTJAa5WGUxRZbWyfwrBwqj6afVUSGWbQYca
-CONTRACT2_PRIVATE_KEY=5KNeKYLW4a74v4rQWbARn81wCLFE8fCnqYL3yyW5kErpPucj5Gv
-
-if ! [ -f ".carmel.json" ]; then
-  echo "[fail] run this from the root project location"
-  exit
-fi
-
 pkill keosd
 rm -rf ~/eosio-wallet
 rm -rf ~/.eos
@@ -54,30 +37,21 @@ sleep 1
 cleos wallet create --file ~/.eos/wallet.password
 echo $DEV_PRIVATE_KEY | cleos wallet import
 echo $MAIN_PRIVATE_KEY | cleos wallet import
-echo $CONTRACT_PRIVATE_KEY | cleos wallet import
-echo $CONTRACT2_PRIVATE_KEY | cleos wallet import
+echo $TOKENS_CONTRACT_PRIVATE_KEY | cleos wallet import
+echo $SYSTEM_CONTRACTs_PRIVATE_KEY | cleos wallet import
 
 sleep 1
 
-echo "*** creating the eosio.token account ..."
+echo "*** creating the accounts ..."
+
 cleos create account eosio eosio.token $DEV_PUBLIC_KEY
-
-echo "*** creating the carmelmaster account ..."
 cleos create account eosio carmelmaster $MAIN_PUBLIC_KEY
+cleos create account carmelmaster carmeltokens $TOKENS_CONTRACT_PUBLIC_KEY
+cleos create account carmelmaster carmelsystem $SYSTEM_PUBLIC_KEY
 
-echo "*** creating the carmeltokens account ..."
-cleos create account carmelmaster carmeltokens $CONTRACT_PUBLIC_KEY
+echo "*** give code permissions ..."
 
-echo "*** creating the carmelsystem account ..."
-cleos create account carmelmaster carmelsystem $CONTRACT2_PUBLIC_KEY
-
-echo "*** creating the carmelcredit account ..."
-cleos create account carmelmaster carmelcredit $CONTRACT2_PUBLIC_KEY
-
-echo "*** give carmeltokens code permissions ..."
 cleos set account permission carmeltokens active --add-code
-
-echo "*** give carmelsystem code permissions ..."
 cleos set account permission carmelsystem active --add-code
 
 cd eos/contracts/eos/eosio.token

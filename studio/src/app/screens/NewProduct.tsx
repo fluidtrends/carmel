@@ -7,7 +7,7 @@ import { useEvent } from '../hooks'
 import { useDispatch, useSelector } from "react-redux"
 import { initialize } from '../data'
 import axios from 'axios'
-import { TemplateListItem } from '../components'
+import { TemplateListItem, Loading } from '../components'
 import { replace } from 'connected-react-router'
 import { PlusOutlined, LockOutlined, UserOutlined } from "@ant-design/icons"
 
@@ -25,6 +25,8 @@ export const NewProduct: React.FC<NewProductScreenProps> = (props) => {
   const [templates, setTemplates] = useState([])
   const dispatch = useDispatch()
   
+  const [progress, setProgress] = useState(strings.creatingProduct)
+
   const layout = {
     wrapperCol: { span: 24 },
   }
@@ -63,11 +65,15 @@ export const NewProduct: React.FC<NewProductScreenProps> = (props) => {
 
   useEffect(() => { 
     if (!createEvent.received.id) return 
-    dispatch(replace('/product'))
+    console.log(createEvent.received)
+    const { message, done } = createEvent.received
+    message && setProgress(message)
+    done && dispatch(replace('/product'))
   }, [createEvent.received])
 
   useEffect(() => {
     if (!listTemplates.received.id) return 
+
     listTemplates.received.templates && setTemplates(listTemplates.received.templates)
   }, [listTemplates.received])
 
@@ -78,21 +84,21 @@ export const NewProduct: React.FC<NewProductScreenProps> = (props) => {
     createEvent.send({ 
       type: 'createProduct', 
       name, 
-      template: `${template.bundle}/${template.name}`
+      template
      })
   }
 
   if (!isCreating && templates.length === 0) {
       return <div style={styles.screen}>
-          <Spin tip={strings.loadingTemplates}/>
+          <Loading message={strings.loadingTemplates}/>
     </div>
   }
 
   if (isCreating) {
     return <div style={styles.screen}>
-        <Spin tip={strings.creatingProduct}/>
-  </div>
-}
+        <Loading message={progress}/>
+    </div>
+  }
 
   const onNameChanged = (e: any) => {
     setName(e.target.value)

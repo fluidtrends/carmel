@@ -6,6 +6,14 @@ namespace carmel {
   ///////////////////         ACTIONS        ///////////////////
   //////////////////////////////////////////////////////////////
 
+  void tokens::rev2() {
+    print("**** CARMELTOKENS: Revision 2 ****");
+  }
+
+  void tokens::info() {
+    rev2();
+  }
+
   void tokens::create(name issuer, asset maximum_supply) {
     // Make sure that only the owner of the contract can call this action
     require_auth(_self);

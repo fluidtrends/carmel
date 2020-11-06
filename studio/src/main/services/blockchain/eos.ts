@@ -4,12 +4,16 @@ import { JsSignatureProvider } from 'eosjs/dist/eosjs-jssig'
 import fs from 'fs-extra'
 import path from 'path'
 import * as sys from '../../system'
+import * as app from '../../../app.json'
+import * as pkg from '../../../../package.json'
 
-export const CARMEL_SYSTEM = 'carmelsystem'
-export const CARMEL_TOKENS = 'carmeltokens'
-export const EOS_TOKENS = 'eosio.token'
+const CARMEL_CONFIG: any = pkg.carmel
+const EOS_CONFIG: any = Object.assign({}, app.eos, (app.eos.env as any)[CARMEL_CONFIG.env])
 
-export const NET_URL = 'http://0.0.0.0:8888' // 'http://api.eosn.io'
+export const NET_URL = EOS_CONFIG.endpoint as string
+export const CARMEL_SYSTEM = EOS_CONFIG.carmelSystemAccount as string
+export const CARMEL_TOKENS = EOS_CONFIG.carmelTokensAccount as string
+export const EOS_TOKENS = EOS_CONFIG.eosTokensAccount as string
 
 export const balances = async (data: any) => {
     const rpc = new JsonRpc(NET_URL, { fetch })

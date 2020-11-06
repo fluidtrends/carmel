@@ -16,7 +16,7 @@ const { Title, Text } = Typography
  */
 export const Header: React.FC<any> = (props) => {
   const [section, setSection] = useState('assets')
-  const { onBack, product, onCommand, commandResponse, onTogglePreview } = props
+  const { onBack, product, onCommand, commandResponse, onWebPreview } = props
   const [status, setStatus] = useState<any>({})
   
   useEffect(() => {
@@ -45,7 +45,14 @@ export const Header: React.FC<any> = (props) => {
     }]
 
     const onPanelCommand = (command: any) => {
-        onCommand(command.id)
+        console.log(command)
+        switch(command.id) {
+            case 'preview':
+                onWebPreview()
+                break
+            default:
+                onCommand(command.id)
+        }
     }
 
     const onViewLive = (e: any) => {
@@ -86,12 +93,17 @@ export const Header: React.FC<any> = (props) => {
         name: "START",
         icon: "CaretRightOutlined",
         tooltip: "Start running"
-    }, {
+    }, product.started ? {
+        id: "preview",
+        name: "PREVIEW",
+        icon: "LayoutOutlined",
+        tooltip: "Preview website"
+    } : undefined, {
         id: "deploy",
         name: "PUBLISH",
         icon: "CloudUploadOutlined",
         tooltip: "Publish online"
-    }]
+    }].filter(d => d)
 
     const renderStatus = () => {
         if (status.processing) {
@@ -99,6 +111,7 @@ export const Header: React.FC<any> = (props) => {
                 display: "flex",
                 flex: 1,
                 margin: 10,
+                paddingLeft: 20,
                 justifyContent: "flex-end",
                 alignItems: "flex-end"
             }}>
@@ -167,37 +180,11 @@ export const Header: React.FC<any> = (props) => {
     </div>)
     )
 
-
-  const renderTop = () => (<div key="main" style={{
-    display: "flex", 
-    flex: 1, 
-    flexDirection: "row", 
-    height: 40,
-    width: "100%",
-    alignItems: "center",
-    justifyContent: "center"
-}}>
-    <div key="main" style={{
-      display: "flex", 
-      flex: 1, 
-      flexDirection: "column", 
-      height: 40,
-      width: "100%",
-      alignItems: "center",
-      justifyContent: "center"
-     }}>
-        <Title key="title" level={3} style={{ margin: 0 }}>
-            { product.name}
-        </Title>
-        { renderStatus() }
-    </div>
-</div>)
-
     const title = (<div key="main" style={{
       display: "flex", 
       flex: 1, 
       flexDirection: "row", 
-      height: 40,
+      height: 50,
       width: "100%",
       alignItems: "center",
       justifyContent: "center"
@@ -205,8 +192,19 @@ export const Header: React.FC<any> = (props) => {
     <Title key="title" level={3} style={{ margin: 0 }}>
         { product.name}
     </Title>
-   { renderStatus() }
+    { renderStatus() }
   </div>)
+
+  const showStatus = () => {
+
+    return <div key="alert" style={{ 
+        display: "flex",
+        flex: 1,
+        justifyContent: "flex-end",
+        alignItems: "flex-end"
+    }}>
+    </div>
+  }
 
   return (<div key="main" style={{
       display: "flex",
@@ -257,23 +255,8 @@ export const Header: React.FC<any> = (props) => {
                 })}
             </Menu>
             
-            <div key="alert" style={{ 
-                display: "flex",
-                flex: 1,
-                justifyContent: "flex-end",
-                alignItems: "flex-end"
-            }}>
-                { product.started && 
-                    <div>
-                        <Text style={{ marginRight: 5 }}> Preview </Text>
-                        <Switch 
-                            checkedChildren="on"
-                            onChange={onTogglePreview} 
-                            unCheckedChildren="off" 
-                            defaultChecked={false} />
-                    </div>
-                }
-            </div>
+            { showStatus() }
+            
         </div>
     </PageHeader>
 </div>)

@@ -22,13 +22,15 @@ export const env = () => {
   const workspace = path.resolve(userHome, 'carmel')
   const lock = path.resolve(home, 'secrets', '.data', '.lock')
   const cache = path.resolve(home, 'cache')
+  const bin = path.resolve(home, 'bin')
   const sdk = path.resolve(cache, '@carmel', 'sdk', 'default')
   const node = path.resolve(cache, 'node', 'default')
-  const machineId = session ? `${session.id}:${session.platform.system}` : ''
+  const machineId = session ? `${session.id}` : ''
 
   return {
     home: { path: home, exists: fs.existsSync(home) },
     workspace: { path: workspace, exists: fs.existsSync(workspace) },
+    bin: { path: bin, exists: fs.existsSync(bin) },
     cache: { path: cache, exists: fs.existsSync(cache) },
     sdk: { path: sdk, exists: fs.existsSync(sdk) },
     node: { path: node, exists: fs.existsSync(node) },

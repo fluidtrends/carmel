@@ -6,5 +6,9 @@ import { Engine, Commands } from '..'
   const Command = (Commands as any)[args.cls!]
   const command = new Command(args)
 
-  await Engine.start(command, args)
+  try {
+    await Engine.start(command, args)
+  } catch (e) {
+    console.log(e)
+  }
 })()

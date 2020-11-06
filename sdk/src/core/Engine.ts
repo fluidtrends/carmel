@@ -84,7 +84,8 @@ export class Engine implements IEngine {
     process.env.CARMEL_COMMAND = JSON.stringify(props)
 
     this._server = new Server(command, args)
-    await this.server?.start()
+
+    await this.server?.start()  
 
     process.exit(0)
   }
@@ -225,6 +226,7 @@ export class Engine implements IEngine {
 
       // Start the server for long running commands
       await Engine.instance.startServer(command, args)
+
       return
     }
 

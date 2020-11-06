@@ -219,7 +219,7 @@ export class Server implements IServer {
   /**
    *
    */
-  async start() {
+  async start() {    
     // Make sure we're ready to start
     this.isInitialized || (await this.initialize())
 
@@ -237,29 +237,39 @@ export class Server implements IServer {
           return
         }
 
-        pm2.start(
-          {
-            cwd: (this.command.type === CommandType.PRODUCT
-              ? this.command.product!.cacheDir!
-              : this.command.session!.dir!
-            ).path,
-            pid: this.pidFile!.path,
-            output: this.outputFile!.path,
-            error: this.errorFile!.path,
-            name: this.id,
-            script: this.scriptFile?.path,
-          },
-          (err, apps) => {
-            if (err) {
-              this.changeState(ServerState.STOPPED)
-              pm2.disconnect()
-              reject(err)
-              return
-            }
-            this.changeState(ServerState.RUNNING)
-            resolve({ started: true })
-          }
-        )
+        const options =  {
+          cwd: (this.command.type === CommandType.PRODUCT
+            ? this.command.product!.cacheDir!
+            : this.command.session!.dir!
+          ).path,
+          pid: this.pidFile!.path,
+          output: this.outputFile!.path,
+          interpreter: process.env.NODU_NODE_EXEC,
+          error: this.errorFile!.path,
+          name: this.id,
+          script: this.scriptFile?.path,
+        }
+
+        pm2.start(options, () => {  
+            pm2.describe(this.id, (err, desc: any) => {
+              if (err) {
+                this.changeState(ServerState.STOPPED)
+                pm2.disconnect()
+                reject(err)
+                return
+              }
+
+              if (desc[0].pm2_env.status !== 'online') {
+                this.changeState(ServerState.STOPPED)
+                pm2.disconnect()
+                reject('An error occurred')
+                return
+              }
+
+              this.changeState(ServerState.RUNNING)
+              resolve({ started: true })  
+            })
+        })
       })
     })
   }

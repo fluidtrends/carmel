@@ -11,6 +11,7 @@ module.exports = {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json'],
     alias: {
       carmel: path.resolve(userHome, '.carmel'),
+      carmelbundle: path.resolve(userHome, '.carmel', 'bundles'),
     },
   },
 }

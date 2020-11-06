@@ -39,13 +39,14 @@ export const toggle = () => {
   window.isVisible() ? hide() : show()
 }
 
-export const toggleBrowser = () => {
+export const hideBrowser = () => {
   if (!browser) return
 
-  if (browser.isVisible()) {
-    browser.hide()
-    return
-  }
+  browser.isVisible() && browser.hide()
+}
+
+export const showBrowser = () => {
+  if (!browser) return
 
   const { x, y, width, height } = window.getBounds()
   
@@ -107,10 +108,11 @@ export const create = () => {
 
   window.on('close', () => {
     hide()
+    hideBrowser()
   })
 
   browser.on('close', () => {
-    browser.hide()
+    // browser.hide()
   })
 
   window.once('ready-to-show', () => {

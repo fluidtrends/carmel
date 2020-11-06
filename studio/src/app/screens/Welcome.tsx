@@ -17,7 +17,6 @@ const TICK = 300
 const TICKS = 100
 
 import intro from '../../intro.json'
-const introVideo = require(`../../../assets/${(intro as any).video}`).default
 
 /**
  * 
@@ -40,8 +39,8 @@ export const Welcome: React.FC<WelcomeScreenProps> = (props) => {
   const dispatch = useDispatch()
   
   const onVideoDone = () => {
-    setVideoIsDone(true)
-    startSlides()
+    // setVideoIsDone(true)
+    // startSlides()
   }
 
   const startSlides = () => {
@@ -49,7 +48,8 @@ export const Welcome: React.FC<WelcomeScreenProps> = (props) => {
   }
   
   useEffect(() => {
-    setupEvent.send({ type: "setup" })
+    startSlides()
+      setupEvent.send({ type: "setup" })
   }, [])
 
   useEffect(() => {
@@ -62,28 +62,31 @@ export const Welcome: React.FC<WelcomeScreenProps> = (props) => {
 
   useEffect(() => {
     if (!setupEvent.received.id) return 
+    console.log(setupEvent.received)
 
     const { status } = setupEvent.received
-    timer && setStatus(`${status}`)
+    setStatus(`${status}`)
 
     if (setupEvent.received.done) {
-      loadEvent.send({ type: 'load' })
+      dispatch(replace('/products'))
+    //   loadEvent.send({ type: 'load' })
     }
  }, [setupEvent.received])
 
   useEffect(() => {
-    if (!loadEvent.received.id) return
-    loadEvent.received.type === 'loaded' && dispatch(initialize(loadEvent.received)) 
+    // if (!loadEvent.received.id) return
+    // console.log(loadEvent.received)
+    // loadEvent.received.type === 'loaded' && dispatch(initialize(loadEvent.received)) 
   }, [loadEvent.received])
 
   useEffect(() => {
-    if (!session.loadedTimestamp) return
-    setDone(true)
+    // if (!session.loadedTimestamp) return
+    // setDone(true)
   }, [session])
 
   const onStart = () => {
-    clearInterval(timer)
-    dispatch(replace('/product'))
+    // clearInterval(timer)
+    // dispatch(replace('/product'))
   }
 
   const Slide = (slide: any) => {
@@ -165,9 +168,9 @@ export const Welcome: React.FC<WelcomeScreenProps> = (props) => {
     </div>)
   }
 
-  if (!videoIsDone) {
-    return <Video onDone={onVideoDone} url={introVideo}/>
-  }
+  // if (!videoIsDone) {
+  //   return <Video onDone={onVideoDone} url={introVideo}/>
+  // }
 
   return (<div style={styles.screen}>      
     <IntroSlides/>

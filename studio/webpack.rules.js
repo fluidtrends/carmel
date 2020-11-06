@@ -29,7 +29,7 @@ module.exports = [
     test: /\.(?:png|jpg|svg|icns|gif)$/,
     loader: 'url-loader',
     query: {
-      limit: 10000,
+      limit: 500000,
     },
   },
   {
@@ -51,7 +51,7 @@ module.exports = [
   {
     test: /\.m?(js)$/,
     parser: { amd: false },
-    exclude: /(node_modules|\.webpack)/,
+    exclude: /(node_modules|\.webpack|mocha)/,
     use: [
       {
         loader: '@marshallofsound/webpack-asset-relocator-loader',
@@ -62,7 +62,7 @@ module.exports = [
     ],
   },
   {
-    test: /node-gyp\.js$/,
+    test: /node_modules[/\\](mocha|@npmcli|node-gyp)/i,
     use: [
       {
         loader: 'shebang-loader',

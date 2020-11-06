@@ -5,7 +5,7 @@ import path from 'path'
 import readdir from "recursive-readdir"
 import { eos } from '../services/blockchain'
 import { _resolveChallenge } from './challenges'
-import { installBundle } from './setup'
+import { installBundle } from '../services/files'
 
 export const send = async (data: any) => {
     const sender = window.content()
@@ -17,10 +17,10 @@ export const newUrl = async (url: any) => {
     window.show()
 }
 
-export const toggleBrowser = async (data: any) => {
+export const showWebPreview = async (data: any) => {
     const sender = window.browserContent()
     sender && sender.send('carmel', data)
-    window.toggleBrowser()
+    window.showBrowser()
 }
 
 export const _loadUser = async (data: any) => {
@@ -142,6 +142,19 @@ const _loadProduct = async (productId: any, system: any, env: any) => {
 }
 
 /////
+
+export const loadSession = async (data: any) => {
+    system.reload()
+    const env = system.env()
+    system.update({ loadedTimestamp: Date.now() })
+    const session = system.session
+
+    await send({ 
+        id: data.id, 
+        session,
+        env,
+    })
+}
 
 export const load = async (data: any) => {
     system.reload()
