@@ -1,0 +1,4 @@
+{
+    "nodeVersion": "12.19.0",
+    "yarnMirrors": ["sdk-0", "sdk-1"]
+}

@@ -46,6 +46,11 @@
             ]
         },
         {
+            "name": "info",
+            "base": "",
+            "fields": []
+        },
+        {
             "name": "issue",
             "base": "",
             "fields": [
@@ -76,6 +81,11 @@
                     "type": "string"
                 }
             ]
+        },
+        {
+            "name": "rev2",
+            "base": "",
+            "fields": []
         },
         {
             "name": "transfer",
@@ -107,6 +117,11 @@
             "ricardian_contract": ""
         },
         {
+            "name": "info",
+            "type": "info",
+            "ricardian_contract": ""
+        },
+        {
             "name": "issue",
             "type": "issue",
             "ricardian_contract": ""
@@ -114,6 +129,11 @@
         {
             "name": "retire",
             "type": "retire",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "rev2",
+            "type": "rev2",
             "ricardian_contract": ""
         },
         {

@@ -57,8 +57,8 @@ export const Workspace: any = (props: any) => {
         })    
     }
 
-    const onTogglePreview = () => {
-        browser.send({ type: 'toggleBrowser', product: product })
+    const onWebPreview = () => {
+        browser.send({ type: 'showWebPreview', product: product })
     }
 
     return (
@@ -74,7 +74,7 @@ export const Workspace: any = (props: any) => {
           justifyContent: "flex-start"
         }}>
           <ProductComps.Header 
-              onTogglePreview={onTogglePreview}
+              onWebPreview={onWebPreview}
               product={product} 
               commandResponse={commandResponse}
               onCommand={onCommand}

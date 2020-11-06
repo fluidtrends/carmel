@@ -1,6 +1,6 @@
 import { send } from './main'
 import { carmel } from './commands'
-import { installBundle } from './setup'
+import { installBundle } from '../services/files'
 import * as validators from '../validators'
 import * as system from '../system'
 import * as window from '../window'
@@ -63,7 +63,7 @@ export const _resolveChallenge = (data: any) => {
 
 export const listChallenges = async (data: any) => {
     const result = await eos.read("carmelsystem", "carmelsystem", "challenges")
-
+    
     const challenges = result.rows.map((c: any) => {
         let skills = { } as any
         (c.skills || []).map((s: any) => skills[s.key] = s.value)
@@ -84,6 +84,7 @@ export const listChallenges = async (data: any) => {
 
 export const startChallenge = async (data: any) => {    
     system.reload()
+
     const env = system.env()
     const { session } = system
     const { challenge, product } = data 
@@ -137,6 +138,7 @@ export const validateTask = async (data: any) => {
 
 export const updateProgress = async (data: any) => { 
     system.reload()
+    
     const env = system.env()
     const { session } = system
     const { challenge, product, progress } = data 

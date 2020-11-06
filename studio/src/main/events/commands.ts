@@ -7,13 +7,24 @@ import { send } from './main'
 import execa from 'execa'
 import fs from 'fs'
 
+const CLI_SCRIPT = 'cli.js'
+
 export const carmel = async(data: any) => {  
+    const scriptFile = CLI_SCRIPT
+
     system.reload()
 
     const env = system.env()
-    const cli = script('cli.js')
-    const session = system.session
 
+    const cli = path.resolve(env.bin.path, scriptFile)
+
+    if (!fs.existsSync(cli)) {
+        env.bin.exists || fs.mkdirSync(env.bin.path)
+        fs.copyFileSync(script(scriptFile), cli)
+        fs.chmodSync(cli, 777)
+    }
+
+    const session = system.session
     const nodeVersion = data.node || session.node.default
     const carmelSDKVersion = data.sdk || session.sdk.default
 
@@ -22,10 +33,10 @@ export const carmel = async(data: any) => {
     const args = [data.cmd].concat(data.args && data.args.length > 0 ? [JSON.stringify(data.args)] : [])
  
     const exe = path.resolve(nodeHome, 'bin', 'node')
-
+    
     try {
-        return await execa(exe, [cli, ...args], { 
-            cwd, 
+       return await execa(exe, [cli, ...args], { 
+            cwd,
             extendEnv: true,
             env: {
                 CARMEL_HOME: env.home.path,
@@ -39,15 +50,24 @@ export const carmel = async(data: any) => {
                   )
             } 
         })
+        
     } catch (error) {
+        await send({ 
+            id: data.id, 
+            type: 'commandResult', 
+            cwd, args, exe, cli,
+            errM: error.message,
+            error,
+            status: 'Error'
+        })
         return error
     }
 }
 
-export const shell = async(data: any) => {
+export const node = async(data: any) => {
     const now = Date.now()
     const env = system.env()
-    const nodeHome = path.resolve(env.cache.path, 'node', '12.18.3', 'node')
+    const nodeHome = path.resolve(env.cache.path, 'node', data.nodeVersion || "default", 'node')
     const cwd = data.cwd || env.home.path
     const args = data.cmd.split(' ')
     const cmd: string = args.shift()
@@ -84,11 +104,13 @@ export const runCommand = async(data: any) => {
     await send({ 
         id: data.id, 
         type: 'commandResult', 
-        status: data.progress || 'Working ...'
+        status: data.progress || 'Just a sec ...'
     })
 
     const result = await carmel({ 
-        node, sdk,
+        id: data.id, 
+        node, 
+        sdk,
         cmd: data.cmd,
         args: data.args || [],
         cwd 
@@ -101,7 +123,7 @@ export const runCommand = async(data: any) => {
                 if (!newManifest.started) return 
                 clearInterval(timer)
                 done()
-            }, 2000)
+            }, 500)
         })
     }
 

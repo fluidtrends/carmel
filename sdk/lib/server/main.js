@@ -38,17 +38,25 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var __1 = require("..");
 (function () { return __awaiter(void 0, void 0, void 0, function () {
-    var args, Command, command;
+    var args, Command, command, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 args = JSON.parse(process.env.CARMEL_COMMAND);
                 Command = __1.Commands[args.cls];
                 command = new Command(args);
-                return [4 /*yield*/, __1.Engine.start(command, args)];
+                _a.label = 1;
             case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, __1.Engine.start(command, args)];
+            case 2:
                 _a.sent();
-                return [2 /*return*/];
+                return [3 /*break*/, 4];
+            case 3:
+                e_1 = _a.sent();
+                console.log(e_1);
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); })();

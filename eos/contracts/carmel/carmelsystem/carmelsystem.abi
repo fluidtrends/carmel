@@ -374,6 +374,11 @@
             ]
         },
         {
+            "name": "info",
+            "base": "",
+            "fields": []
+        },
+        {
             "name": "newadmin",
             "base": "",
             "fields": [
@@ -626,6 +631,11 @@
                     "type": "string"
                 }
             ]
+        },
+        {
+            "name": "rev2",
+            "base": "",
+            "fields": []
         },
         {
             "name": "rewards_table",
@@ -948,6 +958,11 @@
             "ricardian_contract": ""
         },
         {
+            "name": "info",
+            "type": "info",
+            "ricardian_contract": ""
+        },
+        {
             "name": "newadmin",
             "type": "newadmin",
             "ricardian_contract": ""
@@ -970,6 +985,11 @@
         {
             "name": "newuser",
             "type": "newuser",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "rev2",
+            "type": "rev2",
             "ricardian_contract": ""
         },
         {

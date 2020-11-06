@@ -19,3 +19,4 @@ eosio.token.wasm
 .nyc_output
 coverage
 .webpack
+*.private.keys

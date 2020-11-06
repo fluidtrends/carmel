@@ -282,24 +282,34 @@ var Server = /** @class */ (function () {
                                         reject(err);
                                         return;
                                     }
-                                    pm2_1.default.start({
+                                    var options = {
                                         cwd: (_this.command.type === __1.CommandType.PRODUCT
                                             ? _this.command.product.cacheDir
                                             : _this.command.session.dir).path,
                                         pid: _this.pidFile.path,
                                         output: _this.outputFile.path,
+                                        interpreter: process.env.NODU_NODE_EXEC,
                                         error: _this.errorFile.path,
                                         name: _this.id,
                                         script: (_a = _this.scriptFile) === null || _a === void 0 ? void 0 : _a.path,
-                                    }, function (err, apps) {
-                                        if (err) {
-                                            _this.changeState(__1.ServerState.STOPPED);
-                                            pm2_1.default.disconnect();
-                                            reject(err);
-                                            return;
-                                        }
-                                        _this.changeState(__1.ServerState.RUNNING);
-                                        resolve({ started: true });
+                                    };
+                                    pm2_1.default.start(options, function () {
+                                        pm2_1.default.describe(_this.id, function (err, desc) {
+                                            if (err) {
+                                                _this.changeState(__1.ServerState.STOPPED);
+                                                pm2_1.default.disconnect();
+                                                reject(err);
+                                                return;
+                                            }
+                                            if (desc[0].pm2_env.status !== 'online') {
+                                                _this.changeState(__1.ServerState.STOPPED);
+                                                pm2_1.default.disconnect();
+                                                reject('An error occurred');
+                                                return;
+                                            }
+                                            _this.changeState(__1.ServerState.RUNNING);
+                                            resolve({ started: true });
+                                        });
                                     });
                                 });
                             })];

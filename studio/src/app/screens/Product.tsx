@@ -6,7 +6,6 @@ import { unselectProduct, selectProduct, initialize } from '../data'
 import { useEvent } from '../hooks'
 import { Challenges } from '../components/challenges'
 import { Workspace } from '../components/workspace'
-import { seed } from 'shortid'
 
 /**
  * 
@@ -24,7 +23,6 @@ export const Product: React.FC<ProductScreenProps> = (props) => {
   const listChallengesEvent: any = useEvent() 
 
   const onReload = () => {
-    console.log("reload...")
     setWorking(true)
     loadEvent.send({ type: 'load' })
   }
@@ -45,7 +43,7 @@ export const Product: React.FC<ProductScreenProps> = (props) => {
 
   useEffect(() => { 
     if (!command.received.id) return 
-
+    console.log(command.received)
     setCommandResponse(command.received)
     command.received.done && onReload()
   }, [command.received])

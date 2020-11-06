@@ -137,6 +137,14 @@ namespace carmel {
         return make_tuple(templates_idx, template_result);
     }
 
+    void system::rev2() {
+        print("**** CARMELSYSTEM: Revision 2 ****");
+    }
+
+    void system::info() {
+        rev2();
+    }
+    
     [[eosio::on_notify("eosio.token::transfer")]]
     void system::topup(name from, name to, asset quantity, string memo) {
       if (to != CARMEL_SYS) {

@@ -56,6 +56,12 @@ namespace carmel {
          [[eosio::action]]
          void retire(asset quantity, string memo);
 
+         [[eosio::action]]
+         void info();
+
+         [[eosio::action]]
+         void rev2();
+
          static asset get_supply(name token_contract_account, symbol_code sym_code)
          {
             stats statstable(token_contract_account, sym_code.raw());

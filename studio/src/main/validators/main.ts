@@ -22,8 +22,14 @@ const ctx = (product: any, original: any) => ({
 export const main = async (props: any) => {
     const { product, challenge, progress } = props
     const { dir, task_index, bundle, name } = progress
-    const validate = require(`carmel/bundles/${bundle.id}/${bundle.version}/${bundle.id}/challenges/${name}/tasks/${task_index}/validate.ts`).default
-    
+    let validate = async (ctx: any, done: any) => {
+        done()
+    }
+
+    try {
+        validate = require(`carmel/bundles/${bundle.id}/${bundle.version}/${bundle.id}/challenges/${name}/tasks/${task_index}/validate.ts`).default
+    } catch {}
+      
     const mocha = new Mocha({
         reporter: 'list'
     })

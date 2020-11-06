@@ -15,30 +15,23 @@ import { initialize } from '../data'
 export const Start: React.FC<StartScreenProps> = (props) => {
   const loadEvent: any = useEvent() 
   const dispatch = useDispatch()
-  const session = useSelector((state: State) => state.session)
 
   useEffect(() => {
-    loadEvent.send({ type: 'load' })
+    loadEvent.send({ type: 'loadSession' })
   }, [])
 
   useEffect(() => {
     if (!loadEvent.received.id) return
     
-    if (loadEvent.received.type === 'firstTime') {
+    if (!loadEvent.received.session) {
       dispatch(replace('/welcome'))
       return 
     }
 
-    loadEvent.received.type === 'loaded' && dispatch(initialize(loadEvent.received)) 
+    const screen = loadEvent.received.session.productId ? '/product' : '/products'
+    dispatch(replace(screen))
   }, [loadEvent.received])
 
-  useEffect(() => {
-    if (!session.loadedTimestamp) return
-
-    const screen = session.productId ? '/product' : '/products'  
-    dispatch(replace(screen))
-  }, [session])
-  
   return (<div style={styles.screen}>
      <Spin tip={strings.initializing}/>
   </div>)

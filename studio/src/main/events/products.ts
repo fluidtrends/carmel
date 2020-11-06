@@ -4,8 +4,64 @@ import * as system from '../system'
 import * as window from '../window'
 import fs from 'fs-extra'
 import path from 'path'
+import semver from 'semver'
+import { installBundle, installStack, installPacker } from '../services'
+import { encode, decode } from 'js-base64'
+import requireFromString from 'require-from-string'
 
 import { eos } from '../services/blockchain'
+import { connectAdvanced } from 'react-redux'
+
+///////
+
+export const _resolveTemplate = (data: any) => {
+    console.log(data)
+
+    const { env, bundle, template, version } = data 
+    // const { bundle_name, name, challenge_version } = challenge 
+
+    // let bundle: any = {
+    //     exists: false
+    // }
+
+    try {
+    //     const cacheRootDir = path.resolve(env.home.path, "bundles", bundle_name)
+    //     const bundleDir = path.resolve(cacheRootDir, version, bundle_name)
+    //     const dir = path.resolve(bundleDir, "challenges", name)        
+    //     const manifest = path.resolve(dir, "challenge.json")
+    //     const manifestData = JSON.parse(fs.readFileSync(manifest, "utf-8"))
+        
+    //     const tutorials = manifestData.tasks.map((task: any) => fs.readFileSync(path.resolve(dir, 'tasks', `${task.id}`, 'tutorial.md'), "utf-8"))
+
+    //     bundle = {
+    //         dir: bundleDir,
+    //         exists: fs.existsSync(bundleDir),
+    //         id: bundle_name,
+    //         version: challenge_version || version
+    //     }
+
+    //     const data = Object.assign({}, challenge)
+        
+    //     const result = {
+    //         ...data,
+    //         bundle,
+    //         dir,
+    //         isCompleted: data.done > 0,
+    //         exists: fs.existsSync(manifest),
+    //         ...manifestData,
+    //         tutorials
+    //     }
+
+    //     return result
+    } catch (e) {
+        // return {
+        //     ...template,
+        //     exists: false
+        // }
+    }
+}
+
+///////
 
 export const listTemplates = async (data: any) => {
     const result = await eos.read("carmelsystem", "carmelsystem", "templates")
@@ -19,43 +75,104 @@ export const listTemplates = async (data: any) => {
 
 export const createProduct = async (data: any) => {
     system.reload()
-    const env = system.env()
-    const cwd = path.resolve(env.workspace.path, data.name.replace(/\s/g, ''))
 
-    if (fs.existsSync(cwd)) {
+    const productName = data.name.replace(/\s/g, '')
+    const env = system.env()
+    const cwd = path.resolve(env.workspace.path, productName)
+    const { node } = system.session
+
+    try {    
+        if (fs.existsSync(cwd)) {
+            throw new Error('The product name is taken, please choose another name')
+        }
+
+        fs.mkdirsSync(cwd)
+
+        const { template } = data
+        const { versions, bundle, name } = template
+
+        let latestVersion: string = "0.0.1" as string
+
+        (versions || []).map((version: string) => {
+            latestVersion = semver.gt(version, latestVersion) ? version : latestVersion
+        })
+
         await send({ 
             id: data.id,
-            type: 'createdProduct', 
-            error: 'The name is taken, please choose another name'
+            type: 'createProduct', 
+            message: "Setting up the template"
         })
-        return
+
+        const bundleData = await installBundle({ id: bundle, version: latestVersion, nodeVersion: node.default })
+        const templateManifest = path.resolve(bundleData.dir, 'templates', name, 'index.js')
+
+        if (!fs.existsSync(templateManifest)) {
+            throw new Error('The template does not exist')
+        }
+
+        let TemplateRaw: any
+
+        try {
+            const templateManifestData = fs.readFileSync(templateManifest, 'utf-8')
+            TemplateRaw = requireFromString(templateManifestData)
+        } catch {}
+
+        if (!TemplateRaw) {
+            throw new Error('The template cannot be loaded')
+        }
+
+        const tmpl = new TemplateRaw()
+
+        if (!tmpl || !tmpl.stack || !tmpl.packer) {
+            throw new Error('The template is not configured properly')
+        }
+
+        const stackData = await installStack({ id: tmpl.stack, nodeVersion: node.default })
+        const packerData = await installPacker({ id: tmpl.packer, nodeVersion: node.default })
+
+        await send({ 
+            id: data.id,
+            type: 'createProduct', 
+            message: "Creating the product from the template"
+        })
+
+        const templateId = `${bundle}/${latestVersion}/${name}`
+
+        const result = await carmel({ 
+            cmd: "init",
+            args: [{
+                name: "name",
+                value: productName
+            }, {
+                name: "template",
+                value: templateId
+            }], 
+            cwd 
+        })
+
+        const { exitCode, stderr } = result
+
+        if (exitCode !== 0 || stderr) {
+            throw new Error('The product could not be created')
+        }
+
+        const manifest: any = JSON.parse(fs.readFileSync(path.resolve(cwd, '.carmel.json'), 'utf8'))
+
+        system.update({ productId: manifest.id })
+
+        await send({ 
+            id: data.id,
+            type: 'createProduct', 
+            product: manifest,
+            done: true
+        })
+    } catch (e) {
+        await send({ 
+            id: data.id,
+            type: 'createProduct', 
+            error: e.message
+        })
     }
-
-    fs.mkdirsSync(cwd)
-
-    const result = await carmel({ 
-        node: data.node,
-        sdk: data.sdk,
-        cmd: "init",
-        args: [{
-            name: "name",
-            value: data.name
-        }, {
-            name: "template",
-            value: data.template
-        }], 
-        cwd 
-    })
-
-    const manifest: any = JSON.parse(fs.readFileSync(path.resolve(cwd, '.carmel.json'), 'utf8'))
-
-    system.update({ productId: manifest.id })
-
-    await send({ 
-        id: data.id,
-        type: 'createdProduct', 
-        product: manifest
-    })
 }
 
 export const selectProduct = async (data: any) => {
