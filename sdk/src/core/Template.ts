@@ -111,17 +111,11 @@ export class Template implements ITemplate {
      * 
      * @param dir 
      */
-    async install(dir: IDir, name: Name, product: IProduct) {
-        let id = shortid.generate().toLowerCase()
-        
-        if (product.exists) {
-            // We want to install this in an existing product
-            product.manifest.load()
-            id = product.manifest.data.json().id 
-        }
+    async install(name: Name, product: IProduct) {        
+        product.exists && product.manifest.load()
 
         // Start fresh
-        const productCacheDir = new Dir(product.session?.index.sections.products.path)?.dir(id)?.make()
+        product.dir.make()
 
         // Figure out the dependencies
         const packerId = this._tpl?.content.packer
@@ -135,9 +129,9 @@ export class Template implements ITemplate {
         const packerDir = new Dir(packer.path)
         const stackDir = new Dir(stack.path)
  
-        await this._tpl?.save(productCacheDir!.path!, {})
+        await this._tpl?.save(product.dir.path!, {})
 
-        productCacheDir?.file('carmel.code-workspace')?.update({
+        product.dir?.file('carmel.code-workspace')?.update({
             folders: [
                 { path: "carmel/assets" },
                 { path: "carmel/chunks" }
@@ -147,26 +141,26 @@ export class Template implements ITemplate {
 
         if (stackDir.dir('node_modules')?.exists) {
             // Link node dependencies if necessary
-            stackDir?.dir('node_modules')?.copy(productCacheDir!.dir('node_modules')!)
-            productCacheDir?.dir('node_modules')?.dir(stackId)?.link(stackDir)
+            // stackDir?.dir('node_modules')?.copy(product.dir!.dir('node_modules')!)
+            // product.dir?.dir('node_modules')?.dir(stackId)?.link(stackDir)
         }
 
-        if (product.exists) {
-            productCacheDir?.file('.carmel.json')?.remove()
-            productCacheDir?.file('.carmel.json')?.link(dir.file('.carmel.json'))
-            productCacheDir?.dir('carmel')?.remove()
-            productCacheDir?.dir('carmel')?.link(dir.dir('carmel'))
-            return 
-        }
+        // if (product.exists) {
+        //     productCacheDir?.file('.carmel.json')?.remove()
+        //     // productCacheDir?.file('.carmel.json')?.link(dir.file('.carmel.json'))
+        //     productCacheDir?.dir('carmel')?.remove()
+        //     // productCacheDir?.dir('carmel')?.link(dir.dir('carmel'))
+        //     return 
+        // }
 
-        productCacheDir?.file('.carmel.json')?.move(dir.file('.carmel.json')!)
-        productCacheDir?.file('.carmel.json')?.link(dir.file('.carmel.json'))
-        productCacheDir?.dir('carmel')?.move(dir.dir('carmel')!)
-        productCacheDir?.dir('carmel')?.link(dir.dir('carmel'))
+        // productCacheDir?.file('.carmel.json')?.move(dir.file('.carmel.json')!)
+        // productCacheDir?.file('.carmel.json')?.link(dir.file('.carmel.json'))
+        // productCacheDir?.dir('carmel')?.move(dir.dir('carmel')!)
+        // productCacheDir?.dir('carmel')?.link(dir.dir('carmel'))
 
         product.manifest.load()
         product.manifest.data.append({
-            id,
+            id: product.id,
             name,
             carmelSDKVersion: product.session?.pkg.version,
             template: this.name,
@@ -179,7 +173,7 @@ export class Template implements ITemplate {
         })
         product.manifest.save()
 
-        await this.generateCovers(productCacheDir!)
+        await this.generateCovers(product.dir!)
 
         return { packer, stack }
     }

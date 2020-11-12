@@ -19,7 +19,6 @@ export const userHome = process.env[(process.platform === 'win32') ? 'USERPROFIL
 
 export const env = () => {
   const home = path.resolve(userHome, '.carmel')
-  const workspace = path.resolve(userHome, 'carmel')
   const lock = path.resolve(home, 'secrets', '.data', '.lock')
   const cache = path.resolve(home, 'cache')
   const bin = path.resolve(home, 'bin')
@@ -29,7 +28,6 @@ export const env = () => {
 
   return {
     home: { path: home, exists: fs.existsSync(home) },
-    workspace: { path: workspace, exists: fs.existsSync(workspace) },
     bin: { path: bin, exists: fs.existsSync(bin) },
     cache: { path: cache, exists: fs.existsSync(cache) },
     sdk: { path: sdk, exists: fs.existsSync(sdk) },

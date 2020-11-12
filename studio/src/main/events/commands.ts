@@ -33,7 +33,7 @@ export const carmel = async(data: any) => {
     const args = [data.cmd].concat(data.args && data.args.length > 0 ? [JSON.stringify(data.args)] : [])
  
     const exe = path.resolve(nodeHome, 'bin', 'node')
-    
+
     try {
        return await execa(exe, [cli, ...args], { 
             cwd,
@@ -99,7 +99,6 @@ export const runCommand = async(data: any) => {
     const node = data.sdk || session.node.versions[0]
 
     const cwd = data.productId ? path.resolve(env.home.path, 'products', data.productId) : env.home.path
-    const manifest = data.productId ? JSON.parse(fs.readFileSync(path.resolve(cwd, '.carmel.json'), 'utf8')) : undefined
 
     await send({ 
         id: data.id, 
@@ -112,8 +111,15 @@ export const runCommand = async(data: any) => {
         node, 
         sdk,
         cmd: data.cmd,
-        args: data.args || [],
+        args: (data.args || []).concat(data.productId ? [{ name: 'product', value: data.productId }] : []),
         cwd 
+    })
+
+    await send({ 
+        id: data.id, 
+        type: 'commandResult', 
+        ...result,
+        status: data.progress || 'Just a sec ...'
     })
 
     if (data.productId && data.cmd === 'start') {

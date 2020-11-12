@@ -35,5 +35,14 @@ export default class Init extends Command {
 
     // Looks good, let's create the product structure from this template
     await this.product?.createFromTemplate(templateId, name)
+
+    if (!this.product?.exists) {
+      throw Errors.ProductCannotCreate('the template could not be installed')
+    }
+
+    this.session?.manifest?.load()
+    this.session?.manifest?.update({
+      productId: this.product!.id
+    })
   }
 }

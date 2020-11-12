@@ -23,7 +23,6 @@ export default class Start extends Command {
     if (!this.product?.packer) return
 
     await this.product?.packer.pack((event: any) => {
-      console.log('Chunky says: ', event)
       console.log(`http://0.0.0.0:${this.product!.packerPort}`)
     })
     

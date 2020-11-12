@@ -284,7 +284,7 @@ var Server = /** @class */ (function () {
                                     }
                                     var options = {
                                         cwd: (_this.command.type === __1.CommandType.PRODUCT
-                                            ? _this.command.product.cacheDir
+                                            ? _this.command.product.dir
                                             : _this.command.session.dir).path,
                                         pid: _this.pidFile.path,
                                         output: _this.outputFile.path,

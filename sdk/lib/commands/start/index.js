@@ -78,7 +78,6 @@ var Start = /** @class */ (function (_super) {
                         if (!((_a = this.product) === null || _a === void 0 ? void 0 : _a.packer))
                             return [2 /*return*/];
                         return [4 /*yield*/, ((_b = this.product) === null || _b === void 0 ? void 0 : _b.packer.pack(function (event) {
-                                console.log('Chunky says: ', event);
                                 console.log("http://0.0.0.0:" + _this.product.packerPort);
                             }))];
                     case 1:

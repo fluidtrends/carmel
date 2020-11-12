@@ -32,8 +32,7 @@ export class File implements IFile {
     if (this.exists) return this
     if (!this.path || !file || !file.exists) return undefined
 
-    fs.existsSync(path.dirname(this.path)) ||
-      fs.mkdirsSync(path.dirname(this.path))
+    fs.existsSync(path.dirname(this.path)) || fs.mkdirsSync(path.dirname(this.path))    
     fs.symlinkSync(file.path!, this.path, 'file')
 
     return this.exists ? this : undefined

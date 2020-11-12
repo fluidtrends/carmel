@@ -78,16 +78,9 @@ export const createProduct = async (data: any) => {
 
     const productName = data.name.replace(/\s/g, '')
     const env = system.env()
-    const cwd = path.resolve(env.workspace.path, productName)
     const { node } = system.session
 
     try {    
-        if (fs.existsSync(cwd)) {
-            throw new Error('The product name is taken, please choose another name')
-        }
-
-        fs.mkdirsSync(cwd)
-
         const { template } = data
         const { versions, bundle, name } = template
 
@@ -147,7 +140,7 @@ export const createProduct = async (data: any) => {
                 name: "template",
                 value: templateId
             }], 
-            cwd 
+            cwd: env.home.path 
         })
 
         const { exitCode, stderr } = result
@@ -156,14 +149,9 @@ export const createProduct = async (data: any) => {
             throw new Error('The product could not be created')
         }
 
-        const manifest: any = JSON.parse(fs.readFileSync(path.resolve(cwd, '.carmel.json'), 'utf8'))
-
-        system.update({ productId: manifest.id })
-
         await send({ 
             id: data.id,
             type: 'createProduct', 
-            product: manifest,
             done: true
         })
     } catch (e) {

@@ -50,6 +50,7 @@ export class Session implements ISession {
     'secrets',
     'settings',
     'stacks',
+    'system',
     'products',
     'keystore',
     'packers',
@@ -60,7 +61,7 @@ export class Session implements ISession {
   public static DEFAULT_EXPIRATION: number = 24 * 60 * 60 * 1000
 
   /** Use these as mandatory bundles */
-  public static DEFAULT_BUNDLES = ['@fluidtrends/bananas']
+  public static DEFAULT_BUNDLES = ['traista']
 
   /** The id to use for auth */
   public static DEFAULT_ID = 'io.carmel.session'
@@ -478,12 +479,12 @@ export class Session implements ISession {
    *
    * @param productId
    */
-  async resolveProduct(target?: Target) {
+  async resolveProduct(productId?: string) {
     // Make sure we're ready
     await this.makeReady()
 
     // Let's build it up
-    this._product = new Product(this)
+    this._product = new Product(this, productId)
 
     // Send it back if found
     return this.product

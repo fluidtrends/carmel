@@ -1,4 +1,4 @@
-import { IProduct, Path, IFile, IDir, Target, Dir, ProductState, ISession, ISnapshot, Id, ICode, IPacker } from '..';
+import { IProduct, Path, IFile, IDir, Target, ProductState, ISession, ISnapshot, Id, ICode, IPacker, IStack } from '..';
 import { Name } from '../types';
 /**
  *
@@ -12,7 +12,7 @@ export declare class Product implements IProduct {
     /** The default name of the manifest */
     static MANIFEST_FILENAME: string;
     /** @internal */
-    protected _id?: Id;
+    protected _id: Id;
     /** @internal */
     protected _packerPort?: number;
     /** @internal */
@@ -33,15 +33,18 @@ export declare class Product implements IProduct {
     protected _code: ICode;
     /** @internal */
     protected _packer?: IPacker;
+    /** @internal */
+    protected _stack?: IStack;
     /**
      *
      * @param session
      */
-    constructor(session?: ISession);
+    constructor(session?: ISession, id?: string);
     /**
      *
      */
     get packer(): IPacker | undefined;
+    get stack(): IStack | undefined;
     /**
      *
      */
@@ -73,7 +76,7 @@ export declare class Product implements IProduct {
     /**
      *
      */
-    get id(): string | undefined;
+    get id(): string;
     /**
      *
      */
@@ -105,23 +108,6 @@ export declare class Product implements IProduct {
      * @param id
      */
     createFromTemplate(id: Id, name: Name): Promise<this>;
-    /**
-     *
-     */
-    openCode(): Promise<void>;
-    /**
-     *
-     */
-    openWeb(): Promise<void>;
-    /**
-     *
-     */
-    loadCache(): Promise<{
-        id: any;
-        packer: any;
-        stack: any;
-        dir: Dir | undefined;
-    }>;
     /**
      *
      * @param target

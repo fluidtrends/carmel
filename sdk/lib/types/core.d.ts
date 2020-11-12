@@ -1,5 +1,6 @@
 import { SessionProps, CommandProps, Path, EngineState, IClass, IBundle, Name, ChunkConfig, Id, ILogger, ArtifactsKind, ServerState, IFile, JSON, AccessTokenType, IDir, IKeyStore, CommandType, SessionState, AuthStoreType, ChunkConfigRoute, IAuthenticator, Target, Version, ProductState, CommandArg, User } from '.';
 import { IAuthKey } from './auth';
+import { Archive } from 'rara';
 export interface IEngine extends IClass {
     readonly state: EngineState;
     readonly isStarted: boolean;
@@ -40,7 +41,7 @@ export interface ISession extends IClass {
     makeReady(): Promise<void>;
     destroy(): Promise<void>;
     changeState(state: SessionState): void;
-    resolveProduct(target?: Target): Promise<IProduct | undefined>;
+    resolveProduct(id?: string): Promise<IProduct | undefined>;
     findBundle(id: Id, version: Version, install?: boolean): Promise<IBundle | undefined>;
     findArtifact(id: Id, kind: ArtifactsKind, install?: boolean): Promise<any>;
     findTemplate(id: Id, install?: boolean): Promise<ITemplate | undefined>;
@@ -60,7 +61,9 @@ export interface ICommand extends IClass {
     exec(): Promise<any>;
     arg(name: Name): any;
 }
-export interface IPacker extends IClass {
+export interface IStack extends Archive {
+}
+export interface IPacker extends Archive {
     pack(callback: (event: any) => void): Promise<any>;
 }
 export interface IRepo extends IClass {
@@ -93,7 +96,6 @@ export interface ICode extends IClass {
 }
 export interface IProduct extends IClass {
     readonly dir: IDir;
-    readonly cacheDir?: IDir;
     readonly manifest: IFile;
     readonly session?: ISession;
     readonly exists: boolean;
@@ -102,17 +104,15 @@ export interface IProduct extends IClass {
     readonly isReady: boolean;
     readonly state: ProductState;
     readonly snapshot?: ISnapshot;
-    readonly id?: Id;
+    readonly id: Id;
     readonly code: ICode;
     readonly data?: JSON;
     readonly packer?: IPacker;
+    readonly stack?: IStack;
     readonly packerPort?: number;
-    openCode(): Promise<any>;
-    openWeb(): Promise<any>;
-    loadCache(): Promise<any>;
     create(data?: any): void;
     createFromTemplate(id: Id, name: Name): Promise<IProduct | undefined>;
-    load(): Promise<IProduct | undefined>;
+    load(): Promise<IProduct>;
     saveContext(context: object): void;
     changeState(state: ProductState): void;
     loadFile(path: Path): void;
@@ -162,7 +162,7 @@ export interface IArtifact extends IClass {
 export interface ITemplate extends IClass {
     readonly artifact: IArtifact;
     readonly name: Name;
-    install(dir: IDir, name: Name, product: IProduct): Promise<any>;
+    install(name: Name, product: IProduct): Promise<any>;
     load(): Promise<ITemplate | undefined>;
 }
 export interface IApp extends IClass {
