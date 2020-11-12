@@ -547,7 +547,7 @@ var Session = /** @class */ (function () {
      *
      * @param productId
      */
-    Session.prototype.resolveProduct = function (target) {
+    Session.prototype.resolveProduct = function (productId) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -560,7 +560,7 @@ var Session = /** @class */ (function () {
                         // Make sure we're ready
                         _a.sent();
                         // Let's build it up
-                        this._product = new __1.Product(this);
+                        this._product = new __1.Product(this, productId);
                         // Send it back if found
                         return [2 /*return*/, this.product];
                 }
@@ -573,6 +573,7 @@ var Session = /** @class */ (function () {
         'secrets',
         'settings',
         'stacks',
+        'system',
         'products',
         'keystore',
         'packers',
@@ -581,7 +582,7 @@ var Session = /** @class */ (function () {
     /** Default lifetime for a typical session */
     Session.DEFAULT_EXPIRATION = 24 * 60 * 60 * 1000;
     /** Use these as mandatory bundles */
-    Session.DEFAULT_BUNDLES = ['@fluidtrends/bananas'];
+    Session.DEFAULT_BUNDLES = ['traista'];
     /** The id to use for auth */
     Session.DEFAULT_ID = 'io.carmel.session';
     return Session;

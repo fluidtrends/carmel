@@ -24,7 +24,7 @@ export default class Preview extends Command {
 
   /** @internal */
   async exec() {
-    const serverPath = this.product!.cacheDir!.dir('.web')!.path!
+    const serverPath = this.product!.dir!.dir('.web')!.path!
     const app = express()
 
     app.use('/', express.static(serverPath))

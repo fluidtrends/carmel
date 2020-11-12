@@ -239,7 +239,7 @@ export class Server implements IServer {
 
         const options =  {
           cwd: (this.command.type === CommandType.PRODUCT
-            ? this.command.product!.cacheDir!
+            ? this.command.product!.dir!
             : this.command.session!.dir!
           ).path,
           pid: this.pidFile!.path,

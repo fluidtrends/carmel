@@ -81,7 +81,7 @@ var Preview = /** @class */ (function (_super) {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        serverPath = this.product.cacheDir.dir('.web').path;
+                        serverPath = this.product.dir.dir('.web').path;
                         app = express_1.default();
                         app.use('/', express_1.default.static(serverPath));
                         return [4 /*yield*/, get_port_1.default()];

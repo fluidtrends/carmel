@@ -183,12 +183,13 @@ export abstract class Command implements ICommand {
 
   /** @internal */
   private async _resolve() {
-    this._product = await this.session?.resolveProduct(this.target)
-
+    const productId = this.arg('product')
+    this._product = await this.session?.resolveProduct(productId)
+    
     switch (this.type) {
       case CommandType.PRODUCT:
-        await this._product?.load()
-        await this._product?.resolve(this.target, this.isLongRunning)
+        this._product?.exists && await this._product?.load()
+        this._product?.exists && await this._product?.resolve(this.target, this.isLongRunning)
         break
     }
   }
@@ -202,7 +203,9 @@ export abstract class Command implements ICommand {
    */
   async initialize(session: ISession, args?: CommandArg[]) {
     // Keep track of the arguments
-    this._args = args
+    this._args = Array.isArray(args) ? args : args ? Object.keys(args!).map((name: any) => ({
+        name, value: args[name]
+    })) : []
 
     // Keep track of the session too
     this._session = session

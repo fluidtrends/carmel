@@ -211,29 +211,41 @@ var Command = /** @class */ (function () {
     };
     /** @internal */
     Command.prototype._resolve = function () {
-        var _a, _b, _c;
+        var _a, _b, _c, _d, _e;
         return __awaiter(this, void 0, void 0, function () {
-            var _d, _e;
-            return __generator(this, function (_f) {
-                switch (_f.label) {
+            var productId, _f, _g, _h, _j;
+            return __generator(this, function (_k) {
+                switch (_k.label) {
                     case 0:
-                        _d = this;
-                        return [4 /*yield*/, ((_a = this.session) === null || _a === void 0 ? void 0 : _a.resolveProduct(this.target))];
+                        productId = this.arg('product');
+                        _f = this;
+                        return [4 /*yield*/, ((_a = this.session) === null || _a === void 0 ? void 0 : _a.resolveProduct(productId))];
                     case 1:
-                        _d._product = _f.sent();
-                        _e = this.type;
-                        switch (_e) {
+                        _f._product = _k.sent();
+                        _g = this.type;
+                        switch (_g) {
                             case __1.CommandType.PRODUCT: return [3 /*break*/, 2];
                         }
-                        return [3 /*break*/, 5];
-                    case 2: return [4 /*yield*/, ((_b = this._product) === null || _b === void 0 ? void 0 : _b.load())];
+                        return [3 /*break*/, 7];
+                    case 2:
+                        _h = ((_b = this._product) === null || _b === void 0 ? void 0 : _b.exists);
+                        if (!_h) return [3 /*break*/, 4];
+                        return [4 /*yield*/, ((_c = this._product) === null || _c === void 0 ? void 0 : _c.load())];
                     case 3:
-                        _f.sent();
-                        return [4 /*yield*/, ((_c = this._product) === null || _c === void 0 ? void 0 : _c.resolve(this.target, this.isLongRunning))];
+                        _h = (_k.sent());
+                        _k.label = 4;
                     case 4:
-                        _f.sent();
-                        return [3 /*break*/, 5];
-                    case 5: return [2 /*return*/];
+                        _h;
+                        _j = ((_d = this._product) === null || _d === void 0 ? void 0 : _d.exists);
+                        if (!_j) return [3 /*break*/, 6];
+                        return [4 /*yield*/, ((_e = this._product) === null || _e === void 0 ? void 0 : _e.resolve(this.target, this.isLongRunning))];
+                    case 5:
+                        _j = (_k.sent());
+                        _k.label = 6;
+                    case 6:
+                        _j;
+                        return [3 /*break*/, 7];
+                    case 7: return [2 /*return*/];
                 }
             });
         });
@@ -251,7 +263,10 @@ var Command = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         // Keep track of the arguments
-                        this._args = args;
+                        this._args = Array.isArray(args) ? args : args ? Object.keys(args).map(function (name) { return ({
+                            name: name,
+                            value: args[name]
+                        }); }) : [];
                         // Keep track of the session too
                         this._session = session;
                         // Look for a product, if any

@@ -42,8 +42,7 @@ var File = /** @class */ (function () {
             return this;
         if (!this.path || !file || !file.exists)
             return undefined;
-        fs_extra_1.default.existsSync(path_1.default.dirname(this.path)) ||
-            fs_extra_1.default.mkdirsSync(path_1.default.dirname(this.path));
+        fs_extra_1.default.existsSync(path_1.default.dirname(this.path)) || fs_extra_1.default.mkdirsSync(path_1.default.dirname(this.path));
         fs_extra_1.default.symlinkSync(file.path, this.path, 'file');
         return this.exists ? this : undefined;
     };

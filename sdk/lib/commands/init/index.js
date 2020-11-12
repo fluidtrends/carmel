@@ -68,11 +68,11 @@ var Init = /** @class */ (function (_super) {
     }
     /** @internal */
     Init.prototype.exec = function () {
-        var _a, _b;
+        var _a, _b, _c, _d, _e, _f, _g;
         return __awaiter(this, void 0, void 0, function () {
             var templateId, name;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
+            return __generator(this, function (_h) {
+                switch (_h.label) {
                     case 0:
                         if ((_a = this.product) === null || _a === void 0 ? void 0 : _a.exists) {
                             // Check to make sure we're even allowed to attempt this
@@ -84,7 +84,14 @@ var Init = /** @class */ (function (_super) {
                         return [4 /*yield*/, ((_b = this.product) === null || _b === void 0 ? void 0 : _b.createFromTemplate(templateId, name))];
                     case 1:
                         // Looks good, let's create the product structure from this template
-                        _c.sent();
+                        _h.sent();
+                        if (!((_c = this.product) === null || _c === void 0 ? void 0 : _c.exists)) {
+                            throw __1.Errors.ProductCannotCreate('the template could not be installed');
+                        }
+                        (_e = (_d = this.session) === null || _d === void 0 ? void 0 : _d.manifest) === null || _e === void 0 ? void 0 : _e.load();
+                        (_g = (_f = this.session) === null || _f === void 0 ? void 0 : _f.manifest) === null || _g === void 0 ? void 0 : _g.update({
+                            productId: this.product.id
+                        });
                         return [2 /*return*/];
                 }
             });

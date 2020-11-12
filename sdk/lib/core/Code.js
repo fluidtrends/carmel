@@ -152,7 +152,7 @@ var Code = /** @class */ (function () {
                         // this._user = this.product.session?.user!
                         // this._keys = this.product.session?.keys(AccessTokenType.GITHUB) || []
                         // this._key = this.keys![0]
-                        this._dir = this.product.cacheDir;
+                        this._dir = this.product.dir;
                         // try {
                         //   this._credentials = (url: string, username: string) =>
                         //     NodeGit.Cred.sshKeyNew(

@@ -1,5 +1,5 @@
 /// <reference types="express-session" />
-import { ISession, SessionProps, ILogger, Id, Bundle, IProduct, JSON, Target, Template, IDir, Name, IFile, Version, ArtifactsKind, SessionState, IAuthenticator, AuthStoreType, AccessTokenType, IKeyStore, User } from '..';
+import { ISession, SessionProps, ILogger, Id, Bundle, IProduct, JSON, Template, IDir, Name, IFile, Version, ArtifactsKind, SessionState, IAuthenticator, AuthStoreType, AccessTokenType, IKeyStore, User } from '..';
 /**
  * Represents an {@linkcode Engine} Session initiated by a client.
  *
@@ -160,5 +160,5 @@ export declare class Session implements ISession {
      *
      * @param productId
      */
-    resolveProduct(target?: Target): Promise<IProduct | undefined>;
+    resolveProduct(productId?: string): Promise<IProduct | undefined>;
 }

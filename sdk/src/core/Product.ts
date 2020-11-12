@@ -18,9 +18,11 @@ import {
   ICode,
   Code,
   IPacker,
+  IStack,
   Strings,
 } from '..'
 import { Name } from '../types'
+import shortid from 'shortid'
 
 /**
  *
@@ -32,11 +34,10 @@ import { Name } from '../types'
  */
 export class Product implements IProduct {
   /** The default name of the manifest */
-
   public static MANIFEST_FILENAME = '.carmel.json'
 
   /** @internal */
-  protected _id?: Id
+  protected _id: Id
 
   /** @internal */
   protected _packerPort?: number
@@ -68,19 +69,19 @@ export class Product implements IProduct {
   /** @internal */
   protected _packer?: IPacker
 
+  /** @internal */
+  protected _stack?: IStack
+
   /**
    *
    * @param session
    */
-  constructor(session?: ISession) {
-    this._dir = new Dir(process.cwd())
-    this._manifest = new File(
-      this.dir.path !== undefined
-        ? path.resolve(this.dir.path!, Product.MANIFEST_FILENAME)
-        : undefined
-    )
+  constructor(session?: ISession, id?: string) {
     this._state = ProductState.UNLOADED
     this._session = session
+    this._id = id || shortid.generate().toLowerCase()
+    this._dir = new Dir(path.resolve(this.session?.index.sections.products.path, this.id!))
+    this._manifest = new File(path.resolve(this.session?.index.sections.products.path, this.id!, Product.MANIFEST_FILENAME))
     this._code = new Code(this)
   }
 
@@ -89,6 +90,10 @@ export class Product implements IProduct {
    */
   get packer() {
     return this._packer
+  }
+  
+  get stack() {
+    return this._stack
   }
 
   /**
@@ -202,60 +207,25 @@ export class Product implements IProduct {
       throw Errors.ProductCannotCreate(Strings.TemplateIsMissingString(id))
     }
 
-    await template!.install(this.dir, name, this)
+    await template!.install(name, this)
 
     return this.load()
   }
 
-  /**
-   *
-   */
-  async openCode() {
-    const file = this.cacheDir?.file('carmel.code-workspace')
-    file && file.exists && (await open(file.path!))
-  }
+  // /**
+  //  *
+  //  */
+  // async openCode() {
+  //   const file = this.cacheDir?.file('carmel.code-workspace')
+  //   file && file.exists && (await open(file.path!))
+  // }
 
-  /**
-   *
-   */
-  async openWeb() {
-    await open(`https://carmel-${this.id}.vercel.app`)
-  }
-
-  /**
-   *
-   */
-  async loadCache() {
-    this.manifest.load()
-    const id = this.manifest.data.json().id
-    const dir = new Dir(this.session?.index.sections.products.path)?.dir(id)
-
-    // Look for the packer and stack in the manifest
-    const packerId = this.manifest.data.json().packer
-    const stackId = this.manifest.data.json().stack
-
-    // Look for the exact versions
-    const packerVersion = this.manifest.data.json().packerVersion
-    const stackVersion = this.manifest.data.json().stackVersion
-
-    // Get the fresh packer and stack
-    const packer =
-      packerId &&
-      (await this.session?.index.installArchive({
-        id: packerId,
-        version: packerVersion,
-        section: 'packers',
-      }))
-    const stack =
-      stackId &&
-      (await this.session?.index.installArchive({
-        id: stackId,
-        version: stackVersion,
-        section: 'stacks',
-      }))
-
-    return { id, packer, stack, dir }
-  }
+  // /**
+  //  *
+  //  */
+  // async openWeb() {
+  //   await open(`https://carmel-${this.id}.vercel.app`)
+  // }
 
   /**
    *
@@ -263,34 +233,13 @@ export class Product implements IProduct {
    * @param watch
    */
   async resolve(target: Target, watch: boolean) {
-    // Start by looking up this product's id and cache
-    const productId = this.manifest.data.json().id
-    const productName= this.manifest.data.json().name
-    const bundle = this.manifest.data.json().bundle
-    const bundleVersion = this.manifest.data.json().bundleVersion
-    const templateName = this.manifest.data.json().template
+    this.load()
 
-    const productCacheDir = new Dir(
-      this.session?.index.sections.products.path
-    )?.dir(productId)
+    if (!this.isLoaded) return
 
-    const templateId = `${bundle}/${bundleVersion}/${templateName}`
-
-    let cache = undefined
-
-    if (!productCacheDir?.exists) {
-      // Let's setup cache structure
-      productCacheDir?.make()
-      const template = await this.session?.findTemplate(templateId)
-      cache = await template!.install(this.dir, productName, this)
-    }
-
-    // Make sure we have a product cache available
-    cache = cache === undefined ? await this.loadCache() : cache
-    
     // Figure out the roots
-    const packerDir = new Dir(cache.packer.path)
-    const stackDir = new Dir(cache.stack.path)
+    const packerDir = new Dir(this.packer!.path!)
+    const stackDir = new Dir(this.stack!.path!)
 
     // Look up the packer and the stack config
     const packerInstance = require(packerDir!.path!)
@@ -313,11 +262,11 @@ export class Product implements IProduct {
     
     // Build the packer options
     const options = {
-      contextDir: productCacheDir!.path,
+      contextDir: this.dir.path,
       mainDir: this.dir!.path,
-      destDir: productCacheDir?.dir(`.${target}`)!.path!,
-      stackDir: stackDir?.path!,
-      packerDir: packerDir?.path!,
+      destDir: this.dir.dir(`.${target}`)!.path,
+      stackDir: stackDir?.path,
+      packerDir: packerDir?.path,
       stackConfig,
       entryFile: stackDir!.file(stackConfig[target].entry[isStatic ? 'static' : 'dom'])!.path!,
       target,
@@ -364,10 +313,30 @@ export class Product implements IProduct {
     // Keep track of the id
     this._id = this.manifest.data.json().id
 
-    // Resolve the cache roo
-    this._cacheDir = new Dir(
-      path.resolve(this.session?.index.sections.products.path, this.id!)
-    )
+    // Look for the packer and stack in the manifest
+    const packerId = this.manifest.data.json().packer
+    const stackId = this.manifest.data.json().stack
+
+    // Look for the exact versions
+    const packerVersion = this.manifest.data.json().packerVersion
+    const stackVersion = this.manifest.data.json().stackVersion
+
+    // Get the fresh packer and stack
+    this._packer =
+      packerId &&
+      (await this.session?.index.installArchive({
+        id: packerId,
+        version: packerVersion,
+        section: 'packers',
+      }))
+
+    this._stack =
+      stackId &&
+      (await this.session?.index.installArchive({
+        id: stackId,
+        version: stackVersion,
+        section: 'stacks',
+      }))
 
     // Get the code ready
     await this.code.initialize()
