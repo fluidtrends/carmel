@@ -108,7 +108,7 @@ export const yarn = async(data: any) => {
     const args = data.cmd.split(' ')
 
     const exe = IS_WINDOWS ? path.resolve(nodeHome, 'yarn.cmd') : path.resolve(nodeHome, 'bin', 'node')
-    const exeArgs = (IS_WINDOWS ? [] : [path.resolve(nodeHome, 'bin', 'yarn')]).concat(['--prefix', nodeHome, ...args])
+    const exeArgs = (IS_WINDOWS ? [] : [path.resolve(nodeHome, 'bin', 'yarn')]).concat(args)
         
     try {
         const result = await execa(exe, exeArgs, { cwd })
