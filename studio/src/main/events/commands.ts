@@ -8,6 +8,7 @@ import execa from 'execa'
 import fs from 'fs'
 
 const CLI_SCRIPT = 'cli.js'
+const IS_WINDOWS = (process.platform === 'win32')
 
 export const carmel = async(data: any) => {  
     const scriptFile = CLI_SCRIPT
@@ -27,12 +28,11 @@ export const carmel = async(data: any) => {
     const session = system.session
     const nodeVersion = data.node || session.node.default
     const carmelSDKVersion = data.sdk || session.sdk.default
-
     const nodeHome = path.resolve(env.cache.path, 'node', nodeVersion, 'node')
     const cwd = data.cwd || env.home.path
     const args = [data.cmd].concat(data.args && data.args.length > 0 ? [JSON.stringify(data.args)] : [])
- 
-    const exe = path.resolve(nodeHome, 'bin', 'node')
+
+    const exe = IS_WINDOWS ? path.resolve(nodeHome, 'node.cmd') : path.resolve(nodeHome, 'bin', 'node')
 
     try {
        return await execa(exe, [cli, ...args], { 
@@ -67,7 +67,7 @@ export const carmel = async(data: any) => {
 export const node = async(data: any) => {
     const now = Date.now()
     const env = system.env()
-    const nodeHome = path.resolve(env.cache.path, 'node', data.nodeVersion || "default", 'node')
+    const nodeHome = path.resolve(env.cache.path, 'node', data.nodeVersion, 'node')
     const cwd = data.cwd || env.home.path
     const args = data.cmd.split(' ')
     const cmd: string = args.shift()
