@@ -70,25 +70,52 @@ export const node = async(data: any) => {
     const nodeHome = path.resolve(env.cache.path, 'node', data.nodeVersion, 'node')
     const cwd = data.cwd || env.home.path
     const args = data.cmd.split(' ')
-    const cmd: string = args.shift()
 
-    const exe = path.resolve(nodeHome, 'bin', 'node')
-    const exeArgs = [path.resolve(nodeHome, 'bin', cmd)].concat(cmd === 'npm' ? ['--prefix', nodeHome, ...args] : args)
+    const exe = IS_WINDOWS ? path.resolve(nodeHome, 'node.cmd') : path.resolve(nodeHome, 'bin', 'node')
+    const exeArgs = ['--prefix', nodeHome, ...args]
         
     try {
-        const result = await execa(exe, exeArgs, { 
-            cwd,
-        })
-        return {
-            ...result,
-            time: ((Date.now() - now) / 1000)
-        }
+        const result = await execa(exe, exeArgs, { cwd })
+        return {  ...result, time: ((Date.now() - now) / 1000) }
     } catch (error) {
-        return {
-            error,
-            time: ((Date.now() - now) / 1000)
-        }
-    }
+        return { error, time: ((Date.now() - now) / 1000) }
+    }  
+}
+
+export const npm = async(data: any) => {
+    const now = Date.now()
+    const env = system.env()
+    const nodeHome = path.resolve(env.cache.path, 'node', data.nodeVersion, 'node')
+    const cwd = data.cwd || env.home.path
+    const args = data.cmd.split(' ')
+
+    const exe = IS_WINDOWS ? path.resolve(nodeHome, 'npm.cmd') : path.resolve(nodeHome, 'bin', 'node')
+    const exeArgs = (IS_WINDOWS ? [] : [path.resolve(nodeHome, 'bin', 'npm')]).concat(['--prefix', nodeHome, ...args])
+        
+    try {
+        const result = await execa(exe, exeArgs, { cwd })
+        return {  ...result, time: ((Date.now() - now) / 1000) }
+    } catch (error) {
+        return { error, time: ((Date.now() - now) / 1000) }
+    }  
+}
+
+export const yarn = async(data: any) => {
+    const now = Date.now()
+    const env = system.env()
+    const nodeHome = path.resolve(env.cache.path, 'node', data.nodeVersion, 'node')
+    const cwd = data.cwd || env.home.path
+    const args = data.cmd.split(' ')
+
+    const exe = IS_WINDOWS ? path.resolve(nodeHome, 'yarn.cmd') : path.resolve(nodeHome, 'bin', 'node')
+    const exeArgs = (IS_WINDOWS ? [] : [path.resolve(nodeHome, 'bin', 'yarn')]).concat(['--prefix', nodeHome, ...args])
+        
+    try {
+        const result = await execa(exe, exeArgs, { cwd })
+        return {  ...result, time: ((Date.now() - now) / 1000) }
+    } catch (error) {
+        return { error, time: ((Date.now() - now) / 1000) }
+    }  
 }
 
 export const runCommand = async(data: any) => {

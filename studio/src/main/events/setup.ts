@@ -8,7 +8,7 @@ import {
     installCacheArchive
 } from '../services/files'
 import { 
-    node
+    npm
 } from './commands'
 import axios from 'axios'
 import fs from 'fs-extra'
@@ -43,7 +43,7 @@ export const setup = async (e: any) => {
 
     await send({ id: e.id, type: 'setup', status: 'Installing the package manager ...' })    
 
-    await node({ nodeVersion, cmd: 'npm i -g yarn' })
+    await npm({ nodeVersion, cmd: 'i -g yarn' })
     
     await send({ id: e.id, type: 'setup', status: 'Installing the Carmel SDK ...' })    
 

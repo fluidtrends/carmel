@@ -1,6 +1,6 @@
 import * as system from '../../system'
 import path from 'path'
-import { node } from '../../events/commands'
+import { yarn } from '../../events/commands'
 import os from 'os'
 import axios from 'axios'
 import fs from 'fs-extra'
@@ -12,7 +12,7 @@ export const installNodeDependencies = async (data: any) => {
     const env = system.env()
     const cwd = path.resolve(env.home.path, data.type, data.name, data.version, data.name)
 
-    return await node({ nodeVersion: data.nodeVersion, cmd: `yarn install`, cwd })
+    return await yarn({ nodeVersion: data.nodeVersion, cmd: `install`, cwd })
 }
 
 export const installBundle = async (data: any) => {
