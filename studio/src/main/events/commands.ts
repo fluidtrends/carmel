@@ -111,9 +111,11 @@ export const yarn = async(data: any) => {
     const exeArgs = (IS_WINDOWS ? [] : [path.resolve(nodeHome, 'bin', 'yarn')]).concat(args)
         
     try {
+        console.log(exe, exeArgs)
         const result = await execa(exe, exeArgs, { cwd })
         return {  ...result, time: ((Date.now() - now) / 1000) }
     } catch (error) {
+        console.log(error)
         return { error, time: ((Date.now() - now) / 1000) }
     }  
 }

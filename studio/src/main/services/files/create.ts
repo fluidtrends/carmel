@@ -17,6 +17,7 @@ export const createYarnConfig = async () => {
 yarn-offline-mirror-pruning true
 yarn-offline-mirror yarn/yarnmirror
 --install.production true
+--network-timeout 9999999
 --install.no-progress true
 --install.silent true
 --install.prefer-offline true
