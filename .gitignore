@@ -9,6 +9,7 @@ build
 .gitignore
 \.vagrant
 \.idea/
+package-lock.json
 .app
 .assets
 screenshots
@@ -19,4 +20,5 @@ eosio.token.wasm
 .nyc_output
 coverage
 .webpack
+studio/out
 *.private.keys

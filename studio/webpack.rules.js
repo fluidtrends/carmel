@@ -26,7 +26,7 @@ module.exports = [
     ],
   },
   {
-    test: /\.(?:png|jpg|svg|icns|gif)$/,
+    test: /\.(?:png|jpg|svg|icns|gif|ico)$/,
     loader: 'url-loader',
     query: {
       limit: 500000,

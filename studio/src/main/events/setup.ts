@@ -49,7 +49,7 @@ export const setup = async (e: any) => {
 
     const sdk = await downloadNodePackage({ nodeVersion, id: '@carmel/sdk', type: "cache" })    
     await installNodeDependencies({ nodeVersion, name: sdk.name, version: sdk.version, type: "cache" })
-    fs.symlinkSync(path.resolve(env.cache.path, sdk.name, sdk.version), path.resolve(env.cache.path, sdk.name, 'default'), 'dir')
+    // fs.symlinkSync(path.resolve(env.cache.path, sdk.name, sdk.version), path.resolve(env.cache.path, sdk.name, 'default'), 'dir')
 
     // await send({ id: e.id, type: 'settingUp', status: 'Installing The Default Packer (papanache)...' })    
 
