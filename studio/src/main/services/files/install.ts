@@ -12,6 +12,7 @@ export const installNodeDependencies = async (data: any) => {
     const env = system.env()
     const cwd = path.resolve(env.home.path, data.type, data.name, data.version, data.name)
 
+    return await yarn({ nodeVersion: data.nodeVersion, cmd: `cache clean`, cwd })
     return await yarn({ nodeVersion: data.nodeVersion, cmd: `install`, cwd })
 }
 
