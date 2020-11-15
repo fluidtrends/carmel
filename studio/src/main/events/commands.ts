@@ -32,10 +32,10 @@ export const carmel = async(data: any) => {
     const cwd = data.cwd || env.home.path
     const args = [data.cmd].concat(data.args && data.args.length > 0 ? [JSON.stringify(data.args)] : [])
 
-    const exe = IS_WINDOWS ? path.resolve(nodeHome, 'node.cmd') : path.resolve(nodeHome, 'bin', 'node')
+    const exe = IS_WINDOWS ? path.resolve(nodeHome, 'node.exe') : path.resolve(nodeHome, 'bin', 'node')
 
     try {
-       return await execa(exe, [cli, ...args], { 
+       const result = await execa(exe, [cli, ...args], { 
             cwd,
             extendEnv: true,
             env: {
@@ -50,7 +50,8 @@ export const carmel = async(data: any) => {
                   )
             } 
         })
-        
+
+        return result
     } catch (error) {
         await send({ 
             id: data.id, 

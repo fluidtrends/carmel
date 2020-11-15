@@ -76,7 +76,7 @@ export const Browser = (BrowserProps: any) => {
     useEffect(() => {
         if (!product || !product.started || !product.packerPort) return 
 
-        setUrl(`0.0.0.0:${product.packerPort}`)
+        setUrl(`localhost:${product.packerPort}`)
         setProtocol('http')
     }, [product])
 
@@ -152,7 +152,7 @@ export const Browser = (BrowserProps: any) => {
         </div>
         <webview id="carmel" 
             ref={view}
-            src="http://github.com"
+            src=""
             style={{ 
                 display: "flex",
                 flex: 1,
