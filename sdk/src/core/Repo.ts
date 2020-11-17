@@ -149,108 +149,108 @@ export class Repo implements IRepo {
   async push() {
     if (!this.dir?.exists) return
 
-    const { createFactory, createController, createServer } = require('ipfsd-ctl')
-    process.env.IPFS_PATH = this.code.product.session!.dir.dir('ipfs')?.make()?.path    
-    console.log(process.env.IPFS_PATH)
-    const deploymentId = shortid.generate()
+    // const { createFactory, createController, createServer } = require('ipfsd-ctl')
+    // process.env.IPFS_PATH = this.code.product.session!.dir.dir('ipfs')?.make()?.path    
+    // console.log(process.env.IPFS_PATH)
+    // const deploymentId = shortid.generate()
 
-    const deploymentRoot = `/deployments/${deploymentId}`                      
+    // const deploymentRoot = `/deployments/${deploymentId}`                      
 
-    const ignores = ['.DS_Store']
-    let files: any[] = await listDir(this.dir!.path!)
-    files = files.filter(file => !ignores.includes(path.basename(file))).map(file => {
-      const info = fs.statSync(file)
+    // const ignores = ['.DS_Store']
+    // let files: any[] = await listDir(this.dir!.path!)
+    // files = files.filter(file => !ignores.includes(path.basename(file))).map(file => {
+    //   const info = fs.statSync(file)
       
-      return {
-          path: `${deploymentRoot}/${path.relative(this.dir!.path!, file)}`,
-          content: fs.readFileSync(file),
-          mtime: info.mtime
-      }
-    })
+    //   return {
+    //       path: `${deploymentRoot}/${path.relative(this.dir!.path!, file)}`,
+    //       content: fs.readFileSync(file),
+    //       mtime: info.mtime
+    //   }
+    // })
     
-    let deployment: any = {
-      timestamp: Date.now(),
-      id: deploymentId,
-      files: files.length
-    }
+    // let deployment: any = {
+    //   timestamp: Date.now(),
+    //   id: deploymentId,
+    //   files: files.length
+    // }
 
-    if (!files || files.length === 0) return deployment 
+    // if (!files || files.length === 0) return deployment 
 
-    console.log('starting ipfs node ...')
+    // console.log('starting ipfs node ...')
 
-    const node = await createController({
-      type: 'js',
-      ipfsModule: require('ipfs'),
-      ipfsHttpModule: require('ipfs-http-client'),
-      ipfsBin: path.join(__dirname, '../../node_modules/ipfs/src/cli/bin.js'),
-      init: true, 
-      start: true,
-      ipfsOptions: { start: true, init: true, repo: process.env.IPFS_PATH }
-    })
+    // const node = await createController({
+    //   type: 'js',
+    //   ipfsModule: require('ipfs'),
+    //   ipfsHttpModule: require('ipfs-http-client'),
+    //   ipfsBin: path.join(__dirname, '../../node_modules/ipfs/src/cli/bin.js'),
+    //   init: true, 
+    //   start: true,
+    //   ipfsOptions: { start: true, init: true, repo: process.env.IPFS_PATH }
+    // })
 
-    const localGatewayUrl = `http://${node.api.gatewayHost}:${node.api.gatewayPort}`
-    const publicGatewayUrl = `https://ipfs.io`//cloudflare-ipfs.com`
+    // const localGatewayUrl = `http://${node.api.gatewayHost}:${node.api.gatewayPort}`
+    // const publicGatewayUrl = `https://ipfs.io`//cloudflare-ipfs.com`
 
-    console.log('done. pushing files ...')
+    // console.log('done. pushing files ...')
 
-    await Promise.all(files.map(file => node.api.files.write(file.path, file.content, {
-      parents: true, create: true, mtime: file.mtime  
-    })))
+    // await Promise.all(files.map(file => node.api.files.write(file.path, file.content, {
+    //   parents: true, create: true, mtime: file.mtime  
+    // })))
 
-    console.log('done. checking files ...')
+    // console.log('done. checking files ...')
 
-    const deployed = []
-    for await (const result of node.api.files.ls(deploymentRoot)) deployed.push(result)
-    const deployedWeb = deployed.find(d => d.name === 'web')
+    // const deployed = []
+    // for await (const result of node.api.files.ls(deploymentRoot)) deployed.push(result)
+    // const deployedWeb = deployed.find(d => d.name === 'web')
 
-    console.log(deployedWeb.cid)
-    console.log('done. publishing web ...')
+    // console.log(deployedWeb.cid)
+    // console.log('done. publishing web ...')
 
-    const deployedWebNamed = await node.api.name.publish(deployedWeb.cid)
-    deployment.urls = {
-      publicRaw: `${publicGatewayUrl}/ipfs/${deployedWeb.cid}`,
-      publicNamed: `${publicGatewayUrl}/ipns/${deployedWebNamed.name}`
-    }
-    console.log(deployment.urls)
+    // const deployedWebNamed = await node.api.name.publish(deployedWeb.cid)
+    // deployment.urls = {
+    //   publicRaw: `${publicGatewayUrl}/ipfs/${deployedWeb.cid}`,
+    //   publicNamed: `${publicGatewayUrl}/ipns/${deployedWebNamed.name}`
+    // }
+    // console.log(deployment.urls)
     
-    console.log('done. shortening ...')
+    // console.log('done. shortening ...')
 
-    const shorten = await axios.post(`https://rel.ink/api/links/`,  {
-      url: deployment.urls.publicRaw
-    }, { 
-      headers: { 'Content-Type': 'application/json' }
-    })
+    // const shorten = await axios.post(`https://rel.ink/api/links/`,  {
+    //   url: deployment.urls.publicRaw
+    // }, { 
+    //   headers: { 'Content-Type': 'application/json' }
+    // })
 
-    if (!shorten || !shorten.data || !shorten.data.hashid) {
-      return deployment
-    }
-    deployment.urls.short = `https://rel.ink/${shorten.data.hashid}`
+    // if (!shorten || !shorten.data || !shorten.data.hashid) {
+    //   return deployment
+    // }
+    // deployment.urls.short = `https://rel.ink/${shorten.data.hashid}`
 
-    console.log('done. waiting to go live ...')
-    console.log(deployment.urls)
+    // console.log('done. waiting to go live ...')
+    // console.log(deployment.urls)
 
-    const check = async () => {
-      try {
-        console.log('checking ...')
-        return await axios.get(deployment.urls.publicRaw)
-      } catch {}
-    }
+    // const check = async () => {
+    //   try {
+    //     console.log('checking ...')
+    //     return await axios.get(deployment.urls.publicRaw)
+    //   } catch {}
+    // }
 
-    await new Promise((done) => {
-      (async () => {
-        let checked: any
-        while(!checked || checked.status !== 200) {
-          checked = await check()
-        }
-        done()
-      })()
-    })
+    // await new Promise((done) => {
+    //   (async () => {
+    //     let checked: any
+    //     while(!checked || checked.status !== 200) {
+    //       checked = await check()
+    //     }
+    //     done()
+    //   })()
+    // })
 
-    console.log('done. stopping ipfs node ...')
-    await node.stop()
-    console.log('ipfs node stopped.')
+    // console.log('done. stopping ipfs node ...')
+    // await node.stop()
+    // console.log('ipfs node stopped.')
 
-    return deployment
+    // return deployment
 
     // if (!this.isOpen) return
 

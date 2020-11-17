@@ -17,6 +17,8 @@ screenshots
 carmel.token.wasm
 eosio.token.wasm
 .webpack
+yarn.lock
+pnpm-lock.yaml
 .nyc_output
 coverage
 .webpack
