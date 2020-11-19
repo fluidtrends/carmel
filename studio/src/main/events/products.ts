@@ -145,6 +145,8 @@ export const createProduct = async (data: any) => {
 
         const { exitCode, stderr } = result
 
+        console.log(result)
+        
         if (exitCode !== 0 || stderr) {
             throw new Error('The product could not be created')
         }

@@ -1,6 +1,6 @@
 import * as system from '../../system'
 import path from 'path'
-import { yarn } from '../../events/commands'
+import { pnpm } from '../../events/commands'
 import os from 'os'
 import axios from 'axios'
 import fs from 'fs-extra'
@@ -9,11 +9,11 @@ import { downloadNodePackage } from '.'
 const REMOTE_CACHE_ROOT = `http://files.carmel.io/cache`
 
 export const installNodeDependencies = async (data: any) => {
+    console.log("installNodeDependencies:", data)
     const env = system.env()
     const cwd = path.resolve(env.home.path, data.type, data.name, data.version, data.name)
 
-    await yarn({ nodeVersion: data.nodeVersion, cmd: `cache clean`, cwd })
-    return await yarn({ nodeVersion: data.nodeVersion, cmd: `install`, cwd })
+    return await pnpm({ nodeVersion: data.nodeVersion, cmd: `install -P`, cwd })
 }
 
 export const installBundle = async (data: any) => {
@@ -59,8 +59,8 @@ export const installCacheArchive = async (data: any) => {
     const platform = `${os.platform}-${os.arch}`
     const filename = data.id ? `${data.id}.tar.gz` : `${name}-${version}-${platform}.tar.gz`
     
-    const dir = data.type === 'yarn' ? path.resolve(env.home.path, data.type) : path.resolve(env.home.path, data.type || 'cache', name, version)
-    const dest = path.resolve(dir, data.type === 'yarn' ? 'yarnmirror' : name)
+    const dir = path.resolve(env.home.path, data.type || 'cache', name, version)
+    const dest = path.resolve(dir, name)
 
     if (fs.existsSync(dest)) {
         return {
@@ -85,12 +85,4 @@ export const installCacheArchive = async (data: any) => {
         dest,
         time: Math.round((Date.now() - now) / 1000),
     }
-}
-
-export const installYarnMirror = async (data: any) => {
-    return installCacheArchive({ 
-        ...data,
-        id: `yarn/${data.id}`,
-        type: "yarn"
-    })
 }
