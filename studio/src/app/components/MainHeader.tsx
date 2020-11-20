@@ -96,6 +96,8 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
         </div>
     )
 
+  console.log(session)
+
   return (<div style={{ 
     display: "flex",
     flexDirection: "column",
@@ -149,7 +151,7 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
                   { session.user.username } 
                   <CaretDownOutlined/>
               </Button>
-              { session.user.plan_name !== "free" && <Tag color="green" style={{margin: 10}}> { session.user.plan_name.split('.')[0].toUpperCase() } </Tag> }
+              { session.user.plan_name && session.user.plan_name !== "free" && <Tag color="green" style={{margin: 10}}> { session.user.plan_name.split('.')[0].toUpperCase() } </Tag> }
             </Badge>
           </Dropdown> : <div>
               <Button type="primary" onClick={onSignUp}> Sign Up</Button> 

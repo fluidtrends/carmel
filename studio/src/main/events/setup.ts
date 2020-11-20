@@ -43,9 +43,9 @@ export const setup = async (e: any) => {
     await send({ id: e.id, type: 'settingUp', status: 'Installing The Default Packer (papanache)...' })    
 
     const papanache = await installPacker({ nodeVersion, id: "papanache" })
-    await send({ id: data.id, type: 'settingUp', status: 'Installing The Default Stack (jayesse)...' })    
+    await send({ id: e.id, type: 'settingUp', status: 'Installing The Default Stack (jayesse)...' })    
     const jayesse = await installStack({ nodeVersion, id: "jayesse" })
-    await send({ id: data.id, type: 'settingUp', status: 'Installing The Default Bundle (traista)...' })    
+    await send({ id: e.id, type: 'settingUp', status: 'Installing The Default Bundle (traista)...' })    
     const traista = await installBundle({ nodeVersion, id: "traista" })
 
     // await send({ id: data.id, type: 'settingUp', status: 'Creating A Sample Product ...' })    

@@ -1,4 +1,4 @@
-import { BrowserWindow, webContents } from 'electron'
+import { BrowserWindow, BrowserView } from 'electron'
 import { isDevMode } from './utils'
 import * as tray from './tray'
 import path from 'path'
@@ -11,10 +11,11 @@ declare const BROWSER_WINDOW_WEBPACK_ENTRY: any
 
 export let window: BrowserWindow
 export let browser: BrowserWindow
+export let browserView: BrowserView
 
 export const hasWindow = BrowserWindow.getAllWindows().length > 0
 export const content = () => window ? window.webContents : undefined
-export const browserContent = () => browser ? browser.webContents : undefined
+export const browserContent = () => browserView ? browserView.webContents : undefined
 
 export const hide = () => {
   if (!window || !window.isVisible()) return
@@ -42,20 +43,29 @@ export const toggle = () => {
 export const hideBrowser = () => {
   if (!browser) return
 
-  browser.isVisible() && browser.hide()
+  // browser.isVisible() && 
+  browser.hide()
 }
 
-export const showBrowser = () => {
-  if (!browser) return
+export const showBrowser = (data: any) => {
+  if (!browser || !data.product || !data.product.packerPort) return
 
   const { x, y, width, height } = window.getBounds()
-  
+
   browser.center()
   browser.setBounds({
     ...browser.getBounds(),
-    y,
-    x: x + width + 20
+    y: y + 320,
+    x: x + 240
   })
+
+  const b = browser.getBounds()
+
+  browserView.setBounds({ x: 0, y: 0, width: b.width, height: b.height })
+  browserView.setAutoResize({ width: true, height: true, horizontal: true, vertical: true })
+
+  browserView.webContents.loadURL(`http://localhost:${data.product.packerPort}`)
+
   browser.show()
 }
 
@@ -100,19 +110,28 @@ export const create = () => {
     },
   })
 
-  isDevMode && window.webContents.openDevTools()
+  // browserView = new BrowserView()
+  // browser.setBrowserView(browserView)
+  // const { x, y, width, height } = browserView.getBounds()
+  // browserView.setBounds({ x, y, width, height })
+
+  // view.webContents.loadURL('https://electronjs.org')
+
+  // isDevMode && window.webContents.openDevTools()
   window.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
 
   // browser.webContents.openDevTools()
-  browser.loadURL(BROWSER_WINDOW_WEBPACK_ENTRY)
+  // browser.loadURL(BROWSER_WINDOW_WEBPACK_ENTRY)
+  browserView = new BrowserView()
+  browser.setBrowserView(browserView)
 
   window.on('close', () => {
     hide()
-    hideBrowser()
+    // hideBrowser()
   })
 
   browser.on('close', () => {
-    // browser.hide()
+    hideBrowser()
   })
 
   window.once('ready-to-show', () => {

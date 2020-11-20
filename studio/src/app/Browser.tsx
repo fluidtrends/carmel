@@ -14,6 +14,7 @@ const { Title } = Typography
 const { Option } = Select
 
 const PROTOCOLS = ['http', 'https', 'carmel']
+const LOCALHOST = "0.0.0.0"
 
 /**
  * 
@@ -76,7 +77,7 @@ export const Browser = (BrowserProps: any) => {
     useEffect(() => {
         if (!product || !product.started || !product.packerPort) return 
 
-        setUrl(`localhost:${product.packerPort}`)
+        setUrl(`${LOCALHOST}:${product.packerPort}`)
         setProtocol('http')
     }, [product])
 

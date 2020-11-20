@@ -98,12 +98,7 @@ export const Header: React.FC<any> = (props) => {
         name: "PREVIEW",
         icon: "LayoutOutlined",
         tooltip: "Preview website"
-    } : undefined, {
-        id: "deploy",
-        name: "PUBLISH",
-        icon: "CloudUploadOutlined",
-        tooltip: "Publish online"
-    }].filter(d => d)
+    } : undefined].filter(d => d)
 
     const renderStatus = () => {
         if (status.processing) {
