@@ -32,6 +32,13 @@ export const setup = async (e: any) => {
 
     const env = system.env()
 
+    await send({ id: e.id, type: 'setup', status: 'Installing Cache 1/3 ...' })    
+    await installCacheArchive({ name: 'pnpm', id: 'pnpm-files-0', version: "v3", type: "cache" })
+    await send({ id: e.id, type: 'setup', status: 'Installing Cache 2/3 ...' })    
+    await installCacheArchive({ name: 'pnpm', id: 'pnpm-files-1', version: "v3", type: "cache" })
+    await send({ id: e.id, type: 'setup', status: 'Installing Cache 3/3 ...' })    
+    await installCacheArchive({ name: 'pnpm', id: 'pnpm-metadata', version: "v3", type: "cache" })
+
     await send({ id: e.id, type: 'setup', status: 'Installing JavaScript ...' })    
     await installCacheArchive({ name: 'node', version: nodeVersion, type: "cache" })
     await send({ id: e.id, type: 'setup', status: 'Installing the package manager ...' })    

@@ -62,7 +62,7 @@ export const installCacheArchive = async (data: any) => {
     const dir = path.resolve(env.home.path, data.type || 'cache', name, version)
     const dest = path.resolve(dir, name)
 
-    if (fs.existsSync(dest)) {
+    if (fs.existsSync(dest) && data.name !== 'pnpm') {
         return {
             dest, 
             time: 0

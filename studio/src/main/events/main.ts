@@ -96,16 +96,16 @@ const _loadProfile = async (user: any, env: any, product?: any) => {
 const _parseProductFiles = (files: any) => {
     let parsedFiles: any = {}
     files.map((file: string) => {
-        const dirs = file.split('/')
+        const dirs = file.split(path.sep)
         const filename = dirs.pop()
 
         let dir: any = parsedFiles
-        let path = ""
+        let dPath = ""
 
         dirs.map((d: string) => {
             dir[d] = dir[d] || {}
-            path = `${path}/${d}`
-            dir[d].__path = path
+            dPath = `${dPath}${path.sep}${d}`
+            dir[d].__path = dPath
             dir = dir[d]
         })
 
