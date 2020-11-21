@@ -64,7 +64,7 @@ export const showBrowser = (data: any) => {
   browserView.setBounds({ x: 0, y: 0, width: b.width, height: b.height })
   browserView.setAutoResize({ width: true, height: true, horizontal: true, vertical: true })
 
-  browserView.webContents.loadURL(`http://localhost:${data.product.packerPort}`)
+  browserView.webContents.loadURL(`http://0.0.0.0:${data.product.packerPort}`)
 
   browser.show()
 }
@@ -110,13 +110,6 @@ export const create = () => {
     },
   })
 
-  // browserView = new BrowserView()
-  // browser.setBrowserView(browserView)
-  // const { x, y, width, height } = browserView.getBounds()
-  // browserView.setBounds({ x, y, width, height })
-
-  // view.webContents.loadURL('https://electronjs.org')
-
   // isDevMode && window.webContents.openDevTools()
   window.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
 
@@ -131,7 +124,7 @@ export const create = () => {
   })
 
   browser.on('close', () => {
-    hideBrowser()
+    // hideBrowser()
   })
 
   window.once('ready-to-show', () => {
