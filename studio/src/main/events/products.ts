@@ -204,7 +204,8 @@ export const loadFile = async (data: any) => {
 export const unselectProduct = async (data: any) => {
     system.reload()
     system.update({ productId: undefined })
-
+    window.hideBrowser()
+    
     await send({ 
         id: data.id,
         type: 'unselectProduct' 

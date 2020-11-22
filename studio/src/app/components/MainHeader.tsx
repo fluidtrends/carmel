@@ -96,8 +96,6 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
         </div>
     )
 
-  console.log(session)
-
   return (<div style={{ 
     display: "flex",
     flexDirection: "column",

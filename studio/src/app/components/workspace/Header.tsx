@@ -45,7 +45,6 @@ export const Header: React.FC<any> = (props) => {
     }]
 
     const onPanelCommand = (command: any) => {
-        console.log(command)
         switch(command.id) {
             case 'preview':
                 onWebPreview()
@@ -87,18 +86,21 @@ export const Header: React.FC<any> = (props) => {
         id: "stop",
         name: "STOP",
         icon: "PauseOutlined",
+        color: "#f44336",
         tooltip: "Stop running"
     } : {
         id: "start",
         name: "START",
+        color: "#4CAF50",
         icon: "CaretRightOutlined",
-        tooltip: "Start running"
-    }, product.started ? {
-        id: "preview",
-        name: "PREVIEW",
-        icon: "LayoutOutlined",
-        tooltip: "Preview website"
-    } : undefined].filter(d => d)
+        tooltip: "Start running"}
+    // }, product.started ? {
+    //     id: "preview",
+    //     name: "PREVIEW",
+    //     color: "#03A9F4",
+    //     icon: "LayoutOutlined",
+    //     tooltip: "Preview website"
+    ].filter(d => d)
 
     const renderStatus = () => {
         if (status.processing) {
@@ -139,7 +141,11 @@ export const Header: React.FC<any> = (props) => {
                 return <Tooltip placement="bottomRight" key={command.id} title={command.tooltip}>
                     <Button disabled={status.processing} onClick={() => onPanelCommand(command)} style={{
                         marginLeft: 10,
+                        opacity: status.processing ? 0.4 : 1.0,
+                        backgroundColor: command.color,
+                        color: "#ffffff"
                     }} icon={<Icon style={{
+                        color: "#ffffff"
                     }}/>} loading={false}>
                         { command.name }
                     </Button>
@@ -149,31 +155,31 @@ export const Header: React.FC<any> = (props) => {
         </div>
     </div>)
   
-    const renderCommandPanel = () => (
-        (<div key="web" style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            height: "100%"
-        }}>
-        <div key="container" style={{
-            marginTop: 20
-        }}>
-            { commands.map((command: any) => {
-                const Icon = require(`@ant-design/icons/lib/icons/${command.icon}.js`).default
-                return <Tooltip placement="bottomRight" key={command.id} title={command.tooltip}>
-                    <Button disabled={status.processing} onClick={() => onPanelCommand(command)} style={{
-                        marginLeft: 10,
-                    }} icon={<Icon style={{
-                    }}/>} loading={false}>
-                        { command.name }
-                    </Button>
-                </Tooltip>
-            })}
-            { product.deployments && product.deployments.length > 0 && <LiveButton/>}
-        </div>
-    </div>)
-    )
+    // const renderCommandPanel = () => (
+    //     (<div key="web" style={{
+    //         display: "flex",
+    //         flexDirection: "column",
+    //         justifyContent: "center",
+    //         height: "100%"
+    //     }}>
+    //     <div key="container" style={{
+    //         marginTop: 20
+    //     }}>
+    //         { commands.map((command: any) => {
+    //             const Icon = require(`@ant-design/icons/lib/icons/${command.icon}.js`).default
+    //             return <Tooltip placement="bottomRight" key={command.id} title={command.tooltip}>
+    //                 <Button disabled={status.processing} onClick={() => onPanelCommand(command)} style={{
+    //                     marginLeft: 10,
+    //                 }} icon={<Icon style={{
+    //                 }}/>} loading={false}>
+    //                     { command.name }
+    //                 </Button>
+    //             </Tooltip>
+    //         })}
+    //         { product.deployments && product.deployments.length > 0 && <LiveButton/>}
+    //     </div>
+    // </div>)
+    // )
 
     const title = (<div key="main" style={{
       display: "flex", 

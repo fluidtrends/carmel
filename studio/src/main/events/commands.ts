@@ -164,6 +164,7 @@ export const runCommand = async(data: any) => {
     await send({ 
         id: data.id, 
         type: 'commandResult', 
+        cmd: data.cmd,
         ...result,
         status: 'Done',
         done: true,

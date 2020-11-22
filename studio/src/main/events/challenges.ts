@@ -30,6 +30,8 @@ export const _resolveChallenge = (data: any) => {
         
         const tutorials = manifestData.tasks.map((task: any) => fs.readFileSync(path.resolve(dir, 'tasks', `${task.id}`, 'tutorial.md'), "utf-8"))
 
+        console.log(manifest, manifestData)
+
         bundle = {
             dir: bundleDir,
             exists: fs.existsSync(bundleDir),
@@ -51,6 +53,7 @@ export const _resolveChallenge = (data: any) => {
 
         return result
     } catch (e) {
+        console.log(e)
         return {
             ...challenge,
             bundle,
@@ -83,6 +86,7 @@ export const listChallenges = async (data: any) => {
 }
 
 export const startChallenge = async (data: any) => {    
+    console.log("SYYY", data)
     system.reload()
 
     const env = system.env()
@@ -93,9 +97,13 @@ export const startChallenge = async (data: any) => {
 
     (data.challenge.versions || []).map((challenge_version: string) => {
         const current = _resolveChallenge({ env, challenge: { ...data.challenge, challenge_version, bundle_name: data.challenge.bundle_name || data.challenge.bundle }, version: challenge_version })
+        console.log("currr:", current)
+        if (!current.bundle.exists) return
         latest = latest || current
         latest = semver.gt(challenge_version, latest.bundle.version) ? current : latest
     })
+
+    console.log("ST", latest)
 
     if (!latest) throw new Error('Invalid bundle')
 
@@ -104,6 +112,7 @@ export const startChallenge = async (data: any) => {
         latest = _resolveChallenge({ env, challenge: data.challenge, version: latest.bundle.version })
     }
 
+    console.log("?>>", session, latest, product)
     await eos.system.call("trychallenge", {
         account: session.user.account,
         user: session.user.username,

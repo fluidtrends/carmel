@@ -33,14 +33,13 @@ export const Assets: React.FC<any> = (props) => {
 
   const onMenuItemSelected = async (value: any) => {
     const [type, path] = value.key.split("|")
-   
       switch(type) {
         case 'image':
-          setSelectedImage(`http://0.0.0.0:${product.staticPort}/products/${product.id}/carmel/assets/${locale}/images/${path}`)
+          setSelectedImage(`http://0.0.0.0:${product.staticServerPort}/products/${product.id}/carmel/assets/${locale}/images/${path}`)
           setSelectedFile("")
           break;
         case 'cover':
-          setSelectedImage(`http://0.0.0.0:${product.staticPort}/products/${product.id}/carmel/assets/${locale}/images/covers/${path}/landscape@3x.png`)
+          setSelectedImage(`http://0.0.0.0:${product.staticServerPort}/products/${product.id}/carmel/assets/${locale}/images/covers/${path}/landscape@3x.png`)
           setSelectedFile("")
           break;
         case 'text':

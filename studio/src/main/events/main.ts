@@ -23,6 +23,10 @@ export const showWebPreview = async (data: any) => {
     window.showBrowser(data)
 }
 
+export const hideWebPreview = async () => {
+    window.hideBrowser()
+}
+
 export const _loadUser = async (data: any) => {
     const now = Date.now()
     let sys: any = data.system

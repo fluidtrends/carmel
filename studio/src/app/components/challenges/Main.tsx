@@ -40,6 +40,7 @@ export const Challenges: React.FC<any> = (props) => {
       }
 
       setStarting(true)
+      console.log(">>>", challenge)
       startChallenge.send({
           type: "startChallenge",
           product,
@@ -53,6 +54,7 @@ export const Challenges: React.FC<any> = (props) => {
 
     useEffect(() => {
       if (!startChallenge.received.id) return
+      console.log(startChallenge.received)
        dispatch(unselectChallenge())
        setStarting(false)
        onReload && onReload()
