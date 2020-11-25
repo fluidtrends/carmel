@@ -101,6 +101,7 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
+    height: 48,
     width: "100%",
     backgroundColor: "#ffffff",
     boxShadow: "0px 1px 5px #c1c1c1",
@@ -112,7 +113,7 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
         flex: 1,
         flexDirection: "row",
         margin: 0,
-        width: 1200,
+        width: "100%",
     }}>
         <div style={{
           display: "flex",
@@ -152,7 +153,7 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
               { session.user.plan_name && session.user.plan_name !== "free" && <Tag color="green" style={{margin: 10}}> { session.user.plan_name.split('.')[0].toUpperCase() } </Tag> }
             </Badge>
           </Dropdown> : <div>
-              <Button type="primary" onClick={onSignUp}> Sign Up</Button> 
+              <Button type="primary" size="small" onClick={onSignUp}> Sign Up</Button> 
               <Button type="link" onClick={onSignIn}> Sign In</Button> 
           </div>
         }

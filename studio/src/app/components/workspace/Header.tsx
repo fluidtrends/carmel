@@ -42,6 +42,10 @@ export const Header: React.FC<any> = (props) => {
         icon: "AppstoreOutlined",
         name: "Chunks",
         id: "chunks"
+    }, {
+        icon: "RiseOutlined",
+        name: "Challenges",
+        id: "challenges"
     }]
 
     const onPanelCommand = (command: any) => {
@@ -134,7 +138,7 @@ export const Header: React.FC<any> = (props) => {
             height: "100%"
         }}>
         <div key="container" style={{
-            marginTop: 20
+            marginTop: 0
         }}>
             { commands.map((command: any) => {
                 const Icon = require(`@ant-design/icons/lib/icons/${command.icon}.js`).default
@@ -210,7 +214,7 @@ export const Header: React.FC<any> = (props) => {
   return (<div key="main" style={{
       display: "flex",
       flex: 1,
-      width: "100%",
+      width: 680,
       flexDirection: "column",
       justifyContent: "flex-start",
       alignItems: "center"

@@ -18,8 +18,6 @@ export const newUrl = async (url: any) => {
 }
 
 export const showWebPreview = async (data: any) => {
-    const sender = window.browserContent()
-    sender && sender.send('carmel', data)
     window.showBrowser(data)
 }
 

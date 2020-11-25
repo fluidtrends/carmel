@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { Carousel, Layout, Spin } from 'antd'
 import { unselectProduct, selectProduct, initialize } from '../data'
 import { useEvent } from '../hooks'
-import { Challenges } from '../components/challenges'
+import { Challenges, Preview } from '../components/challenges'
 import { Workspace } from '../components/workspace'
 
 /**
@@ -72,6 +72,7 @@ export const Product: React.FC<ProductScreenProps> = (props) => {
       alignItems: "flex-start",
       padding: 0,
       margin: 0,
+      marginBottom: 0,
       width: "100%",
       height: "100%",
       justifyContent: "flex-start"
@@ -85,8 +86,7 @@ export const Product: React.FC<ProductScreenProps> = (props) => {
         session={session}
         commandResponse={commandResponse}
         product={product}/>
-
-      <Challenges 
+      <Preview 
         listChallengesEvent={listChallengesEvent}
         height={height}
         onReload={onReload}

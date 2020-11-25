@@ -13,7 +13,7 @@ export const installNodeDependencies = async (data: any) => {
     const env = system.env()
     const cwd = path.resolve(env.home.path, data.type, data.name, data.version, data.name)
 
-    return await pnpm({ nodeVersion: data.nodeVersion, cmd: `install -P`, cwd })
+    return await pnpm({ nodeVersion: data.nodeVersion, cmd: `install -P --prefer-offline`, cwd })
 }
 
 export const installBundle = async (data: any) => {

@@ -16,6 +16,7 @@ import fs from 'fs-extra'
 import path from 'path'
 
 const REMOTE_ROOT = `http://files.carmel.io`
+const USER_HOME = process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME']
 
 export const setup = async (e: any) => {
     const { data } = await axios({ method: 'get', url: `${REMOTE_ROOT}/releases/latest.json`, responseType: 'json' })
@@ -32,27 +33,27 @@ export const setup = async (e: any) => {
 
     const env = system.env()
 
-    await send({ id: e.id, type: 'setup', status: 'Installing Cache 1/3 ...' })    
+    await send({ id: e.id, type: 'setup', status: 'Preparing your environment ...' })    
     await installCacheArchive({ name: 'pnpm', id: 'pnpm-files-0', version: "v3", type: "cache" })
-    await send({ id: e.id, type: 'setup', status: 'Installing Cache 2/3 ...' })    
     await installCacheArchive({ name: 'pnpm', id: 'pnpm-files-1', version: "v3", type: "cache" })
-    await send({ id: e.id, type: 'setup', status: 'Installing Cache 3/3 ...' })    
     await installCacheArchive({ name: 'pnpm', id: 'pnpm-metadata', version: "v3", type: "cache" })
 
     await send({ id: e.id, type: 'setup', status: 'Installing JavaScript ...' })    
     await installCacheArchive({ name: 'node', version: nodeVersion, type: "cache" })
-    await send({ id: e.id, type: 'setup', status: 'Installing the package manager ...' })    
     await npm({ nodeVersion, cmd: 'i -g pnpm' })
-    await send({ id: e.id, type: 'setup', status: 'Installing the Carmel SDK ...' })    
+    await npm({ nodeVersion, cmd: `config set store-dir "${path.resolve(USER_HOME, '.carmel', 'cache', 'pnpm')}"` })
 
+    await send({ id: e.id, type: 'setup', status: 'Installing the Carmel SDK ...' })    
     const sdk = await downloadNodePackage({ nodeVersion, id: '@carmel/sdk', type: "cache" })    
     await installNodeDependencies({ nodeVersion, name: sdk.name, version: sdk.version, type: "cache" })
-    await send({ id: e.id, type: 'settingUp', status: 'Installing The Default Packer (papanache)...' })    
 
+    await send({ id: e.id, type: 'settingUp', status: 'Installing the default packer ...' })    
     const papanache = await installPacker({ nodeVersion, id: "papanache" })
-    await send({ id: e.id, type: 'settingUp', status: 'Installing The Default Stack (jayesse)...' })    
+
+    await send({ id: e.id, type: 'settingUp', status: 'Installing the default stack ...' })    
     const jayesse = await installStack({ nodeVersion, id: "jayesse" })
-    await send({ id: e.id, type: 'settingUp', status: 'Installing The Default Bundle (traista)...' })    
+
+    await send({ id: e.id, type: 'settingUp', status: 'Installing the default bundle ...' })    
     const traista = await installBundle({ nodeVersion, id: "traista" })
 
     // await send({ id: data.id, type: 'settingUp', status: 'Creating A Sample Product ...' })    

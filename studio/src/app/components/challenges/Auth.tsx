@@ -4,6 +4,7 @@ import { ArrowDownOutlined } from '@ant-design/icons'
 import { LockOutlined } from '@ant-design/icons'
 import { useSelector, useDispatch } from "react-redux"
 import { replace } from 'connected-react-router'
+import { useRemote, useEvent } from '../../hooks'
 
 const { Meta } = Card
 const { Text, Title, Paragraph } = Typography
@@ -11,12 +12,15 @@ const { Text, Title, Paragraph } = Typography
 export const Auth: any = (props: any) => {
     const { onBack } = props
     const dispatch = useDispatch()
+    const browser: any = useEvent()
 
     const onRegister = () => {
+        browser.send({ type: 'hideWebPreview' })
         dispatch(replace('/register'))
     }
 
     const onLogin = () => {
+        browser.send({ type: 'hideWebPreview' })
         dispatch(replace('/login'))
     }
 

@@ -125,7 +125,10 @@ export const Assets: React.FC<any> = (props) => {
       return <Menu
       mode="inline"
       onSelect={onMenuItemSelected}
-      style={{ width: "100%", border: "none" }}>
+      style={{ 
+        width: "100%", 
+        border: "none" 
+      }}>
         { renderTextMenu() }
         { renderImagesMenu() }
     </Menu>
@@ -176,7 +179,7 @@ export const Assets: React.FC<any> = (props) => {
       margin: 0,
       flex: 1,
       padding: 0,
-      backgroundColor: "#eeeeee",
+      // backgroundColor: "#00eeee",
       alignItems: 'stretch',
       alignSelf: "stretch",
       height,
@@ -184,11 +187,14 @@ export const Assets: React.FC<any> = (props) => {
     }}>
         <Sider style={{
           backgroundColor: "#ffffff",
-          borderRight: "1px solid #ffffff", 
+          // borderRight: "1px solid #", 
           overflow: "auto",
-          padding: "10px" 
+          padding: 5
         }}>
-          <Select defaultValue="en" style={{ margin: "10px", width: "90%" }} onChange={onLocaleChange}>
+          <Select defaultValue="en" style={{ 
+            margin: 10, 
+            width: "90%"
+          }} onChange={onLocaleChange}>
                 { locales.map((l: any) => <Option value={l.id} key={l.id}>{l.language}</Option>)}
           </Select>
           { renderMenu() }

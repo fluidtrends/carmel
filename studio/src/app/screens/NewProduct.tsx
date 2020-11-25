@@ -164,37 +164,3 @@ export const NewProduct: React.FC<NewProductScreenProps> = (props) => {
       </Button> 
     </div>)
 }
-
-// return (<div style={styles.screen}>
-//   <Title>
-//     { 'Create a new Carmel Product' }
-//   </Title>
-
-//   <Card style={{
-//     minWidth: 700
-//   }}>
-//       <Form>
-//           <Form.Item
-//         label="Name:"
-//         name="name"
-//         rules={[{ required: true, message: 'Please enter a name' }]}
-//       >
-//         <Input onChange={onNameChanged}/>
-//       </Form.Item>
-//     </Form>
-//     </Card>
-//     <Title level={3}>
-//       Select a template: 
-//     </Title>  
-
-//   <div style={{
-//     display: "flex",
-//     flexDirection: "row",
-//     width: "100%",
-//     alignItems: "center",
-//     justifyContent: "center",
-//     flexWrap: "wrap"
-//   }}>
-//     { templates.map ((template, idx) => <TemplateListItem key={idx} onSelected={onTemplateSelected} template={template}/>) }
-//   </div>
-// </div>)

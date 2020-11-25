@@ -36,6 +36,10 @@ export const TaskTutorial: any = (props: any) => {
         </Paragraph>)
     })
 
+    const linkTarget = () => {
+        return "_blank"
+    }
+
   return (<Layout style={{ 
         width: "100%", 
         alignItems: "center",
@@ -43,15 +47,19 @@ export const TaskTutorial: any = (props: any) => {
         marginTop: 10,
         padding: 0,
     }}>
-    <Content style={{
-        backgroundColor: "#ffffff",
-        width: "100%", 
-        color: "#333333",
-        padding: 0,
-    }}>
-        { content ? <ReactMarkdown source={content} renderers={renderers(props)} plugins={plugins} />
-                        : <Skeleton loading={true} active paragraph={{ rows: 10 }} title />
-        }
-    </Content>
+        <Content style={{
+            backgroundColor: "#ffffff",
+            width: "100%", 
+            color: "#333333",
+            padding: 0,
+        }}>
+            { content ? <ReactMarkdown 
+                                    source={content} 
+                                    linkTarget={linkTarget}
+                                    renderers={renderers(props)} 
+                                    plugins={plugins} />
+                            : <Skeleton loading={true} active paragraph={{ rows: 10 }} title />
+            }
+        </Content>
     </Layout>)
 }

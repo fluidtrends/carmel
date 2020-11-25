@@ -32,37 +32,38 @@ export const show = () => {
   tray.update()
 }
 
-export const createBrowser = () => {
-  browser = new BrowserWindow({
-    width: 800,
-    minWidth: 400,
-    height: 600,
-    minHeight: 600,
-    show: false,
-    skipTaskbar: true, 
-    minimizable: false,
-    closable: true,
-    title: "Carmel Browser",
-    frame: true,
-    fullscreenable: false,
-    maximizable: false,
-    resizable: true,
-    transparent: false,
-    webPreferences: {
-      nodeIntegration: true,
-      backgroundThrottling: false,
-      webviewTag: true
-    },
-  })
+// export const createBrowser = () => {
+//   browser = new BrowserWindow({
+//     width: 800,
+//     minWidth: 400,
+//     height: 600,
+//     minHeight: 600,
+//     show: false,
+//     skipTaskbar: true, 
+//     minimizable: false,
+//     closable: true,
+//     title: "Carmel Browser",
+//     frame: true,
+//     fullscreenable: false,
+//     maximizable: false,
+//     resizable: true,
+//     parent: window,
+//     transparent: false,
+//     webPreferences: {
+//       nodeIntegration: true,
+//       backgroundThrottling: false,
+//       webviewTag: true
+//     },
+//   })
 
-  // isDevMode && window.webContents.openDevTools()
-  window.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
+//   // isDevMode && window.webContents.openDevTools()
+//   window.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
 
-  // browser.webContents.openDevTools()
-  // browser.loadURL(BROWSER_WINDOW_WEBPACK_ENTRY)
-  browserView = new BrowserView()
-  browser.setBrowserView(browserView)
-}
+//   // browser.webContents.openDevTools()
+//   browser.loadURL(BROWSER_WINDOW_WEBPACK_ENTRY)
+//   // browserView = new BrowserView()
+//   // window.setBrowserView(browserView)
+// }
 
 export const isVisible = () => window && window.isVisible()
 
@@ -74,42 +75,33 @@ export const toggle = () => {
 
 export const hideBrowser = () => {
   try {
-    browser && browser.isVisible() && browser.hide()
+    // browser && browser.isVisible() && browser.hide()
+    // browserView.destroy()
+    browserView.destroy()
   } catch (e) {
   }
 }
 
 export const showBrowser = (data: any) => {
-  if (!browser || !data.product || !data.product.packerPort) return
+  if (!data.product || !data.product.packerPort) return
 
   const { x, y, width, height } = window.getBounds()
 
-  browser.show()
-  browser.center()
-
-  browser.setBounds({
-    ...browser.getBounds(),
-    y: y + 320,
-    x: x + 240
-  })
-
-  const b = browser.getBounds()
-  browserView.setBounds({ x: 0, y: 0, width: b.width, height: b.height })
+  browserView = new BrowserView()
+  window.setBrowserView(browserView)
+  browserView.setBounds({ x: 690, y: 115, width: width - 695, height: height - 140 })
   browserView.setAutoResize({ width: true, height: true, horizontal: true, vertical: true })
   browserView.webContents.loadURL(`http://localhost:${data.product.packerPort}`)
-
-  browser.show()
-  browser.reload()
+  browserView.webContents.setUserAgent("carmeldesktop")
+  // browserView.webContents.reload()
 }
-
-
 
 export const create = () => {
   window = new BrowserWindow({
-    width: 1240,
-    minWidth: 1240,
-    height: 840,
-    minHeight: 840,
+    width: 1280,
+    minWidth: 1280,
+    height: 800,
+    minHeight: 800,
     show: false,
     frame: true,
     fullscreenable: true,
@@ -123,51 +115,38 @@ export const create = () => {
     }
   })
 
-  browser = new BrowserWindow({
-    width: 800,
-    minWidth: 400,
-    height: 600,
-    minHeight: 600,
-    show: false,
-    skipTaskbar: true, 
-    minimizable: false,
-    title: "Carmel Browser",
-    frame: true,
-    fullscreenable: false,
-    maximizable: false,
-    resizable: true,
-    transparent: false,
-    webPreferences: {
-      nodeIntegration: true,
-      backgroundThrottling: false,
-      webviewTag: true
-    },
-  })
-
   // isDevMode && window.webContents.openDevTools()
   window.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
 
   // browser.webContents.openDevTools()
   // browser.loadURL(BROWSER_WINDOW_WEBPACK_ENTRY)
-  browserView = new BrowserView()
-  browser.setBrowserView(browserView)
 
   window.on('close', () => {
     hide()
-    hideBrowser()
+    // hideBrowser()
     // if (app.quit) {
     //   window = null
     //   browser = null      
     // }
   })
 
-  browser.on('close', (e: any) => {
-    e.preventDefault()
-    // if (app.quit) {
-    //   window = null
-    //   browser = null      
-    // }
-  })
+  // createBrowser()
+
+  window.on('resize', function () {
+    const { x, y, width, height } = window.getBounds()
+
+    browserView.setBounds({ x: 690, y: 115, width: width - 695, height: height - 140 })
+    browserView.setAutoResize({ width: true, height: true, horizontal: true, vertical: true })
+    browserView.webContents.reload()
+ })
+
+  // browser.on('close', (e: any) => {
+  //   e.preventDefault()
+  //   // if (app.quit) {
+  //   //   window = null
+  //   //   browser = null      
+  //   // }
+  // })
 
   window.once('ready-to-show', () => {
     tray.create()
