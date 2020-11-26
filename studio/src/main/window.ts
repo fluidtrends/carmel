@@ -12,6 +12,7 @@ declare const BROWSER_WINDOW_WEBPACK_ENTRY: any
 export let window: BrowserWindow
 export let browser: BrowserWindow
 export let browserView: BrowserView
+export let browserViewIsMobile = false
 
 export const hasWindow = BrowserWindow.getAllWindows().length > 0
 export const content = () => window ? window.webContents : undefined
@@ -32,39 +33,6 @@ export const show = () => {
   tray.update()
 }
 
-// export const createBrowser = () => {
-//   browser = new BrowserWindow({
-//     width: 800,
-//     minWidth: 400,
-//     height: 600,
-//     minHeight: 600,
-//     show: false,
-//     skipTaskbar: true, 
-//     minimizable: false,
-//     closable: true,
-//     title: "Carmel Browser",
-//     frame: true,
-//     fullscreenable: false,
-//     maximizable: false,
-//     resizable: true,
-//     parent: window,
-//     transparent: false,
-//     webPreferences: {
-//       nodeIntegration: true,
-//       backgroundThrottling: false,
-//       webviewTag: true
-//     },
-//   })
-
-//   // isDevMode && window.webContents.openDevTools()
-//   window.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
-
-//   // browser.webContents.openDevTools()
-//   browser.loadURL(BROWSER_WINDOW_WEBPACK_ENTRY)
-//   // browserView = new BrowserView()
-//   // window.setBrowserView(browserView)
-// }
-
 export const isVisible = () => window && window.isVisible()
 
 export const toggle = () => {
@@ -82,18 +50,42 @@ export const hideBrowser = () => {
   }
 }
 
+export const updateBrowser = (data: any) => {
+  if (browserView.isDestroyed()) return
+
+  const { width, height } = window.getBounds()
+  browserViewIsMobile = data.mobile || false
+
+  const w = 400
+  const workspace = 690
+  const mobilePad = (width - workspace - w) / 2
+  const x = Math.ceil(workspace + (browserViewIsMobile ? mobilePad : 0))
+
+  browserView.setBounds({ x, y: 115, width: (browserViewIsMobile ? w : width - workspace - 5), height: height - 142 })
+  browserView.webContents.setUserAgent(browserViewIsMobile ? "carmelmobile" : "carmeldesktop")
+  browserView.webContents.reload()
+}
+
 export const showBrowser = (data: any) => {
   if (!data.product || !data.product.packerPort) return
 
-  const { x, y, width, height } = window.getBounds()
+  const { width, height } = window.getBounds()
+  browserViewIsMobile = data.mobile 
 
+  const w = 400
+  const workspace = 690
+  const mobilePad = (width - workspace - w) / 2
+
+  console.log(data, width)
   browserView = new BrowserView()
   window.setBrowserView(browserView)
-  browserView.setBounds({ x: 690, y: 115, width: width - 695, height: height - 140 })
+  const x = Math.ceil(workspace + (browserViewIsMobile ? mobilePad : 0))
+
+  browserView.setBounds({ x, y: 115, width: (browserViewIsMobile ? w : width - workspace - 5), height: height - 142 })
   browserView.setAutoResize({ width: true, height: true, horizontal: true, vertical: true })
   browserView.webContents.loadURL(`http://localhost:${data.product.packerPort}`)
-  browserView.webContents.setUserAgent("carmeldesktop")
-  // browserView.webContents.reload()
+  browserView.webContents.setUserAgent(browserViewIsMobile ? "carmelmobile" : "carmeldesktop")
+  browserView.webContents.reload()
 }
 
 export const create = () => {
@@ -133,11 +125,15 @@ export const create = () => {
   // createBrowser()
 
   window.on('resize', function () {
-    const { x, y, width, height } = window.getBounds()
+      const { width, height } = window.getBounds()
 
-    browserView.setBounds({ x: 690, y: 115, width: width - 695, height: height - 140 })
-    browserView.setAutoResize({ width: true, height: true, horizontal: true, vertical: true })
-    browserView.webContents.reload()
+      const w = 400
+      const workspace = 690
+      const mobilePad = (width - workspace - w) / 2
+      const x = Math.ceil(workspace + (browserViewIsMobile ? mobilePad : 0))
+      const y = 115
+      
+      browserView.setBounds({ x, y, width: (browserViewIsMobile ? w : width - workspace - 5), height: height - 142 })
  })
 
   // browser.on('close', (e: any) => {

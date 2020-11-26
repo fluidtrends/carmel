@@ -17,6 +17,10 @@ export const newUrl = async (url: any) => {
     window.show()
 }
 
+export const updateWebPreview = async (data: any) => {
+    window.updateBrowser(data)
+}
+
 export const showWebPreview = async (data: any) => {
     window.showBrowser(data)
 }

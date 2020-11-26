@@ -15,7 +15,6 @@ const { SubMenu } = Menu
 export const History: React.FC<any> = (props) => {
   const { product, challenge, profile, session, onReload, height, command, commandResponse } = props
 
-  const { files } = product
   const listChallengesEvent: any = useEvent() 
 
   return (<Layout style={{ 

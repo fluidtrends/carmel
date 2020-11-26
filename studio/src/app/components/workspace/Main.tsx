@@ -68,6 +68,23 @@ export const Workspace: any = (props: any) => {
       return "I love supporting the **[EFF](https://eff.org)**. This is the *[Markdown Guide](https://www.markdownguide.org)*. See the section on [`code`](#code)."
     }
 
+    const renderActivity = () => {
+      return (<div key="main" style={{
+          display: "flex",
+          flex: 1,
+          width: 680,
+          height: 102, 
+          marginTop: 5,
+          backgroundColor: "#ffffff",
+          flexDirection: "row",
+          boxShadow: "0px 0px 8px #999999", 
+          justifyContent: "center",
+          alignItems: "center"
+      }}>    
+        
+      </div>)
+    }
+
     return (
         <Layout style={{ 
           display: "flex",
@@ -119,24 +136,14 @@ export const Workspace: any = (props: any) => {
                 />
                 <ProductComps.History
                   height={height - 295}
+                  session={session}
+                  profile={profile}
+                  challenge={challenge}
                   visible={section === SECTIONS[2]}
                   product={product} 
                 />
           </Carousel>  
 
-          <div key="main" style={{
-              display: "flex",
-              flex: 1,
-              width: 680,
-              height: 102, 
-              marginTop: 5,
-              backgroundColor: "#ffffff",
-              flexDirection: "row",
-              boxShadow: "0px 0px 8px #999999", 
-              justifyContent: "center",
-              alignItems: "center"
-          }}>    
-             
-          </div>
+          { renderActivity() }
         </Layout>)
 }

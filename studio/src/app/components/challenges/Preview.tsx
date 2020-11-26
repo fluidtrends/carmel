@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useState } from 'react'
-import { Card, Typography, Spin, Select, Input, Button } from 'antd'
+import { Card, Typography, Spin, Select, Input, Button, Switch } from 'antd'
 import { Auth, Browser, Tasks } from '.'
 import { useSelector, useDispatch } from "react-redux"
 import { useRemote, useEvent } from '../../hooks'
@@ -8,29 +8,17 @@ import { selectChallenge, unselectChallenge } from '../../data'
 import { 
   CaretLeftOutlined,
   CaretRightOutlined,
+  MobileFilled,
+  LayoutFilled,
   RedoOutlined
 } from '@ant-design/icons'
 
-const { Meta } = Card
-const { Text, Title, Paragraph } = Typography
-const { Option } = Select
-
-const PROTOCOLS = ['http', 'https', 'carmel']
-const LOCALHOST = "0.0.0.0"
-
 export const Preview: React.FC<any> = (props) => {
-    const { product, onReload, session, profile, challenge, listChallengesEvent } = props
-    const [needAuth, setNeedAuth] = useState(false)
-    const [starting, setStarting] = useState(false)
-    const [progress, setProgress] = useState<any>()
-    const [completed, setCompleted] = useState<any>([])
-    const startChallenge: any = useEvent()
-    const validateTask: any = useEvent()
-    const updateProgress: any = useEvent()
-    const dispatch = useDispatch()
+    
+    const [isMobileView, setMobileView] = useState(false)
+    const browser: any = useEvent()
 
     const [url, setUrl] = useState("")
-    const [protocol, setProtocol] = useState("http")
 
     const showWork = () => {
       return <div style={{ 
@@ -45,38 +33,25 @@ export const Preview: React.FC<any> = (props) => {
       </div>
     }
 
-    const showContents = () => {
-      return showWork()
-    }
-
     const onUrlChange = (val: any) => {
-      // setUrl(val.target.value)
     }
 
     const onPressEnter = () => {
-        // view.current && view.current.loadURL(`${protocol}://${url}`)
     }
 
     const onRefresh = () => {
-        // view.current && view.current.loadURL(`${protocol}://${url}`)
+    }
+
+    const onViewChanged = (e: any) => {
+      setMobileView(!e)
+      browser.send({ type: 'updateWebPreview', mobile: !e })
     }
 
     const onBack = () => {
-        // view.current && view.current.canGoBack() && view.current.goBack()
     }
 
     const onNext = () => {
-        // view.current && view.current.canGoForward() && view.current.goForward()
     }
-
-
-    const onProtocolChange = (
-      <Select defaultValue={PROTOCOLS[0]} value={protocol} className="select-before">
-          { PROTOCOLS.map(p => (
-               <Option key={p} value={p}> {p}:// </Option>
-          ))}    
-      </Select>
-  )
 
     const showHeader = () => {
       return <div style={{
@@ -100,6 +75,8 @@ export const Preview: React.FC<any> = (props) => {
         }}
         icon={<CaretLeftOutlined style={{
             color: "#ffffff",   
+            paddingTop: 4,
+            paddingRight: 2,
         }}/>}/>
 
     <Button 
@@ -111,7 +88,9 @@ export const Preview: React.FC<any> = (props) => {
             marginRight: 10
         }}
         icon={<CaretRightOutlined style={{
-            color: "#ffffff"
+            color: "#ffffff",
+            paddingLeft: 2,
+            paddingTop: 4,
         }}/>}/>
 
     <Button 
@@ -135,9 +114,13 @@ export const Preview: React.FC<any> = (props) => {
                 value={url}
                 onPressEnter={onPressEnter}
                 onChange={onUrlChange}
-                addonBefore={onProtocolChange} 
                 defaultValue={url} />
         </div>
+        <Switch 
+          onChange={onViewChanged}
+          checkedChildren="desktop" 
+          unCheckedChildren="mobile" 
+          defaultChecked />
     </div>
     }
 

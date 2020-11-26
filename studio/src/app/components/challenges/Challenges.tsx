@@ -40,6 +40,7 @@ export const Challenges: React.FC<any> = (props) => {
       }
 
       setStarting(true)
+      console.log("starting ....ch:", challenge)
       startChallenge.send({
           type: "startChallenge",
           product,
@@ -53,6 +54,7 @@ export const Challenges: React.FC<any> = (props) => {
 
     useEffect(() => {
       if (!startChallenge.received.id) return
+      console.log("????", startChallenge.received)
        dispatch(unselectChallenge())
        setStarting(false)
        onReload && onReload()
@@ -79,6 +81,8 @@ export const Challenges: React.FC<any> = (props) => {
 
     useEffect(() => {
       setProgress('')
+
+      console.log(profile)
 
       if (!profile || !profile.challenges || !profile.challenges[product.id]) {
         // No progress for this product 

@@ -89,8 +89,10 @@ export const startChallenge = async (data: any) => {
     const env = system.env()
     const { session } = system
     const { challenge, product } = data 
+    console.log(data)
 
     let latest: any
+
 
     (data.challenge.versions || []).map((challenge_version: string) => {
         const current = _resolveChallenge({ env, challenge: { ...data.challenge, challenge_version, bundle_name: data.challenge.bundle_name || data.challenge.bundle }, version: challenge_version })
