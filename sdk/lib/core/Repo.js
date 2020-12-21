@@ -210,12 +210,9 @@ var Repo = /** @class */ (function () {
                             return [2 /*return*/];
                         }
                         namecheap = vault.read('namecheap');
-                        nsIp = namecheap.clientIP //"45.82.223.81"
-                        ;
-                        nsUser = namecheap.username //"fluidchunky"
-                        ;
-                        nsKey = namecheap.apiKey //"d9f102afa99c4a09a1dcc1da9fe31b46"
-                        ;
+                        nsIp = namecheap.clientIP;
+                        nsUser = namecheap.username;
+                        nsKey = namecheap.apiKey;
                         console.log('NS namecheap:', namecheap);
                         domainParts = domain.split('.');
                         nsTLD = domainParts.pop();
@@ -285,7 +282,7 @@ var Repo = /** @class */ (function () {
                             var ttl = h.TTL;
                             var value = h.Address;
                             if (data.cid && name.substring(0, 8) === '_dnslink') {
-                                value = "/ipfs/" + data.cid;
+                                value = "dnslink=/ipfs/" + data.cid;
                             }
                             args = "" + args + ["HostName" + (i + 1)] + "=" + name + "&" + ["Address" + (i + 1)] + "=" + value + "&" + ["RecordType" + (i + 1)] + "=" + type + "&" + ["TTL" + (i + 1)] + "=" + ttl + (i < hosts.length - 1 ? '&' : '');
                         });
