@@ -1,4 +1,4 @@
 {
     "nodeVersion": "12.19.0",
-    "yarnMirrors": ["sdk-0", "sdk-1"]
+    "pnpmStore": ["pnpm-files-0", "pnpm-files-1", "pnpm-metadata"]
 }

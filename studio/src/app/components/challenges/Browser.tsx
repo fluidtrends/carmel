@@ -47,6 +47,7 @@ export const Browser: any = (props: any) => {
     useEffect(() => {
       if (!listChallengesEvent.received.challenges) return 
       setChallenges(listChallengesEvent.received.challenges)
+      console.log(listChallengesEvent.received)
     }, [listChallengesEvent.received])
 
     const showSummary = (c: any, i: number = 0) => (

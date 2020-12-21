@@ -170,11 +170,11 @@ function seed_test() {
   # cleos --url $ENDPOINT push action carmelsystem newartifact '["chunkymonkey", "chunkymonkey", "papanache", "packer", "{}"]' -p chunkymonkey@active
   # cleos --url $ENDPOINT push action carmelsystem newartifact '["chunkymonkey", "chunkymonkey", "jayesse", "stack", "{}"]' -p chunkymonkey@active
   # cleos --url $ENDPOINT push action carmelsystem newartifact '["chunkymonkey", "chunkymonkey", "traista", "bundle", "{}"]' -p chunkymonkey@active
-  # cleos --url $ENDPOINT push action carmelsystem addartifactv '["chunkymonkey", "chunkymonkey", "traista", "1.0.0"]' -p chunkymonkey@active
+  # cleos --url $ENDPOINT push action carmelsystem addartifactv '["chunkymonkey", "chunkymonkey", "traista", "1.0.1"]' -p chunkymonkey@active
   # cleos --url $ENDPOINT push action carmelsystem addtemplate '["chunkymonkey", "chunkymonkey", "traista", "starter", "{}"]' -p chunkymonkey@active
   # cleos --url $ENDPOINT push action carmelsystem addtemplatev '["chunkymonkey", "chunkymonkey", "traista", "starter", "1.0.0"]' -p chunkymonkey@active
   # cleos --url $ENDPOINT push action carmelsystem addchallenge '["chunkymonkey", "chunkymonkey", "traista", "jayesse", "tweaktext", 5, [["markdown", 2]], "{\"title\":\"Change blocks of text on a web page\", \"summary\": \"Locate some blocks of text and change them\"}"]' -p chunkymonkey@active
-  # cleos --url $ENDPOINT push action carmelsystem addchvers '["chunkymonkey", "chunkymonkey", "traista", "tweaktext", "1.0.0"]' -p chunkymonkey@active
+  cleos --url $ENDPOINT push action carmelsystem addchvers '["chunkymonkey", "chunkymonkey", "traista", "tweaktext", "1.0.1"]' -p chunkymonkey@active
 
   # cleos --url $ENDPOINT push action carmelsystem newplan '[ "carmelsystem", "free", 0, 0, 1]' -p carmelsystem@active
   # cleos --url $ENDPOINT push action carmelsystem newplan '[ "carmelsystem", "pro.m", 30, 290000, 1]' -p carmelsystem@active

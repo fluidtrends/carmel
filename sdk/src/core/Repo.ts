@@ -5,6 +5,7 @@ import fs from 'fs'
 import path from 'path'
 import shortid from 'shortid'
 import axios from 'axios'
+import xml from 'xml2js'
 
 /**
  *
@@ -143,21 +144,114 @@ export class Repo implements IRepo {
 
   }
 
+  async runNamecheapCommand (data: any) {
+    const domain = data.domain
+
+    const { vault } = this.code.product.session?.index.sections.secrets
+
+    if (vault.isLocked) {
+      return
+    }
+
+    const namecheap = vault.read('namecheap')
+    const nsIp = namecheap.clientIP
+    const nsUser = namecheap.username
+    const nsKey = namecheap.apiKey
+
+    console.log('NS namecheap:', namecheap)
+
+    const domainParts = domain.split('.')
+    const nsTLD = domainParts.pop()
+    const nsSLD = domainParts.join('.')
+    const nsCmd = data.cmd
+    const nsCallRoot = `https://api.namecheap.com/xml.response?ApiUser=${nsUser}&ApiKey=${nsKey}&UserName=${nsUser}&ClientIP=${nsIp}`
+    const nsCall = `${nsCallRoot}&SLD=${nsSLD}&TLD=${nsTLD}&Command=namecheap.${nsCmd}${data.args ? '&' + data.args : ''}`   
+
+    console.log('NS Call:', nsCall)
+
+    const nsResponse = await axios.get(nsCall)
+    const response: any = await xml.parseStringPromise(nsResponse.data)
+    
+    const { ApiResponse } = response
+    const { CommandResponse } = ApiResponse
+
+    console.log(ApiResponse)
+
+    if (!ApiResponse || !CommandResponse) {
+      return
+    }
+
+    if (ApiResponse.$.Status === 'ERROR') { 
+      return { error: ApiResponse.Errors[0].Error[0] }
+    }
+      
+    return CommandResponse[0]
+  }
+
+  async getNamespaceHosts (data: any) {
+    const response: any = await this.runNamecheapCommand({ ... data, cmd: "domains.dns.getHosts" })
+
+    if (!response || response.error || !response.DomainDNSGetHostsResult) {
+      return 
+    }
+    
+    const { DomainDNSGetHostsResult } = response
+
+    const { host } = DomainDNSGetHostsResult[0]
+
+    if (!host) {
+      return 
+    }
+
+    return host.map((entry: any) => {
+      return entry.$
+    })
+  }
+
+  async updateNamespaceHosts (data: any) {
+    const hosts = await this.getNamespaceHosts(data)
+
+    if (!hosts) {
+      return 
+    }
+
+    var args = ``
+    hosts.map((h: any, i: number) => {
+      var name = h.Name 
+      var type = h.Type
+      var ttl = h.TTL
+      var value = h.Address
+
+      if (data.cid && name.substring(0, 8) === '_dnslink') {
+        value = `dnslink=/ipfs/${data.cid}`
+      }
+
+      args = `${args}${[`HostName${i+1}`]}=${name}&${[`Address${i+1}`]}=${value}&${[`RecordType${i+1}`]}=${type}&${[`TTL${i+1}`]}=${ttl}${i < hosts.length - 1 ? '&' : ''}`
+    })
+
+    const response: any = await this.runNamecheapCommand({ 
+      ...data, 
+      args,
+      cmd: "domains.dns.setHosts" 
+    })
+
+    return response
+  }
+
   /**
    *
    */
   async push() {
     if (!this.dir?.exists) return
 
-    const { createFactory, createController, createServer } = require('ipfsd-ctl')
-    process.env.IPFS_PATH = this.code.product.session!.dir.dir('ipfs')?.make()?.path    
-    console.log(process.env.IPFS_PATH)
+    process.env.IPFS_PATH = this.code.product.session!.dir.dir('ipfs')?.make()?.path
+    const ipfsConfig = JSON.parse(fs.readFileSync(path.resolve(process.env.IPFS_PATH!, 'config'), 'utf-8'))
+
     const deploymentId = shortid.generate()
-
     const deploymentRoot = `/deployments/${deploymentId}`                      
-
     const ignores = ['.DS_Store']
     let files: any[] = await listDir(this.dir!.path!)
+
     files = files.filter(file => !ignores.includes(path.basename(file))).map(file => {
       const info = fs.statSync(file)
       
@@ -176,79 +270,72 @@ export class Repo implements IRepo {
 
     if (!files || files.length === 0) return deployment 
 
-    console.log('starting ipfs node ...')
+    const ipfsClient = require('ipfs-http-client')
+    const node = ipfsClient(ipfsConfig.Addresses.API)
+    const localGatewayUrl = `http://${node.gatewayHost}:${node.gatewayPort}`
+    const publicGatewayUrl = `https://ipfs.io`
 
-    const node = await createController({
-      type: 'js',
-      ipfsModule: require('ipfs'),
-      ipfsHttpModule: require('ipfs-http-client'),
-      ipfsBin: path.join(__dirname, '../../node_modules/ipfs/src/cli/bin.js'),
-      init: true, 
-      start: true,
-      ipfsOptions: { start: true, init: true, repo: process.env.IPFS_PATH }
-    })
-
-    const localGatewayUrl = `http://${node.api.gatewayHost}:${node.api.gatewayPort}`
-    const publicGatewayUrl = `https://ipfs.io`//cloudflare-ipfs.com`
-
-    console.log('done. pushing files ...')
-
-    await Promise.all(files.map(file => node.api.files.write(file.path, file.content, {
+    await Promise.all(files.map(file => node.files.write(file.path, file.content, {
       parents: true, create: true, mtime: file.mtime  
     })))
 
-    console.log('done. checking files ...')
-
     const deployed = []
-    for await (const result of node.api.files.ls(deploymentRoot)) deployed.push(result)
+    for await (const result of node.files.ls(deploymentRoot)) deployed.push(result)
     const deployedWeb = deployed.find(d => d.name === 'web')
 
-    console.log(deployedWeb.cid)
-    console.log('done. publishing web ...')
-
-    const deployedWebNamed = await node.api.name.publish(deployedWeb.cid)
+    const deployedWebNamed = await node.name.publish(deployedWeb.cid)
     deployment.urls = {
       publicRaw: `${publicGatewayUrl}/ipfs/${deployedWeb.cid}`,
       publicNamed: `${publicGatewayUrl}/ipns/${deployedWebNamed.name}`
     }
-    console.log(deployment.urls)
-    
-    console.log('done. shortening ...')
 
-    const shorten = await axios.post(`https://rel.ink/api/links/`,  {
-      url: deployment.urls.publicRaw
-    }, { 
-      headers: { 'Content-Type': 'application/json' }
+    const dns = await this.updateNamespaceHosts({ 
+      domain: 'carmel.io',
+      cid: deployedWeb.cid
     })
 
-    if (!shorten || !shorten.data || !shorten.data.hashid) {
-      return deployment
-    }
-    deployment.urls.short = `https://rel.ink/${shorten.data.hashid}`
+    console.log(dns)
 
-    console.log('done. waiting to go live ...')
-    console.log(deployment.urls)
+    // response.elements.map((e: any) => {
+    //   console.log("<<<<<<>llllll>>>>", e)
+    //   if (e.name === 'ApiResponse') {
+    //     console.log(">>EL?:", e.attributes.Status)
+    //     console.log(">>ELel:", e.elements)        
+    //   }
+    // })
 
-    const check = async () => {
-      try {
-        console.log('checking ...')
-        return await axios.get(deployment.urls.publicRaw)
-      } catch {}
-    }
+    // const shorten = await axios.post(`https://rel.ink/api/links/`,  {
+    //   url: deployment.urls.publicRaw
+    // }, { 
+    //   headers: { 'Content-Type': 'application/json' }
+    // })
 
-    await new Promise((done) => {
-      (async () => {
-        let checked: any
-        while(!checked || checked.status !== 200) {
-          checked = await check()
-        }
-        done()
-      })()
-    })
+    // if (!shorten || !shorten.data || !shorten.data.hashid) {
+    //   return deployment
+    // }
+    // deployment.urls.short = `https://rel.ink/${shorten.data.hashid}`
 
-    console.log('done. stopping ipfs node ...')
-    await node.stop()
-    console.log('ipfs node stopped.')
+    // console.log('done. waiting to go live ...')
+    // console.log(deployment.urls)
+
+    // const check = async () => {
+    //   try {
+    //     console.log('checking ...')
+    //     return await axios.get(deployment.urls.publicRaw)
+    //   } catch {}
+    // }
+
+    // await new Promise((done) => {
+    //   (async () => {
+    //     let checked: any
+    //     while(!checked || checked.status !== 200) {
+    //       checked = await check()
+    //     }
+    //     done()
+    //   })()
+    // })
+
+    console.log('done.')
 
     return deployment
 

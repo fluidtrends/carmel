@@ -52,12 +52,19 @@ export const Editor: React.FC<any> = (props) => {
           mode="javascript"
           theme="monokai"
           onChange={onChange}
+          fontSize={10}
+          showGutter={true}
+          showPrintMargin={false}
+          width="400px"
           style={{
             width: "100%",
+            padding: 10,
             height: "100%"
           }}
           value={content}
-          editorProps={{ $blockScrolling: true }}
+          editorProps={{ 
+            $blockScrolling: true
+          }}
           setOptions={{
             useWorker: false
           }}

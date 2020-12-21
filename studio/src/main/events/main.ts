@@ -6,6 +6,7 @@ import readdir from "recursive-readdir"
 import { eos } from '../services/blockchain'
 import { _resolveChallenge } from './challenges'
 import { installBundle } from '../services/files'
+import { carmel } from './commands'
 
 export const send = async (data: any) => {
     const sender = window.content()
@@ -17,10 +18,16 @@ export const newUrl = async (url: any) => {
     window.show()
 }
 
+export const updateWebPreview = async (data: any) => {
+    window.updateBrowser(data)
+}
+
 export const showWebPreview = async (data: any) => {
-    const sender = window.browserContent()
-    sender && sender.send('carmel', data)
-    window.showBrowser()
+    window.showBrowser(data)
+}
+
+export const hideWebPreview = async () => {
+    window.hideBrowser()
 }
 
 export const _loadUser = async (data: any) => {
@@ -96,16 +103,16 @@ const _loadProfile = async (user: any, env: any, product?: any) => {
 const _parseProductFiles = (files: any) => {
     let parsedFiles: any = {}
     files.map((file: string) => {
-        const dirs = file.split('/')
+        const dirs = file.split(path.sep)
         const filename = dirs.pop()
 
         let dir: any = parsedFiles
-        let path = ""
+        let dPath = ""
 
         dirs.map((d: string) => {
             dir[d] = dir[d] || {}
-            path = `${path}/${d}`
-            dir[d].__path = path
+            dPath = `${dPath}${path.sep}${d}`
+            dir[d].__path = dPath
             dir = dir[d]
         })
 
@@ -143,16 +150,44 @@ const _loadProduct = async (productId: any, system: any, env: any) => {
 
 /////
 
-export const loadSession = async (data: any) => {
+export const startSession = async (data: any) => {
     system.reload()
     const env = system.env()
     system.update({ loadedTimestamp: Date.now() })
     const session = system.session
 
+    const sdk = data.node || session.sdk.versions[0]
+    const node = data.sdk || session.node.versions[0]
+
+    const cwd = env.home.path
+
+    if (session.ipfsIsRunning) {
+        await send({ 
+            id: data.id, 
+            type: 'startSession', 
+            session,
+            env,
+            status: 'IPFS already running.'
+        })    
+        return
+    }
+
+    const result = await carmel({ 
+        id: data.id, 
+        node, 
+        sdk,
+        cmd: "ipfs",
+        args: [{ name: 'start', value: true }],
+        cwd 
+    })
+
     await send({ 
         id: data.id, 
+        type: 'startSession', 
+        status: 'IPFS start attempt finished.',
         session,
         env,
+        result
     })
 }
 

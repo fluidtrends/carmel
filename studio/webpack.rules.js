@@ -1,3 +1,4 @@
+const path = require('path')
 const tsImportPluginFactory = require('ts-import-plugin')
 const { getThemeVariables } = require('antd/dist/theme')
 
@@ -26,7 +27,7 @@ module.exports = [
     ],
   },
   {
-    test: /\.(?:png|jpg|svg|icns|gif)$/,
+    test: /\.(?:png|jpg|svg|icns|gif|ico)$/,
     loader: 'url-loader',
     query: {
       limit: 500000,
@@ -68,6 +69,32 @@ module.exports = [
         loader: 'shebang-loader',
       },
     ],
+  },
+  {
+    test: /\.m?js$/,
+    include: [
+      path.resolve(__dirname, "node_modules", "@hapi"),
+    ],
+    use: {
+      loader: 'babel-loader',
+      options: {
+        presets: [
+          [
+            '@babel/preset-env',
+            {
+              targets: {
+                esmodules: true,
+              },
+            },
+          ],
+        ],
+        plugins: [
+          "@babel/plugin-proposal-private-methods", 
+          "@babel/plugin-proposal-class-properties",
+          // "@babel/plugin-transform-runtime"
+        ]
+      }
+    }
   },
   {
     test: /\.ts(x?)$/,

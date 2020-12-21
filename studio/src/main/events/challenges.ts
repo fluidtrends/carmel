@@ -91,8 +91,10 @@ export const startChallenge = async (data: any) => {
 
     let latest: any
 
+
     (data.challenge.versions || []).map((challenge_version: string) => {
         const current = _resolveChallenge({ env, challenge: { ...data.challenge, challenge_version, bundle_name: data.challenge.bundle_name || data.challenge.bundle }, version: challenge_version })
+        if (!current.bundle.exists) return
         latest = latest || current
         latest = semver.gt(challenge_version, latest.bundle.version) ? current : latest
     })

@@ -1,20 +1,22 @@
 import { send } from './main'
 import * as system from '../system'
 import { 
-    createYarnConfig,
     downloadNodePackage,
-    installYarnMirror,
     installNodeDependencies,
+    installBundle,
+    installPacker,
+    installStack,
     installCacheArchive
 } from '../services/files'
 import { 
-    node
+    npm
 } from './commands'
 import axios from 'axios'
 import fs from 'fs-extra'
 import path from 'path'
 
 const REMOTE_ROOT = `http://files.carmel.io`
+const USER_HOME = process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME']
 
 export const setup = async (e: any) => {
     const { data } = await axios({ method: 'get', url: `${REMOTE_ROOT}/releases/latest.json`, responseType: 'json' })
@@ -23,72 +25,40 @@ export const setup = async (e: any) => {
         throw new Error('Could not find release manifest')
     }
     
-    const { nodeVersion, yarnMirrors } = data
+    const { nodeVersion } = data
 
-    if (!nodeVersion || !yarnMirrors) {
+    if (!nodeVersion) {
         throw new Error('Invalid release manifest')
     }    
 
     const env = system.env()
 
+    await send({ id: e.id, type: 'setup', status: 'Preparing your environment ...' })    
+    await installCacheArchive({ name: 'pnpm', id: 'pnpm-files-0', version: "v3", type: "cache" })
+    await installCacheArchive({ name: 'pnpm', id: 'pnpm-files-1', version: "v3", type: "cache" })
+    await installCacheArchive({ name: 'pnpm', id: 'pnpm-metadata', version: "v3", type: "cache" })
+
     await send({ id: e.id, type: 'setup', status: 'Installing JavaScript ...' })    
-
-    createYarnConfig()
-
     await installCacheArchive({ name: 'node', version: nodeVersion, type: "cache" })
+    await npm({ nodeVersion, cmd: 'i -g pnpm' })
+    await npm({ nodeVersion, cmd: `config set store-dir "${path.resolve(USER_HOME, '.carmel', 'cache', 'pnpm')}"` })
 
-    await send({ id: e.id, type: 'setup', status: `Preparing your environment ...` })  
-
-    await Promise.all(yarnMirrors.map((mirror: string) => installYarnMirror({ id: mirror })))
-
-    await send({ id: e.id, type: 'setup', status: 'Installing the package manager ...' })    
-
-    await node({ nodeVersion, cmd: 'npm i -g yarn' })
-    
     await send({ id: e.id, type: 'setup', status: 'Installing the Carmel SDK ...' })    
-
     const sdk = await downloadNodePackage({ nodeVersion, id: '@carmel/sdk', type: "cache" })    
     await installNodeDependencies({ nodeVersion, name: sdk.name, version: sdk.version, type: "cache" })
-    fs.symlinkSync(path.resolve(env.cache.path, sdk.name, sdk.version), path.resolve(env.cache.path, sdk.name, 'default'), 'dir')
 
-    // await send({ id: e.id, type: 'settingUp', status: 'Installing The Default Packer (papanache)...' })    
+    await send({ id: e.id, type: 'settingUp', status: 'Installing the default packer ...' })    
+    const papanache = await installPacker({ nodeVersion, id: "papanache" })
 
-    // const papanache = await installPacker({ id: "papanache" })
-    // totalTime = totalTime + papanache.time
-    // console.log("papanache", papanache.time, totalTime)
-    // fs.symlinkSync(path.resolve(env.home.path, 'packers', papanache.name, papanache.version), path.resolve(env.home.path, 'packers', papanache.name, 'default'), 'dir')
+    await send({ id: e.id, type: 'settingUp', status: 'Installing the default stack ...' })    
+    const jayesse = await installStack({ nodeVersion, id: "jayesse" })
 
-    // await send({ id: data.id, type: 'settingUp', status: 'Installing The Default Stack (jayesse)...' })    
+    await send({ id: e.id, type: 'settingUp', status: 'Installing the default bundle ...' })    
+    const traista = await installBundle({ nodeVersion, id: "traista" })
 
-    // const jayesse = await installStack({ id: "jayesse" })
-    // totalTime = totalTime + jayesse.time
-    // console.log("jayesse", jayesse.time, totalTime)
-    // fs.symlinkSync(path.resolve(env.home.path, 'stacks', jayesse.name, jayesse.version), path.resolve(env.home.path, 'stacks', jayesse.name, 'default'), 'dir')
-
-    // await send({ id: data.id, type: 'settingUp', status: 'Installing The Default Bundle (@fluidtrends/bananas)...' })    
-
-    // const bananas = await installBundle({ id: "@fluidtrends/bananas" })
-    // totalTime = totalTime + bananas.time
-    // console.log("bananas", bananas.time, totalTime)
-    // fs.symlinkSync(path.resolve(env.home.path, 'bundles', bananas.name, bananas.version), path.resolve(env.home.path, 'bundles', bananas.name, 'default'), 'dir')
-
-    // await send({ id: data.id, type: 'settingUp', status: 'Creating A Sample Product ...' })    
-
-    // console.log("creating.....")
-
-    // const product: any = await createProduct({ 
-    //     node: nodeVersion, 
-    //     sdk: sdk.version, 
-    //     name: "My First Product",
-    //     template: "@fluidtrends/bananas/starter"
-    // })
-
-    // console.log("sample product ok")
-
-    // await send({ id: data.id, type: 'settingUp', status: 'Initializing Your System ...' })    
+    await send({ id: data.id, type: 'settingUp', status: 'Initializing Your System ...' })    
 
     system.init({
-    //     productId: product.id,
         yarn: true,
         node: {
             default: nodeVersion,
@@ -98,15 +68,15 @@ export const setup = async (e: any) => {
             default: sdk.version,
             versions: [sdk.version]
         },
-    //     packers: {
-    //         papanache: { versions: [papanache.version] }
-    //     },
-    //     stacks: {
-    //         jayesse: { versions: [jayesse.version] }
-    //     },
-    //     bundles: {
-    //         "@fluidtrends/bananas": { versions: [bananas.version] }
-    //     }
+        packers: {
+            papanache: { versions: [papanache.version] }
+        },
+        stacks: {
+            jayesse: { versions: [jayesse.version] }
+        },
+        bundles: {
+            traista: { versions: [traista.version] }
+        }
     })
     
     await send({ id: e.id, type: 'settingUp', status: 'Your Carmel Environment Is Ready', done: true })    

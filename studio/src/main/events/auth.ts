@@ -72,7 +72,7 @@ export const register = async (credentials: any) => {
     }
 
     // Log the user in
-    const user = _doLogin(credentials)
+    const user = await _doLogin(credentials)
 
     await send({ 
         id: credentials.id,
@@ -88,7 +88,7 @@ export const login = async (credentials: any) => {
     const env: any = system.env()
 
     // Get the user data
-    const user = _doLogin(credentials)
+    const user = await _doLogin(credentials)
 
     await send({ 
         id: credentials.id,

@@ -34,12 +34,13 @@ export const Challenges: React.FC<any> = (props) => {
     }
 
     const onStart = () => {
-      if (!session.user) {
+      if (!session || !session.user) {
         setNeedAuth(true)
         return
       }
 
       setStarting(true)
+      console.log("starting ....ch:", challenge)
       startChallenge.send({
           type: "startChallenge",
           product,
@@ -53,6 +54,7 @@ export const Challenges: React.FC<any> = (props) => {
 
     useEffect(() => {
       if (!startChallenge.received.id) return
+      console.log("????", startChallenge.received)
        dispatch(unselectChallenge())
        setStarting(false)
        onReload && onReload()
@@ -79,6 +81,8 @@ export const Challenges: React.FC<any> = (props) => {
 
     useEffect(() => {
       setProgress('')
+
+      console.log(profile)
 
       if (!profile || !profile.challenges || !profile.challenges[product.id]) {
         // No progress for this product 
@@ -122,14 +126,12 @@ export const Challenges: React.FC<any> = (props) => {
           margin: 0, 
           display: 'flex',
           flexDirection: "column",
-          alignItems: "flex-start",
+          alignItems: "center",
           justifyContent: "flex-start",
           textAlign: "justify",
-          backgroundColor: "#f5f5f5", 
-          borderLeft: "1px solid  #D7D7D7",
-          paddingLeft: 20,
-          marginLeft: 10,
-          width: 500,
+          backgroundColor: "#FFFFFF", 
+          padding: 10,
+          width: "100%",
           height: "100%"
         }}> 
           { showContents() }

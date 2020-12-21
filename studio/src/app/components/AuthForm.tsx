@@ -144,6 +144,8 @@ export const AuthForm: React.FC<AuthFormComponentProps> = (props) => {
         return 
       }
 
+      console.log(checkKeyEvent.received)
+
       setAccounts(checkKeyEvent.received.accounts)
       setPublicKey(checkKeyEvent.received.publicKey)
       setAccount(checkKeyEvent.received.accounts[0])
@@ -180,7 +182,7 @@ export const AuthForm: React.FC<AuthFormComponentProps> = (props) => {
     useEffect(() => {
       if (!signupEvent.received.id) return
     
-      if (signupEvent.received.type === 'registerError') {
+      if (signupEvent.received.error) {
         setWarning(signupEvent.received.error)
         setWorking(false)
         return 

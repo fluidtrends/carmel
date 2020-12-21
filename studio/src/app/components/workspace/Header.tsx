@@ -42,10 +42,13 @@ export const Header: React.FC<any> = (props) => {
         icon: "AppstoreOutlined",
         name: "Chunks",
         id: "chunks"
+    }, {
+        icon: "RiseOutlined",
+        name: "Challenges",
+        id: "challenges"
     }]
 
     const onPanelCommand = (command: any) => {
-        console.log(command)
         switch(command.id) {
             case 'preview':
                 onWebPreview()
@@ -57,7 +60,7 @@ export const Header: React.FC<any> = (props) => {
 
     const onViewLive = (e: any) => {
         const deployment = product.deployments.find((d: any) => d.id === e.key)
-        shell.openExternal(deployment.urls.short)
+        shell.openExternal(deployment.urls.publicRaw)
     }
 
     const LiveMenu = () => {
@@ -87,23 +90,28 @@ export const Header: React.FC<any> = (props) => {
         id: "stop",
         name: "STOP",
         icon: "PauseOutlined",
+        color: "#f44336",
         tooltip: "Stop running"
     } : {
         id: "start",
         name: "START",
+        color: "#4CAF50",
         icon: "CaretRightOutlined",
         tooltip: "Start running"
-    }, product.started ? {
-        id: "preview",
-        name: "PREVIEW",
-        icon: "LayoutOutlined",
-        tooltip: "Preview website"
-    } : undefined, {
+    }, {
         id: "deploy",
         name: "PUBLISH",
+        color: "#03A9F4",
         icon: "CloudUploadOutlined",
         tooltip: "Publish online"
-    }].filter(d => d)
+    }
+    // }, product.started ? {
+    //     id: "preview",
+    //     name: "PREVIEW",
+    //     color: "#03A9F4",
+    //     icon: "LayoutOutlined",
+    //     tooltip: "Preview website"
+    ].filter(d => d)
 
     const renderStatus = () => {
         if (status.processing) {
@@ -137,48 +145,51 @@ export const Header: React.FC<any> = (props) => {
             height: "100%"
         }}>
         <div key="container" style={{
-            marginTop: 20
+            marginTop: 0
         }}>
             { commands.map((command: any) => {
                 const Icon = require(`@ant-design/icons/lib/icons/${command.icon}.js`).default
                 return <Tooltip placement="bottomRight" key={command.id} title={command.tooltip}>
                     <Button disabled={status.processing} onClick={() => onPanelCommand(command)} style={{
                         marginLeft: 10,
+                        opacity: status.processing ? 0.4 : 1.0,
+                        backgroundColor: command.color,
+                        color: "#ffffff"
                     }} icon={<Icon style={{
+                        color: "#ffffff"
                     }}/>} loading={false}>
                         { command.name }
                     </Button>
                 </Tooltip>
             })}
-            { product.deployments && product.deployments.length > 0 && <LiveButton/>}
         </div>
     </div>)
   
-    const renderCommandPanel = () => (
-        (<div key="web" style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            height: "100%"
-        }}>
-        <div key="container" style={{
-            marginTop: 20
-        }}>
-            { commands.map((command: any) => {
-                const Icon = require(`@ant-design/icons/lib/icons/${command.icon}.js`).default
-                return <Tooltip placement="bottomRight" key={command.id} title={command.tooltip}>
-                    <Button disabled={status.processing} onClick={() => onPanelCommand(command)} style={{
-                        marginLeft: 10,
-                    }} icon={<Icon style={{
-                    }}/>} loading={false}>
-                        { command.name }
-                    </Button>
-                </Tooltip>
-            })}
-            { product.deployments && product.deployments.length > 0 && <LiveButton/>}
-        </div>
-    </div>)
-    )
+    // const renderCommandPanel = () => (
+    //     (<div key="web" style={{
+    //         display: "flex",
+    //         flexDirection: "column",
+    //         justifyContent: "center",
+    //         height: "100%"
+    //     }}>
+    //     <div key="container" style={{
+    //         marginTop: 20
+    //     }}>
+    //         { commands.map((command: any) => {
+    //             const Icon = require(`@ant-design/icons/lib/icons/${command.icon}.js`).default
+    //             return <Tooltip placement="bottomRight" key={command.id} title={command.tooltip}>
+    //                 <Button disabled={status.processing} onClick={() => onPanelCommand(command)} style={{
+    //                     marginLeft: 10,
+    //                 }} icon={<Icon style={{
+    //                 }}/>} loading={false}>
+    //                     { command.name }
+    //                 </Button>
+    //             </Tooltip>
+    //         })}
+    //         { product.deployments && product.deployments.length > 0 && <LiveButton/>}
+    //     </div>
+    // </div>)
+    // )
 
     const title = (<div key="main" style={{
       display: "flex", 
@@ -193,6 +204,7 @@ export const Header: React.FC<any> = (props) => {
         { product.name}
     </Title>
     { renderStatus() }
+    { product.deployments && product.deployments.length > 0 && <LiveButton/>}
   </div>)
 
   const showStatus = () => {
@@ -209,7 +221,7 @@ export const Header: React.FC<any> = (props) => {
   return (<div key="main" style={{
       display: "flex",
       flex: 1,
-      width: "100%",
+      width: 680,
       flexDirection: "column",
       justifyContent: "flex-start",
       alignItems: "center"

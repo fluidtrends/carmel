@@ -37,21 +37,14 @@ export const Main: React.FC<MainContainerProps> = (props) => {
           alignItems: "center",
           justifyContent: "center",
           backgroundColor: "#f5f5f5",
-          padding: 10,
+          paddingLeft: 5,
+          paddingRight: 5,
           flex: 1,
           margin: 0,
-          width: 1200,
+          marginBottom: 5,
+          width: "100%",
         }}>
           { props.children }
      </Layout>
-     <div style={{
-         display: "flex",
-         flexDirection: "column",
-         alignItems: "center",
-         justifyContent: "center",
-         width: "100%",
-         height: 20,
-     }}>
-     </div>
   </Layout>)
 }

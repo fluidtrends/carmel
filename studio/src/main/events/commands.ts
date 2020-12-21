@@ -8,6 +8,7 @@ import execa from 'execa'
 import fs from 'fs'
 
 const CLI_SCRIPT = 'cli.js'
+const IS_WINDOWS = (process.platform === 'win32')
 
 export const carmel = async(data: any) => {  
     const scriptFile = CLI_SCRIPT
@@ -27,15 +28,14 @@ export const carmel = async(data: any) => {
     const session = system.session
     const nodeVersion = data.node || session.node.default
     const carmelSDKVersion = data.sdk || session.sdk.default
-
     const nodeHome = path.resolve(env.cache.path, 'node', nodeVersion, 'node')
     const cwd = data.cwd || env.home.path
     const args = [data.cmd].concat(data.args && data.args.length > 0 ? [JSON.stringify(data.args)] : [])
- 
-    const exe = path.resolve(nodeHome, 'bin', 'node')
+
+    const exe = IS_WINDOWS ? path.resolve(nodeHome, 'node.exe') : path.resolve(nodeHome, 'bin', 'node')
 
     try {
-       return await execa(exe, [cli, ...args], { 
+       const result = await execa(exe, [cli, ...args], { 
             cwd,
             extendEnv: true,
             env: {
@@ -50,7 +50,8 @@ export const carmel = async(data: any) => {
                   )
             } 
         })
-        
+
+        return result
     } catch (error) {
         await send({ 
             id: data.id, 
@@ -67,28 +68,55 @@ export const carmel = async(data: any) => {
 export const node = async(data: any) => {
     const now = Date.now()
     const env = system.env()
-    const nodeHome = path.resolve(env.cache.path, 'node', data.nodeVersion || "default", 'node')
+    const nodeHome = path.resolve(env.cache.path, 'node', data.nodeVersion, 'node')
     const cwd = data.cwd || env.home.path
     const args = data.cmd.split(' ')
-    const cmd: string = args.shift()
 
-    const exe = path.resolve(nodeHome, 'bin', 'node')
-    const exeArgs = [path.resolve(nodeHome, 'bin', cmd)].concat(cmd === 'npm' ? ['--prefix', nodeHome, ...args] : args)
+    const exe = IS_WINDOWS ? path.resolve(nodeHome, 'node.cmd') : path.resolve(nodeHome, 'bin', 'node')
+    const exeArgs = ['--prefix', nodeHome, ...args]
         
     try {
-        const result = await execa(exe, exeArgs, { 
-            cwd,
-        })
-        return {
-            ...result,
-            time: ((Date.now() - now) / 1000)
-        }
+        const result = await execa(exe, exeArgs, { cwd })
+        return {  ...result, time: ((Date.now() - now) / 1000) }
     } catch (error) {
-        return {
-            error,
-            time: ((Date.now() - now) / 1000)
-        }
-    }
+        return { error, time: ((Date.now() - now) / 1000) }
+    }  
+}
+
+export const npm = async(data: any) => {
+    const now = Date.now()
+    const env = system.env()
+    const nodeHome = path.resolve(env.cache.path, 'node', data.nodeVersion, 'node')
+    const cwd = data.cwd || env.home.path
+    const args = data.cmd.split(' ')
+
+    const exe = IS_WINDOWS ? path.resolve(nodeHome, 'npm.cmd') : path.resolve(nodeHome, 'bin', 'node')
+    const exeArgs = (IS_WINDOWS ? [] : [path.resolve(nodeHome, 'bin', 'npm')]).concat(['--prefix', nodeHome, ...args])
+        
+    try {
+        const result = await execa(exe, exeArgs, { cwd })
+        return {  ...result, time: ((Date.now() - now) / 1000) }
+    } catch (error) {
+        return { error, time: ((Date.now() - now) / 1000) }
+    }  
+}
+
+export const pnpm = async(data: any) => {
+    const now = Date.now()
+    const env = system.env()
+    const nodeHome = path.resolve(env.cache.path, 'node', data.nodeVersion, 'node')
+    const cwd = data.cwd || env.home.path
+    const args = data.cmd.split(' ')
+
+    const exe = IS_WINDOWS ? path.resolve(nodeHome, 'pnpm.cmd') : path.resolve(nodeHome, 'bin', 'node')
+    const exeArgs = (IS_WINDOWS ? [] : [path.resolve(nodeHome, 'bin', 'pnpm')]).concat(args)
+        
+    try {
+        const result = await execa(exe, exeArgs, { cwd })
+        return {  ...result, time: ((Date.now() - now) / 1000) }
+    } catch (error) {
+        return { error, time: ((Date.now() - now) / 1000) }
+    }  
 }
 
 export const runCommand = async(data: any) => {
@@ -106,6 +134,8 @@ export const runCommand = async(data: any) => {
         status: data.progress || 'Just a sec ...'
     })
 
+    console.log(">>>>",data)
+
     const result = await carmel({ 
         id: data.id, 
         node, 
@@ -114,6 +144,8 @@ export const runCommand = async(data: any) => {
         args: (data.args || []).concat(data.productId ? [{ name: 'product', value: data.productId }] : []),
         cwd 
     })
+
+    console.log(">>2222", result)
 
     await send({ 
         id: data.id, 
@@ -136,8 +168,9 @@ export const runCommand = async(data: any) => {
     await send({ 
         id: data.id, 
         type: 'commandResult', 
+        cmd: data.cmd,
         ...result,
         status: 'Done',
         done: true,
     })
-} 
+}
