@@ -17,12 +17,14 @@ export const Start: React.FC<StartScreenProps> = (props) => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    loadEvent.send({ type: 'loadSession' })
+    loadEvent.send({ type: 'startSession' })
   }, [])
 
   useEffect(() => {
     if (!loadEvent.received.id) return
     
+    console.log("----", loadEvent.received)
+
     if (!loadEvent.received.session) {
       dispatch(replace('/welcome'))
       return 

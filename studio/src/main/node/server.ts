@@ -76,8 +76,12 @@ export class Server {
 
         this._runner = new http.Server(this.app)
         
-        this.runner.listen(this.port, async () => {
+        await new Promise((r) => this.runner.listen(this.port, async () => {
             console.log("**** Server Started on port", this.port, "...")
-        })
+            r()
+        }))
+    }
+
+    async stop() {
     }
 }

@@ -9,7 +9,6 @@ import { downloadNodePackage } from '.'
 const REMOTE_CACHE_ROOT = `http://files.carmel.io/cache`
 
 export const installNodeDependencies = async (data: any) => {
-    console.log("installNodeDependencies:", data)
     const env = system.env()
     const cwd = path.resolve(env.home.path, data.type, data.name, data.version, data.name)
 

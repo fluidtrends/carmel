@@ -134,6 +134,8 @@ export const runCommand = async(data: any) => {
         status: data.progress || 'Just a sec ...'
     })
 
+    console.log(">>>>",data)
+
     const result = await carmel({ 
         id: data.id, 
         node, 
@@ -142,6 +144,8 @@ export const runCommand = async(data: any) => {
         args: (data.args || []).concat(data.productId ? [{ name: 'product', value: data.productId }] : []),
         cwd 
     })
+
+    console.log(">>2222", result)
 
     await send({ 
         id: data.id, 

@@ -56,21 +56,9 @@ export const setup = async (e: any) => {
     await send({ id: e.id, type: 'settingUp', status: 'Installing the default bundle ...' })    
     const traista = await installBundle({ nodeVersion, id: "traista" })
 
-    // await send({ id: data.id, type: 'settingUp', status: 'Creating A Sample Product ...' })    
-
-    // const product: any = await createProduct({ 
-    //     node: nodeVersion, 
-    //     sdk: sdk.version, 
-    //     name: "My First Product",
-    //     template: "@fluidtrends/bananas/starter"
-    // })
-
-    // console.log("sample product ok")
-
     await send({ id: data.id, type: 'settingUp', status: 'Initializing Your System ...' })    
 
     system.init({
-    //     productId: product.id,
         yarn: true,
         node: {
             default: nodeVersion,

@@ -15,8 +15,6 @@ import { connectAdvanced } from 'react-redux'
 ///////
 
 export const _resolveTemplate = (data: any) => {
-    console.log(data)
-
     const { env, bundle, template, version } = data 
     // const { bundle_name, name, challenge_version } = challenge 
 
@@ -144,8 +142,6 @@ export const createProduct = async (data: any) => {
         })
 
         const { exitCode, stderr } = result
-
-        console.log(result)
         
         if (exitCode !== 0 || stderr) {
             throw new Error('The product could not be created')

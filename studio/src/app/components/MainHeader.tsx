@@ -3,6 +3,7 @@ import { MainHeaderComponentProps, State } from '../types'
 import { Layout, Radio, Tag, Dropdown, Typography, Tabs, Badge, Spin, Menu, Button } from 'antd'
 import { useDispatch, useSelector } from "react-redux"
 import { replace } from 'connected-react-router'
+import { useEvent } from '../hooks'
 
 import { 
   UserOutlined, 
@@ -13,7 +14,8 @@ import {
   SyncOutlined,
   SettingOutlined,
   CaretDownOutlined, 
-  NotificationOutlined 
+  NotificationOutlined,
+  MoreOutlined
 } from '@ant-design/icons'
 
 const { Header, Content, Sider } = Layout
@@ -32,7 +34,8 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
   const session = useSelector((state: State) => state.session)
   const env = useSelector((state: State) => state.env)
   const vaultIsLocked = useSelector((state: State) => state.env.lock && state.env.lock.exists)
-    
+  const browser: any = useEvent()
+
     const notifications: any = {
         carmel: [],
         main: [],
@@ -58,7 +61,12 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
 
       function onAppSelect(e: any) {
         const { key } = e
-        console.log(key)
+        switch(key) {
+          case "settings":
+            browser.send({ type: 'hideWebPreview' })
+            dispatch(replace('/settings'))
+            break
+        }
       }
 
       const onSignUp = () => {
@@ -78,10 +86,10 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
     </Menu>
 
     const appMenu = <Menu onClick={onAppSelect}>
-      <Menu.Item key="updates" icon={<SyncOutlined />}>
-        Check for updates
+      <Menu.Item key="settings" icon={<SettingOutlined />}>
+        Settings
       </Menu.Item>
-    </Menu>
+    </Menu>  
 
     const renderMainMenu = () => (
       <div style={{
@@ -120,19 +128,9 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
           flex: 1,
           justifyContent: "flex-start"
         }}>
-        <Dropdown overlay={appMenu}>
-            <Badge count={notifications.carmel.length} overflowCount={5} offset={[3, 2]}>
-              <Button shape="circle" size='large' style={{
-                  backgroundColor: "#00BCD4",
-                  boxShadow: "0px 0px 3px #00695C",
-                  padding: 0
-              }}>
-                  <img src={asset('icon-32.png')} style={{
-                    width: 28, height: 28 
-                  }}/>
-              </Button>
-            </Badge>
-        </Dropdown>
+          <img src={asset('icon-32.png')} style={{
+            width: 28, height: 28 
+          }}/>
         </div>
 
         <div style={{
@@ -157,6 +155,11 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
               <Button type="link" onClick={onSignIn}> Sign In</Button> 
           </div>
         }
+         <Dropdown overlay={appMenu}>
+              <Button icon={<MoreOutlined />} style={{
+                border: 'none' 
+              }}/>
+          </Dropdown>
         </div>  
     </div>
   </div>)

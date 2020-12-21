@@ -54,5 +54,10 @@
         "id": "profile",
         "screen": "Profile",
         "container": "Simple"
+    }, {
+        "path": "/settings",
+        "id": "settings",
+        "screen": "Settings",
+        "container": "Simple"
     }]
 }

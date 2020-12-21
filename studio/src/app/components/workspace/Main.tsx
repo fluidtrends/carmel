@@ -64,9 +64,9 @@ export const Workspace: any = (props: any) => {
         browser.send({ type: 'showWebPreview', product: product })
     }
 
-    const tutorialText = () => {
-      return "I love supporting the **[EFF](https://eff.org)**. This is the *[Markdown Guide](https://www.markdownguide.org)*. See the section on [`code`](#code)."
-    }
+    // const tutorialText = () => {
+    //   return "I love supporting the **[EFF](https://eff.org)**. This is the *[Markdown Guide](https://www.markdownguide.org)*. See the section on [`code`](#code)."
+    // }
 
     const renderActivity = () => {
       return (<div key="main" style={{

@@ -60,7 +60,7 @@ export const Header: React.FC<any> = (props) => {
 
     const onViewLive = (e: any) => {
         const deployment = product.deployments.find((d: any) => d.id === e.key)
-        shell.openExternal(deployment.urls.short)
+        shell.openExternal(deployment.urls.publicRaw)
     }
 
     const LiveMenu = () => {
@@ -97,7 +97,14 @@ export const Header: React.FC<any> = (props) => {
         name: "START",
         color: "#4CAF50",
         icon: "CaretRightOutlined",
-        tooltip: "Start running"}
+        tooltip: "Start running"
+    }, {
+        id: "deploy",
+        name: "PUBLISH",
+        color: "#03A9F4",
+        icon: "CloudUploadOutlined",
+        tooltip: "Publish online"
+    }
     // }, product.started ? {
     //     id: "preview",
     //     name: "PREVIEW",
@@ -155,7 +162,6 @@ export const Header: React.FC<any> = (props) => {
                     </Button>
                 </Tooltip>
             })}
-            { product.deployments && product.deployments.length > 0 && <LiveButton/>}
         </div>
     </div>)
   
@@ -198,6 +204,7 @@ export const Header: React.FC<any> = (props) => {
         { product.name}
     </Title>
     { renderStatus() }
+    { product.deployments && product.deployments.length > 0 && <LiveButton/>}
   </div>)
 
   const showStatus = () => {

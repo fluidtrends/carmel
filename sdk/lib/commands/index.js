@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Data = exports.Deploy = exports.Preview = exports.Make = exports.Start = exports.Stop = exports.Status = exports.Init = void 0;
+exports.Data = exports.Ipfs = exports.Deploy = exports.Preview = exports.Make = exports.Start = exports.Stop = exports.Status = exports.Init = void 0;
 var init_1 = require("./init");
 Object.defineProperty(exports, "Init", { enumerable: true, get: function () { return __importDefault(init_1).default; } });
 var status_1 = require("./status");
@@ -18,6 +18,8 @@ var preview_1 = require("./preview");
 Object.defineProperty(exports, "Preview", { enumerable: true, get: function () { return __importDefault(preview_1).default; } });
 var deploy_1 = require("./deploy");
 Object.defineProperty(exports, "Deploy", { enumerable: true, get: function () { return __importDefault(deploy_1).default; } });
+var ipfs_1 = require("./ipfs");
+Object.defineProperty(exports, "Ipfs", { enumerable: true, get: function () { return __importDefault(ipfs_1).default; } });
 var data_1 = require("./data");
 Object.defineProperty(exports, "Data", { enumerable: true, get: function () { return __importDefault(data_1).default; } });
 //# sourceMappingURL=index.js.map

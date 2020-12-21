@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { VaultLockComponentProps } from '../types'
-import { Input, Typography, Modal, Form, Spin, Alert } from 'antd'
+import { Input, Typography, Modal, Form, Row, Col, Spin, Alert, Button } from 'antd'
 import { CheckOutlined, UnlockOutlined, LockOutlined, UserOutlined } from "@ant-design/icons"
 import strings from '../strings.json'
 import { useEvent } from '../hooks'
@@ -107,7 +107,6 @@ export const VaultLock: React.FC<VaultLockComponentProps> = (props) => {
                 prefix={locked ? <LockOutlined style={{ marginLeft: 5 }} /> : <UnlockOutlined style={{ marginLeft: 5 }} />} 
                 onChange={onPasswordChanged}/>
             </Form.Item>
-  
           </div>
          
       </Form>
@@ -117,9 +116,26 @@ export const VaultLock: React.FC<VaultLockComponentProps> = (props) => {
    <Modal
           title=""
           visible={show}
-          onOk={handleOk}
           confirmLoading={working}
           onCancel={handleCancel}
+          footer={[
+            <div style={{
+              textAlign: "center",
+              display: "flex",
+              flex: 1,
+              flexDirection: "row",
+              width: "100%",
+              justifyContent: "center",
+              alignItems: "center"
+            }}>
+              <Button key="back" onClick={handleCancel}>
+                Cancel
+              </Button>
+              <Button key="submit" type="primary" loading={working} onClick={handleOk}>
+                { 'OK' }
+              </Button>
+          </div>
+          ]}
         >
         <div style={{
           textAlign: "center",
@@ -132,6 +148,6 @@ export const VaultLock: React.FC<VaultLockComponentProps> = (props) => {
         }}>
           { working ? showWorking() : showPrompt() }
         </div>
-        </Modal>
+      </Modal>
 </div>)
 }

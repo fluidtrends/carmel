@@ -22,6 +22,8 @@ export const env = () => {
   const lock = path.resolve(home, 'secrets', '.data', '.lock')
   const cache = path.resolve(home, 'cache')
   const bin = path.resolve(home, 'bin')
+  const ipfs = path.resolve(home, 'ipfs')
+  const servers = path.resolve(home, 'servers')
   const sdk = path.resolve(cache, '@carmel', 'sdk', 'default')
   const node = path.resolve(cache, 'node', 'default')
   const machineId = session ? `${session.id}` : ''
@@ -33,6 +35,8 @@ export const env = () => {
     sdk: { path: sdk, exists: fs.existsSync(sdk) },
     node: { path: node, exists: fs.existsSync(node) },
     lock: { path: lock, exists: fs.existsSync(lock) },
+    servers: { path: servers, exists: fs.existsSync(servers) },
+    ipfs: { path: ipfs, exists: fs.existsSync(ipfs) },
     machine: { id: machineId }
   }
 }
@@ -85,9 +89,10 @@ export const start = () => {
     window.hasWindow || window.create()
   })
 
-  app.on('window-all-closed', () => {
+  app.on('window-all-closed', async () => {
     if (process.platform !== 'darwin') {
       window.hide()
+      await server.stop()
     }
   })
 }

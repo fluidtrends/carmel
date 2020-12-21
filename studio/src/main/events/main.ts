@@ -6,6 +6,7 @@ import readdir from "recursive-readdir"
 import { eos } from '../services/blockchain'
 import { _resolveChallenge } from './challenges'
 import { installBundle } from '../services/files'
+import { carmel } from './commands'
 
 export const send = async (data: any) => {
     const sender = window.content()
@@ -149,16 +150,44 @@ const _loadProduct = async (productId: any, system: any, env: any) => {
 
 /////
 
-export const loadSession = async (data: any) => {
+export const startSession = async (data: any) => {
     system.reload()
     const env = system.env()
     system.update({ loadedTimestamp: Date.now() })
     const session = system.session
 
+    const sdk = data.node || session.sdk.versions[0]
+    const node = data.sdk || session.node.versions[0]
+
+    const cwd = env.home.path
+
+    if (session.ipfsIsRunning) {
+        await send({ 
+            id: data.id, 
+            type: 'startSession', 
+            session,
+            env,
+            status: 'IPFS already running.'
+        })    
+        return
+    }
+
+    const result = await carmel({ 
+        id: data.id, 
+        node, 
+        sdk,
+        cmd: "ipfs",
+        args: [{ name: 'start', value: true }],
+        cwd 
+    })
+
     await send({ 
         id: data.id, 
+        type: 'startSession', 
+        status: 'IPFS start attempt finished.',
         session,
         env,
+        result
     })
 }
 

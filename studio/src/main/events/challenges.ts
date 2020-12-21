@@ -51,7 +51,6 @@ export const _resolveChallenge = (data: any) => {
 
         return result
     } catch (e) {
-        console.log(e)
         return {
             ...challenge,
             bundle,
@@ -89,7 +88,6 @@ export const startChallenge = async (data: any) => {
     const env = system.env()
     const { session } = system
     const { challenge, product } = data 
-    console.log(data)
 
     let latest: any
 

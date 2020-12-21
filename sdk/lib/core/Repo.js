@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -35,8 +46,25 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __asyncValues = (this && this.__asyncValues) || function (o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Repo = void 0;
+// import NodeGit from 'nodegit'
+var recursive_readdir_1 = __importDefault(require("recursive-readdir"));
+var fs_1 = __importDefault(require("fs"));
+var path_1 = __importDefault(require("path"));
+var shortid_1 = __importDefault(require("shortid"));
+var axios_1 = __importDefault(require("axios"));
+var xml2js_1 = __importDefault(require("xml2js"));
 /**
  *
  */
@@ -169,16 +197,249 @@ var Repo = /** @class */ (function () {
             });
         });
     };
+    Repo.prototype.runNamecheapCommand = function (data) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function () {
+            var domain, vault, namecheap, nsIp, nsUser, nsKey, domainParts, nsTLD, nsSLD, nsCmd, nsCallRoot, nsCall, nsResponse, response, ApiResponse, CommandResponse;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        domain = data.domain;
+                        vault = ((_a = this.code.product.session) === null || _a === void 0 ? void 0 : _a.index.sections.secrets).vault;
+                        if (vault.isLocked) {
+                            return [2 /*return*/];
+                        }
+                        namecheap = vault.read('namecheap');
+                        nsIp = namecheap.clientIP //"45.82.223.81"
+                        ;
+                        nsUser = namecheap.username //"fluidchunky"
+                        ;
+                        nsKey = namecheap.apiKey //"d9f102afa99c4a09a1dcc1da9fe31b46"
+                        ;
+                        console.log('NS namecheap:', namecheap);
+                        domainParts = domain.split('.');
+                        nsTLD = domainParts.pop();
+                        nsSLD = domainParts.join('.');
+                        nsCmd = data.cmd;
+                        nsCallRoot = "https://api.namecheap.com/xml.response?ApiUser=" + nsUser + "&ApiKey=" + nsKey + "&UserName=" + nsUser + "&ClientIP=" + nsIp;
+                        nsCall = nsCallRoot + "&SLD=" + nsSLD + "&TLD=" + nsTLD + "&Command=namecheap." + nsCmd + (data.args ? '&' + data.args : '');
+                        console.log('NS Call:', nsCall);
+                        return [4 /*yield*/, axios_1.default.get(nsCall)];
+                    case 1:
+                        nsResponse = _b.sent();
+                        return [4 /*yield*/, xml2js_1.default.parseStringPromise(nsResponse.data)];
+                    case 2:
+                        response = _b.sent();
+                        ApiResponse = response.ApiResponse;
+                        CommandResponse = ApiResponse.CommandResponse;
+                        console.log(ApiResponse);
+                        if (!ApiResponse || !CommandResponse) {
+                            return [2 /*return*/];
+                        }
+                        if (ApiResponse.$.Status === 'ERROR') {
+                            return [2 /*return*/, { error: ApiResponse.Errors[0].Error[0] }];
+                        }
+                        return [2 /*return*/, CommandResponse[0]];
+                }
+            });
+        });
+    };
+    Repo.prototype.getNamespaceHosts = function (data) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, DomainDNSGetHostsResult, host;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.runNamecheapCommand(__assign(__assign({}, data), { cmd: "domains.dns.getHosts" }))];
+                    case 1:
+                        response = _a.sent();
+                        if (!response || response.error || !response.DomainDNSGetHostsResult) {
+                            return [2 /*return*/];
+                        }
+                        DomainDNSGetHostsResult = response.DomainDNSGetHostsResult;
+                        host = DomainDNSGetHostsResult[0].host;
+                        if (!host) {
+                            return [2 /*return*/];
+                        }
+                        return [2 /*return*/, host.map(function (entry) {
+                                return entry.$;
+                            })];
+                }
+            });
+        });
+    };
+    Repo.prototype.updateNamespaceHosts = function (data) {
+        return __awaiter(this, void 0, void 0, function () {
+            var hosts, args, response;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getNamespaceHosts(data)];
+                    case 1:
+                        hosts = _a.sent();
+                        if (!hosts) {
+                            return [2 /*return*/];
+                        }
+                        args = "";
+                        hosts.map(function (h, i) {
+                            var name = h.Name;
+                            var type = h.Type;
+                            var ttl = h.TTL;
+                            var value = h.Address;
+                            if (data.cid && name.substring(0, 8) === '_dnslink') {
+                                value = "/ipfs/" + data.cid;
+                            }
+                            args = "" + args + ["HostName" + (i + 1)] + "=" + name + "&" + ["Address" + (i + 1)] + "=" + value + "&" + ["RecordType" + (i + 1)] + "=" + type + "&" + ["TTL" + (i + 1)] + "=" + ttl + (i < hosts.length - 1 ? '&' : '');
+                        });
+                        return [4 /*yield*/, this.runNamecheapCommand(__assign(__assign({}, data), { args: args, cmd: "domains.dns.setHosts" }))];
+                    case 2:
+                        response = _a.sent();
+                        return [2 /*return*/, response];
+                }
+            });
+        });
+    };
     /**
      *
      */
     Repo.prototype.push = function () {
-        var _a;
+        var e_1, _a;
+        var _b, _c, _d;
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_b) {
-                if (!((_a = this.dir) === null || _a === void 0 ? void 0 : _a.exists))
-                    return [2 /*return*/];
-                return [2 /*return*/];
+            var ipfsConfig, deploymentId, deploymentRoot, ignores, files, deployment, ipfsClient, node, localGatewayUrl, publicGatewayUrl, deployed, _e, _f, result, e_1_1, deployedWeb, deployedWebNamed, dns;
+            var _this = this;
+            return __generator(this, function (_g) {
+                switch (_g.label) {
+                    case 0:
+                        if (!((_b = this.dir) === null || _b === void 0 ? void 0 : _b.exists))
+                            return [2 /*return*/];
+                        process.env.IPFS_PATH = (_d = (_c = this.code.product.session.dir.dir('ipfs')) === null || _c === void 0 ? void 0 : _c.make()) === null || _d === void 0 ? void 0 : _d.path;
+                        ipfsConfig = JSON.parse(fs_1.default.readFileSync(path_1.default.resolve(process.env.IPFS_PATH, 'config'), 'utf-8'));
+                        deploymentId = shortid_1.default.generate();
+                        deploymentRoot = "/deployments/" + deploymentId;
+                        ignores = ['.DS_Store'];
+                        return [4 /*yield*/, recursive_readdir_1.default(this.dir.path)];
+                    case 1:
+                        files = _g.sent();
+                        files = files.filter(function (file) { return !ignores.includes(path_1.default.basename(file)); }).map(function (file) {
+                            var info = fs_1.default.statSync(file);
+                            return {
+                                path: deploymentRoot + "/" + path_1.default.relative(_this.dir.path, file),
+                                content: fs_1.default.readFileSync(file),
+                                mtime: info.mtime
+                            };
+                        });
+                        deployment = {
+                            timestamp: Date.now(),
+                            id: deploymentId,
+                            files: files.length
+                        };
+                        if (!files || files.length === 0)
+                            return [2 /*return*/, deployment];
+                        ipfsClient = require('ipfs-http-client');
+                        node = ipfsClient(ipfsConfig.Addresses.API);
+                        localGatewayUrl = "http://" + node.gatewayHost + ":" + node.gatewayPort;
+                        publicGatewayUrl = "https://ipfs.io";
+                        return [4 /*yield*/, Promise.all(files.map(function (file) { return node.files.write(file.path, file.content, {
+                                parents: true, create: true, mtime: file.mtime
+                            }); }))];
+                    case 2:
+                        _g.sent();
+                        deployed = [];
+                        _g.label = 3;
+                    case 3:
+                        _g.trys.push([3, 8, 9, 14]);
+                        _e = __asyncValues(node.files.ls(deploymentRoot));
+                        _g.label = 4;
+                    case 4: return [4 /*yield*/, _e.next()];
+                    case 5:
+                        if (!(_f = _g.sent(), !_f.done)) return [3 /*break*/, 7];
+                        result = _f.value;
+                        deployed.push(result);
+                        _g.label = 6;
+                    case 6: return [3 /*break*/, 4];
+                    case 7: return [3 /*break*/, 14];
+                    case 8:
+                        e_1_1 = _g.sent();
+                        e_1 = { error: e_1_1 };
+                        return [3 /*break*/, 14];
+                    case 9:
+                        _g.trys.push([9, , 12, 13]);
+                        if (!(_f && !_f.done && (_a = _e.return))) return [3 /*break*/, 11];
+                        return [4 /*yield*/, _a.call(_e)];
+                    case 10:
+                        _g.sent();
+                        _g.label = 11;
+                    case 11: return [3 /*break*/, 13];
+                    case 12:
+                        if (e_1) throw e_1.error;
+                        return [7 /*endfinally*/];
+                    case 13: return [7 /*endfinally*/];
+                    case 14:
+                        deployedWeb = deployed.find(function (d) { return d.name === 'web'; });
+                        return [4 /*yield*/, node.name.publish(deployedWeb.cid)];
+                    case 15:
+                        deployedWebNamed = _g.sent();
+                        deployment.urls = {
+                            publicRaw: publicGatewayUrl + "/ipfs/" + deployedWeb.cid,
+                            publicNamed: publicGatewayUrl + "/ipns/" + deployedWebNamed.name
+                        };
+                        return [4 /*yield*/, this.updateNamespaceHosts({
+                                domain: 'carmel.io',
+                                cid: deployedWeb.cid
+                            })];
+                    case 16:
+                        dns = _g.sent();
+                        console.log(dns);
+                        // response.elements.map((e: any) => {
+                        //   console.log("<<<<<<>llllll>>>>", e)
+                        //   if (e.name === 'ApiResponse') {
+                        //     console.log(">>EL?:", e.attributes.Status)
+                        //     console.log(">>ELel:", e.elements)        
+                        //   }
+                        // })
+                        // const shorten = await axios.post(`https://rel.ink/api/links/`,  {
+                        //   url: deployment.urls.publicRaw
+                        // }, { 
+                        //   headers: { 'Content-Type': 'application/json' }
+                        // })
+                        // if (!shorten || !shorten.data || !shorten.data.hashid) {
+                        //   return deployment
+                        // }
+                        // deployment.urls.short = `https://rel.ink/${shorten.data.hashid}`
+                        // console.log('done. waiting to go live ...')
+                        // console.log(deployment.urls)
+                        // const check = async () => {
+                        //   try {
+                        //     console.log('checking ...')
+                        //     return await axios.get(deployment.urls.publicRaw)
+                        //   } catch {}
+                        // }
+                        // await new Promise((done) => {
+                        //   (async () => {
+                        //     let checked: any
+                        //     while(!checked || checked.status !== 200) {
+                        //       checked = await check()
+                        //     }
+                        //     done()
+                        //   })()
+                        // })
+                        console.log('done.');
+                        return [2 /*return*/, deployment
+                            // if (!this.isOpen) return
+                            // let remote = await this.local?.getRemote('origin')
+                            // if (!remote) {
+                            //   remote = await NodeGit.Remote.create(
+                            //     this.local!,
+                            //     'origin',
+                            //     `git@github.com:${this.owner}/${this.name}.git`
+                            //   )
+                            // }
+                            // await remote?.push(['refs/heads/master:refs/heads/master'], {
+                            //   callbacks: {
+                            //     credentials: this.code.credentials,
+                            //   },
+                            // })
+                        ];
+                }
             });
         });
     };

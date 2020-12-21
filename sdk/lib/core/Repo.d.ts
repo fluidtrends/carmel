@@ -61,10 +61,13 @@ export declare class Repo implements IRepo {
     commit(paths: string[], comment: string): Promise<void>;
     /** @internal */
     shorten(url: string): Promise<void>;
+    runNamecheapCommand(data: any): Promise<any>;
+    getNamespaceHosts(data: any): Promise<any>;
+    updateNamespaceHosts(data: any): Promise<any>;
     /**
      *
      */
-    push(): Promise<void>;
+    push(): Promise<any>;
     /**
      *
      */

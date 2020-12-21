@@ -131,7 +131,7 @@ export const Preview: React.FC<any> = (props) => {
           margin: 0, 
           marginLeft: 5,
           padding: 0,
-          marginTop: 0,
+          marginTop: 14,
           display: 'flex',
           flexDirection: "column",
           alignItems: "center",
