@@ -154,9 +154,9 @@ export class Repo implements IRepo {
     }
 
     const namecheap = vault.read('namecheap')
-    const nsIp = namecheap.clientIP//"45.82.223.81"
-    const nsUser = namecheap.username//"fluidchunky"
-    const nsKey = namecheap.apiKey//"d9f102afa99c4a09a1dcc1da9fe31b46"
+    const nsIp = namecheap.clientIP
+    const nsUser = namecheap.username
+    const nsKey = namecheap.apiKey
 
     console.log('NS namecheap:', namecheap)
 
