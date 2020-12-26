@@ -23,6 +23,9 @@ import {
 } from '..'
 import { Name } from '../types'
 import shortid from 'shortid'
+import jimp from 'jimp'
+
+const { HORIZONTAL_ALIGN_CENTER, VERTICAL_ALIGN_MIDDLE } = jimp 
 
 /**
  *
@@ -226,6 +229,40 @@ export class Product implements IProduct {
   // async openWeb() {
   //   await open(`https://carmel-${this.id}.vercel.app`)
   // }
+
+  async generateCover(cover: Path) {
+    const coverRoot = this.dir.dir('carmel/assets/en/images/covers')?.dir(cover)
+    const images = coverRoot?.files
+
+    if (images?.includes('portrait@3x.png') || images?.includes('portrait@3x.jpg')) {
+        return
+    }
+
+    const original = images?.includes('landscape@3x.png') ? coverRoot?.file('landscape@3x.png') : coverRoot?.file('landscape@3x.jpg')
+
+    if (!original || !original.exists) {
+        return 
+    }
+
+    const image = await jimp.read(original!.path!)
+    const ext =  path.extname(original!.path!).substring(1)
+
+    await image.scaleToFit(2560, 1440).quality(100).writeAsync(coverRoot?.file(`landscape@2x.${ext}`)?.path!)
+    await image.scaleToFit(1920, 1080).quality(100).writeAsync(coverRoot?.file(`landscape@1x.${ext}`)?.path!)
+
+    await image.cover(2160, 3840, HORIZONTAL_ALIGN_CENTER|VERTICAL_ALIGN_MIDDLE).quality(100).writeAsync(coverRoot?.file(`portrait@3x.${ext}`)?.path!)
+    await image.cover(1440, 2560, HORIZONTAL_ALIGN_CENTER|VERTICAL_ALIGN_MIDDLE).quality(100).writeAsync(coverRoot?.file(`portrait@2x.${ext}`)?.path!)
+    await image.cover(1080, 1920, HORIZONTAL_ALIGN_CENTER|VERTICAL_ALIGN_MIDDLE).quality(100).writeAsync(coverRoot?.file(`portrait@1x.${ext}`)?.path!)
+
+    await image.cover(120, 120, HORIZONTAL_ALIGN_CENTER|VERTICAL_ALIGN_MIDDLE).quality(100).writeAsync(coverRoot?.file(`placeholder.${ext}`)?.path!)
+  }
+
+  async generateCovers() {
+    const coversRoot = this.dir.dir('carmel/assets/en/images/covers')
+    const covers = coversRoot?.dirs || []
+
+    await Promise.all(covers.map(async (cover: Path) => this.generateCover(cover)))
+}
 
   /**
    *

@@ -108,6 +108,8 @@ export declare class Product implements IProduct {
      * @param id
      */
     createFromTemplate(id: Id, name: Name): Promise<this>;
+    generateCover(cover: Path): Promise<void>;
+    generateCovers(): Promise<void>;
     /**
      *
      * @param target

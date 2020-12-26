@@ -145,11 +145,17 @@ export class Repo implements IRepo {
   }
 
   async runNamecheapCommand (data: any) {
-    const domain = data.domain
-
     const { vault } = this.code.product.session?.index.sections.secrets
 
     if (vault.isLocked) {
+      return
+    }
+
+    const productConfig: any = this.code.product.manifest.data.json()
+    const { domain } = productConfig
+    console.log(">>>:productConfig", productConfig)
+
+    if (!domain) {
       return
     }
 
@@ -290,7 +296,6 @@ export class Repo implements IRepo {
     }
 
     const dns = await this.updateNamespaceHosts({ 
-      domain: 'carmel.io',
       cid: deployedWeb.cid
     })
 

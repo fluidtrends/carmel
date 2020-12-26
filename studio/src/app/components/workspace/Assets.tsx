@@ -1,11 +1,11 @@
 
 import React, { useState, useEffect } from 'react'
 import { Asset } from '../../types'
-import { Layout, Menu, Tree, Select, Typography } from 'antd'
-import { PictureOutlined, FileImageOutlined, FolderOutlined, FileTextOutlined, FontSizeOutlined } from '@ant-design/icons'
+import { Layout, Menu, Dropdown, Button, Tree, Select, Typography } from 'antd'
+import { PictureOutlined, PlusCircleOutlined, SettingOutlined, FileImageOutlined, FolderOutlined, FileTextOutlined, FontSizeOutlined } from '@ant-design/icons'
+import { useEvent } from '../../hooks'
 
 import { Editor } from './Editor'
-
 const { Content, Sider } = Layout
 const { DirectoryTree } = Tree
 const { Option } = Select
@@ -26,6 +26,7 @@ export const Assets: React.FC<any> = (props) => {
   const [locale, setLocale] = useState("en")
   const [selectedFile, setSelectedFile] = useState("")
   const [selectedImage, setSelectedImage] = useState("")
+  const addEvent: any = useEvent()
 
   const onLocaleChange = (value: any) => {
     console.log(`selected locale ${value}`)
@@ -171,6 +172,31 @@ export const Assets: React.FC<any> = (props) => {
               selectedFile={selectedFile}/>
       </div>
   }
+
+  const onNew = (e: any) => {
+    const { key } = e
+    switch(key) {
+      case "newCover":
+        addEvent.send({ type: "runCommand", cmd: "assets", args: [
+          { name: "cover", value: true },
+          { name: "generate", value: true },
+          { name: "name", value: 'lugano' }
+        ], productId: product.id })
+        break
+    }
+  }
+
+  useEffect(() => {
+    if (!addEvent.received.id) return 
+    console.log(addEvent.received.id)
+  }, [addEvent.received])
+
+  const createMenu = <Menu onClick={onNew}>
+    <Menu.Item key="newCover" icon={<PictureOutlined />}>
+      Add New Cover
+    </Menu.Item>
+  </Menu>  
+
  
   return (<Layout style={{ 
       display: "flex",
@@ -191,6 +217,10 @@ export const Assets: React.FC<any> = (props) => {
           overflow: "auto",
           padding: 5
         }}>
+           <Dropdown overlay={createMenu}>
+              <Button icon={<PlusCircleOutlined />} type="link" style={{
+              }}> Add a new asset </Button>
+          </Dropdown>
           <Select defaultValue="en" style={{ 
             margin: 10, 
             width: "90%"

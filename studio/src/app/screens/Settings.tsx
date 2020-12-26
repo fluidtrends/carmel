@@ -19,7 +19,7 @@ const { Search } = Input
  * 
  * @param props 
  */
-export const Settings: React.FC<ProfileScreenProps> = (props) => { 
+export const Settings: React.FC<any> = (props) => { 
   const session = useSelector((state: State) => state.session) 
   const dispatch = useDispatch()
   const [working, setWorking] = useState<any>('')

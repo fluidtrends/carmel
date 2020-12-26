@@ -15,7 +15,7 @@ const { Title, Text } = Typography
  * @param props 
  */
 export const Header: React.FC<any> = (props) => {
-  const [section, setSection] = useState('assets')
+  const [section, setSection] = useState('info')
   const { onBack, product, onCommand, commandResponse, onWebPreview } = props
   const [status, setStatus] = useState<any>({})
   
@@ -35,6 +35,10 @@ export const Header: React.FC<any> = (props) => {
   }
 
   const sections = [{
+        icon: "ControlOutlined",
+        name: "Info",
+        id: "info"
+    },{
         icon: "CopyOutlined",
         name: "Assets",
         id: "assets"

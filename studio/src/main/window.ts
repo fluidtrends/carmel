@@ -38,6 +38,7 @@ export const toggle = () => {
 
 export const hideBrowser = () => {
   try {
+    browserView.setBounds({ x: 0, y: 0, width: 0, height: 0 })
     browserView.destroy()
   } catch (e) {
   }

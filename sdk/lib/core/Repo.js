@@ -200,13 +200,18 @@ var Repo = /** @class */ (function () {
     Repo.prototype.runNamecheapCommand = function (data) {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var domain, vault, namecheap, nsIp, nsUser, nsKey, domainParts, nsTLD, nsSLD, nsCmd, nsCallRoot, nsCall, nsResponse, response, ApiResponse, CommandResponse;
+            var vault, productConfig, domain, namecheap, nsIp, nsUser, nsKey, domainParts, nsTLD, nsSLD, nsCmd, nsCallRoot, nsCall, nsResponse, response, ApiResponse, CommandResponse;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        domain = data.domain;
                         vault = ((_a = this.code.product.session) === null || _a === void 0 ? void 0 : _a.index.sections.secrets).vault;
                         if (vault.isLocked) {
+                            return [2 /*return*/];
+                        }
+                        productConfig = this.code.product.manifest.data.json();
+                        domain = productConfig.domain;
+                        console.log(">>>:productConfig", productConfig);
+                        if (!domain) {
                             return [2 /*return*/];
                         }
                         namecheap = vault.read('namecheap');
@@ -380,7 +385,6 @@ var Repo = /** @class */ (function () {
                             publicNamed: publicGatewayUrl + "/ipns/" + deployedWebNamed.name
                         };
                         return [4 /*yield*/, this.updateNamespaceHosts({
-                                domain: 'carmel.io',
                                 cid: deployedWeb.cid
                             })];
                     case 16:

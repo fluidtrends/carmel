@@ -27,10 +27,6 @@
     "forge": {
       "packagerConfig": {
         "icon": "./assets/icon.icns",
-        "asar": {
-          "unpack": "**/node_modules/leveldown/prebuilds/**/*",
-          "unpackDir": "./webpack/main"
-        },
         "protocols": [
           {
             "name": "carmel",

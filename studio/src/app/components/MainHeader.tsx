@@ -66,14 +66,20 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
             browser.send({ type: 'hideWebPreview' })
             dispatch(replace('/settings'))
             break
+          case "vault":
+            browser.send({ type: 'hideWebPreview' })
+            dispatch(replace('/vault'))
+            break
         }
       }
 
       const onSignUp = () => {
-          dispatch(replace('/register'))
+        browser.send({ type: 'hideWebPreview' })
+        dispatch(replace('/register'))
       }
 
       const onSignIn = () => {
+        browser.send({ type: 'hideWebPreview' })
         dispatch(replace('/login'))
       }
   
@@ -87,7 +93,10 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
 
     const appMenu = <Menu onClick={onAppSelect}>
       <Menu.Item key="settings" icon={<SettingOutlined />}>
-        Settings
+        Environment Settings
+      </Menu.Item>
+      <Menu.Item key="vault" icon={<LockOutlined />}>
+        Security Vaults
       </Menu.Item>
     </Menu>  
 

@@ -23,8 +23,6 @@ export const Start: React.FC<StartScreenProps> = (props) => {
   useEffect(() => {
     if (!loadEvent.received.id) return
     
-    console.log("----", loadEvent.received)
-
     if (!loadEvent.received.session) {
       dispatch(replace('/welcome'))
       return 

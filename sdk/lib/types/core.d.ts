@@ -119,6 +119,8 @@ export interface IProduct extends IClass {
     saveData(data: any): void;
     findDirs(dirpath: Path): Path[];
     resolve(target: Target, watch: boolean): Promise<any>;
+    generateCover(cover: Path): Promise<any>;
+    generateCovers(): Promise<any>;
 }
 export interface ISnapshot extends IClass {
     readonly id: Id;
