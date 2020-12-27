@@ -15,7 +15,7 @@ import {
   SettingOutlined,
   CaretDownOutlined, 
   NotificationOutlined,
-  MoreOutlined
+  FolderOutlined
 } from '@ant-design/icons'
 
 const { Header, Content, Sider } = Layout
@@ -34,21 +34,36 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
   const session = useSelector((state: State) => state.session)
   const browser: any = useEvent()
 
-    const notifications: any = {
-        carmel: [],
-        main: [],
-        user: []
-      }
+  const notifications: any = {
+      carmel: [],
+      main: [],
+      user: []
+  }
       
-    const onSectionChanged = (e: any) => {
-        setSection(e.target.value)
-      }
+    // const onSectionChanged = (e: any) => {
+    //   const s = e.target.value
+    //   setSection(s)
+    //   // switch (s) {
+    //   //   case "products":
+    //   //     dispatch(replace(session.productId ? '/product' : '/products'))  
+    //   //     break
+    //   //   case "content":
+    //   //     browser.send({ type: 'hideWebPreview' })
+    //   //     dispatch(replace(`/content`))  
+    //   //     break
+    //   //   }
+    // }
         
     const onAccountSelect = (e: any) => {
         const { key } = e
         browser.send({ type: 'hideWebPreview' })
         dispatch(replace(`/${key}`))  
-      }
+    }
+
+    const onContent = (e: any) => {
+      browser.send({ type: 'hideWebPreview' })
+      dispatch(replace(`/content`))  
+    }
 
     const asset = (id: string) => require(`../../../assets/${id}`).default
     
@@ -70,20 +85,20 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
       { (!session || !session.user) && <Menu.Item key="register">
         <Button type="primary">Sign Up</Button>
       </Menu.Item> }
-      </Menu>
+    </Menu>
 
-    const renderMainMenu = () => (
-      <div style={{
-        display: "flex",
-        flex: 10,
-        justifyContent: "center"
-        }}>
-            <Radio.Group size="large" value={section} onChange={onSectionChanged} buttonStyle="solid">
-            <Radio.Button value="products">Your Products</Radio.Button>
-            <Radio.Button value="marketplace">Marketplace</Radio.Button>
-            </Radio.Group>
-        </div>
-    )
+    // const renderMainMenu = () => (
+    //   <div style={{
+    //     display: "flex",
+    //     flex: 10,
+    //     justifyContent: "center"
+    //     }}>
+    //         <Radio.Group size="large" value={section} onChange={onSectionChanged} buttonStyle="solid">
+    //         <Radio.Button value="products">Products</Radio.Button>
+    //         <Radio.Button value="content">Content</Radio.Button>
+    //         </Radio.Group>
+    //     </div>
+    // )
 
   //  { session && session.user ? session.user.plan_name && session.user.plan_name !== "free" && <Tag color="green" style={{margin: 10}}> { session.user.plan_name.split('.')[0].toUpperCase() } </Tag> }
 
@@ -115,14 +130,12 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
             width: 28, height: 28 
           }}/>
         </div>
-
         <div style={{
           display: "flex",
           flex: 1,
           justifyContent: "flex-end"
         }}>
-
-        <Dropdown overlay={accountMenu}>
+          <Dropdown overlay={accountMenu}>
             <Badge count={notifications.user.length} overflowCount={5} offset={[0, 2]}>
               <Button icon={<UserOutlined/>} size='large' style={{
                   marginLeft: 10
@@ -131,9 +144,8 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
                   <CaretDownOutlined/>
               </Button>
             </Badge>
-        </Dropdown>
-
-        </div>  
+          </Dropdown>
+       </div>  
     </div>
   </div>)
 }

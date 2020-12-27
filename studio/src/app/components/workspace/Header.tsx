@@ -47,6 +47,10 @@ export const Header: React.FC<any> = (props) => {
         name: "Chunks",
         id: "chunks"
     }, {
+        icon: "DatabaseOutlined",
+        name: "Data",
+        id: "data"
+    }, {
         icon: "RiseOutlined",
         name: "Challenges",
         id: "challenges"
