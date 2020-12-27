@@ -45,7 +45,7 @@ export const hideBrowser = () => {
 }
 
 export const updateBrowser = (data: any) => {
-  if (browserView.isDestroyed()) return
+  if (browserView.getBounds().height === 0) return 
 
   const { width, height } = window.getBounds()
   browserViewIsMobile = data.mobile || false

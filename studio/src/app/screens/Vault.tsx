@@ -23,13 +23,13 @@ export const Vault: React.FC<any> = (props) => {
   const session = useSelector((state: State) => state.session) 
   const dispatch = useDispatch()
   const [working, setWorking] = useState<any>('')
-  const [securityCheck, setSecurityCheck] = useState(false)
+  // const [securityCheck, setSecurityCheck] = useState(false)
   const [addingGroup, setAddingGroup] = useState(false)
   const [addingSecret, setAddingSecret] = useState(false)
   const [secrets, setSecrets] = useState<any>()
   const [group, setGroup] = useState<any>('default')
   const [locked, setLocked] = useState(session.isLocked)
-  const [dnsEditing, setDnsEditing] = useState(false)
+  // const [dnsEditing, setDnsEditing] = useState(false)
   const secretsEvent: any = useEvent()
   const newGroupEvent: any = useEvent()
   const newSecretEvent: any = useEvent()
@@ -47,9 +47,7 @@ export const Vault: React.FC<any> = (props) => {
     const newSecretName = form.getFieldValue('newSecretName')
     var newSecretValue = form.getFieldValue('newSecretValue')
 
-    newSecretValue = JSON.parse(newSecretValue)//.replace(/(\r\n|\n|\r)/gm, ""), null, 2)
-
-    console.log(">", newSecretValue)
+    newSecretValue = JSON.parse(newSecretValue)
 
     newSecretEvent.send({ type: "updateSecret", key: group, values: 
       { [newSecretName]: newSecretValue }
@@ -130,25 +128,22 @@ export const Vault: React.FC<any> = (props) => {
     newGroupEvent.send({ type: "addNewGroup", name: newGroupName })
   }
 
-  const onDoneDNSEditing = () => {
-    setDnsEditing(false)
+
+  const onSecretEdit = () => {
+    // setDnsEditing(true)
   }
 
-  const onSetupDNS = () => {
-    setDnsEditing(true)
-  }
+  // const onVaultChange = () => {
+  //   setSecurityCheck(true)
+  // }
 
-  const onVaultChange = () => {
-    setSecurityCheck(true)
-  }
+  // const onSecurityCheck = (done: boolean) => {
+  //   setSecurityCheck(false)
+  //   if (!done) return 
 
-  const onSecurityCheck = (done: boolean) => {
-    setSecurityCheck(false)
-    if (!done) return 
-
-    const newLock = !locked
-    setLocked(newLock)
-  }
+  //   const newLock = !locked
+  //   setLocked(newLock)
+  // }
 
   const formItemLayout = {
     labelCol: {
@@ -161,12 +156,12 @@ export const Vault: React.FC<any> = (props) => {
     },
   }
 
-  const formItemLayoutWithOutLabel = {
-    wrapperCol: {
-      xs: { span: 24, offset: 0 },
-      sm: { span: 20, offset: 4 },
-    },
-  }
+  // const formItemLayoutWithOutLabel = {
+  //   wrapperCol: {
+  //     xs: { span: 24, offset: 0 },
+  //     sm: { span: 20, offset: 4 },
+  //   },
+  // }
 
   const layout = {
     wrapperCol: { span: 24 },
@@ -248,7 +243,7 @@ export const Vault: React.FC<any> = (props) => {
     return renderFormField(id, [
       renderTag("blue", val.length > 35 ? val.substr(0, 35) + "..." : val, 1),
     ], [
-      renderActionButton("Edit", "secondary", onSetupDNS, 10)
+      renderActionButton("Edit", "secondary", onSecretEdit, 10)
     ])
   }
 
@@ -267,7 +262,7 @@ export const Vault: React.FC<any> = (props) => {
     <Menu onClick={chooseGroup}>
       { Object.keys(secrets).map((secret: string) => (<Menu.Item key={secret}> { secret } </Menu.Item>)) }
       <Menu.Divider />
-      <Menu.Item key={'_new'} icon={<PlusOutlined/>}> New Vault </Menu.Item>
+      <Menu.Item key={'_new'} icon={<PlusOutlined/>}> New Section </Menu.Item>
     </Menu>
   )
 
@@ -289,7 +284,7 @@ export const Vault: React.FC<any> = (props) => {
               <Dropdown overlay={groups()}>
                 <Button style={{
                 }}>
-                Vault: &nbsp; <span style={{ fontWeight: 700 }}> { group } </span> <DownOutlined />                  
+                Section: &nbsp; <span style={{ fontWeight: 700 }}> { group } </span> <DownOutlined />                  
                 </Button>
               </Dropdown>
           </div>
@@ -339,13 +334,13 @@ export const Vault: React.FC<any> = (props) => {
         [<Form.Item key='newGroupName' name='newGroupName' label={'NAME:'} style={{
           width: "100%",
        }} {...formItemLayout}>
-            <Input bordered={false} placeholder="Choose a group name" style={{ 
+            <Input bordered={false} placeholder="Choose a section name" style={{ 
               height: 32,
               border: 'none',
               borderBottom: '1px solid #cccccc'
             }}/>
        </Form.Item>, <div>
-          <Button type="primary" size="large" onClick={onAddGroup}> Add Group</Button>
+          <Button type="primary" size="large" onClick={onAddGroup}> Add Section</Button>
           <Button type="link" size="large" onClick={onCancelAddGroup}> Cancel </Button>
        </div>]
       )
@@ -386,7 +381,7 @@ export const Vault: React.FC<any> = (props) => {
         }}>
           { locked ? <LockOutlined style={{ fontSize: 40, margin: 10 }} /> : <UnlockOutlined style={{ fontSize: 40, margin: 10 }} /> }
           <Title level={2}>
-              Security Vaults
+              Vault
           </Title>
           <Form {...layout} form={form} name="all" onFinish={onFinish}
             style={{

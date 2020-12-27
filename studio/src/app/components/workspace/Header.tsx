@@ -109,12 +109,6 @@ export const Header: React.FC<any> = (props) => {
         icon: "CloudUploadOutlined",
         tooltip: "Publish online"
     }
-    // }, product.started ? {
-    //     id: "preview",
-    //     name: "PREVIEW",
-    //     color: "#03A9F4",
-    //     icon: "LayoutOutlined",
-    //     tooltip: "Preview website"
     ].filter(d => d)
 
     const renderStatus = () => {
@@ -145,16 +139,15 @@ export const Header: React.FC<any> = (props) => {
     const webOptions = (<div key="web" style={{
             display: "flex",
             flexDirection: "column",
-            justifyContent: "center",
-            height: "100%"
+            justifyContent: "center"
         }}>
         <div key="container" style={{
-            marginTop: 0
+            marginTop: -5
         }}>
             { commands.map((command: any) => {
                 const Icon = require(`@ant-design/icons/lib/icons/${command.icon}.js`).default
                 return <Tooltip placement="bottomRight" key={command.id} title={command.tooltip}>
-                    <Button disabled={status.processing} onClick={() => onPanelCommand(command)} style={{
+                    <Button disabled={status.processing} size="middle" onClick={() => onPanelCommand(command)} style={{
                         marginLeft: 10,
                         opacity: status.processing ? 0.4 : 1.0,
                         backgroundColor: command.color,
@@ -168,32 +161,6 @@ export const Header: React.FC<any> = (props) => {
             })}
         </div>
     </div>)
-  
-    // const renderCommandPanel = () => (
-    //     (<div key="web" style={{
-    //         display: "flex",
-    //         flexDirection: "column",
-    //         justifyContent: "center",
-    //         height: "100%"
-    //     }}>
-    //     <div key="container" style={{
-    //         marginTop: 20
-    //     }}>
-    //         { commands.map((command: any) => {
-    //             const Icon = require(`@ant-design/icons/lib/icons/${command.icon}.js`).default
-    //             return <Tooltip placement="bottomRight" key={command.id} title={command.tooltip}>
-    //                 <Button disabled={status.processing} onClick={() => onPanelCommand(command)} style={{
-    //                     marginLeft: 10,
-    //                 }} icon={<Icon style={{
-    //                 }}/>} loading={false}>
-    //                     { command.name }
-    //                 </Button>
-    //             </Tooltip>
-    //         })}
-    //         { product.deployments && product.deployments.length > 0 && <LiveButton/>}
-    //     </div>
-    // </div>)
-    // )
 
     const title = (<div key="main" style={{
       display: "flex", 
@@ -209,10 +176,10 @@ export const Header: React.FC<any> = (props) => {
     </Title>
     { renderStatus() }
     { product.deployments && product.deployments.length > 0 && <LiveButton/>}
+    { webOptions }
   </div>)
 
   const showStatus = () => {
-
     return <div key="alert" style={{ 
         display: "flex",
         flex: 1,
@@ -237,7 +204,6 @@ export const Header: React.FC<any> = (props) => {
             width: "100%",
             padding: 0,
         }}
-        extra={[webOptions]}
         onBack={onBack}>
         <div key="inner" style={{
             display: "flex",
@@ -272,7 +238,6 @@ export const Header: React.FC<any> = (props) => {
             </Menu>
             
             { showStatus() }
-            
         </div>
     </PageHeader>
 </div>)

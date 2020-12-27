@@ -32,8 +32,6 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
   const [section, setSection] = useState("products")
   const dispatch = useDispatch()
   const session = useSelector((state: State) => state.session)
-  const env = useSelector((state: State) => state.env)
-  const vaultIsLocked = useSelector((state: State) => state.env.lock && state.env.lock.exists)
   const browser: any = useEvent()
 
     const notifications: any = {
@@ -42,63 +40,37 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
         user: []
       }
       
-      function callback(key: any) {
-        console.log(key);
-      }
-    
-      function onSectionChanged(e: any) {
+    const onSectionChanged = (e: any) => {
         setSection(e.target.value)
       }
         
-      function onAccountSelect(e: any) {
+    const onAccountSelect = (e: any) => {
         const { key } = e
-        switch(key) {
-          case 'profile': 
-            dispatch(replace('/profile'))
-            break
-        }
-      }
-
-      function onAppSelect(e: any) {
-        const { key } = e
-        switch(key) {
-          case "settings":
-            browser.send({ type: 'hideWebPreview' })
-            dispatch(replace('/settings'))
-            break
-          case "vault":
-            browser.send({ type: 'hideWebPreview' })
-            dispatch(replace('/vault'))
-            break
-        }
-      }
-
-      const onSignUp = () => {
         browser.send({ type: 'hideWebPreview' })
-        dispatch(replace('/register'))
+        dispatch(replace(`/${key}`))  
       }
 
-      const onSignIn = () => {
-        browser.send({ type: 'hideWebPreview' })
-        dispatch(replace('/login'))
-      }
-  
     const asset = (id: string) => require(`../../../assets/${id}`).default
     
     const accountMenu = <Menu onClick={onAccountSelect}>
-      <Menu.Item key="profile" icon={<SolutionOutlined />}>
+      { session && session.user && <Menu.Item key="profile" icon={<SolutionOutlined />}>
         Your Profile
-      </Menu.Item>
-    </Menu>
-
-    const appMenu = <Menu onClick={onAppSelect}>
+      </Menu.Item> }
+      { (!session || !session.user) && <Menu.Item key="login" icon={<UserOutlined />}>
+       Login
+      </Menu.Item>}
+      <Menu.Divider/>
       <Menu.Item key="settings" icon={<SettingOutlined />}>
-        Environment Settings
+        Settings
       </Menu.Item>
       <Menu.Item key="vault" icon={<LockOutlined />}>
-        Security Vaults
+        Vault
       </Menu.Item>
-    </Menu>  
+      { (!session || !session.user) && <Menu.Divider/>}
+      { (!session || !session.user) && <Menu.Item key="register">
+        <Button type="primary">Sign Up</Button>
+      </Menu.Item> }
+      </Menu>
 
     const renderMainMenu = () => (
       <div style={{
@@ -112,6 +84,8 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
             </Radio.Group>
         </div>
     )
+
+  //  { session && session.user ? session.user.plan_name && session.user.plan_name !== "free" && <Tag color="green" style={{margin: 10}}> { session.user.plan_name.split('.')[0].toUpperCase() } </Tag> }
 
   return (<div style={{ 
     display: "flex",
@@ -148,27 +122,17 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
           justifyContent: "flex-end"
         }}>
 
-        { session && session.user ? 
         <Dropdown overlay={accountMenu}>
             <Badge count={notifications.user.length} overflowCount={5} offset={[0, 2]}>
               <Button icon={<UserOutlined/>} size='large' style={{
                   marginLeft: 10
                 }}>
-                  { session.user.username } 
+                  { session && session.user ? session.user.username : ""} 
                   <CaretDownOutlined/>
               </Button>
-              { session.user.plan_name && session.user.plan_name !== "free" && <Tag color="green" style={{margin: 10}}> { session.user.plan_name.split('.')[0].toUpperCase() } </Tag> }
             </Badge>
-          </Dropdown> : <div>
-              <Button type="primary" size="small" onClick={onSignUp}> Sign Up</Button> 
-              <Button type="link" onClick={onSignIn}> Sign In</Button> 
-          </div>
-        }
-         <Dropdown overlay={appMenu}>
-              <Button icon={<MoreOutlined />} style={{
-                border: 'none' 
-              }}/>
-          </Dropdown>
+        </Dropdown>
+
         </div>  
     </div>
   </div>)

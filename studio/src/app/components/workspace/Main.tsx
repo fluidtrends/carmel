@@ -81,7 +81,7 @@ export const Workspace: any = (props: any) => {
           justifyContent: "center",
           alignItems: "center"
       }}>    
-        
+
       </div>)
     }
 
@@ -153,5 +153,6 @@ export const Workspace: any = (props: any) => {
           </Carousel>  
 
           { renderActivity() }
+
         </Layout>)
 }
