@@ -1,5 +1,5 @@
 import { send } from './main'
-import { carmel } from './commands'
+import { carmel, runCommand } from './commands'
 import * as system from '../system'
 import * as window from '../window'
 import fs from 'fs-extra'
@@ -8,6 +8,7 @@ import semver from 'semver'
 import { installBundle, installStack, installPacker } from '../services'
 import { encode, decode } from 'js-base64'
 import requireFromString from 'require-from-string'
+import { dialog } from 'electron'
 
 import { eos } from '../services/blockchain'
 import { connectAdvanced } from 'react-redux'
@@ -168,6 +169,51 @@ export const selectProduct = async (data: any) => {
     await send({ 
         id: data.id,
         type: 'selectProduct' 
+    })
+}
+
+export const addAsset = async (data: any) => {
+    const env = system.env()
+    const assetsDir = path.resolve(env.home.path, 'products', data.productId, "carmel", "assets", data.locale)
+    const covers = fs.readdirSync(path.resolve(assetsDir, 'images', 'covers')).filter((i: any) => i !== '.DS_Store')
+
+    const { filePaths, canceled } = await dialog.showOpenDialog({ properties: ['openFile'] })
+
+    if (canceled) {
+         await send({ 
+            id: data.id,
+            canceled,
+            type: 'addAsset' 
+        })
+        return 
+    }
+
+    const file = filePaths[0]
+    const filename = path.basename(file)
+
+    var filepath = path.resolve(assetsDir, 'images', filename)
+    
+    if (data.kind === 'covers') {
+        filepath = path.resolve(assetsDir, 'images', 'covers', data.name || `cover${covers.length}`)
+        fs.mkdirsSync(filepath)
+        filepath = path.resolve(filepath, "landscape@3x.png")
+    }
+
+    fs.copyFileSync(file, filepath)
+
+    if (data.kind === 'covers') {
+        await runCommand({ cmd: "assets", args: [
+            { name: "cover", value: true },
+            { name: "generate", value: true },
+            { name: "name", value: data.name || `cover${covers.length}` },
+            ], productId: data.productId
+        })
+    }
+
+    await send({ 
+        id: data.id,
+        file,
+        type: 'addAsset' 
     })
 }
 

@@ -1,8 +1,8 @@
 
 import React, { useState, useEffect } from 'react'
 import { Asset } from '../../types'
-import { Layout, Menu, Dropdown, Button, Tree, Select, Typography } from 'antd'
-import { PictureOutlined, PlusCircleOutlined, SettingOutlined, FileImageOutlined, FolderOutlined, FileTextOutlined, FontSizeOutlined } from '@ant-design/icons'
+import { Layout, Menu, Modal, Dropdown, Button, Tree, Select, Typography, Divider, Spin, Input } from 'antd'
+import { PictureOutlined, UploadOutlined, PlusCircleOutlined, LoadingOutlined, PlusOutlined, FileImageOutlined, FolderOutlined, FileTextOutlined, FontSizeOutlined } from '@ant-design/icons'
 import { useEvent } from '../../hooks'
 
 import { Editor } from './Editor'
@@ -17,13 +17,18 @@ const { SubMenu } = Menu
  * @param props 
  */
 export const Assets: React.FC<any> = (props) => {
-  const { product, height, openFile, visible, onSelect } = props
+  const { product, height, openFile, onReload, visible, onSelect } = props
 
   const [images, setImages] = useState([])
   const [covers, setCovers] = useState([])
   const [text, setText] = useState([])
   const [locales, setLocales] = useState([])
   const [locale, setLocale] = useState("en")
+  const [addingAsset, setAddingAsset] = useState(false)
+  const [addingAssetType, setAddingAssetType] = useState("")
+  const [addingAssetName, setAddingAssetName] = useState("")
+  const [addingAssetUploading, setAddingAssetUploading] = useState(false)
+  
   const [selectedFile, setSelectedFile] = useState("")
   const [selectedImage, setSelectedImage] = useState("")
   const addEvent: any = useEvent()
@@ -38,15 +43,26 @@ export const Assets: React.FC<any> = (props) => {
         case 'image':
           setSelectedImage(`http://0.0.0.0:${product.staticServerPort}/products/${product.id}/carmel/assets/${locale}/images/${path}`)
           setSelectedFile("")
-          break;
+          break
         case 'cover':
           setSelectedImage(`http://0.0.0.0:${product.staticServerPort}/products/${product.id}/carmel/assets/${locale}/images/covers/${path}/landscape@3x.png`)
           setSelectedFile("")
-          break;
+          break
         case 'text':
           setSelectedFile(`carmel/assets/${locale}/text/${path}`)
           setSelectedImage("")
-          break;
+          break
+        case 'newcover':
+          setAddingAssetType('covers')
+          setAddingAsset(true)   
+          break
+        case 'newimage':
+          setAddingAssetType('images')
+          setAddingAsset(true)   
+          onAddAsset()
+          break
+        case 'newtext':
+          break
       }  
   }
 
@@ -54,11 +70,14 @@ export const Assets: React.FC<any> = (props) => {
     if (!product.files.assets) return
 
     const textFiles = product.files.assets[locale].text.__files || []
-    const imageFiles = product.files.assets[locale].images.__files || []
+    const imageFiles = (product.files.assets[locale].images.__files || []).filter((i: any) => i !== '.DS_Store')
     const coverFilesRaw = product.files.assets[locale].images.covers
-    delete coverFilesRaw.__path
-    const coverFiles = Object.keys(coverFilesRaw)
 
+    delete coverFilesRaw.__path
+    delete coverFilesRaw.__files
+
+    const coverFiles: any = Object.keys(coverFilesRaw)
+    
     setImages(imageFiles)
     setCovers(coverFiles)
     setText(textFiles)
@@ -82,6 +101,16 @@ export const Assets: React.FC<any> = (props) => {
     onSelect(selectedFile)
   }, [visible])
 
+
+  const onAddAsset = () => {
+    setAddingAssetUploading(true)
+    addEvent.send({ type: "addAsset", name: addingAssetName, kind: addingAssetType, locale, productId: product.id })
+  }
+
+  const onAddingAssetNameChanged = (e: any) => {
+    setAddingAssetName(e.target.value)
+  }
+
   const renderImagesMenu = () => {
       return <SubMenu
         key="images"
@@ -91,7 +120,7 @@ export const Assets: React.FC<any> = (props) => {
             <span>Images</span>
           </span> 
         }>
-          { renderCoversMenu() }
+          <Menu.Item key={`newimage`} icon={<PlusOutlined />}> <Button type="link">Add Image</Button> </Menu.Item>      
           { images.map((i: string) =>  <Menu.Item key={`image|${i}`} icon={<FileImageOutlined />}>{ i }</Menu.Item>)}       
       </SubMenu>
   } 
@@ -105,10 +134,11 @@ export const Assets: React.FC<any> = (props) => {
           <span>Covers</span>
         </span> 
       }>
+        <Menu.Item key={`newcover`} icon={<PlusOutlined />}> <Button type="link">Add Cover</Button> </Menu.Item>      
         { covers.map((i: string) =>  <Menu.Item key={`cover|${i}`} icon={<FileImageOutlined />}>{ i }</Menu.Item>)}       
     </SubMenu>
-} 
-  
+  } 
+ 
   const renderTextMenu = () => {
     return <SubMenu
       key="text"
@@ -118,6 +148,7 @@ export const Assets: React.FC<any> = (props) => {
           <span>Text</span>
         </span>
       }>
+        <Menu.Item key={`newtext`} icon={<PlusOutlined />}> <Button type="link">Add Text</Button> </Menu.Item>      
         { text.map((i: string) =>  <Menu.Item key={`text|${i}`} icon={<FileTextOutlined />}>{ i }</Menu.Item>)}       
     </SubMenu>
   }
@@ -131,6 +162,7 @@ export const Assets: React.FC<any> = (props) => {
         border: "none" 
       }}>
         { renderTextMenu() }
+        { renderCoversMenu() }
         { renderImagesMenu() }
     </Menu>
   }
@@ -173,30 +205,77 @@ export const Assets: React.FC<any> = (props) => {
       </div>
   }
 
-  const onNew = (e: any) => {
-    const { key } = e
-    switch(key) {
-      case "newCover":
-        addEvent.send({ type: "runCommand", cmd: "assets", args: [
-          { name: "cover", value: true },
-          { name: "generate", value: true },
-          { name: "name", value: 'lugano' }
-        ], productId: product.id })
-        break
-    }
+  const stopAddingAsset = () => {
+    setAddingAsset(false)
+    setAddingAssetType("")
+    setAddingAssetUploading(false)
   }
 
   useEffect(() => {
     if (!addEvent.received.id) return 
-    console.log(addEvent.received.id)
+    stopAddingAsset()
+    onReload()
   }, [addEvent.received])
 
-  const createMenu = <Menu onClick={onNew}>
-    <Menu.Item key="newCover" icon={<PictureOutlined />}>
-      Add New Cover
-    </Menu.Item>
-  </Menu>  
+  const renderAddForm = () => {
+    if (addingAssetUploading) {
+      return <div style={{
+        backgroundColor: "#ffffff",
+        height: "100%",
+        width: "100%",
+        display: "flex",
+        flex: 1,
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+      }}>
+          <Spin/>
+      </div>
+    }
+    
+    return <div style={{
+      backgroundColor: "#ffffff",
+      height: "100%",
+      width: "100%",
+      display: "flex",
+      flex: 1,
+      padding: 20,
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+    }}>
+      <Input style={{ height: 32, width: 300, margin: 20 }} placeholder="Give your cover a name" onChange={onAddingAssetNameChanged}/>
 
+      <Button type="primary" onClick={onAddAsset}> Choose an image </Button>
+      <Button type="link" onClick={stopAddingAsset}> Cancel </Button>
+    </div>
+  }
+
+  const renderSider = () => {
+    if (addingAsset) {
+      return <div/>
+    }
+
+    return <Sider style={{
+      backgroundColor: "#ffffff",
+      overflow: "auto",
+      padding: 5
+    }}>
+      <Select defaultValue="en" style={{ 
+        margin: 10, 
+        width: "90%"
+      }} onChange={onLocaleChange}>
+            { locales.map((l: any) => <Option value={l.id} key={l.id}>{l.language}</Option>)}
+      </Select>
+      { renderMenu() }
+    </Sider>
+  }
+
+  const renderContent = () => {
+    return  <Content style={{ margin: 0 }}>
+        { addingAsset ? renderAddForm() : renderEditor() }
+    </Content> 
+  }
  
   return (<Layout style={{ 
       display: "flex",
@@ -205,32 +284,12 @@ export const Assets: React.FC<any> = (props) => {
       margin: 0,
       flex: 1,
       padding: 0,
-      // backgroundColor: "#00eeee",
       alignItems: 'stretch',
       alignSelf: "stretch",
       height,
       width: "100%",
     }}>
-        <Sider style={{
-          backgroundColor: "#ffffff",
-          // borderRight: "1px solid #", 
-          overflow: "auto",
-          padding: 5
-        }}>
-           <Dropdown overlay={createMenu}>
-              <Button icon={<PlusCircleOutlined />} type="link" style={{
-              }}> Add a new asset </Button>
-          </Dropdown>
-          <Select defaultValue="en" style={{ 
-            margin: 10, 
-            width: "90%"
-          }} onChange={onLocaleChange}>
-                { locales.map((l: any) => <Option value={l.id} key={l.id}>{l.language}</Option>)}
-          </Select>
-          { renderMenu() }
-        </Sider>
-        <Content style={{ margin: 0 }}>
-            { renderEditor() }
-        </Content>
+        { renderSider() }
+        { renderContent() }
     </Layout>)
 }

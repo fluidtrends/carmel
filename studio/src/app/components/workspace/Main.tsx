@@ -130,6 +130,7 @@ export const Workspace: any = (props: any) => {
                   onSelect={onFileSelect}
                   height={height - 295}
                   product={product} 
+                  onReload={onReload}
                   visible={section === SECTIONS[1]}
                   openFile={openFile}/>                  
                 <ProductComps.Chunks
