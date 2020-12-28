@@ -6,7 +6,7 @@ import axios from 'axios'
 import fs from 'fs-extra'
 import { downloadNodePackage } from '.'
 
-const REMOTE_CACHE_ROOT = `http://files.carmel.io/cache`
+const IPFS_GATEWAY = "cloudflare-ipfs.com"
 
 export const installNodeDependencies = async (data: any) => {
     const env = system.env()
@@ -70,7 +70,8 @@ export const installCacheArchive = async (data: any) => {
 
     fs.mkdirsSync(dir)
 
-    const url = `${REMOTE_CACHE_ROOT}/${filename}`
+    const url = `https://${IPFS_GATEWAY}/ipfs/${data.datahash.value}/${filename}`
+
     const stream = await axios({ method: 'get', url, responseType: 'stream' })
         
     await new Promise((resolve, reject) => {

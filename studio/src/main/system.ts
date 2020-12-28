@@ -3,6 +3,7 @@ import path from 'path'
 import fs from 'fs'
 import { Server } from './node'
 import { send } from '../main/events'
+import shortid from 'shortid'
 
 import * as window from './window'
 import * as events from './events'
@@ -26,7 +27,7 @@ export const env = () => {
   const servers = path.resolve(home, 'servers')
   const sdk = path.resolve(cache, '@carmel', 'sdk', 'default')
   const node = path.resolve(cache, 'node', 'default')
-  const machineId = session ? `${session.id}` : ''
+  const machineId = session ? `${session.id}` : shortid.generate()
 
   return {
     home: { path: home, exists: fs.existsSync(home) },

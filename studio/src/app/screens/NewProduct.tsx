@@ -65,7 +65,6 @@ export const NewProduct: React.FC<NewProductScreenProps> = (props) => {
 
   useEffect(() => { 
     if (!createEvent.received.id) return 
-    console.log(createEvent.received)
     const { message, done } = createEvent.received
     message && setProgress(message)
     done && dispatch(replace('/product'))

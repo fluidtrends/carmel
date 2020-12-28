@@ -14,17 +14,32 @@ import {
 import axios from 'axios'
 import fs from 'fs-extra'
 import path from 'path'
+import { eos } from '../services/blockchain'
 
-const REMOTE_ROOT = `http://files.carmel.io`
+const IPFS_GATEWAY = "cloudflare-ipfs.com"
 const USER_HOME = process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME']
 
 export const setup = async (e: any) => {
-    const { data } = await axios({ method: 'get', url: `${REMOTE_ROOT}/releases/latest.json`, responseType: 'json' })
+    const settings = await eos.read("carmelsystem", "carmelsystem", "settings")
+    
+    if (!settings || !settings.rows || settings.rows.length === 0) {
+        throw new Error("Settings not found")
+    }
 
+    const datahash = settings.rows.find((r: any) => r.key === "maindatahash")
+
+    if (!datahash || !datahash.value) {
+        throw new Error("Main data hash not found")
+    }
+
+    const url = `https://${IPFS_GATEWAY}/ipfs/${datahash.value}/latest.json`
+
+    const { data } = await axios({ method: 'get', url, responseType: 'json' })
+    
     if (!data) {
         throw new Error('Could not find release manifest')
     }
-    
+
     const { nodeVersion } = data
 
     if (!nodeVersion) {
@@ -34,12 +49,13 @@ export const setup = async (e: any) => {
     const env = system.env()
 
     await send({ id: e.id, type: 'setup', status: 'Preparing your environment ...' })    
-    await installCacheArchive({ name: 'pnpm', id: 'pnpm-files-0', version: "v3", type: "cache" })
-    await installCacheArchive({ name: 'pnpm', id: 'pnpm-files-1', version: "v3", type: "cache" })
-    await installCacheArchive({ name: 'pnpm', id: 'pnpm-metadata', version: "v3", type: "cache" })
+
+    // await installCacheArchive({ name: 'pnpm', id: 'pnpm-files-0', version: "v3", type: "cache" })
+    // await installCacheArchive({ name: 'pnpm', id: 'pnpm-files-1', version: "v3", type: "cache" })
+    // await installCacheArchive({ name: 'pnpm', id: 'pnpm-metadata', version: "v3", type: "cache" })
 
     await send({ id: e.id, type: 'setup', status: 'Installing JavaScript ...' })    
-    await installCacheArchive({ name: 'node', version: nodeVersion, type: "cache" })
+    await installCacheArchive({ name: 'node', version: nodeVersion, datahash, type: "cache" })
     await npm({ nodeVersion, cmd: 'i -g pnpm' })
     await npm({ nodeVersion, cmd: `config set store-dir "${path.resolve(USER_HOME, '.carmel', 'cache', 'pnpm')}"` })
 

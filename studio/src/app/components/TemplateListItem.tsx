@@ -4,7 +4,7 @@ import { Card, Button, Avatar, Typography } from 'antd';
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 
 const { Meta } = Card
-const { Title } = Typography
+const { Title, Text } = Typography
 
 /**
  * 
@@ -12,7 +12,9 @@ const { Title } = Typography
  */
 export const TemplateListItem: React.FC<TemplateListItemComponentProps> = (props) => {
   const { template, onSelected } = props
-    
+  
+  const version = (template as any).versions.pop()
+
   return (<div onClick={() => onSelected(template)}>
     <Card
       hoverable
@@ -28,5 +30,6 @@ export const TemplateListItem: React.FC<TemplateListItemComponentProps> = (props
         textAlign: "center"
       }}>
       <Title level={4}> { template.name } </Title>    
+      <Text> { version } </Text>  
   </Card></div>)
 }

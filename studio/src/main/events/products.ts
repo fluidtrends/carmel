@@ -95,6 +95,8 @@ export const createProduct = async (data: any) => {
             message: "Setting up the template"
         })
 
+        console.log(">>> latest", latestVersion)
+        
         const bundleData = await installBundle({ id: bundle, version: latestVersion, nodeVersion: node.default })
         const templateManifest = path.resolve(bundleData.dir, 'templates', name, 'index.js')
 
