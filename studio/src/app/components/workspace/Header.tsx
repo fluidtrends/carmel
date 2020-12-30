@@ -48,11 +48,13 @@ export const Header: React.FC<any> = (props) => {
         id: "chunks"
     }, {
         icon: "DatabaseOutlined",
-        name: "Data",
-        id: "data"
+        name: "Content",
+        disabled: true,
+        id: "content"
     }, {
         icon: "RiseOutlined",
         name: "Challenges",
+        disabled: true,
         id: "challenges"
     }]
 
@@ -224,7 +226,7 @@ export const Header: React.FC<any> = (props) => {
             }}>
                 { sections.map((s: any) => {
                     const Icon = require(`@ant-design/icons/lib/icons/${s.icon}.js`).default
-                    return (<Menu.Item key={s.id} icon={<Icon/>} style={
+                    return (<Menu.Item key={s.id} icon={<Icon/>} disabled={s.disabled} style={
                         section === s.id ? { 
                             margin: "0px 10px -8px 0px", 
                             height: 50,

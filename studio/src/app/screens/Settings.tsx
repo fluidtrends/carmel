@@ -3,17 +3,22 @@ import { ProfileScreenProps } from '../types'
 import * as styles from '../styles'
 import { Plans, VaultLock, DNSSetup } from '../components'
 import { replace } from 'connected-react-router'
-import { Spin, Button, Form, Row, Col, Tag, Input, Typography, Badge, Switch, Card } from 'antd'
+import { Spin, Button, Menu, Form, Tabs, Col, Tag, Input, Typography, Badge, Switch, Card } from 'antd'
 import { UnlockOutlined, LockOutlined, CloseOutlined, CheckOutlined, SettingOutlined } from "@ant-design/icons"
 import strings from '../strings.json'
 import moment from 'moment'
-
+import { 
+  LinkOutlined,
+  ExclamationCircleOutlined,
+  DownOutlined
+} from '@ant-design/icons'
 import { State } from '../types'
 import { useSelector, useDispatch } from "react-redux"
 import { useEvent } from '../hooks'
 
 const { Title, Text, Paragraph } = Typography
 const { Search } = Input
+const { TabPane } = Tabs
 
 /**
  * 
@@ -172,12 +177,12 @@ export const Settings: React.FC<any> = (props) => {
     ])
   }   
 
-  const renderFields = () => {
+  const renderEnvironment = () => {
     return [
       renderIpfsField()
     ]
   }
-
+  
   return (<div style={{
       ...styles.screen,
       backgroundColor: "#f5f5f5",
@@ -208,11 +213,10 @@ export const Settings: React.FC<any> = (props) => {
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-          }}>            
-            { renderFields() }
+          }}>         
+             {renderEnvironment()}
           </div>
       </Form>
-      
       <Button type="link" htmlType="button" onClick={onSkip} style={{ margin: 20 }}>
             Go back
       </Button> 

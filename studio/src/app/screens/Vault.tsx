@@ -3,7 +3,7 @@ import { ProfileScreenProps } from '../types'
 import * as styles from '../styles'
 import { Plans, VaultLock, DNSSetup } from '../components'
 import { replace } from 'connected-react-router'
-import { Spin, Button, Form, Row, Col, Tag, Input, Typography, Dropdown, Menu, Divider } from 'antd'
+import { Spin, Button, Form, Row, Col, Tag, Input, Typography, Dropdown, Menu, Divider, Switch } from 'antd'
 import { UnlockOutlined, LockOutlined, PlusOutlined, CheckOutlined, DownOutlined } from "@ant-design/icons"
 import strings from '../strings.json'
 import moment from 'moment'
@@ -11,6 +11,7 @@ import moment from 'moment'
 import { State } from '../types'
 import { useSelector, useDispatch } from "react-redux"
 import { useEvent } from '../hooks'
+import { Swing } from 'react-awesome-reveal'
 
 const { Title, Text, Paragraph } = Typography
 const { Search, TextArea } = Input
@@ -23,13 +24,12 @@ export const Vault: React.FC<any> = (props) => {
   const session = useSelector((state: State) => state.session) 
   const dispatch = useDispatch()
   const [working, setWorking] = useState<any>('')
-  // const [securityCheck, setSecurityCheck] = useState(false)
+  const [securityCheck, setSecurityCheck] = useState(false)
   const [addingGroup, setAddingGroup] = useState(false)
   const [addingSecret, setAddingSecret] = useState(false)
   const [secrets, setSecrets] = useState<any>()
   const [group, setGroup] = useState<any>('default')
   const [locked, setLocked] = useState(session.isLocked)
-  // const [dnsEditing, setDnsEditing] = useState(false)
   const secretsEvent: any = useEvent()
   const newGroupEvent: any = useEvent()
   const newSecretEvent: any = useEvent()
@@ -131,19 +131,19 @@ export const Vault: React.FC<any> = (props) => {
 
   const onSecretEdit = () => {
     // setDnsEditing(true)
+  } 
+
+  const onVaultChange = () => {
+    setSecurityCheck(true)
   }
 
-  // const onVaultChange = () => {
-  //   setSecurityCheck(true)
-  // }
+  const onSecurityCheck = (done: boolean) => {
+    setSecurityCheck(false)
+    if (!done) return 
 
-  // const onSecurityCheck = (done: boolean) => {
-  //   setSecurityCheck(false)
-  //   if (!done) return 
-
-  //   const newLock = !locked
-  //   setLocked(newLock)
-  // }
+    const newLock = !locked
+    setLocked(newLock)
+  }
 
   const formItemLayout = {
     labelCol: {
@@ -346,7 +346,7 @@ export const Vault: React.FC<any> = (props) => {
       )
     }
 
-    if (!secrets || Object.keys(secrets[group]).length === 0) {
+    if (!secrets || Object.keys(secrets).length === 0 || Object.keys(secrets[group]).length === 0) {
       return (<div style={{
       }}>       
           <Button type="primary" size="large" onClick={onNewSecret}>
@@ -369,11 +369,38 @@ export const Vault: React.FC<any> = (props) => {
       </div>)
   }
 
+  const renderContent = () => {
+    if (locked) {
+      return <div/>
+    }
+
+    return <Form {...layout} form={form} name="all" onFinish={onFinish}
+      style={{
+        backgroundColor: "#ffffff",
+        boxShadow: "0px 0px 8px #999999",
+        minWidth: 700,
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        alignContent: "center",
+        justifyContent: "center",
+        marginTop: 20,
+        padding: 0
+      }}>
+        { renderGroup() }
+      <div style={{ padding: 10 }}>
+        { working ? <Spin/> : locked ? renderLocked() : renderSecrets() }
+      </div>
+    </Form>
+  }
+
   return (<div style={{
       ...styles.screen,
       backgroundColor: "#f5f5f5",
       ...layout
     }}>       
+        <VaultLock key="check" show={securityCheck} locked={locked} onDone={onSecurityCheck}/>
+
         <div style={{
             minWidth: 700,
             marginTop: 16,
@@ -382,25 +409,14 @@ export const Vault: React.FC<any> = (props) => {
           { locked ? <LockOutlined style={{ fontSize: 40, margin: 10 }} /> : <UnlockOutlined style={{ fontSize: 40, margin: 10 }} /> }
           <Title level={2}>
               Vault
+                <Switch style={{marginLeft: 5 }}
+                  onChange={onVaultChange}
+                  checkedChildren={<LockOutlined />}
+                  unCheckedChildren={<UnlockOutlined />}
+                  checked={locked}
+                />
           </Title>
-          <Form {...layout} form={form} name="all" onFinish={onFinish}
-            style={{
-              backgroundColor: "#ffffff",
-              boxShadow: "0px 0px 8px #999999",
-              minWidth: 700,
-              flex: 1,
-              display: "flex",
-              flexDirection: "column",
-              alignContent: "center",
-              justifyContent: "center",
-              marginTop: 20,
-              padding: 0
-            }}>
-              { renderGroup() }
-            <div style={{ padding: 10 }}>
-              { working ? <Spin/> : locked ? renderLocked() : renderSecrets() }
-            </div>
-          </Form>
+          { renderContent() }
         </div>
       <Button type="link" htmlType="button" onClick={onSkip} style={{ margin: 20 }}>
             Go back

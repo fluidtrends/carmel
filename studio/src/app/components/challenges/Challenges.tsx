@@ -54,7 +54,7 @@ export const Challenges: React.FC<any> = (props) => {
 
     useEffect(() => {
       if (!startChallenge.received.id) return
-      console.log("????", startChallenge.received)
+      // console.log("????", startChallenge.received)
        dispatch(unselectChallenge())
        setStarting(false)
        onReload && onReload()
@@ -76,7 +76,10 @@ export const Challenges: React.FC<any> = (props) => {
 
     useEffect(() => {
       if (!updateProgress.received.id) return
-      onReload && onReload()
+      console.log("updateProgress:", updateProgress.received)
+      setStarting(false)
+
+      // onReload && onReload()
     }, [updateProgress.received])
 
     useEffect(() => {

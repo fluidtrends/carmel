@@ -17,7 +17,7 @@ export const installNodeDependencies = async (data: any) => {
 
 export const installBundle = async (data: any) => {
     const archive = await downloadNodePackage({ id: data.id, version: data.version, type: "bundles" })
-    
+
     if (archive.exists) {
         return archive
     }

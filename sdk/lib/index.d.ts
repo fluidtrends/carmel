@@ -5,6 +5,7 @@ export * from './auth/VercelProvider';
 export * from './auth/AuthKey';
 export * from './auth/KeyStore';
 export * from './core/Command';
+export * from './core/Content';
 export * from './core/Artifact';
 export * from './core/Template';
 export * from './core/Repo';

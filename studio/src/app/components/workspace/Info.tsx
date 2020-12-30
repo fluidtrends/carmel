@@ -84,6 +84,21 @@ export const Info: React.FC<any> = (props) => {
     onSelect(selectedFile)
   }, [visible])
  
+  const onMenuItemSelected = async (value: any) => {
+    const [type, path] = value.key.split("|")
+  }        
+
+  const renderMenu = () => {
+    return <Menu
+    mode="inline"
+    onSelect={onMenuItemSelected}
+    style={{ 
+      width: "100%", 
+      border: "none" 
+    }}>     
+   </Menu>
+  } 
+
   const renderEditor = () => {
      if (!selectedFile) {
        return <div/>
@@ -93,6 +108,22 @@ export const Info: React.FC<any> = (props) => {
           product={product} 
           openFile={openFile}
           selectedFile={selectedFile}/>
+  }
+
+  const renderSider = () => {
+    return <Sider style={{
+      backgroundColor: "#ffffff",
+      overflow: "auto",
+      padding: 5
+    }}>
+      { renderMenu() }
+    </Sider>
+  }
+
+  const renderContent = () => {
+    return  <Content style={{ margin: 0 }}>
+        { renderEditor() }
+    </Content> 
   }
 
   return (<Layout style={{ 
@@ -108,8 +139,6 @@ export const Info: React.FC<any> = (props) => {
       width: "100%",
       height
     }}>
-        <Content style={{ margin: 0 }}>
-            { renderEditor() }
-        </Content>
+        { renderContent() }
     </Layout>)
 }

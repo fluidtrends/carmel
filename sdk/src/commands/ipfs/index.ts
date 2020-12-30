@@ -69,7 +69,7 @@ import {
         this.session?.manifest?.update({
           ipfsRunning: false
         })
-      return
+        return
       }
     }
   }

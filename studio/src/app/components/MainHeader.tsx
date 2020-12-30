@@ -53,7 +53,17 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
     //   //     break
     //   //   }
     // }
-        
+
+    const onSettings = (e: any) => {
+      browser.send({ type: 'hideWebPreview' })
+      dispatch(replace(`/settings`))  
+    }
+
+    const onVault = (e: any) => {
+      browser.send({ type: 'hideWebPreview' })
+      dispatch(replace(`/vault`))  
+    }
+
     const onAccountSelect = (e: any) => {
         const { key } = e
         browser.send({ type: 'hideWebPreview' })
@@ -74,13 +84,6 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
       { (!session || !session.user) && <Menu.Item key="login" icon={<UserOutlined />}>
        Login
       </Menu.Item>}
-      <Menu.Divider/>
-      <Menu.Item key="settings" icon={<SettingOutlined />}>
-        Settings
-      </Menu.Item>
-      <Menu.Item key="vault" icon={<LockOutlined />}>
-        Vault
-      </Menu.Item>
       { (!session || !session.user) && <Menu.Divider/>}
       { (!session || !session.user) && <Menu.Item key="register">
         <Button type="primary">Sign Up</Button>
@@ -145,6 +148,16 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
               </Button>
             </Badge>
           </Dropdown>
+          <Button icon={<SettingOutlined/>} size='large' onClick={onSettings} style={{
+              marginLeft: 10,
+              border: "none"
+            }}>
+          </Button>
+          <Button icon={<LockOutlined/>} size='large' onClick={onVault} style={{
+              marginLeft: 10,
+              border: "none"
+            }}>
+          </Button>
        </div>  
     </div>
   </div>)

@@ -5,6 +5,8 @@ import open from 'open'
 import {
   IProduct,
   Path,
+  IContent,
+  Content,
   IFile,
   IDir,
   Target,
@@ -49,6 +51,9 @@ export class Product implements IProduct {
   protected _props: any
 
   /** @internal */
+  protected _content: IContent
+
+  /** @internal */
   protected _dir: IDir
 
   /** @internal */
@@ -86,6 +91,7 @@ export class Product implements IProduct {
     this._dir = new Dir(path.resolve(this.session?.index.sections.products.path, this.id!))
     this._manifest = new File(path.resolve(this.session?.index.sections.products.path, this.id!, Product.MANIFEST_FILENAME))
     this._code = new Code(this)
+    this._content = new Content(this)
   }
 
   /**
@@ -93,6 +99,10 @@ export class Product implements IProduct {
    */
   get packer() {
     return this._packer
+  }
+
+  get content() {
+    return this._content
   }
   
   get stack() {
@@ -377,6 +387,9 @@ export class Product implements IProduct {
 
     // Get the code ready
     await this.code.initialize()
+
+    // Prepare the content
+    await this.content.initialize()
 
     // Prepare the snapshot if necessary and if all good,
     // then tell everyone we're ready for action

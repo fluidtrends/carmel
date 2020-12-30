@@ -121,13 +121,13 @@ export const transaction = async (contract: string, name: string, data: any, pri
     let key = privateKey
 
     if (!key) {
-        const { user } = credentials()
+        const { _auth } = credentials()
 
-        if (!user) {
+        if (!_auth) {
             throw new Error('User credentials missing')
         }
 
-        key = user.privateKey
+        key = _auth.privateKey
     }
 
     const actions = [action(contract, name, data)]

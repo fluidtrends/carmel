@@ -22,35 +22,36 @@ const ctx = (product: any, original: any) => ({
 export const main = async (props: any) => {
     const { product, challenge, progress } = props
     const { dir, task_index, bundle, name } = progress
+
     let validate = async (ctx: any, done: any) => {
         done()
-    }
+    }   
 
-    try {
-        validate = require(`carmel/bundles/${bundle.id}/${bundle.version}/${bundle.id}/challenges/${name}/tasks/${task_index}/validate.ts`).default
-    } catch {}
+    // try {
+        // validate = require(`carmel/bundles/${bundle.id}/${bundle.version}/${bundle.id}/challenges/${name}/tasks/${task_index}/validate.ts`).default
+    // } catch {}
       
-    const mocha = new Mocha({
-        reporter: 'list'
-    })
+    // const mocha = new Mocha({
+        // reporter: 'list'
+    // })
 
-    const suite = (suiteName: string) => suiteInstance.create(mocha.suite, suiteName)
+    // const suite = (suiteName: string) => suiteInstance.create(mocha.suite, suiteName)
 
-    const runTest = () => {
-        return new Promise((resolve, reject) => {
-            mocha.run((result: any) => {
-                if (result) reject(new Error('Task failed'))
-                resolve()
-            })
-        })
-    }
+    // const runTest = () => {
+    //     return new Promise((resolve, reject) => {
+    //         mocha.run((result: any) => {
+    //             if (result) reject(new Error('Task failed'))
+    //             resolve()
+    //         })
+    //     })
+    // }
 
-    const original = {
-        heading: "Go On. Change The World."
-    }
+    // const original = {
+        // heading: "Go On. Change The World."
+    // }
 
-    const testSuite = suite('carmel')
-    testSuite.addTest(new Test(`task ${task_index}`, (done: any) => validate(ctx(product, original), done)))
+    // const testSuite = suite('carmel')
+    // testSuite.addTest(new Test(`task ${task_index}`, (done: any) => validate(ctx(product, original), done)))
 
-    await runTest()
+    // await runTest()
 }

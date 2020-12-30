@@ -132,6 +132,15 @@ const _loadProduct = async (productId: any, system: any, env: any) => {
     const rootDir = path.resolve(env.home.path, 'products', productId, 'carmel')
     const rawFiles = (await readdir(rootDir, ['.git', 'node_modules'])).map(file => path.relative(rootDir, file))
 
+    const contentDir = path.resolve(env.home.path, 'products', productId, 'content')
+    const contentIndexFile = path.resolve(env.home.path, 'products', productId, 'content.json')
+
+    fs.existsSync(contentDir) || fs.mkdirSync(contentDir)
+    fs.existsSync(contentIndexFile) || fs.writeFileSync(contentIndexFile, JSON.stringify({ }), 'utf-8')
+
+    const content = (await readdir(contentDir, ['.git', 'node_modules'])).map(file => path.relative(contentDir, file))
+    const contentIndex = JSON.parse(fs.readFileSync(contentIndexFile, 'utf8'))
+
     const serverPath = path.resolve(env.home.path, 'servers', 'start', productId)
     const hasStartServer = fs.existsSync(serverPath)
 
@@ -144,7 +153,9 @@ const _loadProduct = async (productId: any, system: any, env: any) => {
         staticServerPort: server.port,
         timestamp: session.loadedTimestamp,
         rootDir, 
-        files
+        files,
+        content,
+        contentIndex
     }
 }
 
@@ -160,6 +171,8 @@ export const startSession = async (data: any) => {
     const node = data.sdk || session.node.versions[0]
 
     const cwd = env.home.path
+
+    console.log(session)
 
     if (session.ipfsIsRunning) {
         await send({ 
@@ -180,6 +193,8 @@ export const startSession = async (data: any) => {
         args: [{ name: 'start', value: true }],
         cwd 
     })
+
+    console.log(result)
 
     await send({ 
         id: data.id, 

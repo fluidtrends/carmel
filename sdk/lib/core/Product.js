@@ -78,6 +78,7 @@ var Product = /** @class */ (function () {
         this._dir = new __1.Dir(path_1.default.resolve((_a = this.session) === null || _a === void 0 ? void 0 : _a.index.sections.products.path, this.id));
         this._manifest = new __1.File(path_1.default.resolve((_b = this.session) === null || _b === void 0 ? void 0 : _b.index.sections.products.path, this.id, Product.MANIFEST_FILENAME));
         this._code = new __1.Code(this);
+        this._content = new __1.Content(this);
     }
     Object.defineProperty(Product.prototype, "packer", {
         /**
@@ -85,6 +86,13 @@ var Product = /** @class */ (function () {
          */
         get: function () {
             return this._packer;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Product.prototype, "content", {
+        get: function () {
+            return this._content;
         },
         enumerable: false,
         configurable: true
@@ -443,11 +451,18 @@ var Product = /** @class */ (function () {
                         _e._stack = _f;
                         // Get the code ready
                         return [4 /*yield*/, this.code.initialize()
-                            // Prepare the snapshot if necessary and if all good,
-                            // then tell everyone we're ready for action
+                            // Prepare the content
                         ];
                     case 5:
                         // Get the code ready
+                        _g.sent();
+                        // Prepare the content
+                        return [4 /*yield*/, this.content.initialize()
+                            // Prepare the snapshot if necessary and if all good,
+                            // then tell everyone we're ready for action
+                        ];
+                    case 6:
+                        // Prepare the content
                         _g.sent();
                         // Prepare the snapshot if necessary and if all good,
                         // then tell everyone we're ready for action

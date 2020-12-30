@@ -12,7 +12,7 @@ import { Challenges, TaskTutorial } from '../challenges'
 
 const { Meta } = Card
 const { Text, Title, Paragraph } = Typography
-const SECTIONS = ['info', 'assets', 'chunks', 'data', 'challenges']
+const SECTIONS = ['info', 'assets', 'chunks', 'content', 'challenges']
 
 export const Workspace: any = (props: any) => {
     const { product, challenge, profile, session, onReload, height, command, commandResponse } = props
@@ -142,7 +142,7 @@ export const Workspace: any = (props: any) => {
                   visible={section === SECTIONS[2]}
                   product={product} 
                 />
-                 <ProductComps.Data
+                 <ProductComps.Content
                   onSelect={onFileSelect}
                   height={height - 295}
                   openFile={openFile}

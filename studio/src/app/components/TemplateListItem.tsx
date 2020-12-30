@@ -13,7 +13,7 @@ const { Title, Text } = Typography
 export const TemplateListItem: React.FC<TemplateListItemComponentProps> = (props) => {
   const { template, onSelected } = props
   
-  const version = (template as any).versions.pop()
+  const { name, latestVersion } = (template as any)
 
   return (<div onClick={() => onSelected(template)}>
     <Card
@@ -29,7 +29,7 @@ export const TemplateListItem: React.FC<TemplateListItemComponentProps> = (props
         justifyContent: "center",
         textAlign: "center"
       }}>
-      <Title level={4}> { template.name } </Title>    
-      <Text> { version } </Text>  
+      <Title level={4}> { name } </Title>    
+      <Text> { latestVersion } </Text>  
   </Card></div>)
 }

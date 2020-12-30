@@ -146,6 +146,7 @@ export const getAllSecrets = async (credentials: any) => {
 
         delete secrets.id
         delete secrets.name
+        delete secrets._auth
         
         await send({ 
             id: credentials.id,

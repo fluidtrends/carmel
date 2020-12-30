@@ -21,8 +21,13 @@ export const downloadNodePackage = async (data: any) => {
         }
     }
 
+    console.log("downloadNodePackage:", data)
+
     const manifest = await pacote.manifest(id)
     const dir = path.resolve(env.home.path, data.type, manifest.name, manifest.version, manifest.name)
+
+    console.log("manifest:", manifest)
+    console.log("dir:", dir)
 
     if (fs.existsSync(dir)) {
         return {
