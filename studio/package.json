@@ -26,6 +26,9 @@
   "config": {
     "forge": {
       "packagerConfig": {
+        "asar": {
+          "unpack": "**/node_modules/**/*"
+        },
         "icon": "./assets/icon.icns",
         "protocols": [
           {
@@ -73,6 +76,7 @@
       ],
       "plugins": [
         [
+          "@electron-forge/plugin-auto-unpack-natives",
           "@electron-forge/plugin-webpack",
           {
             "port": 3013,
@@ -134,6 +138,7 @@
     "@babel/plugin-proposal-private-methods": "^7.12.1",
     "@babel/plugin-transform-runtime": "^7.12.10",
     "@babel/preset-env": "^7.12.10",
+    "@carmel/sdk": "^1.11.2",
     "@hapi/hapi": "^20.0.3",
     "@react-native-community/async-storage": "^1.11.0",
     "@types/axios": "^0.14.0",
