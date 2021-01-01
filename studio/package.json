@@ -17,18 +17,12 @@
     "email": "idancalinescu@gmail.com"
   },
   "license": "MIT",
-  "theia": {
-    "target": "electron"
-  },
   "carmel": {
     "env": "test"
   },
   "config": {
     "forge": {
       "packagerConfig": {
-        "asar": {
-          "unpack": "**/node_modules/**/*"
-        },
         "icon": "./assets/icon.icns",
         "protocols": [
           {
@@ -76,7 +70,6 @@
       ],
       "plugins": [
         [
-          "@electron-forge/plugin-auto-unpack-natives",
           "@electron-forge/plugin-webpack",
           {
             "port": 3013,
