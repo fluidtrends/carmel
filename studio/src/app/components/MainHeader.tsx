@@ -15,7 +15,7 @@ import {
   SettingOutlined,
   CaretDownOutlined, 
   NotificationOutlined,
-  MoreOutlined
+  FolderOutlined
 } from '@ant-design/icons'
 
 const { Header, Content, Sider } = Layout
@@ -32,78 +32,92 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
   const [section, setSection] = useState("products")
   const dispatch = useDispatch()
   const session = useSelector((state: State) => state.session)
-  const env = useSelector((state: State) => state.env)
-  const vaultIsLocked = useSelector((state: State) => state.env.lock && state.env.lock.exists)
   const browser: any = useEvent()
 
-    const notifications: any = {
-        carmel: [],
-        main: [],
-        user: []
-      }
+  const notifications: any = {
+      carmel: [],
+      main: [],
+      user: []
+  }
       
-      function callback(key: any) {
-        console.log(key);
-      }
-    
-      function onSectionChanged(e: any) {
-        setSection(e.target.value)
-      }
-        
-      function onAccountSelect(e: any) {
+    // const onSectionChanged = (e: any) => {
+    //   const s = e.target.value
+    //   setSection(s)
+    //   // switch (s) {
+    //   //   case "products":
+    //   //     dispatch(replace(session.productId ? '/product' : '/products'))  
+    //   //     break
+    //   //   case "content":
+    //   //     browser.send({ type: 'hideWebPreview' })
+    //   //     dispatch(replace(`/content`))  
+    //   //     break
+    //   //   }
+    // }
+
+    const onSettings = (e: any) => {
+      browser.send({ type: 'hideWebPreview' })
+      dispatch(replace(`/settings`))  
+    }
+
+    const onVault = (e: any) => {
+      browser.send({ type: 'hideWebPreview' })
+      dispatch(replace(`/vault`))  
+    }
+
+    const onAccountSelect = (e: any) => {
         const { key } = e
-        switch(key) {
-          case 'profile': 
-            dispatch(replace('/profile'))
-            break
-        }
-      }
+        browser.send({ type: 'hideWebPreview' })
+        dispatch(replace(`/${key}`))  
+    }
 
-      function onAppSelect(e: any) {
-        const { key } = e
-        switch(key) {
-          case "settings":
-            browser.send({ type: 'hideWebPreview' })
-            dispatch(replace('/settings'))
-            break
-        }
-      }
+    const onContent = (e: any) => {
+      browser.send({ type: 'hideWebPreview' })
+      dispatch(replace(`/content`))  
+    }
 
-      const onSignUp = () => {
-          dispatch(replace('/register'))
-      }
-
-      const onSignIn = () => {
-        dispatch(replace('/login'))
-      }
-  
     const asset = (id: string) => require(`../../../assets/${id}`).default
     
     const accountMenu = <Menu onClick={onAccountSelect}>
-      <Menu.Item key="profile" icon={<SolutionOutlined />}>
+      { session && session.user && <Menu.Item key="profile" icon={<SolutionOutlined />}>
         Your Profile
-      </Menu.Item>
+      </Menu.Item> }
+      { (!session || !session.user) && <Menu.Item key="login" icon={<UserOutlined />}>
+       Login
+      </Menu.Item>}
+      { (!session || !session.user) && <Menu.Divider/>}
+      { (!session || !session.user) && <Menu.Item key="register">
+        <Button type="primary">Sign Up</Button>
+      </Menu.Item> }
     </Menu>
 
-    const appMenu = <Menu onClick={onAppSelect}>
-      <Menu.Item key="settings" icon={<SettingOutlined />}>
-        Settings
-      </Menu.Item>
-    </Menu>  
+    // const renderMainMenu = () => (
+    //   <div style={{
+    //     display: "flex",
+    //     flex: 10,
+    //     justifyContent: "center"
+    //     }}>
+    //         <Radio.Group size="large" value={section} onChange={onSectionChanged} buttonStyle="solid">
+    //         <Radio.Button value="products">Products</Radio.Button>
+    //         <Radio.Button value="content">Content</Radio.Button>
+    //         </Radio.Group>
+    //     </div>
+    // )
 
-    const renderMainMenu = () => (
-      <div style={{
-        display: "flex",
-        flex: 10,
-        justifyContent: "center"
-        }}>
-            <Radio.Group size="large" value={section} onChange={onSectionChanged} buttonStyle="solid">
-            <Radio.Button value="products">Your Products</Radio.Button>
-            <Radio.Button value="marketplace">Marketplace</Radio.Button>
-            </Radio.Group>
-        </div>
-    )
+  //  { session && session.user ? session.user.plan_name && session.user.plan_name !== "free" && <Tag color="green" style={{margin: 10}}> { session.user.plan_name.split('.')[0].toUpperCase() } </Tag> }
 
+  const renderUserMenu = () => {
+    return <div/>
+    // <Dropdown overlay={accountMenu}>
+    //         <Badge count={notifications.user.length} overflowCount={5} offset={[0, 2]}>
+    //           <Button icon={<UserOutlined/>} size='large' style={{
+    //               marginLeft: 10
+    //             }}>
+    //               { session && session.user ? session.user.username : ""} 
+    //               <CaretDownOutlined/>
+    //           </Button>
+    //         </Badge>
+    //       </Dropdown>
+  }
   return (<div style={{ 
     display: "flex",
     flexDirection: "column",
@@ -132,35 +146,23 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
             width: 28, height: 28 
           }}/>
         </div>
-
         <div style={{
           display: "flex",
           flex: 1,
           justifyContent: "flex-end"
         }}>
-
-        { session && session.user ? 
-        <Dropdown overlay={accountMenu}>
-            <Badge count={notifications.user.length} overflowCount={5} offset={[0, 2]}>
-              <Button icon={<UserOutlined/>} size='large' style={{
-                  marginLeft: 10
-                }}>
-                  { session.user.username } 
-                  <CaretDownOutlined/>
-              </Button>
-              { session.user.plan_name && session.user.plan_name !== "free" && <Tag color="green" style={{margin: 10}}> { session.user.plan_name.split('.')[0].toUpperCase() } </Tag> }
-            </Badge>
-          </Dropdown> : <div>
-              <Button type="primary" size="small" onClick={onSignUp}> Sign Up</Button> 
-              <Button type="link" onClick={onSignIn}> Sign In</Button> 
-          </div>
-        }
-         <Dropdown overlay={appMenu}>
-              <Button icon={<MoreOutlined />} style={{
-                border: 'none' 
-              }}/>
-          </Dropdown>
-        </div>  
+          { renderUserMenu() }
+          <Button icon={<SettingOutlined/>} size='large' onClick={onSettings} style={{
+              marginLeft: 10,
+              border: "none"
+            }}>
+          </Button>
+          <Button icon={<LockOutlined/>} size='large' onClick={onVault} style={{
+              marginLeft: 10,
+              border: "none"
+            }}>
+          </Button>
+       </div>  
     </div>
   </div>)
 }

@@ -189,47 +189,45 @@ var Repo = /** @class */ (function () {
             });
         });
     };
-    /** @internal */
-    Repo.prototype.shorten = function (url) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/];
-            });
-        });
-    };
     Repo.prototype.runNamecheapCommand = function (data) {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var domain, vault, namecheap, nsIp, nsUser, nsKey, domainParts, nsTLD, nsSLD, nsCmd, nsCallRoot, nsCall, nsResponse, response, ApiResponse, CommandResponse;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var vault, productConfig, security, settings, vaultParts, section, _b, clientIP, username, apiKey, domainParts, nsTLD, nsSLD, nsCmd, nsCallRoot, nsCall, nsResponse, response, ApiResponse, CommandResponse;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
-                        domain = data.domain;
                         vault = ((_a = this.code.product.session) === null || _a === void 0 ? void 0 : _a.index.sections.secrets).vault;
                         if (vault.isLocked) {
                             return [2 /*return*/];
                         }
-                        namecheap = vault.read('namecheap');
-                        nsIp = namecheap.clientIP;
-                        nsUser = namecheap.username;
-                        nsKey = namecheap.apiKey;
-                        console.log('NS namecheap:', namecheap);
-                        domainParts = domain.split('.');
+                        productConfig = this.code.product.manifest.data.json();
+                        security = productConfig.security, settings = productConfig.settings;
+                        if (!security || !settings || !settings.domain || !security.namecheap) {
+                            return [2 /*return*/];
+                        }
+                        vaultParts = security.namecheap.split("/");
+                        if (vaultParts.length !== 3 && vaultParts[0].toLowerCase() !== '$vault') {
+                            return [2 /*return*/];
+                        }
+                        section = vault.read(vaultParts[1]);
+                        if (!section || !section[vaultParts[2]]) {
+                            return [2 /*return*/];
+                        }
+                        _b = section[vaultParts[2]], clientIP = _b.clientIP, username = _b.username, apiKey = _b.apiKey;
+                        domainParts = settings.domain.split('.');
                         nsTLD = domainParts.pop();
                         nsSLD = domainParts.join('.');
                         nsCmd = data.cmd;
-                        nsCallRoot = "https://api.namecheap.com/xml.response?ApiUser=" + nsUser + "&ApiKey=" + nsKey + "&UserName=" + nsUser + "&ClientIP=" + nsIp;
+                        nsCallRoot = "https://api.namecheap.com/xml.response?ApiUser=" + username + "&ApiKey=" + apiKey + "&UserName=" + username + "&ClientIP=" + clientIP;
                         nsCall = nsCallRoot + "&SLD=" + nsSLD + "&TLD=" + nsTLD + "&Command=namecheap." + nsCmd + (data.args ? '&' + data.args : '');
-                        console.log('NS Call:', nsCall);
                         return [4 /*yield*/, axios_1.default.get(nsCall)];
                     case 1:
-                        nsResponse = _b.sent();
+                        nsResponse = _c.sent();
                         return [4 /*yield*/, xml2js_1.default.parseStringPromise(nsResponse.data)];
                     case 2:
-                        response = _b.sent();
+                        response = _c.sent();
                         ApiResponse = response.ApiResponse;
                         CommandResponse = ApiResponse.CommandResponse;
-                        console.log(ApiResponse);
                         if (!ApiResponse || !CommandResponse) {
                             return [2 /*return*/];
                         }
@@ -294,6 +292,48 @@ var Repo = /** @class */ (function () {
             });
         });
     };
+    Repo.prototype.pinDeployment = function (deployment) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function () {
+            var vault, productConfig, security, vaultParts, section, _b, apiKey, secretKey, pinataSDK, pinataEngine, result;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        vault = ((_a = this.code.product.session) === null || _a === void 0 ? void 0 : _a.index.sections.secrets).vault;
+                        if (!vault || vault.isLocked) {
+                            return [2 /*return*/];
+                        }
+                        productConfig = this.code.product.manifest.data.json();
+                        security = productConfig.security;
+                        if (!security || !security.domain || !security.pinata) {
+                            return [2 /*return*/];
+                        }
+                        vaultParts = security.pinata.split("/");
+                        if (vaultParts.length !== 3 && vaultParts[0].toLowerCase() !== '$vault') {
+                            return [2 /*return*/];
+                        }
+                        section = vault.read(vaultParts[1]);
+                        if (!section || !section[vaultParts[2]]) {
+                            return [2 /*return*/];
+                        }
+                        _b = section[vaultParts[2]], apiKey = _b.apiKey, secretKey = _b.secretKey;
+                        pinataSDK = require('@pinata/sdk');
+                        pinataEngine = pinataSDK(apiKey, secretKey);
+                        return [4 /*yield*/, pinataEngine.pinByHash(deployment.urls.publicRaw, {
+                                pinataMetadata: {
+                                    name: 'carmel-deployment',
+                                    keyvalues: {
+                                        deploymentId: deployment.id
+                                    }
+                                }
+                            })];
+                    case 1:
+                        result = _c.sent();
+                        return [2 /*return*/, result];
+                }
+            });
+        });
+    };
     /**
      *
      */
@@ -301,7 +341,7 @@ var Repo = /** @class */ (function () {
         var e_1, _a;
         var _b, _c, _d;
         return __awaiter(this, void 0, void 0, function () {
-            var ipfsConfig, deploymentId, deploymentRoot, ignores, files, deployment, ipfsClient, node, localGatewayUrl, publicGatewayUrl, deployed, _e, _f, result, e_1_1, deployedWeb, deployedWebNamed, dns;
+            var ipfsConfig, deploymentId, deploymentRoot, ignores, files, deployment, ipfsClient, node, localGatewayUrl, publicGatewayUrl, deployed, _e, _f, result, e_1_1, deployedWeb, deployedWebNamed, dns, pin;
             var _this = this;
             return __generator(this, function (_g) {
                 switch (_g.label) {
@@ -380,12 +420,15 @@ var Repo = /** @class */ (function () {
                             publicNamed: publicGatewayUrl + "/ipns/" + deployedWebNamed.name
                         };
                         return [4 /*yield*/, this.updateNamespaceHosts({
-                                domain: 'carmel.io',
                                 cid: deployedWeb.cid
                             })];
                     case 16:
                         dns = _g.sent();
+                        return [4 /*yield*/, this.pinDeployment(deployment)];
+                    case 17:
+                        pin = _g.sent();
                         console.log(dns);
+                        console.log(pin);
                         // response.elements.map((e: any) => {
                         //   console.log("<<<<<<>llllll>>>>", e)
                         //   if (e.name === 'ApiResponse') {
@@ -419,7 +462,6 @@ var Repo = /** @class */ (function () {
                         //     done()
                         //   })()
                         // })
-                        console.log('done.');
                         return [2 /*return*/, deployment
                             // if (!this.isOpen) return
                             // let remote = await this.local?.getRemote('origin')

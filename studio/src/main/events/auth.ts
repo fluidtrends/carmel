@@ -21,13 +21,13 @@ const _doLogin = async (credentials: any) => {
             value: true
         }, {
             name: "key",
-            value: "user"
+            value: "_auth"
         }, {
             name: "values",
-            value: {
+            value: JSON.stringify({
                 privateKey: credentials.privateKey,
                 publicKey: credentials.publicKey
-            }
+            })
         }, {
             name: "password",
             value: credentials.password

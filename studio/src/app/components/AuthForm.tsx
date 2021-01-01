@@ -105,7 +105,7 @@ export const AuthForm: React.FC<AuthFormComponentProps> = (props) => {
       }
 
       if (!v.password) {
-        setWarning('Please choose a password')
+        setWarning('Please enter your Vault Password')
         return 
       }
 
@@ -327,7 +327,7 @@ export const AuthForm: React.FC<AuthFormComponentProps> = (props) => {
                     height: 32,
                     opacity: (working || !username || accounts.length === 0 ? 0.3 : 1.0)
                   }}
-                  placeholder="Choose a strong password" 
+                  placeholder="Enter your Vault Password" 
                   prefix={<LockOutlined style={{ marginLeft: 5 }} />} 
                   onChange={onPasswordChanged}/>
           </Form.Item>

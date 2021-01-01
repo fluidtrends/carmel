@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Data = exports.Ipfs = exports.Deploy = exports.Preview = exports.Make = exports.Start = exports.Stop = exports.Status = exports.Init = void 0;
+exports.Assets = exports.Data = exports.Ipfs = exports.Deploy = exports.Preview = exports.Make = exports.Start = exports.Stop = exports.Status = exports.Init = void 0;
 var init_1 = require("./init");
 Object.defineProperty(exports, "Init", { enumerable: true, get: function () { return __importDefault(init_1).default; } });
 var status_1 = require("./status");
@@ -22,4 +22,6 @@ var ipfs_1 = require("./ipfs");
 Object.defineProperty(exports, "Ipfs", { enumerable: true, get: function () { return __importDefault(ipfs_1).default; } });
 var data_1 = require("./data");
 Object.defineProperty(exports, "Data", { enumerable: true, get: function () { return __importDefault(data_1).default; } });
+var assets_1 = require("./assets");
+Object.defineProperty(exports, "Assets", { enumerable: true, get: function () { return __importDefault(assets_1).default; } });
 //# sourceMappingURL=index.js.map

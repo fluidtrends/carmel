@@ -38,13 +38,16 @@ export const toggle = () => {
 
 export const hideBrowser = () => {
   try {
+    if (!browserView || browserView.isDestroyed()) return 
+
+    browserView.setBounds({ x: 0, y: 0, width: 0, height: 0 })
     browserView.destroy()
   } catch (e) {
   }
 }
 
 export const updateBrowser = (data: any) => {
-  if (browserView.isDestroyed()) return
+  if (browserView.getBounds().height === 0) return 
 
   const { width, height } = window.getBounds()
   browserViewIsMobile = data.mobile || false
@@ -107,6 +110,8 @@ export const create = () => {
   })
 
   window.on('resize', function () {
+      if (!browserView || browserView.isDestroyed()) return 
+
       const { width, height } = window.getBounds()
 
       const w = 400

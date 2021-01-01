@@ -26,10 +26,7 @@ export const _resolveChallenge = (data: any) => {
         const bundleDir = path.resolve(cacheRootDir, version, bundle_name)
         const dir = path.resolve(bundleDir, "challenges", name)        
         const manifest = path.resolve(dir, "challenge.json")
-        const manifestData = JSON.parse(fs.readFileSync(manifest, "utf-8"))
         
-        const tutorials = manifestData.tasks.map((task: any) => fs.readFileSync(path.resolve(dir, 'tasks', `${task.id}`, 'tutorial.md'), "utf-8"))
-
         bundle = {
             dir: bundleDir,
             exists: fs.existsSync(bundleDir),
@@ -37,8 +34,18 @@ export const _resolveChallenge = (data: any) => {
             version: challenge_version || version
         }
 
+        if (!bundle.exists) {
+            return {
+                ...challenge,
+                bundle,
+                exists: false
+            }
+        }
+
         const data = Object.assign({}, challenge)
-        
+        const manifestData = JSON.parse(fs.readFileSync(manifest, "utf-8"))
+        const tutorials = manifestData.tasks.map((task: any) => fs.readFileSync(path.resolve(dir, 'tasks', `${task.id}`, 'tutorial.md'), "utf-8"))
+
         const result = {
             ...data,
             bundle,
@@ -54,6 +61,7 @@ export const _resolveChallenge = (data: any) => {
         return {
             ...challenge,
             bundle,
+            error: e.message,
             exists: false
         }
     }
@@ -91,10 +99,8 @@ export const startChallenge = async (data: any) => {
 
     let latest: any
 
-
     (data.challenge.versions || []).map((challenge_version: string) => {
         const current = _resolveChallenge({ env, challenge: { ...data.challenge, challenge_version, bundle_name: data.challenge.bundle_name || data.challenge.bundle }, version: challenge_version })
-        if (!current.bundle.exists) return
         latest = latest || current
         latest = semver.gt(challenge_version, latest.bundle.version) ? current : latest
     })
@@ -102,7 +108,7 @@ export const startChallenge = async (data: any) => {
     if (!latest) throw new Error('Invalid bundle')
 
     if (!latest.bundle.exists) {
-        await installBundle({ id: latest.bundleId, version: latest.bundle.version })
+        await installBundle({ id: latest.bundle.id, version: latest.bundle.version })
         latest = _resolveChallenge({ env, challenge: data.challenge, version: latest.bundle.version })
     }
 
@@ -119,7 +125,6 @@ export const startChallenge = async (data: any) => {
         type: 'startChallenge'
     })
 }
-
 
 export const validateTask = async (data: any) => {    
     try {

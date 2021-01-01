@@ -55,6 +55,11 @@
         "screen": "Profile",
         "container": "Simple"
     }, {
+        "path": "/vault",
+        "id": "vault",
+        "screen": "Vault",
+        "container": "Simple"
+    }, {
         "path": "/settings",
         "id": "settings",
         "screen": "Settings",

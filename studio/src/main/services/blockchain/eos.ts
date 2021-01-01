@@ -42,12 +42,8 @@ export const checkKey = async (data: any) => {
     const { account_names } = result
 
     try {
-        console.log("getting...", EOS_TOKENS)
         const le2 = await rpc.get_currency_balance(EOS_TOKENS, "chunkymonkey")
-        console.log(le2)
-
         const le = await rpc.get_currency_balance(CARMEL_TOKENS, "chunkymonkey")
-        console.log(le, le2)
     } catch (e) {
         console.log(e)
     }
@@ -55,8 +51,6 @@ export const checkKey = async (data: any) => {
     const balances: any = await Promise.all(account_names.map((a: string) => (
         rpc.get_currency_balance(CARMEL_TOKENS, a)
     )))
-
-    console.log("?>", balances)
 
     const accounts = account_names.map((id: string, i: number) => {
         const balance = balances[i][0] ? parseFloat(balances[i][0].split()[0]) : 0
@@ -127,13 +121,13 @@ export const transaction = async (contract: string, name: string, data: any, pri
     let key = privateKey
 
     if (!key) {
-        const { user } = credentials()
+        const { _auth } = credentials()
 
-        if (!user) {
+        if (!_auth) {
             throw new Error('User credentials missing')
         }
 
-        key = user.privateKey
+        key = _auth.privateKey
     }
 
     const actions = [action(contract, name, data)]

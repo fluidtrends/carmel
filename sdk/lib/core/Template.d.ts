@@ -1,4 +1,4 @@
-import { ITemplate, IBundle, Name, IArtifact, IProduct, IDir } from '..';
+import { ITemplate, IBundle, Name, IArtifact, IProduct } from '..';
 import { Archive, Template as Tpl } from 'rara';
 /**
  *
@@ -35,7 +35,6 @@ export declare class Template implements ITemplate {
      *
      */
     get name(): string;
-    generateCovers(productCacheDir: IDir): Promise<void>;
     /**
      *
      * @param dir

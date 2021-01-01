@@ -12,7 +12,7 @@ import { Challenges, TaskTutorial } from '../challenges'
 
 const { Meta } = Card
 const { Text, Title, Paragraph } = Typography
-const SECTIONS = ['assets', 'chunks', 'challenges']
+const SECTIONS = ['info', 'assets', 'chunks', 'content', 'challenges']
 
 export const Workspace: any = (props: any) => {
     const { product, challenge, profile, session, onReload, height, command, commandResponse } = props
@@ -24,7 +24,7 @@ export const Workspace: any = (props: any) => {
     const sections: any = useRef(null)
 
     const [expandedChunks, setExpandedChunks] = useState([])
-    const [section, setSection] = useState('assets')
+    const [section, setSection] = useState('info')
     const [openFile, setOpenFile] = useState("")
     const listChallengesEvent: any = useEvent() 
 
@@ -81,7 +81,7 @@ export const Workspace: any = (props: any) => {
           justifyContent: "center",
           alignItems: "center"
       }}>    
-        
+
       </div>)
     }
 
@@ -119,19 +119,36 @@ export const Workspace: any = (props: any) => {
                 marginTop: 0,
                 padding: 0,
               }}>
+                <ProductComps.Info
+                  onSelect={onFileSelect}
+                  height={height - 295}
+                  product={product} 
+                  openFile={openFile}
+                  visible={section === SECTIONS[0]}
+                  />
                 <ProductComps.Assets
                   onSelect={onFileSelect}
                   height={height - 295}
                   product={product} 
-                  visible={section === SECTIONS[0]}
-                  openFile={openFile}/>
+                  onReload={onReload}
+                  visible={section === SECTIONS[1]}
+                  openFile={openFile}/>                  
                 <ProductComps.Chunks
                   onSelect={onFileSelect}
                   height={height - 295}
                   openFile={openFile}
                   expanded={expandedChunks}
                   onExpand={onExpandChunks}
-                  visible={section === SECTIONS[1]}
+                  visible={section === SECTIONS[2]}
+                  product={product} 
+                />
+                 <ProductComps.Content
+                  onSelect={onFileSelect}
+                  height={height - 295}
+                  openFile={openFile}
+                  expanded={expandedChunks}
+                  onExpand={onExpandChunks}
+                  visible={section === SECTIONS[2]}
                   product={product} 
                 />
                 <ProductComps.History
@@ -139,11 +156,12 @@ export const Workspace: any = (props: any) => {
                   session={session}
                   profile={profile}
                   challenge={challenge}
-                  visible={section === SECTIONS[2]}
+                  visible={section === SECTIONS[3]}
                   product={product} 
                 />
           </Carousel>  
 
           { renderActivity() }
+
         </Layout>)
 }

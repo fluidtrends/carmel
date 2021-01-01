@@ -139,43 +139,46 @@ export class Repo implements IRepo {
     // await this.local?.createCommitOnHead(paths, signature, signature, comment)
   }
 
-  /** @internal */
-  async shorten(url: string) {
-
-  }
-
   async runNamecheapCommand (data: any) {
-    const domain = data.domain
-
     const { vault } = this.code.product.session?.index.sections.secrets
 
     if (vault.isLocked) {
       return
     }
 
-    const namecheap = vault.read('namecheap')
-    const nsIp = namecheap.clientIP
-    const nsUser = namecheap.username
-    const nsKey = namecheap.apiKey
+    const productConfig: any = this.code.product.manifest.data.json()
+    const { security, settings } = productConfig
 
-    console.log('NS namecheap:', namecheap)
+    if (!security || !settings || !settings.domain || !security.namecheap) {
+      return
+    }
 
-    const domainParts = domain.split('.')
+    const vaultParts = security.namecheap.split("/")
+
+    if (vaultParts.length !== 3 && vaultParts[0].toLowerCase() !== '$vault') {
+      return
+    }
+
+    const section = vault.read(vaultParts[1])
+
+    if (!section || !section[vaultParts[2]]) {
+      return 
+    }
+
+    const { clientIP, username, apiKey } = section[vaultParts[2]]
+
+    const domainParts = settings.domain.split('.')
     const nsTLD = domainParts.pop()
     const nsSLD = domainParts.join('.')
     const nsCmd = data.cmd
-    const nsCallRoot = `https://api.namecheap.com/xml.response?ApiUser=${nsUser}&ApiKey=${nsKey}&UserName=${nsUser}&ClientIP=${nsIp}`
+    const nsCallRoot = `https://api.namecheap.com/xml.response?ApiUser=${username}&ApiKey=${apiKey}&UserName=${username}&ClientIP=${clientIP}`
     const nsCall = `${nsCallRoot}&SLD=${nsSLD}&TLD=${nsTLD}&Command=namecheap.${nsCmd}${data.args ? '&' + data.args : ''}`   
-
-    console.log('NS Call:', nsCall)
 
     const nsResponse = await axios.get(nsCall)
     const response: any = await xml.parseStringPromise(nsResponse.data)
     
     const { ApiResponse } = response
     const { CommandResponse } = ApiResponse
-
-    console.log(ApiResponse)
 
     if (!ApiResponse || !CommandResponse) {
       return
@@ -238,6 +241,48 @@ export class Repo implements IRepo {
     return response
   }
 
+  async pinDeployment (deployment: any) {
+    const { vault } = this.code.product.session?.index.sections.secrets
+
+    if (!vault || vault.isLocked) {
+      return
+    }
+
+    const productConfig: any = this.code.product.manifest.data.json()
+    const { security } = productConfig
+
+    if (!security || !security.domain || !security.pinata) {
+      return
+    }
+
+    const vaultParts = security.pinata.split("/")
+
+    if (vaultParts.length !== 3 && vaultParts[0].toLowerCase() !== '$vault') {
+      return
+    }
+
+    const section = vault.read(vaultParts[1])
+    
+    if (!section || !section[vaultParts[2]]) {
+      return 
+    }
+
+    const { apiKey, secretKey } = section[vaultParts[2]]
+    const pinataSDK = require('@pinata/sdk')
+    const pinataEngine = pinataSDK(apiKey, secretKey)
+
+    const result = await pinataEngine.pinByHash(deployment.urls.publicRaw, {
+      pinataMetadata: {
+        name: 'carmel-deployment',
+        keyvalues: {
+            deploymentId: deployment.id
+        }
+      }
+    })
+
+    return result
+  }
+
   /**
    *
    */
@@ -290,11 +335,13 @@ export class Repo implements IRepo {
     }
 
     const dns = await this.updateNamespaceHosts({ 
-      domain: 'carmel.io',
       cid: deployedWeb.cid
     })
 
+    const pin = await this.pinDeployment(deployment)
+
     console.log(dns)
+    console.log(pin)
 
     // response.elements.map((e: any) => {
     //   console.log("<<<<<<>llllll>>>>", e)
@@ -334,8 +381,6 @@ export class Repo implements IRepo {
     //     done()
     //   })()
     // })
-
-    console.log('done.')
 
     return deployment
 

@@ -30,6 +30,7 @@ __exportStar(require("./auth/VercelProvider"), exports);
 __exportStar(require("./auth/AuthKey"), exports);
 __exportStar(require("./auth/KeyStore"), exports);
 __exportStar(require("./core/Command"), exports);
+__exportStar(require("./core/Content"), exports);
 __exportStar(require("./core/Artifact"), exports);
 __exportStar(require("./core/Template"), exports);
 __exportStar(require("./core/Repo"), exports);

@@ -10,6 +10,7 @@ import axios from 'axios'
 import { TemplateListItem, Loading } from '../components'
 import { replace } from 'connected-react-router'
 import { PlusOutlined, LockOutlined, UserOutlined } from "@ant-design/icons"
+import { template } from '@babel/core'
 
 const { Title, Paragraph } = Typography
 
@@ -65,7 +66,6 @@ export const NewProduct: React.FC<NewProductScreenProps> = (props) => {
 
   useEffect(() => { 
     if (!createEvent.received.id) return 
-    console.log(createEvent.received)
     const { message, done } = createEvent.received
     message && setProgress(message)
     done && dispatch(replace('/product'))
@@ -74,7 +74,9 @@ export const NewProduct: React.FC<NewProductScreenProps> = (props) => {
   useEffect(() => {
     if (!listTemplates.received.id) return 
 
-    listTemplates.received.templates && setTemplates(listTemplates.received.templates)
+    if (!listTemplates.received.templates) return
+    setTemplates(listTemplates.received.templates)
+
   }, [listTemplates.received])
 
   const onTemplateSelected = (template: Template) => {
@@ -104,6 +106,8 @@ export const NewProduct: React.FC<NewProductScreenProps> = (props) => {
     setName(e.target.value)
   }
   
+  console.log("!!!!", templates)
+
   return (<div style={{
       ...styles.screen,
       backgroundColor: "#f5f5f5",

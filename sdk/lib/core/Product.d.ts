@@ -1,4 +1,4 @@
-import { IProduct, Path, IFile, IDir, Target, ProductState, ISession, ISnapshot, Id, ICode, IPacker, IStack } from '..';
+import { IProduct, Path, IContent, IFile, IDir, Target, ProductState, ISession, ISnapshot, Id, ICode, IPacker, IStack } from '..';
 import { Name } from '../types';
 /**
  *
@@ -17,6 +17,8 @@ export declare class Product implements IProduct {
     protected _packerPort?: number;
     /** @internal */
     protected _props: any;
+    /** @internal */
+    protected _content: IContent;
     /** @internal */
     protected _dir: IDir;
     /** @internal */
@@ -44,6 +46,7 @@ export declare class Product implements IProduct {
      *
      */
     get packer(): IPacker | undefined;
+    get content(): IContent;
     get stack(): IStack | undefined;
     /**
      *
@@ -108,6 +111,8 @@ export declare class Product implements IProduct {
      * @param id
      */
     createFromTemplate(id: Id, name: Name): Promise<this>;
+    generateCover(cover: Path): Promise<void>;
+    generateCovers(): Promise<void>;
     /**
      *
      * @param target

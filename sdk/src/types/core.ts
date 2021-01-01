@@ -155,6 +155,7 @@ export interface IProduct extends IClass {
   readonly packer?: IPacker
   readonly stack?: IStack
   readonly packerPort?: number
+  readonly content: IContent
  
   // openCode(): Promise<any>
   // openWeb(): Promise<any>
@@ -167,6 +168,17 @@ export interface IProduct extends IClass {
   saveData(data: any): void
   findDirs(dirpath: Path): Path[]
   resolve(target: Target, watch: boolean): Promise<any>
+  generateCover(cover: Path): Promise<any>
+  generateCovers(): Promise<any>
+}
+
+export interface IContent extends IClass {
+  readonly rootDir: IDir
+  readonly index?: IFile
+  readonly hashes: Map<Path, any>
+  readonly product: IProduct
+  initialize(): Promise<any>
+  refresh(): Promise<any>
 }
 
 export interface ISnapshot extends IClass {

@@ -65,7 +65,11 @@ export default class Data extends Command {
       }
 
       if (save) {
-        vault.write(key, values)
+        const oldKey = vault.read(key) || {}
+        
+        const all =  { ...oldKey, ...JSON.parse(values) }
+        console.log("!!!", all)
+        vault.write(key, all)
       } else if (read) {
         console.log({
           data: vault.read(key)

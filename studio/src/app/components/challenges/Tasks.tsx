@@ -117,8 +117,6 @@ export const Tasks: any = (props: any) => {
             justifyContent: "center",
             alignItems: "center"
         }}>
-        <Header title={"Your Active Challenge"}/>
-
         <Card 
             key="progressTitle" style={{ width: 300, marginTop: 16, padding: 10 }} loading={false}>
                 <Meta

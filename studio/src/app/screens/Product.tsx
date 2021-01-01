@@ -34,6 +34,7 @@ export const Product: React.FC<ProductScreenProps> = (props) => {
 
   useEffect(() => {
     if(!loadEvent.received.id) return
+    console.log("LOAD:", loadEvent.received)
     dispatch(initialize(loadEvent.received))
   }, [loadEvent.received])
 
