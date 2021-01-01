@@ -225,6 +225,7 @@ export const Header: React.FC<any> = (props) => {
                 margin: 0
             }}>
                 { sections.map((s: any) => {
+                    if (s.disabled) return
                     const Icon = require(`@ant-design/icons/lib/icons/${s.icon}.js`).default
                     return (<Menu.Item key={s.id} icon={<Icon/>} disabled={s.disabled} style={
                         section === s.id ? { 

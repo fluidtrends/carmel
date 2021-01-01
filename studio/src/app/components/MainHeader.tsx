@@ -105,6 +105,19 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
 
   //  { session && session.user ? session.user.plan_name && session.user.plan_name !== "free" && <Tag color="green" style={{margin: 10}}> { session.user.plan_name.split('.')[0].toUpperCase() } </Tag> }
 
+  const renderUserMenu = () => {
+    return <div/>
+    // <Dropdown overlay={accountMenu}>
+    //         <Badge count={notifications.user.length} overflowCount={5} offset={[0, 2]}>
+    //           <Button icon={<UserOutlined/>} size='large' style={{
+    //               marginLeft: 10
+    //             }}>
+    //               { session && session.user ? session.user.username : ""} 
+    //               <CaretDownOutlined/>
+    //           </Button>
+    //         </Badge>
+    //       </Dropdown>
+  }
   return (<div style={{ 
     display: "flex",
     flexDirection: "column",
@@ -138,16 +151,7 @@ export const MainHeader: React.FC<MainHeaderComponentProps> = (props) => {
           flex: 1,
           justifyContent: "flex-end"
         }}>
-          <Dropdown overlay={accountMenu}>
-            <Badge count={notifications.user.length} overflowCount={5} offset={[0, 2]}>
-              <Button icon={<UserOutlined/>} size='large' style={{
-                  marginLeft: 10
-                }}>
-                  { session && session.user ? session.user.username : ""} 
-                  <CaretDownOutlined/>
-              </Button>
-            </Badge>
-          </Dropdown>
+          { renderUserMenu() }
           <Button icon={<SettingOutlined/>} size='large' onClick={onSettings} style={{
               marginLeft: 10,
               border: "none"
