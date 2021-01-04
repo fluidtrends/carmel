@@ -1,1 +1,0 @@
-## A600: Chris is takent to the installation page.

@@ -1,21 +1,20 @@
 ## The Carmel Fluid Flows
 
-- [A: Chris discovers the Carmel CLI.](A)
-- [B: Chris installs the Carmel CLI.](B)
-- [C: Chris sets up his Carmel Environment.](C)
-- [D: Chris manages Carmel Environment data.](D)
-- [E: Chris creates the default AWS profile.](E)
-- [F: Chris creates a Carmel Product.](F)
-- [G: Chris manages a Carmel Product Workspace.](G)
-- [H: Chris sets a web domain.](H)
-- [I: Chris starts a web app.](I)
-- [J: Chris tweaks a Carmel Product.](J)
-- [K: Chris packages a web app.](K)
-- [L: Chris previews a packaged web app.](L)
-- [M: Chris deploys a web app.](M)
-- [N: Mike checks the Carmel Roadmap Progress.](N)
+**Product Management Flows**
+*Featuring Doris - The Product Manager*
 
+- [PM-001: Doris checks the Carmel Roadmap Progress.](PM001)
 
+**Product Development Flows**
+*Featuring Chris - The Product Developer*
 
-
-
+- [PD-010: Chris discovers the Carmel Studio.](PD-010)
+- [PD-020: Chris installs the Carmel Studio.](PD-020)
+- [PD-030: Chris installs the Carmel Development Environment.](PD-030)
+- [PD-040: Chris creates a Carmel Product.](PD-040)
+- [PD-050: Chris starts and stops a Carmel Product.](PD-050)
+- [PD-060: Chris tweaks Carmel Product chunks.](PD-060)
+- [PD-070: Chris manages Carmel Product assets.](PD-070)
+- [PD-080: Chris manages Carmel Product info.](PD-080)
+- [PD-090: Chris manages Carmel Secrets.](PD-090)
+- [PD-100: Chris publishes a Carmel Product.](PD-100)
