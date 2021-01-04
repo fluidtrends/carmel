@@ -1,1 +1,1 @@
-## PD-050-300: Chris .
+## PD-050-300: Chris sees the product preview.

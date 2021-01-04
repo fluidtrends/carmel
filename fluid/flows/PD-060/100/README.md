@@ -1,1 +1,1 @@
-## PD-060-100: Chris .
+## PD-060-100: Chris selects the Chunks section in the Product Dashboard.

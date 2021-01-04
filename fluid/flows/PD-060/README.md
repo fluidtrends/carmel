@@ -2,6 +2,10 @@
 
 **Steps:**
 
-- [PD-060-100: Chris .](100)
-- [PD-060-200: Chris .](200)
-- [PD-060-300: Chris .](300)
+- [PD-060-100: Chris selects the Chunks section in the Product Dashboard.](100)
+- [PD-060-200: Chris selects a Chunk file.](200)
+- [PD-060-300: Chris makes changes to a Chunk File.](300)
+- [PD-060-400: Chris sees the changes take effect in the Product Preview.](400)
+
+---
+[See all Carmel Flows](..)

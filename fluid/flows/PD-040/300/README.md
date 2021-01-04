@@ -1,1 +1,1 @@
-## PD-040-300: Chris .
+## PD-040-300: Chris selects a template at the New Product Screen.
