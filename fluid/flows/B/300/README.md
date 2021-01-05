@@ -1,1 +1,0 @@
-## B300: Chris waits for the installation to finish.

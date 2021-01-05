@@ -1,1 +1,0 @@
-## A700: Chris sees the main installation message.

@@ -31,7 +31,7 @@ export class Server {
     }
 
     get baseUrl() {
-        return '0.0.0.0'
+        return 'http://0.0.0.0'
     }
 
     get runner() {
