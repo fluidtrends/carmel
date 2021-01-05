@@ -1,7 +1,5 @@
 ## PD-040: Chris creates a Carmel Product.
 
-**Steps:**
-
 - [PD-040-100: Chris opens the Carmel Studio at the Products Screen.](100)
 - [PD-040-200: Chris chooses the New Product action.](200)
 - [PD-040-300: Chris selects a template at the New Product Screen.](300)

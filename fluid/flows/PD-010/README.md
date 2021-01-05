@@ -1,7 +1,5 @@
 ## PD-010: Chris discovers the Carmel Studio.
 
-**Steps:**
-
 - [PD-010-100: Chris visits the Carmel website.](100)
 - [PD-010-200: Chris sees the main message.](200)
 - [PD-010-300: Chris sees the secondary message.](300)

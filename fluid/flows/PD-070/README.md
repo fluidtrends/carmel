@@ -1,7 +1,5 @@
 ## PD-070: Chris manages Carmel Product assets.
 
-**Steps:**
-
 - [PD-070-100: Chris selects the Assets section in the Product Dashboard.](100)
 - [PD-070-200: Chris selects a Text file.](200)
 - [PD-070-220: Chris makes changes to a Text file.](220)

@@ -1,10 +1,8 @@
 ## PD-080: Chris manages Carmel Product info.
 
-**Steps:**
-
-- [PD-080-100: Chris .](100)
-- [PD-080-200: Chris .](200)
-- [PD-080-300: Chris .](300)
+- [PD-080-100: Chris selects the Info section in the Product Dashboard.](100)
+- [PD-080-200: Chris makes changes to Product Info.](200)
+- [PD-080-300: Chris sees the changes take effect in the Product Preview.](300)
 
 
 ---

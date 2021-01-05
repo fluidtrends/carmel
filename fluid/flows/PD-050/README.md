@@ -1,7 +1,5 @@
 ## PD-050: Chris starts and stops a Carmel Product.
 
-**Steps:**
-
 - [PD-050-100: Chris selects the Start action in the Product Dashboard.](100)
 - [PD-050-200: Chris waits for the product to start.](200)
 - [PD-050-300: Chris sees the product preview.](300)
