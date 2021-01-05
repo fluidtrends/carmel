@@ -30,4 +30,4 @@ anymore but also about workers and organisations lacking access to the Digital E
 whole. This is a hard problem dividing our society in two and we’re passionately out to solve it.
 
 ---
-[See the entire Carmel Story](..) | Next: [The Carmel Solution](../solution)
+[See the entire Carmel Story](..) | Next: [The Carmel Promise](../promise)
