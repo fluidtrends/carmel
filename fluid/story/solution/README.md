@@ -1,6 +1,6 @@
 ## The Carmel Solution
 
->> **Open Digital Innovation**: redefining Human Work in the Machine Era.
+>> **Redefining Human Work**: a new approach to Digital Innovation.
 
 ****
 

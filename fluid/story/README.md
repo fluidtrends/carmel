@@ -4,6 +4,8 @@
 
 |Chapter|Summary|
 |---|---|
-| 0. [The Problem](problem) | *The Great Digital Divide* | 
-| 1. [The Solution](solution) | *Accessible Digital Innovation* |
-| 2. [The Actors](actors) | *The Carmel Community* |
+| 0. [The Carmel Problem](problem) | *The Great Digital Divide* | 
+| 1. [The Carmel Promise](promise) | *Accessible Digital Innovation* |
+| 1. [The Carmel Solution](solution) | *Redefining Human Work* |
+| 1. [The Carmel Service](service) | *Open Digital Innovation* |
+| 2. [The Carmel Actors](actors) | *The Carmel Community* |
