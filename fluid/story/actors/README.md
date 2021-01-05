@@ -1,23 +1,52 @@
 ## The Carmel Fluid Story Actors
 
-**Lead Actors** (*The Customers*)
-|||
-|---|---|
-|0. [Alice](alice) | *The Small Business Owner* |
-|1. [Bob](bob) | *The Professional Developer*  |
-|2. [Chris](chris)| *The Developer Apprentice*  |
-|3. [Doris](doris) | *The Development Manager*  |
-|||
+#### Lead Actors (*The Customers*)
 
-**Supporting Actors** (*The Partners*)
+Carmel exists to close the Great Digital Divide and serve *Carmel Customer Community*
 
-|||
+- develop skills
+- build digital products
+
+Capitalize on the Digital Opportunities and participate in the Digital Economy.
+
+leverage the opportunities
+
+- small businesses owners
+    - leverage digital opportunities
+    - build digital capabilities
+    - 
+- learners
+    - 
+
+
+ below by helping them 
+
+Accessible Digital Innovation
+Digital Economy
+
+
+
+providing a subscription-based **Open Digital Innovation** service.
+
+Carmel ODIaaStm
+
+CODI
+
+|Persona|Role|Subscription|
+|---|---|---|
+|0. [Alice](alice) | *The Small Business Owner* | **Business Plan** |
+|1. [Bob](bob) | *The Professional Developer*  | **Pro Plan** |
+|2. [Chris](chris)| *The Developer Apprentice*  | **Apprentice Plan** |
+|3. [Doris](doris) | *The Development Manager*  | **Team Plan** |
+
+#### Supporting Actors (*The Partners*)
+
+|Persona|Role|
 |---|---|
 |4. [Emma](emma) | *The Carmel Service Host*  |
 |5. [Fred](fred) | *The Carmel Core Contributor* |
 |6. [George](george) | *The Carmel Ambassador* |
 |7. [Hanna](hanna) | *The Carmel Governor* |
-|||
 
 
 ---
