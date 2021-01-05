@@ -1,10 +1,10 @@
 ## The Carmel Problem
 
-> **The Great Digital Divide**: the market exclusion of non-technical workers and small non-digital organizations.
+>> **The Great Digital Divide**: the market exclusion of non-technical workers and small non-digital organizations.
 
-*Non-technical workers and small non-digital organizations are being pushed out of
+**Non-technical workers and small non-digital organizations are being pushed out of
 the market as they struggle to harness digital opportunities and are unable to keep
-up with the pace of digital transformation.*
+up with the pace of digital transformation.**
 
 The pace of Digital Transformation sweeping the 21st century is without precedent. We are
 witnessing the nascent Fourth Industrial Revolution in all its accelerated glory. Web, mobile and
@@ -28,3 +28,6 @@ harness digital opportunities and are headed without fail towards market exclusi
 Digital Divide of the 21st century is not only about people lacking access to the Internet
 anymore but also about workers and organisations lacking access to the Digital Economy as a
 whole. This is a hard problem dividing our society in two and we’re passionately out to solve it.
+
+---
+[See the entire Carmel Story](..) | Next: [The Carmel Solution](../solution)
