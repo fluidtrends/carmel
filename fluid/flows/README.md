@@ -3,7 +3,7 @@
 **Product Management Flows**
 *Featuring Doris - The Product Manager*
 
-- [PM-010: Doris checks the Carmel Roadmap Progress.](PM010)
+- [PM-010: Doris checks the Carmel Roadmap Progress.](PM-010)
 
 **Product Development Flows**
 *Featuring Chris - The Product Developer*
