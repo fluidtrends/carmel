@@ -6,17 +6,6 @@
 the market as they struggle to harness digital opportunities and are unable to keep
 up with the pace of digital transformation.**
 
-The pace of Digital Transformation sweeping the 21st century is without precedent. We are
-witnessing the nascent Fourth Industrial Revolution in all its accelerated glory. Web, mobile and
-cloud technologies lead the charge and a suite of exponentially powerful innovations are rapidly
-penetrating all aspects of our lives. Voice apps, chat bots, artificial intelligence, blockchain, 5G
-connectivity, the internet of things and many more are spawning out of research labs and are
-being commercialized and deployed across all industries with an ever increasing adoption rate.
-In the midst of this Digital Age, tech-savvy workers and large digital enterprises are thriving,
-flourishing and growing as they are equipped to harness the many and varied digital
-opportunities available. Not only are jobs and business models transforming digitally, but our
-very global economy itself is turning digital.
-
 While some are set to thrive, the accelerated rate of change is widening an already painful
 Digital Divide and lack of access to the same digital opportunities is leaving millions of workers
 and organizations behind. While the digital opportunities abound and are globally available, in
