@@ -13,16 +13,19 @@
   4. Build Reputation
   5. Offer Tech Training
 
-#### Season Alpha
+#### Alpha
+
+###### [Progress Dashboard](https://github.com/fluidtrends/carmel/projects/8)
+
   * **Chapters:**
-    1. Tracking development progress
-    2. Development documentation
-    3. Code management
-    4. Installation
-    5. Register command
-    6. Login command
-    7. Recover command
-    8. Config command
-    9. Elements command
-    10. Mesh command
-    11. Vault command
+    1. [Tracking development progress](https://github.com/fluidtrends/carmel/issues/873)
+    2. [Development documentation](https://github.com/fluidtrends/carmel/issues/874)
+    3. [Code management](https://github.com/fluidtrends/carmel/issues/875)
+    4. [Installation](https://github.com/fluidtrends/carmel/issues/876)
+    5. [Register command](https://github.com/fluidtrends/carmel/issues/877)
+    6. [Login command](https://github.com/fluidtrends/carmel/issues/878)
+    7. [Recover command](https://github.com/fluidtrends/carmel/issues/879)
+    8. [Config command](https://github.com/fluidtrends/carmel/issues/880)
+    9. [Elements command](https://github.com/fluidtrends/carmel/issues/881)
+    10. [Mesh command](https://github.com/fluidtrends/carmel/issues/882)
+    11. [Vault command](https://github.com/fluidtrends/carmel/issues/883)
