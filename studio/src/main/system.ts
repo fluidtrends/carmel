@@ -12,6 +12,16 @@ import * as _session from './session'
 export let session: any = undefined
 export let server: Server = undefined
 
+if (!app.requestSingleInstanceLock()) {
+  // Stop a second instance (bug #842)
+  app.quit()
+} else {
+  app.on('second-instance', (event, commandLine, workingDirectory) => {
+    // Just bring up the existing app if a second instance is initiated
+    app.focus()
+  })
+}
+
 export const quit = () => {
   app.quit()
 }
