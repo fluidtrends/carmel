@@ -23,17 +23,16 @@
     3. [Authenticating](https://github.com/fluidtrends/carmel/issues/852)
     4. [Recovering an account](https://github.com/fluidtrends/carmel/issues/853)
     5. [Viewing a public profile](https://github.com/fluidtrends/carmel/issues/854)
-    6. [Viewing a my dashboard](https://github.com/fluidtrends/carmel/issues/855)
-    7. [Viewing a my profile](https://github.com/fluidtrends/carmel/issues/856)
+    6. [Viewing my dashboard](https://github.com/fluidtrends/carmel/issues/855)
+    7. [Viewing my profile](https://github.com/fluidtrends/carmel/issues/856)
+    8. [Finding a domain](https://github.com/fluidtrends/carmel/issues/857)
+    9. [Browsing premium domains](https://github.com/fluidtrends/carmel/issues/858)
+    10. [Placing a domain order](https://github.com/fluidtrends/carmel/issues/859)
+    11. [Viewing purchased domains](https://github.com/fluidtrends/carmel/issues/860)
+    12. [Viewing domain details](https://github.com/fluidtrends/carmel/issues/861)
 
 #### Alpha2
 * **Chapters:**
-    2
-    4. [Finding a domain](https://github.com/fluidtrends/carmel/issues/857)
-    5. [Browsing premium domains](https://github.com/fluidtrends/carmel/issues/858)
-    6. [Placing a domain order](https://github.com/fluidtrends/carmel/issues/859)
-    7. [Viewing purchased domains](https://github.com/fluidtrends/carmel/issues/860)
-    8. [Viewing domain details](https://github.com/fluidtrends/carmel/issues/861)
     9. [Creating a new site](https://github.com/fluidtrends/carmel/issues/862)
     10. [Viewing created sites](https://github.com/fluidtrends/carmel/issues/863)
     11. [Viewing site details](https://github.com/fluidtrends/carmel/issues/864)
