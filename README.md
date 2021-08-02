@@ -5,6 +5,68 @@
 
 <hr/>
 
-## Documentation
+<p align="center">
+<h2 align="center"> Upcoming Release: Carmel Alpha </h2>
+[Alpha Progress](https://github.com/fluidtrends/carmel/projects/8) | [Alpha Chapters](https://github.com/fluidtrends/carmel/milestone/42)
+</p>
 
-  - [View Docs](docs)
+<hr/>
+
+# Fluid Stories
+
+## The Publishing Story
+
+* **Hero:** Alice (The Publisher)
+* **Goal:** Become the primary decision maker for her online community.
+* **Plot:** Publishers subscribe to a plan to create and fully own customizable web3 sites that remain online forever and are blockchain secured.
+* **Offer:**
+  1. Publish Web3 Sites
+  2. Full Ownership
+  3. Online Forever
+  4. Custom Development
+  5. Blockchain Security
+
+## The Mentoring Story
+
+* **Hero:** Bob (The Mentor)
+* **Goal:** Build meaningful technology that generates income.
+* **Plot:** Mentors open tech microbusinesses and get paid by taking on complex microjobs to build reusable web3 elements while building reputation and offering tech training.
+* **Offer:**
+  1. Write Web3 Elements
+  2. Get Usage Royalties
+  3. Open A Microbusiness
+  4. Build Reputation
+  5. Offer Tech Training
+
+## The Apprenticeship Story
+
+* **Hero:** Chris (The Apprentice)
+* **Goal:** Acquire tech skills while making a living.
+* **Plot:** Apprentices gain tech skills then open tech microbusinesses and take on simple microjobs to tweak sites while getting paid and building reputation.
+* **Offer:**
+  1. Gain Tech Skills
+  2. Apply To Microjobs
+  3. Do Work And Get Paid
+  4. Open A Microbusiness
+  5. Build Reputation
+
+# Fluid Needs
+
+## The Publisher Needs
+
+* **Hero:** Alice (The Publisher)
+
+## The Mentor Needs
+
+* **Hero:** Bob (The Mentor)
+
+## The Apprentice Needs
+
+* **Hero:** Chris (The Apprentice)
+
+# Fluid Chapters
+
+- [View Alpha Chapters](https://github.com/fluidtrends/carmel/milestone/42)
+- [View Alpha Progress](https://github.com/fluidtrends/carmel/projects/8)
+
+# Fluid Trends
