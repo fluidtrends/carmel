@@ -22,6 +22,7 @@
     2. [Setting up](https://github.com/fluidtrends/carmel/issues/851)
     3. [Authenticating](https://github.com/fluidtrends/carmel/issues/852)
     4. [Recovering an account](https://github.com/fluidtrends/carmel/issues/853)
+    5. [Viewing a public profile](https://github.com/fluidtrends/carmel/issues/854)
 
 
 #### Alpha2
