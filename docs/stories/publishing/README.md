@@ -30,14 +30,14 @@
     10. [Placing a domain order](https://github.com/fluidtrends/carmel/issues/859)
     11. [Viewing purchased domains](https://github.com/fluidtrends/carmel/issues/860)
     12. [Viewing domain details](https://github.com/fluidtrends/carmel/issues/861)
+    13. [Creating a new site](https://github.com/fluidtrends/carmel/issues/862)
+    14. [Viewing created sites](https://github.com/fluidtrends/carmel/issues/863)
+    15. [Viewing site details](https://github.com/fluidtrends/carmel/issues/864)
+    16. [Updating site details](https://github.com/fluidtrends/carmel/issues/865)
+    17. [Updating site content](https://github.com/fluidtrends/carmel/issues/866)
 
 #### Alpha2
 * **Chapters:**
-    9. [Creating a new site](https://github.com/fluidtrends/carmel/issues/862)
-    10. [Viewing created sites](https://github.com/fluidtrends/carmel/issues/863)
-    11. [Viewing site details](https://github.com/fluidtrends/carmel/issues/864)
-    12. [Updating site details](https://github.com/fluidtrends/carmel/issues/865)
-    13. [Updating site content](https://github.com/fluidtrends/carmel/issues/866)
     14. [Viewing site elements](https://github.com/fluidtrends/carmel/issues/867)
     15. [Viewing element details](https://github.com/fluidtrends/carmel/issues/868)
     16. [Updating element details](https://github.com/fluidtrends/carmel/issues/869)
