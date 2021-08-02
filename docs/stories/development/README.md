@@ -18,17 +18,7 @@
 ###### [Progress Dashboard](https://github.com/fluidtrends/carmel/projects/8)
 
   * **Chapters:**
-    1. [Tracking development progress](https://github.com/fluidtrends/carmel/issues/873)
-    2. [Development documentation](https://github.com/fluidtrends/carmel/issues/874)
-    3. [Code management](https://github.com/fluidtrends/carmel/issues/875)
-    4. [Installation](https://github.com/fluidtrends/carmel/issues/876)
-    5. [Register command](https://github.com/fluidtrends/carmel/issues/877)
-    6. [Login command](https://github.com/fluidtrends/carmel/issues/878)
-    7. [Recover command](https://github.com/fluidtrends/carmel/issues/879)
-    8. [Config command](https://github.com/fluidtrends/carmel/issues/880)
-    9. [Elements command](https://github.com/fluidtrends/carmel/issues/881)
-    10. [Vault command](https://github.com/fluidtrends/carmel/issues/882)
-    11. [Relays command](https://github.com/fluidtrends/carmel/issues/883)
-    12. [Nodes command](https://github.com/fluidtrends/carmel/issues/884)
-    13. [Wallet command](https://github.com/fluidtrends/carmel/issues/885)
-    14. [Status command](https://github.com/fluidtrends/carmel/issues/886)
+    1. [Publish Elements](https://github.com/fluidtrends/carmel/issues/881)
+    2. [Operate Relays](https://github.com/fluidtrends/carmel/issues/883)
+    3. [Operate Nodes](https://github.com/fluidtrends/carmel/issues/884)
+    
