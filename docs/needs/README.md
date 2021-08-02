@@ -4,3 +4,15 @@
 </p>
 
 <hr/>
+
+## The Publisher Needs
+
+* **Hero:** Alice (The Publisher)
+
+## The Mentor Needs
+
+* **Hero:** Bob (The Mentor)
+
+## The Apprentice Needs
+
+* **Hero:** Chris (The Apprentice)

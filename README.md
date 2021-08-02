@@ -4,3 +4,7 @@
 </p>
 
 <hr/>
+
+## Documentation
+
+  - [View Docs](docs)
