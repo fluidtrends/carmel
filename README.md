@@ -5,10 +5,8 @@
 
 <hr/>
 
-<p align="center">
-<h2 align="center"> Upcoming Release: Carmel Alpha </h2>
+### Upcoming Release: Carmel Alpha
 [Alpha Progress](https://github.com/fluidtrends/carmel/projects/8) | [Alpha Chapters](https://github.com/fluidtrends/carmel/milestone/42)
-</p>
 
 <hr/>
 
