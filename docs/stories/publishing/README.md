@@ -23,13 +23,12 @@
     3. [Authenticating](https://github.com/fluidtrends/carmel/issues/852)
     4. [Recovering an account](https://github.com/fluidtrends/carmel/issues/853)
     5. [Viewing a public profile](https://github.com/fluidtrends/carmel/issues/854)
-
+    6. [Viewing a my dashboard](https://github.com/fluidtrends/carmel/issues/855)
+    7. [Viewing a my profile](https://github.com/fluidtrends/carmel/issues/856)
 
 #### Alpha2
 * **Chapters:**
-    1. [Viewing a public profile](https://github.com/fluidtrends/carmel/issues/854)
-    2. [Viewing a personal dashboard](https://github.com/fluidtrends/carmel/issues/855)
-    3. [Viewing a personal profile](https://github.com/fluidtrends/carmel/issues/856)
+    2
     4. [Finding a domain](https://github.com/fluidtrends/carmel/issues/857)
     5. [Browsing premium domains](https://github.com/fluidtrends/carmel/issues/858)
     6. [Placing a domain order](https://github.com/fluidtrends/carmel/issues/859)
