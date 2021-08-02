@@ -18,7 +18,7 @@
 ###### [Progress Dashboard](https://github.com/fluidtrends/carmel/projects/7)
 
 * **Chapters:**
-    1. [Visiting the portal](https://github.com/fluidtrends/carmel/issues/850)
+    1. [Installing the Carmel Studio](https://github.com/fluidtrends/carmel/issues/850)
     2. [Signing up](https://github.com/fluidtrends/carmel/issues/851)
     3. [Signing back in](https://github.com/fluidtrends/carmel/issues/852)
     4. [Recovering an account](https://github.com/fluidtrends/carmel/issues/853)
