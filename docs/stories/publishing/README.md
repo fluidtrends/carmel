@@ -20,7 +20,7 @@
 * **Chapters:**
     1. [Installing the Carmel Studio](https://github.com/fluidtrends/carmel/issues/850)
     2. [Setting up](https://github.com/fluidtrends/carmel/issues/851)
-    3. [Signing back in](https://github.com/fluidtrends/carmel/issues/852)
+    3. [Authenticating](https://github.com/fluidtrends/carmel/issues/852)
     4. [Recovering an account](https://github.com/fluidtrends/carmel/issues/853)
     5. [Viewing a public profile](https://github.com/fluidtrends/carmel/issues/854)
     6. [Viewing a personal dashboard](https://github.com/fluidtrends/carmel/issues/855)
