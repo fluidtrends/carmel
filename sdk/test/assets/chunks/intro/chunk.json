@@ -1,7 +1,0 @@
-{
-    "name": "intro",
-    "routes": [{
-        "path": "/",
-        "screen": "main"
-    }]
-}

@@ -1,1 +1,0 @@
-module.exports = (props) => Promise.resolve(Object.assign({}, props, { test: "test1234" }))
