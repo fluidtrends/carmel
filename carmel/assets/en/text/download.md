@@ -1,1 +1,0 @@
-## Get started by downloading the Carmel Studio

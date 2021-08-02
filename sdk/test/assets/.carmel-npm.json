@@ -1,8 +1,0 @@
-{
-    "type": "carmel",
-    "context": {
-        "install": {
-            "type": "npm"
-        }
-    }
-}
