@@ -1,4 +1,6 @@
-### 2. Mentoring
+![bob](../../assets/bob.png)
+
+### 2. Development
 
 * **Hero:** Bob (The Developer)
 * **Goal:** Build meaningful technology that generates income.

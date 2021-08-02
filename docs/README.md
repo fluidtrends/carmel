@@ -4,3 +4,19 @@
 </p>
 
 <hr/>
+
+## Fluid Stories
+
+  - [View Stories](stories)
+
+## Fluid Needs
+
+- [View Needs](needs)
+
+## Fluid Chapters
+
+- [View Chapters](chapters)
+
+## Fluid Trends
+
+- [View Trends](trends)
