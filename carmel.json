@@ -1,0 +1,13 @@
+{
+    "carmel": {
+        "property": {
+            "id": "62eaa5c90fbc452022964899",
+            "name": "carmel"
+        },
+        "settlement": {
+            "id": "62d270636e5cd6f30b74aba4",
+            "name": "genesis",
+            "type": "city"
+        }
+    }
+}
