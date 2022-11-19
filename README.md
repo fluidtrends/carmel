@@ -11,5 +11,5 @@ The Innovation Nation
 ### Core Packages
 
 * [shell](packages/sh)
-* [relay](relay/sh)
+* [relay](packages/relay)
 
