@@ -1,0 +1,15 @@
+{
+    "name": "sh",
+    "private": true,
+    "description": "Carmel Shell",
+    "license": "MIT",
+    "version": "1.0.0",
+    "scripts": {
+      "cli": "./carmel.sh"
+    },
+    "dependencies": {
+    },
+    "devDependencies": {
+    }
+  }
+  

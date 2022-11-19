@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+      "target": "es2017",                
+      "module": "commonjs",                     
+      "strict": true,             
+      "jsx": "react",     
+      "resolveJsonModule": true,
+      "sourceMap": true,
+      "allowJs": true,
+      "declaration": true,         
+      "esModuleInterop": true,                 
+      "forceConsistentCasingInFileNames": true,
+      "outDir": "./lib"
+    },
+    "include": [
+      "src/**/*",
+    ]
+}
+  

@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: carmel-relay
+spec:
+  selector:
+    matchLabels:
+      app: carmel
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: carmel
+    spec:
+      containers:
+      - name: carmel-relay
+        image: {{IMAGE_ORG}}/{{IMAGE_NAME}}:{{IMAGE_VERSION}}
+        ports:
+        - containerPort: 9080
+        imagePullPolicy: Always
+        env:
+        - name: IMAGE_VERSION
+          value: {{IMAGE_VERSION}}
+        - name: REDIS_SERVICE_HOST
+          value: "redis-service.default.svc.cluster.local"
+        - name: REDIS_SERVICE_PORT
+          value: "6379"

@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+ <html>
+ <head>
+ <title>Carmel Relay</title>
+ <meta charset="utf-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+ <link rel="stylesheet" href="assets/css/main.css" />
+ <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+ </head>
+ <body class="is-preload">
+ <div id="wrapper">
+ <section id="main">
+ <header>
+ <span><img width="80" src="images/logo.png" alt="" /></span>
+ <h1>Carmel Relay</h1>
+ </header>
+ <hr />
+ <a href="status">Running</a></li>
+ </section>
+ <footer id="footer">
+ <ul class="copyright">
+ <li><a href="https://carmel.io">Powers Carmel</a></li>
+ </ul>
+ </footer>
+ </div>
+ 
+ <script>
+ if ('addEventListener' in window) {
+ window.addEventListener('load', function() { document.body.className = document.body.className.replace(/\bis-preload\b/, ''); });
+ document.body.className += (navigator.userAgent.match(/(MSIE|rv:11\.0)/) ? ' is-ie' : '');
+ }
+ </script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.slim.js" integrity="sha512-hcPg/5yQzb6Ocz2NHy+XdRfmET1kTOtZc1l6Yt2TyriHW6WpK80hoLfaKG5wI7SqLt/x6IiV9kRoInYCA/BEWw==" crossorigin="anonymous"></script> 
+ <script src="app.js">
+ </script>
+ </body>
+ </html>
