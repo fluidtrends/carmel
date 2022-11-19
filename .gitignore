@@ -33,3 +33,4 @@ terraform.tfstate.backup
 .deploy
 cache_*
 keys/
+*.private.json
