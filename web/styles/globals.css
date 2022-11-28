@@ -17,6 +17,22 @@
   }
   
   @font-face {
+    font-family: 'Taruno';
+    src: url('/fonts/Taruno.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Mona';
+    src: url('/fonts/Mona.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
     font-family: 'Genesys';
     src: url('/fonts/Genesys.ttf') format('opentype');
     font-weight: 500;
@@ -75,7 +91,7 @@
   }
   
   h1 {
-    font-family: 'Debodies';
+    font-family: 'Mona';
     font-size: 60px;
     font-weight: 500;
     color: #fff;
