@@ -1,13 +1,12 @@
-import Login from '~/components/auth/login'
-import { NavLink } from '@remix-run/react'
+import Login from '~/components/login'
 
-export default ({ auth }: any) => (
+export default () => (
   <div className="w-full h-full mt-32 flex flex-col items-center justify-center">
-    <Login auth={auth} />
-    <NavLink to={'/signup'} className="flex flex-row">
+    <Login />
+    <a href={'/signup'} className="flex flex-row">
       <button className="p-4 bg-primary-background m-4">
           Or create an account
       </button>
-    </NavLink>
+    </a>
   </div>
 )
