@@ -1,0 +1,46 @@
+import { Session } from '.';
+export declare class Data {
+    private _content;
+    private _session;
+    private _id;
+    private _slice;
+    private _lastModified;
+    private _state;
+    private _list;
+    private _main;
+    constructor(session: Session, slice: string);
+    get lastModified(): number;
+    get id(): string;
+    get slice(): string;
+    get main(): any;
+    get state(): any;
+    get session(): Session;
+    get content(): any;
+    get list(): any;
+    save(): Promise<{
+        lastModified: number;
+        data: string;
+    }>;
+    _load(): Promise<void>;
+    init(): Promise<void>;
+    _updateState(s: any): this;
+    update(data?: any): void;
+    updateSelected(data?: any): void;
+    select(id: string): void;
+    deselect(): void;
+    updateBlob(id: string, data?: any): void;
+    push(id: string, update?: any): void;
+    _tableQueue(): any;
+    _pushTableRow(id: string, update?: any): void;
+    _insertTableRow(row?: any, message?: string): any;
+    _updateMain(update: any, message?: string): void;
+    _updateTableRow(id: string, update: any, message?: string): void;
+    _deleteTableRow(id: string, message?: string): void;
+    _getTableRows(): any;
+    _isTableEmpty(): boolean;
+    _selectTableRow(id: string): void;
+    _deselectTableRow(): void;
+    _updateTableRowBlob(rowId: string, id: string, content: any, type?: string): void;
+    _loadTableRow(rowId: string): Promise<any>;
+    _selectedTableRow(): any;
+}

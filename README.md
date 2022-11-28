@@ -1,5 +1,5 @@
 <p align="center"> <img src="https://raw.githubusercontent.com/fluidtrends/carmel/master/logo.svg" width="256px">
-<h2 align="center"> Carmel </h2>
+<h2 align="center"> Carmel</h2>
 <h4 align="center"> 
 The Innovation Nation
 </h4>
@@ -8,8 +8,11 @@ The Innovation Nation
     
 <hr/>
 
-### Core Packages
+### Architecture
 
-* [shell](packages/sh)
-* [relay](packages/relay)
+* [core](core)
+* [shell](shell)
+* [relay](relay)
+* [node](node)
+* [web](web)
 
