@@ -34,3 +34,4 @@ terraform.tfstate.backup
 cache_*
 keys/
 *.private.json
+.vercel
