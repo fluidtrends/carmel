@@ -1,0 +1,121 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+  }
+  
+  :root {
+    color-scheme: dark;
+  }
+  
+  body {
+    background-color: #0a1013;
+    overflow-x: hidden;
+  }
+  
+  @font-face {
+    font-family: 'Genesys';
+    src: url('/fonts/Genesys.ttf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Impasse';
+    src: url('/fonts/Impasse.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Debodies';
+    src: url('/fonts/Debodies.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'Epilogue';
+    src: url('/fonts/Epilogue-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'Epilogue-Medium';
+    src: url('/fonts/Epilogue-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'Epilogue-Bold';
+    src: url('/fonts/Epilogue-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  body,
+  p,
+  span,
+  button,
+  div,
+  section {
+    font-family: 'Epilogue', sans-serif;
+    color: #fff;
+  }
+  
+  h1 {
+    font-family: 'Debodies';
+    font-size: 60px;
+    font-weight: 500;
+    color: #fff;
+  }
+  
+  h2 {
+    font-family: 'Debodies';
+    font-size: 2.6rem;
+    font-weight: 500;
+    color: #fff;
+  }
+  
+  h3 {
+    font-family: 'Debodies';
+    font-size: 2.25rem;
+    font-weight: 500;
+  }
+  
+  h4 {
+    font-family: 'Debodies';
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #fff;
+  }
+  
+  h5 {
+    font-family: 'Debodies';
+    font-weight: 600;
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: #fff;
+  }
+  
+  p,
+  span {
+    font-size: 1rem;
+  }
+  
+  .team-hex {
+    -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  }
+  

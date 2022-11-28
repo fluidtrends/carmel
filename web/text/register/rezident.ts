@@ -1,0 +1,15 @@
+export const REZIDENT_REGISTER_TEXT = {
+  DETAILS: 'Details',
+  CARMEL_USERNAME: 'Carmel Username',
+  ETH_ADRESS: 'ETH Adress',
+  EMAIL: 'Email',
+  PLAN: 'Plan',
+  SELECTED_PLAN: 'Selected Plan',
+  CARMEL_REZIDENT: 'Carmel Rezident',
+  DURATION: 'Duration',
+  LIFETIME: 'Lifetime',
+  TOTAL: 'Total',
+  TO_PAY: 'To Pay Now',
+  MONEY: '750$',
+  BUTTON: 'Proceed to Checkout',
+};

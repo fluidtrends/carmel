@@ -1,0 +1,19 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.DATATYPE = exports.SESSION_STATUS = void 0;
+var SESSION_STATUS;
+(function (SESSION_STATUS) {
+    SESSION_STATUS[SESSION_STATUS["NEW"] = 0] = "NEW";
+    SESSION_STATUS[SESSION_STATUS["INITIALIZING"] = 1] = "INITIALIZING";
+    SESSION_STATUS[SESSION_STATUS["READY"] = 2] = "READY";
+    SESSION_STATUS[SESSION_STATUS["STOPPING"] = 3] = "STOPPING";
+    SESSION_STATUS[SESSION_STATUS["STOPPED"] = 4] = "STOPPED";
+    SESSION_STATUS[SESSION_STATUS["CONNECTING"] = 5] = "CONNECTING";
+    SESSION_STATUS[SESSION_STATUS["CONNECTED"] = 6] = "CONNECTED";
+})(SESSION_STATUS = exports.SESSION_STATUS || (exports.SESSION_STATUS = {}));
+var DATATYPE;
+(function (DATATYPE) {
+    DATATYPE["TABLE"] = "table";
+    DATATYPE["OBJECT"] = "object";
+})(DATATYPE = exports.DATATYPE || (exports.DATATYPE = {}));
+//# sourceMappingURL=types.js.map
