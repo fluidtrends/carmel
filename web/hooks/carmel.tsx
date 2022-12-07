@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Session } from '../Session';
+import { Session } from '@carmel/core';
 import debug from 'debug'
 import { create } from 'ipfs-core'
 import { ipfsConfig } from '../config/ipfs'
@@ -7,28 +7,30 @@ import { ipfsConfig } from '../config/ipfs'
 debug.enable("carmel*")
 
 const LOG = debug("carmel:react")
-
-let ipfs: any = null
+let isInitialized = false
 
 export const useCarmel = () => {
-    useEffect(() => {
-       start()
-    }, [])
+  const [session, setSession] = useState<any>(null);
 
-    async function start () {
+  useEffect(() => {
+    (async () => {
+      if (isInitialized) return
+
+      isInitialized = true
+
       LOG("initializing")
-      
+    
       const ses = new Session({});
       const relays = await ses.chain.fetch.relays()
       const config = ipfsConfig(relays, `${ses.cache.root}/ipfs`)
-      const node = await create(config)
+
+      const node: any = await create(config)
       await ses.start(node)
 
-      LOG("initialized")      
-    }
+      LOG("initialized")    
+      setSession(ses)
+    })()
+  }, [])
 
-    return { ipfs }
+  return { isInitialized, session }
 }
-
-
-

@@ -37,4 +37,5 @@ class Identity {
 }
 exports.Identity = Identity;
 Identity.DID_PREFIX = "did:carmel";
+exports.default = Identity;
 //# sourceMappingURL=Identity.js.map
