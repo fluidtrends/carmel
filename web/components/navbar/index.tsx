@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { Navbar } from 'flowbite-react'
 import { ClipboardDocumentCheckIcon, BuildingStorefrontIcon, UserCircleIcon, ArrowLeftOnRectangleIcon} from '@heroicons/react/24/solid'
 
@@ -21,11 +22,11 @@ export default () => {
         <ClipboardDocumentCheckIcon className="h-7 w-7"/>
         <span className='hidden md:block ml-2 mt-1'>  Quests </span>
        </a>
-       <a className="btn ml-2 btn-primary text-white">
+       <a className="btn ml-2 btn-primary text-white" href="/signup">
         <UserCircleIcon className="h-6 w-7"/>
         <span className='hidden md:block ml-2 mt-1'>  Sign Up </span>
        </a>
-      <a className="btn ml-2">
+      <a className="btn ml-2" href="/login">
         <ArrowLeftOnRectangleIcon className="h-7 w-7"/>
         <span className='hidden md:block ml-2 mt-1'> Login </span>
       </a>
