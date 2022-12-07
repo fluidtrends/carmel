@@ -2,7 +2,7 @@ import {
     Session 
 } from './Session'
 
-export class Identity {
+class Identity {
   
     public static DID_PREFIX: string = "did:carmel"
 
@@ -95,3 +95,6 @@ export class Identity {
     //     this._did = did
     // }
 }
+
+export { Identity }
+export default Identity

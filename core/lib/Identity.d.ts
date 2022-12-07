@@ -1,5 +1,5 @@
 import { Session } from './Session';
-export declare class Identity {
+declare class Identity {
     static DID_PREFIX: string;
     private _session;
     private _username;
@@ -19,3 +19,5 @@ export declare class Identity {
         did: string;
     } | undefined;
 }
+export { Identity };
+export default Identity;

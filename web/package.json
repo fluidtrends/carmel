@@ -6,6 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@carmel/core": "^1.2.0",
     "@heroicons/react": "^2.0.13",
     "@tailwindcss/typography": "^0.5.8",
     "@types/debug": "^4.1.7",
