@@ -97,7 +97,7 @@ class Session {
         await this.cache.close();
     }
     setStatus(s) {
-        LOG(`changed status [status=${s}]`);
+        LOG(`changed status [${s}]`);
         this._status = s;
     }
     toJSON() {
@@ -117,7 +117,7 @@ class Session {
         }
     }
     async start(ipfs) {
-        LOG(`starting [revision=${this.revision} operator=${this.config.isOperator}]`);
+        LOG(`starting [revision: ${this.revision} operator: ${this.config.isOperator}]`);
         this.setStatus(_1.SESSION_STATUS.INITIALIZING);
         await this.init();
         await this.chain.connect();

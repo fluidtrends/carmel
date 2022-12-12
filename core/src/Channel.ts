@@ -156,7 +156,7 @@ export class Channel {
 
     async listenForEvent (id: string, type: string, log: any) {
         log(`registered [${type}] handler`)
-
+        
         this.station.session.gateway.ipfs.pubsub.subscribe(`${Channel.PREFIX}:${this.id}:${id}@${type}${type === 'response' ? ':' + this.station.session.id : ''}`, (message: any) => {
             try {
                 const { from, data } = message

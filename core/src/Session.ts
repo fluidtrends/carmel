@@ -145,7 +145,7 @@ export class Session {
     }
 
     setStatus(s: SESSION_STATUS) {
-        LOG(`changed status [status=${s}]`)
+        LOG(`changed status [${s}]`)
 
         this._status = s
     }
@@ -170,7 +170,7 @@ export class Session {
     }
 
     async start(ipfs?: any) {
-        LOG(`starting [revision=${this.revision} operator=${this.config.isOperator}]`)
+        LOG(`starting [revision: ${this.revision} operator: ${this.config.isOperator}]`)
         this.setStatus(SESSION_STATUS.INITIALIZING)
 
         await this.init()
