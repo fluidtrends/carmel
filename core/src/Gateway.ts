@@ -6,7 +6,7 @@ const LOG = debug("carmel:gateway")
 const MIN_OPERATORS_REQUIRED = 1
 const MIN_PEERS_REQUIRED = 1
 const SYNC_SECONDS = 3
-const SYNC_REFRESH_RATE = 20
+const SYNC_REFRESH_RATE = 5
 
 export class Gateway {
     private _cid: string 
@@ -93,18 +93,25 @@ export class Gateway {
         if (!ipfsPeers || ipfsPeers.length < MIN_PEERS_REQUIRED || (!this.session.config.isOperator && (!carmelOperators || carmelOperators.length < MIN_OPERATORS_REQUIRED))) {
             this.session.isConnected && this.session.setStatus(SESSION_STATUS.CONNECTING)
             this._refresh = SYNC_REFRESH_RATE
-            LOG(`connecting to the Carmel Mesh ...`)
+            LOG(`Connecting to the Carmel Network ...`)
+            LOG(`   peers: ${ipfsPeers.length}`)
+
             return 
         }
 
         this._mesh.operators = carmelOperators
         this.session.isConnected || this.session.setStatus(SESSION_STATUS.CONNECTED)
 
-        LOG(`connected to the Carmel Mesh [operators=${this.mesh.operators.length} peers=${this.mesh.peers.length} relays=${this.mesh.relays.length}]`)
-
-        this.mesh.operators.map((s: string, i: number) => LOG(`   operator ${i}: ${s}`))
-        this.mesh.relays.map((s: string, i: number) => LOG(`   relay ${i}: ${s}`))
-        this.mesh.peers.map((s: string, i: number) => LOG(`   peer ${i}: ${s}`))
+        if (this.session.config.isOperator) {
+            LOG(`Connected to the Carmel Network as an operator [peers: ${this.mesh.peers.length} relays: ${this.mesh.relays.length}]`)
+            this.mesh.relays.map((s: string, i: number) => LOG(`   relay ${i}: ${s}`))
+            this.mesh.peers.map((s: string, i: number) => LOG(`   peer ${i}: ${s}`))    
+        } else {
+            LOG(`Connected to the Carmel Network [operators: ${this.mesh.operators.length} peers: ${this.mesh.peers.length} relays: ${this.mesh.relays.length}]`)
+            this.mesh.operators.map((s: string, i: number) => LOG(`   operator ${i}: ${s}`))
+            this.mesh.relays.map((s: string, i: number) => LOG(`   relay ${i}: ${s}`))
+            this.mesh.peers.map((s: string, i: number) => LOG(`   peer ${i}: ${s}`))
+        }
         
         await this.session.station.flush()
 
@@ -131,30 +138,24 @@ export class Gateway {
 
     async startIPFS (ipfs?: any) {
         try {
-            if (!this.mesh || !this.mesh.relays) return 
+            if (!ipfs || !this.mesh || !this.mesh.relays) return 
     
-            if (this.isBrowser) {
-                this._ipfs = ipfs;
-                return
-            }
-
-            if (!ipfs) {
-                return
-            }
-
-            this._ipfs = ipfs!.api
+            this._ipfs = ipfs;
         } catch (e: any) {
             LOG(`Could not start IPFS [Error: ${e.message}]`)
         }
     }
 
     async start(ipfs?: any) {        
+        if (!ipfs) {
+            LOG(`Error: could not find IPFS instance`)
+            return 
+        }
+        
         LOG(`starting [browser=${this.isBrowser}] ...`)
 
         await this.resolveRelays()
         await this.startIPFS(ipfs)
-
-        if (!this.ipfs) return 
 
         const { id } = await this.ipfs.id()
         this._cid = id 

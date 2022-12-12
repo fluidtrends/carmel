@@ -85,13 +85,17 @@ export class Chain {
     async _fetchRelays () {
         // TODO fetch from the chain
 
-        const relays = [{
-            type: "webrtc-star",
-            url: "net.carmel.dev",
-            port: 443
-        }]
+        // const relays = [{
+        //     type: "webrtc-star",
+        //     url: "net.carmel.dev",
+        //     port: 443
+        // }]
 
-        return relays.filter((s: any) => s.type === 'webrtc-star').map((s: any) => `/dns4/${s.url}/tcp/${s.port || 443}/wss/p2p-webrtc-star`)
+        return [
+            `/dns4/net.carmel.dev/tcp/443/wss/p2p-webrtc-star`
+        ]
+
+        // return relays.filter((s: any) => s.type === 'webrtc-star').map((s: any) => `/dns4/${s.url}/tcp/${s.port || 443}/wss/p2p-webrtc-star`)
     }
 
     get fetch () {
