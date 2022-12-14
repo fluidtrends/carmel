@@ -1,13 +1,7 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Station = void 0;
-const _1 = require(".");
-const debug_1 = __importDefault(require("debug"));
-const LOG = (0, debug_1.default)("carmel:station");
-class Station {
+import { Channel } from './index.js';
+import debug from 'debug';
+const LOG = debug("carmel:station");
+export class Station {
     constructor(session) {
         this._session = session;
         this._channels = this.session.config.channels || {};
@@ -30,7 +24,7 @@ class Station {
         if (this.channels[id] && this.channels[id].isOpen)
             return this.channels[id];
         LOG(`opening [${id}] channel ...`);
-        const channel = new _1.Channel(id, this.channels[id], this);
+        const channel = new Channel(id, this.channels[id], this);
         await channel.open();
         this.channels[id] = channel;
         LOG(`channel [${id}] ready`);
@@ -50,15 +44,20 @@ class Station {
     async addChannel(id, data) {
         if (this.channels[id])
             return this.channels[id];
-        this.channels[id] = Object.assign({}, data);
+        this.channels[id] = { ...data };
         return this.openChannel(id);
     }
     async start() {
         LOG("starting the station ...");
         if (this.session.config.isOperator) {
-            this.channels[_1.Channel.SYSTEM_OPERATORS_ID] = this.channels[_1.Channel.SYSTEM_OPERATORS_ID] || {};
-            this.channels[_1.Channel.SYSTEM_OPERATORS_ID].events = this.channels[_1.Channel.SYSTEM_OPERATORS_ID].events || {};
-            this.channels[_1.Channel.SYSTEM_OPERATORS_ID].events[_1.Channel.ACCEPT_EVENT_ID] = true;
+            this.channels[Channel.SYSTEM_OPERATORS_ID] = this.channels[Channel.SYSTEM_OPERATORS_ID] || {};
+            this.channels[Channel.SYSTEM_OPERATORS_ID].events = this.channels[Channel.SYSTEM_OPERATORS_ID].events || {};
+            this.channels[Channel.SYSTEM_OPERATORS_ID].events[Channel.ACCEPT_EVENT_ID] = true;
+        }
+        else {
+            this.channels[Channel.SYSTEM_PEERS_ID] = this.channels[Channel.SYSTEM_PEERS_ID] || {};
+            this.channels[Channel.SYSTEM_PEERS_ID].events = this.channels[Channel.SYSTEM_PEERS_ID].events || {};
+            this.channels[Channel.SYSTEM_PEERS_ID].events[Channel.ACCEPT_EVENT_ID] = true;
         }
         await Promise.all(Object.keys(this.channels).map(this._openChannel));
         LOG("started the station");
@@ -69,5 +68,4 @@ class Station {
         LOG("stopped the station");
     }
 }
-exports.Station = Station;
 //# sourceMappingURL=Station.js.map

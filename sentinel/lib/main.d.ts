@@ -1,1 +1,1 @@
-export declare const start: () => Promise<void>;
+export declare const start: (isOperator?: boolean) => Promise<void>;

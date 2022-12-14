@@ -1,65 +1,24 @@
 import debug from 'debug'
 import path from 'path'
-import { create } from 'ipfs-core'
 import fs from 'fs-extra'
-import { createLibp2p } from 'libp2p'
-import { nanoid } from 'nanoid'
 import { Session } from '@carmel/core'
-import { tcp } from '@libp2p/tcp'
-import { webSockets } from '@libp2p/websockets'
-import { webRTCStar } from '@libp2p/webrtc-star'
-import { webRTCDirect } from '@libp2p/webrtc-direct'
-import { kadDHT } from '@libp2p/kad-dht'
-import { gossipsub } from '@chainsafe/libp2p-gossipsub'
-import { bootstrap } from '@libp2p/bootstrap'
-import { mdns } from '@libp2p/mdns'
-import { noise } from '@chainsafe/libp2p-noise'
-import { yamux } from '@chainsafe/libp2p-yamux'
-import { mplex } from '@libp2p/mplex'
-import * as werift from 'werift'
+import { create } from 'ipfs-core'
+import { createLibp2p } from 'libp2p'
+import { libp2pConfig } from './config'
 
-const wrtc: any = werift
 const LOG = debug("carmel:sentinel")
-const star = webRTCStar({ wrtc })
 
-const libp2pBundle = (opts: any) => {
+const libp2pBundle = (relays: any) => (opts: any) => {
     const peerId = opts.peerId
-    const bootstrapList = opts.config.Bootstrap
-    
+  
     return createLibp2p({
       peerId,
       addresses: {
-        listen: ['/dns4/net.carmel.dev/tcp/443/wss/p2p-webrtc-star', '/ip4/127.0.0.1/tcp/0']
+        listen: [...relays]
       },
-      transports: [
-        tcp(),
-        star.transport,
-        webSockets(),
-        webRTCDirect(),
-      ],
-      streamMuxers: [
-        yamux(),
-        mplex()
-      ],
-      connectionEncryption: [
-        noise()
-      ],
-      peerDiscovery: [
-        bootstrap({ list: [...bootstrapList] }),
-        mdns(),
-        star.discovery
-      ],
-      dht: kadDHT(),
-      pubsub: gossipsub(),
-      relay: {
-        enabled: true,
-        hop: {
-          enabled: true,
-          active: true
-        }
-      }
+      ...libp2pConfig()
     })
-}
+  }
 
 export const start = async (isOperator = true) => {
     LOG('Starting...')
@@ -67,19 +26,21 @@ export const start = async (isOperator = true) => {
 
     fs.existsSync(ROOTDIR) || fs.mkdirpSync(ROOTDIR)
     
-    const repoDir = path.join(ROOTDIR, `repo-${isOperator ? 'full': 'light'}-${nanoid()}`)
+    const repoDir = path.join(ROOTDIR, `repo-${isOperator ? 'full': 'light'}`)
     const revision = process.env.REV
 
     const cwd = process.cwd()
     const baseConfig = JSON.parse(fs.readFileSync(path.join(cwd, `config.${isOperator ? 'full': 'light'}.json`), 'utf-8'))
 
-    const ses = new Session({
-        ...baseConfig, isOperator, revision, root: ROOTDIR
-    })    
+    const ses = new Session({ ...baseConfig, isOperator, revision, root: repoDir })    
 
-    const node = await create({
+    const relays = await ses.chain._fetchRelays()
+
+    const libp2p = libp2pBundle(relays)
+
+    const node: any = await create({
         repo: repoDir,
-        libp2p: libp2pBundle
+        libp2p
     })
 
     await ses.start(node)

@@ -7,8 +7,8 @@ exports.Pipe = void 0;
 const debug_1 = __importDefault(require("debug"));
 const _1 = require(".");
 const util_1 = require("util");
-const LOG = (0, debug_1.default)('carmel:pipe');
-const SYNC_INTERVAL = 10000;
+const LOG = (0, debug_1.default)('carmel:relay:pipe');
+const SYNC_INTERVAL = 2000;
 class Pipe {
     constructor(server, index) {
         this._server = server;
@@ -42,10 +42,8 @@ class Pipe {
         try {
             await this._join(id, address);
             await this.server.swarm.addPeer(id, address);
-            LOG(`Peer joined [id=${id} address=${address}]`);
         }
         catch (e) {
-            console.log("???? addPeer error");
             console.log(e);
         }
     }
@@ -67,18 +65,19 @@ class Pipe {
     async sendToPeer(socket, address, event, payload) {
         try {
             this.io.to(address).emit(event, payload);
-            console.log();
-            LOG(`Sent event [${event}] to [${address}]`);
-            console.log(payload);
-            console.log();
+            if (event === 'ws-peer') {
+                LOG(`${address.split('/').slice(-1)}->${payload.split('/').slice(-1)}`);
+            }
         }
-        catch (_a) { }
+        catch (e) {
+            console.log(e);
+        }
     }
     async handshake(socket, offer) {
         if (!this.isValidOffer(offer))
             return;
         const { srcMultiaddr, dstMultiaddr } = offer;
-        LOG(`Handshaking [${srcMultiaddr}] -> [${dstMultiaddr}]`);
+        LOG(`${srcMultiaddr} <-> ${dstMultiaddr}`);
         const addr = await this.addresses();
         const to = addr ? addr.find((a) => dstMultiaddr) : false;
         if (offer.answer) {
@@ -107,15 +106,13 @@ class Pipe {
     }
     async sync(socket, address) {
         const addresses = await this.addresses();
-        LOG(`Sync [address=${address} peers=${addresses.length}`);
-        addresses && addresses.map((peerAddress) => {
+        addresses && addresses.map((peerAddress, i) => {
             if (peerAddress === address)
                 return;
             this.sendToPeer(socket, peerAddress, _1.EVENT.PEER, address);
         });
     }
     async join(socket, address) {
-        LOG(`join [id=${socket.id} address=${address}]`);
         if (!address)
             return;
         await this.addPeer(socket.id, address);

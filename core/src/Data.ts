@@ -1,7 +1,7 @@
 import merge from 'deepmerge'
 import Automerge from 'automerge'
 import { nanoid } from 'nanoid'
-import { Session } from '.'
+import { Session } from './Session.js'
 import debug from 'debug'
 
 const LOG = debug("carmel:data")

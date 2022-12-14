@@ -1,4 +1,4 @@
-import { Channel, Session, SESSION_STATUS } from '.'
+import { Channel, Session, SESSION_STATUS } from './index.js'
 import debug from 'debug'
 
 const LOG = debug("carmel:gateway")
@@ -87,32 +87,31 @@ export class Gateway {
 
         const ipfsPeers = await this.ipfs.swarm.peers() || []
         const carmelOperators = await this.ipfs.pubsub.peers(Channel.EVENT.OPERATOR_ACCEPT) || []
+        const carmelPeers = await this.ipfs.pubsub.peers(Channel.EVENT.PEER_ACCEPT) || []
 
         this._mesh.peers = ipfsPeers.map((p: any) => p.peer)
+        this._mesh.operators = carmelOperators
 
-        if (!ipfsPeers || ipfsPeers.length < MIN_PEERS_REQUIRED || (!this.session.config.isOperator && (!carmelOperators || carmelOperators.length < MIN_OPERATORS_REQUIRED))) {
-            this.session.isConnected && this.session.setStatus(SESSION_STATUS.CONNECTING)
-            this._refresh = SYNC_REFRESH_RATE
-            LOG(`Connecting to the Carmel Network ...`)
-            LOG(`   peers: ${ipfsPeers.length}`)
+        this.session.isConnected && this.session.setStatus(SESSION_STATUS.CONNECTING)
 
+        if (!ipfsPeers || ipfsPeers.length < MIN_PEERS_REQUIRED) {
+            LOG(`Connecting to the Carmel Network. Looking for peers ...`)
             return 
         }
 
-        this._mesh.operators = carmelOperators
-        this.session.isConnected || this.session.setStatus(SESSION_STATUS.CONNECTED)
-
         if (this.session.config.isOperator) {
-            LOG(`Connected to the Carmel Network as an operator [peers: ${this.mesh.peers.length} relays: ${this.mesh.relays.length}]`)
-            this.mesh.relays.map((s: string, i: number) => LOG(`   relay ${i}: ${s}`))
-            this.mesh.peers.map((s: string, i: number) => LOG(`   peer ${i}: ${s}`))    
+            LOG(`Connected to the Carmel Network as an operator [peers: [${ipfsPeers.length}:${carmelPeers.length}]  relays: ${this.mesh.relays.length}]`)
+            this.session.isConnected || this.session.setStatus(SESSION_STATUS.CONNECTED)
+            this._refresh = SYNC_REFRESH_RATE
+        } else if (!carmelOperators || carmelOperators.length < MIN_OPERATORS_REQUIRED) {
+            LOG(`Connecting to the Carmel Network. Looking for operators ...`)
+            LOG(`   peers: [${ipfsPeers.length}:${carmelPeers.length}]  operators: ${carmelOperators.length} relays: ${this.mesh.relays.length}]`)
+            return 
         } else {
-            LOG(`Connected to the Carmel Network [operators: ${this.mesh.operators.length} peers: ${this.mesh.peers.length} relays: ${this.mesh.relays.length}]`)
+            LOG(`Connected to the Carmel Network [operators: ${this.mesh.operators.length} peers: [${ipfsPeers.length}:${carmelPeers.length}]  relays: ${this.mesh.relays.length}]`)
             this.mesh.operators.map((s: string, i: number) => LOG(`   operator ${i}: ${s}`))
-            this.mesh.relays.map((s: string, i: number) => LOG(`   relay ${i}: ${s}`))
-            this.mesh.peers.map((s: string, i: number) => LOG(`   peer ${i}: ${s}`))
         }
-        
+
         await this.session.station.flush()
 
         this._refresh--

@@ -1,6 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Identity = void 0;
 class Identity {
     constructor(session, data = {}) {
         this._session = session;
@@ -35,7 +32,7 @@ class Identity {
         });
     }
 }
-exports.Identity = Identity;
 Identity.DID_PREFIX = "did:carmel";
-exports.default = Identity;
+export { Identity };
+export default Identity;
 //# sourceMappingURL=Identity.js.map

@@ -1,4 +1,4 @@
-import { Session } from './Session';
+import { Session } from './Session.js';
 declare class Identity {
     static DID_PREFIX: string;
     private _session;

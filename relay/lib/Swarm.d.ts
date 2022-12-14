@@ -10,6 +10,7 @@ export declare class Swarm {
     addresses(): Promise<string[]>;
     addPeer(id: ID, address: MULTIADDRESS): Promise<void>;
     removePeer(address: MULTIADDRESS): Promise<void>;
+    clear(): Promise<void>;
     status(): Promise<{
         timestamp: string;
         totalPeers: number;

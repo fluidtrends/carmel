@@ -1,4 +1,5 @@
 import debug from 'debug'
+import { Level } from 'level'
 
 const LOG = debug("carmel:cache")
 
@@ -13,19 +14,17 @@ const CARMEL_MESH_ROOT = () => `${process.env[(process.platform === 'win32') ? '
 export class Cache {
     public static STORE = STORE
 
-    private _level: any
     private _root: string
     private _stores: any
     private _isBrowser: boolean
 
     constructor (isBrowser: boolean, root: string = '') {
         this._isBrowser = isBrowser
-        this._level = require('level')
         this._stores = {}
         this._root = root || (isBrowser ? '' : CARMEL_MESH_ROOT())
 
         Object.keys(STORE).map((s: string) => {
-            this.stores[s] = this.level(`${this.root}data_${s}`, { prefix: "carmel/" })
+            this.stores[s] = new Level(`${this.root}data_${s}`, { prefix: "carmel/" })
         })
     }
 
@@ -35,10 +34,6 @@ export class Cache {
 
     get isBrowser() {
         return this._isBrowser
-    }
-
-    get level () {
-        return this._level
     }
 
     get stores() {

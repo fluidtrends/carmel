@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { useAuth } from '~/hooks/auth';
+import { useAuth } from '~/sdk/hooks/auth';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default () => {

@@ -1,4 +1,4 @@
-import { Session, Channel } from '.'
+import { Session, Channel } from './index.js'
 import debug from 'debug'
 import deepmerge from 'deepmerge'
 
@@ -79,6 +79,10 @@ export class Station {
             this.channels[Channel.SYSTEM_OPERATORS_ID] = this.channels[Channel.SYSTEM_OPERATORS_ID] || {}
             this.channels[Channel.SYSTEM_OPERATORS_ID].events = this.channels[Channel.SYSTEM_OPERATORS_ID].events || {}
             this.channels[Channel.SYSTEM_OPERATORS_ID].events[Channel.ACCEPT_EVENT_ID] = true 
+        } else {
+            this.channels[Channel.SYSTEM_PEERS_ID] = this.channels[Channel.SYSTEM_PEERS_ID] || {}
+            this.channels[Channel.SYSTEM_PEERS_ID].events = this.channels[Channel.SYSTEM_PEERS_ID].events || {}
+            this.channels[Channel.SYSTEM_PEERS_ID].events[Channel.ACCEPT_EVENT_ID] = true 
         }
 
         await Promise.all(Object.keys(this.channels).map(this._openChannel))

@@ -1,4 +1,4 @@
-import { Session } from '.';
+import { Session } from './Session.js';
 export declare class Data {
     private _content;
     private _session;

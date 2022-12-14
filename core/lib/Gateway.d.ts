@@ -1,4 +1,4 @@
-import { Session } from '.';
+import { Session } from './index.js';
 export declare class Gateway {
     private _cid;
     private _ipfs;

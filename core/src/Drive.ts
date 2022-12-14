@@ -1,4 +1,4 @@
-import { Session } from './Session'
+import { Session } from './Session.js'
 import debug from 'debug'
 // import listDir from 'recursive-readdir'
 import path from 'path'

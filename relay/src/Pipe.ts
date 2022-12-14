@@ -2,8 +2,8 @@ import debug from 'debug'
 import { OFFER, MULTIADDRESS, ID, EVENT, PAYLOAD, Server } from '.'
 import { promisify } from 'util'
 
-const LOG = debug('carmel:pipe')
-const SYNC_INTERVAL = 10000
+const LOG = debug('carmel:relay:pipe')
+const SYNC_INTERVAL = 2000
 
 export class Pipe {
     private _io: any
@@ -49,13 +49,9 @@ export class Pipe {
 
     async addPeer(id: ID, address: MULTIADDRESS) {
         try {
-            await this._join(id, address)   
-
+            await this._join(id, address)
             await this.server.swarm.addPeer(id, address)
-
-            LOG(`Peer joined [id=${id} address=${address}]`)
         } catch (e) {
-            console.log("???? addPeer error")
             console.log(e)
         }
     }
@@ -82,12 +78,13 @@ export class Pipe {
         try {
             this.io.to(address).emit(event, payload)
 
-            console.log()
-            LOG(`Sent event [${event}] to [${address}]`)
-            console.log(payload)
-            console.log()
+            if (event === 'ws-peer') {
+                LOG(`${address.split('/').slice(-1)}->${payload.split('/').slice(-1)}`)
+            }
 
-        } catch {}
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     async handshake (socket: any, offer: OFFER) {
@@ -95,7 +92,7 @@ export class Pipe {
         
         const { srcMultiaddr, dstMultiaddr } = offer
 
-        LOG(`Handshaking [${srcMultiaddr}] -> [${dstMultiaddr}]`)
+        LOG(`${srcMultiaddr} <-> ${dstMultiaddr}`)
 
         const addr = await this.addresses()
         const to = addr ? addr.find((a: string) => dstMultiaddr) : false
@@ -131,18 +128,14 @@ export class Pipe {
 
     async sync (socket: any, address: MULTIADDRESS) {
         const addresses = await this.addresses()
-        
-        LOG(`Sync [address=${address} peers=${addresses.length}`)
 
-        addresses && addresses.map((peerAddress: any) => {
+        addresses && addresses.map((peerAddress: any, i: number) => {
             if (peerAddress === address) return
             this.sendToPeer(socket, peerAddress, EVENT.PEER, address)
         })
     }
   
     async join (socket: any, address: MULTIADDRESS) {
-        LOG(`join [id=${socket.id} address=${address}]`)
-
         if (!address) return
 
         await this.addPeer(socket.id, address)

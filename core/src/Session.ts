@@ -9,7 +9,7 @@ import {
     Identity,
     Station,
     SESSION_STATUS
-} from '.'
+} from './index.js'
 import debug from 'debug'
 
 const LOG = debug("carmel:session")
@@ -169,14 +169,20 @@ export class Session {
        }
     }
 
-    async start(ipfs?: any) {
+    async start(node: any) {
+        if (!node) {
+            LOG(`Could not start. Node missing.`)
+            return 
+        }
+
         LOG(`starting [revision: ${this.revision} operator: ${this.config.isOperator}]`)
+
         this.setStatus(SESSION_STATUS.INITIALIZING)
 
         await this.init()
         await this.chain.connect()
 
-        await this.gateway.start(ipfs)
+        await this.gateway.start(node)
         await this.save()
         await this.drive.mount()
         await this.station.start()

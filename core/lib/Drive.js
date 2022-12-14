@@ -1,12 +1,6 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Drive = void 0;
-const debug_1 = __importDefault(require("debug"));
-const LOG = (0, debug_1.default)("carmel:drive");
-class Drive {
+import debug from 'debug';
+const LOG = debug("carmel:drive");
+export class Drive {
     constructor(session) {
         this._session = session;
         this._push = this.push.bind(this);
@@ -120,6 +114,5 @@ class Drive {
         LOG("unmounted drive");
     }
 }
-exports.Drive = Drive;
 Drive.ROOT = "/carmel";
 //# sourceMappingURL=Drive.js.map

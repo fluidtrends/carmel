@@ -1,14 +1,8 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Data = void 0;
-const deepmerge_1 = __importDefault(require("deepmerge"));
-const automerge_1 = __importDefault(require("automerge"));
-const nanoid_1 = require("nanoid");
-const debug_1 = __importDefault(require("debug"));
-const LOG = (0, debug_1.default)("carmel:data");
+import merge from 'deepmerge';
+import Automerge from 'automerge';
+import { nanoid } from 'nanoid';
+import debug from 'debug';
+const LOG = debug("carmel:data");
 const CONTENT_MODEL_VERSION = "1.0";
 const CONTENT_MODEL = (id, slice) => ({
     version: CONTENT_MODEL_VERSION,
@@ -16,14 +10,14 @@ const CONTENT_MODEL = (id, slice) => ({
     id,
     slice,
     main: {},
-    table: new automerge_1.default.Table()
+    table: new Automerge.Table()
 });
-class Data {
+export class Data {
     constructor(session, slice) {
         this._session = session;
-        this._id = (0, nanoid_1.nanoid)();
+        this._id = nanoid();
         this._slice = slice;
-        this._content = automerge_1.default.from(CONTENT_MODEL(this.id, slice));
+        this._content = Automerge.from(CONTENT_MODEL(this.id, slice));
         this._lastModified = Date.now();
         this._state = {};
         this._list = {
@@ -68,7 +62,7 @@ class Data {
     }
     async save() {
         this._lastModified = Date.now();
-        const snapshot = automerge_1.default.save(this.content);
+        const snapshot = Automerge.save(this.content);
         const res = { lastModified: this.lastModified, data: snapshot };
         await this.session.cache.put(`data/${this.slice}`, res);
         // this.session.onEvent(EVENT.DATA_CHANGED, this.slice)
@@ -79,10 +73,10 @@ class Data {
         try {
             const cached = await this.session.cache.get(`data/${this.slice}`);
             this._lastModified = cached.lastModified;
-            this._content = automerge_1.default.load(cached.data);
+            this._content = Automerge.load(cached.data);
             LOG(`loaded [slice=${this.slice}]`);
         }
-        catch (_a) { }
+        catch { }
     }
     async init() {
         await this._load();
@@ -159,21 +153,21 @@ class Data {
     }
     _insertTableRow(row = {}, message = "new row") {
         var id;
-        this._content = automerge_1.default.change(this.content, message, (doc) => {
-            id = doc.table.add(Object.assign(Object.assign({}, row), { createdOn: Date.now() }));
+        this._content = Automerge.change(this.content, message, (doc) => {
+            id = doc.table.add({ ...row, createdOn: Date.now() });
         });
         this._selectTableRow(id);
         return id;
     }
     _updateMain(update, message = "row updated") {
-        this._content = automerge_1.default.change(this._content, message, (doc) => {
-            doc.main = (0, deepmerge_1.default)(doc.object, update);
+        this._content = Automerge.change(this._content, message, (doc) => {
+            doc.main = merge(doc.object, update);
         });
         this.update();
     }
     _updateTableRow(id, update, message = "row updated") {
         let item;
-        this._content = automerge_1.default.change(this.content, message, (doc) => {
+        this._content = Automerge.change(this.content, message, (doc) => {
             item = doc.table.byId(id);
             if (!item || !update)
                 return;
@@ -201,7 +195,7 @@ class Data {
     //     this.update()
     // }
     _deleteTableRow(id, message = "deleted row") {
-        this._content = automerge_1.default.change(this.content, message, (doc) => {
+        this._content = Automerge.change(this.content, message, (doc) => {
             let item = doc.table.byId(id);
             if (!item)
                 return;
@@ -223,13 +217,13 @@ class Data {
     }
     _updateTableRowBlob(rowId, id, content, type = "text") {
         let item;
-        this._content = automerge_1.default.change(this.content, "updated blob", (doc) => {
+        this._content = Automerge.change(this.content, "updated blob", (doc) => {
             item = doc.table.byId(rowId);
             if (!item)
                 return;
             // const blobs = { ...item.blobs, [id]: { hi: "now" } }
             item.dirty = true;
-            item.blobs = Object.assign(Object.assign({}, item.blobs), { [`${this.slice}:list:${rowId}:${id}`]: true });
+            item.blobs = { ...item.blobs, [`${this.slice}:list:${rowId}:${id}`]: true };
             // item.blobs[id] = { hello: "ok" }
             // Object.keys(update).map((k: string) => item[k] = update[k])
         });
@@ -243,7 +237,10 @@ class Data {
         const row = this._content.table.byId(rowId);
         if (!row)
             return;
-        let result = Object.assign(Object.assign({}, row), { blobs: [] });
+        let result = {
+            ...row,
+            blobs: [],
+        };
         const { blobs } = row;
         if (blobs) {
             await Promise.all(Object.keys(blobs)
@@ -261,5 +258,4 @@ class Data {
         return this.state.selection;
     }
 }
-exports.Data = Data;
 //# sourceMappingURL=Data.js.map

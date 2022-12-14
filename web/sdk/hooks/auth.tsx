@@ -1,14 +1,7 @@
-import { useState, useEffect } from 'react';
-// import { useMetaMask } from 'metamask-react';
-// import { useActionData, useSubmit } from '@remix-run/react';
-// import { randomBytes } from 'ethers/lib/utils';
-// import {  Numeric, Serialize } from 'eosjs';
-// import { Session } from '@carmel/core';
+import { useState } from 'react';
 import * as cr from '~/utils/crypto'
 
-export const useAuth = () => {
-  // const submit = useSubmit();
-  // const actionData = useActionData();
+export const useCarmelAuth = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const status = () => {
