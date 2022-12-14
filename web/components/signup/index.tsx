@@ -1,10 +1,10 @@
 import React, { useRef } from 'react'
-import { useAuth } from '~/sdk/hooks/auth';
+import { useCarmelAuth } from '~/sdk/hooks';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default () => {
     const username = useRef<any>();
-    const auth = useAuth()
+    const auth = useCarmelAuth()
 
     return (
       <div className="w-full h-full mt-32 flex flex-col items-center justify-center">
