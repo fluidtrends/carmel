@@ -1,4 +1,4 @@
-import { Session } from './Session';
+import { Session } from './Session.js';
 export declare class Drive {
     static ROOT: string;
     private _session;

@@ -18,11 +18,11 @@ class Swarm {
         this._set = (0, util_1.promisify)(this.server.pub.hset).bind(this.server.pub);
         this._get = (0, util_1.promisify)(this.server.pub.hgetall).bind(this.server.pub);
         this._del = (0, util_1.promisify)(this.server.pub.hdel).bind(this.server.pub);
+        await this.clear();
     }
     async addresses() {
         try {
             const all = await this._get('swarm');
-            console.log("swarm", Object.keys(all));
             return Object.keys(all);
         }
         catch (e) {
@@ -35,6 +35,15 @@ class Swarm {
     }
     async removePeer(address) {
         await this._del("swarm", address);
+    }
+    async clear() {
+        try {
+            const all = await this._get('swarm');
+            await Promise.all(Object.keys(all).map((addr) => this.removePeer(addr)));
+        }
+        catch (e) {
+            console.log(e);
+        }
     }
     async status() {
         const timestamp = `${Date.now()}`;

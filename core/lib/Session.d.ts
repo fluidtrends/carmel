@@ -1,4 +1,4 @@
-import { Cache, Gateway, IFunction, Chain, Drive, Identity, Station, SESSION_STATUS } from '.';
+import { Cache, Gateway, IFunction, Chain, Drive, Identity, Station, SESSION_STATUS } from './index.js';
 export declare class Session {
     private _id;
     private _revision;
@@ -47,6 +47,6 @@ export declare class Session {
         cid: string;
     };
     registerFunctions(functions: any): Promise<void>;
-    start(ipfs?: any): Promise<void>;
+    start(node: any): Promise<void>;
     stop(): Promise<void>;
 }

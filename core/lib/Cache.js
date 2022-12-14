@@ -1,11 +1,6 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Cache = void 0;
-const debug_1 = __importDefault(require("debug"));
-const LOG = (0, debug_1.default)("carmel:cache");
+import debug from 'debug';
+import { Level } from 'level';
+const LOG = debug("carmel:cache");
 var STORE;
 (function (STORE) {
     STORE["SESSION"] = "session";
@@ -13,14 +8,13 @@ var STORE;
     STORE["BLOBS"] = "blobs";
 })(STORE || (STORE = {}));
 const CARMEL_MESH_ROOT = () => `${process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME']}/.carmel/mesh/`;
-class Cache {
+export class Cache {
     constructor(isBrowser, root = '') {
         this._isBrowser = isBrowser;
-        this._level = require('level');
         this._stores = {};
         this._root = root || (isBrowser ? '' : CARMEL_MESH_ROOT());
         Object.keys(STORE).map((s) => {
-            this.stores[s] = this.level(`${this.root}data_${s}`, { prefix: "carmel/" });
+            this.stores[s] = new Level(`${this.root}data_${s}`, { prefix: "carmel/" });
         });
     }
     get root() {
@@ -28,9 +22,6 @@ class Cache {
     }
     get isBrowser() {
         return this._isBrowser;
-    }
-    get level() {
-        return this._level;
     }
     get stores() {
         return this._stores;
@@ -70,6 +61,5 @@ class Cache {
         return this.stores[type.toUpperCase()].del(id).catch((err) => { });
     }
 }
-exports.Cache = Cache;
 Cache.STORE = STORE;
 //# sourceMappingURL=Cache.js.map

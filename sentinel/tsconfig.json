@@ -5,6 +5,10 @@
     "lib": [
       "es2020", "DOM"
     ],
+    "typeRoots": [
+      "src/types",
+      "node_modules/@types"
+    ],
     "allowJs": true,
     "outDir": "lib",                          
     "rootDir": "src",
@@ -12,6 +16,7 @@
     "moduleResolution": "Node", 
     "noImplicitAny": true,
     "esModuleInterop": true,
+    "skipLibCheck": true,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,

@@ -6,15 +6,15 @@ import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import http from 'http'
 import { Pipe, Swarm } from '.'
-import { createServer } from 'https'
-import { Redis, Cluster } from 'ioredis'
+import { Cluster } from 'ioredis'
 import { createHttpTerminator, HttpTerminator } from 'http-terminator'
+import type { WebRTCStarSocket } from '@libp2p/webrtc-star-protocol'
 
 const PORT = process.env.PORT || 9080
 const REDIS_HOST = process.env.REDIS_SERVICE_HOST || 'localhost'
-const REDIS_PORT = process.env.REDIS_SERVICE_PORT || "6379"
+const REDIS_PORT = process.env.REDIS_SERVICE_PORT || "30001"
 const VERSION = process.env.IMAGE_VERSION || "latest"
-const LOG = debug('carmel:server')
+const LOG = debug('carmel:relay:server')
 const DIR = path.dirname(__dirname)
 
 LOG(`version: ${VERSION}`)
@@ -29,6 +29,7 @@ export class Server {
     private _pipe?: Pipe[]
     private _pub?: Cluster
     private _sub?: Cluster
+    private _db?: Cluster
     private _adapter?: any
     private _adapterNext?: any
     private _swarm: Swarm
@@ -79,7 +80,7 @@ export class Server {
 
     connect(io: any, pipe: any) { 
         LOG(`connecting`)
-        io.on('connection', (socket: any) => {
+        io.on('connection', (socket: WebRTCStarSocket) => {
             LOG('new connection')
             socket.on('ss-join', pipe.join.bind(pipe, socket))
             socket.on('ss-leave', pipe.leave.bind(pipe, socket))

@@ -11,6 +11,7 @@ export declare class Server {
     private _pipe?;
     private _pub?;
     private _sub?;
+    private _db?;
     private _adapter?;
     private _adapterNext?;
     private _swarm;

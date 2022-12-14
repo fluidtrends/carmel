@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.DATATYPE = exports.SESSION_STATUS = void 0;
-var SESSION_STATUS;
+export var SESSION_STATUS;
 (function (SESSION_STATUS) {
     SESSION_STATUS[SESSION_STATUS["NEW"] = 0] = "NEW";
     SESSION_STATUS[SESSION_STATUS["INITIALIZING"] = 1] = "INITIALIZING";
@@ -10,10 +7,10 @@ var SESSION_STATUS;
     SESSION_STATUS[SESSION_STATUS["STOPPED"] = 4] = "STOPPED";
     SESSION_STATUS[SESSION_STATUS["CONNECTING"] = 5] = "CONNECTING";
     SESSION_STATUS[SESSION_STATUS["CONNECTED"] = 6] = "CONNECTED";
-})(SESSION_STATUS = exports.SESSION_STATUS || (exports.SESSION_STATUS = {}));
-var DATATYPE;
+})(SESSION_STATUS = SESSION_STATUS || (SESSION_STATUS = {}));
+export var DATATYPE;
 (function (DATATYPE) {
     DATATYPE["TABLE"] = "table";
     DATATYPE["OBJECT"] = "object";
-})(DATATYPE = exports.DATATYPE || (exports.DATATYPE = {}));
+})(DATATYPE = DATATYPE || (DATATYPE = {}));
 //# sourceMappingURL=types.js.map

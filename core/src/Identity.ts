@@ -1,6 +1,6 @@
 import {
     Session 
-} from './Session'
+} from './Session.js'
 
 class Identity {
   

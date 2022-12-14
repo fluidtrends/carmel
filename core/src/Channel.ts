@@ -1,4 +1,4 @@
-import { Station } from '.'
+import { Station } from './Station.js'
 import debug from 'debug'
 
 let LOG = debug("carmel:channel")
@@ -9,13 +9,15 @@ export class Channel {
     public static SYSTEM_ID = "sys"
     public static SYSTEM_MAIN_ID = "sys:main"
     public static SYSTEM_OPERATORS_ID = "sys:ops"
+    public static SYSTEM_PEERS_ID = "sys:peers"
     public static ACCEPT_EVENT_ID = "accept"
     public static RESPONSE_EVENT = "response"
     public static RESPONSE_ALL_EVENT = "responseAll"
     public static REQUEST_EVENT = "request"
     
     public static EVENT = {
-        OPERATOR_ACCEPT: Channel.Id(Channel.SYSTEM_OPERATORS_ID, Channel.ACCEPT_EVENT_ID, Channel.REQUEST_EVENT)
+        OPERATOR_ACCEPT: Channel.Id(Channel.SYSTEM_OPERATORS_ID, Channel.ACCEPT_EVENT_ID, Channel.REQUEST_EVENT),
+        PEER_ACCEPT: Channel.Id(Channel.SYSTEM_PEERS_ID, Channel.ACCEPT_EVENT_ID, Channel.REQUEST_EVENT)
     } 
 
     private _id: string 

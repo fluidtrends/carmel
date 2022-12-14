@@ -12,15 +12,5 @@
                 "req:time": "time"
             }
         }
-    },
-    "chain": {
-        "url": "https://eos.greymass.com",
-        "type": "mainnet",
-        "keys": {
-            "main": {
-                "id": "fluidchunky1",
-                "public": "EOS5BD5xeecTG3r1L6idesffakM1KYCRmXYzv26wQppKhzh8htutj"
-            }
-        }
     }
 }

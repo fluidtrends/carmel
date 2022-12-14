@@ -1,15 +1,9 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Channel = void 0;
-const debug_1 = __importDefault(require("debug"));
-let LOG = (0, debug_1.default)("carmel:channel");
-class Channel {
+import debug from 'debug';
+let LOG = debug("carmel:channel");
+export class Channel {
     constructor(id, config, station) {
         this._id = id;
-        LOG = (0, debug_1.default)(`carmel:channel:${id}`);
+        LOG = debug(`carmel:channel:${id}`);
         this._isOpen = false;
         this._station = station;
         this._config = config || {};
@@ -61,7 +55,7 @@ class Channel {
         return this.station.session.functions[this.events[id]];
     }
     async onEvent(id, data, type, from) {
-        const log = (0, debug_1.default)(`carmel:event:${this.id}:${id}`);
+        const log = debug(`carmel:event:${this.id}:${id}`);
         log(`<- received [${id}] event (${type})`);
         const handler = this._eventHandler(id);
         if (!handler) {
@@ -99,9 +93,12 @@ class Channel {
             await this.queueEvent({ id, data });
             return { message: "event queued" };
         }
-        this.station.session.gateway.ipfs.pubsub.publish(`${Channel.PREFIX}:${this.id}:${id}@${type}`, JSON.stringify(Object.assign(Object.assign({}, data), { sender: {
+        this.station.session.gateway.ipfs.pubsub.publish(`${Channel.PREFIX}:${this.id}:${id}@${type}`, JSON.stringify({
+            ...data,
+            sender: {
                 id: this.station.session.id,
-            } })));
+            }
+        }));
         LOG(`-> sent [${id}] event`);
         return { message: "event sent" };
     }
@@ -121,7 +118,7 @@ class Channel {
     async registerEvent(id) {
         if (!id || !this.events[id])
             return;
-        const log = (0, debug_1.default)(`carmel:event:${this.id}:${id}`);
+        const log = debug(`carmel:event:${this.id}:${id}`);
         LOG(`adding [${id}] event ...`);
         if (id === Channel.ACCEPT_EVENT_ID) {
             this._listenForEvent(id, "request", log);
@@ -152,16 +149,17 @@ class Channel {
         LOG(`channel closed`);
     }
 }
-exports.Channel = Channel;
 Channel.PREFIX = "#carmel:channel";
 Channel.SYSTEM_ID = "sys";
 Channel.SYSTEM_MAIN_ID = "sys:main";
 Channel.SYSTEM_OPERATORS_ID = "sys:ops";
+Channel.SYSTEM_PEERS_ID = "sys:peers";
 Channel.ACCEPT_EVENT_ID = "accept";
 Channel.RESPONSE_EVENT = "response";
 Channel.RESPONSE_ALL_EVENT = "responseAll";
 Channel.REQUEST_EVENT = "request";
 Channel.EVENT = {
-    OPERATOR_ACCEPT: Channel.Id(Channel.SYSTEM_OPERATORS_ID, Channel.ACCEPT_EVENT_ID, Channel.REQUEST_EVENT)
+    OPERATOR_ACCEPT: Channel.Id(Channel.SYSTEM_OPERATORS_ID, Channel.ACCEPT_EVENT_ID, Channel.REQUEST_EVENT),
+    PEER_ACCEPT: Channel.Id(Channel.SYSTEM_PEERS_ID, Channel.ACCEPT_EVENT_ID, Channel.REQUEST_EVENT)
 };
 //# sourceMappingURL=Channel.js.map

@@ -1,15 +1,17 @@
-import { Station } from '.';
+import { Station } from './Station.js';
 export declare class Channel {
     static PREFIX: string;
     static SYSTEM_ID: string;
     static SYSTEM_MAIN_ID: string;
     static SYSTEM_OPERATORS_ID: string;
+    static SYSTEM_PEERS_ID: string;
     static ACCEPT_EVENT_ID: string;
     static RESPONSE_EVENT: string;
     static RESPONSE_ALL_EVENT: string;
     static REQUEST_EVENT: string;
     static EVENT: {
         OPERATOR_ACCEPT: string;
+        PEER_ACCEPT: string;
     };
     private _id;
     private _station;
@@ -30,7 +32,7 @@ export declare class Channel {
     get station(): Station;
     get sendQueue(): any;
     flush(): Promise<void>;
-    eventHandler(id: string): import("./types").IFunction | undefined;
+    eventHandler(id: string): import("./types.js").IFunction | undefined;
     onEvent(id: string, data: any, type: string, from: string): Promise<void>;
     queueEvent(e: any): Promise<void>;
     sendEvent(id: string, data: any, type?: string): Promise<{

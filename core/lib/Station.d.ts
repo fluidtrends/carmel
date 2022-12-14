@@ -1,4 +1,4 @@
-import { Session } from '.';
+import { Session } from './index.js';
 export declare class Station {
     private _session;
     private _channels;

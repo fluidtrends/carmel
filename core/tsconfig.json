@@ -1,18 +1,22 @@
 {
   "compilerOptions": {
-    "target": "es2017",                
-    "module": "commonjs",                     
+    "target": "ES2020",                
+    "module": "Node16",                     
     "strict": true,             
     "jsx": "react",     
     "resolveJsonModule": false,
     "sourceMap": true,
     "allowJs": true,
+    "skipLibCheck": true,
     "declaration": true,         
+    "moduleResolution": "Node16",
+    "rootDir": "src",
     "esModuleInterop": true,                 
     "forceConsistentCasingInFileNames": true,
     "outDir": "./lib"
   },
   "include": [
     "src/**/*"
-  ]
+  ],
+  "exclude": ["node_modules"]
 }

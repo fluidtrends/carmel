@@ -23,12 +23,13 @@ export class Swarm {
         this._set = promisify(this.server.pub!.hset).bind(this.server.pub!)
         this._get = promisify(this.server.pub!.hgetall).bind(this.server.pub!)
         this._del = promisify(this.server.pub!.hdel).bind(this.server.pub!)
+        await this.clear()
     }
 
     async addresses() {
         try {
             const all = await this._get('swarm')
-            console.log("swarm", Object.keys(all))
+
             return Object.keys(all)
         } catch (e) {
             console.log(e)
@@ -43,6 +44,16 @@ export class Swarm {
 
     async removePeer(address: MULTIADDRESS) {
         await this._del("swarm", address)
+    }
+
+    async clear() {
+        try {
+            const all = await this._get('swarm')
+            await Promise.all(Object.keys(all).map((addr: any) => this.removePeer(addr)))
+        } catch (e) {
+            console.log(e)
+        }
+
     }
 
     async status () {

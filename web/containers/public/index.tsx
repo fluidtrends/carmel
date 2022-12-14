@@ -2,15 +2,12 @@ import React from 'react';
 import Nav from '~/components/navbar';
 import Footer from '~/components/footer';
 import Spinner from '~/components/spinner';
-import { useCarmel } from '~/hooks/carmel';
-
-// import { ClientOnly } from 'remix-utils';
-// import { NavLink } from '@remix-run/react';
+import { useCarmelNet } from '~/sdk/hooks'
 import Head from 'next/head'
 import Image from 'next/image'
 
 export default ({ children }: any) => {
-  const carmel = useCarmel();
+  const carmelNet = useCarmelNet()
 
   const Content = () => {
     // if (auth.isLoading) {
