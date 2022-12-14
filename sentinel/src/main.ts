@@ -18,7 +18,8 @@ const libp2pBundle = (relays: any) => (opts: any) => {
       },
       ...libp2pConfig()
     })
-  }
+}
+
 
 export const start = async (isOperator = true) => {
     LOG('Starting...')
