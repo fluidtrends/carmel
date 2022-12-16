@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import * as cr from '~/utils/crypto'
-// import { useCarmelNet } from './net';
+import { useCarmelNet } from './net';
 
 export const useCarmelAuth = () => {
-  // const carmelNet = useCarmelNet()
+  const carmelNet = useCarmelNet()
   const [isLoading, setIsLoading] = useState(false);
 
   const status = () => {
