@@ -7,6 +7,8 @@ import { createLibp2p } from 'libp2p'
 import { libp2pConfig } from './config'
 
 const LOG = debug("carmel:sentinel")
+let node: any = undefined
+let ses: any = undefined
 
 const libp2pBundle = (relays: any) => (opts: any) => {
     const peerId = opts.peerId
@@ -20,8 +22,19 @@ const libp2pBundle = (relays: any) => (opts: any) => {
     })
 }
 
+export const stop = async () => {
+    if (!node || !ses) {
+      return
+    }
 
-export const start = async (isOperator = true) => {
+    LOG('Stopping...')
+
+    await ses.stop()
+
+    LOG('Stopped')
+}
+
+export const start = async (functions: any = undefined, isOperator = true) => {
     LOG('Starting...')
     const ROOTDIR = `${process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME']}/.carmel/mesh-${isOperator ? 'full': 'light'}/`
 
@@ -33,13 +46,15 @@ export const start = async (isOperator = true) => {
     const cwd = process.cwd()
     const baseConfig = JSON.parse(fs.readFileSync(path.join(cwd, `config.${isOperator ? 'full': 'light'}.json`), 'utf-8'))
 
-    const ses = new Session({ ...baseConfig, isOperator, revision, root: repoDir })    
+    ses = new Session({ ...baseConfig, isOperator, revision, root: repoDir })    
 
+    ses.registerFunctions(functions)
+    
     const relays = await ses.chain._fetchRelays()
 
     const libp2p = libp2pBundle(relays)
 
-    const node: any = await create({
+    node = await create({
         repo: repoDir,
         libp2p
     })

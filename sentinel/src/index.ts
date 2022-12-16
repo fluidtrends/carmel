@@ -1,5 +1,15 @@
-import { start } from './main'
+import { start, stop } from './main'
+import * as functions from './functions'
 
 (async () => {
-    await start()
+    try {
+        // process.on('SIGINT', async () => {
+        //     await stop()
+        //     process.exit()
+        // })
+
+        await start(functions)
+    } catch (e) {
+        process.exit(1)
+    }
 })()
