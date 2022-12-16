@@ -111,8 +111,10 @@ export class Channel {
             return 
         } 
 
+
         try {
             if (type === Channel.REQUEST_EVENT && handler[type]) {
+                log(`Processing ...`)
                 const result = await handler[type]({ log, session: this.station.session, channel: this, id, data, from })
                 log(`   processed:`, result)
                 
@@ -144,12 +146,12 @@ export class Channel {
             return { message: "event queued" }
         }
 
-        this.station.session.gateway.ipfs.pubsub.publish(`${Channel.PREFIX}:${this.id}:${id}@${type}`, JSON.stringify({
+        this.station.session.gateway.ipfs.pubsub.publish(`${Channel.PREFIX}:${this.id}:${id}@${type}`, new TextEncoder().encode(JSON.stringify({
             ...data,
             sender: { 
                 id: this.station.session.id,
             }
-        }))
+        })))
 
         LOG(`-> sent [${id}] event`)
 
@@ -159,14 +161,16 @@ export class Channel {
     async listenForEvent (id: string, type: string, log: any) {
         log(`registered [${type}] handler`)
         
-        this.station.session.gateway.ipfs.pubsub.subscribe(`${Channel.PREFIX}:${this.id}:${id}@${type}${type === 'response' ? ':' + this.station.session.id : ''}`, (message: any) => {
+        this.station.session.gateway.ipfs.pubsub.subscribe(`${Channel.PREFIX}:${this.id}:${id}@${type}${type === 'response' ? ':' + this.station.session.id : ''}`, (msg: any) => {
             try {
-                const { from, data } = message
-                const e = data.toString()
+                const { from, data } = msg
+                const e = Buffer.from(data).toString()
                 if (from === this.station.session.gateway.cid) return 
                 
                 this._onEvent(id, JSON.parse(e), type, from)
-            } catch (err: any) {}
+            } catch (err: any) {
+                log(err)
+            }
         })
     }
 

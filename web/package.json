@@ -7,10 +7,11 @@
   },
   "type": "module",
   "dependencies": {
-    "@carmel/core": "^1.9.0",
+    "@carmel/core": "^1.9.7",
     "@chainsafe/libp2p-gossipsub": "^5.3.0",
     "@chainsafe/libp2p-noise": "^10.2.0",
     "@chainsafe/libp2p-yamux": "^3.0.3",
+    "@heroicons/react": "^2.0.13",
     "@libp2p/bootstrap": "^5.0.1",
     "@libp2p/delegated-content-routing": "^3.0.0",
     "@libp2p/delegated-peer-routing": "^3.0.0",
@@ -21,7 +22,6 @@
     "@libp2p/webrtc-direct": "^4.0.2",
     "@libp2p/webrtc-star": "^5.0.3",
     "@libp2p/websockets": "^5.0.1",
-    "@heroicons/react": "^2.0.13",
     "@tailwindcss/typography": "^0.5.8",
     "@types/debug": "^4.1.7",
     "borc": "^3.0.0",
@@ -34,6 +34,7 @@
     "ipfs-core": "^0.17.0",
     "next": "latest",
     "next-themes": "^0.2.1",
+    "orbit-db": "^0.28.7",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },

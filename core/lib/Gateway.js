@@ -81,6 +81,7 @@ export class Gateway {
         else {
             LOG(`Connected to the Carmel Network [operators: ${this.mesh.operators.length} peers: [${ipfsPeers.length}:${carmelPeers.length}]  relays: ${this.mesh.relays.length}]`);
             this.mesh.operators.map((s, i) => LOG(`   operator ${i}: ${s}`));
+            this.session.isConnected || this.session.setStatus(SESSION_STATUS.CONNECTED);
         }
         await this.session.station.flush();
         this._refresh--;

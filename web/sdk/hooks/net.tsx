@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import debug from 'debug'
 import { create } from 'ipfs-core'
 import { Session } from '@carmel/core'
-import { libp2pConfig } from '../config'
+import { libp2pConfig, mainConfig } from '../config'
 import { createLibp2p } from 'libp2p'
+import * as functions from '../functions'
 
 const LOG = debug("carmel:web")
 
@@ -32,8 +33,10 @@ export const useCarmelNet = () => {
 
       isInitialized = true
 
-      const ses = new Session({})
+      const ses = new Session({ ...mainConfig() })
       const relays = await ses.chain._fetchRelays()
+      
+      ses.registerFunctions(functions)
 
       const libp2p = libp2pBundle(relays)
 
@@ -43,7 +46,7 @@ export const useCarmelNet = () => {
       })
 
       await ses.start(node)
-
+      
       setSession(ses)
     })()
   }, [])

@@ -3,13 +3,7 @@
     "channels": {
         "sys:ops": {
             "events": {
-                "req:register": "register",
-                "req:update": "update"
-            }
-        },
-        "stats:utils": {
-            "events": {
-                "req:time": "time"
+                "req:register": "register"
             }
         }
     }
