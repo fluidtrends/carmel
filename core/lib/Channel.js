@@ -67,10 +67,10 @@ export class Channel {
                 log(`Processing ...`);
                 const result = await handler[type]({ log, session: this.station.session, channel: this, id, data, from });
                 log(`   processed:`, result);
-                // if (data.sender && data.sender.id) {
-                //     const response = await this.sendEvent(`${id}`, result, `${Channel.RESPONSE_EVENT}:${data.sender.id}`)
-                //     log(`   response:`, response)
-                // }
+                if (data.sender && data.sender.id) {
+                    const response = await this.sendEvent(`${id}`, result, `${Channel.RESPONSE_EVENT}:${data.sender.id}`);
+                    log(`   response:`, response);
+                }
             }
             else if (type === Channel.RESPONSE_EVENT && handler[type]) {
                 const result = await handler[type]({ log, session: this.station.session, channel: this, id, data, from });

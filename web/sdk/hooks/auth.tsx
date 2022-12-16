@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import * as cr from '~/utils/crypto'
+// import { useCarmelNet } from './net';
 
-export const useCarmelAuth = (carmelNet: any) => {
+export const useCarmelAuth = () => {
+  // const carmelNet = useCarmelNet()
   const [isLoading, setIsLoading] = useState(false);
 
   const status = () => {
@@ -58,8 +60,6 @@ export const useCarmelAuth = (carmelNet: any) => {
       const result = await channel.sendEvent("req:register", {
         data: { username }
       })
-
-      console.log(result)
 
     } catch (e) {
       console.log(e)

@@ -4,9 +4,13 @@ export const request = async ({ session, data, log }: any) => {
 
     // log(`registering ${username} ...`)
 
-    console.log(data)
+    // console.log(data)
 
     // const result = await session.chain.system("caccount", { username, pub_key: publicKey, did })
 
-    return "hello"
+    return {
+        data: {
+            status: "pending"
+        }
+    }
 }

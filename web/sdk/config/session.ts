@@ -3,8 +3,7 @@ export const mainConfig = () => {
         channels: {
             "sys:ops": {
                 events: {
-                    "req:register": true,
-                    "rsp:register": "register"
+                    "req:register": "register",
                 }
             }
         }
