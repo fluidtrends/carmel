@@ -35,3 +35,13 @@ cache_*
 keys/
 *.private.json
 .vercel
+.yarn
+.env
+dist
+cache
+artifacts
+typechain
+build
+.cache
+.openzeppelin
+abi

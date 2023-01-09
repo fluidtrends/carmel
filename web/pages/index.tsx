@@ -1,5 +1,5 @@
-import HomeScreen from '~/screens/public/home'
+import Screen from '~/screens/public/home'
 
 export default () => {
-  return <HomeScreen/>
+  return <Screen/>
 }

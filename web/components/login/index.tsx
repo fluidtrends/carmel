@@ -13,7 +13,7 @@ export default () => {
           <h3 className="text-2xl"> Login </h3>
           <div className="self-center mb-10 flex flex-col space-y-4">
             <input ref={username} type="text" name="username" placeholder="Enter your username" autoComplete="username webauthn" className="text-black"/>
-            <button onClick={() => auth.login({ username: `${username.current.value}` })} className="btn bg-primary-color p-4">
+            <button onClick={() => auth.login({ username: `${username.current.value}` })} className="btn bg-primary-color p-4 text-white">
               Login now
             </button>
           </div>
