@@ -3,6 +3,7 @@ import React, { useRef } from 'react'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default ({ carmel }: any) => {
     const username = useRef<any>()
+    const code = useRef<any>()
 
     return (
       <div className="w-full h-full mt-32 flex flex-col items-center justify-center">
@@ -10,8 +11,9 @@ export default ({ carmel }: any) => {
           <img src="/images/logo/logo-white.svg" className="w-20 h-20" alt="img" />
           <h3 className="text-2xl"> Sign Up </h3>
           <div className="self-center mb-10 flex flex-col space-y-4">
-            <input ref={username} type="text" name="username" placeholder="Pick a username" autoComplete="username webauthn" className="text-black"/>
-            <button onClick={() => carmel.auth.register({ username: `${username.current.value}` })} className="btn bg-primary-color p-4">
+          <input ref={username} type="text" name="username" placeholder="Pick a username" autoComplete="username" className="text-black"/>
+          <input ref={code} type="text" name="code" placeholder="Enter your invite code" autoComplete="code" className="text-black"/>
+            <button onClick={() => carmel.auth.register({ username: `${username.current.value}`, code: `${code.current.value}` })} className="btn bg-primary-color p-4 text-white">
               Create Your Account
             </button>
           </div>
