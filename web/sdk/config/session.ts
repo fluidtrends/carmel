@@ -1,9 +1,9 @@
 export const mainConfig = () => {
     return {
         channels: {
-            "sys:ops": {
+            "system": {
                 events: {
-                    "req:register": "register",
+                    "register": "register",
                 }
             }
         }

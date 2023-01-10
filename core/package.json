@@ -1,6 +1,6 @@
 {
   "name": "@carmel/core",
-  "version": "1.9.7",
+  "version": "1.9.8",
   "scripts": {
     "compile": "rm -rf lib && tsc",
     "test": "savor test",

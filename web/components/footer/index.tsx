@@ -31,7 +31,7 @@ const LinksSecondary = () => (
 )
 
 export default () => (
-  <div className="relative lg:pt-60 pt-20 w-full">
+  <div className="relative lg:pt-10 pt-20 w-full">
     <img
       className="xl:w-2000 sm:h-700 sm:w-1400 h-450 w-900 bottom-0 object-cover overflow-hidden"
       src="/images/footer.webp"

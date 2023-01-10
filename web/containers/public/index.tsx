@@ -8,7 +8,7 @@ import Image from 'next/image'
 
 export default ({ children }: any) => {
   const carmelNet = useCarmelNet()
-  const carmelAuth = useCarmelAuth()
+  const carmelAuth = useCarmelAuth(carmelNet)
 
   const Content = () => {
     // if (auth.isLoading) {

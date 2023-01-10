@@ -53,7 +53,9 @@ export class Cache {
     async close () {
         Object.keys(STORE).map((s: string) => {
             LOG(`closing [${s}] db`)
-            this.stores[s].isClosed() || this.stores[s].close()
+            try {
+                this.stores[s].close()
+            } catch {}
         })
     }
 

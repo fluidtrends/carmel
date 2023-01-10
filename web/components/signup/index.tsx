@@ -1,28 +1,26 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect } from 'react'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default ({ carmel }: any) => {
     const username = useRef<any>()
     const code = useRef<any>()
 
-    return (
-      <div className="w-full h-full mt-32 flex flex-col items-center justify-center">
+    return (<div className="w-full h-full mt-32 flex flex-col items-center justify-center justify-center">
         <div className="flex flex-col items-center h-auto justify-center border border-primary-color p-8 gap-10 w-full lg:w-1/3 bg-primary-gradient bg-no-repeat bg-top bg-fill">
           <img src="/images/logo/logo-white.svg" className="w-20 h-20" alt="img" />
           <h3 className="text-2xl"> Sign Up </h3>
           <div className="self-center mb-10 flex flex-col space-y-4">
-          <input ref={username} type="text" name="username" placeholder="Pick a username" autoComplete="username" className="text-black"/>
-          <input ref={code} type="text" name="code" placeholder="Enter your invite code" autoComplete="code" className="text-black"/>
-            <button onClick={() => carmel.auth.register({ username: `${username.current.value}`, code: `${code.current.value}` })} className="btn bg-primary-color p-4 text-white">
-              Create Your Account
-            </button>
-          </div>
+            <input ref={username} type="text" name="username" placeholder="Pick a username" autoComplete="username" className="text-black"/>
+            <input ref={code} type="text" name="code" placeholder="Enter your invite code" autoComplete="code" className="text-black"/>
+              <button onClick={() => carmel.auth.register({ username: `${username.current.value}`, code: `${code.current.value}` })} className="btn bg-primary-color p-4 text-white">
+                Create Your Account
+              </button>
+           </div>
         </div>
         <a href={'/login'} className="flex flex-row">
           <button className="p-4 bg-primary-background m-4">
               Or sign back in
           </button>
         </a>
-      </div>
-    );
+      </div>)
 }  
