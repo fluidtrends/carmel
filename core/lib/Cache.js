@@ -37,7 +37,10 @@ export class Cache {
     async close() {
         Object.keys(STORE).map((s) => {
             LOG(`closing [${s}] db`);
-            this.stores[s].isClosed() || this.stores[s].close();
+            try {
+                this.stores[s].close();
+            }
+            catch { }
         });
     }
     async put(itemId, data) {

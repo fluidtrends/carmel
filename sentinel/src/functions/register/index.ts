@@ -1,16 +1,9 @@
 export const request = async ({ session, data, log }: any) => {
-    // const { data } = event 
-    // const { username, publicKey, did } = data 
+    const { username, code, publicKey } = data 
 
-    // log(`registering ${username} ...`)
-
-    // console.log(data)
-
-    // const result = await session.chain.system("caccount", { username, pub_key: publicKey, did })
+    log(`Registering ${username} [code: ${code} | publicKey: ${publicKey}] ...`)
 
     return {
-        data: {
-            status: "pending"
-        }
+        error: "Invalid code"
     }
 }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import debug from 'debug'
 import { create } from 'ipfs-core'
-import { Session } from '@carmel/core'
+import { Session, SESSION_STATUS } from '@carmel/core'
 import { libp2pConfig, mainConfig } from '../config'
 import { createLibp2p } from 'libp2p'
 import * as functions from '../functions'
@@ -23,9 +23,11 @@ const libp2pBundle = (relays: any) => (opts: any) => {
 }
 
 let isInitialized = false
+const SYNC_SECONDS = 1
 
 export const useCarmelNet = () => {
   const [session, setSession] = useState<any>(null);
+  const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -48,8 +50,17 @@ export const useCarmelNet = () => {
       await ses.start(node)
       
       setSession(ses)
+    
+      const tim = setInterval(() => {
+        const connected = ses.status === SESSION_STATUS.CONNECTED
+        if (connected != isConnected) setIsConnected(connected)
+      }, SYNC_SECONDS * 1000)
+
+      return () => {
+        clearInterval(tim)
+      }
     })()
   }, [])
 
-  return { isInitialized, session }
+  return { isInitialized, session, isConnected }
 }

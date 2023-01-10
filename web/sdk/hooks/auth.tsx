@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import * as cr from '~/utils/crypto'
-import { useCarmelNet } from './net';
 
-export const useCarmelAuth = () => {
-  const carmelNet = useCarmelNet()
+export const useCarmelAuth = (carmelNet: any) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const status = () => {
@@ -43,29 +41,28 @@ export const useCarmelAuth = () => {
     localStorage.setItem('carmel.token', token)
   }
 
-  const register = async ({ username }: any) => {
-    // console.log(username)
-    // const publicKey: any = cr.registerOptions({ username })
-    // const attestation: any = await navigator.credentials.create({ publicKey })
-    // const jwk = await cr.getJWK(attestation)
+  const register = async ({ username, code }: any) => {
+    const publicKey: any = cr.registerOptions({ username })
+    const attestation: any = await navigator.credentials.create({ publicKey })
+    const jwk = await cr.getJWK(attestation)
 
-    // const session = {
-    //   username, 
-    //   id: attestation.id, 
-    //   jwk: JSON.stringify(jwk)
-    // }
+    const account = {
+      username, 
+      id: attestation.id, 
+      jwk: JSON.stringify(jwk)
+    }
+
+    localStorage.setItem('carmel.account', cr.stringToBase64(JSON.stringify(account)))
 
     try {
-      const channel = carmelNet.session.station.channel("sys:ops")
-      const result = await channel.sendEvent("req:register", {
-        data: { username }
+      const channel = carmelNet.session.station.channel("system")
+      const result = await channel.sendEvent("register", {
+        data: { username, code, publicKey }
       })
 
     } catch (e) {
       console.log(e)
     }
-
-    // localStorage.setItem('carmel.account', cr.stringToBase64(JSON.stringify(session)))
   }
 
   return {

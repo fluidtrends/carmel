@@ -35,7 +35,7 @@ export default (props: any) => {
  return (<header className="navbar bg-base-100 sticky top-0 z-50 w-full h-20 bg-black/40 backdrop-blur-xl flex justify-center items-center border-b border-primary-color">
      <div className="navbar-start">
         <a className="btn btn-ghost rounded-full text-white" href="/">
-        <img src="/images/logo/logo-white-with-white-text.svg" alt="logo" className="h-12 hidden md:block" />
+          <img src="/images/logo/logo-white-with-white-text.svg" alt="logo" className="h-12 hidden md:block" />
           <img src="/images/logo/logo-white.svg" alt="logo" className="h-16 -mt-2 p-0 lg:hidden" />
         </a>
       </div>

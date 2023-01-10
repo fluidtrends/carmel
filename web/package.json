@@ -7,7 +7,7 @@
   },
   "type": "module",
   "dependencies": {
-    "@carmel/core": "^1.9.7",
+    "@carmel/core": "^1.9.8",
     "@chainsafe/libp2p-gossipsub": "^5.3.0",
     "@chainsafe/libp2p-noise": "^10.2.0",
     "@chainsafe/libp2p-yamux": "^3.0.3",
