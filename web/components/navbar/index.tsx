@@ -22,12 +22,12 @@ const IconButton = (props: any) => {
 
 const ActionButtons = (props: any) => {
   if (props.private) {
-    return [<IconButton link="/" title="idancali" primary icon={UserCircleIcon}/>]
+    return [<IconButton key={0} link="/" title="idancali" primary icon={UserCircleIcon}/>]
   }
 
   return [
-    <ActionButton link="/signup" title="Sign Up" primary icon={UserCircleIcon}/>,
-    <ActionButton link="/login" title="Login" icon={ArrowLeftOnRectangleIcon}/>
+    <ActionButton key={0} link="/signup" title="Sign Up" primary icon={UserCircleIcon}/>,
+    <ActionButton key={1} link="/login" title="Login" icon={ArrowLeftOnRectangleIcon}/>
   ]
 }
 

@@ -87,7 +87,7 @@
   div,
   section {
     font-family: 'Epilogue', sans-serif;
-    color: #fff;
+    color: #EEEEEE;
   }
   
   h1 {
@@ -128,6 +128,16 @@
   p,
   span {
     font-size: 1rem;
+  }
+
+  p {
+    margin-bottom: 1rem;
+  }
+
+  strong {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #ffffff;
   }
   
   .team-hex {

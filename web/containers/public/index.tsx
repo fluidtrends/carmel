@@ -5,11 +5,12 @@ import Spinner from '~/components/spinner';
 import { useCarmelNet, useCarmelAuth } from '~/sdk/hooks'
 import Head from 'next/head'
 import Image from 'next/image'
+import { useCarmelData } from '~/sdk'
 
 export default ({ children }: any) => {
   const carmelNet = useCarmelNet()
   const carmelAuth = useCarmelAuth(carmelNet)
-
+  
   const Content = () => {
     // if (auth.isLoading) {
       // return (
