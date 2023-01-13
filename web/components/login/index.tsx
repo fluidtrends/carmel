@@ -2,9 +2,8 @@ import React, { useRef } from 'react'
 import { useCarmelAuth } from '~/sdk/hooks';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default () => {
+export default ({ carmel }: any) => {
    const username = useRef<any>();
-   const auth = useCarmelAuth()
  
    return (
     <div className="w-full h-full mt-32 flex flex-col items-center justify-center">
@@ -13,7 +12,7 @@ export default () => {
           <h3 className="text-2xl"> Login </h3>
           <div className="self-center mb-10 flex flex-col space-y-4">
             <input ref={username} type="text" name="username" placeholder="Enter your username" autoComplete="username webauthn" className="text-black"/>
-            <button onClick={() => auth.login({ username: `${username.current.value}` })} className="btn bg-primary-color p-4 text-white">
+            <button onClick={() => carmel.auth.login({ username: `${username.current.value}` })} className="btn bg-primary-color p-4 text-white">
               Login now
             </button>
           </div>

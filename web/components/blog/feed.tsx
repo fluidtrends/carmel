@@ -4,7 +4,6 @@ import Card from '~/components/blog/card';
 import type { PostsProps } from './props';
 import Trending from '~/components/blog/trending';
 import Spinner from '~/components/spinner'
-import { useCarmelData } from '~/sdk'
 
 export default ({ carmel }: any): ReactElement => {
 
