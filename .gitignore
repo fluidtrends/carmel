@@ -24,7 +24,6 @@ coverage
 .webpack
 studio/out
 *.private.keys
-private/
 .terraform.lock.hcl
 .terraform/
 terraform.tfstate
