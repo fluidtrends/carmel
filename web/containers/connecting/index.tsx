@@ -1,10 +1,17 @@
-import React from 'react'
+import React, { Fragment, useState, Children, cloneElement,  isValidElement } from 'react'
 import Spinner from '~/components/spinner'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default ({ carmel, children }: any) => {
     if (carmel.net.isConnected) {
-        return children
+      const newProps: any = { carmel }
+  
+      return Children.map(children, child => {
+        if (isValidElement(child)) {
+          return cloneElement(child, newProps)
+        }
+        return child
+      })
     }
     
     return (<div className="w-full h-full mt-32 flex flex-col items-center justify-center justify-center">

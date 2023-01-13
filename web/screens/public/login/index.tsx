@@ -1,6 +1,6 @@
 import Login from '~/components/login'
 import Container from '~/containers/public'
-import Connecting from '~/components/connecting'
+import Connecting from '~/containers/connecting'
 
 export default () => (
   <Container>

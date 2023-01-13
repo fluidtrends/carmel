@@ -6,7 +6,7 @@ import { libp2pConfig, mainConfig } from '../config'
 import { createLibp2p } from 'libp2p'
 import * as functions from '../functions'
 
-const LOG = debug("carmel:web")
+const LOG = debug("carmel:web:net")
 
 debug.enable("carmel*")
 
@@ -29,6 +29,19 @@ export const useCarmelNet = () => {
   const [session, setSession] = useState<any>(null);
   const [isConnected, setIsConnected] = useState(false);
 
+  // const loadFile = async (ipfs: any, hash: string) => {
+  //   const content = [];
+  //   const peers = await ipfs.swarm.peers()
+  //   console.log("peers: ", peers.length)
+  //   console.log("trying ...", "QmaXqWTiM89J6PuBwyxh8uQe4pUxfkhPmW6vdivTPQAdCt")
+
+  //   for await (const chunk of ipfs.cat(hash)) {
+  //       console.log(chunk)
+  //       content.push(chunk)
+  //   }
+  //   console.log("done", content)
+  // }
+
   useEffect(() => {
     (async () => {
       if (isInitialized) return
@@ -46,12 +59,11 @@ export const useCarmelNet = () => {
           repo: 'ipfs',
           libp2p
       })
-
       await ses.start(node)
-      
+  
       setSession(ses)
     
-      const tim = setInterval(() => {
+      const tim = setInterval(async () => {
         const connected = ses.status === SESSION_STATUS.CONNECTED
         if (connected != isConnected) setIsConnected(connected)
       }, SYNC_SECONDS * 1000)
