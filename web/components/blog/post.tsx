@@ -17,8 +17,8 @@ const Tags = ({ post }: any) => {
 const Author = ({ post }: any) => {
     return (<div className="flex flex-row">
         <div className="avatar">
-            <div className="w-12 mr-4 mask mask-hexagon">
-                <img src={post.data.authorImageLink} />
+            <div className="w-12 mr-4 mask mask-hexagon bg-primary border border-primary-color">
+                <img src={post.data.authorImageLink} className="mask w-12 mask-hexagon"/>
             </div>
          </div>
          <div className="flex flex-col">
@@ -52,7 +52,7 @@ const Content = ({ post }: any) => {
 }
 
 export default ({ post }: any) => (
-    <div className="h-full w-full overflow-x-hidden flex flex-col items-center relative mb-24 space-y-24 bg-home-top-gradient bg-no-repeat bg-top bg-fill sm:pt-52 pt-32">
+    <div className="h-full w-full overflow-x-hidden flex flex-col items-center relative mb-24 bg-home-top-gradient bg-no-repeat bg-top bg-fill pt-10">
         <div className="flex flex-col lg:flex-row w-11/12 sm:w-4/5 max-w-7xl gap-8">
             <Content post={post}/>            
             <div className="lg:w-1/4 w-full flex flex-col items-start gap-8">
