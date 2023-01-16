@@ -67,6 +67,28 @@ const userSlicesFetcher = async (username: string, slices: string[], data: any =
     return Promise.all(slices.map((slice: string) => userSliceFetcher(username, slice, userData)))
 }
 
+const userPostsFetcher = async ([username, filter]: any, data: any = undefined) => {
+    if (!username) return 
+
+    const userData = data || await userDataFetcher(username)
+    const [profile, posts, images]: any = await userSlicesFetcher(username, ['profile', 'posts', 'images'], userData)
+
+    if (!posts || posts.length === 0 || !images || images.length === 0 || !profile) return 
+
+    const profileImage = images.find((img: any) => profile.image === `${username}/${img.id}.${img.type}`)
+
+    return posts.map((p: any) => {
+        const image = images.find((img: any) => p.data.cover === `${username}/${img.id}.${img.type}`)
+        return {
+            ...p,
+            username,
+            imageLink: hashLink(image.hash),
+            author: profile.name,
+            authorImageLink: hashLink(profileImage.hash)
+        }
+    })
+}
+
 const userPostFetcher = async ([username, slug]: any, data: any = undefined) => {
     if (!username || !slug) return 
 
@@ -93,3 +115,5 @@ const userPostFetcher = async ([username, slug]: any, data: any = undefined) => 
 }
 
 export const useCarmelPost = ({ username, slug }: any) => useSWR([username, slug], userPostFetcher)
+
+export const useCarmelPosts = ({ username, filter }: any) => useSWR([username, filter], userPostsFetcher)

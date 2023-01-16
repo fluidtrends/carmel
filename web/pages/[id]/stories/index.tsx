@@ -1,5 +1,5 @@
-import PostScreen from '~/screens/public/post'
+import Blog from '~/screens/public/blog'
 
 export default () => {
-    return <PostScreen/>
+    return <Blog/>
 }
