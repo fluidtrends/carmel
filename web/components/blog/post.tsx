@@ -3,6 +3,25 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import remarkBreaks from 'remark-breaks'
 import moment from 'moment'
+import ContentLoader, { Instagram } from 'react-content-loader'
+
+const Loader = (props: any) => (
+    <ContentLoader 
+      speed={5}
+      viewBox="0 0 400 800"
+      backgroundColor="#CECCD6"
+      foregroundColor="#FFFFFF"
+      {...props}
+      className="w-full"
+    >
+      <circle cx="40" cy="31" r="15" /> 
+      <rect x="60" y="20" rx="2" ry="2" width="140" height="10" /> 
+      <rect x="60" y="35" rx="2" ry="2" width="140" height="10" /> 
+      <rect x="25" y="50" rx="2" ry="2" width="700" height="14" /> 
+      <rect x="25" y="70" rx="2" ry="2" width="700" height="100" /> 
+      <rect x="25" y="178" rx="2" ry="2" width="700" height="300" /> 
+    </ContentLoader>
+)
 
 const Tags = ({ post }: any) => {
     return (<div className="flex flex-wrap border-t pt-10 border-primary-color justify-start items-center">
@@ -34,17 +53,16 @@ const Author = ({ post }: any) => {
 
 const Content = ({ post }: any) => {
     if (!post || post.error || !post.data) {
-        return <Spinner/>
+        return <Loader/>
     }
     
-    return <div className="flex flex-col justify-center gap-8 lg:w-3/4 w-full border border-primary p-10 bg-black bg-opacity-50">
-            <h1 className="text-3xl text-left">{ post.data.title }</h1>            
+    return <div className="flex flex-col gap-8 justify-center lg:w-3/4 w-full border border-primary p-10 bg-black bg-opacity-50">
             <Author post={post}/>
-            <Tags post={post}/>
+            <h1 className="text-3xl text-left">{ post.data.title }</h1>            
             
-            <img className="w-full min-h-100 object-cover" src={post.data.coverLink} />
+            <img className="w-full min-h-100 border border-primary-color object-cover" src={post.data.coverLink} />
 
-            <div className="content break-words text-justify">
+            <div className="content break-words text-left">
                 <ReactMarkdown children={post.data.content} remarkPlugins={[remarkBreaks]} />
             </div>
             <Tags post={post}/>

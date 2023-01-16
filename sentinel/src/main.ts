@@ -36,6 +36,7 @@ export const stop = async () => {
 
 export const start = async (functions: any = undefined, isOperator = true) => {
     LOG('Starting...')
+
     const ROOTDIR = `${process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME']}/.carmel/mesh-${isOperator ? 'full': 'light'}/`
 
     fs.existsSync(ROOTDIR) || fs.mkdirpSync(ROOTDIR)
@@ -47,12 +48,14 @@ export const start = async (functions: any = undefined, isOperator = true) => {
     const baseConfig = JSON.parse(fs.readFileSync(path.join(cwd, `config.${isOperator ? 'full': 'light'}.json`), 'utf-8'))
 
     ses = new Session({ ...baseConfig, isOperator, revision, root: repoDir })    
-
+    
     ses.registerFunctions(functions)
     
     const relays = await ses.chain._fetchRelays()
 
     const libp2p = libp2pBundle(relays)
+
+    LOG('Starting node ...')
 
     node = await create({
         repo: repoDir,

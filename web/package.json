@@ -45,6 +45,7 @@
     "octokit": "^2.0.10",
     "orbit-db": "^0.28.7",
     "react": "18.2.0",
+    "react-content-loader": "^6.2.0",
     "react-dom": "18.2.0",
     "react-markdown": "^8.0.4",
     "rehype-parse": "^8.0.4",
