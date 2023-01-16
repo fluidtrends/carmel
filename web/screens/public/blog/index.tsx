@@ -13,7 +13,7 @@ export default () => {
   const posts: any = useCarmelPosts({ username })
 
   return (<Container>
-      <Hero />
+      <Hero username={username}/>
       <Feed posts={posts.data} />
       {/* <Latest more={false} posts={posts} /> */}
   </Container>)

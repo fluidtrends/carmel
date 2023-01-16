@@ -1,17 +1,16 @@
-export default () => (
-  <div className="pt-24">
-    <div className="hidden md:flex gap-10 justify-center text-xl sm:text-2xl md:text-4xl py-24 text-center w-full md:px-0 max-w-3xl m-auto">
+import { UserCircleIcon } from '@heroicons/react/24/solid'
+
+export default ({ username }: any) => (
+  <div className="pt-24 flex flex-col">
+    <div className="flex flex-col  w-full justify-center items-center">   
+        <UserCircleIcon width={96} height={96}/>
+        <div className="flex-1 lg:text-5xl text-3xl">{ username }</div>
+    </div>
+      <div className="md:flex gap-10 justify-center text-xl sm:text-2xl md:text-4xl py-4 text-center w-full md:px-0 max-w-3xl m-auto">
       <h2> Latest </h2>
       <h2 className="text-primary-color">
         Posts
       </h2>
     </div>
-    <h2
-      className="md:hidden sm:text-4xl text-3xl py-12 max-w-3xl text-center w-full md:px-0">
-      More Posts
-    </h2>
-    <p className="md:hidden max-w-3xl text-center">
-      Some other stuff
-    </p>
   </div>
 );
