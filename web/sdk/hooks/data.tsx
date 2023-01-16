@@ -8,7 +8,7 @@ import remarkStringify from 'remark-stringify'
 const BASE_URL = "https://ipfs.filebase.io"
 
 const getUserHash = async (username: string) => {
-    const cid = 'QmZNPJHd8yvKV9zQX3JmVq9xt9iYadVLhFRmXSqGyxfztq'
+    const cid = 'QmWBJYWfdJGnBudrHcBLuFRviFsGJENdayRcuRFkAwjwpU'
     return cid
 }
 
