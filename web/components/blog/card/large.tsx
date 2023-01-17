@@ -32,7 +32,7 @@ const StoryBigCard = (post: any) => {
         <img className="w-full h-full object-cover" src={post.imageLink} alt={`${post.data.title} Thumbnail`} />        
       </div>
 
-      <div className="p-4 bg-primary-background-blend h-1/5 sm:h-1/3 md:h-1/3 lg:h-1/5">
+      <div className="p-4 bg-primary-background-blend">
         <p className="flex flex-wrap gap-x-2">
           {post.data.tags.map((tag: any) => (
             <span key={tag} className="text-sm font-bold text-primary-color">

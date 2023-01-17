@@ -8,7 +8,7 @@ import remarkStringify from 'remark-stringify'
 const BASE_URL = "https://ipfs.filebase.io"
 
 const getUserHash = async (username: string) => {
-    const cid = 'QmWBJYWfdJGnBudrHcBLuFRviFsGJENdayRcuRFkAwjwpU'
+    const cid = 'QmX1ULfQFo3fUd8rmaHHw57BfL9BXXUQujXZ82hcj7YddH'
     return cid
 }
 
@@ -17,7 +17,9 @@ const hashLink = (hash: string) => {
 }
 
 const getJsonFile = async (hash:string) => {
-    const raw: any = await axios.get(hashLink(hash))
+    const raw: any = await axios.get(hashLink(hash), { headers: {
+        'Content-Type': 'application/json'
+    }})
 
     return raw.data
 }
@@ -42,8 +44,6 @@ export const userDataFetcher = async (username: string) => {
 
     const hash = await getUserHash(username)
 
-    console.log(hash)
-
     if (!hash) return 
 
     return getJsonFile(hash)
@@ -56,7 +56,10 @@ const userSliceFetcher = async (username: string, slice: string, data: any = und
 
     if (!userData || !userData[slice] || !userData[slice].hash) return 
 
-    return getJsonFile(userData[slice].hash)
+    const result = getJsonFile(userData[slice].hash)
+
+    console.log(typeof result)
+    return result
 }
 
 const userSlicesFetcher = async (username: string, slices: string[], data: any = undefined) => {
@@ -76,8 +79,7 @@ const userPostsFetcher = async ([username, filter]: any, data: any = undefined) 
     if (!posts || posts.length === 0 || !images || images.length === 0 || !profile) return 
 
     const profileImage = images.find((img: any) => profile.image === `${username}/${img.id}.${img.type}`)
-
-    return posts.map((p: any) => {
+    const result = posts.map((p: any) => {
         const image = images.find((img: any) => p.data.cover === `${username}/${img.id}.${img.type}`)
         return {
             ...p,
@@ -87,6 +89,7 @@ const userPostsFetcher = async ([username, filter]: any, data: any = undefined) 
             authorImageLink: hashLink(profileImage.hash)
         }
     })
+    return result
 }
 
 const userPostFetcher = async ([username, slug]: any, data: any = undefined) => {

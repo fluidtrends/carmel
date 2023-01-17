@@ -7,10 +7,10 @@ export default ({ username }: any) => (
         <div className="flex-1 lg:text-5xl text-3xl">{ username }</div>
     </div>
       <div className="md:flex gap-10 justify-center text-xl sm:text-2xl md:text-4xl py-4 text-center w-full md:px-0 max-w-3xl m-auto">
-      <h2> Latest </h2>
-      <h2 className="text-primary-color">
+      <h1> Latest </h1>
+      <h1 className="text-primary-color">
         Posts
-      </h2>
+      </h1>
     </div>
   </div>
 );
