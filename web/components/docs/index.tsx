@@ -5,14 +5,60 @@ import remarkBreaks from 'remark-breaks'
 import remarkMDX from 'remark-mdx'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism'
-import rehypeRaw from 'rehype-raw'
 import { useRouter } from 'next/router'
+import { AnimatePresence, motion } from "framer-motion"
+
+function MobileSidebar({ section, sections, sideBar, setSideBar, onMobileItemSelect }: any) {
+    if (!sections || !section || !sections.data) return <div/>
+
+    const NavItem = (item: any) => {
+        if (!item.sections || item.sections.length === 0) {
+            return <div> { item.title } </div>
+        }
+
+        return (<div tabIndex={0} className="text-left p-4 flex flex-col items-start">
+            <span className="text-xl">{ item.title }</span>
+            { item.sections.map((subitem: any, i: number) => (<button key={i} className="ml-4 text-lg text-white mt-2" onClick={() => onMobileItemSelect(subitem)}>{ subitem.title }</button>))}
+        </div>)
+    }
+
+    const secs = sections.data.map((section: any, i: number) => (<NavItem {...section} key={i}/>))
+
+    return (<AnimatePresence>
+        <div className="navbar">
+            <div className="navbar-start">
+                <div onClick={() => setSideBar(true)} tabIndex={0} className="btn btn-ghost btn-circle">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
+                </div>
+                { section.title }
+            </div>
+        </div>
+        {sideBar && (
+          <>
+            <motion.div
+              key={0}
+              initial={{ x: "100%" }}
+              animate={{
+                x: 0
+              }}
+              exit={{
+                x: "100%"
+              }}
+              transition={{ type: "spring", bounce: 0, duration: 0.4 }}
+              className="fixed text-white shadow-lg top-20 right-0 w-full max-w-sm h-screen p-5 border-primary-color gap-4 bg-primary-gradient bg-no-repeat bg-top bg-fill border border-primary-color">
+              { secs }
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>)
+}
 
 export default ({}: any) => {
     const [section, setSection] = useState<any>(undefined)
     const router = useRouter()
     const sections: any = useCarmelDocsSections({ filter: "all" })
     const doc: any = useCarmelDoc({ section })
+    const [sideBar, setSideBar] = React.useState(false);
 
     useEffect(() => {
         if (!sections || !sections.data) return 
@@ -39,6 +85,11 @@ export default ({}: any) => {
 
     const changeSubitem = (item: any) => {
         router.push(`/docs/${item.id}`)
+    }
+
+    const onMobileItemSelect = (item: any) => {
+        changeSubitem(item) 
+        setSideBar(false) 
     }
 
     const SubmenuItem = (item: any) => {
@@ -101,8 +152,11 @@ export default ({}: any) => {
     }
 
     return <div className="flex lg:flex-row h-auto flex-col w-full">
-        <div className="flex flex-col w-80 flex flex-col items-left border-r border-primary">
+        <div className="hidden lg:block flex flex-col w-80 flex flex-col items-left border-r border-primary">
             <Sections/>
+        </div>
+        <div className="lg:hidden">
+            <MobileSidebar {...{ section, sideBar, setSideBar, onMobileItemSelect }} sections={sections} />
         </div>
         <div className="flex flex-col w-full bg-black p-10 bg-opacity-50 border-b border-primary">
             <Document/>         
