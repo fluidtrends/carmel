@@ -1,26 +1,22 @@
 [{
     "title": "Introduction",
     "link": "intro",
-    "id": "intro",
+    "id": "intro/vision",
     "sections": [{
-        "id": "intro/vision",
-        "link": "intro/vision",
-        "title": "Imagine a more human world"
-    }, {
         "id": "intro/problem",
         "link": "intro/problem",
-        "title": "The current Web makes us less human"
+        "title": "Problem"
     }, {
-        "id": "intro/approach",
-        "link": "intro/approach",
-        "title": "Redefining the future of apps"
+        "id": "intro/context",
+        "link": "intro/context",
+        "title": "Context"
     }, {
         "id": "intro/journey",
         "link": "intro/journey",
-        "title": "Democratizing Digital Innovation"
+        "title": "Journey"
     }, {
         "id": "intro/solution",
         "link": "intro/solution",
-        "title": "The App Nation"
+        "title": "Solution"
     }]
 }]
