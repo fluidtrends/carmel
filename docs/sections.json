@@ -1,7 +1,7 @@
 [{
     "title": "Introduction",
-    "link": "intro",
-    "id": "intro/vision",
+    "link": "intro/vision",
+    "id": "intro",
     "sections": [{
         "id": "intro/problem",
         "link": "intro/problem",
