@@ -89,7 +89,22 @@
     font-family: 'Epilogue', sans-serif;
     color: #EEEEEE;
   }
+
+  pre {
+    background-color: rgb(30, 30, 30);
+    padding: 1rem;
+    border: 1px solid #00BCD4;
+    margin-bottom: 1rem;
+  }
+
+  code {
+    color: #B0BEC5;
+  }
   
+  a { 
+    color: #03A9F4;
+  }
+
   h1 {
     font-family: 'Mona';
     font-size: 60px;
@@ -106,14 +121,16 @@
   }
   
   h3 {
-    font-family: 'Debodies';
-    font-size: 2.25rem;
+    font-family: 'Epilogue';
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
     font-weight: 500;
   }
   
   h4 {
-    font-family: 'Debodies';
-    font-size: 1.5rem;
+    font-family: 'Epilogue';
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
     font-weight: 500;
     color: #fff;
   }

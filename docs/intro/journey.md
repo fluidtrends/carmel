@@ -1,0 +1,12 @@
+## Democratizing Digital Innovation
+### Building the people’s superapp.
+
+As Gartner predicts, superapps are the future. What we want though is to build one owned by people, not by a corporation. But what would that really look like in practice? Well, the crucial aspect of a superapp is that it is composable. It is made up of many smaller apps. Each of those independent apps, working together, unified in an integrated user experience.  Building a superapp owned by the people means we need to find a way to allow communities of people to build together, to contribute to the innovation process.
+
+We need to find a way to enable people to build smaller, independent apps together into one composable superapp. To do that, we need to go back to first principles and pull apart the entire process, into its logical separate steps: ideating, estimating, funding, designing, coding, testing, building, packaging, integrating, deploying, updating, maintaining and growing to name just a few of the steps. If we were to simplify the entire process of innovation, it would be all about the governance, management and development of all these composable apps, integrated together into one supperapp.
+
+There is massive dormant innovation potential just sitting there, unrealized, in every digital innovation journey. You can’t help but wonder, what would happen if the contributors at each step of the process were more than just guns for hire. Not just service providers, but stakeholders, economic partners. We can realize that dormant innovation potential and enable people to build apps that integrate into one large superapp by democratizing the whole process. An economic partnership where the community contributes to the governance, management and development of all these apps, for the common good of the entire ecosystem. 
+
+First of all, governance would entail enabling people to establish cooperative-like structures, overseeing the direction of apps and operating the digital infrastructure. Then management would require creating community-owned apps, planning their growth and funding their development. Finally, development would mean hiring developers, paying them for development and all contributors earning royalties in the process.
+
+Lastly, if we could also enable everyone to access the ecosystem in an easy way, then that would bring it all together in a beautiful community-owned circular ecosystem of value.

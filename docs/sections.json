@@ -1,0 +1,26 @@
+[{
+    "title": "Introduction",
+    "link": "intro",
+    "id": "intro",
+    "sections": [{
+        "id": "vision",
+        "link": "vision",
+        "title": "Imagine a more human world"
+    }, {
+        "id": "problem",
+        "link": "problem",
+        "title": "The current Web makes us less human"
+    }, {
+        "id": "approach",
+        "link": "approach",
+        "title": "Redefining the future of apps"
+    }, {
+        "id": "journey",
+        "link": "journey",
+        "title": "Democratizing Digital Innovation"
+    }, {
+        "id": "solution",
+        "link": "solution",
+        "title": "The App Nation"
+    }]
+}]
