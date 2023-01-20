@@ -17,7 +17,8 @@ export default ({}: any) => {
     useEffect(() => {
         if (!sections || !sections.data) return 
 
-        const p = router.asPath.substring(6)
+        const p = router.asPath.substring(6) || "intro"
+
         let sec = sections.data.find((s: any) => s.id === p)
 
         if (sec) {
