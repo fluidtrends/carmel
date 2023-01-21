@@ -19,4 +19,17 @@
         "link": "intro/solution",
         "title": "Solution"
     }]
+}, {
+    "title": "Benefits",
+    "link": "benefits/stakeholders",
+    "id": "benefits",
+    "sections": [{
+        "id": "benefits/members",
+        "link": "benefits/members",
+        "title": "Members"
+    }, {
+        "id": "benefits/app",
+        "link": "benefits/apps",
+        "title": "Apps"
+    }]
 }]
