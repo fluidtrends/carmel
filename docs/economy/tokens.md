@@ -1,0 +1,3 @@
+Carmel started off with an EOS-based token. It was listed on two exchanges: DEXEOS and EOSDAQ. After years of exploring EOS and being involved in the EOS ecosystem, the core team decided to move away from EOS altogether and build on other chains.
+
+The EOS-based Carmel tokens are still on the EOS mainnet. The new Carmel tokens will be based on the Ethereum chain as ERC20 tokens. Carmel also makes use of a suite of NFTs using an original economic model. Once the new economy are operational, the EOS-based token holders will have the ability to claim their stake into the new economic model. 

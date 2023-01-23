@@ -1,8 +1,10 @@
 [{
     "title": "Introduction",
-    "link": "intro/vision",
-    "id": "intro",
     "sections": [{
+        "id": "intro/vision",
+        "link": "intro/vision",
+        "title": "Vision"
+    }, {
         "id": "intro/problem",
         "link": "intro/problem",
         "title": "Problem"
@@ -21,9 +23,11 @@
     }]
 }, {
     "title": "Benefits",
-    "link": "benefits/stakeholders",
-    "id": "benefits",
     "sections": [{
+        "id": "benefits/stakeholders",
+        "link": "benefits/stakeholders",
+        "title": "Stakeholders"
+    }, {
         "id": "benefits/members",
         "link": "benefits/members",
         "title": "Members"
@@ -31,5 +35,12 @@
         "id": "benefits/app",
         "link": "benefits/apps",
         "title": "Apps"
+    }]
+}, {
+    "title": "Economy",
+    "sections": [{
+        "id": "economy/tokens",
+        "link": "economy/tokens",
+        "title": "Tokens"
     }]
 }]

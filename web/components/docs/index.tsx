@@ -13,11 +13,11 @@ function MobileSidebar({ section, sections, sideBar, setSideBar, onMobileItemSel
 
     const NavItem = (item: any) => {
         if (!item.sections || item.sections.length === 0) {
-            return <div> { item.title } </div>
+            return <div className="opacity-50"> { item.title } </div>
         }
 
         return (<div tabIndex={0} className="text-left p-4 flex flex-col items-start">
-            <span className="text-xl">{ item.title }</span>
+            <span className="text-xl opacity-50">{ item.title }</span>
             { item.sections.map((subitem: any, i: number) => (<button key={i} className="ml-4 text-lg text-white mt-2" onClick={() => onMobileItemSelect(subitem)}>{ subitem.title }</button>))}
         </div>)
     }
@@ -106,9 +106,9 @@ export default ({}: any) => {
 
     const MenuItem = (item: any) => {
         return (<div className="flex flex-col">       
-                <button onClick={() => changeItem(item)} className={`${item.id === section.id ? 'text-primary-color font-black border-b border-primary-color bg-primary-color bg-opacity-20' : 'hover:bg-opacity-20 hover:bg-black'} p-2 cursor-pointer ml-4 mt-4 transition transform hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:transform-none text-lg text-left`}>
+                <div className="ml-4 mt-4 text-md text-left opacity-50">
                     { item.title }
-                </button>
+                </div>
                 <SubmenuItems items={item.sections}/>
         </div>)
     }
