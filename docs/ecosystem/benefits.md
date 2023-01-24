@@ -1,21 +1,21 @@
 ## Benefits for Carmel Stakeholders
 
-|  **Carmel for Leaders** |  **Carmel for Managers** | **Carmel for Developers** |
+|  **For <br/> Leaders** |  **For <br/> Managers** | **For <br/> Developers** |
 | ------------- | ------------- | ------------- |
-| Make the world more human with community-owned apps.  | Productize ideas into Carmel Apps.  | Make a living building Carmel Apps. |  
-| ✔ Connect like-minded people | ✔ Fast time to market |  ✔ Grow continuously |
-| ✔ Make a meaningful impact | ✔ Access to initial users | ✔ Mentor and be mentored |
-| ✔ Run human-centric networks | ✔ Lower cost of innovation |  ✔ Earn an income |
+| Build a more human world.  | Productize human-centric apps.  | Write meaningful code. |  
+| ✔ <br/> Connect people | ✔ <br/>  Fast time to market |  ✔ <br/>  Grow continuously |
+| ✔ <br/>  Make an impact | ✔ <br/>  Access to users | ✔ <br/>  Mentor and be mentored |
+| ✔ <br/>  Operate networks | ✔ <br/>  Pay for value |  ✔ <br/> Earn an income |
 
 ## Benefits of Carmel Apps
 
 |   |  |
 | ------------- | ------------- |
-| ✔ Always online | ✔ Everyone is invited to contribute |
-| ✔ Users own their data | ✔ Low cost of innovation |
-| ✔ Built-in privacy and encryption | ✔ Fast time to market |
-| ✔ Owned and operated by the community | ✔ Composable architecture  |
-| ✔ Community-owned digital economy | ✔ Reusable functionality |
+| ✔ <br/> Always online | ✔ <br/> Everyone is invited to contribute |
+| ✔ <br/> Users own their data | ✔ Low cost of innovation |
+| ✔ <br/> Built-in privacy and encryption | ✔ Fast time to market |
+| ✔ <br/> Owned and operated by the community | ✔ Composable architecture  |
+| ✔ <br/> Community-owned digital economy | ✔ Reusable functionality |
 |   |  |
 
 ## Benefits of being a Carmel Member

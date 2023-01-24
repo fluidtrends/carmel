@@ -152,6 +152,21 @@
     margin-bottom: 1rem;
   }
 
+  tr {
+    font-weight: bold;
+    font-size: 1.0rem;
+  }
+
+  th {
+    padding-right: 0.5rem;
+    margin: 2.0rem;
+  }
+
+  td {
+    margin: 2.0rem;
+    padding: 0.5rem;
+  }
+
   strong {
     font-weight: bold;
     font-size: 1.2rem;

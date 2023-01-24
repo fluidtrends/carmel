@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkBreaks from 'remark-breaks'
 import remarkMDX from 'remark-mdx'
+import remarkGFM from 'remark-gfm'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 import { useRouter } from 'next/router'
@@ -116,7 +117,7 @@ export default ({}: any) => {
                     { section && section.title }
                 </div>
             </div>
-            <ReactMarkdown children={doc.data} components={CodeBlock} remarkPlugins={[remarkBreaks, remarkMDX]} />
+            <ReactMarkdown children={doc.data} components={CodeBlock} remarkPlugins={[remarkBreaks, remarkGFM, remarkMDX]} />
         </div>)
     }
 
