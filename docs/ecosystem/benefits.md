@@ -3,9 +3,12 @@
 |  **For <br/> Leaders** |  **For <br/> Managers** | **For <br/> Developers** |
 | ------------- | ------------- | ------------- |
 | Build a more human world.  | Productize human-centric apps.  | Work on meaningful programming problems. |  
-| ✔ Connect people | ✔ Speed to market |  ✔ Grow continuously |
-| ✔ Make an impact | ✔ Access to users | ✔ Mentor and be mentored |
-| ✔ Operate networks | ✔ Pay for value |  ✔ Earn an income |
+| ✔ | ✔ | ✔ |
+| Connect people | Speed to market |  Grow continuously |
+| ✔ | ✔ | ✔ |
+| Make an impact | Access to users | Mentor and be mentored |
+| ✔ | ✔ | ✔ |
+| Operate networks | Pay for value | Earn an income |
 
 ## Benefits of Carmel Apps
 
