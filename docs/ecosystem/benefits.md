@@ -21,17 +21,15 @@
 | Operated by the community | Composable architecture |
 | Community-owned economy |  Reusable functionality |
 
-## Benefits of being a Carmel Member
-
-**Every Carmel Member owns a Carmel Card that:**
+## Benefits of Carmel Cards:
 
 |   |  |
 | ------------- | ------------- |
 | Can be topped-up with tokens | Levels up by collecting XP |
-| Is used to claim rewards |Is attached to a username |
-| Can be personalized | Is tradable on other markets |
+| Are used to claim rewards | Are attached to a username |
+| Can be personalized | Are tradable on other markets |
 
-**Carmel Members can also own Carmel Tokens that:**
+## Benefits of Carmel Tokens:
 
 |   |  |
 | ------------- | ------------- |
