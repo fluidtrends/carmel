@@ -161,10 +161,15 @@
     font-size: small;
     color: #ffffff; 
     margin-bottom: 0.5rem;
+    padding: 0.5rem;
+  }
+
+  table {
+    margin-bottom: 2rem;
+    border: #ffffff solid 1px;
   }
 
   thead {
-    border-bottom: #ffffff solid 1px;
     margin: 2rem;
   }
 

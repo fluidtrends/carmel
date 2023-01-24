@@ -1,9 +1,9 @@
 ## Benefits for Carmel Stakeholders
 <br/><br/>
 
-|  **For <br/> Leaders** |  **For <br/> Managers** | **For <br/> Developers** |
+|  |  |  |
 | ------------- | ------------- | ------------- |
-| *Build a more human world.*  | *Productize human-centric apps.*  | *Work on meaningful programming problems.* |  
+| *Leaders build a more human world*  | *Managers productize human-centric apps.*  | *Developers work on meaningful programming problems.* |  
 | | | |
 | Connect people | Speed to market |  Grow continuously |
 | Make an impact | Access to users | Mentor and be mentored |
