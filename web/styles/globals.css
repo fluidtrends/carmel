@@ -155,19 +155,16 @@
   tr {
     font-weight: bold;
     font-size: 1.0rem;
-    color: #00BCD4; 
   }
 
   td {
     font-size: small;
-    padding-right: 1rem;
-    padding-bottom: 1rem;
     color: #ffffff; 
+    margin-bottom: 0.5rem;
   }
 
   thead {
     border-bottom: #ffffff solid 1px;
-    background-color: #00BCD4;
     margin: 2rem;
   }
 
