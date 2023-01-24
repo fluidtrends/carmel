@@ -1,5 +1,4 @@
 ## Benefits for Carmel Stakeholders
-<br/><br/>
 
 |  |  |  |
 | ------------- | ------------- | ------------- |
@@ -9,9 +8,7 @@
 | Make an impact | Access to users | Mentor and be mentored |
 | Operate networks | Only pay for value | Earn an income |
 
-<br/><br/>
 ## Benefits of Carmel Apps
-<br/><br/>
 
 |   |  |
 | ------------- | ------------- |
