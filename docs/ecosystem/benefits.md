@@ -2,7 +2,7 @@
 
 |  |  |  |
 | ------------- | ------------- | ------------- |
-| *Leaders build a more human world*  | *Managers productize human-centric apps.*  | *Developers work on meaningful programming problems.* |  
+| *Leaders build <br/> a more human world*  | *Managers productize <br/> human-centric apps.*  | *Developers solve <br/> meaningful problems.* |  
 | | | |
 | Connect people | Speed to market |  Grow continuously |
 | Make an impact | Access to users | Mentor and be mentored |
