@@ -2,20 +2,20 @@
 
 |  **For <br/> Leaders** |  **For <br/> Managers** | **For <br/> Developers** |
 | ------------- | ------------- | ------------- |
-| Build a more human world.  | Productize human-centric apps.  | Write meaningful code. |  
-| ✔ <br/> Connect people | ✔ <br/>  Fast time to market |  ✔ <br/>  Grow continuously |
-| ✔ <br/>  Make an impact | ✔ <br/>  Access to users | ✔ <br/>  Mentor and be mentored |
-| ✔ <br/>  Operate networks | ✔ <br/>  Pay for value |  ✔ <br/> Earn an income |
+| Build a more human world.  | Productize human-centric apps.  | Work on meaningful programming problems. |  
+| ✔ Connect people | ✔ Speed to market |  ✔ Grow continuously |
+| ✔ Make an impact | ✔ Access to users | ✔ Mentor and be mentored |
+| ✔ Operate networks | ✔ Pay for value |  ✔ Earn an income |
 
 ## Benefits of Carmel Apps
 
 |   |  |
 | ------------- | ------------- |
-| ✔ <br/> Always online | ✔ <br/> Everyone is invited to contribute |
-| ✔ <br/> Users own their data | ✔ Low cost of innovation |
-| ✔ <br/> Built-in privacy and encryption | ✔ Fast time to market |
-| ✔ <br/> Owned and operated by the community | ✔ Composable architecture  |
-| ✔ <br/> Community-owned digital economy | ✔ Reusable functionality |
+| ✔ They are always online | ✔ Open to anyone to contribute |
+| ✔ Users own their data | ✔ Low cost of innovation |
+| ✔ Built-in privacy and encryption | ✔ Fast time to market |
+| ✔ Owned and operated by the community | ✔ Composable architecture  |
+| ✔ Community-owned digital economy | ✔ Reusable functionality |
 |   |  |
 
 ## Benefits of being a Carmel Member
