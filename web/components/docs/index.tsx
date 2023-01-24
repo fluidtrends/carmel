@@ -6,52 +6,7 @@ import remarkMDX from 'remark-mdx'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 import { useRouter } from 'next/router'
-import { AnimatePresence, motion } from "framer-motion"
-
-function MobileSidebar({ section, sections, sideBar, setSideBar, onMobileItemSelect }: any) {
-    if (!sections || !section || !sections.data) return <div/>
-
-    const NavItem = (item: any) => {
-        if (!item.sections || item.sections.length === 0) {
-            return <div className="opacity-50"> { item.title } </div>
-        }
-
-        return (<div tabIndex={0} className="text-left p-4 flex flex-col items-start">
-            <span className="text-xl opacity-50">{ item.title }</span>
-            { item.sections.map((subitem: any, i: number) => (<button key={i} className="ml-4 text-lg text-white mt-2" onClick={() => onMobileItemSelect(subitem)}>{ subitem.title }</button>))}
-        </div>)
-    }
-
-    const secs = sections.data.map((section: any, i: number) => (<NavItem {...section} key={i}/>))
-
-    return (<AnimatePresence>
-        <div className="navbar">
-            <div className="navbar-start">
-                <div onClick={() => setSideBar(true)} tabIndex={0} className="btn btn-ghost btn-circle">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
-                </div>
-                { section.title }
-            </div>
-        </div>
-        {sideBar && (
-          <>
-            <motion.div
-              key={0}
-              initial={{ x: "100%" }}
-              animate={{
-                x: 0
-              }}
-              exit={{
-                x: "100%"
-              }}
-              transition={{ type: "spring", bounce: 0, duration: 0.4 }}
-              className="fixed text-white shadow-lg top-20 right-0 w-full max-w-sm h-screen p-5 border-primary-color gap-4 bg-primary-gradient bg-no-repeat bg-top bg-fill border border-primary-color">
-              { secs }
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>)
-}
+import { MobileSidebar } from "./sidebar"
 
 export default ({}: any) => {
     const [section, setSection] = useState<any>(undefined)
@@ -63,8 +18,8 @@ export default ({}: any) => {
     useEffect(() => {
         if (!sections || !sections.data) return 
 
-        const p = router.asPath.substring(6) || "intro"
-
+        let p = router.asPath.substring(6) || "intro/vision"
+        
         let sec = sections.data.find((s: any) => s.id === p)
 
         if (sec) {
@@ -146,7 +101,21 @@ export default ({}: any) => {
             return <div/>
         }
 
+        if (sideBar) {
+            return <div className="lg:hidden">
+                <MobileSidebar {...{ section, sideBar, setSideBar, onMobileItemSelect }} sections={sections} />
+            </div>
+        }
+
         return (<div className="content break-words text-left">
+            <div className="lg:hidden navbar">
+                <div className="navbar-start text-xl w-full -ml-6 -mt-4">
+                    <div onClick={() => setSideBar(true)} tabIndex={0} className="btn btn-ghost btn-circle">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
+                    </div>
+                    { section && section.title }
+                </div>
+            </div>
             <ReactMarkdown children={doc.data} components={CodeBlock} remarkPlugins={[remarkBreaks, remarkMDX]} />
         </div>)
     }
@@ -154,9 +123,6 @@ export default ({}: any) => {
     return <div className="flex lg:flex-row h-auto flex-col w-full">
         <div className="hidden lg:block flex flex-col w-80 flex flex-col items-left border-r border-primary">
             <Sections/>
-        </div>
-        <div className="lg:hidden">
-            <MobileSidebar {...{ section, sideBar, setSideBar, onMobileItemSelect }} sections={sections} />
         </div>
         <div className="flex flex-col w-full bg-black p-10 bg-opacity-50 border-b border-primary">
             <Document/>         
